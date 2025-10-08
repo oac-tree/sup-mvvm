@@ -97,7 +97,7 @@ std::string VariantValueVisitor::operator()(std::string value)
 
 std::string VariantValueVisitor::operator()(const std::vector<double> &value)
 {
-  return {utils::VectorToString(value, utils::kDefaultSeparator)};
+  return {utils::VectorToString(value, std::string(utils::kDefaultSeparator))};
 }
 
 std::string VariantValueVisitor::operator()(const ComboProperty &value)

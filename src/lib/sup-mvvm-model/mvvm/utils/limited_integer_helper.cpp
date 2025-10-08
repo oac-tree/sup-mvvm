@@ -27,6 +27,9 @@
 #include <functional>
 #include <map>
 
+namespace mvvm
+{
+
 namespace
 {
 
@@ -34,38 +37,36 @@ namespace
  * @brief Creates specialised limited integer, for given input value and bounds.
  */
 template <typename IntegerT>
-std::unique_ptr<mvvm::ILimitedInteger> FactoryFunc(const mvvm::variant_t &value,
-                                                   const mvvm::variant_t &lower_bound,
-                                                   const mvvm::variant_t &upper_bound)
+std::unique_ptr<ILimitedInteger> FactoryFunc(const variant_t &value, const variant_t &lower_bound,
+                                             const variant_t &upper_bound)
 {
-  return std::make_unique<mvvm::LimitedInteger<IntegerT>>(value, lower_bound, upper_bound);
+  return std::make_unique<LimitedInteger<IntegerT>>(value, lower_bound, upper_bound);
 }
 
-using factory_funct_t = std::function<std::unique_ptr<mvvm::ILimitedInteger>(
-    const mvvm::variant_t &value, const mvvm::variant_t &lower_bound,
-    const mvvm::variant_t &upper_bound)>;
+using factory_funct_t = std::function<std::unique_ptr<ILimitedInteger>(
+    const variant_t &value, const variant_t &lower_bound, const variant_t &upper_bound)>;
 
-const std::map<mvvm::TypeCode, factory_funct_t> factory_map = {
-    {mvvm::TypeCode::Char8, FactoryFunc<mvvm::char8>},
-    {mvvm::TypeCode::Int8, FactoryFunc<mvvm::int8>},
-    {mvvm::TypeCode::UInt8, FactoryFunc<mvvm::uint8>},
-    {mvvm::TypeCode::Int16, FactoryFunc<mvvm::int16>},
-    {mvvm::TypeCode::UInt16, FactoryFunc<mvvm::uint16>},
-    {mvvm::TypeCode::Int32, FactoryFunc<mvvm::int32>},
-    {mvvm::TypeCode::UInt32, FactoryFunc<mvvm::uint32>},
-    {mvvm::TypeCode::Int64, FactoryFunc<mvvm::int64>},
-    {mvvm::TypeCode::UInt64, FactoryFunc<mvvm::uint64>}};
+std::map<TypeCode, factory_funct_t> CreateFactoryMap()
+{
+  const std::map<TypeCode, factory_funct_t> result = {
+      {TypeCode::Char8, FactoryFunc<char8>},   {TypeCode::Int8, FactoryFunc<int8>},
+      {TypeCode::UInt8, FactoryFunc<uint8>},   {TypeCode::Int16, FactoryFunc<int16>},
+      {TypeCode::UInt16, FactoryFunc<uint16>}, {TypeCode::Int32, FactoryFunc<int32>},
+      {TypeCode::UInt32, FactoryFunc<uint32>}, {TypeCode::Int64, FactoryFunc<int64>},
+      {TypeCode::UInt64, FactoryFunc<uint64>}};
+  return result;
+}
 
 }  // namespace
 
-namespace mvvm
-{
 std::unique_ptr<ILimitedInteger> CreateLimitedInteger(const variant_t &value,
                                                       const variant_t &lower_bound,
                                                       const variant_t &upper_bound)
 {
-  auto iter = factory_map.find(GetTypeCode(value));
-  if (iter == factory_map.end())
+  static const auto kFactoryMap = CreateFactoryMap();
+
+  auto iter = kFactoryMap.find(GetTypeCode(value));
+  if (iter == kFactoryMap.end())
   {
     throw RuntimeException("Can't create limited integer for type=[" + utils::TypeName(value)
                            + "]");

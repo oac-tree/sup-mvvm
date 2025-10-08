@@ -83,7 +83,8 @@ TagInfo ToTagInfo(const tree_data_t &tree_data)
     max = std::stol(tree_data.GetAttribute(constants::kMaxAttributeKey));
   }
   const std::string name = tree_data.GetAttribute(constants::kNameAttributeKey);
-  const auto model_types = utils::SplitString(tree_data.GetContent(), utils::kDefaultSeparator);
+  const auto model_types =
+      utils::SplitString(tree_data.GetContent(), std::string(utils::kDefaultSeparator));
   return {name, min, max, model_types};
 }
 
@@ -99,7 +100,8 @@ tree_data_t ToTreeData(const TagInfo &tag_info)
     result.AddAttribute(constants::kMaxAttributeKey, std::to_string(tag_info.GetMax()));
   }
   result.AddAttribute(constants::kNameAttributeKey, tag_info.GetName());
-  result.SetContent(utils::VectorToString(tag_info.GetItemTypes(), utils::kDefaultSeparator));
+  result.SetContent(
+      utils::VectorToString(tag_info.GetItemTypes(), std::string(utils::kDefaultSeparator)));
   return result;
 }
 

@@ -32,7 +32,7 @@
 namespace mvvm::utils
 {
 
-const std::string kDefaultSeparator = ",";
+constexpr std::string_view kDefaultSeparator = ",";
 
 /**
  * @brief Returns string representation of double with given precision.
@@ -144,7 +144,7 @@ std::optional<std::string> GetKeyContent(const std::string& text, const std::str
  */
 template <typename ElementT>
 std::string VectorToString(const std::vector<ElementT>& vec,
-                           const std::string& delimiter = kDefaultSeparator)
+                           const std::string& delimiter = std::string(kDefaultSeparator))
 {
   if (vec.empty())
   {
@@ -185,7 +185,7 @@ std::string VectorToString(const std::vector<ElementT>& vec,
  */
 template <typename ElementT>
 std::vector<ElementT> StringToVector(const std::string& str,
-                                     const std::string& delimiter = kDefaultSeparator)
+                                     const std::string& delimiter = std::string(kDefaultSeparator))
 {
   std::vector<ElementT> result;
 
