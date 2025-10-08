@@ -55,9 +55,9 @@ public:
 class PenItem : public CompoundItem
 {
 public:
-  static inline const std::string kColor = "kColor";
-  static inline const std::string kStyle = "kStyle";
-  static inline const std::string kWidth = "kWidth";
+  static constexpr std::string_view kColor = "kColor";
+  static constexpr std::string_view kStyle = "kStyle";
+  static constexpr std::string_view kWidth = "kWidth";
 
   PenItem();
 

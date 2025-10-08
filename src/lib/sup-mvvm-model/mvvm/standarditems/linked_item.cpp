@@ -24,7 +24,7 @@
 
 namespace
 {
-const std::string kEmptyLinkIdentifier = "";
+constexpr std::string_view kEmptyLinkIdentifier;  // intentionally left uninitialized
 }
 
 namespace mvvm
@@ -32,7 +32,7 @@ namespace mvvm
 
 LinkedItem::LinkedItem() : SessionItem(GetTypeName<LinkedItem>())
 {
-  (void)SetData(kEmptyLinkIdentifier);
+  (void)SetData(std::string(kEmptyLinkIdentifier));
   (void)SetEditable(false);  // prevent editing in widgets, link is set programmatically.
 }
 
@@ -45,7 +45,7 @@ std::unique_ptr<SessionItem> LinkedItem::Clone() const
 
 void LinkedItem::SetLink(const SessionItem* item)
 {
-  (void)SetData(item ? item->GetIdentifier() : kEmptyLinkIdentifier);
+  (void)SetData(item ? item->GetIdentifier() : std::string(kEmptyLinkIdentifier));
 }
 
 SessionItem* LinkedItem::GetLink() const

@@ -26,26 +26,33 @@
 #include <mvvm/standarditems/standard_item_helper.h>
 #include <mvvm/utils/container_utils.h>
 
+namespace mvvm
+{
+
 namespace
 {
 
-//! Following Qt styles.
-const mvvm::ComboProperty kPenStyleCombo({"NoPen", "SolidLine", "DashLine", "DotLine",
-                                          "DashDotLine", "DashDotDotLine"},
-                                         "SolidLine");
+/**
+ * @brief Returns combo property containing pen styles.
+ *
+ * Folows Qt one-to-one.
+ */
+ComboProperty GetPenStyleCombo()
+{
+  static const ComboProperty kPenStyleCombo(
+      {"NoPen", "SolidLine", "DashLine", "DotLine", "DashDotLine", "DashDotDotLine"}, "SolidLine");
+  return kPenStyleCombo;
+}
+
 const int kPenDefaultWidth = 1;
 const int kPenMinWidth = 0;
 const int kPenMaxWidth = 7;
 const int kPenStyleIndexSolid = 1;
 const int kPenStyleIndexDashline = 2;
+constexpr std::string_view kText = "kText";
+constexpr std::string_view kFont = "kFont";
+constexpr std::string_view kSize = "kSize";
 }  // namespace
-
-namespace mvvm
-{
-
-static inline const std::string kText = "kText";
-static inline const std::string kFont = "kFont";
-static inline const std::string kSize = "kSize";
 
 TextItem::TextItem() : CompoundItem(GetTypeName<TextItem>())
 {
@@ -101,7 +108,7 @@ PenItem::PenItem() : CompoundItem(GetTypeName<PenItem>())
       .SetDisplayName("Color")
       .SetToolTip("Pen color")
       .SetEditorType(constants::kColorEditorType);
-  (void)AddProperty(kStyle, kPenStyleCombo).SetDisplayName("Style").SetToolTip("Pen style");
+  (void)AddProperty(kStyle, GetPenStyleCombo()).SetDisplayName("Style").SetToolTip("Pen style");
   auto &width_property =
       AddProperty(kWidth, kPenDefaultWidth).SetDisplayName("Width").SetToolTip("Pen width");
   SetLimited(kPenMinWidth, kPenMaxWidth, width_property);
@@ -119,7 +126,7 @@ bool PenItem::IsSelected() const
 
 void PenItem::SetSelected(bool is_selected)
 {
-  auto combo = kPenStyleCombo;
+  static ComboProperty combo = GetPenStyleCombo();
   combo.SetCurrentIndex(is_selected ? kPenStyleIndexDashline : kPenStyleIndexSolid);
   (void)SetProperty(kStyle, combo);
 }
