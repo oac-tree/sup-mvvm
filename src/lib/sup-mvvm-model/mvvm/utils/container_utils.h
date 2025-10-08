@@ -21,18 +21,14 @@
 #ifndef MVVM_UTILS_CONTAINER_UTILS_H_
 #define MVVM_UTILS_CONTAINER_UTILS_H_
 
+#include <mvvm/model/item_constants.h>
+
 #include <algorithm>
 #include <iterator>
-#include <limits>
 #include <memory>
 #include <type_traits>
 #include <unordered_set>
 #include <vector>
-
-namespace mvvm::constants
-{
-static constexpr std::size_t kInvalidIndex = std::numeric_limits<std::size_t>::max();
-}
 
 namespace mvvm::utils
 {

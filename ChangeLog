@@ -1,5 +1,6 @@
 Changes for 2.0.0:
 
+- Switch to std::size_t where it was reasonable
 - Partly switch to string_view in SessionItem API and some global constants
 - Implement NodeEditor machinery
 - Remove GetStaticType() machinery in the favor of SessionItem type traits

@@ -170,7 +170,7 @@ TEST_F(ItemUtilsTests, ItemCopyNumber)
 
   EXPECT_EQ(utils::CopyNumber(child1), 0);
   EXPECT_EQ(utils::CopyNumber(child2), 1);
-  EXPECT_EQ(utils::CopyNumber(child3), -1);
+  EXPECT_EQ(utils::CopyNumber(child3), constants::kInvalidIndex);
 }
 
 TEST_F(ItemUtilsTests, HasTag)

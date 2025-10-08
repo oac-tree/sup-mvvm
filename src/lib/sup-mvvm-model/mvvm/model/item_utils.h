@@ -119,7 +119,7 @@ void iterate_if(const SessionItem* item, const std::function<bool(const SessionI
  *
  * @details Takes into account only items with same type.
  */
-int CopyNumber(const SessionItem* item);
+std::size_t CopyNumber(const SessionItem* item);
 
 /**
  * @brief Returns child at given index of a parent.
@@ -127,7 +127,7 @@ int CopyNumber(const SessionItem* item);
  * #details No tags are involved, index is considered as global index in the combined array of all
  * children.
  */
-SessionItem* ChildAt(const SessionItem* parent, int index);
+SessionItem* ChildAt(const SessionItem* parent, std::size_t index);
 
 /**
  * @brief Returns index in children array corresponding to given child.
@@ -135,7 +135,7 @@ SessionItem* ChildAt(const SessionItem* parent, int index);
  * @details No tags are involved, index is considered as global index in the combined array of all
  * children.
  */
-int IndexOfChild(const SessionItem* parent, const SessionItem* child);
+std::size_t IndexOfChild(const SessionItem* parent, const SessionItem* child);
 
 /**
  * @brief Returns true if given item has registered tag with the given name.

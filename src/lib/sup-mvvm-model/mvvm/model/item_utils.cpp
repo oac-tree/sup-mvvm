@@ -175,16 +175,16 @@ void iterate_if(const SessionItem* item, const std::function<bool(const SessionI
   }
 }
 
-int CopyNumber(const SessionItem* item)
+std::size_t CopyNumber(const SessionItem* item)
 {
-  int result(-1);
+  std::size_t result = constants::kInvalidIndex;
 
   if (!item)
   {
     return result;
   }
 
-  int count(0);
+  std::size_t count{0};
   auto item_type = item->GetType();
   if (auto parent = item->GetParent())
   {
@@ -201,10 +201,10 @@ int CopyNumber(const SessionItem* item)
     }
   }
 
-  return count > 1 ? result : -1;
+  return count > 1 ? result : constants::kInvalidIndex;
 }
 
-SessionItem* ChildAt(const SessionItem* parent, int index)
+SessionItem* ChildAt(const SessionItem* parent, std::size_t index)
 {
   if (!parent)
   {
@@ -212,12 +212,10 @@ SessionItem* ChildAt(const SessionItem* parent, int index)
   }
 
   auto container = parent->GetAllItems();
-  return index >= 0 && static_cast<size_t>(index) < container.size()
-             ? container[static_cast<size_t>(index)]
-             : nullptr;
+  return index < container.size() ? container[index] : nullptr;
 }
 
-int IndexOfChild(const SessionItem* parent, const SessionItem* child)
+std::size_t IndexOfChild(const SessionItem* parent, const SessionItem* child)
 {
   return IndexOfItem(parent->GetAllItems(), child);
 }
