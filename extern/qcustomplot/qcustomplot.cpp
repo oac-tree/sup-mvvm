@@ -9302,6 +9302,12 @@ double QCPAxis::pixelToCoord(double value) const
 */
 double QCPAxis::coordToPixel(double value) const
 {
+  // g.p. avoid NaN, Qt6.10 started to be picky about Nans
+  if (mRange.size() == 0.0)
+  {
+    return 0.0;
+  }
+
   if (orientation() == Qt::Horizontal)
   {
     if (mScaleType == stLinear)
