@@ -403,7 +403,15 @@ R signal<R(Args...)>::operator()(Args... args)
     }
   }
 
-  return R();
+  // Handle void vs non-void return types
+  if constexpr (std::is_void_v<R>)
+  {
+    return;  // Just return for void
+  }
+  else
+  {
+    return R();  // Constructor call for non-void types
+  }
 }
 
 template <typename R, typename... Args>
