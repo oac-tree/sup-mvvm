@@ -43,7 +43,7 @@ public:
   IViewItemData(IViewItemData&&) = delete;
   IViewItemData& operator=(IViewItemData&&) = delete;
 
-  virtual QVariant Data(role_t role) const = 0;
+  virtual QVariant Data(role_t qt_role) const = 0;
 
   virtual bool SetData(const QVariant& data, role_t qt_role) = 0;
 

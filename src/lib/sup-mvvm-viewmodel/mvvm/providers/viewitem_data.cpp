@@ -25,14 +25,14 @@ namespace mvvm
 
 ViewItemData::ViewItemData() : m_is_enabled(true), m_is_editable(true) {}
 
-QVariant ViewItemData::Data(role_t role) const
+QVariant ViewItemData::Data(role_t qt_role) const
 {
-  return m_data[role];
+  return m_data[qt_role];
 }
 
-bool ViewItemData::SetData(const QVariant& data, role_t role)
+bool ViewItemData::SetData(const QVariant& data, role_t qt_role)
 {
-  m_data[role] = data;
+  m_data[qt_role] = data;
   return true;
 }
 
