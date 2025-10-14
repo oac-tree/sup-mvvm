@@ -27,9 +27,9 @@
 namespace mvvm
 {
 
-MacroCommand::MacroCommand(const std::string& macro_name)
+MacroCommand::MacroCommand(const std::string& description)
 {
-  SetDescription(macro_name);
+  SetDescription(description);
 }
 
 CommandStatus MacroCommand::GetCommandStatus() const

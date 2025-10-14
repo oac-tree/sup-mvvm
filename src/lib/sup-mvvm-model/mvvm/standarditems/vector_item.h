@@ -49,7 +49,7 @@ public:
   double Z() const;
   void SetZ(double value);
 
-  void SetXYZ(double x, double y, double Z);
+  void SetXYZ(double x, double y, double z);
 
 protected:
   void ActivateStrategies() override;

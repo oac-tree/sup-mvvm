@@ -223,7 +223,7 @@ public:
    * @param index A tag index for item insert.
    * @return Converted TagIndex.
    */
-  TagIndex GetInsertTagIndex(const TagIndex& index) const;
+  TagIndex GetInsertTagIndex(const TagIndex& tag_index) const;
 
 private:
   container_t m_containers;

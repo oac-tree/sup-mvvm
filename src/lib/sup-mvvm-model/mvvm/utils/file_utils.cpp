@@ -26,9 +26,9 @@
 namespace mvvm::utils
 {
 
-bool IsExists(const std::string& fileName)
+bool IsExists(const std::string& filename)
 {
-  return std::filesystem::exists(fileName);
+  return std::filesystem::exists(filename);
 }
 
 std::string Join(const std::string& part1, const std::string& part2)

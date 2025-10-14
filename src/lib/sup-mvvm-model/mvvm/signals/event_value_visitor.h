@@ -47,7 +47,7 @@ struct EventValueVisitor
   std::string operator()(const ModelAboutToBeDestroyedEvent& value);
 };
 
-std::string EventToString(const event_variant_t& variant);
+std::string EventToString(const event_variant_t& value);
 
 }  // namespace mvvm
 

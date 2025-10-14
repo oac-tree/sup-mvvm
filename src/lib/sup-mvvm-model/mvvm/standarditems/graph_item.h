@@ -40,7 +40,7 @@ public:
 
   std::unique_ptr<SessionItem> Clone() const override;
 
-  void SetDataItem(const Data1DItem* item);
+  void SetDataItem(const Data1DItem* data_item);
 
   void SetFromGraphItem(const GraphItem* graph_item);
 
