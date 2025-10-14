@@ -35,6 +35,11 @@ class SessionItem;
 class IItemFactory
 {
 public:
+  IItemFactory() = default;
+  IItemFactory(const IItemFactory&) = delete;
+  IItemFactory(IItemFactory&&) = delete;
+  IItemFactory& operator=(const IItemFactory&) = delete;
+  IItemFactory& operator=(IItemFactory&&) = delete;
   virtual ~IItemFactory() = default;
 
   /**

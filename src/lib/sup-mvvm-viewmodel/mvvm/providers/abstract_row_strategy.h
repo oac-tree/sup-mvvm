@@ -35,6 +35,8 @@ namespace mvvm
 class AbstractRowStrategy : public IRowStrategy
 {
 public:
+  ~AbstractRowStrategy() override = default;
+
   QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;

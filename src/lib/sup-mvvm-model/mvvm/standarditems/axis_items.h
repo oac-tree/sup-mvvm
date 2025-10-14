@@ -43,6 +43,7 @@ class BasicAxisItem : public CompoundItem
 {
 public:
   explicit BasicAxisItem(const std::string& model_type);
+  ~BasicAxisItem() override = default;
 
   double GetMin() const;
   void SetMin(double value);

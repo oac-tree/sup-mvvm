@@ -41,6 +41,11 @@ class IProject;
 class IProjectManager
 {
 public:
+  IProjectManager() = default;
+  IProjectManager(const IProjectManager&) = delete;
+  IProjectManager(IProjectManager&&) = delete;
+  IProjectManager& operator=(const IProjectManager&) = delete;
+  IProjectManager& operator=(IProjectManager&&) = delete;
   virtual ~IProjectManager() = default;
 
   /**

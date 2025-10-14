@@ -92,6 +92,10 @@ class connection
 
 public:
   connection(std::shared_ptr<connection_data>&& data);
+  connection(const connection&) = delete;
+  connection(connection&&) = delete;
+  connection& operator=(const connection&) = delete;
+  connection& operator=(connection&&) = delete;
   virtual ~connection();
 
   bool is_locked() const;
@@ -134,6 +138,10 @@ class slot : public connection
 {
 public:
   slot();
+  slot(const slot&) = delete;
+  slot(slot&&) = delete;
+  slot& operator=(const slot&) = delete;
+  slot& operator=(slot&&) = delete;
   ~slot() override;
 };
 

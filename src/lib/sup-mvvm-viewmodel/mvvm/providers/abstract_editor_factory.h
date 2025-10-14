@@ -38,6 +38,8 @@ namespace mvvm
 class AbstractEditorFactory : public IEditorFactory
 {
 public:
+  ~AbstractEditorFactory() override = default;
+
   void RegisterBuilder(const std::string_view& name, editorbuilder_t builder);
 
   /**

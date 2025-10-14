@@ -40,6 +40,7 @@ public:
   static constexpr std::string_view kYaxis = "kYaxis";
 
   explicit ViewportItem(const std::string& item_type);
+  ~ViewportItem() override = default;
 
   /**
    * @brief Returns x-axis.

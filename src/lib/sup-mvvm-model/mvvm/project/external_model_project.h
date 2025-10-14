@@ -44,6 +44,11 @@ class ExternalModelProject : public AbstractProject
 public:
   explicit ExternalModelProject(ProjectType project_type, const std::vector<ISessionModel*>& models,
                                 const ProjectContext& context);
+  ExternalModelProject(const ExternalModelProject&) = delete;
+  ExternalModelProject(ExternalModelProject&&) = delete;
+  ExternalModelProject& operator=(const ExternalModelProject&) = delete;
+  ExternalModelProject& operator=(ExternalModelProject&&) = delete;
+  ~ExternalModelProject() override = default;
 
   std::vector<ISessionModel*> GetModels() const override;
 
