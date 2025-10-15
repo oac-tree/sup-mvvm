@@ -147,7 +147,7 @@ std::vector<double> FixedBinAxisItem::GetBinCenters() const
 {
   std::vector<double> result;
   const auto nbins = GetSize();
-  const double step = (GetMax() - GetMin()) / nbins;
+  const double step = (GetMax() - GetMin()) / static_cast<double>(nbins);
 
   result.resize(nbins, 0.0);
   for (std::size_t i = 0; i < nbins; ++i)

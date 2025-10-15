@@ -19,11 +19,13 @@
  *****************************************************************************/
 
 #include "combo_property.h"
+#include "mvvm/core/basic_scalar_types.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
+#include <cstdint>
 #include <sstream>
 
 namespace
@@ -79,7 +81,7 @@ void ComboProperty::SetValue(const std::string& name)
     throw RuntimeException("Error in ComboProperty::setValue(): combo doesn't contain value ["
                            + name + "]");
   }
-  SetCurrentIndex(utils::IndexOfItem(m_values, name));
+  SetCurrentIndex(static_cast<std::int32_t>(utils::IndexOfItem(m_values, name)));
 }
 
 std::vector<std::string> ComboProperty::GetValues() const
@@ -96,7 +98,7 @@ void ComboProperty::SetValues(const std::vector<std::string>& values)
 
   auto current = GetValue();
   m_values = values;
-  SetCurrentIndex(utils::Contains(m_values, current) ? utils::IndexOfItem(m_values, current) : 0);
+  SetCurrentIndex(utils::Contains(m_values, current) ? static_cast<int32_t>(utils::IndexOfItem(m_values, current)) : 0);
 }
 
 std::vector<std::string> ComboProperty::GetToolTips() const
@@ -172,7 +174,7 @@ void ComboProperty::SetSelected(std::int32_t index, bool value)
 
 void ComboProperty::SetSelected(const std::string& name, bool value)
 {
-  SetSelected(utils::IndexOfItem(m_values, name), value);
+  SetSelected(static_cast<int32>(utils::IndexOfItem(m_values, name)), value);
 }
 
 std::string ComboProperty::GetLabel() const

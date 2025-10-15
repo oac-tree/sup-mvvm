@@ -41,7 +41,7 @@ Path PathFromItem(const SessionItem* item)
   const SessionItem* current(item);
   while (current && current->GetParent())
   {
-    result.Prepend(utils::IndexOfChild(current->GetParent(), current));
+    result.Prepend(static_cast<Path::PathElement>(utils::IndexOfChild(current->GetParent(), current)));
     current = current->GetParent();
   }
   return result;
@@ -50,9 +50,9 @@ Path PathFromItem(const SessionItem* item)
 SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
 {
   SessionItem* result(model.GetRootItem());
-  for (const auto& x : path)
+  for (const auto& idx : path)
   {
-    result = utils::ChildAt(result, x);
+    result = utils::ChildAt(result, idx);
     if (!result)
     {
       break;

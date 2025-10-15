@@ -111,12 +111,12 @@ struct ViewItem::ViewItemImpl
       throw RuntimeException("ViewItem: wrong column");
     }
 
-    return m_children.at(static_cast<std::size_t>(column + row * m_columns)).get();
+    return m_children.at(static_cast<std::size_t>(column + (row * m_columns))).get();
   }
 
   std::int32_t GetIndexOfChild(const ViewItem* child)
   {
-    return utils::IndexOfItem(m_children.begin(), m_children.end(), child);
+    return static_cast<std::int32_t>(utils::IndexOfItem(m_children.begin(), m_children.end(), child));
   }
 
   /**

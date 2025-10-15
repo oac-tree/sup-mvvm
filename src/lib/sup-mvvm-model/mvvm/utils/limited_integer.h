@@ -210,7 +210,7 @@ inline std::string LimitedInteger<std::uint8_t>::GetValueAsText() const
 template <>
 inline std::string LimitedInteger<std::uint16_t>::GetValueAsText() const
 {
-  return std::to_string(static_cast<std::uint16_t>(m_value));
+  return std::to_string(static_cast<std::uint32_t>(m_value));
 }
 
 template <typename T>

@@ -62,7 +62,7 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
 
   if (insert_view_index != constants::kInvalidIndex && parent_view)
   {
-    m_view_model->insertRow(parent_view, insert_view_index, CreateTreeOfRows(*new_child));
+    m_view_model->insertRow(parent_view, static_cast<int>(insert_view_index), CreateTreeOfRows(*new_child));
   }
 }
 

@@ -21,6 +21,7 @@
 #include "string_format.h"
 
 #include <mvvm/utils/string_utils.h>
+#include <cstddef>
 
 namespace
 {
@@ -44,7 +45,7 @@ StringFormat::StringFormat(std::string str) : m_value(std::move(str)) {}
 
 StringFormat &StringFormat::arg(const std::string &replacement)
 {
-  m_value = ReplaceSubString(m_value, GetArgString(m_arg_count), replacement);
+  m_value = ReplaceSubString(m_value, GetArgString(static_cast<std::size_t>(m_arg_count)), replacement);
   m_arg_count++;
   return *this;
 }

@@ -46,7 +46,7 @@ std::string CompoundItem::GetDisplayName() const
   }
 
   // add index to type name
-  const int copy_number = utils::CopyNumber(this);
+  const auto copy_number = utils::CopyNumber(this);
   return copy_number < 0 ? GetType() : GetType() + std::to_string(copy_number);
 }
 
