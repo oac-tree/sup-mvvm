@@ -35,14 +35,14 @@ namespace
 {
 
 constexpr std::size_t kBuferSize = 2048;
-constexpr char kNullChar = 0x00;
+constexpr std::uint8_t kNullChar = 0x00;
 
 // https://www.ascii-code.com
 // DEC [1, 7] and [14, 26] are control chars
-constexpr char kStartOfHeading = 0x01;
-constexpr char kBellAlert = 0x07;
-constexpr char kShiftOut = 0x0E;
-constexpr char kSubstitute = 0x1A;
+constexpr std::uint8_t kStartOfHeading = 0x01;
+constexpr std::uint8_t kBellAlert = 0x07;
+constexpr std::uint8_t kShiftOut = 0x0E;
+constexpr std::uint8_t kSubstitute = 0x1A;
 
 /**
  * @brief Returns a size of the bufer which will be used for file analysis.
@@ -80,7 +80,7 @@ std::vector<std::uint8_t> GetTestData(const std::string& filename)
 /**
  * @brief Checks if character is a control character.
  */
-bool IsControlChar(unsigned char symbol)
+bool IsControlChar(std::uint8_t symbol)
 {
   return ((symbol >= kStartOfHeading && symbol <= kBellAlert)
           || (symbol >= kShiftOut && symbol <= kSubstitute));

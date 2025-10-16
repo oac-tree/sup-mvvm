@@ -63,6 +63,7 @@ TEST_P(BinUtilsTest, IsTextFile)
   EXPECT_FALSE(utils::IsTextFile("non-existing-file"));
 }
 
+//! Name of the file from resource folder and flag if it is a binary file.
 INSTANTIATE_TEST_SUITE_P(FunctionalTests, BinUtilsTest,
                          ::testing::Values(std::make_pair("compiled_cpp.out", true),
                                            std::make_pair("hello_world.cpp", false),
