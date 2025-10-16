@@ -21,12 +21,10 @@
 #ifndef MVVM_UTILS_THREADSAFE_CONTAINER_ADAPTER_H_
 #define MVVM_UTILS_THREADSAFE_CONTAINER_ADAPTER_H_
 
-#include <atomic>
 #include <condition_variable>
 #include <memory>
 #include <mutex>
 #include <stack>
-#include <stdexcept>
 #include <thread>
 
 namespace mvvm
@@ -34,7 +32,7 @@ namespace mvvm
 
 struct empty_container_exception : public std::exception
 {
-  const char* what() const noexcept { return "Empty container"; }
+  const char* what() const noexcept override { return "Empty container"; }
 };
 
 template <class T>

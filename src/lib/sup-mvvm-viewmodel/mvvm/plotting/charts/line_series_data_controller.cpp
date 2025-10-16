@@ -85,7 +85,7 @@ void LineSeriesDataController::OnModelEvent(const AboutToRemoveItemEvent &event)
   if (event.item == m_data_item)
   {
     auto index = event.tag_index.GetIndex();
-    m_qt_line_series->remove(static_cast<std::int32_t>(index));
+    (void)m_qt_line_series->remove(static_cast<std::int32_t>(index));
   }
 }
 

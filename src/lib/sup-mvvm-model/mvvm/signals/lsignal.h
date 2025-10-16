@@ -110,7 +110,7 @@ private:
 
 inline connection::connection(std::shared_ptr<connection_data>&& data) : m_data(std::move(data)) {}
 
-inline connection::~connection() {}
+inline connection::~connection() = default;
 
 inline bool connection::is_locked() const
 {
@@ -244,7 +244,7 @@ signal<R(Args...)>::~signal()
 
   if (m_parent != nullptr)
   {
-    m_parent->m_children.remove(this);
+    (void)m_parent->m_children.remove(this);
   }
 
   for (signal* sig : m_children)

@@ -110,6 +110,8 @@ public:
    */
   explicit DataPresentationItem(SessionItem* item, role_t role = DataRole::kData);
 
+  ~DataPresentationItem() override = default;
+
   QVariant Data(role_t qt_role) const override;
 
   bool SetData(const QVariant& data, role_t qt_role) override;
