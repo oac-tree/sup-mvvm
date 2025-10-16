@@ -53,6 +53,11 @@ std::string TestOutputDir();
  */
 std::string ProjectSourceDir();
 
+/**
+ * @brief Returns full path to resource folder.
+ */
+std::string ProjectResourceDir();
+
 }  // namespace mvvm::test
 
 #endif  // TESTUTILS_CMAKE_INFO_H_
