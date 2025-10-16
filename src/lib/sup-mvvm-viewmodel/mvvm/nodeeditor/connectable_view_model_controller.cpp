@@ -54,7 +54,7 @@ std::vector<NodeConnectionShape *> FindHangingConnectionShapes(QGraphicsScene *s
 {
   auto connections = mvvm::GetShapes<NodeConnectionShape>(*scene);
   std::vector<NodeConnectionShape *> result;
-  std::copy_if(connections.begin(), connections.end(), std::back_inserter(result),
+  (void)std::copy_if(connections.begin(), connections.end(), std::back_inserter(result),
                [](auto connection) { return connection->IsHanging(); });
   return result;
 }
@@ -225,7 +225,7 @@ void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_i
 
     if (current_parent_shape)
     {
-      current_parent_shape->MakeChildConnected(new_shape_ptr);
+      (void)current_parent_shape->MakeChildConnected(new_shape_ptr);
     }
 
     auto child_items = m_children_strategy->GetChildren(current_item);

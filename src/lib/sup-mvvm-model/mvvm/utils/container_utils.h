@@ -132,8 +132,8 @@ std::vector<T*> StaticCastItems(const C& container)
 {
   std::vector<T*> result;
   result.reserve(container.size());
-  std::transform(container.begin(), container.end(), std::back_inserter(result),
-                 [](auto element) { return static_cast<T*>(element); });
+  (void)std::transform(container.begin(), container.end(), std::back_inserter(result),
+                       [](auto element) { return static_cast<T*>(element); });
   return result;
 }
 
@@ -156,8 +156,8 @@ template <typename T>
 std::vector<const T*> MakeConst(const std::vector<T*>& vec)
 {
   std::vector<const T*> result;
-  std::transform(vec.begin(), vec.end(), std::back_inserter(result),
-                 [](auto element) { return element; });
+  (void)std::transform(vec.begin(), vec.end(), std::back_inserter(result),
+                       [](auto element) { return element; });
   return result;
 }
 
