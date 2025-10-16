@@ -114,10 +114,6 @@ bool IsBinaryFile(const std::string& file_name)
 
   auto contains_control_char = std::any_of(
       buffer.begin(), buffer.end(), [](std::uint8_t element) { return IsControlChar(element); });
-  if (contains_control_char)
-  {
-    return true;
-  }
 
   return contains_control_char ? true : ContainsConsequitiveNull(buffer);
 }
