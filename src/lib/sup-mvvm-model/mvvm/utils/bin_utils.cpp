@@ -33,17 +33,6 @@ namespace mvvm::utils
 
 namespace
 {
-
-constexpr std::size_t kBuferSize = 2048;
-constexpr std::uint8_t kNullChar = 0x00;
-
-// https://www.ascii-code.com
-// DEC [1, 7] and [14, 26] are control chars
-constexpr std::uint8_t kStartOfHeading = 0x01;
-constexpr std::uint8_t kBellAlert = 0x07;
-constexpr std::uint8_t kShiftOut = 0x0E;
-constexpr std::uint8_t kSubstitute = 0x1A;
-
 /**
  * @brief Returns a size of the bufer which will be used for file analysis.
  *
@@ -51,6 +40,8 @@ constexpr std::uint8_t kSubstitute = 0x1A;
  */
 std::size_t GetTestBufferSize(const std::string& filename)
 {
+  constexpr std::size_t kBuferSize = 2048;
+
   std::ifstream mySource;
   mySource.open(filename, std::ios_base::binary);
   mySource.seekg(0, std::ios_base::end);
@@ -82,6 +73,13 @@ std::vector<std::uint8_t> GetTestData(const std::string& filename)
  */
 bool IsControlChar(std::uint8_t symbol)
 {
+  // https://www.ascii-code.com
+  // DEC [1, 7] and [14, 26] are control chars
+  constexpr std::uint8_t kStartOfHeading = 0x01;
+  constexpr std::uint8_t kBellAlert = 0x07;
+  constexpr std::uint8_t kShiftOut = 0x0E;
+  constexpr std::uint8_t kSubstitute = 0x1A;
+
   return ((symbol >= kStartOfHeading && symbol <= kBellAlert)
           || (symbol >= kShiftOut && symbol <= kSubstitute));
 }
@@ -91,6 +89,8 @@ bool IsControlChar(std::uint8_t symbol)
  */
 bool ContainsConsequitiveNull(const std::vector<std::uint8_t>& buffer)
 {
+  constexpr std::uint8_t kNullChar = 0x00;
+
   for (std::size_t i = 1; i < buffer.size(); ++i)
   {
     if (buffer[i] == kNullChar && buffer[i - 1] == kNullChar)

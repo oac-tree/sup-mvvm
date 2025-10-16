@@ -1,5 +1,6 @@
 Changes for 2.0.0:
 
+- Introduce helper function to distinguish binary and text files
 - Fix unit test failure for Qt 6.10
 - Switch to std::size_t where it was reasonable
 - Partly switch to string_view in SessionItem API and some global constants
