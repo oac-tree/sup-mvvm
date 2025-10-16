@@ -1,10 +1,12 @@
 target_sources(${library_name} PRIVATE
+  bin_utils.cpp
+  bin_utils.h
   container_utils.h
   file_utils.cpp
   file_utils.h
   i_limited_integer.h
-  limited_integer.h
   limited_integer.cpp
+  limited_integer.h
   limited_integer_helper.cpp
   limited_integer_helper.h
   numeric_utils.cpp
