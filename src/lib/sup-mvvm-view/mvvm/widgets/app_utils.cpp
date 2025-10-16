@@ -98,7 +98,11 @@ QString GetScreenInfo()
   result += "\n";
   auto geometry = screen->geometry();
   result += GetHeaderText("Screen geometry")
-            + QString("(%1, %2)").arg(geometry.height()).arg(geometry.width());
+            + QString("Rect (%1, %2, %3, %4)")
+                  .arg(geometry.x())
+                  .arg(geometry.y())
+                  .arg(geometry.width())
+                  .arg(geometry.height());
   result += "\n";
 
   result += GetHeaderText("Device pixel ratio") + QString("%1").arg(screen->devicePixelRatio());
