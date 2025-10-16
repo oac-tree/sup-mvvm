@@ -29,6 +29,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <locale>
 
 namespace
 {
@@ -42,8 +43,10 @@ namespace mvvm::utils
 
 std::string SuggestFileName(const ISessionModel& model)
 {
+  std::locale loc("C");
   std::string result = model.GetType().empty() ? std::string(kDefaultModelName) : model.GetType();
-  (void)std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+  (void)std::transform(result.begin(), result.end(), result.begin(),
+                       [&loc](char c) { return std::tolower(c, loc); });
   return result + std::string(kXMLExtension);
 }
 

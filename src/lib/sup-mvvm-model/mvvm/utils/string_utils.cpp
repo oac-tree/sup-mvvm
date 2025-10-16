@@ -88,8 +88,10 @@ std::string TrimWhitespace(const std::string& str)
 
 bool StringToBool(const std::string& str)
 {
+  std::locale loc("C");
   auto value = TrimWhitespace(str);
-  (void)std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+  (void)std::transform(value.begin(), value.end(), value.begin(),
+                       [&loc](char c) { return std::tolower(c, loc); });
 
   static const std::vector<std::string> true_answers = {"true", "yes", "on"};
   static const std::vector<std::string> false_answers = {"false", "no"};
