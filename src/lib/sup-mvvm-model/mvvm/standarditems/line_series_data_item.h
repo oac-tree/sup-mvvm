@@ -103,7 +103,7 @@ public:
   PointItem* GetPoint(std::size_t index) const;
 
 private:
-  void ValidateIndex(size_t index) const;
+  void ValidateIndex(std::size_t index) const;
 };
 
 template <>

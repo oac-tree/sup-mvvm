@@ -85,7 +85,7 @@ public:
    */
   const ICommand* GetNextRedoCommand() const;
 
-  size_t GetUndoLimit() const;
+  std::size_t GetUndoLimit() const;
 
 private:
   struct CommandStackImpl;
