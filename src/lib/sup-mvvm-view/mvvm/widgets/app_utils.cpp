@@ -22,6 +22,8 @@
 
 #include "widget_utils.h"
 
+#include <mvvm/core/platform.h>
+
 #include <QApplication>
 #include <QDebug>
 #include <QFont>
@@ -34,6 +36,12 @@
 
 namespace
 {
+
+Qt::HighDpiScaleFactorRoundingPolicy GetDefaultHighDpiScaleFactorRoundingPolicy()
+{
+  return mvvm::IsMacHost() ? Qt::HighDpiScaleFactorRoundingPolicy::Unset
+                           : Qt::HighDpiScaleFactorRoundingPolicy::Round;
+}
 
 /**
  * @brief Return text of the header.
@@ -171,7 +179,7 @@ bool IsAttemptToScaleViaEnvironment()
 /**
  * @brief Cleanup environment variables related to scaling.
  */
-void ResetHighDpiEnvironment()
+void ResetQtScaleEnvironmentVariables()
 {
   qunsetenv("QT_AUTO_SCREEN_SCALE_FACTOR");
   qunsetenv("QT_SCALE_FACTOR");
@@ -225,13 +233,12 @@ void SetupHighDpiScaling(bool use_environment_variable)
   {
     qDebug() << "Own scaling, resetting environment";
     // our GUI is perfect and knows how to scale by itself
-    ResetHighDpiEnvironment();
+    ResetQtScaleEnvironmentVariables();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling, true);
 #else
-    /* AA_DisableHighDpiScaling is deprecated */
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
-        Qt::HighDpiScaleFactorRoundingPolicy::Floor);
+        GetDefaultHighDpiScaleFactorRoundingPolicy());
 #endif
   }
 }
