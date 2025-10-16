@@ -20,8 +20,6 @@
 
 #include "mvvm/utils/bin_utils.h"
 
-#include <mvvm/standarditems/plottable_items.h>
-
 #include <gtest/gtest.h>
 #include <testutils/cmake_info.h>
 
