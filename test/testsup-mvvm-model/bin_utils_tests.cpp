@@ -23,6 +23,7 @@
 #include <mvvm/standarditems/plottable_items.h>
 
 #include <gtest/gtest.h>
+#include <testutils/cmake_info.h>
 
 namespace mvvm::test
 {
@@ -30,10 +31,45 @@ namespace mvvm::test
 /**
  * @brief Tests for utility functions from bin_utils.h
  */
-class BinUtilsTest : public ::testing::Test
+class BinUtilsTest : public ::testing::TestWithParam<std::pair<std::string, bool>>
 {
+public:
+  /**
+   * @brief Returns full path to a test file.
+   */
+  static std::string GetTestFilePath(const std::string& file_name)
+  {
+    return ProjectResourceDir() + "/binary_samples/" + file_name;
+  }
 };
 
-TEST_F(BinUtilsTest, IsBinaryFile) {}
+TEST_P(BinUtilsTest, IsBinaryFile)
+{
+  const auto& [file_name, is_binary] = GetParam();
+  const auto full_path = GetTestFilePath(file_name);
+
+  EXPECT_EQ(utils::IsBinaryFile(full_path), is_binary);
+
+  EXPECT_FALSE(utils::IsBinaryFile("non-existing-file"));
+}
+
+TEST_P(BinUtilsTest, IsTextFile)
+{
+  const auto& [file_name, is_binary] = GetParam();
+  const auto full_path = GetTestFilePath(file_name);
+
+  EXPECT_EQ(utils::IsTextFile(full_path), !is_binary);
+
+  EXPECT_FALSE(utils::IsTextFile("non-existing-file"));
+}
+
+INSTANTIATE_TEST_SUITE_P(FunctionalTests, BinUtilsTest,
+                         ::testing::Values(std::make_pair("compiled_cpp.out", true),
+                                           std::make_pair("hello_world.cpp", false),
+                                           std::make_pair("pdf_file.pdf", true),
+                                           std::make_pair("png_file.png", true),
+                                           std::make_pair("word_file.doc", true),
+                                           std::make_pair("text_UTF-8-BOM.txt", false),
+                                           std::make_pair("text_UTF-8.txt", false)));
 
 }  // namespace mvvm::test

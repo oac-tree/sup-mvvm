@@ -22,7 +22,7 @@
 #define MVVM_UTILS_BIN_UTILS_H_
 
 //! @file
-//! Utility functions to distinguish binary/text files.
+//! Utility functions to analyze files.
 
 #include <string>
 

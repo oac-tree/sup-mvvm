@@ -20,17 +20,115 @@
 
 #include "bin_utils.h"
 
+#include <mvvm/utils/file_utils.h>
+
+#include <algorithm>
+#include <cstdint>
+#include <fstream>
+#include <iostream>
+#include <vector>
+
 namespace mvvm::utils
 {
 
-bool IsBinaryFile(const std::string &file_name)
+namespace
 {
-  (void)file_name;
+
+constexpr std::size_t kBuferSize = 2048;
+constexpr char kNullChar = 0x00;
+
+// https://www.ascii-code.com
+// DEC [1, 7] and [14, 26] are control chars
+constexpr char kStartOfHeading = 0x01;
+constexpr char kBellAlert = 0x07;
+constexpr char kShiftOut = 0x0E;
+constexpr char kSubstitute = 0x1A;
+
+/**
+ * @brief Returns a size of the bufer which will be used for file analysis.
+ *
+ * Will be 2048 bytes if file is large, or file size if file is smaller than 2048 bytes.
+ */
+std::size_t GetTestBufferSize(const std::string& filename)
+{
+  std::ifstream mySource;
+  mySource.open(filename, std::ios_base::binary);
+  mySource.seekg(0, std::ios_base::end);
+  const std::size_t size = mySource.tellg();
+  mySource.close();
+  return (size > kBuferSize) ? kBuferSize : size;
+}
+
+/**
+ * @brief Returns binary buffer containing first bytes of the file.
+ */
+std::vector<std::uint8_t> GetTestData(const std::string& filename)
+{
+  std::vector<std::uint8_t> result;
+
+  const std::size_t byte_length = GetTestBufferSize(filename);
+
+  result.resize(byte_length);
+  std::ifstream fstr(filename, std::ios::in | std::ios::binary);
+  for (std::size_t i = 0; i < byte_length; i++)
+  {
+    result[i] = fstr.get();
+  }
+  return result;
+}
+
+/**
+ * @brief Checks if character is a control character.
+ */
+bool IsControlChar(unsigned char symbol)
+{
+  return ((symbol >= kStartOfHeading && symbol <= kBellAlert)
+          || (symbol >= kShiftOut && symbol <= kSubstitute));
+}
+
+/**
+ * @brief Checks if there are two consecutive null characters in the buffer.
+ */
+bool ContainsConsequitiveNull(const std::vector<std::uint8_t>& buffer)
+{
+  for (std::size_t i = 1; i < buffer.size(); ++i)
+  {
+    if (buffer[i] == kNullChar && buffer[i - 1] == kNullChar)
+    {
+      return true;
+    }
+  }
   return false;
 }
 
-bool IsTextFile(const std::string &file_name)
+}  // namespace
+
+bool IsBinaryFile(const std::string& file_name)
 {
+  if (!utils::IsExists(file_name))
+  {
+    return false;
+  }
+
+  auto buffer = GetTestData(file_name);
+
+  auto contains_control_char = std::any_of(
+      buffer.begin(), buffer.end(), [](std::uint8_t element) { return IsControlChar(element); });
+  if (contains_control_char)
+  {
+    return true;
+  }
+
+  return contains_control_char ? true : ContainsConsequitiveNull(buffer);
+}
+
+bool IsTextFile(const std::string& file_name)
+{
+  if (!utils::IsExists(file_name))
+  {
+    return false;
+  }
+
   return !IsBinaryFile(file_name);
 }
 
