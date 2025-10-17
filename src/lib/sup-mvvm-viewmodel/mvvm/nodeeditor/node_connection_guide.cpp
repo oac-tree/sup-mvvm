@@ -55,6 +55,9 @@ bool NodeConnectionGuide::eventFilter(QObject* watched, QEvent* event)
     {
       status = m_guide_impl->ProcessMouseRelease(mouseEvent->scenePos(), mouseEvent->button());
     }
+    else
+    {
+    }
   }
 
   if (status == EventProcessStatus::kEventWasHandled)

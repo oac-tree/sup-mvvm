@@ -71,7 +71,7 @@ struct ViewItem::ViewItemImpl
       throw RuntimeException("ViewItem: invalid row index");
     }
 
-    (void)m_children.insert(std::next(m_children.begin(), row * m_columns),
+    (void)m_children.insert(std::next(m_children.begin(), static_cast<std::ptrdiff_t>(row * m_columns)),
                             std::make_move_iterator(items.begin()),
                             std::make_move_iterator(items.end()));
 
@@ -88,7 +88,7 @@ struct ViewItem::ViewItemImpl
       throw RuntimeException("Error in ViewItem: invalid row index.");
     }
 
-    auto begin = std::next(m_children.begin(), row * m_columns);
+    auto begin = std::next(m_children.begin(), static_cast<std::ptrdiff_t>(row * m_columns));
     (void)m_children.erase(begin, std::next(begin, m_columns));
     --m_rows;
     if (m_rows == 0)
@@ -131,8 +131,8 @@ struct ViewItem::ViewItemImpl
   {
     for (size_t index = 0; index < m_children.size(); ++index)
     {
-      const size_t row = index / m_columns;
-      const size_t col = index % m_columns;
+      const std::size_t row = index / static_cast<std::size_t>(m_columns);
+      const std::size_t col = index % static_cast<std::size_t>(m_columns);
       m_children[index]->UpdatePositionCache(static_cast<std::int32_t>(row),
                                              static_cast<std::int32_t>(col));
     }

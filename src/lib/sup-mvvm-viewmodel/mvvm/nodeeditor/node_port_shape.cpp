@@ -55,6 +55,9 @@ NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INo
   {
     setToolTip("Connect to input port(s) of other nodes");
   }
+  else
+  {
+  }
 }
 
 QRectF NodePortShape::boundingRect() const

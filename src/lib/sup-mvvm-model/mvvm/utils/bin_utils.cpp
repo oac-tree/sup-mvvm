@@ -45,7 +45,7 @@ std::size_t GetTestBufferSize(const std::string& filename)
   std::ifstream file_stream;
   file_stream.open(filename, std::ios_base::binary);
   file_stream.seekg(0, std::ios_base::end);
-  const std::size_t size = file_stream.tellg();
+  const std::size_t size = static_cast<std::size_t>(file_stream.tellg());
   file_stream.close();
   return (size > kBuferSize) ? kBuferSize : size;
 }

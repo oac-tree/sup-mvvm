@@ -100,7 +100,8 @@ void ChartViewportController::SetupChart()
 {
   m_chart->setAnimationOptions(GetAnimationOption(GetItem()));
 
-  for (auto line_series_item : GetItem()->GetLineSeries())
+  auto item = GetItem();
+  for (auto line_series_item : item->GetLineSeries())
   {
     (void)SetupChartForLineSeries(line_series_item);
   }

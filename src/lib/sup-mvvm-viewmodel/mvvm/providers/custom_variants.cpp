@@ -31,7 +31,7 @@ int GetQtVariantType(const QVariant& variant)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   auto result = static_cast<int>(variant.type());
-  if (result == QVariant::UserType)
+  if (static_cast<uint32_t>(result) == QVariant::UserType)
   {
     result = variant.userType();
   }

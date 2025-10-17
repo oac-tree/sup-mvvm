@@ -77,6 +77,9 @@ QVector<int> ItemRoleToQtRole(role_t role)
   {
     result = {Qt::ToolTipRole};
   }
+  else
+  {
+  }
 
   return result;
 }

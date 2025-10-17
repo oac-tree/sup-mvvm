@@ -91,7 +91,8 @@ void SessionItemImpl::SetModel(ISessionModel *model, SessionItem *my_owner)
   m_model = model;
 
   // First we assign the model to all children, and then we register item.
-  for (auto child : GetTaggedItems()->GetAllItems())
+  auto tagged_items = GetTaggedItems();
+  for (auto child : tagged_items->GetAllItems())
   {
     child->SetModel(model);
   }
