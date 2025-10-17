@@ -84,7 +84,7 @@ public:
   /**
    * @brief Checks if a new item with the given type can be inserted into the given index.
    */
-  bool CanInsertType(const std::string& item_type, std::size_t new_index) const;
+  bool CanInsertType(const std::string& item_type, std::size_t index) const;
 
   /**
    * @brief Checks if the item can be moved into the given index.

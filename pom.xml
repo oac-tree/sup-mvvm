@@ -44,7 +44,7 @@
         <!-- -->
         <sonar.language>cpp</sonar.language>
         <sonar.sources.cpp>src</sonar.sources.cpp>
-        <sonar.exclusions>test/**, src/lib/sup-mvvm-view/**, **/viewmodel/**, **/style/**, src/lib/sup-mvvm-test/**, examples/**</sonar.exclusions>
+        <sonar.exclusions>test/**, src/lib/sup-mvvm-view/**, **/viewmodel/**, **/style/**, src/lib/sup-mvvm-model/mvvm/signals/lsignal.h, src/lib/sup-mvvm-test/**, examples/**</sonar.exclusions>
     </properties>
 
     <!-- Parent pom.xml -->
