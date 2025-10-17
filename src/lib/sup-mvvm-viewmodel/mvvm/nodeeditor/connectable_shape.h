@@ -97,6 +97,7 @@ protected:
 
 private:
   void CalculateBoundingBox();
+  void InstallGraphicsEffects();
 
   /**
    * @brief Creates input and output ports according to the shape adapter information.

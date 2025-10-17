@@ -34,6 +34,7 @@
 #include <mvvm/model/item_utils.h>
 #include <mvvm/signals/item_listener.h>
 
+#include <QGraphicsDropShadowEffect>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
@@ -83,6 +84,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
 
   m_shape_style = m_shape_adapter->GetStyle();  // can be heavy object, caching it once
   CalculateBoundingBox();
+  InstallGraphicsEffects();
 
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
   setFlag(QGraphicsItem::ItemIsSelectable);
@@ -249,6 +251,18 @@ void ConnectableShape::CalculateBoundingBox()
   // Adding margins for a pen. Currently we have some artifacts in the image, despite of this
   // attempt to give extra space. May be it is only plasma/wayland issue.
   m_bounding_box = GetShapeRect().marginsAdded(QMarginsF(2.0, 2.0, 2.0, 2.0));
+}
+
+void ConnectableShape::InstallGraphicsEffects()
+{
+  if (m_shape_style.shadow_enabled)
+  {
+    auto effect = new QGraphicsDropShadowEffect;
+    effect->setOffset(4, 4);
+    effect->setBlurRadius(20);
+    effect->setColor(m_shape_style.shadow_color);
+    setGraphicsEffect(effect);
+  }
 }
 
 void ConnectableShape::SetupPorts()
