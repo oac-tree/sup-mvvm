@@ -57,6 +57,8 @@ public:
 
   void ProcessEvent(const node_event_t& event) const override;
 
+  ConnectableShapeStyle GetStyle() const override;
+
 private:
   NodeItem* m_node_item{nullptr};
 };

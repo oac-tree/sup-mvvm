@@ -106,4 +106,9 @@ void NodeItemConnectableShapeAdapter::ProcessEvent(const node_event_t &event) co
   (void)event;
 }
 
+ConnectableShapeStyle NodeItemConnectableShapeAdapter::GetStyle() const
+{
+  return CreateDefaultConnectableShapeStyle();
+}
+
 }  // namespace mvvm

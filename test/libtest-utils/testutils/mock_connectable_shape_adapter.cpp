@@ -81,4 +81,9 @@ void ConnectableShapeAdapterDecorator::ProcessEvent(const node_event_t &event) c
   m_decoratee->ProcessEvent(event);
 }
 
+ConnectableShapeStyle ConnectableShapeAdapterDecorator::GetStyle() const
+{
+  return m_decoratee->GetStyle();
+}
+
 }  // namespace mvvm::test

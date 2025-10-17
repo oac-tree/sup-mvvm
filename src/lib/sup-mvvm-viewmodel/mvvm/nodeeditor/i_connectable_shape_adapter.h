@@ -21,6 +21,7 @@
 #ifndef MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
 #define MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
 
+#include <mvvm/nodeeditor/connectable_shape_style.h>
 #include <mvvm/nodeeditor/node_editor_events.h>
 #include <mvvm/nodeeditor/port_info.h>
 
@@ -99,6 +100,13 @@ public:
    * @brief Processes user interface events reported by various shapes composing the node tree.
    */
   virtual void ProcessEvent(const node_event_t& event) const = 0;
+
+  /**
+   * @brief Returns style information for the connectable shape.
+   *
+   * To think about: the style can be heavy object, should we return by value or by reference?
+   */
+  virtual ConnectableShapeStyle GetStyle() const = 0;
 };
 
 }  // namespace mvvm
