@@ -21,11 +21,18 @@
 #include "node_port_style.h"
 
 #include <mvvm/nodeeditor/node_editor_constants.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 namespace mvvm
 {
 
-NodePortStyle CreateDefaultPortStyle()
+namespace
+{
+
+/**
+ * @brief Creates default style for ConnectableShape in light desktop environment.
+ */
+NodePortStyle CreateDefaultStyleForLightThemes()
 {
   NodePortStyle result;
 
@@ -37,6 +44,40 @@ NodePortStyle CreateDefaultPortStyle()
   result.pen_width = 1.0;
 
   return result;
+}
+
+/**
+ * @brief Creates default style for ConnectableShape in dark desktop environment.
+ */
+NodePortStyle CreateDefaultStyleForDarkThemes()
+{
+  NodePortStyle result = CreateDefaultStyleForLightThemes();
+  result.base_color = QColor("slateblue");
+  return result;
+}
+
+}  // namespace
+
+NodePortStyle CreateDefaultNodePortStyle(ColorFlavor color_flavor)
+{
+  if (color_flavor == ColorFlavor::kForDarkThemes)
+  {
+    return CreateDefaultStyleForDarkThemes();
+  }
+
+  if (color_flavor == ColorFlavor::kForLightThemes)
+  {
+    return CreateDefaultStyleForLightThemes();
+  }
+
+  return style::IsDarkTheme() ? CreateDefaultStyleForDarkThemes()
+                              : CreateDefaultStyleForLightThemes();
+}
+
+const NodePortStyle &GetDefaultNodePortStyle()
+{
+  static const NodePortStyle kNodePortStyle = CreateDefaultNodePortStyle(ColorFlavor::kUnspecified);
+  return kNodePortStyle;
 }
 
 }  // namespace mvvm

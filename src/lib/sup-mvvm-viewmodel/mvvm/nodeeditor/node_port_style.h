@@ -21,6 +21,8 @@
 #ifndef MVVM_NODEEDITOR_NODE_PORT_STYLE_H_
 #define MVVM_NODEEDITOR_NODE_PORT_STYLE_H_
 
+#include <mvvm/style/color_flavor.h>
+
 #include <QColor>
 #include <QRectF>
 #include <QString>
@@ -43,9 +45,14 @@ struct NodePortStyle
 };
 
 /**
- * @brief Returns default port style.
+ * @brief Creates default node port style for given color flavor.
  */
-NodePortStyle CreateDefaultPortStyle();
+NodePortStyle CreateDefaultNodePortStyle(ColorFlavor color_flavor = ColorFlavor::kUnspecified);
+
+/**
+ * @brief Returns default node port style.
+ */
+const NodePortStyle& GetDefaultNodePortStyle();
 
 }  // namespace mvvm
 

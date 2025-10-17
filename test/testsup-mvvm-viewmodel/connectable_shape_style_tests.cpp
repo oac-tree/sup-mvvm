@@ -32,7 +32,7 @@ class ConnectableShapeStyleTest : public ::testing::Test
 {
 };
 
-TEST_F(ConnectableShapeStyleTest, InitialState)
+TEST_F(ConnectableShapeStyleTest, CreateDefaultConnectableShapeStyle)
 {
   auto dark_style = CreateDefaultConnectableShapeStyle(ColorFlavor::kForDarkThemes);
   auto light_style = CreateDefaultConnectableShapeStyle(ColorFlavor::kForLightThemes);

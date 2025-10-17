@@ -21,7 +21,6 @@
 #include "node_editor_helper.h"
 
 #include "i_node_port.h"
-#include "node_editor_constants.h"
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
@@ -54,7 +53,7 @@ PortLocation GetPortLocation(NodeTreeLayout layout, PortDirection direction)
 PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo &port_info)
 {
   const auto location = GetPortLocation(layout, port_info.GetPortDirection());
-  return {location, QString::fromStdString(port_info.GetPortLabel()), CreateDefaultPortStyle()};
+  return {location, QString::fromStdString(port_info.GetPortLabel()), CreateDefaultNodePortStyle()};
 }
 
 std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo> &port_infos,
