@@ -70,7 +70,6 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
     : QGraphicsItem(parent_item)
     , m_shape_adapter(std::move(shape_adapter))
     , m_port_position_strategy(std::move(port_position_strategy))
-    , m_shape_style(CreateDefaultConnectableShapeStyle())
 {
   if (!m_shape_adapter)
   {
@@ -82,6 +81,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
     throw RuntimeException("Port position strategy is not provided");
   }
 
+  m_shape_style = m_shape_adapter->GetStyle();  // can be heavy object, caching it once
   CalculateBoundingBox();
 
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);

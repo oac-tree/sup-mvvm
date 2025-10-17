@@ -123,7 +123,7 @@ private:
   bool m_block_item_update{false};
   std::unique_ptr<ItemListener> m_item_listener;
   std::vector<INodePort*> m_node_ports;
-  ConnectableShapeStyle m_shape_style;
+  ConnectableShapeStyle m_shape_style; //! cached style
 };
 
 }  // namespace mvvm
