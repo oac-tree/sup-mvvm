@@ -21,6 +21,7 @@
 #ifndef MVVM_NODEEDITOR_CONNECTABLE_SHAPE_H_
 #define MVVM_NODEEDITOR_CONNECTABLE_SHAPE_H_
 
+#include <mvvm/nodeeditor/connectable_shape_style.h>
 #include <mvvm/nodeeditor/node_editor_types.h>
 
 #include <QGraphicsItem>
@@ -59,7 +60,7 @@ public:
   /**
    * @brief Returns exact rectangle of the shape without margins.
    */
-  static QRectF GetShapeRect();
+  QRectF GetShapeRect() const;
 
   /**
    * @brief Updates item properties from the view position.
@@ -91,8 +92,8 @@ public:
 
 protected:
   QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
-  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-  void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
   void CalculateBoundingBox();
@@ -122,6 +123,7 @@ private:
   bool m_block_item_update{false};
   std::unique_ptr<ItemListener> m_item_listener;
   std::vector<INodePort*> m_node_ports;
+  ConnectableShapeStyle m_shape_style;
 };
 
 }  // namespace mvvm

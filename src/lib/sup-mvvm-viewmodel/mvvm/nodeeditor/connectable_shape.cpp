@@ -44,7 +44,6 @@ namespace mvvm
 
 namespace
 {
-constexpr double kRoundPar = 5.0;
 
 /**
  * @brief Returns rectangle to display ConnectableShape label.
@@ -63,16 +62,6 @@ QRectF GetLabelRectangle(const QRectF &rect)
       QMarginsF(side_gap, top_gap, side_gap, 0.0));  // left, top, right, bottom
 }
 
-/**
- * @brief Returns label font to display the name of the ConnectableShape.
- */
-QFont GetLabelFont()
-{
-  QFont result("Noto Sans", constants::NodeUnitRoundSize(0.8), QFont::Normal);
-  result.setWordSpacing(-constants::NodeUnitSize(0.25));
-  return result;
-}
-
 }  // namespace
 
 ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> shape_adapter,
@@ -81,6 +70,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
     : QGraphicsItem(parent_item)
     , m_shape_adapter(std::move(shape_adapter))
     , m_port_position_strategy(std::move(port_position_strategy))
+    , m_shape_style(CreateDefaultConnectableShapeStyle())
 {
   if (!m_shape_adapter)
   {
@@ -126,10 +116,10 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
   }
 
   painter->setBrush(ConnectableShapeGradient(m_shape_adapter->GetBaseColor(), GetShapeRect()));
-  painter->drawRoundedRect(GetShapeRect(), kRoundPar, kRoundPar);
+  painter->drawRoundedRect(GetShapeRect(), m_shape_style.round_par, m_shape_style.round_par);
 
   // plotting label
-  static const QFont label_font = GetLabelFont();
+  static const QFont label_font = m_shape_style.label_font;
   static const QRectF label_rect = GetLabelRectangle(GetShapeRect());
   painter->setFont(label_font);
   painter->setPen(Qt::black);
@@ -140,9 +130,9 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
   painter->restore();
 }
 
-QRectF ConnectableShape::GetShapeRect()
+QRectF ConnectableShape::GetShapeRect() const
 {
-  return constants::DefaultConnectableShapeRect();
+  return m_shape_style.base_rect;
 }
 
 void ConnectableShape::UpdateItemFromView()
