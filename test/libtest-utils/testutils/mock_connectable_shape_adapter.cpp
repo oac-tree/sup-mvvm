@@ -41,11 +41,6 @@ QString ConnectableShapeAdapterDecorator::GetDisplayName() const
   return m_decoratee->GetDisplayName();
 }
 
-QColor ConnectableShapeAdapterDecorator::GetBaseColor() const
-{
-  return m_decoratee->GetBaseColor();
-}
-
 double ConnectableShapeAdapterDecorator::GetX() const
 {
   return m_decoratee->GetX();

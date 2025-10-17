@@ -41,7 +41,6 @@ class MockConnectableShapeAdapter : public IConnectableShapeAdapter
 public:
   MOCK_METHOD(mvvm::SessionItem*, GetItem, (), (const, override));
   MOCK_METHOD(QString, GetDisplayName, (), (const, override));
-  MOCK_METHOD(QColor, GetBaseColor, (), (const, override));
   MOCK_METHOD(double, GetX, (), (const, override));
   MOCK_METHOD(void, SetX, (double), (override));
   MOCK_METHOD(double, GetY, (), (const, override));
@@ -68,7 +67,6 @@ public:
 
   mvvm::SessionItem* GetItem() const override;
   QString GetDisplayName() const override;
-  QColor GetBaseColor() const override;
   double GetX() const override;
   void SetX(double value) override;
   double GetY() const override;

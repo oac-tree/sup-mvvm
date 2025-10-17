@@ -54,11 +54,6 @@ QString NodeItemConnectableShapeAdapter::GetDisplayName() const
   return QString::fromStdString(m_node_item->GetDisplayName());
 }
 
-QColor NodeItemConnectableShapeAdapter::GetBaseColor() const
-{
-  return {QString::fromStdString(m_node_item->GetBaseColor())};
-}
-
 double NodeItemConnectableShapeAdapter::GetX() const
 {
   return m_node_item->GetX();
@@ -108,7 +103,9 @@ void NodeItemConnectableShapeAdapter::ProcessEvent(const node_event_t &event) co
 
 ConnectableShapeStyle NodeItemConnectableShapeAdapter::GetStyle() const
 {
-  return CreateDefaultConnectableShapeStyle();
+  auto result = CreateDefaultConnectableShapeStyle();
+  result.base_color = QColor(QString::fromStdString(m_node_item->GetBaseColor()));
+  return result;
 }
 
 }  // namespace mvvm

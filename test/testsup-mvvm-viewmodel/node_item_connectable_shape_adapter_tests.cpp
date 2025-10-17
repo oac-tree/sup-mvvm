@@ -50,7 +50,6 @@ TEST_F(NodeItemConnectableShapeAdapterTest, InitialState)
   const NodeItemConnectableShapeAdapter adapter(&node_item);
   EXPECT_EQ(adapter.GetItem(), &node_item);
   EXPECT_EQ(adapter.GetDisplayName(), "abc");
-  EXPECT_EQ(adapter.GetBaseColor(), QColor(Qt::red));
   EXPECT_EQ(adapter.GetX(), 42.0);
   EXPECT_EQ(adapter.GetY(), 43.0);
 
@@ -58,6 +57,9 @@ TEST_F(NodeItemConnectableShapeAdapterTest, InitialState)
   EXPECT_EQ(adapter.GetPortInfos().at(0).GetPortDirection(), PortDirection::kOutput);
   EXPECT_EQ(adapter.GetPortInfos().at(0).GetPortDirection(), PortDirection::kOutput);
   EXPECT_TRUE(adapter.GetOperationStates().None());
+
+  auto style = adapter.GetStyle();
+  EXPECT_EQ(style.base_color, QColor(Qt::red));
 }
 
 TEST_F(NodeItemConnectableShapeAdapterTest, PortInfoOfSequenceItem)

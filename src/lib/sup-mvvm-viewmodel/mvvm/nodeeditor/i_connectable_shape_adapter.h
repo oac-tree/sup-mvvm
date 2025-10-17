@@ -62,11 +62,6 @@ public:
   virtual QString GetDisplayName() const = 0;
 
   /**
-   * @brief Returns a base color to be used for the connectable element.
-   */
-  virtual QColor GetBaseColor() const = 0;
-
-  /**
    * @brief Returns X coordinate of the connectable element.
    */
   virtual double GetX() const = 0;

@@ -41,8 +41,6 @@ public:
 
   QString GetDisplayName() const override;
 
-  QColor GetBaseColor() const override;
-
   double GetX() const override;
 
   void SetX(double value) override;
