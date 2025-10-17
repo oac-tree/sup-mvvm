@@ -29,7 +29,7 @@ namespace mvvm
 {
 
 /**
- * @brief The PortStyle class is an aggregate with all constants related to painting.
+ * @brief The PortStyle class is an aggregate with all constants related to NodePortShape painting.
  */
 struct PortStyle
 {

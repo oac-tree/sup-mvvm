@@ -37,6 +37,8 @@ target_sources(${library_name} PRIVATE
   node_port.h
   node_port_shape.cpp
   node_port_shape.h
+  connectable_shape_style.cpp
+  connectable_shape_style.h
   port_appearance.cpp
   port_appearance.h
   port_info.cpp
