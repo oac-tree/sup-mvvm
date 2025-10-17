@@ -76,8 +76,8 @@ NodePortStyle CreateDefaultNodePortStyle(ColorFlavor color_flavor)
 
 const NodePortStyle &GetDefaultNodePortStyle()
 {
-  static const NodePortStyle kNodePortStyle = CreateDefaultNodePortStyle(ColorFlavor::kUnspecified);
-  return kNodePortStyle;
+  static const auto kStyle = CreateDefaultNodePortStyle(ColorFlavor::kUnspecified);
+  return kStyle;
 }
 
 }  // namespace mvvm

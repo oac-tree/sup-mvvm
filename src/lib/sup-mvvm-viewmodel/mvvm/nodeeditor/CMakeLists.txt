@@ -26,6 +26,8 @@ target_sources(${library_name} PRIVATE
   node_connection_guide_impl.cpp
   node_connection_shape.cpp
   node_connection_shape.h
+  node_connection_style.cpp
+  node_connection_style.h
   node_editor_constants.cpp
   node_editor_constants.h
   node_editor_events.cpp
