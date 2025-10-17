@@ -34,7 +34,7 @@ class PortAppearanceTest : public ::testing::Test
 
 TEST_F(PortAppearanceTest, InitialState)
 {
-  const PortStyle port_style{Qt::red, Qt::red, 42.0};
+  const NodePortStyle port_style{Qt::red, Qt::red, 42.0};
   const PortAppearance info(PortLocation::kTop, "abc", port_style);
   EXPECT_EQ(info.GetPortLabel(), QString("abc"));
   EXPECT_EQ(info.GetPortColor(), QColor("red"));

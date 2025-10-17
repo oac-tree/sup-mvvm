@@ -22,7 +22,7 @@
 #define MVVM_NODEEDITOR_PORT_APPEARANCE_H_
 
 #include <mvvm/nodeeditor/node_editor_types.h>
-#include <mvvm/nodeeditor/port_style.h>
+#include <mvvm/nodeeditor/node_port_style.h>
 
 #include <QColor>
 #include <QRectF>
@@ -45,7 +45,7 @@ public:
   /**
    * @brief Initiazes a PortAppearance with the given location, label and style.
    */
-  PortAppearance(PortLocation port_location, const QString& port_label, const PortStyle& port_style);
+  PortAppearance(PortLocation port_location, const QString& port_label, const NodePortStyle& port_style);
 
   /**
    * @brief Returns location of the port.
@@ -70,12 +70,12 @@ public:
   /**
    * @brief Returns port style.
    */
-  const PortStyle& GetPortStyle() const;
+  const NodePortStyle& GetPortStyle() const;
 
 private:
   PortLocation m_port_location;
   QString m_port_label;
-  PortStyle m_port_style;
+  NodePortStyle m_port_style;
 };
 
 bool operator==(const PortAppearance& lhs, const PortAppearance& rhs);

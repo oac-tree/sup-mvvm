@@ -4,6 +4,8 @@
 target_sources(${library_name} PRIVATE
   connectable_shape.cpp
   connectable_shape.h
+  connectable_shape_style.cpp
+  connectable_shape_style.h
   connectable_view_model_controller.cpp
   connectable_view_model_controller.h
   default_node_shape_factory.cpp
@@ -37,14 +39,12 @@ target_sources(${library_name} PRIVATE
   node_port.h
   node_port_shape.cpp
   node_port_shape.h
-  connectable_shape_style.cpp
-  connectable_shape_style.h
+  node_port_style.cpp
+  node_port_style.h
   port_appearance.cpp
   port_appearance.h
   port_info.cpp
   port_info.h
-  port_style.cpp
-  port_style.h
   top_bottom_port_position_strategy.cpp
   top_bottom_port_position_strategy.h
   )

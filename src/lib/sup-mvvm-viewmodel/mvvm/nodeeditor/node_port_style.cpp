@@ -18,34 +18,25 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_PORT_STYLE_H_
-#define MVVM_NODEEDITOR_PORT_STYLE_H_
+#include "node_port_style.h"
 
-#include <QColor>
-#include <QRectF>
-#include <QString>
+#include <mvvm/nodeeditor/node_editor_constants.h>
 
 namespace mvvm
 {
 
-/**
- * @brief The PortStyle class is an aggregate with all constants related to NodePortShape painting.
- */
-struct PortStyle
+NodePortStyle CreateDefaultPortStyle()
 {
-  QColor base_color{Qt::gray};
-  QColor base_color_modified{Qt::gray};
-  double radius{1.0};
-  double radius_hovered{1.0};
-  QColor pen_color{Qt::gray};
-  double pen_width{1.0};
-};
+  NodePortStyle result;
 
-/**
- * @brief Returns default port style.
- */
-PortStyle CreateDefaultPortStyle();
+  result.base_color = QColor("navajowhite");
+  result.base_color_modified = QColor("orange");
+  result.radius = constants::GetDefaultPortRadius();
+  result.radius_hovered = constants::GetDefaultPortRadius();
+  result.pen_color = QColor("navajowhite").darker(180);
+  result.pen_width = 1.0;
+
+  return result;
+}
 
 }  // namespace mvvm
-
-#endif  // MVVM_NODEEDITOR_PORT_STYLE_H_

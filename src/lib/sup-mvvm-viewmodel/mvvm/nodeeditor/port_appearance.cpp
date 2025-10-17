@@ -24,12 +24,12 @@ namespace mvvm
 {
 
 PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label)
-    : PortAppearance(port_location, port_label, PortStyle{})
+    : PortAppearance(port_location, port_label, NodePortStyle{})
 {
 }
 
 PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label,
-                               const PortStyle &port_style)
+                               const NodePortStyle &port_style)
     : m_port_location(port_location), m_port_label(port_label), m_port_style(port_style)
 {
 }
@@ -54,7 +54,7 @@ double PortAppearance::GetPortRadius() const
   return GetPortStyle().radius;
 }
 
-const PortStyle &PortAppearance::GetPortStyle() const
+const NodePortStyle &PortAppearance::GetPortStyle() const
 {
   return m_port_style;
 }
