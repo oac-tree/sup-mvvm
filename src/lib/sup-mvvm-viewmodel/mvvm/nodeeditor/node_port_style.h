@@ -47,7 +47,7 @@ struct NodePortStyle
 /**
  * @brief Creates default node port style for given color flavor.
  */
-NodePortStyle CreateDefaultNodePortStyle(ColorFlavor color_flavor = ColorFlavor::kUnspecified);
+NodePortStyle CreateDefaultNodePortStyle(ColorFlavor color_flavor = ColorFlavor::kAuto);
 
 /**
  * @brief Returns default node port style.

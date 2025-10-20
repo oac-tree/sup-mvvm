@@ -48,7 +48,7 @@ struct NodeConnectionStyle
  * @brief Creates default node port style for given color flavor.
  */
 NodeConnectionStyle CreateDefaultNodeConnectionStyle(
-    ColorFlavor color_flavor = ColorFlavor::kUnspecified);
+    ColorFlavor color_flavor = ColorFlavor::kAuto);
 
 /**
  * @brief Returns default node port style.

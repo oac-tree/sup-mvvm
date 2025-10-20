@@ -80,7 +80,7 @@ NodeConnectionStyle CreateDefaultNodeConnectionStyle(ColorFlavor color_flavor)
 
 const NodeConnectionStyle &GetDefaultNodeConnectionStyle()
 {
-  static const auto kStyle = CreateDefaultNodeConnectionStyle(ColorFlavor::kUnspecified);
+  static const auto kStyle = CreateDefaultNodeConnectionStyle(ColorFlavor::kAuto);
   return kStyle;
 }
 

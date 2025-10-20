@@ -53,7 +53,7 @@ struct ConnectableShapeStyle
  * @brief Creates default connectable shape style for given color flavor.
  */
 ConnectableShapeStyle CreateDefaultConnectableShapeStyle(
-    ColorFlavor color_flavor = ColorFlavor::kUnspecified);
+    ColorFlavor color_flavor = ColorFlavor::kAuto);
 
 /**
  * @brief Returns default connectable shape style.

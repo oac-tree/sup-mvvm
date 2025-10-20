@@ -34,7 +34,7 @@ namespace mvvm
  */
 enum class ColorFlavor : std::uint8_t
 {
-  kUnspecified,    //!< dark or light will be automatically deduced from current theme
+  kAuto,           //!< dark or light will be automatically deduced from current theme
   kForDarkThemes,  //!< intended for dark background
   kForLightThemes  //!< intended for light background
 };

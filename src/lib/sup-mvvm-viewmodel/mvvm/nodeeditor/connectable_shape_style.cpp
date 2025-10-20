@@ -83,7 +83,7 @@ ConnectableShapeStyle CreateDefaultConnectableShapeStyle(ColorFlavor color_flavo
 const ConnectableShapeStyle &GetDefaultConnectableShapeStyle()
 {
   static const ConnectableShapeStyle kConnectableShapeStyle =
-      CreateDefaultConnectableShapeStyle(ColorFlavor::kUnspecified);
+      CreateDefaultConnectableShapeStyle(ColorFlavor::kAuto);
   return kConnectableShapeStyle;
 }
 
