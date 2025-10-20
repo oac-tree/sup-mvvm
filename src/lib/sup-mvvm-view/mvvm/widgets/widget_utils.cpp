@@ -143,17 +143,6 @@ QString ClickableText(const QString& text, const QString& link)
   return QString(R"(<a href="%1">%2</a>)").arg(link.isEmpty() ? text : link, text);
 }
 
-void ScaleLabelFont(QLabel* label, double scale, bool is_bold)
-{
-  QFont font = label->font();
-  font.setPointSize(static_cast<std::int32_t>(style::SystemPointSize() * scale));
-  if (is_bold)
-  {
-    font.setBold(true);
-  }
-  label->setFont(font);
-}
-
 QString CreatePathPresentation(const QString& text)
 {
   if (text.isEmpty())

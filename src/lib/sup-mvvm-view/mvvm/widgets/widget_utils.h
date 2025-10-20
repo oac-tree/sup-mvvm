@@ -75,15 +75,6 @@ QMainWindow* FindMainWindow();
 QString ClickableText(const QString& text, const QString& link = {});
 
 /**
- * @brief Set the label's font size to the system font size scaled by a given factor.
- *
- * @param label The label to change.
- * @param scale Scale font by the given ammount.
- * @param is_bold Allows to turn the label's font into bold.
- */
-void ScaleLabelFont(QLabel* label, double scale, bool is_bold = false);
-
-/**
  * @brief Turn the string containing Unix path into special text intended for clickable labels.
  *
  * Converts

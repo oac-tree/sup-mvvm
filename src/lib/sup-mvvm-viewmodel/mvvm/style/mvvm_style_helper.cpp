@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QFont>
 #include <QFontMetrics>
+#include <QLabel>
 #include <QPalette>
 
 namespace mvvm::style
@@ -88,6 +89,17 @@ double ScaleToSystemFont(double device_independent_pixels)
 {
   return device_independent_pixels * static_cast<double>(SystemPointSize())
          / static_cast<double>(SystemReferencePointSize());
+}
+
+void ScaleLabelFont(QLabel &label, double scale, bool is_bold)
+{
+  QFont font = label.font();
+  font.setPointSize(static_cast<std::int32_t>(style::SystemPointSize() * scale));
+  if (is_bold)
+  {
+    font.setBold(true);
+  }
+  label.setFont(font);
 }
 
 }  // namespace mvvm::style
