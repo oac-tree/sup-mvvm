@@ -25,7 +25,6 @@
 #include "i_port_position_strategy.h"
 #include "node_connection.h"
 #include "node_connection_shape.h"
-#include "node_editor_constants.h"
 #include "node_editor_helper.h"
 #include "node_port.h"
 #include "node_port_shape.h"
@@ -33,6 +32,7 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/signals/item_listener.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QGraphicsDropShadowEffect>
 #include <QGraphicsScene>
@@ -57,8 +57,8 @@ QRectF GetLabelRectangle(const QRectF &rect)
   const QRectF result(rect.x(), rect.y(), rect.width(), rect.height() / 2);
 
   // slightly shrink it
-  auto side_gap = constants::NodeUnitSize(0.25);
-  auto top_gap = constants::NodeUnitSize(0.75);
+  auto side_gap = style::UnitSize(0.25);
+  auto top_gap = style::UnitSize(0.75);
   return result.marginsRemoved(
       QMarginsF(side_gap, top_gap, side_gap, 0.0));  // left, top, right, bottom
 }

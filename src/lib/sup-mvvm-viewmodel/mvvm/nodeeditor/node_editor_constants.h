@@ -28,23 +28,9 @@
 #include <QColor>
 #include <QFont>
 #include <QRectF>
-#include <cstdint>
 
 namespace mvvm::constants
 {
-
-/**
- * @brief Characteristic size of node unit.
- *
- * This corresponds to the width of the letter 'M'.
- * FIXME remove duplication after widget_utils.h refactoring.
- */
-double NodeUnitSize(double scale);
-
-/**
- * @brief Characteristic size of node unit.
- */
-std::int32_t NodeUnitRoundSize(double scale);
 
 /**
  * @brief Returns default radious of the port.
