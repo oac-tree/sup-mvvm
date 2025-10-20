@@ -63,7 +63,8 @@ QSize FindSizeOfLetterM();
 /**
  * @brief Characteristic size of the UI element scaled by a given factor.
  *
- * This corresponds to the width of the letter 'M' at current application font settings.
+ * This corresponds to the width of the letter 'M' at current application font settings, multipled
+ * by a scla e factor.
  */
 double UnitSize(double scale);
 
@@ -73,6 +74,20 @@ double UnitSize(double scale);
  * This corresponds to the width of the letter 'M' at current application font settings.
  */
 std::int32_t UnitRoundSize(double scale);
+
+/**
+ * @brief Scales given value according to the system font size.
+ *
+ * This method is used to scale Qt UI elements' sizes so that they look consistent on systems with
+ * different font size settings. Qt widget sizes are given in device-independent pixels. They will
+ * are already scaled according to the system DPI settings by the Qt framework. However, different systems
+ * may have different default font sizes. This method allows for scaling sizes further according to
+ * the system font size.
+ *
+ * @param device_independent_pixels Size of widgets in device-independent pixels.
+ * @return Size scaled to the current system font.
+ */
+double ScaleToSystemFont(double device_independent_pixels);
 
 }  // namespace mvvm::style
 

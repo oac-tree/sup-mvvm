@@ -84,4 +84,10 @@ int32_t UnitRoundSize(double scale)
   return static_cast<std::int32_t>(UnitSize(scale));
 }
 
+double ScaleToSystemFont(double device_independent_pixels)
+{
+  return device_independent_pixels * static_cast<double>(SystemPointSize())
+         / static_cast<double>(SystemReferencePointSize());
+}
+
 }  // namespace mvvm::style
