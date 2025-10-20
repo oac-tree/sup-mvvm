@@ -24,31 +24,30 @@
 
 #include <QApplication>
 #include <QFont>
-#include <QFontMetrics>
 
 namespace mvvm::constants
 {
 
 double GetDefaultPortRadius()
 {
-  return style::UnitSizeF(0.4);
+  return style::ScaleToSystem(5);
 }
 
-const QColor &DefaultPortColor()
+const QFont &DefaultConnectableShapeFont()
 {
-  static const QColor kDefaultPortColor("navajowhite");
-  return kDefaultPortColor;
+  static const QFont kLabelFont("Noto Sans", style::SystemPointSize(1.0), QFont::Normal);
+  return kLabelFont;
 }
 
 const QFont &DefaultPortLabelFont()
 {
-  static const QFont kLabelFont("Monospace", 8, QFont::Normal);
+  static const QFont kLabelFont("Monospace", style::SystemPointSize(0.8), QFont::Normal);
   return kLabelFont;
 }
 
 const QRectF &DefaultConnectableShapeRect()
 {
-  static const QRectF kDefaultRect{0, 0, style::UnitSizeF(8.2), style::UnitSizeF(10.0)};
+  static const QRectF kDefaultRect{0, 0, style::ScaleToSystem(100), style::ScaleToSystem(130)};
   return kDefaultRect;
 }
 

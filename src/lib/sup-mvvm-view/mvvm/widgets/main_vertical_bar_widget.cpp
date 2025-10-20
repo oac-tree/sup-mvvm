@@ -67,7 +67,7 @@ std::pair<int, int> GetMaxWidthHeight(const QList<QAbstractButton*>& buttons)
  */
 int GetMargin()
 {
-  return mvvm::style::UnitSizeF(0.75);
+  return mvvm::style::UnitSizeF(0.5);
 }
 
 int GetMinimumToolBarWidth()

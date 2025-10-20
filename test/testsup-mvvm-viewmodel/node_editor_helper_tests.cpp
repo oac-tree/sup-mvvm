@@ -58,6 +58,8 @@ TEST_F(NodeHelperTest, GetPortLocation)
 
 TEST_F(NodeHelperTest, GetDefaultPortAppearance)
 {
+  const auto default_port_color = GetDefaultNodePortStyle().base_color;
+
   const PortInfo input_info(PortDirection::kInput, "abc1", "label1", nullptr);
   const PortInfo output_info(PortDirection::kOutput, "abc2", "label2", nullptr);
   const PortInfo default_info(PortDirection::kDefault, "abc3", "label3", nullptr);
@@ -66,34 +68,34 @@ TEST_F(NodeHelperTest, GetDefaultPortAppearance)
     auto input_appearance = GetDefaultPortAppearance(NodeTreeLayout::kLeftToRight, input_info);
     EXPECT_EQ(input_appearance.GetPortLocation(), PortLocation::kLeft);
     EXPECT_EQ(input_appearance.GetPortLabel(), "label1");
-    EXPECT_EQ(input_appearance.GetPortColor(), constants::DefaultPortColor());
+    EXPECT_EQ(input_appearance.GetPortColor(), default_port_color);
 
     auto output_appearance = GetDefaultPortAppearance(NodeTreeLayout::kLeftToRight, output_info);
     EXPECT_EQ(output_appearance.GetPortLocation(), PortLocation::kRight);
     EXPECT_EQ(output_appearance.GetPortLabel(), "label2");
-    EXPECT_EQ(output_appearance.GetPortColor(), constants::DefaultPortColor());
+    EXPECT_EQ(output_appearance.GetPortColor(), default_port_color);
 
     auto default_appearance = GetDefaultPortAppearance(NodeTreeLayout::kLeftToRight, default_info);
     EXPECT_EQ(default_appearance.GetPortLocation(), PortLocation::kUnknown);
     EXPECT_EQ(default_appearance.GetPortLabel(), "label3");
-    EXPECT_EQ(default_appearance.GetPortColor(), constants::DefaultPortColor());
+    EXPECT_EQ(default_appearance.GetPortColor(), default_port_color);
   }
 
   {  // kTopToBottom
     auto input_appearance = GetDefaultPortAppearance(NodeTreeLayout::kTopToBottom, input_info);
     EXPECT_EQ(input_appearance.GetPortLocation(), PortLocation::kBottom);
     EXPECT_EQ(input_appearance.GetPortLabel(), "label1");
-    EXPECT_EQ(input_appearance.GetPortColor(), constants::DefaultPortColor());
+    EXPECT_EQ(input_appearance.GetPortColor(), default_port_color);
 
     auto output_appearance = GetDefaultPortAppearance(NodeTreeLayout::kTopToBottom, output_info);
     EXPECT_EQ(output_appearance.GetPortLocation(), PortLocation::kTop);
     EXPECT_EQ(output_appearance.GetPortLabel(), "label2");
-    EXPECT_EQ(output_appearance.GetPortColor(), constants::DefaultPortColor());
+    EXPECT_EQ(output_appearance.GetPortColor(), default_port_color);
 
     auto default_appearance = GetDefaultPortAppearance(NodeTreeLayout::kTopToBottom, default_info);
     EXPECT_EQ(default_appearance.GetPortLocation(), PortLocation::kUnknown);
     EXPECT_EQ(default_appearance.GetPortLabel(), "label3");
-    EXPECT_EQ(default_appearance.GetPortColor(), constants::DefaultPortColor());
+    EXPECT_EQ(default_appearance.GetPortColor(), default_port_color);
   }
 }
 

@@ -34,12 +34,12 @@ TEST_F(MvvmStyleHelper, SystemPointSize)
   EXPECT_TRUE(style::SystemPointSize() > 0);
 }
 
-TEST_F(MvvmStyleHelper, ScaleToSystemFont)
+TEST_F(MvvmStyleHelper, ScaleToSystem)
 {
   // Unit tests are in headless mode, QApplication is absent and "aplication" font size if always
   // the same.
   EXPECT_EQ(style::SystemPointSize(), style::SystemReferencePointSize());
-  EXPECT_DOUBLE_EQ(style::ScaleToSystemFont(42.0), 42.0);
+  EXPECT_DOUBLE_EQ(style::ScaleToSystem(42.0), 42.0);
 }
 
 }  // namespace mvvm::test

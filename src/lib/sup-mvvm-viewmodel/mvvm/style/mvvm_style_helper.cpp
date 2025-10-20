@@ -87,7 +87,7 @@ int32_t UnitSize(double scale)
   return static_cast<std::int32_t>(UnitSizeF(scale));
 }
 
-double ScaleToSystemFont(double device_independent_pixels)
+double ScaleToSystem(double device_independent_pixels)
 {
   return device_independent_pixels * static_cast<double>(SystemPointSize())
          / static_cast<double>(SystemReferencePointSize());

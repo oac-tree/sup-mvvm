@@ -25,7 +25,6 @@
 //! Collection of default constants for NodeEditor. Some constants a wrapped to function calls to
 //! make MISRA happy.
 
-#include <QColor>
 #include <QFont>
 #include <QRectF>
 
@@ -38,9 +37,9 @@ namespace mvvm::constants
 double GetDefaultPortRadius();
 
 /**
- * @brief Returns default color of the port.
+ * @brief Returns default font for ConnectableShape label.
  */
-const QColor& DefaultPortColor();
+const QFont& DefaultConnectableShapeFont();
 
 /**
  * @brief Returns default font for NodePort label.
