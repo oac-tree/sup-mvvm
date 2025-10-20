@@ -21,6 +21,7 @@
 #include "widget_utils.h"
 
 #include <mvvm/core/platform.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QApplication>
 #include <QColor>
@@ -116,16 +117,6 @@ QString WithTildeHomePath(const QString& path)
   return outPath;
 }
 
-std::int32_t WidthOfLetterM()
-{
-  return SizeOfLetterM().width();
-}
-
-std::int32_t HeightOfLetterM()
-{
-  return mvvm::utils::SizeOfLetterM().height();
-}
-
 QSize SizeOfLetterM()
 {
   // returning copy
@@ -212,7 +203,7 @@ QString CreatePathPresentation(const QString& text)
 
 std::int32_t UnitSize(double scale)
 {
-  return static_cast<std::int32_t>(std::round(WidthOfLetterM() * scale));
+  return style::UnitRoundSize(scale);
 }
 
 }  // namespace mvvm::utils

@@ -21,9 +21,9 @@
 #include "main_vertical_bar_widget.h"
 
 #include "appearance_helper.h"
-#include "widget_utils.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QButtonGroup>
 #include <QHBoxLayout>
@@ -67,12 +67,12 @@ std::pair<int, int> GetMaxWidthHeight(const QList<QAbstractButton*>& buttons)
  */
 int GetMargin()
 {
-  return mvvm::utils::WidthOfLetterM() * 0.75;
+  return mvvm::style::UnitSize(0.75);
 }
 
 int GetMinimumToolBarWidth()
 {
-  return mvvm::utils::WidthOfLetterM() * 7;
+  return mvvm::style::UnitSize(7.0);
 }
 
 }  // namespace

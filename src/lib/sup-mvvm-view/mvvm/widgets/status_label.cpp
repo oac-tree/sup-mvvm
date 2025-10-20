@@ -20,7 +20,7 @@
 
 #include "status_label.h"
 
-#include "widget_utils.h"
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QColor>
 #include <QFont>
@@ -75,9 +75,9 @@ void StatusLabel::paintEvent(QPaintEvent* event)
   painter.setPen(QColor(Qt::black));
   painter.setFont(m_font);
 
-  QRect bbox(0, 0, geometry().width(), geometry().height());
-  const int gap(utils::WidthOfLetterM() / 2);  // make it smaller
-  auto textRect = bbox.adjusted(gap, 0, gap, 0);
+  const QRectF bbox(0, 0, geometry().width(), geometry().height());
+  const auto gap = style::UnitSize(0.5);
+  auto textRect = bbox.adjusted(gap, 0, gap, 0);  // make it smaller
 
   painter.fillRect(bbox, QColor(Qt::white));
   painter.drawText(textRect, static_cast<int>(m_alignment), m_text);

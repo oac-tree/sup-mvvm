@@ -54,16 +54,6 @@ std::string RandomNamedColor();
 QString WithTildeHomePath(const QString& path);
 
 /**
- * @brief Returns width of the letter 'M' deduced from current font metrics.
- */
-std::int32_t WidthOfLetterM();
-
-/**
- * @brief Returns height of the letter 'M' deduced from current font metrics.
- */
-std::int32_t HeightOfLetterM();
-
-/**
  * @brief Returns size corresponding to the actual size of the letter `M` based on current font
  * metrics.
  */
