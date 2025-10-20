@@ -23,6 +23,7 @@
 
 #include <mvvm/nodeeditor/i_node_connection.h>
 #include <mvvm/nodeeditor/node_editor_types.h>
+#include <mvvm/nodeeditor/node_connection_style.h>
 
 #include <QGraphicsPathItem>
 #include <memory>
@@ -56,6 +57,7 @@ public:
 private:
   NodeTreeLayout m_tree_layout;
   std::unique_ptr<INodeConnection> m_node_connection;
+  NodeConnectionStyle m_connection_style;
 };
 
 }  // namespace mvvm

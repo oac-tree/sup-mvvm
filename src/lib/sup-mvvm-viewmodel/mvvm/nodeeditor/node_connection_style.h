@@ -39,8 +39,8 @@ struct NodeConnectionStyle
   QColor selected_color{Qt::gray};
   QColor selected_boundary_color{Qt::gray};
   QColor hover_color{Qt::gray};
-  double line_width{3.0};
-  double construction_line_width{2.0};
+  double line_width{2.0};
+  double construction_line_width{1.0};
   double point_diameter{10.0};
 };
 

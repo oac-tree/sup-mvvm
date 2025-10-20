@@ -33,8 +33,11 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
     : QGraphicsPathItem(nullptr)
     , m_tree_layout(tree_layout)
     , m_node_connection(std::move(node_connection))
+    , m_connection_style(CreateDefaultNodeConnectionStyle())
 {
   setFlag(QGraphicsItem::ItemIsSelectable, true);
+  setAcceptHoverEvents(true);
+
   setZValue(-1);  // hidden beneath port circles
 
   m_node_connection->SetNotifyShapeCallback([this]() { UpdatePath(); });
@@ -94,12 +97,14 @@ void NodeConnectionShape::paint(QPainter *painter, const QStyleOptionGraphicsIte
   (void)option;
   (void)widget;
 
-  painter->setPen(QPen(Qt::darkGray, 2));
+  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width, Qt::SolidLine,
+                       Qt::RoundCap, Qt::RoundJoin));
   painter->setBrush(Qt::NoBrush);
 
   if (isSelected())
   {
-    painter->setPen(Qt::DashLine);
+    painter->setPen(QPen(m_connection_style.selected_color, m_connection_style.line_width,
+                         Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
   }
 
   painter->drawPath(path());

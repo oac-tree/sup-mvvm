@@ -35,13 +35,10 @@ namespace
 NodeConnectionStyle CreateDefaultStyleForLightThemes()
 {
   NodeConnectionStyle result;
-  result.construction_color = QColor("gray");
-  result.base_color = QColor("darkcyan");
+  result.base_color = QColor("gray");
   result.selected_color = QColor("gray");
-  result.selected_boundary_color = QColor("darkorange");
-  result.hover_color = QColor("lightcyan");
-  result.line_width = 3.0;
-  result.construction_line_width = 2.0;
+  result.line_width = 2.0;
+  result.construction_line_width = 1.0;
   result.point_diameter = 10.0;
   return result;
 }
@@ -52,11 +49,8 @@ NodeConnectionStyle CreateDefaultStyleForLightThemes()
 NodeConnectionStyle CreateDefaultStyleForDarkThemes()
 {
   NodeConnectionStyle result = CreateDefaultStyleForLightThemes();
-  result.construction_color = QColor("gray");
-  result.base_color = QColor("darkcyan");
-  result.selected_color = QColor("gray");
-  result.selected_boundary_color = QColor("darkorange");
-  result.hover_color = QColor("dodgerblue");
+  result.base_color = QColor("lightgray");
+  result.selected_color = QColor("lightgray");
   return result;
 }
 
