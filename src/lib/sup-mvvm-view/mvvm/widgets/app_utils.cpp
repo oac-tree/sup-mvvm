@@ -20,9 +20,8 @@
 
 #include "app_utils.h"
 
-#include <mvvm/style/mvvm_style_helper.h>
-
 #include <mvvm/core/platform.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QApplication>
 #include <QDebug>

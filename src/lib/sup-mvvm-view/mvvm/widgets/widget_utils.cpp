@@ -34,19 +34,6 @@
 namespace mvvm::utils
 {
 
-namespace
-{
-/**
- * @brief Returns reference for M-size constant.
- */
-QSize& GetGlobalSizeReference()
-{
-  static QSize result = style::FindSizeOfLetterM();
-  return result;
-}
-
-}  // namespace
-
 int RandInt(std::int32_t low, std::int32_t high)
 {
   std::random_device rd;
@@ -86,15 +73,6 @@ QString WithTildeHomePath(const QString& path)
     out_path = path;
   }
   return out_path;
-}
-
-void SetApplicationFont(const QFont& font)
-{
-  // assigning new size to our global M constant
-  auto& ref = GetGlobalSizeReference();
-  ref = style::GetUnitSizeFromFont(font);
-
-  QApplication::setFont(font);
 }
 
 QMainWindow* FindMainWindow()

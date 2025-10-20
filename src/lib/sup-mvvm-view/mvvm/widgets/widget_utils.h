@@ -49,11 +49,6 @@ std::string RandomNamedColor();
 QString WithTildeHomePath(const QString& path);
 
 /**
- * @brief Sets the global font for the application.
- */
-void SetApplicationFont(const QFont& font);
-
-/**
  * @brief Finds main window.
  */
 QMainWindow* FindMainWindow();
