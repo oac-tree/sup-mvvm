@@ -54,20 +54,9 @@ std::string RandomNamedColor();
 QString WithTildeHomePath(const QString& path);
 
 /**
- * @brief Returns size corresponding to the actual size of the letter `M` based on current font
- * metrics.
- */
-QSize SizeOfLetterM();
-
-/**
  * @brief Sets the global font for the application.
  */
 void SetApplicationFont(const QFont& font);
-
-/**
- * @brief Returns size in points of default system font.
- */
-std::int32_t SystemPointSize();
 
 /**
  * @brief Finds main window.

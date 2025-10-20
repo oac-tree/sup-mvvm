@@ -20,7 +20,7 @@
 
 #include "app_utils.h"
 
-#include "widget_utils.h"
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <mvvm/core/platform.h>
 
@@ -79,7 +79,7 @@ QString GetEnvironmentInfo()
 QString GetFontInfo()
 {
   QString result;
-  auto size = ::mvvm::utils::SizeOfLetterM();
+  auto size = ::mvvm::style::FindSizeOfLetterM();
   result +=
       GetHeaderText("Size of letter M") + QString("(%1, %2)").arg(size.width()).arg(size.height());
   result += "\n";

@@ -23,7 +23,6 @@
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>
 
-#include <QDebug>
 #include <QDir>
 #include <QSize>
 
@@ -35,20 +34,6 @@ namespace mvvm::test
 class WidgetUtilsTest : public ::testing::Test
 {
 };
-
-//! Test of system font (performed deliberately without QApplication running).
-//! Checking that the method SystemPointSize() known hardcoded value.
-
-TEST_F(WidgetUtilsTest, SystemPointSize)
-{
-  EXPECT_TRUE(utils::SystemPointSize() > 0);
-}
-
-TEST_F(WidgetUtilsTest, SizeOfLetterM)
-{
-  EXPECT_TRUE(utils::SizeOfLetterM().width() > 0);
-  EXPECT_TRUE(utils::SizeOfLetterM().height() > 0);
-}
 
 TEST_F(WidgetUtilsTest, ClickableText)
 {

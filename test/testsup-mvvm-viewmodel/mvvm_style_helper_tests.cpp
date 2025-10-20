@@ -29,6 +29,11 @@ class MvvmStyleHelper : public ::testing::Test
 {
 };
 
+TEST_F(MvvmStyleHelper, SystemPointSize)
+{
+  EXPECT_TRUE(style::SystemPointSize() > 0);
+}
+
 TEST_F(MvvmStyleHelper, ScaleToSystemFont)
 {
   // Unit tests are in headless mode, QApplication is absent and "aplication" font size if always

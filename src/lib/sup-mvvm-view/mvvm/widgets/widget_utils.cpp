@@ -117,12 +117,6 @@ QString WithTildeHomePath(const QString& path)
   return outPath;
 }
 
-QSize SizeOfLetterM()
-{
-  // returning copy
-  return GetGlobalSizeReference();
-}
-
 void SetApplicationFont(const QFont& font)
 {
   // assigning new size to our global M constant
@@ -130,12 +124,6 @@ void SetApplicationFont(const QFont& font)
   ref = GetUnitSizeFromFont(font);
 
   QApplication::setFont(font);
-}
-
-std::int32_t SystemPointSize()
-{
-  const std::int32_t default_size = 10;  // when no application is running
-  return QApplication::instance() ? QApplication::font().pointSize() : default_size;
 }
 
 QMainWindow* FindMainWindow()
@@ -158,7 +146,7 @@ QString ClickableText(const QString& text, const QString& link)
 void ScaleLabelFont(QLabel* label, double scale, bool is_bold)
 {
   QFont font = label->font();
-  font.setPointSize(static_cast<std::int32_t>(mvvm::utils::SystemPointSize() * scale));
+  font.setPointSize(static_cast<std::int32_t>(style::SystemPointSize() * scale));
   if (is_bold)
   {
     font.setBold(true);
