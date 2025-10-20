@@ -21,6 +21,8 @@
 #include "mvvm_style_helper.h"
 
 #include <QApplication>
+#include <QFont>
+#include <QFontMetrics>
 #include <QPalette>
 
 namespace mvvm::style
@@ -36,6 +38,50 @@ bool IsDarkTheme()
   }
 
   return false;
+}
+
+std::int32_t SystemReferencePointSize()
+{
+  constexpr std::int32_t kFixedSize = 10;
+  return kFixedSize;
+}
+
+std::int32_t SystemPointSize()
+{
+  return QApplication::instance() ? QApplication::font().pointSize() : SystemReferencePointSize();
+}
+
+QSize GetUnitSizeFromFont(const QFont &font)
+{
+  const QFontMetrics font_metric(font);
+  auto horizontal_advance = font_metric.horizontalAdvance('M');
+  auto font_ascent = font_metric.ascent();
+  return {horizontal_advance, font_ascent};
+}
+
+QSize FindSizeOfLetterM()
+{
+  if (QApplication::instance())
+  {
+    return GetUnitSizeFromFont(QApplication::font());
+  }
+
+  // when no QApplication is running return something for purpose of unit tests
+  const std::int32_t default_width = 11;
+  const std::int32_t default_height = 14;
+  return {default_width, default_height};
+}
+
+double UnitSize(double scale)
+{
+  static const QSize kUnitSize = FindSizeOfLetterM();
+  return kUnitSize.width() * scale;
+}
+
+int32_t UnitRoundSize(double scale)
+{
+  // simple rounting policy (consider aligning with HighDpiScaleFactorRoundingPolicy)
+  return static_cast<std::int32_t>(UnitSize(scale));
 }
 
 }  // namespace mvvm::style
