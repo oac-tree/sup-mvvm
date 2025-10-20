@@ -47,9 +47,9 @@ bool IsDarkTheme();
 std::int32_t SystemReferencePointSize();
 
 /**
- * @brief Returns size in points of the current QApplication font.
+ * @brief Returns size in points of the current QApplication font scaled by the given ammount.
  */
-std::int32_t SystemPointSize();
+std::int32_t SystemPointSize(double scale = 1.0);
 
 /**
  * @brief Calculates the size of the letter `M` from the given font.

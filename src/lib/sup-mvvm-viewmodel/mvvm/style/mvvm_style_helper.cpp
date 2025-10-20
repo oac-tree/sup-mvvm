@@ -47,9 +47,11 @@ std::int32_t SystemReferencePointSize()
   return kFixedSize;
 }
 
-std::int32_t SystemPointSize()
+std::int32_t SystemPointSize(double scale)
 {
-  return QApplication::instance() ? QApplication::font().pointSize() : SystemReferencePointSize();
+  std::int32_t current_psize =
+      QApplication::instance() ? QApplication::font().pointSize() : SystemReferencePointSize();
+  return static_cast<std::int32_t>(static_cast<double>(current_psize) * scale);
 }
 
 QSize GetUnitSizeFromFont(const QFont &font)
@@ -94,7 +96,7 @@ double ScaleToSystemFont(double device_independent_pixels)
 void ScaleLabelFont(QLabel &label, double scale, bool is_bold)
 {
   QFont font = label.font();
-  font.setPointSize(static_cast<std::int32_t>(style::SystemPointSize() * scale));
+  font.setPointSize(style::SystemPointSize(scale));
   if (is_bold)
   {
     font.setBold(true);

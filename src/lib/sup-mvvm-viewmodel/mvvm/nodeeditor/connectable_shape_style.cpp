@@ -46,7 +46,7 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
   result.round_par = 5.0;
   result.pen_width = 1.0;
   result.howered_pen_width = 1.5;
-  result.label_font = QFont("Noto Sans", style::UnitRoundSize(0.8), QFont::Normal);
+  result.label_font = QFont("Noto Sans", style::SystemPointSize(0.8), QFont::Normal);
 
   return result;
 }
