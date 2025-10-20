@@ -25,14 +25,9 @@
 //! Collection of various widget-related utils.
 
 #include <QString>
-#include <QStringList>
-#include <cstdint>
-#include <string>
 
 class QColor;
-class QSize;
 class QMainWindow;
-class QLabel;
 class QFont;
 
 namespace mvvm::utils
@@ -83,15 +78,6 @@ QString ClickableText(const QString& text, const QString& link = {});
  * "/ <a href="/home">home</a> / <a href="/home/user">user</a>"
  */
 QString CreatePathPresentation(const QString& text);
-
-/**
- * @brief Returns characteristic UI size scaled by a given factor.
- *
- * Characteristic size corresponds to the width of the letter 'M', expressed in units of Qt's own
- * virtual coordinate system. The user is expected to express all widget sizes in these units to be
- * truly independent of any high-DPI issues.
- */
-std::int32_t UnitSize(double scale = 1.0);
 
 }  // namespace mvvm::utils
 

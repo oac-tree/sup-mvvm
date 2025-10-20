@@ -31,7 +31,7 @@ namespace mvvm::constants
 
 double GetDefaultPortRadius()
 {
-  return style::UnitSize(0.4);
+  return style::UnitSizeF(0.4);
 }
 
 const QColor &DefaultPortColor()
@@ -48,7 +48,7 @@ const QFont &DefaultPortLabelFont()
 
 const QRectF &DefaultConnectableShapeRect()
 {
-  static const QRectF kDefaultRect{0, 0, style::UnitSize(8.2), style::UnitSize(10.0)};
+  static const QRectF kDefaultRect{0, 0, style::UnitSizeF(8.2), style::UnitSizeF(10.0)};
   return kDefaultRect;
 }
 

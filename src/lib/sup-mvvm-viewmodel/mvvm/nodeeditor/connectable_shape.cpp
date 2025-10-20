@@ -57,8 +57,8 @@ QRectF GetLabelRectangle(const QRectF &rect)
   const QRectF result(rect.x(), rect.y(), rect.width(), rect.height() / 2);
 
   // slightly shrink it
-  auto side_gap = style::UnitSize(0.25);
-  auto top_gap = style::UnitSize(0.75);
+  auto side_gap = style::UnitSizeF(0.25);
+  auto top_gap = style::UnitSizeF(0.75);
   return result.marginsRemoved(
       QMarginsF(side_gap, top_gap, side_gap, 0.0));  // left, top, right, bottom
 }

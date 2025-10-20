@@ -26,48 +26,22 @@
 #include <QApplication>
 #include <QColor>
 #include <QDir>
-#include <QFontMetrics>
 #include <QLabel>
 #include <QMainWindow>
 #include <QSize>
 #include <random>
 
+namespace mvvm::utils
+{
+
 namespace
 {
-
-/**
- * @brief Calculates the size of the letter `M` from the given font.
- */
-QSize GetUnitSizeFromFont(const QFont& font)
-{
-  const QFontMetrics font_metric(font);
-  auto horizontal_advance = font_metric.horizontalAdvance('M');
-  auto font_ascent = font_metric.ascent();
-  return {horizontal_advance, font_ascent};
-}
-
-/**
- * @brief Calculate the size of letter 'M' from system font.
- */
-QSize FindSizeOfLetterM()
-{
-  if (QApplication::instance())
-  {
-    return GetUnitSizeFromFont(QApplication::font());
-  }
-
-  // when no QApplication is running return something for purpose of unit tests
-  const std::int32_t default_width = 11;
-  const std::int32_t default_height = 14;
-  return {default_width, default_height};
-}
-
 /**
  * @brief Returns reference for M-size constant.
  */
 QSize& GetGlobalSizeReference()
 {
-  static QSize result = FindSizeOfLetterM();
+  static QSize result = style::FindSizeOfLetterM();
   return result;
 }
 
@@ -80,9 +54,6 @@ int RandInt(std::int32_t low, std::int32_t high)
   std::uniform_int_distribution<std::int32_t> uniform_int(low, high);
   return uniform_int(gen);
 }
-
-namespace mvvm::utils
-{
 
 QColor RandomColor()
 {
@@ -104,24 +75,24 @@ QString WithTildeHomePath(const QString& path)
 
   static const QString homePath = QDir::homePath();
 
-  const QFileInfo fi(QDir::cleanPath(path));
-  QString outPath = fi.absoluteFilePath();
-  if (outPath.startsWith(homePath))
+  const QFileInfo file_info(QDir::cleanPath(path));
+  QString out_path = file_info.absoluteFilePath();
+  if (out_path.startsWith(homePath))
   {
-    outPath = QLatin1Char('~') + outPath.mid(homePath.size());
+    out_path = QLatin1Char('~') + out_path.mid(homePath.size());
   }
   else
   {
-    outPath = path;
+    out_path = path;
   }
-  return outPath;
+  return out_path;
 }
 
 void SetApplicationFont(const QFont& font)
 {
   // assigning new size to our global M constant
   auto& ref = GetGlobalSizeReference();
-  ref = GetUnitSizeFromFont(font);
+  ref = style::GetUnitSizeFromFont(font);
 
   QApplication::setFont(font);
 }
@@ -176,11 +147,6 @@ QString CreatePathPresentation(const QString& text)
     }
   }
   return result;
-}
-
-std::int32_t UnitSize(double scale)
-{
-  return style::UnitRoundSize(scale);
 }
 
 }  // namespace mvvm::utils

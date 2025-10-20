@@ -49,7 +49,7 @@ std::int32_t SystemReferencePointSize()
 
 std::int32_t SystemPointSize(double scale)
 {
-  std::int32_t current_psize =
+  const std::int32_t current_psize =
       QApplication::instance() ? QApplication::font().pointSize() : SystemReferencePointSize();
   return static_cast<std::int32_t>(static_cast<double>(current_psize) * scale);
 }
@@ -75,16 +75,16 @@ QSize FindSizeOfLetterM()
   return {default_width, default_height};
 }
 
-double UnitSize(double scale)
+double UnitSizeF(double scale)
 {
   static const QSize kUnitSize = FindSizeOfLetterM();
   return kUnitSize.width() * scale;
 }
 
-int32_t UnitRoundSize(double scale)
+int32_t UnitSize(double scale)
 {
   // simple rounting policy (consider aligning with HighDpiScaleFactorRoundingPolicy)
-  return static_cast<std::int32_t>(UnitSize(scale));
+  return static_cast<std::int32_t>(UnitSizeF(scale));
 }
 
 double ScaleToSystemFont(double device_independent_pixels)

@@ -21,6 +21,7 @@
 #include "project_pane_widget.h"
 
 #include <mvvm/project/project_utils.h>
+#include <mvvm/style/mvvm_style_helper.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QLabel>
@@ -31,16 +32,6 @@
 namespace saveloadproject
 {
 
-namespace
-{
-
-int GetWidgetHeight()
-{
-  return mvvm::utils::UnitSize(4.5);
-}
-
-}  // namespace
-
 ProjectPaneWidget::ProjectPaneWidget(QWidget* parent)
     : QWidget(parent)
     , m_current_project_title(new QLabel(" "))
@@ -48,7 +39,7 @@ ProjectPaneWidget::ProjectPaneWidget(QWidget* parent)
     , m_widget_color(QColor(Qt::white))
 {
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-  setFixedHeight(GetWidgetHeight());
+  setFixedHeight(mvvm::style::UnitSize(4.5));
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_current_project_title);
   layout->addWidget(m_current_project_dir);

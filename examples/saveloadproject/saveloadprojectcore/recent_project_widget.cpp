@@ -22,8 +22,8 @@
 
 #include "project_pane_widget.h"
 
+#include <mvvm/style/mvvm_style_helper.h>
 #include <mvvm/widgets/adjusting_scroll_area.h>
-#include <mvvm/widgets/widget_utils.h>
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -73,13 +73,13 @@ void RecentProjectWidget::UpdateRecentProjectsList(const QStringList& paths)
 
 QSize RecentProjectWidget::sizeHint() const
 {
-  const auto panel_width = mvvm::utils::UnitSize(32);
+  const auto panel_width = mvvm::style::UnitSize(32);
   return {panel_width, panel_width * 2};
 }
 
 QSize RecentProjectWidget::minimumSizeHint() const
 {
-  const auto minimum_panel_width = mvvm::utils::UnitSize(16);
+  const auto minimum_panel_width = mvvm::style::UnitSize(16);
   return {minimum_panel_width, minimum_panel_width * 2};
 }
 
@@ -116,7 +116,7 @@ QWidget* RecentProjectWidget::CreateRecentProjectScrollArea()
   auto content = new QWidget;
   auto layout = new QVBoxLayout;
   layout->addLayout(CreateCurrentProjectLayout());
-  layout->addSpacing(mvvm::utils::UnitSize());
+  layout->addSpacing(mvvm::style::UnitSize());
   layout->addLayout(CreateRecentProjectLayout());
   content->setLayout(layout);
 
