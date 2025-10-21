@@ -52,12 +52,15 @@ bool IsDarkTheme()
 
 std::int32_t SystemReferencePointSize()
 {
+  // Fixed reference size representing point size of the default font on a typical system.
   constexpr std::int32_t kFixedSize = 10;
   return kFixedSize;
 }
 
 int32_t SystemReferenceUnitSize()
 {
+  // Fixed reference size representing width of letter 'M' in device independent pixels on a typical
+  // system.
   constexpr std::int32_t kFixedSize = 12;
   return kFixedSize;
 }
@@ -109,12 +112,19 @@ int32_t UnitSize(double scale)
 
 double ScaleToSystem(double device_independent_pixels)
 {
-  // Scaling according to the default system font point size.
-  // return device_independent_pixels * static_cast<double>(SystemPointSize())
-  // / static_cast<double>(SystemReferencePointSize());
+  constexpr bool kScaleAccordingToPointSize = false;
 
-  // On CODAC systems we prefer scaling according to 'M' size rather than point size.
-  // This is related to the fact that device-to-pixel ratio and point size feel entangled there.
+  if (kScaleAccordingToPointSize)
+  {
+    // Scaling according to the default system font point size.
+    return device_independent_pixels * static_cast<double>(SystemPointSize())
+           / static_cast<double>(SystemReferencePointSize());
+  }
+
+  // On CODAC systems and CODAC containers, we prefer scaling according to 'M' size rather than
+  // point size. This is related to the fact that, depending on the arrangement of stars in the sky,
+  // on CODAC the same point size might correspond to different physical sizes of characters.
+
   return device_independent_pixels * static_cast<double>(UnitSize())
          / static_cast<double>(SystemReferenceUnitSize());
 }

@@ -99,13 +99,26 @@ std::int32_t UnitSize(double scale = 1.0);
  * This method is used to scale Qt UI elements' sizes so that they look consistent on systems with
  * different system font and HighDPI settings.
  *
- * @param device_independent_pixels Size of widgets in device-independent pixels.
+ * @param device_independent_pixels Size of UI elements in device-independent pixels.
  * @return Size scaled to the current system setting.
  *
  * @details Qt widget sizes are given in device-independent pixels. During the painting they will be
- * already scaled according to the system DPI settings by the Qt framework. However, different
- * systems may have different default system font sizes and different device-pixel-ratios.
- * Therefore, this method allows for scaling sizes further.
+ * already scaled according to the system DPI settings by the Qt framework. See
+ * https://doc.qt.io/qt-6/highdpi.html for more details.
+ *
+ * This function adds additional scaling based on the real physical size of the current system font
+ * size. This addreses two issues:
+ * 1) Different systems may have different optimal physical sizes for system fonts. In this case we
+ * want to scale all other UI elements proportionally to the system font size.
+ * 2) On some systems (especially running in the containers) the device pixel ratio reported by the
+ * system may be wrong. In this case we want to additionally scale the UI elements to achieve
+ * correct physical size.
+ *
+ * @details The logic of using this function is the following. When you have a size of some UI
+ * element set to 64 pixels (i.e. widget.setFixedWidth(64)), and the element looks great on your
+ * machine, the safest would be to introduce additional scaling by
+ * widget.setFixedWidth(ScaleToSystem(64)). This will ensure that on other systems (even with a
+ * screwed device-pixel-ratio) the element will still look great.
  *
  * @see UnitSize(double scale)
  */
