@@ -43,7 +43,7 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
   result.selected_boundary_color = QColor("cornflowerblue");
   result.shadow_enabled = true;
   result.shadow_color = Qt::lightGray;
-  result.round_par = style::ScaleToSystem(5.0);
+  result.round_par = style::UnitSize(0.5);
   result.pen_width = style::ScaleToSystem(1.0);
   result.howered_pen_width = style::ScaleToSystem(1.5);
   result.label_font = constants::GetDefaultConnectableShapeFont();

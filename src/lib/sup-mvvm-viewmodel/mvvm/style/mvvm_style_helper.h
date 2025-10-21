@@ -85,13 +85,18 @@ std::int32_t UnitSize(double scale = 1.0);
  * This method is used to scale Qt UI elements' sizes so that they look consistent on systems with
  * different font size settings.
  *
- * Qt widget sizes are given in device-independent pixels. During the painting they will be already
- * scaled according to the system DPI settings by the Qt framework. However, different systems may
- * have different default font sizes. This method allows for scaling sizes further according to the
- * system font size.
- *
  * @param device_independent_pixels Size of widgets in device-independent pixels.
  * @return Size scaled to the current system font.
+ *
+ * @details Qt widget sizes are given in device-independent pixels. During the painting they will be
+ * already scaled according to the system DPI settings by the Qt framework. However, different
+ * systems may have different default font sizes. This method allows for scaling sizes further
+ * according to the system font size.
+ *
+ * @details While providing perfect results on any reasonable system, this method doesn't work on
+ * CODAC systems. The default font size, device-to-pixel-ratio, and real size of letter 'M' feel a
+ * bit entangled there. Thus, the only reliable way to have consistent sizes is to use UnitSize()
+ * method and express all sizes in units of letter 'M'.
  *
  * @see UnitSize(double scale)
  */

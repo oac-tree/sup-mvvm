@@ -30,7 +30,7 @@ namespace mvvm::constants
 
 double GetDefaultPortRadius()
 {
-  return style::ScaleToSystem(5);
+  return style::UnitSizeF(0.4);
 }
 
 QFont GetDefaultConnectableShapeFont()
@@ -45,9 +45,8 @@ QFont GetDefaultPortLabelFont()
 
 QRectF GetDefaultConnectableShapeRect()
 {
-  // Rectangle [width x height] in Qt's device independent pixels (i.e. scaled automatically on
-  // high-DPI screens) and scaled further to current application main font settings.
-  return QRectF{0, 0, style::ScaleToSystem(100), style::ScaleToSystem(130)};
+  // Expressing the size of the rectangle in units if width of letter 'M'
+  return QRectF{0, 0, style::UnitSizeF(8.2), style::UnitSizeF(10.0)};
 }
 
 }  // namespace mvvm::constants
