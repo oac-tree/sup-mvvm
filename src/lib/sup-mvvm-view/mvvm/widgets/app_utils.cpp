@@ -87,10 +87,10 @@ QString GetFontInfo()
       GetHeaderText("Size of letter M") + QString("(%1, %2)").arg(size.width()).arg(size.height());
   result += "\n";
 
-  auto font = QGuiApplication::font();
+  auto font = QApplication::font();
   result += GetHeaderText("Default font point size")
             + QString("%1 (%2F)").arg(font.pointSize()).arg(font.pointSizeF()) + " "
-            + font.defaultFamily();
+            + font.family();
   result += "\n";
 
   return result;
