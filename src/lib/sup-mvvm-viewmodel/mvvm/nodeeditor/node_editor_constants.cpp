@@ -33,22 +33,21 @@ double GetDefaultPortRadius()
   return style::ScaleToSystem(5);
 }
 
-const QFont &DefaultConnectableShapeFont()
+QFont GetDefaultConnectableShapeFont()
 {
-  static const QFont kLabelFont("Noto Sans", style::SystemPointSize(1.0), QFont::Normal);
-  return kLabelFont;
+  return QFont("Noto Sans", style::SystemPointSize(1.0), QFont::Normal);
 }
 
-const QFont &DefaultPortLabelFont()
+QFont GetDefaultPortLabelFont()
 {
-  static const QFont kLabelFont("Monospace", style::SystemPointSize(0.8), QFont::Normal);
-  return kLabelFont;
+  return QFont("Monospace", style::SystemPointSize(0.8), QFont::Normal);
 }
 
-const QRectF &DefaultConnectableShapeRect()
+QRectF GetDefaultConnectableShapeRect()
 {
-  static const QRectF kDefaultRect{0, 0, style::ScaleToSystem(100), style::ScaleToSystem(130)};
-  return kDefaultRect;
+  // Rectangle [width x height] in Qt's device independent pixels (i.e. scaled automatically on
+  // high-DPI screens) and scaled further to current application main font settings.
+  return QRectF{0, 0, style::ScaleToSystem(100), style::ScaleToSystem(130)};
 }
 
 }  // namespace mvvm::constants

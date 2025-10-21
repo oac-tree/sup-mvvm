@@ -74,7 +74,7 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
   const auto &port_style = m_port_appearance.GetPortStyle();
 
-  static const QPen pen = QPen(port_style.pen_color, port_style.pen_width);
+  const QPen pen = QPen(port_style.pen_color, port_style.pen_width);
   const QBrush brush = QBrush(GetPortColor());
 
   painter->setRenderHint(QPainter::Antialiasing);
@@ -170,7 +170,7 @@ QRectF GetLabelRect(PortLocation port_location, const QPointF &port_position, co
   }
 
   QRectF label_rect;
-  const QFontMetrics font_metrics = QFontMetrics(constants::DefaultPortLabelFont());
+  const QFontMetrics font_metrics = QFontMetrics(constants::GetDefaultPortLabelFont());
   label_rect = font_metrics.boundingRect(label);
   const double label_gap = 2.0 * constants::GetDefaultPortRadius();
 

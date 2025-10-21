@@ -37,9 +37,9 @@ NodeConnectionStyle CreateDefaultStyleForLightThemes()
   NodeConnectionStyle result;
   result.base_color = QColor("gray");
   result.selected_color = QColor("gray");
-  result.line_width = 2.0;
-  result.construction_line_width = 1.0;
-  result.point_diameter = 10.0;
+  result.line_width = style::ScaleToSystem(2.0);
+  result.construction_line_width = style::ScaleToSystem(1.0);
+  result.point_diameter = style::ScaleToSystem(10.0);
   return result;
 }
 

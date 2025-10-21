@@ -41,7 +41,7 @@ NodePortStyle CreateDefaultStyleForLightThemes()
   result.radius = constants::GetDefaultPortRadius();
   result.radius_hovered = constants::GetDefaultPortRadius();
   result.pen_color = QColor("navajowhite").darker(180);
-  result.pen_width = 1.0;
+  result.pen_width = style::ScaleToSystem(1.0);
 
   return result;
 }

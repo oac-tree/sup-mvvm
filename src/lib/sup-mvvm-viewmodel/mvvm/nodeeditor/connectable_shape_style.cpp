@@ -38,15 +38,15 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
   ConnectableShapeStyle result;
 
   result.base_color = Qt::lightGray;
-  result.base_rect = constants::DefaultConnectableShapeRect();
+  result.base_rect = constants::GetDefaultConnectableShapeRect();
   result.boundary_color = Qt::darkGray;
   result.selected_boundary_color = QColor("cornflowerblue");
   result.shadow_enabled = true;
   result.shadow_color = Qt::lightGray;
-  result.round_par = 5.0;
-  result.pen_width = 1.0;
-  result.howered_pen_width = 1.5;
-  result.label_font = constants::DefaultConnectableShapeFont();
+  result.round_par = style::ScaleToSystem(5.0);
+  result.pen_width = style::ScaleToSystem(1.0);
+  result.howered_pen_width = style::ScaleToSystem(1.5);
+  result.label_font = constants::GetDefaultConnectableShapeFont();
 
   return result;
 }

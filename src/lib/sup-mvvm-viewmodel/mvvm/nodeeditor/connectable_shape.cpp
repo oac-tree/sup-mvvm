@@ -121,8 +121,8 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
   painter->drawRoundedRect(GetShapeRect(), m_shape_style.round_par, m_shape_style.round_par);
 
   // plotting label
-  static const QFont label_font = m_shape_style.label_font;
-  static const QRectF label_rect = GetLabelRectangle(GetShapeRect());
+  const QFont label_font = m_shape_style.label_font;
+  const QRectF label_rect = GetLabelRectangle(GetShapeRect());
   painter->setFont(label_font);
   painter->setPen(Qt::black);
   QTextOption text_option(Qt::AlignHCenter | Qt::AlignTop);

@@ -39,17 +39,17 @@ double GetDefaultPortRadius();
 /**
  * @brief Returns default font for ConnectableShape label.
  */
-const QFont& DefaultConnectableShapeFont();
+QFont GetDefaultConnectableShapeFont();
 
 /**
  * @brief Returns default font for NodePort label.
  */
-const QFont& DefaultPortLabelFont();
+QFont GetDefaultPortLabelFont();
 
 /**
  * @brief Returns default rectangle for connectable shape.
  */
-const QRectF& DefaultConnectableShapeRect();
+QRectF GetDefaultConnectableShapeRect();
 
 }  // namespace mvvm::constants
 
