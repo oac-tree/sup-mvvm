@@ -100,7 +100,7 @@ double UnitSizeF(double scale)
 
 int32_t UnitSize(double scale)
 {
-  // simple rounting policy (consider aligning with HighDpiScaleFactorRoundingPolicy)
+  // simple rounding policy (consider aligning with HighDpiScaleFactorRoundingPolicy)
   return static_cast<std::int32_t>(UnitSizeF(scale));
 }
 

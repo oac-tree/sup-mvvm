@@ -45,7 +45,7 @@ QFont GetDefaultPortLabelFont()
 
 QRectF GetDefaultConnectableShapeRect()
 {
-  // Expressing the size of the rectangle in units if width of letter 'M'
+  // Expressing the size of the rectangle in units of width of letter 'M'
   return QRectF{0, 0, style::UnitSizeF(8.2), style::UnitSizeF(10.0)};
 }
 
