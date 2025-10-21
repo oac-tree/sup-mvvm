@@ -242,20 +242,4 @@ void SetupHighDpiScaling(bool use_environment_variable)
   }
 }
 
-void SetApplicationFontSize(int point_size)
-{
-  if (point_size <= 0)
-  {
-    // user didn't provide any meaningful font size from the command line
-    return;
-  }
-
-  // We retrive current application font to set the size, and then reuse.
-  // This will preserve all other font properties.
-  auto font = QApplication::font();
-  font.setPointSize(point_size);
-  font.setHintingPreference(QFont::PreferVerticalHinting);
-  QApplication::setFont(font);
-}
-
 }  // namespace mvvm::utils

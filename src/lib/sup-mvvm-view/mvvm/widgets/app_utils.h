@@ -50,13 +50,6 @@ std::string GetDesktopInfo();
  */
 void SetupHighDpiScaling(bool scale_from_environment = false);
 
-/**
- * @brief Sets application main font point size.
- *
- * @param point_size The font size in points.
- */
-void SetApplicationFontSize(int point_size);
-
 }  // namespace mvvm::utils
 
 #endif  // MVVM_WIDGETS_APP_UTILS_H_
