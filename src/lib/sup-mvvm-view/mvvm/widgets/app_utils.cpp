@@ -36,11 +36,15 @@
 namespace
 {
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+
 Qt::HighDpiScaleFactorRoundingPolicy GetDefaultHighDpiScaleFactorRoundingPolicy()
 {
   return mvvm::IsMacHost() ? Qt::HighDpiScaleFactorRoundingPolicy::Unset
                            : Qt::HighDpiScaleFactorRoundingPolicy::Round;
 }
+
+#endif
 
 /**
  * @brief Return text of the header.
