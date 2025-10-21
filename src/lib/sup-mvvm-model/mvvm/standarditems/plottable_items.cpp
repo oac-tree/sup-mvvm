@@ -23,7 +23,6 @@
 #include "editor_constants.h"
 
 #include <mvvm/model/item_limits_helper.h>
-#include <mvvm/standarditems/standard_item_helper.h>
 #include <mvvm/utils/container_utils.h>
 
 namespace mvvm
@@ -58,8 +57,8 @@ TextItem::TextItem() : CompoundItem(GetTypeName<TextItem>())
 {
   (void)SetEditable(false);  // to disable editing of on-board data
   (void)AddProperty(kText, "").SetDisplayName("Text");
-  (void)AddProperty(kFont, GetDefaultAxisFontFamily()).SetDisplayName("Font");
-  (void)AddProperty(kSize, GetDefaultAxisTitlePointSize()).SetDisplayName("Size");
+  (void)AddProperty(kFont, std::string(kDefaultFontFamily)).SetDisplayName("Font");
+  (void)AddProperty(kSize, kDefaultPointSize).SetDisplayName("Size");
 }
 
 std::unique_ptr<SessionItem> TextItem::Clone() const

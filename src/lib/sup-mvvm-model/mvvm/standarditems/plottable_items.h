@@ -35,6 +35,8 @@ namespace mvvm
 class TextItem : public CompoundItem
 {
 public:
+  static constexpr std::int32_t kDefaultPointSize = 10;
+  static constexpr std::string_view kDefaultFontFamily = "Noto Sans";
   TextItem();
 
   std::unique_ptr<SessionItem> Clone() const override;

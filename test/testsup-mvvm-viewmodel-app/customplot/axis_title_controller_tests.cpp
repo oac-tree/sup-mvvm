@@ -22,7 +22,6 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/plottable_items.h>
-#include <mvvm/standarditems/standard_item_helper.h>
 
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
@@ -65,8 +64,8 @@ TEST_F(AxisTitleControllerTest, SetTextItem)
   EXPECT_EQ(controller.GetItem(), textItem);
 
   EXPECT_EQ(axis->label(), QString());
-  EXPECT_EQ(axis->labelFont().family().toStdString(), GetDefaultAxisFontFamily());
-  EXPECT_EQ(axis->labelFont().pointSize(), GetDefaultAxisTitlePointSize());
+  EXPECT_EQ(axis->labelFont().family().toStdString(), TextItem::kDefaultFontFamily);
+  EXPECT_EQ(axis->labelFont().pointSize(), TextItem::kDefaultPointSize);
 }
 
 TEST_F(AxisTitleControllerTest, SetFont)
