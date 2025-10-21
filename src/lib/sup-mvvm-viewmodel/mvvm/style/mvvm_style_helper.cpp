@@ -56,6 +56,12 @@ std::int32_t SystemReferencePointSize()
   return kFixedSize;
 }
 
+int32_t SystemReferenceUnitSize()
+{
+  constexpr std::int32_t kFixedSize = 12;
+  return kFixedSize;
+}
+
 std::int32_t SystemPointSize(double scale)
 {
   const std::int32_t current_psize =
@@ -79,7 +85,7 @@ QSize FindSizeOfLetterM()
   }
 
   // when no QApplication is running return something for purpose of unit tests
-  const std::int32_t default_width = 11;
+  const std::int32_t default_width = SystemReferenceUnitSize();
   const std::int32_t default_height = 14;
   return {default_width, default_height};
 }
@@ -92,10 +98,7 @@ double UnitSizeF(double scale)
     static const QSize kUnitSizeStatic = FindSizeOfLetterM();
     return kUnitSizeStatic.width() * scale;
   }
-  else
-  {
-    return FindSizeOfLetterM().width() * scale;
-  }
+  return FindSizeOfLetterM().width() * scale;
 }
 
 int32_t UnitSize(double scale)
@@ -106,8 +109,14 @@ int32_t UnitSize(double scale)
 
 double ScaleToSystem(double device_independent_pixels)
 {
-  return device_independent_pixels * static_cast<double>(SystemPointSize())
-         / static_cast<double>(SystemReferencePointSize());
+  // Scaling according to the default system font point size.
+  // return device_independent_pixels * static_cast<double>(SystemPointSize())
+  // / static_cast<double>(SystemReferencePointSize());
+
+  // On CODAC systems we prefer scaling according to 'M' size rather than point size.
+  // This is related to the fact that device-to-pixel ratio and point size feel entangled there.
+  return device_independent_pixels * static_cast<double>(UnitSize())
+         / static_cast<double>(SystemReferenceUnitSize());
 }
 
 void ScaleLabelFont(QLabel &label, double scale, bool is_bold)

@@ -47,6 +47,16 @@ bool IsDarkTheme();
 std::int32_t SystemReferencePointSize();
 
 /**
+ * @brief Returns unit size of the "reference" QApplication font.
+ *
+ * It represents a width of the letter 'M' in device independent pixels.
+ *
+ * This is a fixed size which never changes. It is used for reference when QApplication is not
+ * available.
+ */
+std::int32_t SystemReferenceUnitSize();
+
+/**
  * @brief Returns size in points of the current QApplication font scaled by the given ammount.
  */
 std::int32_t SystemPointSize(double scale = 1.0);
@@ -73,30 +83,29 @@ QSize FindSizeOfLetterM();
 double UnitSizeF(double scale = 1.0);
 
 /**
- * @brief Characteristic size of the UI element scaled by a given factor.
+ * @brief Characteristic size of the UI element scaled by a given factor (int version).
  *
- * This corresponds to the width of the letter 'M' at current application font settings.
+ * Characteristic size corresponds to the width of the letter 'M', expressed in units of Qt's own
+ * virtual coordinate system. The user might want to express all widget sizes in these units to be
+ * truly independent of any high-DPI issues.
+ *
+ * @see ScaleToSystemFont(double device_independent_pixels)
  */
 std::int32_t UnitSize(double scale = 1.0);
 
 /**
- * @brief Scales the given value according to the system font size.
+ * @brief Scales the given value according to the system High DPI settings.
  *
  * This method is used to scale Qt UI elements' sizes so that they look consistent on systems with
- * different font size settings.
+ * different system font and HighDPI settings.
  *
  * @param device_independent_pixels Size of widgets in device-independent pixels.
- * @return Size scaled to the current system font.
+ * @return Size scaled to the current system setting.
  *
  * @details Qt widget sizes are given in device-independent pixels. During the painting they will be
  * already scaled according to the system DPI settings by the Qt framework. However, different
- * systems may have different default font sizes. This method allows for scaling sizes further
- * according to the system font size.
- *
- * @details While providing perfect results on any reasonable system, this method doesn't work on
- * CODAC systems. The default font size, device-to-pixel-ratio, and real size of letter 'M' feel a
- * bit entangled there. Thus, the only reliable way to have consistent sizes is to use UnitSize()
- * method and express all sizes in units of letter 'M'.
+ * systems may have different default system font sizes and different device-pixel-ratios.
+ * Therefore, this method allows for scaling sizes further.
  *
  * @see UnitSize(double scale)
  */
