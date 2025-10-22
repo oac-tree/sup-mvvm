@@ -51,7 +51,7 @@ namespace
  *
  * The label will be occupying top of the bounding box rectangle of a shape.
  */
-QRectF GetLabelRectangle(const QRectF &rect)
+QRectF GetLabelRectangle(const QRectF& rect)
 {
   // take a rectangle which is a half in height of the view's rectangle
   const QRectF result(rect.x(), rect.y(), rect.width(), rect.height() / 2);
@@ -67,7 +67,7 @@ QRectF GetLabelRectangle(const QRectF &rect)
 
 ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> shape_adapter,
                                    std::unique_ptr<IPortPositionStrategy> port_position_strategy,
-                                   QGraphicsItem *parent_item)
+                                   QGraphicsItem* parent_item)
     : QGraphicsItem(parent_item)
     , m_shape_adapter(std::move(shape_adapter))
     , m_port_position_strategy(std::move(port_position_strategy))
@@ -103,8 +103,8 @@ QRectF ConnectableShape::boundingRect() const
   return m_bounding_box;
 }
 
-void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                             QWidget *widget)
+void ConnectableShape::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+                             QWidget* widget)
 {
   (void)widget;
   painter->save();
@@ -171,7 +171,7 @@ void ConnectableShape::UpdateViewFromItem()
   m_block_item_update = false;
 }
 
-NodeConnectionShape *ConnectableShape::MakeChildConnected(ConnectableShape *child_shape) const
+NodeConnectionShape* ConnectableShape::MakeChildConnected(ConnectableShape* child_shape) const
 {
   if (!scene())
   {
@@ -209,17 +209,17 @@ NodeConnectionShape *ConnectableShape::MakeChildConnected(ConnectableShape *chil
   return connection_shape_ptr;
 }
 
-std::vector<INodePort *> ConnectableShape::GetPorts() const
+std::vector<INodePort*> ConnectableShape::GetPorts() const
 {
   return m_node_ports;
 }
 
-IConnectableShapeAdapter *ConnectableShape::GetConnectableShapeAdapter()
+IConnectableShapeAdapter* ConnectableShape::GetConnectableShapeAdapter()
 {
   return m_shape_adapter.get();
 }
 
-QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant &value)
+QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant& value)
 {
   if (change == ItemScenePositionHasChanged)
   {
@@ -228,7 +228,7 @@ QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant 
   return value;
 }
 
-void ConnectableShape::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void ConnectableShape::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
   if (event->button() == Qt::LeftButton)
   {
@@ -237,7 +237,7 @@ void ConnectableShape::mousePressEvent(QGraphicsSceneMouseEvent *event)
   QGraphicsItem::mousePressEvent(event);
 }
 
-void ConnectableShape::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void ConnectableShape::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
   if (event->button() == Qt::LeftButton)
   {
@@ -272,13 +272,13 @@ void ConnectableShape::SetupPorts()
   SetupPortsForDirection(ports_info, PortDirection::kOutput);
 }
 
-void ConnectableShape::SetupPortsForDirection(const std::vector<PortInfo> &port_infos,
+void ConnectableShape::SetupPortsForDirection(const std::vector<PortInfo>& port_infos,
                                               PortDirection port_direction)
 {
   auto same_direction_ports = GetFilteredPortInfo(port_infos, port_direction);
 
   std::size_t index{0};
-  for (const auto &port_info : same_direction_ports)
+  for (const auto& port_info : same_direction_ports)
   {
     auto port_shape = CreateNodePortShape(port_info);
     auto port_shape_ptr = port_shape.get();
@@ -301,12 +301,11 @@ void ConnectableShape::SetupItemPropertyListener()
   }
 }
 
-std::unique_ptr<QGraphicsItem> ConnectableShape::CreateNodePortShape(const PortInfo &port_info)
+std::unique_ptr<QGraphicsItem> ConnectableShape::CreateNodePortShape(const PortInfo& port_info)
 {
   const auto appearance =
       GetDefaultPortAppearance(m_port_position_strategy->GetNodeTreeLayout(), port_info);
-  auto node_port = std::make_unique<NodePort>(
-      port_info, [this](const auto &event) { m_shape_adapter->ProcessEvent(event); });
+  auto node_port = std::make_unique<NodePort>(port_info);
   m_node_ports.push_back(node_port.get());
   return std::make_unique<NodePortShape>(appearance, std::move(node_port), nullptr);
 }

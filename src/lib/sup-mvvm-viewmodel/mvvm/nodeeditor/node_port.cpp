@@ -29,12 +29,7 @@
 namespace mvvm
 {
 
-NodePort::NodePort(PortInfo port_info) : NodePort(std::move(port_info), {}) {}
-
-NodePort::NodePort(PortInfo port_info, process_event_t process_event_callback)
-    : m_port_info(std::move(port_info)), m_process_event_callback(std::move(process_event_callback))
-{
-}
+NodePort::NodePort(PortInfo port_info) : m_port_info(std::move(port_info)) {}
 
 NodePort::~NodePort()
 {
@@ -54,12 +49,12 @@ std::string NodePort::GetPortType() const
   return m_port_info.GetPortType();
 }
 
-std::vector<const INodeConnection *> NodePort::GetConnections() const
+std::vector<const INodeConnection*> NodePort::GetConnections() const
 {
   return m_connections;
 }
 
-void NodePort::AppendConnection(const INodeConnection *connection)
+void NodePort::AppendConnection(const INodeConnection* connection)
 {
   auto iter = std::find(m_connections.begin(), m_connections.end(), connection);
   if (iter != m_connections.end())
@@ -69,7 +64,7 @@ void NodePort::AppendConnection(const INodeConnection *connection)
   m_connections.push_back(connection);
 }
 
-void NodePort::RemoveConnection(const INodeConnection *connection)
+void NodePort::RemoveConnection(const INodeConnection* connection)
 {
   auto iter = std::find(m_connections.begin(), m_connections.end(), connection);
   if (iter == m_connections.end())
@@ -79,7 +74,7 @@ void NodePort::RemoveConnection(const INodeConnection *connection)
   (void)m_connections.erase(iter);
 }
 
-bool NodePort::IsConnected(const INodePort *other) const
+bool NodePort::IsConnected(const INodePort* other) const
 {
   if (other == nullptr)
   {
@@ -87,10 +82,10 @@ bool NodePort::IsConnected(const INodePort *other) const
   }
 
   return std::any_of(m_connections.begin(), m_connections.end(),
-                     [other](const INodeConnection *conn) { return conn->HasPort(other); });
+                     [other](const INodeConnection* conn) { return conn->HasPort(other); });
 }
 
-bool NodePort::IsConnectable(const INodePort *other) const
+bool NodePort::IsConnectable(const INodePort* other) const
 {
   if (other == nullptr)
   {
@@ -123,7 +118,7 @@ PortInfo NodePort::GetPortInfo() const
   return m_port_info;
 }
 
-void NodePort::UpdateShape(const NodeOperationStates &operation_states)
+void NodePort::UpdateShape(const NodeOperationStates& operation_states)
 {
   if (m_notify_shape_callback)
   {
@@ -132,17 +127,9 @@ void NodePort::UpdateShape(const NodeOperationStates &operation_states)
 }
 
 void NodePort::SetNotifyShapeCallback(
-    const std::function<void(const NodeOperationStates &)> &callback)
+    const std::function<void(const NodeOperationStates&)>& callback)
 {
   m_notify_shape_callback = callback;
-}
-
-void NodePort::ProcessEvent(const node_event_t &event) const
-{
-  if (m_process_event_callback)
-  {
-    m_process_event_callback(event);
-  }
 }
 
 void NodePort::UpdateConnectionsScenePosition()

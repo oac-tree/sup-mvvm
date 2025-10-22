@@ -115,11 +115,6 @@ public:
    */
   virtual void SetNotifyShapeCallback(
       const std::function<void(const NodeOperationStates& operation_states)>& callback) = 0;
-
-  /**
-   * @brief Processes user interface events reported by various shapes composing the node tree.
-   */
-  virtual void ProcessEvent(const node_event_t& event) const = 0;
 };
 
 }  // namespace mvvm

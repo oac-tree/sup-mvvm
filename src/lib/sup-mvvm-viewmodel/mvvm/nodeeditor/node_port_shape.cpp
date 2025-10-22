@@ -113,13 +113,6 @@ QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant &va
   return value;
 }
 
-void NodePortShape::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-{
-  (void)event;
-  const node_event_t event_variant = DoubleClickEvent{m_node_port.get()};
-  m_node_port->ProcessEvent(event_variant);
-}
-
 void NodePortShape::CalculateBoundingRect()
 {
   const double extra = 1.0;  // for the pen width

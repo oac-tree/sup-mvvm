@@ -192,15 +192,4 @@ TEST_F(NodePortTest, NotifyShapeCallback)
   port.UpdateShape(operation_states);
 }
 
-TEST_F(NodePortTest, ProcessEvent)
-{
-  ::testing::MockFunction<NodePort::process_event_t> mock_callback;
-
-  NodePort port({PortDirection::kInput, "type_abc"}, mock_callback.AsStdFunction());
-  DoubleClickEvent event{&port};
-  const node_event_t event_variant = event;
-  EXPECT_CALL(mock_callback, Call(event_variant)).Times(1);
-  port.ProcessEvent(event_variant);
-}
-
 }  // namespace mvvm::test

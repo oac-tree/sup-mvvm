@@ -35,9 +35,7 @@ class NodeConnection;
 class NodePort : public INodePort
 {
 public:
-  using process_event_t = std::function<void(const node_event_t& event)>;
   explicit NodePort(PortInfo port_info);
-  explicit NodePort(PortInfo port_info, process_event_t process_event_callback);
   ~NodePort() override;
 
   NodePort(const NodePort&) = delete;
@@ -70,8 +68,6 @@ public:
   void SetNotifyShapeCallback(
       const std::function<void(const NodeOperationStates& operation_states)>& callback) override;
 
-  void ProcessEvent(const node_event_t& event) const override;
-
 private:
   void UpdateConnectionsScenePosition();
 
@@ -79,7 +75,6 @@ private:
   std::vector<const INodeConnection*> m_connections;
   std::pair<double, double> m_scene_pos;
   std::function<void(const NodeOperationStates& operation_states)> m_notify_shape_callback;
-  process_event_t m_process_event_callback;
 };
 
 }  // namespace mvvm

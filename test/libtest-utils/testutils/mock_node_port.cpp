@@ -23,7 +23,7 @@
 namespace mvvm::test
 {
 
-NodePortDecorator::NodePortDecorator(INodePort *decoratee) : m_decoratee(decoratee) {}
+NodePortDecorator::NodePortDecorator(INodePort* decoratee) : m_decoratee(decoratee) {}
 
 PortDirection NodePortDecorator::GetPortDirection() const
 {
@@ -35,27 +35,27 @@ std::string NodePortDecorator::GetPortType() const
   return m_decoratee->GetPortType();
 }
 
-std::vector<const INodeConnection *> NodePortDecorator::GetConnections() const
+std::vector<const INodeConnection*> NodePortDecorator::GetConnections() const
 {
   return m_decoratee->GetConnections();
 }
 
-void NodePortDecorator::AppendConnection(const INodeConnection *connection)
+void NodePortDecorator::AppendConnection(const INodeConnection* connection)
 {
   m_decoratee->AppendConnection(connection);
 }
 
-void NodePortDecorator::RemoveConnection(const INodeConnection *connection)
+void NodePortDecorator::RemoveConnection(const INodeConnection* connection)
 {
   m_decoratee->RemoveConnection(connection);
 }
 
-bool NodePortDecorator::IsConnected(const INodePort *port) const
+bool NodePortDecorator::IsConnected(const INodePort* port) const
 {
   return m_decoratee->IsConnected(port);
 }
 
-bool NodePortDecorator::IsConnectable(const INodePort *port) const
+bool NodePortDecorator::IsConnectable(const INodePort* port) const
 {
   return m_decoratee->IsConnectable(port);
 }
@@ -75,20 +75,15 @@ PortInfo NodePortDecorator::GetPortInfo() const
   return m_decoratee->GetPortInfo();
 }
 
-void NodePortDecorator::UpdateShape(const NodeOperationStates &operation_states)
+void NodePortDecorator::UpdateShape(const NodeOperationStates& operation_states)
 {
   m_decoratee->UpdateShape(operation_states);
 }
 
 void NodePortDecorator::SetNotifyShapeCallback(
-    const std::function<void(const NodeOperationStates &operation_states)> &callback)
+    const std::function<void(const NodeOperationStates& operation_states)>& callback)
 {
   m_decoratee->SetNotifyShapeCallback(callback);
-}
-
-void NodePortDecorator::ProcessEvent(const node_event_t &event) const
-{
-  m_decoratee->ProcessEvent(event);
 }
 
 }  // namespace mvvm::test
