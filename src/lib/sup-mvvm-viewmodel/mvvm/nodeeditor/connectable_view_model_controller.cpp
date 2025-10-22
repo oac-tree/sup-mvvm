@@ -124,15 +124,17 @@ void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &
     auto shapes_to_remove = m_item_view_map.RemoveRecursively(item_to_remove);
     for (auto shape : shapes_to_remove)
     {
-      m_graphics_scene->removeItem(shape);
-      delete shape;
+      // Attempt to explicitely remove item from scene, and then delete it, might lead to issues
+      // during item repainting.
+      delete shape;  // will be automatically removed from scene
     }
 
     // remove hanging connections
     for (auto connection : FindHangingConnectionShapes(m_graphics_scene))
     {
-      m_graphics_scene->removeItem(connection);
-      delete connection;
+      // Attempt to explicitely remove item from scene, and then delete it, might lead to issues
+      // during item repainting.
+      delete connection; // will be automatically removed from scene
     }
   }
 }
