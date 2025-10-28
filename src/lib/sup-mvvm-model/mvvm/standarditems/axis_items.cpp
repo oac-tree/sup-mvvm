@@ -140,7 +140,7 @@ std::pair<double, double> FixedBinAxisItem::GetRange() const
 
 std::size_t FixedBinAxisItem::GetSize() const
 {
-  return Property<std::size_t>(constants::kNbins);
+  return Property<std::uint64_t>(constants::kNbins);
 }
 
 std::vector<double> FixedBinAxisItem::GetBinCenters() const
