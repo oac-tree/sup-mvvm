@@ -1,5 +1,8 @@
+Changes for 2.1.0:
+
 Changes for 2.0.0:
 
+- COA Release v3.2.0
 - Revised HighDPI scaling machinery
 - Implement style support for node editor shapes
 - Introduce helper function to distinguish binary and text files
