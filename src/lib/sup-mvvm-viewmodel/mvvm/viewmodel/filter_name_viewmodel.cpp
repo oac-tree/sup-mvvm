@@ -23,19 +23,25 @@
 namespace mvvm
 {
 
-FilterNameViewModel::FilterNameViewModel(QObject *parent_object)
+FilterNameViewModel::FilterNameViewModel(QObject* parent_object)
     : QSortFilterProxyModel(parent_object)
 {
   setRecursiveFilteringEnabled(true);
 }
 
-void FilterNameViewModel::SetPattern(const QString &pattern)
+void FilterNameViewModel::SetPattern(const QString& pattern)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
   m_pattern = pattern.toLower();
   invalidateFilter();
+#else
+  beginFilterChange();
+  m_pattern = pattern.toLower();
+  endFilterChange();
+#endif
 }
 
-bool FilterNameViewModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+bool FilterNameViewModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
 {
   if (m_pattern.isEmpty())
   {
