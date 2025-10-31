@@ -43,6 +43,8 @@ target_sources(${library_name} PRIVATE
   node_port_shape.h
   node_port_style.cpp
   node_port_style.h
+  painter_helper.cpp
+  painter_helper.h
   port_appearance.cpp
   port_appearance.h
   port_info.cpp

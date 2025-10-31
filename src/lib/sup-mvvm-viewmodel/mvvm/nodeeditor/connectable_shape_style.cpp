@@ -21,6 +21,7 @@
 #include "connectable_shape_style.h"
 
 #include "node_editor_constants.h"
+#include "painter_helper.h"
 
 #include <mvvm/style/mvvm_style_helper.h>
 
@@ -44,8 +45,8 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
   result.shadow_enabled = true;
   result.shadow_color = Qt::lightGray;
   result.round_par = style::UnitSize(0.5);
-  result.pen_width = style::ScaleToSystem(1.0);
-  result.howered_pen_width = style::ScaleToSystem(1.5);
+  result.pen_width = ScalePenWidth(1.5);
+  result.howered_pen_width = ScalePenWidth(1.5);
   result.label_font = constants::GetDefaultConnectableShapeFont();
 
   return result;
@@ -80,7 +81,7 @@ ConnectableShapeStyle CreateDefaultConnectableShapeStyle(ColorFlavor color_flavo
                               : CreateDefaultStyleForLightThemes();
 }
 
-const ConnectableShapeStyle &GetDefaultConnectableShapeStyle()
+const ConnectableShapeStyle& GetDefaultConnectableShapeStyle()
 {
   static const ConnectableShapeStyle kConnectableShapeStyle =
       CreateDefaultConnectableShapeStyle(ColorFlavor::kAuto);

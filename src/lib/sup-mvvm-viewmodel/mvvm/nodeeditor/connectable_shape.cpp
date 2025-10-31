@@ -111,11 +111,18 @@ void ConnectableShape::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 
   painter->setRenderHint(QPainter::Antialiasing);
 
-  painter->setPen(Qt::gray);
+  QPen pen;
+  pen.setWidthF(m_shape_style.pen_width);
   if (option->state & (QStyle::State_Selected | QStyle::State_HasFocus))
   {
-    painter->setPen(Qt::DashLine);
+    pen.setColor(m_shape_style.selected_boundary_color);
+    pen.setStyle(Qt::DashLine);
   }
+  else
+  {
+    pen.setColor(m_shape_style.boundary_color);
+  }
+  painter->setPen(pen);
 
   painter->setBrush(ConnectableShapeGradient(m_shape_style.base_color, GetShapeRect()));
   painter->drawRoundedRect(GetShapeRect(), m_shape_style.round_par, m_shape_style.round_par);
