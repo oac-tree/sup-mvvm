@@ -52,3 +52,5 @@ target_sources(${library_name} PRIVATE
   top_bottom_port_position_strategy.cpp
   top_bottom_port_position_strategy.h
   )
+
+add_subdirectory(painting)
