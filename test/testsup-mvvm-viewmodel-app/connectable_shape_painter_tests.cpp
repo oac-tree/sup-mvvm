@@ -25,7 +25,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/mock_connectable_shape_adapter.h>
-#include <testutils/mock_port_position_strategy.h>
+
+#include <QGraphicsLineItem>
 
 namespace mvvm::test
 {
@@ -36,24 +37,13 @@ namespace mvvm::test
 class ConnectableShapePainterTest : public ::testing::Test
 {
 public:
-  /**
-   * @brief Returns test object wired with proper connection adapter.
-   */
-  std::unique_ptr<ConnectableShape> CreateConnectableShape()
-  {
-    auto adapter = std::make_unique<ConnectableShapeAdapterDecorator>(&m_mock_adapter);
-    auto position_strategy =
-        std::make_unique<PortPositionStrategyDecorator>(&m_mock_position_strategy);
-    return std::make_unique<ConnectableShape>(std::move(adapter), std::move(position_strategy));
-  }
-
   ::testing::NaggyMock<test::MockConnectableShapeAdapter> m_mock_adapter;
-  ::testing::NaggyMock<test::MockPortPositionStrategy> m_mock_position_strategy;
 };
 
 TEST_F(ConnectableShapePainterTest, GetBoundaryColor)
 {
-  auto shape = CreateConnectableShape();
+  QGraphicsLineItem shape;
+
   ConnectableShapeStyle style;
   style.boundary_color = Qt::black;
   style.not_finished_boundary_color = Qt::yellow;
@@ -61,7 +51,9 @@ TEST_F(ConnectableShapePainterTest, GetBoundaryColor)
   style.success_boundary_color = Qt::green;
   style.failed_boundary_color = Qt::red;
 
-  const ConnectableShapePainter painter(style, *shape);
+  ON_CALL(m_mock_adapter, GetStyle()).WillByDefault(::testing::Return(style));
+
+  const ConnectableShapePainter painter(shape, m_mock_adapter);
 
   NodeOperationStates states;
   EXPECT_EQ(painter.GetBoundaryColor(states), style.boundary_color);

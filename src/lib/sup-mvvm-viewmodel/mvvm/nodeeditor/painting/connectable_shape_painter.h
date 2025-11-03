@@ -25,6 +25,7 @@
 #include <mvvm/nodeeditor/node_editor_types.h>
 
 class QStyleOptionGraphicsItem;
+class QGraphicsItem;
 
 namespace mvvm
 {
@@ -38,7 +39,7 @@ class IConnectableShapeAdapter;
 class ConnectableShapePainter
 {
 public:
-  ConnectableShapePainter(ConnectableShapeStyle m_shape_style, ConnectableShape& shape);
+  ConnectableShapePainter(QGraphicsItem& shape, IConnectableShapeAdapter& shape_adapter);
   ~ConnectableShapePainter() = default;
 
   ConnectableShapePainter(const ConnectableShapePainter&) = delete;
@@ -59,17 +60,12 @@ public:
   const QColor& GetBoundaryColor(const NodeOperationStates& operation_states) const;
 
 private:
-  void InstallGraphicsEffects();
+  void InstallGraphicsEffects(QGraphicsItem& shape) const;
   void PaintRectangle(QPainter* painter, const QStyleOptionGraphicsItem* option) const;
   void PaintLabel(QPainter* painter, const QStyleOptionGraphicsItem* option);
 
-  /**
-   * @brief Returns underlying connectable shape adapter.
-   */
-  IConnectableShapeAdapter* GetConnectableShapeAdapter() const;
-
-  ConnectableShapeStyle m_shape_style;
-  ConnectableShape& m_shape;
+  IConnectableShapeAdapter& m_shape_adapter;
+  ConnectableShapeStyle m_shape_style;  //!
 };
 
 }  // namespace mvvm

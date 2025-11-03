@@ -20,12 +20,12 @@
 
 #include "connectable_shape_painter.h"
 
-#include <mvvm/nodeeditor/connectable_shape.h>
 #include <mvvm/nodeeditor/graphics_scene_helper.h>
 #include <mvvm/nodeeditor/i_connectable_shape_adapter.h>
 #include <mvvm/style/mvvm_style_helper.h>
 
 #include <QGraphicsDropShadowEffect>
+#include <QGraphicsItem>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
@@ -54,11 +54,11 @@ QRectF GetLabelRectangle(const QRectF& rect)
 
 }  // namespace
 
-ConnectableShapePainter::ConnectableShapePainter(ConnectableShapeStyle m_shape_style,
-                                                 ConnectableShape& shape)
-    : m_shape_style(std::move(m_shape_style)), m_shape(shape)
+ConnectableShapePainter::ConnectableShapePainter(QGraphicsItem& shape,
+                                                 IConnectableShapeAdapter& shape_adapter)
+    : m_shape_adapter(shape_adapter), m_shape_style(shape_adapter.GetStyle())
 {
-  InstallGraphicsEffects();
+  InstallGraphicsEffects(shape);
 }
 
 void ConnectableShapePainter::Paint(QPainter* painter, const QStyleOptionGraphicsItem* option)
@@ -103,7 +103,7 @@ const QColor& ConnectableShapePainter::GetBoundaryColor(
   return m_shape_style.boundary_color;
 }
 
-void ConnectableShapePainter::InstallGraphicsEffects()
+void ConnectableShapePainter::InstallGraphicsEffects(QGraphicsItem& shape) const
 {
   if (m_shape_style.shadow_enabled)
   {
@@ -111,7 +111,7 @@ void ConnectableShapePainter::InstallGraphicsEffects()
     effect->setOffset(4, 4);
     effect->setBlurRadius(20);
     effect->setColor(m_shape_style.shadow_color);
-    m_shape.setGraphicsEffect(effect);
+    shape.setGraphicsEffect(effect);
   }
 }
 
@@ -127,7 +127,7 @@ void ConnectableShapePainter::PaintRectangle(QPainter* painter,
   }
   else
   {
-    pen.setColor(GetBoundaryColor(GetConnectableShapeAdapter()->GetOperationStates()));
+    pen.setColor(GetBoundaryColor(m_shape_adapter.GetOperationStates()));
   }
   painter->setPen(pen);
 
@@ -143,12 +143,7 @@ void ConnectableShapePainter::PaintLabel(QPainter* painter, const QStyleOptionGr
   painter->setPen(Qt::black);
   QTextOption text_option(Qt::AlignHCenter | Qt::AlignTop);
   text_option.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-  painter->drawText(label_rect, GetConnectableShapeAdapter()->GetDisplayName(), text_option);
-}
-
-IConnectableShapeAdapter* ConnectableShapePainter::GetConnectableShapeAdapter() const
-{
-  return m_shape.GetConnectableShapeAdapter();
+  painter->drawText(label_rect, m_shape_adapter.GetDisplayName(), text_option);
 }
 
 }  // namespace mvvm

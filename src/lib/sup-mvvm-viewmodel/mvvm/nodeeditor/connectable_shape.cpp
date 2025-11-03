@@ -57,7 +57,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
     throw RuntimeException("Port position strategy is not provided");
   }
 
-  m_shape_painter = std::make_unique<ConnectableShapePainter>(m_shape_adapter->GetStyle(), *this);
+  m_shape_painter = std::make_unique<ConnectableShapePainter>(*this, *m_shape_adapter);
   CalculateBoundingBox();
 
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
