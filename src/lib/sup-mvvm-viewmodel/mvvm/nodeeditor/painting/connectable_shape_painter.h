@@ -23,10 +23,13 @@
 
 #include <mvvm/nodeeditor/connectable_shape_style.h>
 
+class QStyleOptionGraphicsItem;
+
 namespace mvvm
 {
 
 class ConnectableShape;
+class IConnectableShapeAdapter;
 
 /**
  * @brief The ConnectableShapePainter class assists ConnectableShape in painting.
@@ -36,9 +39,21 @@ class ConnectableShapePainter
 public:
   ConnectableShapePainter(ConnectableShapeStyle m_shape_style, ConnectableShape* shape);
 
-  void Paint(QPainter* painter);
+  void Paint(QPainter* painter, const QStyleOptionGraphicsItem* option);
+
+  /**
+   * @brief Returns exact rectangle of the shape without margins.
+   */
+  QRectF GetShapeRect() const;
 
 private:
+  void InstallGraphicsEffects();
+
+  /**
+   * @brief Returns underlying connectable shape adapter.
+   */
+  IConnectableShapeAdapter* GetConnectableShapeAdapter();
+
   ConnectableShapeStyle m_shape_style;
   ConnectableShape* m_shape{nullptr};
 };

@@ -21,7 +21,6 @@
 #ifndef MVVM_NODEEDITOR_CONNECTABLE_SHAPE_H_
 #define MVVM_NODEEDITOR_CONNECTABLE_SHAPE_H_
 
-#include <mvvm/nodeeditor/connectable_shape_style.h>
 #include <mvvm/nodeeditor/node_editor_types.h>
 
 #include <QGraphicsItem>
@@ -36,6 +35,7 @@ class PortInfo;
 class ItemListener;
 class INodePort;
 class NodeConnectionShape;
+class ConnectableShapePainter;
 
 /**
  * @brief The ConnectableShape is a graphics object which have ports for connecting other objects.
@@ -97,7 +97,6 @@ protected:
 
 private:
   void CalculateBoundingBox();
-  void InstallGraphicsEffects();
 
   /**
    * @brief Creates input and output ports according to the shape adapter information.
@@ -124,7 +123,7 @@ private:
   bool m_block_item_update{false};
   std::unique_ptr<ItemListener> m_item_listener;
   std::vector<INodePort*> m_node_ports;
-  ConnectableShapeStyle m_shape_style; //! cached style
+  std::unique_ptr<ConnectableShapePainter> m_shape_painter;
 };
 
 }  // namespace mvvm

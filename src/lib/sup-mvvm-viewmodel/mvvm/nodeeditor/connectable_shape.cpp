@@ -31,39 +31,14 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/nodeeditor/painting/connectable_shape_painter.h>
 #include <mvvm/signals/item_listener.h>
-#include <mvvm/style/mvvm_style_helper.h>
 
-#include <QGraphicsDropShadowEffect>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-#include <QPainter>
-#include <QStyleOptionGraphicsItem>
 
 namespace mvvm
 {
-
-namespace
-{
-
-/**
- * @brief Returns rectangle to display ConnectableShape label.
- *
- * The label will be occupying top of the bounding box rectangle of a shape.
- */
-QRectF GetLabelRectangle(const QRectF& rect)
-{
-  // take a rectangle which is a half in height of the view's rectangle
-  const QRectF result(rect.x(), rect.y(), rect.width(), rect.height() / 2);
-
-  // slightly shrink it
-  auto side_gap = style::UnitSizeF(0.25);
-  auto top_gap = style::UnitSizeF(0.75);
-  return result.marginsRemoved(
-      QMarginsF(side_gap, top_gap, side_gap, 0.0));  // left, top, right, bottom
-}
-
-}  // namespace
 
 ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> shape_adapter,
                                    std::unique_ptr<IPortPositionStrategy> port_position_strategy,
@@ -82,9 +57,8 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
     throw RuntimeException("Port position strategy is not provided");
   }
 
-  m_shape_style = m_shape_adapter->GetStyle();  // can be heavy object, caching it once
+  m_shape_painter = std::make_unique<ConnectableShapePainter>(m_shape_adapter->GetStyle(), this);
   CalculateBoundingBox();
-  InstallGraphicsEffects();
 
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
   setFlag(QGraphicsItem::ItemIsSelectable);
@@ -107,41 +81,12 @@ void ConnectableShape::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
                              QWidget* widget)
 {
   (void)widget;
-  painter->save();
-
-  painter->setRenderHint(QPainter::Antialiasing);
-
-  QPen pen;
-  pen.setWidthF(m_shape_style.pen_width);
-  if (option->state & (QStyle::State_Selected | QStyle::State_HasFocus))
-  {
-    pen.setColor(m_shape_style.selected_boundary_color);
-    pen.setStyle(Qt::DashLine);
-  }
-  else
-  {
-    pen.setColor(m_shape_style.boundary_color);
-  }
-  painter->setPen(pen);
-
-  painter->setBrush(ConnectableShapeGradient(m_shape_style.base_color, GetShapeRect()));
-  painter->drawRoundedRect(GetShapeRect(), m_shape_style.round_par, m_shape_style.round_par);
-
-  // plotting label
-  const QFont label_font = m_shape_style.label_font;
-  const QRectF label_rect = GetLabelRectangle(GetShapeRect());
-  painter->setFont(label_font);
-  painter->setPen(Qt::black);
-  QTextOption text_option(Qt::AlignHCenter | Qt::AlignTop);
-  text_option.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-  painter->drawText(label_rect, m_shape_adapter->GetDisplayName(), text_option);
-
-  painter->restore();
+  m_shape_painter->Paint(painter, option);
 }
 
 QRectF ConnectableShape::GetShapeRect() const
 {
-  return m_shape_style.base_rect;
+  return m_shape_painter->GetShapeRect();
 }
 
 void ConnectableShape::UpdateItemFromView()
@@ -258,18 +203,6 @@ void ConnectableShape::CalculateBoundingBox()
   // Adding margins for a pen. Currently we have some artifacts in the image, despite of this
   // attempt to give extra space. May be it is only plasma/wayland issue.
   m_bounding_box = GetShapeRect().marginsAdded(QMarginsF(2.0, 2.0, 2.0, 2.0));
-}
-
-void ConnectableShape::InstallGraphicsEffects()
-{
-  if (m_shape_style.shadow_enabled)
-  {
-    auto effect = new QGraphicsDropShadowEffect;
-    effect->setOffset(4, 4);
-    effect->setBlurRadius(20);
-    effect->setColor(m_shape_style.shadow_color);
-    setGraphicsEffect(effect);
-  }
 }
 
 void ConnectableShape::SetupPorts()
