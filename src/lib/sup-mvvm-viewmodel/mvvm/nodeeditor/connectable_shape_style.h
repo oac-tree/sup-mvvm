@@ -41,6 +41,10 @@ struct ConnectableShapeStyle
   QRectF base_rect;
   QColor boundary_color;
   QColor selected_boundary_color;
+  QColor not_finished_boundary_color;
+  QColor running_boundary_color;
+  QColor success_boundary_color;
+  QColor failed_boundary_color;
   bool shadow_enabled{true};
   QColor shadow_color;
   double round_par{5.0};

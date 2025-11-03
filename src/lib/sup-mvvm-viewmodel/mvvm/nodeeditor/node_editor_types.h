@@ -24,8 +24,9 @@
 //! @file
 //! Collection of simple types for node editor.
 
-#include <cstdint>
 #include <mvvm/core/flags.h>
+
+#include <cstdint>
 
 namespace mvvm
 {
@@ -99,6 +100,11 @@ enum class EventProcessStatus : std::uint8_t
  */
 enum class NodeOperationState : std::uint8_t
 {
+  kNotStarted,         //!< node execution not started yet
+  kNotFinished,        //!< started and waiting for next tick
+  kRunning,            //!< started and running (child) asyncrhonisoulsy
+  kSuccess,            //!< finished successfully
+  kFailed,             //!< finished unsuccessfully
   kCollapsedChildren,  //!< node has children, and all children are collapsed (hidden)
   size                 //!< obligatory last element
 };

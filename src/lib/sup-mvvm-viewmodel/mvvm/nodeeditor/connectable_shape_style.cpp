@@ -42,6 +42,10 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
   result.base_rect = constants::GetDefaultConnectableShapeRect();
   result.boundary_color = Qt::darkGray;
   result.selected_boundary_color = QColor("cornflowerblue");
+  result.not_finished_boundary_color = QColor("darkorange");
+  result.running_boundary_color = QColor("darkorange");
+  result.success_boundary_color = QColor("darkgreen");
+  result.failed_boundary_color = QColor("darkred");
   result.shadow_enabled = true;
   result.shadow_color = Qt::lightGray;
   result.round_par = style::UnitSize(0.5);
