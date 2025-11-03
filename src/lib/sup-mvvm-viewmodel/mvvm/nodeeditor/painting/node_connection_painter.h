@@ -26,6 +26,7 @@
 
 class QStyleOptionGraphicsItem;
 class QPainter;
+class QPainterPath;
 
 namespace mvvm
 {
@@ -36,7 +37,7 @@ namespace mvvm
 class NodeConnectionPainter
 {
 public:
-  NodeConnectionPainter() = default;
+  NodeConnectionPainter();
   ~NodeConnectionPainter() = default;
 
   NodeConnectionPainter(const NodeConnectionPainter&) = delete;
@@ -44,10 +45,10 @@ public:
   NodeConnectionPainter(NodeConnectionPainter&&) = delete;
   NodeConnectionPainter& operator=(NodeConnectionPainter&&) = delete;
 
-  void Paint(QPainter* painter, const QStyleOptionGraphicsItem* option);
+  void Paint(QPainter* painter, const QStyleOptionGraphicsItem* option, const QPainterPath& path);
 
 private:
-  NodeConnectionStyle m_shape_style;
+  NodeConnectionStyle m_connection_style;
 };
 
 }  // namespace mvvm

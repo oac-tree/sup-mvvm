@@ -21,15 +21,34 @@
 #include "node_connection_painter.h"
 
 #include <QPainter>
+#include <QPainterPath>
 #include <QStyleOptionGraphicsItem>
 
 namespace mvvm
 {
 
-void NodeConnectionPainter::Paint(QPainter* painter, const QStyleOptionGraphicsItem* option)
+NodeConnectionPainter::NodeConnectionPainter()
+    : m_connection_style(CreateDefaultNodeConnectionStyle())
+{
+}
+
+void NodeConnectionPainter::Paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+                                  const QPainterPath& path)
 {
   (void)painter;
   (void)option;
+
+  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width, Qt::SolidLine,
+                       Qt::RoundCap, Qt::RoundJoin));
+  painter->setBrush(Qt::NoBrush);
+
+  if (option->state & (QStyle::State_Selected | QStyle::State_HasFocus))
+  {
+    painter->setPen(QPen(m_connection_style.selected_color, m_connection_style.line_width,
+                         Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
+  }
+
+  painter->drawPath(path);
 }
 
 }  // namespace mvvm

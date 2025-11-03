@@ -22,6 +22,8 @@
 
 #include "i_node_port.h"
 
+#include <mvvm/nodeeditor/painting/node_connection_painter.h>
+
 #include <QPainter>
 #include <QPen>
 
@@ -33,7 +35,7 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
     : QGraphicsPathItem(nullptr)
     , m_tree_layout(tree_layout)
     , m_node_connection(std::move(node_connection))
-    , m_connection_style(CreateDefaultNodeConnectionStyle())
+    , m_painter(std::make_unique<NodeConnectionPainter>())
 {
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setAcceptHoverEvents(true);
@@ -60,20 +62,8 @@ void NodeConnectionShape::UpdatePath()
 void NodeConnectionShape::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
                                 QWidget* widget)
 {
-  (void)option;
   (void)widget;
-
-  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width, Qt::SolidLine,
-                       Qt::RoundCap, Qt::RoundJoin));
-  painter->setBrush(Qt::NoBrush);
-
-  if (isSelected())
-  {
-    painter->setPen(QPen(m_connection_style.selected_color, m_connection_style.line_width,
-                         Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
-  }
-
-  painter->drawPath(path());
+  m_painter->Paint(painter, option, path());
 }
 
 bool NodeConnectionShape::IsHanging() const
