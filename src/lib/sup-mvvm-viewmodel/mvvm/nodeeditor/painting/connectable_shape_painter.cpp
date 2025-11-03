@@ -55,7 +55,7 @@ QRectF GetLabelRectangle(const QRectF& rect)
 }  // namespace
 
 ConnectableShapePainter::ConnectableShapePainter(ConnectableShapeStyle m_shape_style,
-                                                 ConnectableShape* shape)
+                                                 ConnectableShape& shape)
     : m_shape_style(std::move(m_shape_style)), m_shape(shape)
 {
   InstallGraphicsEffects();
@@ -64,9 +64,34 @@ ConnectableShapePainter::ConnectableShapePainter(ConnectableShapeStyle m_shape_s
 void ConnectableShapePainter::Paint(QPainter* painter, const QStyleOptionGraphicsItem* option)
 {
   painter->save();
-
   painter->setRenderHint(QPainter::Antialiasing);
 
+  PaintRectangle(painter, option);
+  PaintLabel(painter, option);
+
+  painter->restore();
+}
+
+const QRectF& ConnectableShapePainter::GetShapeRect() const
+{
+  return m_shape_style.base_rect;
+}
+
+void ConnectableShapePainter::InstallGraphicsEffects()
+{
+  if (m_shape_style.shadow_enabled)
+  {
+    auto effect = new QGraphicsDropShadowEffect;
+    effect->setOffset(4, 4);
+    effect->setBlurRadius(20);
+    effect->setColor(m_shape_style.shadow_color);
+    m_shape.setGraphicsEffect(effect);
+  }
+}
+
+void ConnectableShapePainter::PaintRectangle(QPainter* painter,
+                                             const QStyleOptionGraphicsItem* option) const
+{
   QPen pen;
   pen.setWidthF(m_shape_style.pen_width);
   if (option->state & (QStyle::State_Selected | QStyle::State_HasFocus))
@@ -82,39 +107,22 @@ void ConnectableShapePainter::Paint(QPainter* painter, const QStyleOptionGraphic
 
   painter->setBrush(ConnectableShapeGradient(m_shape_style.base_color, GetShapeRect()));
   painter->drawRoundedRect(GetShapeRect(), m_shape_style.round_par, m_shape_style.round_par);
+}
 
-  // plotting label
-  const QFont label_font = m_shape_style.label_font;
+void ConnectableShapePainter::PaintLabel(QPainter* painter, const QStyleOptionGraphicsItem* option)
+{
+  (void) option;
   const QRectF label_rect = GetLabelRectangle(GetShapeRect());
-  painter->setFont(label_font);
+  painter->setFont(m_shape_style.label_font);
   painter->setPen(Qt::black);
   QTextOption text_option(Qt::AlignHCenter | Qt::AlignTop);
   text_option.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
   painter->drawText(label_rect, GetConnectableShapeAdapter()->GetDisplayName(), text_option);
-
-  painter->restore();
-}
-
-QRectF ConnectableShapePainter::GetShapeRect() const
-{
-  return m_shape_style.base_rect;
-}
-
-void ConnectableShapePainter::InstallGraphicsEffects()
-{
-  if (m_shape_style.shadow_enabled)
-  {
-    auto effect = new QGraphicsDropShadowEffect;
-    effect->setOffset(4, 4);
-    effect->setBlurRadius(20);
-    effect->setColor(m_shape_style.shadow_color);
-    m_shape->setGraphicsEffect(effect);
-  }
 }
 
 IConnectableShapeAdapter* ConnectableShapePainter::GetConnectableShapeAdapter()
 {
-  return m_shape->GetConnectableShapeAdapter();
+  return m_shape.GetConnectableShapeAdapter();
 }
 
 }  // namespace mvvm

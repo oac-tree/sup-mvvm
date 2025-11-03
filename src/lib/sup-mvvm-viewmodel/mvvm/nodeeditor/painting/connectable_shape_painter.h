@@ -37,17 +37,25 @@ class IConnectableShapeAdapter;
 class ConnectableShapePainter
 {
 public:
-  ConnectableShapePainter(ConnectableShapeStyle m_shape_style, ConnectableShape* shape);
+  ConnectableShapePainter(ConnectableShapeStyle m_shape_style, ConnectableShape& shape);
+  ~ConnectableShapePainter() = default;
+
+  ConnectableShapePainter(const ConnectableShapePainter&) = delete;
+  ConnectableShapePainter& operator=(const ConnectableShapePainter&) = delete;
+  ConnectableShapePainter(ConnectableShapePainter&&) = delete;
+  ConnectableShapePainter& operator=(ConnectableShapePainter&&) = delete;
 
   void Paint(QPainter* painter, const QStyleOptionGraphicsItem* option);
 
   /**
    * @brief Returns exact rectangle of the shape without margins.
    */
-  QRectF GetShapeRect() const;
+  const QRectF& GetShapeRect() const;
 
 private:
   void InstallGraphicsEffects();
+  void PaintRectangle(QPainter* painter, const QStyleOptionGraphicsItem* option) const;
+  void PaintLabel(QPainter* painter, const QStyleOptionGraphicsItem* option);
 
   /**
    * @brief Returns underlying connectable shape adapter.
@@ -55,7 +63,7 @@ private:
   IConnectableShapeAdapter* GetConnectableShapeAdapter();
 
   ConnectableShapeStyle m_shape_style;
-  ConnectableShape* m_shape{nullptr};
+  ConnectableShape& m_shape;
 };
 
 }  // namespace mvvm

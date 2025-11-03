@@ -57,7 +57,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
     throw RuntimeException("Port position strategy is not provided");
   }
 
-  m_shape_painter = std::make_unique<ConnectableShapePainter>(m_shape_adapter->GetStyle(), this);
+  m_shape_painter = std::make_unique<ConnectableShapePainter>(m_shape_adapter->GetStyle(), *this);
   CalculateBoundingBox();
 
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
@@ -237,7 +237,8 @@ void ConnectableShape::SetupItemPropertyListener()
   if (utils::HasNotifications(m_shape_adapter->GetItem()))
   {
     m_item_listener = std::make_unique<ItemListener>(m_shape_adapter->GetItem());
-    m_item_listener->Connect<PropertyChangedEvent>([this](auto) { UpdateViewFromItem(); });
+    auto on_property_changed = [this](const auto&) { UpdateViewFromItem(); };
+    m_item_listener->Connect<PropertyChangedEvent>(on_property_changed);
   }
 }
 
