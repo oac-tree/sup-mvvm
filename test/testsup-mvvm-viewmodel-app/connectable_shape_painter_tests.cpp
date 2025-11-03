@@ -66,7 +66,7 @@ TEST_F(ConnectableShapePainterTest, GetBoundaryColor)
   states.Set(NodeOperationState::kSuccess);
   EXPECT_EQ(painter.GetBoundaryColor(states), style.success_boundary_color);
   states.Reset();
-  states.Set(NodeOperationState::kFailed);
+  states.Set(NodeOperationState::kFailure);
   EXPECT_EQ(painter.GetBoundaryColor(states), style.failed_boundary_color);
 }
 

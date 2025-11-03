@@ -95,7 +95,7 @@ const QColor& ConnectableShapePainter::GetBoundaryColor(
     return m_shape_style.success_boundary_color;
   }
 
-  if (operation_states.IsSet(NodeOperationState::kFailed))
+  if (operation_states.IsSet(NodeOperationState::kFailure))
   {
     return m_shape_style.failed_boundary_color;
   }
