@@ -23,6 +23,7 @@
 #include "i_node_port.h"
 
 #include <mvvm/nodeeditor/painting/node_connection_painter.h>
+#include <mvvm/style/mvvm_style_helper.h>
 
 #include <QPainter>
 #include <QPen>
@@ -32,7 +33,7 @@ namespace mvvm
 
 NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
                                          std::unique_ptr<INodeConnection> node_connection)
-    : QGraphicsPathItem(nullptr)
+    : QGraphicsItem(nullptr)
     , m_tree_layout(tree_layout)
     , m_node_connection(std::move(node_connection))
     , m_painter(std::make_unique<NodeConnectionPainter>())
@@ -43,10 +44,24 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
   setZValue(-1);  // hidden beneath port circles
 
   m_node_connection->SetNotifyShapeCallback([this]() { UpdatePath(); });
+
   UpdatePath();
 }
 
 NodeConnectionShape::~NodeConnectionShape() = default;
+
+QRectF NodeConnectionShape::boundingRect() const
+{
+  static const int kPadding = style::UnitSize(1.0);
+  return m_path.boundingRect().adjusted(-kPadding, -kPadding, kPadding, kPadding);
+}
+
+void NodeConnectionShape::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+                                QWidget* widget)
+{
+  (void)widget;
+  m_painter->Paint(painter, option, m_path);
+}
 
 INodeConnection* NodeConnectionShape::GetNodeConnection()
 {
@@ -55,15 +70,8 @@ INodeConnection* NodeConnectionShape::GetNodeConnection()
 
 void NodeConnectionShape::UpdatePath()
 {
-  auto path = CreatePainterPath();
-  setPath(path);
-}
-
-void NodeConnectionShape::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                                QWidget* widget)
-{
-  (void)widget;
-  m_painter->Paint(painter, option, path());
+  m_path = CalculatePainterPath();
+  update();
 }
 
 bool NodeConnectionShape::IsHanging() const
@@ -71,7 +79,12 @@ bool NodeConnectionShape::IsHanging() const
   return m_node_connection->GetStartPort() == nullptr || m_node_connection->GetEndPort() == nullptr;
 }
 
-QPainterPath NodeConnectionShape::CreatePainterPath() const
+QPainterPath NodeConnectionShape::GetPainterPath() const
+{
+  return m_path;
+}
+
+QPainterPath NodeConnectionShape::CalculatePainterPath() const
 {
   auto start_port = m_node_connection->GetStartPort();
   auto end_port = m_node_connection->GetEndPort();

@@ -342,10 +342,10 @@ TEST_F(ConnectableViewModelControllerTest, ValidateCoordinatesAfterMoveItemToPar
   ASSERT_EQ(connection->GetStartPort(), wait_output_ports.front());
   auto [seq_port_x, seq_port_y] = sequence_input_ports.front()->GetScenePosition();
   auto [wait_port_x, wait_port_y] = wait_output_ports.front()->GetScenePosition();
-  EXPECT_DOUBLE_EQ(seq_port_x, connection_shapes.at(0)->path().pointAtPercent(1.0).x());
-  EXPECT_DOUBLE_EQ(seq_port_y, connection_shapes.at(0)->path().pointAtPercent(1.0).y());
-  EXPECT_DOUBLE_EQ(wait_port_x, connection_shapes.at(0)->path().pointAtPercent(0.0).x());
-  EXPECT_DOUBLE_EQ(wait_port_y, connection_shapes.at(0)->path().pointAtPercent(0.0).y());
+  EXPECT_DOUBLE_EQ(seq_port_x, connection_shapes.at(0)->GetPainterPath().pointAtPercent(1.0).x());
+  EXPECT_DOUBLE_EQ(seq_port_y, connection_shapes.at(0)->GetPainterPath().pointAtPercent(1.0).y());
+  EXPECT_DOUBLE_EQ(wait_port_x, connection_shapes.at(0)->GetPainterPath().pointAtPercent(0.0).x());
+  EXPECT_DOUBLE_EQ(wait_port_y, connection_shapes.at(0)->GetPainterPath().pointAtPercent(0.0).y());
 
   // actual coordinates of node port shapes coincide with the port coordinates
   auto port_shapes = GetShapes<NodePortShape>();

@@ -24,7 +24,7 @@
 #include <mvvm/nodeeditor/i_node_connection.h>
 #include <mvvm/nodeeditor/node_editor_types.h>
 
-#include <QGraphicsPathItem>
+#include <QGraphicsItem>
 #include <memory>
 
 namespace mvvm
@@ -36,18 +36,28 @@ class NodeConnectionPainter;
 /**
  * @brief The NodeConnectionShape is a graphics object representing a Bezier curve connectind two
  * nodes.
+ *
+ * The connection logic is extracted to INodeConnection, the painting logic is handled by the
+ * NodeConnectionPainter class.
  */
-class NodeConnectionShape : public QGraphicsPathItem
+class NodeConnectionShape : public QGraphicsItem
 {
 public:
   NodeConnectionShape(NodeTreeLayout tree_layout, std::unique_ptr<INodeConnection> node_connection);
   ~NodeConnectionShape() override;
 
+  NodeConnectionShape(const NodeConnectionShape&) = delete;
+  NodeConnectionShape& operator=(const NodeConnectionShape&) = delete;
+  NodeConnectionShape(NodeConnectionShape&&) = delete;
+  NodeConnectionShape& operator=(NodeConnectionShape&&) = delete;
+
+  QRectF boundingRect() const override;
+
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
   INodeConnection* GetNodeConnection();
 
   void UpdatePath();
-
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
   /**
    * @brief Checks if given connection is hanging (not connected to both ports).
@@ -57,12 +67,15 @@ public:
   /**
    * @brief Returns path representing given connection.
    */
-  QPainterPath CreatePainterPath() const;
+  QPainterPath GetPainterPath() const;
 
 private:
+  QPainterPath CalculatePainterPath() const;
+
   NodeTreeLayout m_tree_layout;
   std::unique_ptr<INodeConnection> m_node_connection;
   std::unique_ptr<NodeConnectionPainter> m_painter;
+  QPainterPath m_path;
 };
 
 }  // namespace mvvm
