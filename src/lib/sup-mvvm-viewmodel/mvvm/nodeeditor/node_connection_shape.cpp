@@ -46,19 +46,49 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
 
 NodeConnectionShape::~NodeConnectionShape() = default;
 
-INodeConnection *NodeConnectionShape::GetNodeConnection()
+INodeConnection* NodeConnectionShape::GetNodeConnection()
 {
   return m_node_connection.get();
 }
 
 void NodeConnectionShape::UpdatePath()
 {
+  auto path = CreatePainterPath();
+  setPath(path);
+}
+
+void NodeConnectionShape::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+                                QWidget* widget)
+{
+  (void)option;
+  (void)widget;
+
+  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width, Qt::SolidLine,
+                       Qt::RoundCap, Qt::RoundJoin));
+  painter->setBrush(Qt::NoBrush);
+
+  if (isSelected())
+  {
+    painter->setPen(QPen(m_connection_style.selected_color, m_connection_style.line_width,
+                         Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
+  }
+
+  painter->drawPath(path());
+}
+
+bool NodeConnectionShape::IsHanging() const
+{
+  return m_node_connection->GetStartPort() == nullptr || m_node_connection->GetEndPort() == nullptr;
+}
+
+QPainterPath NodeConnectionShape::CreatePainterPath() const
+{
   auto start_port = m_node_connection->GetStartPort();
   auto end_port = m_node_connection->GetEndPort();
 
   if (!start_port || !end_port)
   {
-    return;
+    return {};
   }
 
   const auto [xpos1, ypos1] = start_port->GetScenePosition();
@@ -88,31 +118,7 @@ void NodeConnectionShape::UpdatePath()
     painter_path.cubicTo(ctr1, ctr2, pos2);
   }
 
-  setPath(painter_path);
-}
-
-void NodeConnectionShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                                QWidget *widget)
-{
-  (void)option;
-  (void)widget;
-
-  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width, Qt::SolidLine,
-                       Qt::RoundCap, Qt::RoundJoin));
-  painter->setBrush(Qt::NoBrush);
-
-  if (isSelected())
-  {
-    painter->setPen(QPen(m_connection_style.selected_color, m_connection_style.line_width,
-                         Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
-  }
-
-  painter->drawPath(path());
-}
-
-bool NodeConnectionShape::IsHanging() const
-{
-  return m_node_connection->GetStartPort() == nullptr || m_node_connection->GetEndPort() == nullptr;
+  return painter_path;
 }
 
 }  // namespace mvvm

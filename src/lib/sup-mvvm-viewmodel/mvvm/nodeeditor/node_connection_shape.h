@@ -54,6 +54,11 @@ public:
    */
   bool IsHanging() const;
 
+  /**
+   * @brief Returns path representing given connection.
+   */
+  QPainterPath CreatePainterPath() const;
+
 private:
   NodeTreeLayout m_tree_layout;
   std::unique_ptr<INodeConnection> m_node_connection;

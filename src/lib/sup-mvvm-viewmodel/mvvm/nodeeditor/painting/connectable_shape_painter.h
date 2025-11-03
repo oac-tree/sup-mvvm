@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_PAINTING_CONNECTABLE_SHAPE_PAINTER_H
-#define MVVM_NODEEDITOR_PAINTING_CONNECTABLE_SHAPE_PAINTER_H
+#ifndef MVVM_NODEEDITOR_PAINTING_CONNECTABLE_SHAPE_PAINTER_H_
+#define MVVM_NODEEDITOR_PAINTING_CONNECTABLE_SHAPE_PAINTER_H_
 
 #include <mvvm/nodeeditor/connectable_shape_style.h>
 #include <mvvm/nodeeditor/node_editor_types.h>
@@ -30,7 +30,6 @@ class QGraphicsItem;
 namespace mvvm
 {
 
-class ConnectableShape;
 class IConnectableShapeAdapter;
 
 /**
@@ -70,4 +69,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_NODEEDITOR_PAINTING_CONNECTABLE_SHAPE_PAINTER_H
+#endif  // MVVM_NODEEDITOR_PAINTING_CONNECTABLE_SHAPE_PAINTER_H_
