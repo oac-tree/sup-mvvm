@@ -22,6 +22,7 @@
 #define MVVM_NODEEDITOR_PAINTING_CONNECTABLE_SHAPE_PAINTER_H
 
 #include <mvvm/nodeeditor/connectable_shape_style.h>
+#include <mvvm/nodeeditor/node_editor_types.h>
 
 class QStyleOptionGraphicsItem;
 
@@ -52,6 +53,11 @@ public:
    */
   const QRectF& GetShapeRect() const;
 
+  /**
+   * @brief Returns boundary color according to operation states.
+   */
+  const QColor& GetBoundaryColor(const NodeOperationStates& operation_states) const;
+
 private:
   void InstallGraphicsEffects();
   void PaintRectangle(QPainter* painter, const QStyleOptionGraphicsItem* option) const;
@@ -60,7 +66,7 @@ private:
   /**
    * @brief Returns underlying connectable shape adapter.
    */
-  IConnectableShapeAdapter* GetConnectableShapeAdapter();
+  IConnectableShapeAdapter* GetConnectableShapeAdapter() const;
 
   ConnectableShapeStyle m_shape_style;
   ConnectableShape& m_shape;

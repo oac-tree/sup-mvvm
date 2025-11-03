@@ -77,6 +77,32 @@ const QRectF& ConnectableShapePainter::GetShapeRect() const
   return m_shape_style.base_rect;
 }
 
+const QColor& ConnectableShapePainter::GetBoundaryColor(
+    const NodeOperationStates& operation_states) const
+{
+  if (operation_states.IsSet(NodeOperationState::kNotFinished))
+  {
+    return m_shape_style.not_finished_boundary_color;
+  }
+
+  if (operation_states.IsSet(NodeOperationState::kRunning))
+  {
+    return m_shape_style.running_boundary_color;
+  }
+
+  if (operation_states.IsSet(NodeOperationState::kSuccess))
+  {
+    return m_shape_style.success_boundary_color;
+  }
+
+  if (operation_states.IsSet(NodeOperationState::kFailed))
+  {
+    return m_shape_style.failed_boundary_color;
+  }
+
+  return m_shape_style.boundary_color;
+}
+
 void ConnectableShapePainter::InstallGraphicsEffects()
 {
   if (m_shape_style.shadow_enabled)
@@ -101,7 +127,7 @@ void ConnectableShapePainter::PaintRectangle(QPainter* painter,
   }
   else
   {
-    pen.setColor(m_shape_style.boundary_color);
+    pen.setColor(GetBoundaryColor(GetConnectableShapeAdapter()->GetOperationStates()));
   }
   painter->setPen(pen);
 
@@ -111,7 +137,7 @@ void ConnectableShapePainter::PaintRectangle(QPainter* painter,
 
 void ConnectableShapePainter::PaintLabel(QPainter* painter, const QStyleOptionGraphicsItem* option)
 {
-  (void) option;
+  (void)option;
   const QRectF label_rect = GetLabelRectangle(GetShapeRect());
   painter->setFont(m_shape_style.label_font);
   painter->setPen(Qt::black);
@@ -120,7 +146,7 @@ void ConnectableShapePainter::PaintLabel(QPainter* painter, const QStyleOptionGr
   painter->drawText(label_rect, GetConnectableShapeAdapter()->GetDisplayName(), text_option);
 }
 
-IConnectableShapeAdapter* ConnectableShapePainter::GetConnectableShapeAdapter()
+IConnectableShapeAdapter* ConnectableShapePainter::GetConnectableShapeAdapter() const
 {
   return m_shape.GetConnectableShapeAdapter();
 }
