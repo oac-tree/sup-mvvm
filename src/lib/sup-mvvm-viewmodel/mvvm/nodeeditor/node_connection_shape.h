@@ -53,10 +53,18 @@ public:
 
   QRectF boundingRect() const override;
 
+  QPainterPath shape() const override;
+
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
   INodeConnection* GetNodeConnection();
 
+  /**
+   * @brief Update path from current position of ports.
+   *
+   * This is a heavy function, that will calculate a path, bounding box and shape (for hover in,
+   * hover out events).
+   */
   void UpdatePath();
 
   /**
@@ -69,6 +77,10 @@ public:
    */
   QPainterPath GetPainterPath() const;
 
+protected:
+  void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+  void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
+
 private:
   QPainterPath CalculatePainterPath() const;
 
@@ -76,6 +88,8 @@ private:
   std::unique_ptr<INodeConnection> m_node_connection;
   std::unique_ptr<NodeConnectionPainter> m_painter;
   QPainterPath m_path;
+  QRectF m_bounding_rect;
+  QPainterPath m_shape;
 };
 
 }  // namespace mvvm

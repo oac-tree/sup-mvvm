@@ -47,8 +47,14 @@ public:
 
   void Paint(QPainter* painter, const QStyleOptionGraphicsItem* option, const QPainterPath& path);
 
+  /**
+   * @brief Sets the flag is the connection is hovered or not.
+   */
+  void SetHovered(bool value);
+
 private:
   NodeConnectionStyle m_connection_style;
+  bool m_is_hovered{false};
 };
 
 }  // namespace mvvm

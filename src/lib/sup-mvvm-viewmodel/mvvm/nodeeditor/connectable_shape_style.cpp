@@ -49,8 +49,8 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
   result.shadow_enabled = true;
   result.shadow_color = Qt::lightGray;
   result.round_par = style::UnitSize(0.5);
-  result.pen_width = ScalePenWidth(1.5);
-  result.howered_pen_width = ScalePenWidth(1.5);
+  result.pen_width = ScalePenWidth(1.75);
+  result.howered_pen_width = ScalePenWidth(1.75);
   result.label_font = constants::GetDefaultConnectableShapeFont();
 
   return result;

@@ -51,4 +51,9 @@ void NodeConnectionPainter::Paint(QPainter* painter, const QStyleOptionGraphicsI
   painter->drawPath(path);
 }
 
+void NodeConnectionPainter::SetHovered(bool value)
+{
+  m_is_hovered = value;
+}
+
 }  // namespace mvvm
