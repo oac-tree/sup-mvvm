@@ -79,7 +79,7 @@ EventProcessStatus NodeConnectionGuideImpl::ProcessMousePress(const QPointF& sce
       m_current_connection = std::make_unique<NodeConnectionShape>(NodeTreeLayout::kTopToBottom,
                                                                    std::move(connection));
       m_scene->addItem(m_current_connection.get());
-      m_current_connection->UpdatePath();
+      m_current_connection->UpdatePath({});
       return EventProcessStatus::kEventWasHandled;
     }
   }
@@ -91,7 +91,7 @@ EventProcessStatus NodeConnectionGuideImpl::ProcessMouseMove(const QPointF& scen
   if (m_current_connection)
   {
     m_end_port_proxy->SetScenePosition(scene_pos.x(), scene_pos.y());
-    m_current_connection->UpdatePath();
+    m_current_connection->UpdatePath({});
     return EventProcessStatus::kEventWasHandled;
   }
   return EventProcessStatus::kEventWasIgnored;

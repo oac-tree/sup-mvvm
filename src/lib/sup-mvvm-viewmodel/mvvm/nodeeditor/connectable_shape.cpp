@@ -113,10 +113,20 @@ void ConnectableShape::UpdateViewFromItem()
   setX(m_shape_adapter->GetX());
   setY(m_shape_adapter->GetY());
 
+  // FIXME refactor and cover by test after ConnectableShape refactoring
+  // Connectable shape should be populated by ports outside of this class
   const auto operation_states = m_shape_adapter->GetOperationStates();
   for (auto port : m_node_ports)
   {
     port->UpdatePortShape(operation_states);
+  }
+
+  if (auto output_port = GetOutputPort(*this); output_port)
+  {
+    for (auto connection : output_port->GetConnections())
+    {
+      const_cast<INodeConnection*>(connection)->UpdateConnectionShape(operation_states);
+    }
   }
 
   update();  // will pick-up color too through GetBaseColor() call in paint() method

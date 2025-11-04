@@ -65,7 +65,7 @@ public:
    * This is a heavy function, that will calculate a path, bounding box and shape (for hover in,
    * hover out events).
    */
-  void UpdatePath();
+  void UpdatePath(const NodeOperationStates& operation_states);
 
   /**
    * @brief Checks if given connection is hanging (not connected to both ports).

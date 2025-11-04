@@ -46,9 +46,10 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
 
   setZValue(-1);  // hidden beneath port circles
 
-  m_node_connection->SetNotifyShapeCallback([this](const auto&) { UpdatePath(); });
+  m_node_connection->SetNotifyShapeCallback([this](const auto& operation_states)
+                                            { UpdatePath(operation_states); });
 
-  UpdatePath();
+  UpdatePath({});
 }
 
 NodeConnectionShape::~NodeConnectionShape() = default;
@@ -79,7 +80,7 @@ INodeConnection* NodeConnectionShape::GetNodeConnection()
   return m_node_connection.get();
 }
 
-void NodeConnectionShape::UpdatePath()
+void NodeConnectionShape::UpdatePath(const NodeOperationStates& operation_states)
 {
   qDebug() << "NodeConnectionShape::UpdatePath() called";
   static const double kPadding = style::ScaleToSystem(10.0);

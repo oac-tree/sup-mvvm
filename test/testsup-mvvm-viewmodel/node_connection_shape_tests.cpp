@@ -64,7 +64,7 @@ TEST_F(NodeConnectionShapeTest, UpdatePathWithoutPorts)
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1).WillOnce(::testing::Return(nullptr));
   EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1).WillOnce(::testing::Return(nullptr));
 
-  node_connection_shape->UpdatePath();
+  node_connection_shape->UpdatePath({});
 }
 
 TEST_F(NodeConnectionShapeTest, IsHangingWithoutPorts)
@@ -138,7 +138,7 @@ TEST_P(NodeConnectionShapeTest, UpdatePathWithPorts)
       .Times(1)
       .WillOnce(::testing::Return(std::make_pair(300.0, 300.0)));
 
-  node_connection_shape->UpdatePath();
+  node_connection_shape->UpdatePath({});
 
   EXPECT_EQ(node_connection_shape->GetPainterPath().elementCount(), 4);  // MoveTo + 3x CurveTo;
   EXPECT_EQ(node_connection_shape->GetPainterPath().currentPosition(), QPointF(300.0, 300.0));
