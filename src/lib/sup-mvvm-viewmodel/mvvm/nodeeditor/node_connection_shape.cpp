@@ -37,7 +37,7 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
     : QGraphicsItem(nullptr)
     , m_tree_layout(tree_layout)
     , m_node_connection(std::move(node_connection))
-    , m_painter(std::make_unique<NodeConnectionPainter>())
+    , m_painter(std::make_unique<NodeConnectionPainter>(CreateDefaultNodeConnectionStyle()))
 {
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setFlag(QGraphicsItem::ItemIsFocusable, true);
@@ -85,6 +85,9 @@ void NodeConnectionShape::UpdatePath(const NodeOperationStates& operation_states
   qDebug() << "NodeConnectionShape::UpdatePath() called";
   static const double kPadding = style::ScaleToSystem(10.0);
 
+  m_painter->SetOperationStates(operation_states);
+
+  m_current_states = operation_states;
   m_path = CalculatePainterPath();
   m_bounding_rect =
       m_path.boundingRect().normalized().adjusted(-kPadding, -kPadding, kPadding, kPadding);

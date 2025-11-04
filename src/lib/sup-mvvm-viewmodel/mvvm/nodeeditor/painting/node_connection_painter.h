@@ -37,7 +37,7 @@ namespace mvvm
 class NodeConnectionPainter
 {
 public:
-  NodeConnectionPainter();
+  explicit NodeConnectionPainter(NodeConnectionStyle connection_style);
   ~NodeConnectionPainter() = default;
 
   NodeConnectionPainter(const NodeConnectionPainter&) = delete;
@@ -52,6 +52,16 @@ public:
    */
   void SetHovered(bool value);
 
+  /**
+   * @brief Sets operation states for the connection.
+   */
+  void SetOperationStates(const  NodeOperationStates& operation_state);
+
+  /**
+   * @brief Returns base connection color according to operation states.
+   */
+  const QColor& GetBaseColor(const NodeOperationStates& operation_states) const;
+
 private:
   void DrawHoverLine(QPainter* painter, const QPainterPath& path) const;
   void DrawSelectedLine(QPainter* painter, const QPainterPath& path) const;
@@ -61,6 +71,7 @@ private:
 
   NodeConnectionStyle m_connection_style;
   bool m_is_hovered{false};
+  NodeOperationStates m_operation_state;
 };
 
 }  // namespace mvvm

@@ -37,6 +37,13 @@ NodeConnectionStyle CreateDefaultStyleForLightThemes()
   NodeConnectionStyle result;
   result.base_color = QColor("gray");
   result.hover_color = QColor("slateblue");
+
+  // better to match colors with ConnectableShapeStyle
+  result.not_finished_color = QColor("darkorange");
+  result.running_color = QColor("darkorange");
+  result.success_color = QColor("darkgreen");
+  result.failed_color = QColor("darkred");
+
   result.line_width = style::ScaleToSystem(2.0);
   return result;
 }

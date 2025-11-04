@@ -20,8 +20,6 @@
 
 #include "mvvm/nodeeditor/painting/connectable_shape_painter.h"
 
-#include <mvvm/nodeeditor/connectable_shape.h>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/mock_connectable_shape_adapter.h>

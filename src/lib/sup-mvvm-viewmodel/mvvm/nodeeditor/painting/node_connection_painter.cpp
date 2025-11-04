@@ -27,8 +27,8 @@
 namespace mvvm
 {
 
-NodeConnectionPainter::NodeConnectionPainter()
-    : m_connection_style(CreateDefaultNodeConnectionStyle())
+NodeConnectionPainter::NodeConnectionPainter(NodeConnectionStyle connection_style)
+    : m_connection_style(std::move(connection_style))
 {
 }
 
@@ -57,6 +57,36 @@ void NodeConnectionPainter::SetHovered(bool value)
   m_is_hovered = value;
 }
 
+void NodeConnectionPainter::SetOperationStates(const NodeOperationStates& operation_state)
+{
+  m_operation_state = operation_state;
+}
+
+const QColor& NodeConnectionPainter::GetBaseColor(const NodeOperationStates& operation_states) const
+{
+  if (operation_states.IsSet(NodeOperationState::kNotFinished))
+  {
+    return m_connection_style.not_finished_color;
+  }
+
+  if (operation_states.IsSet(NodeOperationState::kRunning))
+  {
+    return m_connection_style.running_color;
+  }
+
+  if (operation_states.IsSet(NodeOperationState::kSuccess))
+  {
+    return m_connection_style.success_color;
+  }
+
+  if (operation_states.IsSet(NodeOperationState::kFailure))
+  {
+    return m_connection_style.failed_color;
+  }
+
+  return m_connection_style.base_color;
+}
+
 void NodeConnectionPainter::DrawHoverLine(QPainter* painter, const QPainterPath& path) const
 {
   // drawing thicker "halo" line
@@ -77,8 +107,9 @@ void NodeConnectionPainter::DrawSelectedLine(QPainter* painter, const QPainterPa
 
 void NodeConnectionPainter::DrawBaseLine(QPainter* painter, const QPainterPath& path) const
 {
-  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width, Qt::SolidLine,
-                       Qt::RoundCap, Qt::RoundJoin));
+  const auto color = GetBaseColor(m_operation_state);
+  painter->setPen(
+      QPen(color, m_connection_style.line_width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
   painter->drawPath(path);
 }
 

@@ -90,6 +90,7 @@ private:
   QPainterPath m_path;
   QRectF m_bounding_rect;
   QPainterPath m_shape;
+  NodeOperationStates m_current_states;
 };
 
 }  // namespace mvvm

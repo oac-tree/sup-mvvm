@@ -37,6 +37,10 @@ struct NodeConnectionStyle
   QColor construction_color{Qt::gray};
   QColor base_color{Qt::gray};
   QColor hover_color{Qt::gray};
+  QColor not_finished_color{Qt::gray};
+  QColor running_color{Qt::gray};
+  QColor success_color{Qt::gray};
+  QColor failed_color{Qt::gray};
   double line_width{2.0};
 };
 
