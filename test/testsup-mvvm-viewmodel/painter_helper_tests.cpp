@@ -28,6 +28,11 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <QDebug>
+#include <QPainterPath>
+#include <QPainterPathStroker>
+#include <QPen>
+
 namespace mvvm::test
 {
 
@@ -66,6 +71,37 @@ TEST_F(PainterHelperTests, ScaleAndRoundPenWidth)
   EXPECT_DOUBLE_EQ(ScaleAndRoundPenWidth(1.5), 2.0);
   EXPECT_DOUBLE_EQ(ScaleAndRoundPenWidth(1.75), 2.0);
   EXPECT_DOUBLE_EQ(ScaleAndRoundPenWidth(2.0), 2.0);
+}
+
+TEST_F(PainterHelperTests, GetShapeFromPath)
+{
+  const double path_length = 100.0;
+  const double pen_width = 10.0;
+  const QPen pen(Qt::black, 10.0, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
+
+  QPainterPath original_path;
+  EXPECT_EQ(GetShapeFromPath(original_path, pen).length(), 0.0);
+
+  original_path.moveTo(0.0, 0.0);
+  original_path.lineTo(0.0, path_length);
+  const QPainterPath shape_path = GetShapeFromPath(original_path, pen);
+
+  const double expected_perimeter = (path_length * 2) + (pen_width * 2);
+  EXPECT_DOUBLE_EQ(shape_path.length(), expected_perimeter);
+}
+
+TEST_F(PainterHelperTests, GetConnectionShape)
+{
+  const double path_length = 100.0;
+  const double pen_width = 10.0;
+
+  QPainterPath original_path;
+  original_path.moveTo(0.0, 0.0);
+  original_path.lineTo(0.0, path_length);
+  const QPainterPath shape_path = GetConnectionShape(original_path, pen_width);
+
+  const double expected_perimeter = (path_length * 2) + (pen_width * 2);
+  EXPECT_DOUBLE_EQ(shape_path.length(), expected_perimeter);
 }
 
 }  // namespace mvvm::test

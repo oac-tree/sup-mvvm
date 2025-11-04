@@ -24,6 +24,9 @@
 //! @file
 //! Collection of helper functions for painting.
 
+class QPainterPath;
+class QPen;
+
 namespace mvvm
 {
 
@@ -39,6 +42,20 @@ double ScalePenWidth(double value, double min_value = 1.0);
  * 0.1->1.0, 1.0->1.0, 1.25->1.0, 1.5->2.0
  */
 double ScaleAndRoundPenWidth(double value, double min_value = 1.0);
+
+/**
+ * @brief Returns shape obtained by stroking the given path with the given pen.
+ *
+ * Function is inspired by the Qt source code (QGraphicsPathItem::qt_graphicsItem_shapeFromPath
+ * implementation). The complexity is connected with the fact that QPainterPathStroker does not
+ * handle zero-width.
+ */
+QPainterPath GetShapeFromPath(const QPainterPath& path, const QPen& pen);
+
+/**
+ * @brief Returns the shape of node connection using its path.
+ */
+QPainterPath GetConnectionShape(const QPainterPath& node_connection_path, double width);
 
 }  // namespace mvvm
 

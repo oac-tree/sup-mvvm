@@ -22,6 +22,8 @@
 
 #include <mvvm/style/mvvm_style_helper.h>
 
+#include <QPainterPath>
+#include <QPen>
 #include <algorithm>
 #include <cmath>
 
@@ -36,6 +38,30 @@ double ScalePenWidth(double value, double min_value)
 double ScaleAndRoundPenWidth(double value, double min_value)
 {
   return std::max(min_value, std::round(style::ScaleToSystem(value)));
+}
+
+QPainterPath GetShapeFromPath(const QPainterPath& path, const QPen& pen)
+{
+  // to bypass QPainterPathStroker behavior, which use 1.0 instead of 0.0
+  const qreal pen_width_zero{1e-08};
+
+  if (path == QPainterPath() || pen == Qt::NoPen)
+  {
+    return path;
+  }
+  QPainterPathStroker stroker;
+  stroker.setCapStyle(pen.capStyle());
+  stroker.setWidth(std::max(pen_width_zero, pen.widthF()));
+  stroker.setJoinStyle(pen.joinStyle());
+  stroker.setMiterLimit(pen.miterLimit());
+
+  return stroker.createStroke(path);
+}
+
+QPainterPath GetConnectionShape(const QPainterPath& node_connection_path, double width)
+{
+  const QPen pen(Qt::black, width, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
+  return GetShapeFromPath(node_connection_path, pen);
 }
 
 }  // namespace mvvm
