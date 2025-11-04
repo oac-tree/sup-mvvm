@@ -116,7 +116,7 @@ void ConnectableShape::UpdateViewFromItem()
   const auto operation_states = m_shape_adapter->GetOperationStates();
   for (auto port : m_node_ports)
   {
-    port->UpdateShape(operation_states);
+    port->UpdatePortShape(operation_states);
   }
 
   update();  // will pick-up color too through GetBaseColor() call in paint() method

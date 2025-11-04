@@ -124,7 +124,7 @@ TEST_F(NodeConnectionTest, NotifyShapeCallback)
   NodeConnection connection;
   connection.SetNotifyShapeCallback(mock_callback.AsStdFunction());
   EXPECT_CALL(mock_callback, Call()).Times(1);
-  connection.UpdatePath();
+  connection.UpdateConnectionShape();
 }
 
 TEST_F(NodeConnectionTest, NotifyShapeViaPorts)

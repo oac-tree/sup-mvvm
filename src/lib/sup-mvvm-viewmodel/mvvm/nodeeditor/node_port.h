@@ -63,7 +63,7 @@ public:
 
   PortInfo GetPortInfo() const override;
 
-  void UpdateShape(const NodeOperationStates& operation_states) override;
+  void UpdatePortShape(const NodeOperationStates& operation_states) override;
 
   void SetNotifyShapeCallback(
       const std::function<void(const NodeOperationStates& operation_states)>& callback) override;

@@ -54,7 +54,7 @@ public:
 
   void ForgetPort(INodePort* port) override;
 
-  void UpdatePath() override;
+  void UpdateConnectionShape() override;
 
   void SetNotifyShapeCallback(std::function<void()> callback) override;
 

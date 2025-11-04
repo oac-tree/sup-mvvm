@@ -75,9 +75,9 @@ PortInfo NodePortDecorator::GetPortInfo() const
   return m_decoratee->GetPortInfo();
 }
 
-void NodePortDecorator::UpdateShape(const NodeOperationStates& operation_states)
+void NodePortDecorator::UpdatePortShape(const NodeOperationStates& operation_states)
 {
-  m_decoratee->UpdateShape(operation_states);
+  m_decoratee->UpdatePortShape(operation_states);
 }
 
 void NodePortDecorator::SetNotifyShapeCallback(

@@ -118,7 +118,7 @@ PortInfo NodePort::GetPortInfo() const
   return m_port_info;
 }
 
-void NodePort::UpdateShape(const NodeOperationStates& operation_states)
+void NodePort::UpdatePortShape(const NodeOperationStates& operation_states)
 {
   if (m_notify_shape_callback)
   {
@@ -136,7 +136,7 @@ void NodePort::UpdateConnectionsScenePosition()
 {
   for (auto connection : utils::RemoveConst(m_connections))
   {
-    connection->UpdatePath();
+    connection->UpdateConnectionShape();
   }
 }
 

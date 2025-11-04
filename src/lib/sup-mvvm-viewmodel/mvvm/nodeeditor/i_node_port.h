@@ -108,7 +108,7 @@ public:
   /**
    * @brief Updates the shape of the port, if needed.
    */
-  virtual void UpdateShape(const NodeOperationStates& operation_states) = 0;
+  virtual void UpdatePortShape(const NodeOperationStates& operation_states) = 0;
 
   /**
    * @brief Sets a callback function to be called when the shape needs to be notified about changes.

@@ -58,9 +58,9 @@ void NodeConnectionDecorator::ForgetPort(INodePort *port)
   m_decoratee->ForgetPort(port);
 }
 
-void NodeConnectionDecorator::UpdatePath()
+void NodeConnectionDecorator::UpdateConnectionShape()
 {
-  m_decoratee->UpdatePath();
+  m_decoratee->UpdateConnectionShape();
 }
 
 void NodeConnectionDecorator::SetNotifyShapeCallback(std::function<void()> callback)

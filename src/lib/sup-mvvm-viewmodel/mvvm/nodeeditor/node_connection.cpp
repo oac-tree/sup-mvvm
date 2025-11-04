@@ -101,7 +101,7 @@ void NodeConnection::ForgetPort(INodePort *port)
   }
 }
 
-void NodeConnection::UpdatePath()
+void NodeConnection::UpdateConnectionShape()
 {
   if (m_notify_shape_callback)
   {

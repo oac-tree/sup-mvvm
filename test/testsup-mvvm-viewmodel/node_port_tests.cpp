@@ -189,7 +189,7 @@ TEST_F(NodePortTest, NotifyShapeCallback)
   port.SetNotifyShapeCallback(mock_callback.AsStdFunction());
   const NodeOperationStates operation_states({NodeOperationState::kCollapsedChildren});
   EXPECT_CALL(mock_callback, Call(operation_states)).Times(1);
-  port.UpdateShape(operation_states);
+  port.UpdatePortShape(operation_states);
 }
 
 }  // namespace mvvm::test

@@ -83,7 +83,7 @@ public:
    *
    * Should call the notify shape callback, if set.
    */
-  virtual void UpdatePath() = 0;
+  virtual void UpdateConnectionShape() = 0;
 
   /**
    * @brief Sets a callback function to be called when the shape needs to be notified about changes.
