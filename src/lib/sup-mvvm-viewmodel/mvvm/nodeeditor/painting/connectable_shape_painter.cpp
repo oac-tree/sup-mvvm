@@ -115,20 +115,23 @@ void ConnectableShapePainter::InstallGraphicsEffects(QGraphicsItem& shape) const
   }
 }
 
+bool ConnectableShapePainter::IsSelected(const QStyleOptionGraphicsItem* option)
+{
+  return option->state & (QStyle::State_Selected | QStyle::State_HasFocus);
+}
+
 void ConnectableShapePainter::PaintRectangle(QPainter* painter,
                                              const QStyleOptionGraphicsItem* option) const
 {
   QPen pen;
   pen.setWidthF(m_shape_style.pen_width);
-  if (option->state & (QStyle::State_Selected | QStyle::State_HasFocus))
+  if (IsSelected(option))
   {
-    pen.setColor(m_shape_style.selected_boundary_color);
     pen.setStyle(Qt::DashLine);
+    pen.setWidthF(m_shape_style.pen_width + 1.0);
   }
-  else
-  {
-    pen.setColor(GetBoundaryColor(m_shape_adapter.GetOperationStates()));
-  }
+
+  pen.setColor(GetBoundaryColor(m_shape_adapter.GetOperationStates()));
   painter->setPen(pen);
 
   painter->setBrush(ConnectableShapeGradient(m_shape_style.base_color, GetShapeRect()));

@@ -40,7 +40,6 @@ struct ConnectableShapeStyle
   QColor base_color;
   QRectF base_rect;
   QColor boundary_color;
-  QColor selected_boundary_color;
   QColor not_finished_boundary_color;
   QColor running_boundary_color;
   QColor success_boundary_color;

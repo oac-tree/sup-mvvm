@@ -67,7 +67,7 @@ private:
   void DrawSelectedLine(QPainter* painter, const QPainterPath& path) const;
   void DrawBaseLine(QPainter* painter, const QPainterPath& path) const;
 
-  bool IsSelected(const QStyleOptionGraphicsItem* option) const;
+  static bool IsSelected(const QStyleOptionGraphicsItem* option);
 
   NodeConnectionStyle m_connection_style;
   bool m_is_hovered{false};

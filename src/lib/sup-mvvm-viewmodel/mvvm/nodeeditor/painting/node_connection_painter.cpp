@@ -113,7 +113,7 @@ void NodeConnectionPainter::DrawBaseLine(QPainter* painter, const QPainterPath& 
   painter->drawPath(path);
 }
 
-bool NodeConnectionPainter::IsSelected(const QStyleOptionGraphicsItem* option) const
+bool NodeConnectionPainter::IsSelected(const QStyleOptionGraphicsItem* option)
 {
   return option->state & (QStyle::State_Selected | QStyle::State_HasFocus);
 }

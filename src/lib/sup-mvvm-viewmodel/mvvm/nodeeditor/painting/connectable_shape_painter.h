@@ -60,6 +60,7 @@ public:
 
 private:
   void InstallGraphicsEffects(QGraphicsItem& shape) const;
+  static bool IsSelected(const QStyleOptionGraphicsItem* option);
   void PaintRectangle(QPainter* painter, const QStyleOptionGraphicsItem* option) const;
   void PaintLabel(QPainter* painter, const QStyleOptionGraphicsItem* option);
 
