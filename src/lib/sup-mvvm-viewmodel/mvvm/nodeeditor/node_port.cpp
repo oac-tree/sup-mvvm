@@ -136,7 +136,7 @@ void NodePort::UpdateConnectionsScenePosition()
 {
   for (auto connection : utils::RemoveConst(m_connections))
   {
-    connection->UpdateConnectionShape();
+    connection->UpdateConnectionShape({});
   }
 }
 

@@ -101,15 +101,15 @@ void NodeConnection::ForgetPort(INodePort *port)
   }
 }
 
-void NodeConnection::UpdateConnectionShape()
+void NodeConnection::UpdateConnectionShape(const NodeOperationStates &operation_state)
 {
   if (m_notify_shape_callback)
   {
-    m_notify_shape_callback();
+    m_notify_shape_callback(operation_state);
   }
 }
 
-void NodeConnection::SetNotifyShapeCallback(std::function<void()> callback)
+void NodeConnection::SetNotifyShapeCallback(shape_callback_t callback)
 {
   m_notify_shape_callback = std::move(callback);
 }

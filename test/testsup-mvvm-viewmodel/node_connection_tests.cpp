@@ -119,17 +119,20 @@ TEST_F(NodeConnectionTest, ForgetPort)
 
 TEST_F(NodeConnectionTest, NotifyShapeCallback)
 {
-  ::testing::MockFunction<void()> mock_callback;
+  ::testing::MockFunction<void(const NodeOperationStates&)> mock_callback;
 
   NodeConnection connection;
   connection.SetNotifyShapeCallback(mock_callback.AsStdFunction());
-  EXPECT_CALL(mock_callback, Call()).Times(1);
-  connection.UpdateConnectionShape();
+
+  NodeOperationStates expected_state;
+  expected_state.Set(NodeOperationState::kRunning);
+  EXPECT_CALL(mock_callback, Call(expected_state)).Times(1);
+  connection.UpdateConnectionShape(expected_state);
 }
 
 TEST_F(NodeConnectionTest, NotifyShapeViaPorts)
 {
-  ::testing::MockFunction<void()> mock_callback;
+  ::testing::MockFunction<void(const NodeOperationStates&)> mock_callback;
 
   NodePort start_port({PortDirection::kOutput, "abc"});
   NodePort end_port({PortDirection::kInput, "abc"});
@@ -137,7 +140,7 @@ TEST_F(NodeConnectionTest, NotifyShapeViaPorts)
   NodeConnection connection(&start_port, &end_port);
   connection.SetNotifyShapeCallback(mock_callback.AsStdFunction());
 
-  EXPECT_CALL(mock_callback, Call()).Times(1);
+  EXPECT_CALL(mock_callback, Call(::testing::_)).Times(1);
   start_port.SetScenePosition(1.0, 2.0);
 }
 

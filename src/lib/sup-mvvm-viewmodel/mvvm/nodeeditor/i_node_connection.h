@@ -22,6 +22,7 @@
 #define MVVM_NODEEDITOR_I_NODE_CONNECTION_H_
 
 #include <functional>
+#include <mvvm/nodeeditor/node_editor_types.h>
 
 namespace mvvm
 {
@@ -39,6 +40,8 @@ class INodePort;
 class INodeConnection
 {
 public:
+  using shape_callback_t = std::function<void(const NodeOperationStates&)>;
+
   INodeConnection() = default;
   virtual ~INodeConnection() = default;
 
@@ -83,12 +86,12 @@ public:
    *
    * Should call the notify shape callback, if set.
    */
-  virtual void UpdateConnectionShape() = 0;
+  virtual void UpdateConnectionShape(const NodeOperationStates& operation_states) = 0;
 
   /**
    * @brief Sets a callback function to be called when the shape needs to be notified about changes.
    */
-  virtual void SetNotifyShapeCallback(std::function<void()> callback) = 0;
+  virtual void SetNotifyShapeCallback(shape_callback_t callback) = 0;
 };
 
 }  // namespace mvvm

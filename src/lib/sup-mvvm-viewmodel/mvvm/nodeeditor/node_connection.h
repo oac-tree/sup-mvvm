@@ -54,14 +54,14 @@ public:
 
   void ForgetPort(INodePort* port) override;
 
-  void UpdateConnectionShape() override;
+  void UpdateConnectionShape(const NodeOperationStates& operation_state) override;
 
-  void SetNotifyShapeCallback(std::function<void()> callback) override;
+  void SetNotifyShapeCallback(shape_callback_t callback) override;
 
 private:
   INodePort* m_start_port{nullptr};
   INodePort* m_end_port{nullptr};
-  std::function<void()> m_notify_shape_callback;
+  shape_callback_t m_notify_shape_callback;
 };
 
 }  // namespace mvvm

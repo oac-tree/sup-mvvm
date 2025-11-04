@@ -23,47 +23,47 @@
 namespace mvvm::test
 {
 
-NodeConnectionDecorator::NodeConnectionDecorator(INodeConnection *decoratee)
+NodeConnectionDecorator::NodeConnectionDecorator(INodeConnection* decoratee)
     : m_decoratee(decoratee)
 {
 }
 
-const INodePort *NodeConnectionDecorator::GetStartPort() const
+const INodePort* NodeConnectionDecorator::GetStartPort() const
 {
   return m_decoratee->GetStartPort();
 }
 
-void NodeConnectionDecorator::SetStartPort(INodePort *port)
+void NodeConnectionDecorator::SetStartPort(INodePort* port)
 {
   m_decoratee->SetStartPort(port);
 }
 
-const INodePort *NodeConnectionDecorator::GetEndPort() const
+const INodePort* NodeConnectionDecorator::GetEndPort() const
 {
   return m_decoratee->GetEndPort();
 }
 
-void NodeConnectionDecorator::SetEndPort(INodePort *port)
+void NodeConnectionDecorator::SetEndPort(INodePort* port)
 {
   m_decoratee->SetEndPort(port);
 }
 
-bool NodeConnectionDecorator::HasPort(const INodePort *port) const
+bool NodeConnectionDecorator::HasPort(const INodePort* port) const
 {
   return m_decoratee->HasPort(port);
 }
 
-void NodeConnectionDecorator::ForgetPort(INodePort *port)
+void NodeConnectionDecorator::ForgetPort(INodePort* port)
 {
   m_decoratee->ForgetPort(port);
 }
 
-void NodeConnectionDecorator::UpdateConnectionShape()
+void NodeConnectionDecorator::UpdateConnectionShape(const NodeOperationStates& state)
 {
-  m_decoratee->UpdateConnectionShape();
+  m_decoratee->UpdateConnectionShape(state);
 }
 
-void NodeConnectionDecorator::SetNotifyShapeCallback(std::function<void()> callback)
+void NodeConnectionDecorator::SetNotifyShapeCallback(shape_callback_t callback)
 {
   m_decoratee->SetNotifyShapeCallback(std::move(callback));
 }
