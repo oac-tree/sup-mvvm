@@ -37,7 +37,7 @@ NodePortStyle CreateDefaultStyleForLightThemes()
   NodePortStyle result;
 
   result.base_color = QColor("navajowhite");
-  result.base_color_modified = QColor("orange");
+  result.base_color_modified = QColor("darkorange");
   result.radius = constants::GetDefaultPortRadius();
   result.radius_hovered = constants::GetDefaultPortRadius();
   result.pen_color = QColor("navajowhite").darker(180);
@@ -52,7 +52,7 @@ NodePortStyle CreateDefaultStyleForLightThemes()
 NodePortStyle CreateDefaultStyleForDarkThemes()
 {
   NodePortStyle result = CreateDefaultStyleForLightThemes();
-  result.base_color = QColor("slateblue");
+  result.base_color = QColor("navajowhite");
   return result;
 }
 

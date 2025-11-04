@@ -139,7 +139,8 @@ void ConnectableShapePainter::PaintRectangle(QPainter* painter,
   auto color = GetBoundaryColor(m_shape_adapter.GetOperationStates());
   if (m_is_hovered)
   {
-    color = color.darker();
+    color = style::MakeContrastColor(color);
+    pen.setWidthF(m_shape_style.pen_width + 1.0);
   }
 
   pen.setColor(color);

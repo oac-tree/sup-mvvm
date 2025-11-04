@@ -48,7 +48,7 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
   result.shadow_enabled = true;
   result.shadow_color = Qt::lightGray;
   result.round_par = style::UnitSize(0.5);
-  result.pen_width = ScalePenWidth(1.75);
+  result.pen_width = ScalePenWidth(2.0);
   result.label_font = constants::GetDefaultConnectableShapeFont();
 
   return result;
@@ -59,8 +59,15 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
  */
 ConnectableShapeStyle CreateDefaultStyleForDarkThemes()
 {
+  const auto light_style = CreateDefaultStyleForLightThemes();
+
   ConnectableShapeStyle result = CreateDefaultStyleForLightThemes();
   result.base_color = Qt::darkGray;
+  result.boundary_color = Qt::lightGray;
+  result.not_finished_boundary_color = QColor("orange");
+  result.running_boundary_color = light_style.running_boundary_color.lighter();
+  result.success_boundary_color = light_style.success_boundary_color.lighter(200);
+  result.failed_boundary_color = light_style.failed_boundary_color.lighter();
   result.shadow_color = Qt::black;
   return result;
 }

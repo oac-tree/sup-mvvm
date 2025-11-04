@@ -29,6 +29,7 @@
 class QFont;
 class QSize;
 class QLabel;
+class QColor;
 
 namespace mvvm::style
 {
@@ -132,6 +133,14 @@ double ScaleToSystem(double device_independent_pixels);
  * @param is_bold Allows to turn the label's font into bold.
  */
 void ScaleLabelFont(QLabel& label, double scale, bool is_bold = false);
+
+
+/**
+ * @brief Generates a color that contrasts well with the given color.
+ *
+ * If theme is dark, the color will become lighter. If theme is white, the color will become darker.
+ */
+QColor MakeContrastColor(const QColor& color, int factor = 150);
 
 }  // namespace mvvm::style
 

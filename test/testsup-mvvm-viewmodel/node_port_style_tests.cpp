@@ -37,7 +37,7 @@ TEST_F(NodePortStyleTest, CreateDefaultConnectableShapeStyle)
   auto dark_style = CreateDefaultNodePortStyle(ColorFlavor::kForDarkThemes);
   auto light_style = CreateDefaultNodePortStyle(ColorFlavor::kForLightThemes);
 
-  EXPECT_NE(dark_style.base_color, light_style.base_color);
+  EXPECT_EQ(dark_style.base_color, light_style.base_color);
 }
 
 }  // namespace mvvm::test

@@ -72,7 +72,7 @@ std::int32_t SystemPointSize(double scale)
   return static_cast<std::int32_t>(static_cast<double>(current_psize) * scale);
 }
 
-QSize GetUnitSizeFromFont(const QFont &font)
+QSize GetUnitSizeFromFont(const QFont& font)
 {
   const QFontMetrics font_metric(font);
   auto horizontal_advance = font_metric.horizontalAdvance('M');
@@ -129,7 +129,7 @@ double ScaleToSystem(double device_independent_pixels)
          / static_cast<double>(SystemReferenceUnitSize());
 }
 
-void ScaleLabelFont(QLabel &label, double scale, bool is_bold)
+void ScaleLabelFont(QLabel& label, double scale, bool is_bold)
 {
   QFont font = label.font();
   font.setPointSize(style::SystemPointSize(scale));
@@ -138,6 +138,11 @@ void ScaleLabelFont(QLabel &label, double scale, bool is_bold)
     font.setBold(true);
   }
   label.setFont(font);
+}
+
+QColor MakeContrastColor(const QColor& color, int factor)
+{
+  return IsDarkTheme() ? color.lighter(factor) : color.darker(factor);
 }
 
 }  // namespace mvvm::style

@@ -211,7 +211,6 @@ void ConnectableShape::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void ConnectableShape::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-  qDebug() << "XXXX";
   m_shape_painter->SetHovered(true);
   QGraphicsItem::hoverEnterEvent(event);
 }

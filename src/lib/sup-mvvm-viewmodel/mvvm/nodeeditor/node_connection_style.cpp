@@ -53,8 +53,16 @@ NodeConnectionStyle CreateDefaultStyleForLightThemes()
  */
 NodeConnectionStyle CreateDefaultStyleForDarkThemes()
 {
+  const auto light_style = CreateDefaultStyleForLightThemes();
+
   NodeConnectionStyle result = CreateDefaultStyleForLightThemes();
-  result.base_color = QColor("lightgray");
+  result.base_color = Qt::lightGray;
+  result.hover_color = QColor("floralwhite");
+  result.not_finished_color = QColor("orange");
+  result.running_color = light_style.running_color.lighter();
+  result.success_color = light_style.success_color.lighter(200);
+  result.failed_color = light_style.failed_color.lighter();
+
   return result;
 }
 
