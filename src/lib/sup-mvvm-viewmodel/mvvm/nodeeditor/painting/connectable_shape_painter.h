@@ -49,6 +49,11 @@ public:
   void Paint(QPainter* painter, const QStyleOptionGraphicsItem* option);
 
   /**
+   * @brief Sets the flag is the connection is hovered or not.
+   */
+  void SetHovered(bool value);
+
+  /**
    * @brief Returns exact rectangle of the shape without margins.
    */
   const QRectF& GetShapeRect() const;
@@ -65,7 +70,8 @@ private:
   void PaintLabel(QPainter* painter, const QStyleOptionGraphicsItem* option);
 
   IConnectableShapeAdapter& m_shape_adapter;
-  ConnectableShapeStyle m_shape_style;  //!
+  ConnectableShapeStyle m_shape_style;  //! cached style
+  bool m_is_hovered{false};
 };
 
 }  // namespace mvvm

@@ -86,7 +86,7 @@ private:
 
   NodeTreeLayout m_tree_layout;
   std::unique_ptr<INodeConnection> m_node_connection;
-  std::unique_ptr<NodeConnectionPainter> m_painter;
+  std::unique_ptr<NodeConnectionPainter> m_shape_painter;
   QPainterPath m_path;
   QRectF m_bounding_rect;
   QPainterPath m_shape;

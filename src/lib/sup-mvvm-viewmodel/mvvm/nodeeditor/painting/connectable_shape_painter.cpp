@@ -72,6 +72,11 @@ void ConnectableShapePainter::Paint(QPainter* painter, const QStyleOptionGraphic
   painter->restore();
 }
 
+void ConnectableShapePainter::SetHovered(bool value)
+{
+  m_is_hovered = value;
+}
+
 const QRectF& ConnectableShapePainter::GetShapeRect() const
 {
   return m_shape_style.base_rect;
@@ -131,7 +136,13 @@ void ConnectableShapePainter::PaintRectangle(QPainter* painter,
     pen.setWidthF(m_shape_style.pen_width + 1.0);
   }
 
-  pen.setColor(GetBoundaryColor(m_shape_adapter.GetOperationStates()));
+  auto color = GetBoundaryColor(m_shape_adapter.GetOperationStates());
+  if (m_is_hovered)
+  {
+    color = color.darker();
+  }
+
+  pen.setColor(color);
   painter->setPen(pen);
 
   painter->setBrush(ConnectableShapeGradient(m_shape_style.base_color, GetShapeRect()));

@@ -48,7 +48,6 @@ struct ConnectableShapeStyle
   QColor shadow_color;
   double round_par{5.0};
   double pen_width{1.0};
-  double howered_pen_width{1.5};
   QFont label_font;
 };
 

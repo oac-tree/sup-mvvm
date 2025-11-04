@@ -64,6 +64,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
   setFlag(QGraphicsItem::ItemIsSelectable);
   setFlag(QGraphicsItem::ItemIsMovable);
   setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+  setAcceptHoverEvents(true);
 
   SetupPorts();
   SetupItemPropertyListener();
@@ -206,6 +207,19 @@ void ConnectableShape::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     mvvm::utils::EndMacro(*m_shape_adapter->GetItem());
   }
   QGraphicsItem::mouseReleaseEvent(event);
+}
+
+void ConnectableShape::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+  qDebug() << "XXXX";
+  m_shape_painter->SetHovered(true);
+  QGraphicsItem::hoverEnterEvent(event);
+}
+
+void ConnectableShape::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+  m_shape_painter->SetHovered(false);
+  QGraphicsItem::hoverLeaveEvent(event);
 }
 
 void ConnectableShape::CalculateBoundingBox()

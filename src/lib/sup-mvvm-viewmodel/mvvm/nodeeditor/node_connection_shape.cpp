@@ -37,7 +37,7 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
     : QGraphicsItem(nullptr)
     , m_tree_layout(tree_layout)
     , m_node_connection(std::move(node_connection))
-    , m_painter(std::make_unique<NodeConnectionPainter>(CreateDefaultNodeConnectionStyle()))
+    , m_shape_painter(std::make_unique<NodeConnectionPainter>(CreateDefaultNodeConnectionStyle()))
 {
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setFlag(QGraphicsItem::ItemIsFocusable, true);
@@ -56,15 +56,11 @@ NodeConnectionShape::~NodeConnectionShape() = default;
 
 QRectF NodeConnectionShape::boundingRect() const
 {
-  static int counter{0};
-  qDebug() << "NodeConnectionShape::boundingRect() called" << (++counter);
   return m_bounding_rect;
 }
 
 QPainterPath NodeConnectionShape::shape() const
 {
-  static int counter{0};
-  qDebug() << "NodeConnectionShape::shape() called" << (++counter);
   return m_shape;
 }
 
@@ -72,7 +68,7 @@ void NodeConnectionShape::paint(QPainter* painter, const QStyleOptionGraphicsIte
                                 QWidget* widget)
 {
   (void)widget;
-  m_painter->Paint(painter, option, m_path);
+  m_shape_painter->Paint(painter, option, m_path);
 }
 
 INodeConnection* NodeConnectionShape::GetNodeConnection()
@@ -82,10 +78,9 @@ INodeConnection* NodeConnectionShape::GetNodeConnection()
 
 void NodeConnectionShape::UpdatePath(const NodeOperationStates& operation_states)
 {
-  qDebug() << "NodeConnectionShape::UpdatePath() called";
   static const double kPadding = style::ScaleToSystem(10.0);
 
-  m_painter->SetOperationStates(operation_states);
+  m_shape_painter->SetOperationStates(operation_states);
 
   m_current_states = operation_states;
   m_path = CalculatePainterPath();
@@ -109,19 +104,13 @@ QPainterPath NodeConnectionShape::GetPainterPath() const
 
 void NodeConnectionShape::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-  qDebug() << "----------------------------------------------------------";
-  qDebug() << "\nNodeConnectionShape::hoverEnterEvent\n";
-  qDebug() << "----------------------------------------------------------";
-  m_painter->SetHovered(true);
+  m_shape_painter->SetHovered(true);
   QGraphicsItem::hoverEnterEvent(event);
 }
 
 void NodeConnectionShape::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-  qDebug() << "----------------------------------------------------------";
-  qDebug() << "\nNodeConnectionShape::hoverLeaveEvent";
-  qDebug() << "----------------------------------------------------------";
-  m_painter->SetHovered(false);
+  m_shape_painter->SetHovered(false);
   QGraphicsItem::hoverLeaveEvent(event);
 }
 
