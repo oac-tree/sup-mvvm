@@ -36,10 +36,8 @@ NodeConnectionStyle CreateDefaultStyleForLightThemes()
 {
   NodeConnectionStyle result;
   result.base_color = QColor("gray");
-  result.selected_color = QColor("gray");
+  result.hover_color = QColor("slateblue");
   result.line_width = style::ScaleToSystem(2.0);
-  result.construction_line_width = style::ScaleToSystem(1.0);
-  result.point_diameter = style::ScaleToSystem(10.0);
   return result;
 }
 
@@ -50,7 +48,6 @@ NodeConnectionStyle CreateDefaultStyleForDarkThemes()
 {
   NodeConnectionStyle result = CreateDefaultStyleForLightThemes();
   result.base_color = QColor("lightgray");
-  result.selected_color = QColor("lightgray");
   return result;
 }
 
@@ -72,7 +69,7 @@ NodeConnectionStyle CreateDefaultNodeConnectionStyle(ColorFlavor color_flavor)
                               : CreateDefaultStyleForLightThemes();
 }
 
-const NodeConnectionStyle &GetDefaultNodeConnectionStyle()
+const NodeConnectionStyle& GetDefaultNodeConnectionStyle()
 {
   static const auto kStyle = CreateDefaultNodeConnectionStyle(ColorFlavor::kAuto);
   return kStyle;

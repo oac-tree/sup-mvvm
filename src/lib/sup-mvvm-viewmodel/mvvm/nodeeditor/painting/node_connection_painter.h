@@ -53,6 +53,12 @@ public:
   void SetHovered(bool value);
 
 private:
+  void DrawHoverLine(QPainter* painter, const QPainterPath& path) const;
+  void DrawSelectedLine(QPainter* painter, const QPainterPath& path) const;
+  void DrawBaseLine(QPainter* painter, const QPainterPath& path) const;
+
+  bool IsSelected(const QStyleOptionGraphicsItem* option) const;
+
   NodeConnectionStyle m_connection_style;
   bool m_is_hovered{false};
 };

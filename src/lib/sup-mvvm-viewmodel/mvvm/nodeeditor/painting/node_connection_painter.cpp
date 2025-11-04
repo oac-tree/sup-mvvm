@@ -36,24 +36,55 @@ void NodeConnectionPainter::Paint(QPainter* painter, const QStyleOptionGraphicsI
                                   const QPainterPath& path)
 {
   (void)painter;
-  (void)option;
-
-  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width, Qt::SolidLine,
-                       Qt::RoundCap, Qt::RoundJoin));
   painter->setBrush(Qt::NoBrush);
 
-  if (option->state & (QStyle::State_Selected | QStyle::State_HasFocus))
+  if (IsSelected(option))
   {
-    painter->setPen(QPen(m_connection_style.selected_color, m_connection_style.line_width,
-                         Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
+    DrawSelectedLine(painter, path);
   }
-
-  painter->drawPath(path);
+  else if (m_is_hovered)
+  {
+    DrawHoverLine(painter, path);
+  }
+  else
+  {
+    DrawBaseLine(painter, path);
+  }
 }
 
 void NodeConnectionPainter::SetHovered(bool value)
 {
   m_is_hovered = value;
+}
+
+void NodeConnectionPainter::DrawHoverLine(QPainter* painter, const QPainterPath& path) const
+{
+  // drawing thicker "halo" line
+  painter->setPen(QPen(m_connection_style.hover_color, m_connection_style.line_width + 2.0,
+                       Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+  painter->drawPath(path);
+
+  // drawing base line on top
+  DrawBaseLine(painter, path);
+}
+
+void NodeConnectionPainter::DrawSelectedLine(QPainter* painter, const QPainterPath& path) const
+{
+  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width + 1.0,
+                       Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
+  painter->drawPath(path);
+}
+
+void NodeConnectionPainter::DrawBaseLine(QPainter* painter, const QPainterPath& path) const
+{
+  painter->setPen(QPen(m_connection_style.base_color, m_connection_style.line_width, Qt::SolidLine,
+                       Qt::RoundCap, Qt::RoundJoin));
+  painter->drawPath(path);
+}
+
+bool NodeConnectionPainter::IsSelected(const QStyleOptionGraphicsItem* option) const
+{
+  return option->state & (QStyle::State_Selected | QStyle::State_HasFocus);
 }
 
 }  // namespace mvvm
