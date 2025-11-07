@@ -143,10 +143,6 @@ public:
 
   ComboProperty& operator<<(const std::string& str);
   ComboProperty& operator<<(const std::vector<std::string>& str);
-  bool operator==(const ComboProperty& other) const;
-  bool operator!=(const ComboProperty& other) const;
-  bool operator<(const ComboProperty& other) const;
-  bool operator>=(const ComboProperty& other) const;
 
   /**
    * @brief Return a string representing this ComboProperty.
@@ -167,10 +163,16 @@ public:
   static ComboProperty CreateFromString(const std::string& str);
 
 private:
+  friend bool operator<(const ComboProperty& lhs, const ComboProperty& rhs);
   std::vector<std::string> m_values;
   std::vector<std::string> m_tooltips;
   std::vector<std::int32_t> m_selected_indices;
 };
+
+bool operator==(const ComboProperty& lhs, const ComboProperty& rhs);
+bool operator!=(const ComboProperty& lhs, const ComboProperty& rhs);
+bool operator<(const ComboProperty& lhs, const ComboProperty& rhs);
+bool operator>=(const ComboProperty& lhs, const ComboProperty& rhs);
 
 }  // namespace mvvm
 

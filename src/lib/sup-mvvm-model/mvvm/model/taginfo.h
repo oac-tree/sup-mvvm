@@ -109,15 +109,15 @@ public:
    */
   bool IsValidType(const std::string& item_type) const;
 
-  bool operator==(const TagInfo& other) const;
-  bool operator!=(const TagInfo& other) const;
-
 private:
   std::string m_name;                     //!< the name of the tag
   std::optional<std::size_t> m_min;       //!< minimum allowed number of items in a tag
   std::optional<std::size_t> m_max;       //!< maximum allowed number of items in a tag
   std::vector<std::string> m_item_types;  //!< vector of allowed item types
 };
+
+bool operator==(const TagInfo& lhs, const TagInfo& rhs);
+bool operator!=(const TagInfo& lhs, const TagInfo& rhs);
 
 }  // namespace mvvm
 

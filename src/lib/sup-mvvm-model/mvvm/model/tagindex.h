@@ -136,13 +136,13 @@ public:
    */
   static std::string GetDefaultTag();
 
-  bool operator==(const TagIndex& other) const;
-  bool operator!=(const TagIndex& other) const;
-
 private:
   std::string m_tag;         //!< The name of the item container.
   std::size_t m_index = 0U;  //!< The position in the item container.
 };
+
+bool operator==(const TagIndex& lhs, const TagIndex& rhs);
+bool operator!=(const TagIndex& lhs, const TagIndex& rhs);
 
 }  // namespace mvvm
 

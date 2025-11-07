@@ -91,14 +91,14 @@ std::string TagIndex::GetDefaultTag()
   return {};  // we use empty string as a sign of the default tag
 }
 
-bool TagIndex::operator==(const TagIndex& other) const
+bool operator==(const TagIndex& lhs, const TagIndex& rhs)
 {
-  return (m_index == other.m_index) && (m_tag == other.m_tag);
+  return (lhs.GetIndex() == rhs.GetIndex()) && (lhs.GetTag() == rhs.GetTag());
 }
 
-bool TagIndex::operator!=(const TagIndex& other) const
+bool operator!=(const TagIndex& lhs, const TagIndex& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 }  // namespace mvvm

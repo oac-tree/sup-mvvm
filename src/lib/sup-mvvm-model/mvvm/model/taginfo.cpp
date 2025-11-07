@@ -45,7 +45,7 @@ TagInfo::TagInfo(std::string name, const std::optional<std::size_t>& min,
 
 TagInfo TagInfo::CreateUniversalTag(std::string name, std::vector<std::string> item_types)
 {
-  return TagInfo(std::move(name), {}, {}, std::move(item_types));
+  return {std::move(name), {}, {}, std::move(item_types)};
 }
 
 TagInfo TagInfo::CreatePropertyTag(std::string name, std::string item_type)
@@ -89,15 +89,15 @@ bool TagInfo::IsValidType(const std::string& item_type) const
   return m_item_types.empty() ? true : utils::Contains(m_item_types, item_type);
 }
 
-bool TagInfo::operator==(const TagInfo& other) const
+bool operator==(const TagInfo& lhs, const TagInfo& rhs)
 {
-  return m_name == other.m_name && m_min == other.m_min && m_max == other.m_max
-         && m_item_types == other.m_item_types;
+  return (lhs.GetName() == rhs.GetName()) && (lhs.GetMin() == rhs.GetMin())
+         && (lhs.GetMax() == rhs.GetMax()) && (lhs.GetItemTypes() == rhs.GetItemTypes());
 }
 
-bool TagInfo::operator!=(const TagInfo& other) const
+bool operator!=(const TagInfo& lhs, const TagInfo& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 }  // namespace mvvm
