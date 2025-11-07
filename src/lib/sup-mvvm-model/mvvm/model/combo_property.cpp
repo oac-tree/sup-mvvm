@@ -215,33 +215,33 @@ ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str)
   return *this;
 }
 
-bool ComboProperty::operator==(const ComboProperty& other) const
+bool operator==(const ComboProperty& lhs, const ComboProperty& rhs)
 {
-  if (m_selected_indices != other.m_selected_indices)
+  if (lhs.GetSelectedIndices() != rhs.GetSelectedIndices())
   {
     return false;
   }
-  if (m_values != other.m_values)
+  if (lhs.GetValues() != rhs.GetValues())
   {
     return false;
   }
   return true;
 }
 
-bool ComboProperty::operator!=(const ComboProperty& other) const
+bool operator!=(const ComboProperty& lhs, const ComboProperty& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
-bool ComboProperty::operator<(const ComboProperty& other) const
+bool operator<(const ComboProperty& lhs, const ComboProperty& rhs)
 {
-  return std::tie(m_selected_indices, m_values)
-         < std::tie(other.m_selected_indices, other.m_values);
+  return std::tie(lhs.m_selected_indices, lhs.m_values)
+         < std::tie(rhs.m_selected_indices, rhs.m_values);
 }
 
-bool ComboProperty::operator>=(const ComboProperty& other) const
+bool operator>=(const ComboProperty& lhs, const ComboProperty& rhs)
 {
-  return (other < *this) || (*this == other);
+  return (lhs < rhs) || (lhs == rhs);
 }
 
 std::string ComboProperty::ToString() const

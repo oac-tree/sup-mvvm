@@ -23,14 +23,14 @@
 namespace mvvm
 {
 
-bool DoubleClickEvent::operator==(const DoubleClickEvent& other) const
+bool operator==(const DoubleClickEvent& lhs, const DoubleClickEvent& rhs)
 {
-  return port == other.port;
+  return lhs.port == rhs.port;
 }
 
-bool DoubleClickEvent::operator!=(const DoubleClickEvent& other) const
+bool operator!=(const DoubleClickEvent& lhs, const DoubleClickEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 }  // namespace mvvm

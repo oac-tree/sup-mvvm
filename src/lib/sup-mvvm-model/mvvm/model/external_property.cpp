@@ -66,25 +66,26 @@ bool ExternalProperty::IsEmpty() const
   return m_identifier.empty() && m_text.empty() && m_color.empty();
 }
 
-bool ExternalProperty::operator==(const ExternalProperty& other) const
+bool operator==(const ExternalProperty& lhs, const ExternalProperty& rhs)
 {
-  return m_identifier == other.m_identifier && m_text == other.m_text && m_color == other.m_color;
+  return (lhs.GetIdentifier() == rhs.GetIdentifier()) && (lhs.GetText() == rhs.GetText())
+         && (lhs.GetColorName() == rhs.GetColorName());
 }
 
-bool ExternalProperty::operator!=(const ExternalProperty& other) const
+bool operator!=(const ExternalProperty& lhs, const ExternalProperty& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
-bool ExternalProperty::operator<(const ExternalProperty& other) const
+bool operator<(const ExternalProperty& lhs, const ExternalProperty& rhs)
 {
-  return std::tie(m_identifier, m_text, m_color)
-         < std::tie(other.m_identifier, other.m_text, other.m_color);
+  return std::tie(lhs.m_identifier, lhs.m_text, lhs.m_color)
+         < std::tie(rhs.m_identifier, rhs.m_text, rhs.m_color);
 }
 
-bool ExternalProperty::operator>=(const ExternalProperty& other) const
+bool operator>=(const ExternalProperty& lhs, const ExternalProperty& rhs)
 {
-  return (other < *this) || (*this == other);
+  return (lhs < rhs) || (lhs == rhs);
 }
 
 //! Converts class into its string representation.

@@ -41,10 +41,10 @@ struct DataChangedEvent
 {
   SessionItem* item{nullptr};  //! item whose data has changed
   int data_role{0};            //! the role associated with the data
-
-  bool operator==(const DataChangedEvent& other) const;
-  bool operator!=(const DataChangedEvent& other) const;
 };
+
+bool operator==(const DataChangedEvent& lhs, const DataChangedEvent& rhs);
+bool operator!=(const DataChangedEvent& lhs, const DataChangedEvent& rhs);
 
 /**
  * @brief The PropertyChangedEvent struct represents an event when an item's property has changed.
@@ -56,10 +56,10 @@ struct PropertyChangedEvent
 {
   SessionItem* item{nullptr};  //! item whose property has changed
   std::string name;            //! the name of the changed property
-
-  bool operator==(const PropertyChangedEvent& other) const;
-  bool operator!=(const PropertyChangedEvent& other) const;
 };
+
+bool operator==(const PropertyChangedEvent& lhs, const PropertyChangedEvent& rhs);
+bool operator!=(const PropertyChangedEvent& lhs, const PropertyChangedEvent& rhs);
 
 /**
  * @brief The AboutToInsertItemEvent struct represents nn event when the item is about to be
@@ -71,10 +71,10 @@ struct AboutToInsertItemEvent
 {
   SessionItem* item{nullptr};  //! item that is about to get a new child
   TagIndex tag_index;          //! position of a child
-
-  bool operator==(const AboutToInsertItemEvent& other) const;
-  bool operator!=(const AboutToInsertItemEvent& other) const;
 };
+
+bool operator==(const AboutToInsertItemEvent& lhs, const AboutToInsertItemEvent& rhs);
+bool operator!=(const AboutToInsertItemEvent& lhs, const AboutToInsertItemEvent& rhs);
 
 /**
  * @brief The ItemInsertedEvent struct represents nn event when the item was inserted in the model.
@@ -85,10 +85,10 @@ struct ItemInsertedEvent
 {
   SessionItem* item{nullptr};  //! item that got a new child (i.e. parent)
   TagIndex tag_index;          //! position of a child
-
-  bool operator==(const ItemInsertedEvent& other) const;
-  bool operator!=(const ItemInsertedEvent& other) const;
 };
+
+bool operator==(const ItemInsertedEvent& lhs, const ItemInsertedEvent& rhs);
+bool operator!=(const ItemInsertedEvent& lhs, const ItemInsertedEvent& rhs);
 
 /**
  * @brief The AboutToRemoveItemEvent struct represents an event when the item is about to be removed
@@ -100,10 +100,10 @@ struct AboutToRemoveItemEvent
 {
   SessionItem* item{nullptr};  //! item whose child is about to be removed
   TagIndex tag_index;          //! position of a child
-
-  bool operator==(const AboutToRemoveItemEvent& other) const;
-  bool operator!=(const AboutToRemoveItemEvent& other) const;
 };
+
+bool operator==(const AboutToRemoveItemEvent& lhs, const AboutToRemoveItemEvent& rhs);
+bool operator!=(const AboutToRemoveItemEvent& lhs, const AboutToRemoveItemEvent& rhs);
 
 /**
  * @brief The ItemRemovedEvent struct represents an event when the item was removed from the model.
@@ -114,10 +114,10 @@ struct ItemRemovedEvent
 {
   SessionItem* item{nullptr};  //! item whose child was removed
   TagIndex tag_index;          //! position of a child
-
-  bool operator==(const ItemRemovedEvent& other) const;
-  bool operator!=(const ItemRemovedEvent& other) const;
 };
+
+bool operator==(const ItemRemovedEvent& lhs, const ItemRemovedEvent& rhs);
+bool operator!=(const ItemRemovedEvent& lhs, const ItemRemovedEvent& rhs);
 
 /**
  * @brief The ModelAboutToBeResetEvent struct represents an event when the root item of the model is
@@ -126,10 +126,10 @@ struct ItemRemovedEvent
 struct ModelAboutToBeResetEvent
 {
   ISessionModel* model{nullptr};  //! the model being reset
-
-  bool operator==(const ModelAboutToBeResetEvent& other) const;
-  bool operator!=(const ModelAboutToBeResetEvent& other) const;
 };
+
+bool operator==(const ModelAboutToBeResetEvent& lhs, const ModelAboutToBeResetEvent& rhs);
+bool operator!=(const ModelAboutToBeResetEvent& lhs, const ModelAboutToBeResetEvent& rhs);
 
 /**
  * @brief The ModelResetEvent struct represents an event at the end of the root item reset.
@@ -137,10 +137,10 @@ struct ModelAboutToBeResetEvent
 struct ModelResetEvent
 {
   ISessionModel* model{nullptr};  //! the model being reset
-
-  bool operator==(const ModelResetEvent& other) const;
-  bool operator!=(const ModelResetEvent& other) const;
 };
+
+bool operator==(const ModelResetEvent& lhs, const ModelResetEvent& rhs);
+bool operator!=(const ModelResetEvent& lhs, const ModelResetEvent& rhs);
 
 /**
  * @brief The ModelAboutToBeDestroyedEvent class represents an event at the beginning of the model
@@ -149,10 +149,10 @@ struct ModelResetEvent
 struct ModelAboutToBeDestroyedEvent
 {
   ISessionModel* model{nullptr};  //! the model being destroyed
-
-  bool operator==(const ModelAboutToBeDestroyedEvent& other) const;
-  bool operator!=(const ModelAboutToBeDestroyedEvent& other) const;
 };
+
+bool operator==(const ModelAboutToBeDestroyedEvent& lhs, const ModelAboutToBeDestroyedEvent& rhs);
+bool operator!=(const ModelAboutToBeDestroyedEvent& lhs, const ModelAboutToBeDestroyedEvent& rhs);
 
 //! Variant for all application events.
 using event_variant_t =

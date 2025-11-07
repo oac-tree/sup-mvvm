@@ -45,19 +45,21 @@ public:
 
   bool IsEmpty() const;
 
-  bool operator==(const ExternalProperty& other) const;
-  bool operator!=(const ExternalProperty& other) const;
-  bool operator<(const ExternalProperty& other) const;
-  bool operator>=(const ExternalProperty& other) const;
-
   std::string ToString() const;
   static ExternalProperty CreateFromString(const std::string& text);
 
 private:
+  friend bool operator<(const ExternalProperty& lhs, const ExternalProperty& rhs);
   std::string m_text;
   std::string m_color;
   std::string m_identifier;
 };
+
+bool operator==(const ExternalProperty& lhs, const ExternalProperty& rhs);
+bool operator!=(const ExternalProperty& lhs, const ExternalProperty& rhs);
+bool operator<(const ExternalProperty& lhs, const ExternalProperty& rhs);
+bool operator>=(const ExternalProperty& lhs, const ExternalProperty& rhs);
+
 
 }  // namespace mvvm
 

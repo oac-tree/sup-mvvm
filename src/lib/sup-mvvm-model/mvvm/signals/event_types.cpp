@@ -27,126 +27,126 @@ namespace mvvm
 // DataChangedEvent
 // ----------------------------------------------------------------------------
 
-bool DataChangedEvent::operator==(const DataChangedEvent& other) const
+bool operator==(const DataChangedEvent& lhs, const DataChangedEvent& rhs)
 {
-  return (item == other.item) && (data_role == other.data_role);
+  return (lhs.item == rhs.item) && (lhs.data_role == rhs.data_role);
 }
 
-bool DataChangedEvent::operator!=(const DataChangedEvent& other) const
+bool operator!=(const DataChangedEvent& lhs, const DataChangedEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 // ----------------------------------------------------------------------------
 // PropertyChangedEvent
 // ----------------------------------------------------------------------------
 
-bool PropertyChangedEvent::operator==(const PropertyChangedEvent& other) const
+bool operator==(const PropertyChangedEvent& lhs, const PropertyChangedEvent& rhs)
 {
-  return (item == other.item) && (name == other.name);
+  return (lhs.item == rhs.item) && (lhs.name == rhs.name);
 }
 
-bool PropertyChangedEvent::operator!=(const PropertyChangedEvent& other) const
+bool operator!=(const PropertyChangedEvent& lhs, const PropertyChangedEvent& rhs)
 {
-  return !(*this == other);
-}
-
-// ----------------------------------------------------------------------------
-// AboutToInsertItemEvent
-// ----------------------------------------------------------------------------
-
-bool AboutToInsertItemEvent::operator==(const AboutToInsertItemEvent& other) const
-{
-  return (item == other.item) && (tag_index == other.tag_index);
-}
-
-bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) const
-{
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 // ----------------------------------------------------------------------------
 // AboutToInsertItemEvent
 // ----------------------------------------------------------------------------
 
-bool ItemInsertedEvent::operator==(const ItemInsertedEvent& other) const
+bool operator==(const AboutToInsertItemEvent& lhs, const AboutToInsertItemEvent& rhs)
 {
-  return (item == other.item) && (tag_index == other.tag_index);
+  return (lhs.item == rhs.item) && (lhs.tag_index == rhs.tag_index);
 }
 
-bool ItemInsertedEvent::operator!=(const ItemInsertedEvent& other) const
+bool operator!=(const AboutToInsertItemEvent& lhs, const AboutToInsertItemEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
+}
+
+// ----------------------------------------------------------------------------
+// AboutToInsertItemEvent
+// ----------------------------------------------------------------------------
+
+bool operator==(const ItemInsertedEvent& lhs, const ItemInsertedEvent& rhs)
+{
+  return (lhs.item == rhs.item) && (lhs.tag_index == rhs.tag_index);
+}
+
+bool operator!=(const ItemInsertedEvent& lhs, const ItemInsertedEvent& rhs)
+{
+  return !(lhs == rhs);
 }
 
 // ----------------------------------------------------------------------------
 // AboutToRemoveItemEvent
 // ----------------------------------------------------------------------------
 
-bool AboutToRemoveItemEvent::operator==(const AboutToRemoveItemEvent& other) const
+bool operator==(const AboutToRemoveItemEvent& lhs, const AboutToRemoveItemEvent& rhs)
 {
-  return (item == other.item) && (tag_index == other.tag_index);
+  return (lhs.item == rhs.item) && (lhs.tag_index == rhs.tag_index);
 }
 
-bool AboutToRemoveItemEvent::operator!=(const AboutToRemoveItemEvent& other) const
+bool operator!=(const AboutToRemoveItemEvent& lhs, const AboutToRemoveItemEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 // ----------------------------------------------------------------------------
 // ItemRemovedEvent
 // ----------------------------------------------------------------------------
 
-bool ItemRemovedEvent::operator==(const ItemRemovedEvent& other) const
+bool operator==(const ItemRemovedEvent& lhs, const ItemRemovedEvent& rhs)
 {
-  return (item == other.item) && (tag_index == other.tag_index);
+  return (lhs.item == rhs.item) && (lhs.tag_index == rhs.tag_index);
 }
 
-bool ItemRemovedEvent::operator!=(const ItemRemovedEvent& other) const
+bool operator!=(const ItemRemovedEvent& lhs, const ItemRemovedEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 // ----------------------------------------------------------------------------
 // ModelAboutToBeResetEvent
 // ----------------------------------------------------------------------------
 
-bool ModelAboutToBeResetEvent::operator==(const ModelAboutToBeResetEvent& other) const
+bool operator==(const ModelAboutToBeResetEvent& lhs, const ModelAboutToBeResetEvent& rhs)
 {
-  return model == other.model;
+  return lhs.model == rhs.model;
 }
 
-bool ModelAboutToBeResetEvent::operator!=(const ModelAboutToBeResetEvent& other) const
+bool operator!=(const ModelAboutToBeResetEvent& lhs, const ModelAboutToBeResetEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 // ----------------------------------------------------------------------------
 // ModelResetEvent
 // ----------------------------------------------------------------------------
 
-bool ModelResetEvent::operator==(const ModelResetEvent& other) const
+bool operator==(const ModelResetEvent& lhs, const ModelResetEvent& rhs)
 {
-  return model == other.model;
+  return lhs.model == rhs.model;
 }
 
-bool ModelResetEvent::operator!=(const ModelResetEvent& other) const
+bool operator!=(const ModelResetEvent& lhs, const ModelResetEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 // ----------------------------------------------------------------------------
 // ModelAboutToBeDestroyedEvent
 // ----------------------------------------------------------------------------
 
-bool ModelAboutToBeDestroyedEvent::operator==(const ModelAboutToBeDestroyedEvent& other) const
+bool operator==(const ModelAboutToBeDestroyedEvent& lhs, const ModelAboutToBeDestroyedEvent& rhs)
 {
-  return model == other.model;
+  return lhs.model == rhs.model;
 }
 
-bool ModelAboutToBeDestroyedEvent::operator!=(const ModelAboutToBeDestroyedEvent& other) const
+bool operator!=(const ModelAboutToBeDestroyedEvent& lhs, const ModelAboutToBeDestroyedEvent& rhs)
 {
-  return !(*this == other);
+  return !(lhs == rhs);
 }
 
 }  // namespace mvvm

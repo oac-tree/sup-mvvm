@@ -38,10 +38,10 @@ class INodePort;
 struct DoubleClickEvent
 {
   INodePort* port{nullptr};  //! the model being destroyed
-
-  bool operator==(const DoubleClickEvent& other) const;
-  bool operator!=(const DoubleClickEvent& other) const;
 };
+
+bool operator==(const DoubleClickEvent& lhs, const DoubleClickEvent& rhs);
+bool operator!=(const DoubleClickEvent& lhs, const DoubleClickEvent& rhs);
 
 using node_event_t = std::variant<DoubleClickEvent>;
 
