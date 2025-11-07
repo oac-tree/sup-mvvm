@@ -109,7 +109,7 @@ public:
 
   bool Decrement() override;
 
-  bool StepBy(int steps) override;
+  bool StepBy(std::int32_t steps) override;
 
   bool IsAtMinimum() const override;
 
@@ -256,7 +256,7 @@ inline bool LimitedInteger<T>::Decrement()
 }
 
 template <typename T>
-inline bool LimitedInteger<T>::StepBy(int steps)
+inline bool LimitedInteger<T>::StepBy(std::int32_t steps)
 {
   // This is a simplified implementation which is not very efficient for large amount of steps,
   // but it guarantees that no bit flip can happen with any comparison/add/substract operations

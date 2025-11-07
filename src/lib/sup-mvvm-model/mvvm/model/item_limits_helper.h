@@ -122,7 +122,7 @@ void RemoveLimits(mvvm::SessionItem& item);
  * user as it is. If some limits are not defined, std::numeric_limits will be used instead. The
  * function will throw if item' holds limits that can't be fit into pair of integers.
  */
-std::pair<int, int> GetInt32Limits(const SessionItem& item);
+std::pair<std::int32_t, std::int32_t> GetInt32Limits(const SessionItem& item);
 
 /**
  * @brief Return pair of doubles representing limits of the given item.

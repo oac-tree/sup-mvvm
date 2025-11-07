@@ -32,9 +32,9 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
     return;
   }
 
-  for (int row = 0; row < model->rowCount(parent); ++row)
+  for (std::int32_t row = 0; row < model->rowCount(parent); ++row)
   {
-    for (int col = 0; col < model->columnCount(parent); ++col)
+    for (std::int32_t col = 0; col < model->columnCount(parent); ++col)
     {
       auto index = model->index(row, col, parent);
       if (index.isValid())
@@ -42,7 +42,7 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
         fun(index);
       }
     }
-    for (int col = 0; col < model->columnCount(parent); ++col)
+    for (std::int32_t col = 0; col < model->columnCount(parent); ++col)
     {
       auto index = model->index(row, col, parent);
       iterate_model(model, index, fun);
@@ -69,7 +69,7 @@ void IterateFirstColumn(const QAbstractItemModel& viewmodel, const QModelIndex& 
 
     func(node.parent);
 
-    for (int row = viewmodel.rowCount(node.parent) - 1; row >= 0; --row)
+    for (std::int32_t row = viewmodel.rowCount(node.parent) - 1; row >= 0; --row)
     {
       stack.push({viewmodel.index(row, 0, node.parent)});
     }

@@ -36,7 +36,7 @@ namespace mvvm
 {
 
 ViewModelControllerImpl::ViewModelControllerImpl(
-    ViewModelBase *viewmodel, std::unique_ptr<IChildrenStrategy> children_strategy,
+    ViewModelBase* viewmodel, std::unique_ptr<IChildrenStrategy> children_strategy,
     std::unique_ptr<IRowStrategy> row_strategy)
     : m_view_model(viewmodel)
     , m_children_strategy(std::move(children_strategy))
@@ -46,32 +46,33 @@ ViewModelControllerImpl::ViewModelControllerImpl(
 
 ViewModelControllerImpl::~ViewModelControllerImpl() = default;
 
-void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const AboutToInsertItemEvent &event)
+void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const AboutToInsertItemEvent& event)
 {
   // default implementation does nothing
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
+void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent& event)
 {
   auto [parent, tag_index] = event;
 
   auto new_child = parent->GetItem(tag_index);
 
   const auto insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
-  auto parent_view = const_cast<ViewItem *>(m_view_item_map.FindView(parent));
+  auto parent_view = const_cast<ViewItem*>(m_view_item_map.FindView(parent));
 
   if ((insert_view_index != constants::kInvalidIndex) && parent_view)
   {
-    m_view_model->insertRow(parent_view, static_cast<int>(insert_view_index), CreateTreeOfRows(*new_child));
+    m_view_model->insertRow(parent_view, static_cast<std::int32_t>(insert_view_index),
+                            CreateTreeOfRows(*new_child));
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ItemRemovedEvent &event)
+void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ItemRemovedEvent& event)
 {
   // default implementation does nothing
 }
 
-void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
+void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent& event)
 {
   auto item_to_remove = event.item->GetItem(event.tag_index);
 
@@ -91,7 +92,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
+void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent& event)
 {
   for (auto view : utils::FindViewsForItem(m_view_model, event.item))
   {
@@ -103,7 +104,7 @@ void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ModelAboutToBeResetEvent &event)
+void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ModelAboutToBeResetEvent& event)
 {
   // Here we are notified that the model content will be destroyed soon.
   // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to
@@ -112,9 +113,9 @@ void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ModelAboutToBe
   m_view_model->BeginResetModelNotify();
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
+void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent& event)
 {
-  SessionItem *root_item = event.model->GetRootItem();
+  SessionItem* root_item = event.model->GetRootItem();
 
   m_view_item_map.Clear();
   auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
@@ -124,17 +125,17 @@ void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
 }
 
 void ViewModelControllerImpl::OnModelEvent(
-    [[maybe_unused]] const ModelAboutToBeDestroyedEvent &event)
+    [[maybe_unused]] const ModelAboutToBeDestroyedEvent& event)
 {
   m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
-const SessionItem *ViewModelControllerImpl::GetRootItem() const
+const SessionItem* ViewModelControllerImpl::GetRootItem() const
 {
   return utils::GetItemFromView<SessionItem>(m_view_model->rootItem());
 }
 
-void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
+void ViewModelControllerImpl::SetRootItem(SessionItem* root_item)
 {
   CheckInitialState();
 
@@ -179,8 +180,8 @@ void ViewModelControllerImpl::CheckInitialState() const
   }
 }
 
-std::size_t ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *parent,
-                                                               const SessionItem *child)
+std::size_t ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem* parent,
+                                                               const SessionItem* child)
 {
   // children that should get their views
   auto children = m_children_strategy->GetChildren(parent);
@@ -188,7 +189,7 @@ std::size_t ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem
   return utils::IndexOfItem(children, child);
 }
 
-std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRows(SessionItem &item,
+std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRows(SessionItem& item,
                                                                                   bool is_root)
 {
   // Every SessionItem will be represented by the vector of ViewItem's.  The first element of this
@@ -198,8 +199,8 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
   // A helper structure to visit SessionItem hierarchy in non recursive manner.
   struct Node
   {
-    SessionItem *item{nullptr};    // a SessionItem being visited
-    ViewItem *view_item{nullptr};  // first ViewItem in a row of item's views
+    SessionItem* item{nullptr};    // a SessionItem being visited
+    ViewItem* view_item{nullptr};  // first ViewItem in a row of item's views
   };
 
   std::stack<Node> stack;
@@ -218,14 +219,14 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
 
   if (!row_of_views.empty())
   {
-    auto *view_item = row_of_views.at(0).get();  // a parent for the following row of views
+    auto* view_item = row_of_views.at(0).get();  // a parent for the following row of views
     stack.push({&item, view_item});
   }
 
   while (!stack.empty())
   {
-    auto *current_parent = stack.top().item;
-    auto *current_parent_view = stack.top().view_item;
+    auto* current_parent = stack.top().item;
+    auto* current_parent_view = stack.top().view_item;
     stack.pop();
 
     m_view_item_map.Insert(current_parent, current_parent_view);
@@ -239,7 +240,7 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
 
       if (!row.empty())
       {
-        auto *next_parent_view = row.at(0).get();
+        auto* next_parent_view = row.at(0).get();
 
         // Inserting row of views into their parent. We always insert at index 0 to compensate
         // reverse order.
@@ -259,7 +260,7 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
   return row_of_views;
 }
 
-ViewModelControllerImpl::item_view_map_t &ViewModelControllerImpl::GetViewItemMap()
+ViewModelControllerImpl::item_view_map_t& ViewModelControllerImpl::GetViewItemMap()
 {
   return m_view_item_map;
 }

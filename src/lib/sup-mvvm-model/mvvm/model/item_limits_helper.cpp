@@ -158,7 +158,7 @@ void SetLimited(const variant_t& left_bound_value, const variant_t& right_bound_
   (void)item.SetData(right_bound_value, DataRole::kUpperLimit);
 }
 
-std::pair<int, int> GetInt32Limits(const SessionItem& item)
+std::pair<int32_t, int32_t> GetInt32Limits(const SessionItem& item)
 {
   if (!item.HasData(DataRole::kData))
   {

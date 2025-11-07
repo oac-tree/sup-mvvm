@@ -43,11 +43,11 @@ ComboProperty GetPenStyleCombo()
   return kPenStyleCombo;
 }
 
-const int kPenDefaultWidth = 1;
-const int kPenMinWidth = 0;
-const int kPenMaxWidth = 7;
-const int kPenStyleIndexSolid = 1;
-const int kPenStyleIndexDashline = 2;
+constexpr std::int32_t kPenDefaultWidth = 1;
+constexpr std::int32_t kPenMinWidth = 0;
+constexpr std::int32_t kPenMaxWidth = 7;
+constexpr std::int32_t kPenStyleIndexSolid = 1;
+constexpr std::int32_t kPenStyleIndexDashline = 2;
 constexpr std::string_view kText = "kText";
 constexpr std::string_view kFont = "kFont";
 constexpr std::string_view kSize = "kSize";
@@ -86,12 +86,12 @@ void TextItem::SetFont(const std::string &value)
   (void)SetProperty(kFont, value);
 }
 
-int TextItem::GetPointSize() const
+std::int32_t TextItem::GetPointSize() const
 {
-  return Property<int>(kSize);
+  return Property<std::int32_t>(kSize);
 }
 
-void TextItem::SetPointSize(int value)
+void TextItem::SetPointSize(std::int32_t value)
 {
   (void)SetProperty(kSize, value);
 }
@@ -152,17 +152,17 @@ void PenItem::SetStyle(const std::string &style)
   (void)SetProperty(kStyle, combo);
 }
 
-int PenItem::GetStyleIndex() const
+std::int32_t PenItem::GetStyleIndex() const
 {
   return Property<ComboProperty>(kStyle).GetCurrentIndex();
 }
 
-int PenItem::GetWidth() const
+std::int32_t PenItem::GetWidth() const
 {
-  return Property<int>(kWidth);
+  return Property<std::int32_t>(kWidth);
 }
 
-void PenItem::SetWidth(int value)
+void PenItem::SetWidth(std::int32_t value)
 {
   (void)SetProperty(kWidth, value);
 }

@@ -79,7 +79,7 @@ public:
    * @param steps Number of increments (if positive) or number of decrements (if negative).
    * @return True if the value was changed.
    */
-  virtual bool StepBy(int steps) = 0;
+  virtual bool StepBy(std::int32_t steps) = 0;
 
   /**
    * @brief Increments internal value.

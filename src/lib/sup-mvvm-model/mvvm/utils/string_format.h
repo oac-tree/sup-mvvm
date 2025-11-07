@@ -22,6 +22,7 @@
 #define MVVM_UTILS_STRING_FORMAT_H_
 
 #include <string>
+#include <cstdint>
 
 namespace mvvm::utils
 {
@@ -65,7 +66,7 @@ public:
 
 private:
   std::string m_value;
-  int m_arg_count{0};
+  std::int32_t m_arg_count{0};
 };
 
 }  // namespace mvvm::utils

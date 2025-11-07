@@ -66,7 +66,7 @@ std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item)
 }
 
 std::unique_ptr<ViewItem> CreateFixedDataViewItem(SessionItem* item,
-                                                  std::map<int, QVariant> fixed_data)
+                                                  std::map<int32_t, QVariant> fixed_data)
 {
   auto presentation = std::make_unique<FixedDataPresentationItem>(item, std::move(fixed_data));
   return std::make_unique<ViewItem>(std::move(presentation));

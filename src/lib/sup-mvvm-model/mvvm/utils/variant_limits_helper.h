@@ -44,8 +44,9 @@ namespace mvvm
  * type are the same and are one of: int32: int8, uint8, int16, uint16, int32. The returned pair is
  * always casted to maximum allowed for integer editors type: int32
  */
-std::pair<int, int> GetInt32MinMaxNumeric(const variant_t& value, const variant_t& lower_bound = {},
-                                          const variant_t& upper_bound = {});
+std::pair<std::int32_t, std::int32_t> GetInt32MinMaxNumeric(const variant_t& value,
+                                                            const variant_t& lower_bound = {},
+                                                            const variant_t& upper_bound = {});
 
 /**
  * @brief Returns pairs of doubles representing limits of stored data.

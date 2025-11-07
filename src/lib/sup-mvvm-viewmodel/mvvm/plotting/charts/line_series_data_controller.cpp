@@ -98,7 +98,7 @@ void LineSeriesDataController::OnModelEvent(const DataChangedEvent &event)
   //     - X PropertyItem
   //     - Y PropertyItem
 
-  const int expected_distance_to_data_item = 2;
+  const std::int32_t expected_distance_to_data_item = 2;
   if (auto depth = utils::GetNestingDepth(m_data_item, event.item);
       depth == expected_distance_to_data_item)
   {

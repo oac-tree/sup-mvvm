@@ -31,7 +31,7 @@
 
 namespace
 {
-const int kDefaultLineWidth = 2;
+constexpr std::int32_t kDefaultLineWidth = 2;
 constexpr std::string_view kDefaultLineColor("#209fdf");  // between royal blue and steel blue
 }  // namespace
 

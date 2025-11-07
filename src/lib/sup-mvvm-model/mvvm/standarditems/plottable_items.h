@@ -47,8 +47,8 @@ public:
   std::string GetFont() const;
   void SetFont(const std::string& value);
 
-  int GetPointSize() const;
-  void SetPointSize(int value);
+  std::int32_t GetPointSize() const;
+  void SetPointSize(std::int32_t value);
 };
 
 /**
@@ -96,10 +96,10 @@ public:
   std::string GetStyle() const;
   void SetStyle(const std::string& style);
 
-  int GetStyleIndex() const;
+  std::int32_t GetStyleIndex() const;
 
-  int GetWidth() const;
-  void SetWidth(int value);
+  std::int32_t GetWidth() const;
+  void SetWidth(std::int32_t value);
 };
 
 template <>

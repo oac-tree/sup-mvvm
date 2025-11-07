@@ -25,7 +25,7 @@
 //! Defines collection of event types.
 
 #include <mvvm/model/tagindex.h>
-
+#include <cstdint>
 #include <variant>
 
 namespace mvvm
@@ -40,7 +40,7 @@ class ISessionModel;
 struct DataChangedEvent
 {
   SessionItem* item{nullptr};  //! item whose data has changed
-  int data_role{0};            //! the role associated with the data
+  std::int32_t data_role{0};            //! the role associated with the data
 };
 
 bool operator==(const DataChangedEvent& lhs, const DataChangedEvent& rhs);

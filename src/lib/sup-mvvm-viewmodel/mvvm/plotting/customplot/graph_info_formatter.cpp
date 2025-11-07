@@ -32,10 +32,10 @@ namespace mvvm
 namespace
 {
 
-int getBin(const QCPGraph* graph, double xpos)
+std::int32_t getBin(const QCPGraph* graph, double xpos)
 {
-  const int key_start = graph->findBegin(xpos);
-  const int key_end = graph->findBegin(xpos, false);  // false = do not expand range
+  const std::int32_t key_start = graph->findBegin(xpos);
+  const std::int32_t key_end = graph->findBegin(xpos, false);  // false = do not expand range
   if (key_end == key_start || key_end == graph->dataCount())
   {
     return key_start;

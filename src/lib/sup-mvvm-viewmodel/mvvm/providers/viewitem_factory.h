@@ -68,7 +68,7 @@ std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item);
  * The data of item doesn't have any connection with SessionItem signals.
  */
 std::unique_ptr<ViewItem> CreateFixedDataViewItem(SessionItem* item,
-                                                  std::map<int, QVariant> fixed_data = {});
+                                                  std::map<std::int32_t, QVariant> fixed_data = {});
 
 }  // namespace mvvm
 

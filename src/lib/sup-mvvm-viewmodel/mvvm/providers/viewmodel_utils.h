@@ -120,7 +120,7 @@ std::vector<const ViewItem*> FindViewsForItem(const ViewModelBase* view_model, c
 /**
  * @brief Returns vector of Qt roles corresponding to given ItemDataRole.
  */
-QVector<int> ItemRoleToQtRole(role_t role);
+QVector<std::int32_t> ItemRoleToQtRole(role_t role);
 
 /**
  * @brief Returns text color for given item.
@@ -180,7 +180,7 @@ std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list
 /**
  * @brief Returns vector of Qt roles corresponding to the given item role.
  */
-QVector<int> GetQtRoles(const ViewItem* view, role_t item_role);
+QVector<int32_t> GetQtRoles(const ViewItem* view, role_t item_role);
 
 }  // namespace mvvm::utils
 

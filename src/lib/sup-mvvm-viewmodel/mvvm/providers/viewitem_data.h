@@ -53,7 +53,7 @@ public:
 private:
   bool m_is_enabled;
   bool m_is_editable;
-  QMap<int, QVariant> m_data;
+  QMap<std::int32_t, QVariant> m_data;
 };
 
 }  // namespace mvvm

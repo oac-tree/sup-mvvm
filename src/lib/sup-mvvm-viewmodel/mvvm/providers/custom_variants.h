@@ -63,7 +63,7 @@ namespace utils
 std::string GetQtVariantName(const QVariant& variant);
 
 //! Returns type of variant (additionally checks for user type).
-int GetQtVariantType(const QVariant& variant);
+std::int32_t GetQtVariantType(const QVariant& variant);
 
 //! Returns true if variant is based on bool.
 bool IsBoolVariant(const QVariant& variant);

@@ -25,14 +25,14 @@
 namespace mvvm
 {
 
-CompoundItem::CompoundItem(const std::string &item_type) : SessionItem(item_type) {}
+CompoundItem::CompoundItem(const std::string& item_type) : SessionItem(item_type) {}
 
 std::unique_ptr<SessionItem> CompoundItem::Clone() const
 {
   return std::make_unique<CompoundItem>(*this);
 }
 
-PropertyItem &CompoundItem::AddProperty(const std::string_view &name, const char *value)
+PropertyItem& CompoundItem::AddProperty(const std::string_view& name, const char* value)
 {
   return AddProperty(name, std::string(value));
 }
@@ -46,7 +46,7 @@ std::string CompoundItem::GetDisplayName() const
   }
 
   // add index to type name
-  const int copy_number = static_cast<int>(utils::CopyNumber(this));
+  const auto copy_number = static_cast<std::int32_t>(utils::CopyNumber(this));
   return (copy_number < 0) ? GetType() : GetType() + std::to_string(copy_number);
 }
 

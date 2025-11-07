@@ -23,6 +23,8 @@
 
 #include <mvvm/plotting/customplot/status_string_formatter_interface.h>
 
+#include <cstdint>
+
 class QCustomPlot;
 class QCPGraph;
 
@@ -34,7 +36,7 @@ struct CanvasGraphContext
   double xpos{0.0};
   double ypos{0.0};
   bool close_to_graph{false};
-  int nx{0};
+  std::int32_t nx{0};
   double value{0.0};
 };
 
