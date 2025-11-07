@@ -53,6 +53,11 @@ public:
 
   virtual ~ItemController() = default;
 
+  ItemController(const ItemController& other) = delete;
+  ItemController& operator=(const ItemController& other) = delete;
+  ItemController(ItemController&& other) = delete;
+  ItemController& operator=(ItemController&&) = delete;
+
   /**
    * @brief Sets and item for listening.
    */

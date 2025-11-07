@@ -37,17 +37,26 @@ namespace
 //! If number is negative, this side will be callulated automatically.
 
 // FIXME autoMarginPolicy move to utils, provide unit tests
-QCP::MarginSides autoMarginPolicy(int left, int top, int right, int bottom)
+QCP::MarginSides autoMarginPolicy(std::int32_t left, std::int32_t top, std::int32_t right,
+                                  std::int32_t bottom)
 {
   QCP::MarginSides result{QCP::msAll};
   if (left >= 0)
+  {
     result &= ~QCP::msLeft;
+  }
   if (top >= 0)
+  {
     result &= ~QCP::msTop;
+  }
   if (right >= 0)
+  {
     result &= ~QCP::msRight;
+  }
   if (bottom >= 0)
+  {
     result &= ~QCP::msBottom;
+  }
   return result;
 }
 }  // namespace
@@ -72,7 +81,7 @@ struct GraphCanvas::GraphCanvasImpl
   }
 
   //! Updates viewport.
-  void setViewportToContent()
+  void setViewportToContent() const
   {
     if (!viewport_controller->GetItem())
     {
@@ -82,7 +91,7 @@ struct GraphCanvas::GraphCanvasImpl
   }
 
   //! Updates viewport.
-  void setViewportToContent(double left, double top, double right, double bottom)
+  void setViewportToContent(double left, double top, double right, double bottom) const
   {
     if (!viewport_controller->GetItem())
     {
@@ -91,7 +100,7 @@ struct GraphCanvas::GraphCanvasImpl
     viewport_controller->GetItem()->SetViewportToContent(left, top, right, bottom);
   }
 
-  QCustomPlot* customPlot() { return custom_plot; }
+  QCustomPlot* customPlot() const { return custom_plot; }
 };
 
 GraphCanvas::GraphCanvas(QWidget* parent_widget)
@@ -111,7 +120,7 @@ GraphCanvas::GraphCanvas(QWidget* parent_widget)
 
   auto on_replot = [this]()
   {
-    QMargins margins = p_impl->customPlot()->axisRect()->margins();
+    const QMargins margins = p_impl->customPlot()->axisRect()->margins();
     axisMarginsChanged(margins.left(), margins.top(), margins.right(), margins.bottom());
   };
   connect(p_impl->customPlot(), &QCustomPlot::afterReplot, this, on_replot);
@@ -142,11 +151,11 @@ void GraphCanvas::SetAxisMargins(int left, int top, int right, int bottom)
   auto customPlot = p_impl->customPlot();
   customPlot->axisRect()->setAutoMargins(autoMarginPolicy(left, top, right, bottom));
 
-  QMargins orig = customPlot->axisRect()->margins();
-  int new_left = left >= 0 ? left : orig.left();
-  int new_top = top >= 0 ? top : orig.top();
-  int new_right = right >= 0 ? right : orig.right();
-  int new_bottom = bottom >= 0 ? bottom : orig.bottom();
+  const QMargins orig = customPlot->axisRect()->margins();
+  const std::int32_t new_left = (left >= 0) ? left : orig.left();
+  const std::int32_t new_top = (top >= 0) ? top : orig.top();
+  const std::int32_t new_right = (right >= 0) ? right : orig.right();
+  const std::int32_t new_bottom = (bottom >= 0) ? bottom : orig.bottom();
   customPlot->axisRect()->setMargins(QMargins(new_left, new_top, new_right, new_bottom));
 
   customPlot->replot();
