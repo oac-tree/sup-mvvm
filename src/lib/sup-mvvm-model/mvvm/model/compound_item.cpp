@@ -47,7 +47,7 @@ std::string CompoundItem::GetDisplayName() const
 
   // add index to type name
   const int copy_number = static_cast<int>(utils::CopyNumber(this));
-  return copy_number < 0 ? GetType() : GetType() + std::to_string(copy_number);
+  return (copy_number < 0) ? GetType() : GetType() + std::to_string(copy_number);
 }
 
 }  // namespace mvvm

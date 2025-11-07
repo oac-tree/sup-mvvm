@@ -135,7 +135,7 @@ void ChartViewportController::OnItemInsertedEvent(const ItemInsertedEvent &event
   auto added_child = dynamic_cast<LineSeriesItem *>(parent->GetItem(tagindex));
   auto qt_line_series = SetupChartForLineSeries(added_child);
 
-  if (GetXQtAxis() == nullptr || GetYQtAxis() == nullptr)
+  if ((GetXQtAxis() == nullptr) || (GetYQtAxis() == nullptr))
   {
     // no axes exist, this is the first LineSeriesItem
     SetupAxes();  // will create axes and attach them to the line series

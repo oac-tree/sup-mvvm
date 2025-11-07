@@ -146,7 +146,7 @@ std::optional<std::size_t> SessionItemContainer::IndexOfItem(const SessionItem* 
 
 SessionItem* SessionItemContainer::ItemAt(std::size_t index) const
 {
-  return index < GetItemCount() ? m_items[index].get() : nullptr;
+  return (index < GetItemCount()) ? m_items[index].get() : nullptr;
 }
 
 std::string SessionItemContainer::GetName() const

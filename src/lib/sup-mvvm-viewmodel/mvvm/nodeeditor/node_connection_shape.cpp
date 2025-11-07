@@ -94,7 +94,8 @@ void NodeConnectionShape::UpdatePath(const NodeOperationStates& operation_states
 
 bool NodeConnectionShape::IsHanging() const
 {
-  return m_node_connection->GetStartPort() == nullptr || m_node_connection->GetEndPort() == nullptr;
+  return (m_node_connection->GetStartPort() == nullptr)
+         || (m_node_connection->GetEndPort() == nullptr);
 }
 
 QPainterPath NodeConnectionShape::GetPainterPath() const
@@ -137,7 +138,7 @@ QPainterPath NodeConnectionShape::CalculatePainterPath() const
   {
     qreal dist = pos2.y() - pos1.y();
     dist = qMax(dist, 200.);
-    const double step = start_is_input ? dist * 0.25 : -dist * 0.25;
+    const double step = start_is_input ? (dist * 0.25) : (-dist * 0.25);
     const QPointF ctr1(pos1.x(), pos1.y() + step);
     const QPointF ctr2(pos2.x(), pos2.y() - step);
     painter_path.cubicTo(ctr1, ctr2, pos2);

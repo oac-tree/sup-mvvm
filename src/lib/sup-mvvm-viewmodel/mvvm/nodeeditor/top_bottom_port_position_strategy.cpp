@@ -67,7 +67,7 @@ QPointF TopBottomPortPositionStrategy::GetPortPosition(PortDirection port_direct
                                                        std::size_t total_ports,
                                                        const QRectF &shape_rect) const
 {
-  if (total_ports == 0 || port_index >= total_ports)
+  if ((total_ports == 0) || (port_index >= total_ports))
   {
     throw RuntimeException("Wrong port number");
   }

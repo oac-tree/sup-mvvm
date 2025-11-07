@@ -41,13 +41,13 @@ SessionItem *GetUnderlyingItem(ConnectableShape *shape)
 INodePort *GetInputPort(const ConnectableShape &shape, std::size_t index)
 {
   auto ports = GetPortsByDirection(shape.GetPorts(), PortDirection::kInput);
-  return index >= ports.size() ? nullptr : ports.at(index);
+  return (index >= ports.size()) ? nullptr : ports.at(index);
 }
 
 INodePort *GetOutputPort(const ConnectableShape &shape, std::size_t index)
 {
   auto ports = GetPortsByDirection(shape.GetPorts(), PortDirection::kOutput);
-  return index >= ports.size() ? nullptr : ports.at(index);
+  return (index >= ports.size()) ? nullptr : ports.at(index);
 }
 
 bool IsParentChildConnection(ConnectableShape *parent, ConnectableShape *child,
@@ -62,8 +62,8 @@ bool IsParentChildConnection(ConnectableShape *parent, ConnectableShape *child,
   auto parent_input_port = GetInputPort(*parent);
   auto connection = connection_shape->GetNodeConnection();
 
-  return connection->GetStartPort() == child_output_port
-         && connection->GetEndPort() == parent_input_port;
+  return (connection->GetStartPort() == child_output_port)
+         && (connection->GetEndPort() == parent_input_port);
 }
 
 QGradient ConnectableShapeGradient(const QColor &base_color, const QRectF &rect)

@@ -152,7 +152,7 @@ std::vector<double> FixedBinAxisItem::GetBinCenters() const
   result.resize(nbins, 0.0);
   for (std::size_t i = 0; i < nbins; ++i)
   {
-    result[i] = GetMin() + step * (static_cast<double>(i) + 0.5);
+    result[i] = GetMin() + (step * (static_cast<double>(i) + 0.5));
   }
 
   return result;

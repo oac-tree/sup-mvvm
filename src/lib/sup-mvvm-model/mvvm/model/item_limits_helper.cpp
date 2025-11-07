@@ -40,10 +40,10 @@ namespace
  *
  * @details If item doesn't contain given role, do nothing.
  */
-void ValidateDataType(const mvvm::SessionItem &item, const mvvm::variant_t &value,
+void ValidateDataType(const mvvm::SessionItem& item, const mvvm::variant_t& value,
                       mvvm::role_t role)
 {
-  if (item.HasData(role) && item.Data(role).index() != value.index())
+  if (item.HasData(role) && (item.Data(role).index() != value.index()))
   {
     std::ostringstream ostr;
     ostr << "The item data type=[" << item.Data(role).index() << "] for role=[" << role
@@ -57,27 +57,27 @@ void ValidateDataType(const mvvm::SessionItem &item, const mvvm::variant_t &valu
 namespace mvvm
 {
 
-bool HasLowerLimit(const SessionItem &item)
+bool HasLowerLimit(const SessionItem& item)
 {
   return item.HasData(DataRole::kLowerLimit);
 }
 
-variant_t GetLowerLimit(const SessionItem &item)
+variant_t GetLowerLimit(const SessionItem& item)
 {
   return item.Data(DataRole::kLowerLimit);
 }
 
-bool HasUpperLimit(const SessionItem &item)
+bool HasUpperLimit(const SessionItem& item)
 {
   return item.HasData(DataRole::kUpperLimit);
 }
 
-variant_t GetUpperLimit(const SessionItem &item)
+variant_t GetUpperLimit(const SessionItem& item)
 {
   return item.Data(DataRole::kUpperLimit);
 }
 
-bool IsInRange(const SessionItem &item, const variant_t &value)
+bool IsInRange(const SessionItem& item, const variant_t& value)
 {
   // type of value being tested should match the type of variant stored in all related roles
   ValidateDataType(item, value, DataRole::kData);
@@ -97,17 +97,17 @@ bool IsInRange(const SessionItem &item, const variant_t &value)
   return true;
 }
 
-bool IsLimitless(const SessionItem &item)
+bool IsLimitless(const SessionItem& item)
 {
   return !HasLowerLimit(item) && !HasUpperLimit(item);
 }
 
-bool IsLimited(const SessionItem &item)
+bool IsLimited(const SessionItem& item)
 {
   return HasLowerLimit(item) && HasUpperLimit(item);
 }
 
-void SetLowerLimited(const variant_t &bound_value, SessionItem &item)
+void SetLowerLimited(const variant_t& bound_value, SessionItem& item)
 {
   // type of bound value should match the type of variant stored in kData role
   ValidateDataType(item, bound_value, DataRole::kData);
@@ -117,7 +117,7 @@ void SetLowerLimited(const variant_t &bound_value, SessionItem &item)
   (void)item.SetData(bound_value, DataRole::kLowerLimit);
 }
 
-void SetUpperLimited(const variant_t &bound_value, SessionItem &item)
+void SetUpperLimited(const variant_t& bound_value, SessionItem& item)
 {
   // type of bound value should match the type of variant stored in kData role
   ValidateDataType(item, bound_value, DataRole::kData);
@@ -127,7 +127,7 @@ void SetUpperLimited(const variant_t &bound_value, SessionItem &item)
   (void)item.SetData(bound_value, DataRole::kUpperLimit);
 }
 
-void RemoveLimits(SessionItem &item)
+void RemoveLimits(SessionItem& item)
 {
   if (item.HasData(DataRole::kLowerLimit))
   {
@@ -142,8 +142,8 @@ void RemoveLimits(SessionItem &item)
   }
 }
 
-void SetLimited(const variant_t &left_bound_value, const variant_t &right_bound_value,
-                SessionItem &item)
+void SetLimited(const variant_t& left_bound_value, const variant_t& right_bound_value,
+                SessionItem& item)
 {
   if (left_bound_value.index() != right_bound_value.index())
   {
@@ -158,7 +158,7 @@ void SetLimited(const variant_t &left_bound_value, const variant_t &right_bound_
   (void)item.SetData(right_bound_value, DataRole::kUpperLimit);
 }
 
-std::pair<int, int> GetInt32Limits(const SessionItem &item)
+std::pair<int, int> GetInt32Limits(const SessionItem& item)
 {
   if (!item.HasData(DataRole::kData))
   {
@@ -171,7 +171,7 @@ std::pair<int, int> GetInt32Limits(const SessionItem &item)
   return GetInt32MinMaxNumeric(item.Data(), lower_bound, upper_bound);
 }
 
-std::pair<double, double> GetFloat64Limits(const SessionItem &item)
+std::pair<double, double> GetFloat64Limits(const SessionItem& item)
 {
   if (!item.HasData(DataRole::kData))
   {

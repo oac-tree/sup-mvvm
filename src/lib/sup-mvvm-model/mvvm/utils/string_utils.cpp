@@ -42,7 +42,7 @@ std::string DoubleToString(double input, std::int32_t precision)
     return inter.str();
   }
   inter << input;
-  if (inter.str().find('e') == std::string::npos && inter.str().find('.') == std::string::npos)
+  if ((inter.str().find('e') == std::string::npos) && (inter.str().find('.') == std::string::npos))
   {
     inter << ".0";
   }

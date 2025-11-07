@@ -162,7 +162,7 @@ inline T LimitedInteger<T>::GetUpperBound() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValue(const T& value)
 {
-  if (value < m_lower_bound || value > m_upper_bound || value == m_value)
+  if ((value < m_lower_bound) || (value > m_upper_bound) || (value == m_value))
   {
     return false;
   }
@@ -220,7 +220,7 @@ inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
   std::from_chars_result result =
       std::from_chars(text.data(), text.data() + text.size(), parsed_value);
 
-  if (result.ec == std::errc::invalid_argument || result.ec == std::errc::result_out_of_range)
+  if ((result.ec == std::errc::invalid_argument) || (result.ec == std::errc::result_out_of_range))
   {
     return false;
   }
@@ -266,7 +266,7 @@ inline bool LimitedInteger<T>::StepBy(int steps)
   bool value_was_changed{false};
   for (std::size_t step = 0; step < static_cast<std::size_t>(std::abs(steps)); ++step)
   {
-    bool value_changed = steps > 0 ? Increment() : Decrement();
+    bool value_changed = (steps > 0) ? Increment() : Decrement();
     if (!value_changed)
     {
       break;

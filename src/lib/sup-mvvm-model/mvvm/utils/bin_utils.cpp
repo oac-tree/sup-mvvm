@@ -80,8 +80,10 @@ bool IsControlChar(std::uint8_t symbol)
   constexpr std::uint8_t kShiftOut = 0x0E;
   constexpr std::uint8_t kSubstitute = 0x1A;
 
-  return ((symbol >= kStartOfHeading && symbol <= kBellAlert)
-          || (symbol >= kShiftOut && symbol <= kSubstitute));
+  const bool is_in_range1 = (symbol >= kStartOfHeading) && (symbol <= kBellAlert);
+  const bool is_in_range2 = (symbol >= kShiftOut) && (symbol <= kSubstitute);
+
+  return is_in_range1 || is_in_range2;
 }
 
 /**
@@ -93,7 +95,7 @@ bool ContainsConsequitiveNull(const std::vector<std::uint8_t>& buffer)
 
   for (std::size_t i = 1; i < buffer.size(); ++i)
   {
-    if (buffer[i] == kNullChar && buffer[i - 1] == kNullChar)
+    if ((buffer[i] == kNullChar) && (buffer[i - 1] == kNullChar))
     {
       return true;
     }

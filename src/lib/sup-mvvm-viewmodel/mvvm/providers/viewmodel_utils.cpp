@@ -65,7 +65,7 @@ QVector<int> ItemRoleToQtRole(role_t role)
 {
   QVector<int> result;
   // In Qt when we are editing the data in a view two roles are emmited.
-  if (role == DataRole::kDisplay || role == DataRole::kData)
+  if ((role == DataRole::kDisplay) || (role == DataRole::kData))
   {
     result = {Qt::DisplayRole, Qt::EditRole};
   }

@@ -66,7 +66,7 @@ NodePortShape* NodeConnectionGuideImpl::FindNodePortShape(const QPointF& scene_p
 EventProcessStatus NodeConnectionGuideImpl::ProcessMousePress(const QPointF& scene_pos,
                                                               Qt::MouseButton button)
 {
-  if (!m_current_connection && button == Qt::LeftButton)
+  if (!m_current_connection && (button == Qt::LeftButton))
   {
     if (auto port_shape = FindNodePortShape(scene_pos); port_shape)
     {
@@ -100,7 +100,7 @@ EventProcessStatus NodeConnectionGuideImpl::ProcessMouseMove(const QPointF& scen
 EventProcessStatus NodeConnectionGuideImpl::ProcessMouseRelease(const QPointF& scene_pos,
                                                                 Qt::MouseButton button)
 {
-  if (m_current_connection && button == Qt::LeftButton)
+  if (m_current_connection && (button == Qt::LeftButton))
   {
     m_context.connection_finished();
     if (auto port_shape = FindNodePortShape(scene_pos); port_shape)

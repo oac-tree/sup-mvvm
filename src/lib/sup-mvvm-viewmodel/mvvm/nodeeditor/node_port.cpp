@@ -92,10 +92,13 @@ bool NodePort::IsConnectable(const INodePort* other) const
     return false;
   }
 
-  const bool direction_matches = (GetPortDirection() == PortDirection::kInput
-                                  && other->GetPortDirection() == PortDirection::kOutput)
-                                 || (GetPortDirection() == PortDirection::kOutput
-                                     && other->GetPortDirection() == PortDirection::kInput);
+  const bool is_input_output = (GetPortDirection() == PortDirection::kInput)
+                               && (other->GetPortDirection() == PortDirection::kOutput);
+
+  const bool is_output_input = (GetPortDirection() == PortDirection::kOutput)
+                               && (other->GetPortDirection() == PortDirection::kInput);
+
+  const bool direction_matches = is_input_output || is_output_input;
 
   const bool type_matches = GetPortType() == other->GetPortType();
   return direction_matches && type_matches;

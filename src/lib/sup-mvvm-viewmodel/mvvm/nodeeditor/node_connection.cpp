@@ -85,7 +85,7 @@ bool NodeConnection::HasPort(const INodePort *port) const
     return false;
   }
 
-  return m_start_port == port || m_end_port == port;
+  return (m_start_port == port) ||(m_end_port == port);
 }
 
 void NodeConnection::ForgetPort(INodePort *port)

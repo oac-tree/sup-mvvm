@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #include "combo_property.h"
+
 #include "mvvm/core/basic_scalar_types.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
@@ -70,8 +71,8 @@ ComboProperty ComboProperty::CreateFrom(const std::vector<std::string>& values,
 
 std::string ComboProperty::GetValue() const
 {
-  return GetCurrentIndex() < 0 ? std::string()
-                               : m_values.at(static_cast<std::size_t>(GetCurrentIndex()));
+  return (GetCurrentIndex() < 0) ? std::string()
+                                 : m_values.at(static_cast<std::size_t>(GetCurrentIndex()));
 }
 
 void ComboProperty::SetValue(const std::string& name)
@@ -98,7 +99,9 @@ void ComboProperty::SetValues(const std::vector<std::string>& values)
 
   auto current = GetValue();
   m_values = values;
-  SetCurrentIndex(utils::Contains(m_values, current) ? static_cast<int32_t>(utils::IndexOfItem(m_values, current)) : 0);
+  SetCurrentIndex(utils::Contains(m_values, current)
+                      ? static_cast<int32_t>(utils::IndexOfItem(m_values, current))
+                      : 0);
 }
 
 std::vector<std::string> ComboProperty::GetToolTips() const
@@ -118,7 +121,7 @@ std::int32_t ComboProperty::GetCurrentIndex() const
 
 void ComboProperty::SetCurrentIndex(std::int32_t index)
 {
-  if (index < 0 || index >= static_cast<std::int32_t>(m_values.size()))
+  if ((index < 0) || (index >= static_cast<std::int32_t>(m_values.size())))
   {
     throw RuntimeException("Error in ComboProperty::setCurrentIndex(): invalid index");
   }
@@ -149,7 +152,7 @@ std::vector<std::string> ComboProperty::GetSelectedValues() const
 
 void ComboProperty::SetSelected(std::int32_t index, bool value)
 {
-  if (index < 0 || index >= static_cast<std::int32_t>(m_values.size()))
+  if ((index < 0) || (index >= static_cast<std::int32_t>(m_values.size())))
   {
     return;
   }

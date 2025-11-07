@@ -60,7 +60,7 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
   const auto insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
   auto parent_view = const_cast<ViewItem *>(m_view_item_map.FindView(parent));
 
-  if (insert_view_index != constants::kInvalidIndex && parent_view)
+  if ((insert_view_index != constants::kInvalidIndex) && parent_view)
   {
     m_view_model->insertRow(parent_view, static_cast<int>(insert_view_index), CreateTreeOfRows(*new_child));
   }
@@ -75,7 +75,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
   auto item_to_remove = event.item->GetItem(event.tag_index);
 
-  if (item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove))
+  if ((item_to_remove == GetRootItem()) || utils::IsItemAncestor(GetRootItem(), item_to_remove))
   {
     // special case when user removes SessionItem which is one of ancestors of our root item
     // or root item itself

@@ -29,7 +29,7 @@ namespace mvvm
 
 bool DataChangedEvent::operator==(const DataChangedEvent& other) const
 {
-  return item == other.item && data_role == other.data_role;
+  return (item == other.item) && (data_role == other.data_role);
 }
 
 bool DataChangedEvent::operator!=(const DataChangedEvent& other) const
@@ -43,7 +43,7 @@ bool DataChangedEvent::operator!=(const DataChangedEvent& other) const
 
 bool PropertyChangedEvent::operator==(const PropertyChangedEvent& other) const
 {
-  return item == other.item && name == other.name;
+  return (item == other.item) && (name == other.name);
 }
 
 bool PropertyChangedEvent::operator!=(const PropertyChangedEvent& other) const
@@ -57,7 +57,7 @@ bool PropertyChangedEvent::operator!=(const PropertyChangedEvent& other) const
 
 bool AboutToInsertItemEvent::operator==(const AboutToInsertItemEvent& other) const
 {
-  return item == other.item && tag_index == other.tag_index;
+  return (item == other.item) && (tag_index == other.tag_index);
 }
 
 bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) const
@@ -71,7 +71,7 @@ bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) con
 
 bool ItemInsertedEvent::operator==(const ItemInsertedEvent& other) const
 {
-  return item == other.item && tag_index == other.tag_index;
+  return (item == other.item) && (tag_index == other.tag_index);
 }
 
 bool ItemInsertedEvent::operator!=(const ItemInsertedEvent& other) const
@@ -85,7 +85,7 @@ bool ItemInsertedEvent::operator!=(const ItemInsertedEvent& other) const
 
 bool AboutToRemoveItemEvent::operator==(const AboutToRemoveItemEvent& other) const
 {
-  return item == other.item && tag_index == other.tag_index;
+  return (item == other.item) && (tag_index == other.tag_index);
 }
 
 bool AboutToRemoveItemEvent::operator!=(const AboutToRemoveItemEvent& other) const
@@ -99,7 +99,7 @@ bool AboutToRemoveItemEvent::operator!=(const AboutToRemoveItemEvent& other) con
 
 bool ItemRemovedEvent::operator==(const ItemRemovedEvent& other) const
 {
-  return item == other.item && tag_index == other.tag_index;
+  return (item == other.item) && (tag_index == other.tag_index);
 }
 
 bool ItemRemovedEvent::operator!=(const ItemRemovedEvent& other) const

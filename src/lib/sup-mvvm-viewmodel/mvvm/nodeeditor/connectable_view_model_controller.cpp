@@ -251,13 +251,13 @@ void ConnectableViewModelController::ConnectToModel(ISessionModel *model)
 bool ConnectableViewModelController::IsInScope(const mvvm::SessionItem *parent_item) const
 {
   // the parent should be either our container or one of its children down in the hierarchy
-  return parent_item == m_root_item || mvvm::utils::IsItemAncestor(parent_item, GetRootItem());
+  return (parent_item == m_root_item) || mvvm::utils::IsItemAncestor(parent_item, GetRootItem());
 }
 
 bool ConnectableViewModelController::IsAboutToDestroyRootItem(SessionItem *item_to_remove) const
 {
   // the removal should not be related to root item or items above it
-  return item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove);
+  return (item_to_remove == GetRootItem()) || utils::IsItemAncestor(GetRootItem(), item_to_remove);
 }
 
 bool ConnectableViewModelController::IsChildNeedsView(const SessionItem &parent,

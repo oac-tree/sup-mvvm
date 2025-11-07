@@ -41,7 +41,8 @@ struct AbstractCommand::AbstractCommandImpl
   bool CanExecute() const { return m_command->GetCommandStatus() != CommandStatus::AfterExecute; }
   bool CanUndo() const
   {
-    return m_command->GetCommandStatus() == CommandStatus::AfterExecute && !m_command->IsObsolete();
+    return (m_command->GetCommandStatus() == CommandStatus::AfterExecute)
+           && !m_command->IsObsolete();
   }
 };
 

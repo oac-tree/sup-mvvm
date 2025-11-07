@@ -31,7 +31,7 @@ namespace mvvm
 event_variant_t GetBeforeEventForInsertCommand(CommandStatus status, SessionItem *parent,
                                                const TagIndex &tag_index)
 {
-  if (status == CommandStatus::Initial || status == CommandStatus::AfterUndo)
+  if ((status == CommandStatus::Initial) || (status == CommandStatus::AfterUndo))
   {
     return AboutToInsertItemEvent{parent, tag_index};
   }
@@ -58,7 +58,7 @@ event_variant_t GetAfterEventForInsertCommand(CommandStatus status, SessionItem 
 event_variant_t GetBeforeEventForRemoveCommand(CommandStatus status, SessionItem *parent,
                                                const TagIndex &tag_index)
 {
-  if (status == CommandStatus::Initial || status == CommandStatus::AfterUndo)
+  if ((status == CommandStatus::Initial) || (status == CommandStatus::AfterUndo))
   {
     return AboutToRemoveItemEvent{parent, tag_index};
   }

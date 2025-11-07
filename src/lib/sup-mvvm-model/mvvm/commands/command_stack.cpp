@@ -110,7 +110,7 @@ struct CommandStack::CommandStackImpl
   std::size_t GetIndex() const
   {
     auto distance = std::distance(m_commands.cbegin(), m_pos);
-    return distance < 0 ? 0U : static_cast<std::size_t>(distance);
+    return (distance < 0) ? 0U : static_cast<std::size_t>(distance);
   }
 
   /**
@@ -118,7 +118,7 @@ struct CommandStack::CommandStackImpl
    */
   void AssureCommandLimit()
   {
-    if (m_undo_limit == 0 || m_undo_limit >= m_commands.size())
+    if ((m_undo_limit == 0) || (m_undo_limit >= m_commands.size()))
     {
       return;
     }

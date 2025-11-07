@@ -29,7 +29,7 @@
 namespace mvvm
 {
 
-SessionItemPresentation::SessionItemPresentation(SessionItem *item, role_t role)
+SessionItemPresentation::SessionItemPresentation(SessionItem* item, role_t role)
     : m_item(item), m_data_role(role)
 {
 }
@@ -54,7 +54,7 @@ QVariant SessionItemPresentation::Data(role_t qt_role) const
   return {};
 }
 
-bool SessionItemPresentation::SetData(const QVariant &data, role_t qt_role)
+bool SessionItemPresentation::SetData(const QVariant& data, role_t qt_role)
 {
   (void)data;
   (void)qt_role;
@@ -71,12 +71,12 @@ bool SessionItemPresentation::IsEditable() const
   return GetItem()->IsEditable();
 }
 
-SessionItem *SessionItemPresentation::GetItem()
+SessionItem* SessionItemPresentation::GetItem()
 {
   return m_item;
 }
 
-const SessionItem *SessionItemPresentation::GetItem() const
+const SessionItem* SessionItemPresentation::GetItem() const
 {
   return m_item;
 }
@@ -88,8 +88,8 @@ role_t SessionItemPresentation::GetDataRole() const
 
 bool SessionItemPresentation::IsValidItemDataRole(role_t data_role) const
 {
-  return m_data_role == data_role || data_role == DataRole::kAppearance
-         || data_role == DataRole::kTooltip;
+  return (m_data_role == data_role) || (data_role == DataRole::kAppearance)
+         || (data_role == DataRole::kTooltip);
 }
 
 QVector<role_t> SessionItemPresentation::GetQtRoles(role_t data_role) const
@@ -101,7 +101,7 @@ QVector<role_t> SessionItemPresentation::GetQtRoles(role_t data_role) const
 // LabelPresentationItem
 // ------------------------------------------------------------------------------------------------
 
-LabelPresentationItem::LabelPresentationItem(SessionItem *item, const std::string &label)
+LabelPresentationItem::LabelPresentationItem(SessionItem* item, const std::string& label)
     : SessionItemPresentation(item, DataRole::kDisplay), m_label(label)
 {
 }
@@ -126,7 +126,7 @@ bool LabelPresentationItem::IsEditable() const
 // DataPresentationItem
 // ------------------------------------------------------------------------------------------------
 
-DataPresentationItem::DataPresentationItem(SessionItem *item, role_t role)
+DataPresentationItem::DataPresentationItem(SessionItem* item, role_t role)
     : SessionItemPresentation(item, role)
 {
   if (!item)
@@ -137,7 +137,7 @@ DataPresentationItem::DataPresentationItem(SessionItem *item, role_t role)
 
 QVariant DataPresentationItem::Data(role_t qt_role) const
 {
-  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
+  if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
   {
     return GetQtVariant(GetItem()->Data(GetDataRole()));
   }
@@ -155,16 +155,16 @@ QVariant DataPresentationItem::Data(role_t qt_role) const
   return SessionItemPresentation::Data(qt_role);
 }
 
-bool DataPresentationItem::SetData(const QVariant &data, role_t qt_role)
+bool DataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 {
-  return qt_role == Qt::EditRole ? GetItem()->SetData(GetStdVariant(data), GetDataRole()) : false;
+  return (qt_role == Qt::EditRole) ? GetItem()->SetData(GetStdVariant(data), GetDataRole()) : false;
 }
 
 // ------------------------------------------------------------------------------------------------
 // DisplayNamePresentationItem
 // ------------------------------------------------------------------------------------------------
 
-DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem *item)
+DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem* item)
     : SessionItemPresentation(item, DataRole::kDisplay)
 {
   if (!item)
@@ -177,7 +177,7 @@ QVariant DisplayNamePresentationItem::Data(role_t qt_role) const
 {
   // Here we also report correct data for EditRole, even if item is not editable. This is because
   // QDataWidgetMapper uses EditRole while mapping to QLabel.
-  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
+  if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
   {
     return QString::fromStdString(GetItem()->GetDisplayName());
   }
@@ -194,7 +194,7 @@ bool DisplayNamePresentationItem::IsEditable() const
 // EditableDisplayNamePresentationItem
 // ------------------------------------------------------------------------------------------------
 
-EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(SessionItem *item)
+EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(SessionItem* item)
     : DataPresentationItem(item, DataRole::kDisplay)
 {
 }
@@ -202,7 +202,7 @@ EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(Session
 QVariant EditableDisplayNamePresentationItem::Data(role_t qt_role) const
 {
   // use item's display role
-  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
+  if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
   {
     // Display name is different from other roles. When display name is not present, we use item
     // type for that. This is why we are using GetDisplayName() method and not directly call
@@ -222,11 +222,11 @@ QVariant EditableDisplayNamePresentationItem::Data(role_t qt_role) const
 // FixedDataPresentationItem
 // ------------------------------------------------------------------------------------------------
 
-FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
+FixedDataPresentationItem::FixedDataPresentationItem(SessionItem* item,
                                                      std::map<role_t, QVariant> fixed_data)
     : SessionItemPresentation(item, DataRole::kUser), m_data(std::move(fixed_data))
 {
-  for (auto &[qt_role, data] : m_data)
+  for (auto& [qt_role, data] : m_data)
   {
     (void)SetData(data, qt_role);
   }
@@ -238,7 +238,7 @@ QVector<role_t> FixedDataPresentationItem::GetQtRoles(role_t data_role) const
 
   // we use fixed roles which are unboard and do not use parameter data_role
   QVector<role_t> result;
-  for (auto &[qt_role, data] : m_data)
+  for (auto& [qt_role, data] : m_data)
   {
     result.push_back(qt_role);
   }
@@ -254,7 +254,7 @@ QVariant FixedDataPresentationItem::Data(role_t qt_role) const
 {
   auto iter = m_data.find(qt_role);
 
-  if (iter == m_data.end() && qt_role == Qt::ForegroundRole)
+  if ((iter == m_data.end()) && (qt_role == Qt::ForegroundRole))
   {
     // if there is no dedicated ForegroundRole, have to use this from parent class
     // this will allow to show text in gray, if SessionItem is disabled
@@ -264,7 +264,7 @@ QVariant FixedDataPresentationItem::Data(role_t qt_role) const
   return iter != m_data.end() ? iter->second : QVariant();
 }
 
-bool FixedDataPresentationItem::SetData(const QVariant &data, role_t qt_role)
+bool FixedDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 {
   m_data[qt_role] = data;
   return true;

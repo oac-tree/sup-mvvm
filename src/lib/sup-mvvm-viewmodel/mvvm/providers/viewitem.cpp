@@ -61,19 +61,19 @@ struct ViewItem::ViewItemImpl
       throw RuntimeException("ViewItem: attempt to insert empty row");
     }
 
-    if (m_columns > 0 && items.size() != static_cast<std::size_t>(m_columns))
+    if ((m_columns > 0) && (items.size() != static_cast<std::size_t>(m_columns)))
     {
       throw RuntimeException("ViewItem: wrong number of columns");
     }
 
-    if (row < 0 || row > m_rows)
+    if ((row < 0) || (row > m_rows))
     {
       throw RuntimeException("ViewItem: invalid row index");
     }
 
-    (void)m_children.insert(std::next(m_children.begin(), static_cast<std::ptrdiff_t>(row * m_columns)),
-                            std::make_move_iterator(items.begin()),
-                            std::make_move_iterator(items.end()));
+    (void)m_children.insert(
+        std::next(m_children.begin(), static_cast<std::ptrdiff_t>(row * m_columns)),
+        std::make_move_iterator(items.begin()), std::make_move_iterator(items.end()));
 
     m_columns = static_cast<std::int32_t>(items.size());
     ++m_rows;
@@ -83,7 +83,7 @@ struct ViewItem::ViewItemImpl
 
   void RemoveRow(std::int32_t row)
   {
-    if (row < 0 || row >= m_rows)
+    if ((row < 0) || (row >= m_rows))
     {
       throw RuntimeException("Error in ViewItem: invalid row index.");
     }
@@ -101,12 +101,12 @@ struct ViewItem::ViewItemImpl
 
   ViewItem* GetChild(std::int32_t row, std::int32_t column) const
   {
-    if (row < 0 || row >= m_rows)
+    if ((row < 0) || (row >= m_rows))
     {
       throw RuntimeException("ViewItem: wrong row");
     }
 
-    if (column < 0 || column >= m_columns)
+    if ((column < 0) || (column >= m_columns))
     {
       throw RuntimeException("ViewItem: wrong column");
     }
@@ -116,7 +116,8 @@ struct ViewItem::ViewItemImpl
 
   std::int32_t GetIndexOfChild(const ViewItem* child)
   {
-    return static_cast<std::int32_t>(utils::IndexOfItem(m_children.begin(), m_children.end(), child));
+    return static_cast<std::int32_t>(
+        utils::IndexOfItem(m_children.begin(), m_children.end(), child));
   }
 
   /**

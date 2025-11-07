@@ -163,7 +163,7 @@ std::string VectorToString(const std::vector<ElementT>& vec,
       oss << vec[i];
     }
 
-    if (i != vec.size() - 1)
+    if (i != (vec.size() - 1))
     {
       oss << delimiter;
     }

@@ -44,14 +44,14 @@ void ValidateBounds(const variant_t &value, const variant_t &lower_bound,
     throw RuntimeException("The value type [" + utils::TypeName(value) + "] is not supported");
   }
 
-  if (utils::IsValid(lower_bound) && lower_bound.index() != value.index())
+  if (utils::IsValid(lower_bound) && (lower_bound.index() != value.index()))
   {
     throw RuntimeException("The lower bound type=[" + utils::TypeName(lower_bound)
                            + "] doesn't coincide with value type=[" + utils::TypeName(lower_bound)
                            + "]");
   }
 
-  if (utils::IsValid(upper_bound) && upper_bound.index() != value.index())
+  if (utils::IsValid(upper_bound) && (upper_bound.index() != value.index()))
   {
     throw RuntimeException("The upper bound type=[" + utils::TypeName(upper_bound)
                            + "] doesn't coincide with value type=[" + utils::TypeName(upper_bound)
