@@ -49,43 +49,43 @@ public:
   /**
    * @brief Lets the controller know that a child is about to be inserted into the parent.
    */
-  virtual void OnModelEvent(const AboutToInsertItemEvent& event) = 0;
+  virtual void OnAboutToInsertItemEvent(const AboutToInsertItemEvent& event) = 0;
 
   /**
    * @brief Lets the controller know that a child has been inserted into the parent.
    */
-  virtual void OnModelEvent(const ItemInsertedEvent& event) = 0;
+  virtual void OnItemInsertedEvent(const ItemInsertedEvent& event) = 0;
 
   /**
    * @brief Let's the controller know that an item is about to be removed.
    */
-  virtual void OnModelEvent(const AboutToRemoveItemEvent& event) = 0;
+  virtual void OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event) = 0;
 
   /**
    * @brief OnModelEventLet's the controller know that item has been removed.
    * @param event
    */
-  virtual void OnModelEvent(const ItemRemovedEvent& event) = 0;
+  virtual void OnItemRemovedEvent(const ItemRemovedEvent& event) = 0;
 
   /**
    * @brief Lets the controller know thatitem's data has been changed.
    */
-  virtual void OnModelEvent(const DataChangedEvent& event) = 0;
+  virtual void OnDataChangedEvent(const DataChangedEvent& event) = 0;
 
   /**
    * @brief Lets the controller know when the root item is about to be reset.
    */
-  virtual void OnModelEvent(const ModelAboutToBeResetEvent& event) = 0;
+  virtual void OnModelAboutToBeResetEvent(const ModelAboutToBeResetEvent& event) = 0;
 
   /**
    * @brief Lets the controller know at the end of root item recreation.
    */
-  virtual void OnModelEvent(const ModelResetEvent& event) = 0;
+  virtual void OnModelResetEvent(const ModelResetEvent& event) = 0;
 
   /**
    * @brief Lets the controller know at the beginning of model destruction.
    */
-  virtual void OnModelEvent(const ModelAboutToBeDestroyedEvent& event) = 0;
+  virtual void OnModelAboutToBeDestroyedEvent(const ModelAboutToBeDestroyedEvent& event) = 0;
 
   /**
    * @brief Returns current root item.

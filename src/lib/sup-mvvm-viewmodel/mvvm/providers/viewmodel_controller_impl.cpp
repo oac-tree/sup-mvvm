@@ -46,12 +46,12 @@ ViewModelControllerImpl::ViewModelControllerImpl(
 
 ViewModelControllerImpl::~ViewModelControllerImpl() = default;
 
-void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const AboutToInsertItemEvent& event)
+void ViewModelControllerImpl::OnAboutToInsertItemEvent([[maybe_unused]] const AboutToInsertItemEvent& event)
 {
   // default implementation does nothing
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent& event)
+void ViewModelControllerImpl::OnItemInsertedEvent(const ItemInsertedEvent& event)
 {
   auto [parent, tag_index] = event;
 
@@ -67,12 +67,12 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent& event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ItemRemovedEvent& event)
+void ViewModelControllerImpl::OnItemRemovedEvent([[maybe_unused]] const ItemRemovedEvent& event)
 {
   // default implementation does nothing
 }
 
-void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent& event)
+void ViewModelControllerImpl::OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event)
 {
   auto item_to_remove = event.item->GetItem(event.tag_index);
 
@@ -92,7 +92,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent& event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent& event)
+void ViewModelControllerImpl::OnDataChangedEvent(const DataChangedEvent& event)
 {
   for (auto view : utils::FindViewsForItem(m_view_model, event.item))
   {
@@ -104,7 +104,7 @@ void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent& event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ModelAboutToBeResetEvent& event)
+void ViewModelControllerImpl::OnModelAboutToBeResetEvent([[maybe_unused]] const ModelAboutToBeResetEvent& event)
 {
   // Here we are notified that the model content will be destroyed soon.
   // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to
@@ -113,7 +113,7 @@ void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ModelAboutToBe
   m_view_model->BeginResetModelNotify();
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent& event)
+void ViewModelControllerImpl::OnModelResetEvent(const ModelResetEvent& event)
 {
   SessionItem* root_item = event.model->GetRootItem();
 
@@ -124,7 +124,7 @@ void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent& event)
   m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
 }
 
-void ViewModelControllerImpl::OnModelEvent(
+void ViewModelControllerImpl::OnModelAboutToBeDestroyedEvent(
     [[maybe_unused]] const ModelAboutToBeDestroyedEvent& event)
 {
   m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));

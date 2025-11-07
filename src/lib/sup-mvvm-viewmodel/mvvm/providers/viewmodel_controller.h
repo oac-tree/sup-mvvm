@@ -43,17 +43,17 @@ public:
   ViewModelController(ViewModelController&& other) = delete;
   ViewModelController& operator=(ViewModelController&&) = delete;
 
-  void OnModelEvent(const ItemInsertedEvent& event) override;
+  void OnItemInsertedEvent(const ItemInsertedEvent& event) override;
 
-  void OnModelEvent(const AboutToRemoveItemEvent& event) override;
+  void OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event) override;
 
-  void OnModelEvent(const DataChangedEvent& event) override;
+  void OnDataChangedEvent(const DataChangedEvent& event) override;
 
-  void OnModelEvent(const ModelAboutToBeResetEvent& event) override;
+  void OnModelAboutToBeResetEvent(const ModelAboutToBeResetEvent& event) override;
 
-  void OnModelEvent(const ModelResetEvent& event) override;
+  void OnModelResetEvent(const ModelResetEvent& event) override;
 
-  void OnModelEvent(const ModelAboutToBeDestroyedEvent& event) override;
+  void OnModelAboutToBeDestroyedEvent(const ModelAboutToBeDestroyedEvent& event) override;
 
   const SessionItem* GetRootItem() const override;
 
