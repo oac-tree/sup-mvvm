@@ -22,6 +22,7 @@
 
 #include <mvvm/core/platform.h>
 #include <mvvm/style/mvvm_style_helper.h>
+#include <mvvm/utils/numeric_utils.h>
 
 #include <QApplication>
 #include <QColor>
@@ -29,18 +30,9 @@
 #include <QLabel>
 #include <QMainWindow>
 #include <QSize>
-#include <random>
 
 namespace mvvm::utils
 {
-
-int RandInt(std::int32_t low, std::int32_t high)
-{
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<std::int32_t> uniform_int(low, high);
-  return uniform_int(gen);
-}
 
 QColor RandomColor()
 {
