@@ -68,8 +68,7 @@ public:
 
 protected:
   Base(const Base& other) : m_impl(other.m_impl->Clone()) {}
-  // Base& operator=(const Base&) { throw std::runtime_error("Not implemented"); }
-  Base& operator=(const Base&)  = delete;
+  Base& operator=(const Base&) { throw std::runtime_error("Not implemented"); }
 
 private:
   std::unique_ptr<BaseImpl> m_impl;
@@ -93,7 +92,7 @@ class ExperimentalCloneTest : public ::testing::Test
 
 TEST_F(ExperimentalCloneTest, InitialState)
 {
-  Derived abc;
+  const Derived abc;
   auto cloned = abc.Clone();
 
   EXPECT_EQ(cloned->GetType(), "Derived");
