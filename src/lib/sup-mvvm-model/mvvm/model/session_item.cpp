@@ -78,6 +78,11 @@ SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionIt
 {
 }
 
+SessionItem& SessionItem::operator=(const SessionItem&)
+{
+  throw RuntimeException("Cannot assign SessionItem objects");
+}
+
 void SessionItem::ActivateStrategies()
 {
   // nothing to do by default

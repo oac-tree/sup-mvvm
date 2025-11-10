@@ -56,7 +56,6 @@ public:
   SessionItem();
   virtual ~SessionItem();
 
-  SessionItem& operator=(const SessionItem&) = delete;
   SessionItem(SessionItem&&) = delete;
   SessionItem& operator=(SessionItem&&) = delete;
 
@@ -407,6 +406,7 @@ protected:
   explicit SessionItem(const std::string& item_type);
   SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
               std::unique_ptr<TaggedItems> tags);
+  SessionItem& operator=(const SessionItem&);
 
   /**
    * @brief A method to activate custom data strategies.
