@@ -34,14 +34,14 @@ namespace mvvm
 {
 
 ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> view_model,
-                                                     QAbstractItemView *view)
+                                                     QAbstractItemView* view)
     : ItemViewComponentProvider(std::make_unique<ViewModelDelegate>(), std::move(view_model), view)
 {
 }
 
 ItemViewComponentProvider::ItemViewComponentProvider(
     std::unique_ptr<ViewModelDelegate> view_model_delegate, std::unique_ptr<ViewModel> view_model,
-    QAbstractItemView *view)
+    QAbstractItemView* view)
     : m_delegate(std::move(view_model_delegate))
     , m_view_model(std::move(view_model))
     , m_view(view)
@@ -66,22 +66,22 @@ ItemViewComponentProvider::ItemViewComponentProvider(
 
 ItemViewComponentProvider::~ItemViewComponentProvider() = default;
 
-void ItemViewComponentProvider::SetApplicationModel(ISessionModel *model)
+void ItemViewComponentProvider::SetApplicationModel(ISessionModel* model)
 {
   m_view_model->SetModel(model);
 }
 
-void ItemViewComponentProvider::SetItem(SessionItem *item)
+void ItemViewComponentProvider::SetItem(SessionItem* item)
 {
   m_view_model->SetRootSessionItem(item);
 }
 
-const SessionItem *ItemViewComponentProvider::GetItem() const
+const SessionItem* ItemViewComponentProvider::GetItem() const
 {
   return m_view_model->GetRootSessionItem();
 }
 
-SessionItem *ItemViewComponentProvider::GetItem()
+SessionItem* ItemViewComponentProvider::GetItem()
 {
   return m_view_model->GetRootSessionItem();
 }
@@ -106,35 +106,35 @@ void ItemViewComponentProvider::AddProxyModel(std::unique_ptr<QAbstractProxyMode
   m_proxy_chain.push_back(std::move(proxy));
 }
 
-QAbstractProxyModel *ItemViewComponentProvider::GetLastProxyModel() const
+QAbstractProxyModel* ItemViewComponentProvider::GetLastProxyModel() const
 {
   return m_proxy_chain.empty() ? nullptr : m_proxy_chain.back().get();
 }
 
-std::vector<QAbstractProxyModel *> ItemViewComponentProvider::GetProxyModelChain() const
+std::vector<QAbstractProxyModel*> ItemViewComponentProvider::GetProxyModelChain() const
 {
-  std::vector<QAbstractProxyModel *> result;
+  std::vector<QAbstractProxyModel*> result;
   std::transform(m_proxy_chain.begin(), m_proxy_chain.end(), std::back_inserter(result),
-                 [](const auto &child_uptr) { return child_uptr.get(); });
+                 [](const auto& child_uptr) { return child_uptr.get(); });
   return result;
 }
 
-QAbstractItemView *ItemViewComponentProvider::GetView() const
+QAbstractItemView* ItemViewComponentProvider::GetView() const
 {
   return m_view;
 }
 
-QItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
+QItemSelectionModel* ItemViewComponentProvider::GetSelectionModel() const
 {
   return m_selection_model;
 }
 
-ViewModel *ItemViewComponentProvider::GetViewModel() const
+ViewModel* ItemViewComponentProvider::GetViewModel() const
 {
   return m_view_model.get();
 }
 
-const SessionItem *ItemViewComponentProvider::GetItemFromViewIndex(const QModelIndex &index) const
+const SessionItem* ItemViewComponentProvider::GetItemFromViewIndex(const QModelIndex& index) const
 {
   auto source_index = index;
   auto proxies = GetProxyModelChain();
@@ -148,7 +148,7 @@ const SessionItem *ItemViewComponentProvider::GetItemFromViewIndex(const QModelI
   return GetViewModel()->GetSessionItemFromIndex(source_index);
 }
 
-QList<QModelIndex> ItemViewComponentProvider::GetViewIndexes(const SessionItem *item) const
+QList<QModelIndex> ItemViewComponentProvider::GetViewIndexes(const SessionItem* item) const
 {
   auto source_indexes = GetViewModel()->GetIndexOfSessionItem(item);
 
@@ -169,19 +169,24 @@ QList<QModelIndex> ItemViewComponentProvider::GetViewIndexes(const SessionItem *
   return source_indexes;
 }
 
-SessionItem *ItemViewComponentProvider::GetSelectedItem() const
+SessionItem* ItemViewComponentProvider::GetSelectedItem() const
 {
   auto selected = GetSelectedItems();
   return selected.empty() ? nullptr : selected.front();
 }
 
-void ItemViewComponentProvider::SetSelectedItem(SessionItem *item)
+void ItemViewComponentProvider::SetSelectedItem(SessionItem* item)
 {
   SetSelectedItems({item});
 }
 
-void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> items)
+void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem*> items)
 {
+  if (utils::HaveSameElements(GetSelectedItems(), items))
+  {
+    return;
+  }
+
   GetSelectionModel()->clearSelection();
   QItemSelection selection;
   for (auto item : items)
@@ -206,24 +211,24 @@ void ItemViewComponentProvider::OnViewModelReset()
   GetSelectionModel()->clearSelection();
 }
 
-std::vector<SessionItem *> ItemViewComponentProvider::GetSelectedItemsIntern() const
+std::vector<SessionItem*> ItemViewComponentProvider::GetSelectedItemsIntern() const
 {
-  std::vector<mvvm::SessionItem *> result;
+  std::vector<mvvm::SessionItem*> result;
 
   for (auto index : GetSelectionModel()->selectedIndexes())
   {
     // skipping nullptr
     if (auto item = GetItemFromViewIndex(index); item)
     {
-      result.push_back(const_cast<SessionItem *>(item));
+      result.push_back(const_cast<SessionItem*>(item));
     }
   }
 
   return mvvm::utils::UniqueWithOrder(result);
 }
 
-void ItemViewComponentProvider::OnSelectionChanged(const QItemSelection &selected,
-                                                   const QItemSelection &deselected)
+void ItemViewComponentProvider::OnSelectionChanged(const QItemSelection& selected,
+                                                   const QItemSelection& deselected)
 {
   Q_UNUSED(selected);
   Q_UNUSED(deselected);

@@ -255,6 +255,10 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 
   spy_selected.clear();
 
+  // setting the same item again
+  provider->SetSelectedItem(item);
+  EXPECT_EQ(spy_selected.count(), 0);  // no signal should be emitted
+
   // removing selection
   provider->SetSelectedItem(nullptr);
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
