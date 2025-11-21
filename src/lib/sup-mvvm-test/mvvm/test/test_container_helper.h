@@ -56,27 +56,6 @@ auto CreateUnique(Args&&... args)
   return std::make_pair(std::move(uptr), raw_ptr);
 }
 
-/**
- * @brief Checks if vectors are of the same size and contain the same elements (order is not
- * important).
- */
-template <typename VectorT>
-bool HaveSameElements(const VectorT& vec1, const VectorT& vec2)
-{
-  if (vec1.size() != vec2.size())
-  {
-    return false;
-  }
-
-  VectorT sorted1 = vec1;
-  VectorT sorted2 = vec2;
-
-  std::sort(sorted1.begin(), sorted1.end());
-  std::sort(sorted2.begin(), sorted2.end());
-
-  return sorted1 == sorted2;
-}
-
 }  // namespace mvvm::test
 
 #endif  // MVVM_TEST_TEST_CONTAINER_HELPER_H_

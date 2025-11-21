@@ -173,6 +173,27 @@ std::vector<T*> RemoveConst(const std::vector<const T*>& vec)
   return result;
 }
 
+/**
+ * @brief Checks if vectors are of the same size and contain the same elements (order is not
+ * important).
+ */
+template <typename VectorT>
+bool HaveSameElements(const VectorT& vec1, const VectorT& vec2)
+{
+  if (vec1.size() != vec2.size())
+  {
+    return false;
+  }
+
+  VectorT sorted1 = vec1;
+  VectorT sorted2 = vec2;
+
+  std::sort(sorted1.begin(), sorted1.end());
+  std::sort(sorted2.begin(), sorted2.end());
+
+  return sorted1 == sorted2;
+}
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_UTILS_CONTAINER_UTILS_H_

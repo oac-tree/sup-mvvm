@@ -111,7 +111,7 @@ TEST_F(GraphicsSceneHelperTests, GetSelectedShapes)
   shapes = GetSelectedShapes<ConnectableShape>(scene);
   auto expected_selected_shapes = std::vector<ConnectableShape*>({shape2.get(), shape4.get()});
 
-  EXPECT_TRUE(HaveSameElements(shapes, expected_selected_shapes));
+  EXPECT_TRUE(utils::HaveSameElements(shapes, expected_selected_shapes));
 }
 
 TEST_F(GraphicsSceneHelperTests, GetUnderlyingItem)

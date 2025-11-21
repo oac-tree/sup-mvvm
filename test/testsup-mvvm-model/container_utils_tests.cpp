@@ -20,8 +20,9 @@
 
 #include "mvvm/utils/container_utils.h"
 
-#include <gtest/gtest.h>
 #include <mvvm/test/test_container_helper.h>
+
+#include <gtest/gtest.h>
 
 namespace mvvm::test
 {
@@ -140,6 +141,23 @@ TEST_F(ContainerUtilsTests, MakeConstRemoveConst)
   const std::vector<const TestItem*> const_vect({&test_item_a1, &test_item_a2});
   EXPECT_EQ(utils::MakeConst(non_const_vect), const_vect);
   EXPECT_EQ(utils::RemoveConst(const_vect), non_const_vect);
+}
+
+TEST_F(ContainerUtilsTests, HaveSameElements)
+{
+  TestItemA test_item_a1;
+  TestItemA test_item_a2;
+  TestItemB test_item_b1;
+  TestItemB test_item_b2;
+
+  const std::vector<TestItem*> vec1{&test_item_a1, &test_item_b1, &test_item_a2};
+  const std::vector<TestItem*> vec2{&test_item_a1, &test_item_b1, &test_item_a2};
+  const std::vector<TestItem*> vec3{&test_item_a2, &test_item_b1, &test_item_a1};
+  const std::vector<TestItem*> vec4{&test_item_a2, &test_item_b1, &test_item_b2};
+
+  EXPECT_TRUE(utils::HaveSameElements(vec1, vec2));
+  EXPECT_TRUE(utils::HaveSameElements(vec1, vec3));
+  EXPECT_FALSE(utils::HaveSameElements(vec1, vec4));
 }
 
 }  // namespace mvvm::test
