@@ -65,7 +65,7 @@ public:
   /**
    * @brief Cast operator to construct strings.
    */
-  operator std::string();
+  explicit operator std::string();
 
 private:
   std::string m_value;

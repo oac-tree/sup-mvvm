@@ -37,21 +37,21 @@ TEST_F(StringFormatTests, Replace)
   // Explicitely create value to invoke cast operator. The auto will not work.
   std::string value;
 
-  value = utils::StringFormat("%1").arg("abc");
+  value = utils::StringFormat("%1").arg("abc").operator std::string();
   EXPECT_EQ(value, std::string("abc"));
 
-  value = utils::StringFormat("%1 %2").arg("abc");
+  value = utils::StringFormat("%1 %2").arg("abc").operator std::string();
   EXPECT_EQ(value, std::string("abc %2"));
 
-  value = utils::StringFormat("%1 %2").arg("abc").arg("def");
+  value = utils::StringFormat("%1 %2").arg("abc").arg("def").operator std::string();
   EXPECT_EQ(value, std::string("abc def"));
 
-  value = utils::StringFormat("%2 %1").arg("abc").arg("def");
+  value = utils::StringFormat("%2 %1").arg("abc").arg("def").operator std::string();
   EXPECT_EQ(value, std::string("def abc"));
 
   const std::string body{R"(<Variant role="%1" type="%2">%3</Variant>)"};
 
-  value = utils::StringFormat(body).arg("42").arg("int32").arg("44");
+  value = utils::StringFormat(body).arg("42").arg("int32").arg("44").operator std::string();
 
   const std::string expected{R"(<Variant role="42" type="int32">44</Variant>)"};
   EXPECT_EQ(value, expected);

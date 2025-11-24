@@ -54,8 +54,11 @@ public:
   static std::string GetVariantXMLString(const std::string& type_name, const std::string& value_str)
   {
     const std::string body{R"(<Variant role="%1" type="%2">%3</Variant>)"};
-    std::string result =
-        utils::StringFormat(body).arg(std::to_string(kRole)).arg(type_name).arg(value_str);
+    std::string result = utils::StringFormat(body)
+                             .arg(std::to_string(kRole))
+                             .arg(type_name)
+                             .arg(value_str)
+                             .operator std::string();
     return result;
   }
 };
