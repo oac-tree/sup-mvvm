@@ -47,7 +47,7 @@ ConnectableShapeStyle CreateDefaultStyleForLightThemes()
   result.failed_boundary_color = QColor("darkred");
   result.shadow_enabled = true;
   result.shadow_color = Qt::lightGray;
-  result.round_par = style::UnitSize(0.5);
+  result.round_par = style::UnitSizeF(0.5);
   result.pen_width = ScalePenWidth(2.0);
   result.label_font = constants::GetDefaultConnectableShapeFont();
 

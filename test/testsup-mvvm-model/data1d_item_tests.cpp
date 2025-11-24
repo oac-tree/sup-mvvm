@@ -144,7 +144,7 @@ TEST_F(Data1DItemTests, SetErrors)
 
   EXPECT_THROW(item.SetErrors(expected_errors), RuntimeException);
 
-  item.SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  item.SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   item.SetErrors(expected_errors);
 
   EXPECT_EQ(item.GetErrors(), expected_errors);
@@ -198,7 +198,7 @@ TEST_F(Data1DItemTests, Clone)
 {
   SessionModel model;
   auto data_item = model.InsertItem<Data1DItem>();
-  auto axis_item = data_item->SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
+  auto axis_item = data_item->SetAxis<FixedBinAxisItem>(5U, 0.0, 5.0);
 
   auto clone = data_item->Clone();
   auto data_clone = dynamic_cast<Data1DItem*>(clone.get());

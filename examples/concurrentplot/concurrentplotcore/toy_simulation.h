@@ -38,7 +38,7 @@ public:
   {
     double xmin{0.0};
     double xmax{5.0};
-    int npoints{400};
+    std::size_t npoints{400};
     double amplitude{1.0};
   };
 
