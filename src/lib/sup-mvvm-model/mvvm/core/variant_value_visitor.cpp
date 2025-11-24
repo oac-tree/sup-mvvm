@@ -37,7 +37,7 @@ std::string VariantValueVisitor::operator()(boolean value)
 
 std::string VariantValueVisitor::operator()(char8 value)
 {
-  return std::to_string(value);
+  return std::to_string(static_cast<std::int32_t>(value));
 }
 
 std::string VariantValueVisitor::operator()(int8 value)
