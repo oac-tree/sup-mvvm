@@ -20,14 +20,14 @@ cpptest_add_executable(sup-mvvm-cpptest
   TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view sup-mvvm-test testsup-mvvm-model testsup-mvvm-viewmodel testsup-mvvm-viewmodel-app testsup-mvvm-view
 )
 
-get_target_property(SUP_MVVM_CORE_INCLUDE_DIRECTORIES sup-mvvm-core INCLUDE_DIRECTORIES)
+get_target_property(SUP_MVVM_MODEL_INCLUDE_DIRECTORIES sup-mvvm-model INCLUDE_DIRECTORIES)
 get_target_property(SUP_MVVM_VIEWMODEL_INCLUDE_DIRECTORIES sup-mvvm-viewmodel INCLUDE_DIRECTORIES)
-get_target_property(SUP_MVVM_VIEWS_INCLUDE_DIRECTORIES sup-mvvm-views INCLUDE_DIRECTORIES)
+get_target_property(SUP_MVVM_VIEW_INCLUDE_DIRECTORIES sup-mvvm-view INCLUDE_DIRECTORIES)
 
 target_include_directories(sup-mvvm-cpptest PUBLIC
-  ${SUP_MVVM_CORE_INCLUDE_DIRECTORIES}
+  ${SUP_MVVM_MODEL_INCLUDE_DIRECTORIES}
   ${SUP_MVVM_VIEWMODEL_INCLUDE_DIRECTORIES}
-  ${SUP_MVVM_VIEWS_INCLUDE_DIRECTORIES}
+  ${SUP_MVVM_VIEW_INCLUDE_DIRECTORIES}
 )
 
 target_link_libraries(sup-mvvm-cpptest
