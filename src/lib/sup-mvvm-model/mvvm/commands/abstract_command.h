@@ -54,9 +54,9 @@ public:
 
   void SetIsObsolete(bool value) override;
 
-  std::string GetDescription() const override;
+  std::string GetDescription() const;
 
-  void SetDescription(const std::string& text) const override;
+  void SetDescription(const std::string& text) const;
 
   std::optional<event_variant_t> GetEventBefore() const override;
 

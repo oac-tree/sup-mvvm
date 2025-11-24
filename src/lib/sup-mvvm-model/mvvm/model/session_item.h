@@ -167,7 +167,7 @@ public:
    * It is the main method that passes through the data strategy, command framework, and
    * notifications. It is called from all templated SessionItem::SetData methods.
    */
-  virtual bool SetDataInternal(const variant_t& value, role_t role);
+  bool SetDataInternal(const variant_t& value, role_t role);
 
   /**
    * @brief Returns total number of children in all tags.

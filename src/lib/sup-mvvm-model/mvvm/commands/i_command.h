@@ -72,16 +72,6 @@ public:
   virtual void SetIsObsolete(bool value) = 0;
 
   /**
-   * @brief Returns command description.
-   */
-  virtual std::string GetDescription() const = 0;
-
-  /**
-   * @brief Sets command description.
-   */
-  virtual void SetDescription(const std::string& text) const = 0;
-
-  /**
    * @brief Returns an event which has to be sent before the command execution or undo operation.
    */
   virtual std::optional<event_variant_t> GetEventBefore() const = 0;

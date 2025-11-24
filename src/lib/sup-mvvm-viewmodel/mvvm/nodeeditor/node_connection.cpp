@@ -27,10 +27,10 @@
 namespace mvvm
 {
 
-NodeConnection::NodeConnection(INodePort *start_port, INodePort *end_port)
+NodeConnection::NodeConnection(INodePort* start_port, INodePort* end_port)
 {
-  SetStartPort(start_port);
-  SetEndPort(end_port);
+  SetStartPortImpl(start_port);
+  SetEndPortImpl(end_port);
 }
 
 NodeConnection::~NodeConnection()
@@ -46,49 +46,37 @@ NodeConnection::~NodeConnection()
   }
 }
 
-const INodePort *NodeConnection::GetStartPort() const
+const INodePort* NodeConnection::GetStartPort() const
 {
   return m_start_port;
 }
 
-void NodeConnection::SetStartPort(INodePort *port)
+void NodeConnection::SetStartPort(INodePort* port)
 {
-  if (m_start_port)
-  {
-    throw RuntimeException("Current logic allows to set connection only once");
-  }
-
-  m_start_port = port;
-  m_start_port->AppendConnection(this);
+  SetStartPortImpl(port);
 }
 
-const INodePort *NodeConnection::GetEndPort() const
+const INodePort* NodeConnection::GetEndPort() const
 {
   return m_end_port;
 }
 
-void NodeConnection::SetEndPort(INodePort *port)
+void NodeConnection::SetEndPort(INodePort* port)
 {
-  if (m_end_port)
-  {
-    throw RuntimeException("Current logic allows to set connection only once");
-  }
-
-  m_end_port = port;
-  m_end_port->AppendConnection(this);
+  SetEndPortImpl(port);
 }
 
-bool NodeConnection::HasPort(const INodePort *port) const
+bool NodeConnection::HasPort(const INodePort* port) const
 {
   if (port == nullptr)
   {
     return false;
   }
 
-  return (m_start_port == port) ||(m_end_port == port);
+  return (m_start_port == port) || (m_end_port == port);
 }
 
-void NodeConnection::ForgetPort(INodePort *port)
+void NodeConnection::ForgetPort(INodePort* port)
 {
   if (m_start_port == port)
   {
@@ -101,7 +89,7 @@ void NodeConnection::ForgetPort(INodePort *port)
   }
 }
 
-void NodeConnection::UpdateConnectionShape(const NodeOperationStates &operation_states)
+void NodeConnection::UpdateConnectionShape(const NodeOperationStates& operation_states)
 {
   if (m_notify_shape_callback)
   {
@@ -112,6 +100,28 @@ void NodeConnection::UpdateConnectionShape(const NodeOperationStates &operation_
 void NodeConnection::SetNotifyShapeCallback(shape_callback_t callback)
 {
   m_notify_shape_callback = std::move(callback);
+}
+
+void NodeConnection::SetStartPortImpl(INodePort* port)
+{
+  if (m_start_port)
+  {
+    throw RuntimeException("Current logic allows to set connection only once");
+  }
+
+  m_start_port = port;
+  m_start_port->AppendConnection(this);
+}
+
+void NodeConnection::SetEndPortImpl(INodePort* port)
+{
+  if (m_end_port)
+  {
+    throw RuntimeException("Current logic allows to set connection only once");
+  }
+
+  m_end_port = port;
+  m_end_port->AppendConnection(this);
 }
 
 }  // namespace mvvm

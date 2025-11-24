@@ -82,7 +82,7 @@ SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> poo
     : p_impl(std::make_unique<SessionModelImpl>(std::move(model_type), std::move(pool),
                                                 std::move(command_stack)))
 {
-  GetRootItem()->SetModel(this);
+  p_impl->m_root_item->SetModel(this);
 }
 
 SessionModel::SessionModel(const SessionModel& other)

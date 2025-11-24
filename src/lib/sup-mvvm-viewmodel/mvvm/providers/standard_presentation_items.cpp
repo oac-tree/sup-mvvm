@@ -226,10 +226,6 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem* item,
                                                      std::map<role_t, QVariant> fixed_data)
     : SessionItemPresentation(item, DataRole::kUser), m_data(std::move(fixed_data))
 {
-  for (auto& [qt_role, data] : m_data)
-  {
-    (void)SetData(data, qt_role);
-  }
 }
 
 QVector<role_t> FixedDataPresentationItem::GetQtRoles(role_t data_role) const
