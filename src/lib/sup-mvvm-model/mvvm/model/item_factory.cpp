@@ -29,7 +29,35 @@
 
 namespace mvvm
 {
+
+namespace
+{
+
 std::once_flag global_item_factory_initialized_flag;
+
+void InitItemFactory(ItemFactory& factory)
+{
+  factory.RegisterItem<ChartViewportItem>();
+  factory.RegisterItem<CompoundItem>();
+  factory.RegisterItem<ContainerItem>();
+  factory.RegisterItem<Data1DItem>();
+  factory.RegisterItem<FixedBinAxisItem>();
+  factory.RegisterItem<GraphItem>();
+  factory.RegisterItem<GraphViewportItem>();
+  factory.RegisterItem<LineSeriesDataItem>();
+  factory.RegisterItem<LineSeriesItem>();
+  factory.RegisterItem<LinkedItem>();
+  factory.RegisterItem<NodeItem>();
+  factory.RegisterItem<PenItem>();
+  factory.RegisterItem<PointItem>();
+  factory.RegisterItem<PointwiseAxisItem>();
+  factory.RegisterItem<PropertyItem>();
+  factory.RegisterItem<SessionItem>();
+  factory.RegisterItem<TextItem>();
+  factory.RegisterItem<VectorItem>();
+  factory.RegisterItem<ViewportAxisItem>();
+}
+}  // namespace
 
 ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue)
     : m_catalogue(std::move(catalogue))
@@ -67,29 +95,6 @@ std::vector<std::string> ItemFactory::GetItemTypes() const
 bool ItemFactory::IsRegistered(const std::string& type_name) const
 {
   return m_catalogue->IsRegistered(type_name);
-}
-
-void InitItemFactory(ItemFactory& factory)
-{
-  factory.RegisterItem<ChartViewportItem>();
-  factory.RegisterItem<CompoundItem>();
-  factory.RegisterItem<ContainerItem>();
-  factory.RegisterItem<Data1DItem>();
-  factory.RegisterItem<FixedBinAxisItem>();
-  factory.RegisterItem<GraphItem>();
-  factory.RegisterItem<GraphViewportItem>();
-  factory.RegisterItem<LineSeriesDataItem>();
-  factory.RegisterItem<LineSeriesItem>();
-  factory.RegisterItem<LinkedItem>();
-  factory.RegisterItem<NodeItem>();
-  factory.RegisterItem<PenItem>();
-  factory.RegisterItem<PointItem>();
-  factory.RegisterItem<PointwiseAxisItem>();
-  factory.RegisterItem<PropertyItem>();
-  factory.RegisterItem<SessionItem>();
-  factory.RegisterItem<TextItem>();
-  factory.RegisterItem<VectorItem>();
-  factory.RegisterItem<ViewportAxisItem>();
 }
 
 ItemFactory& GetGlobalItemFactory()

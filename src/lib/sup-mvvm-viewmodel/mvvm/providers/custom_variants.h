@@ -65,22 +65,25 @@ std::string GetQtVariantName(const QVariant& variant);
 //! Returns type of variant (additionally checks for user type).
 std::int32_t GetQtVariantType(const QVariant& variant);
 
-//! Returns true if variant is based on bool.
+//! Checks if variant is based on bool.
 bool IsBoolVariant(const QVariant& variant);
 
-//! Returns true if variant is based on int.
+//! Checks if variant is based on int.
 bool IsIntVariant(const QVariant& variant);
 
-//! Returns true if variant is based on double.
+//! Checks if variant is based on double.
 bool IsDoubleVariant(const QVariant& variant);
 
-//! Returns true if variant is based on std::vector<double>.
+//! Checks if variant is based on long int.
+bool IsLongIntVariant(const QVariant& variant);
+
+//! Checks if variant is based on std::vector<double>.
 bool IsDoubleVectorVariant(const QVariant& variant);
 
-//! Returns true if variant is based on ComboProperty.
+//! Checks if variant is based on ComboProperty.
 bool IsComboPropertyVariant(const QVariant& variant);
 
-//! Returns true if variant is based on ExternalProperty.
+//! Checks if variant is based on ExternalProperty.
 bool IsExternalPropertyVariant(const QVariant& variant);
 
 }  // namespace utils
