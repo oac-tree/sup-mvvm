@@ -23,10 +23,10 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewitem_data.h>
+#include <mvvm/test/test_container_helper.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <gtest/gtest.h>
-#include <mvvm/test/test_container_helper.h>
 
 #include <QSignalSpy>
 #include <QStandardItemModel>
@@ -384,7 +384,7 @@ TEST_F(ViewModelBaseTest, SetData)
   // creating item data
   auto item_data = std::make_unique<ViewItemData>();
   QVariant expected(42.0);
-  item_data->SetData(expected);
+  item_data->SetData(expected, Qt::EditRole);
 
   // creating view model displaying given SessionItem
   children_t children;
@@ -412,12 +412,12 @@ TEST_F(ViewModelBaseTest, SetData)
 TEST_F(ViewModelBaseTest, Flags)
 {
   auto item_label = std::make_unique<ViewItemData>();
-  item_label->SetData(QString("abc"));
+  item_label->SetData(QString("abc"), Qt::EditRole);
   item_label->SetEditable(false);
 
   auto item_data = std::make_unique<ViewItemData>();
   QVariant expected(42.0);
-  item_data->SetData(expected);
+  item_data->SetData(expected, Qt::EditRole);
 
   children_t children;
   children.emplace_back(std::make_unique<ViewItem>(std::move(item_label)));

@@ -36,7 +36,6 @@ public:
 TEST_F(ViewItemDataTest, InitialState)
 {
   mvvm::ViewItemData item;
-  EXPECT_FALSE(item.Data().isValid());
   EXPECT_FALSE(item.Data(Qt::EditRole).isValid());
   EXPECT_FALSE(item.Data(Qt::DisplayRole).isValid());
   EXPECT_FALSE(item.Data(Qt::ToolTipRole).isValid());
@@ -62,16 +61,16 @@ TEST_F(ViewItemDataTest, SetData)
 {
   mvvm::ViewItemData item;
 
-  EXPECT_FALSE(item.Data().isValid());
+  EXPECT_FALSE(item.Data(Qt::EditRole).isValid());
 
-  EXPECT_TRUE(item.SetData(QVariant::fromValue(42)));
-  EXPECT_EQ(item.Data().toInt(), 42);
+  EXPECT_TRUE(item.SetData(QVariant::fromValue(42), Qt::EditRole));
+  EXPECT_EQ(item.Data(Qt::EditRole).toInt(), 42);
 
-  EXPECT_TRUE(item.SetData(QVariant::fromValue(42)));
-  EXPECT_EQ(item.Data().toInt(), 42);
+  EXPECT_TRUE(item.SetData(QVariant::fromValue(42), Qt::EditRole));
+  EXPECT_EQ(item.Data(Qt::EditRole).toInt(), 42);
 
   EXPECT_TRUE(item.SetData(QVariant::fromValue(1.2), Qt::EditRole));
-  EXPECT_EQ(item.Data().toDouble(), 1.2);
+  EXPECT_EQ(item.Data(Qt::EditRole).toDouble(), 1.2);
 
   EXPECT_TRUE(item.SetData(QString("abc"), Qt::DisplayRole));
   EXPECT_EQ(item.Data(Qt::DisplayRole).toString(), QString("abc"));

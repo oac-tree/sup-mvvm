@@ -54,7 +54,7 @@ public:
 
   void ForgetPort(INodePort* port) override;
 
-  void UpdateConnectionShape(const NodeOperationStates& operation_state) override;
+  void UpdateConnectionShape(const NodeOperationStates& operation_states) override;
 
   void SetNotifyShapeCallback(shape_callback_t callback) override;
 
