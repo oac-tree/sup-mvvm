@@ -26,7 +26,7 @@
 namespace mvvm
 {
 
-ModelListener::ModelListener(const ISessionModel *model)
+ModelListener::ModelListener(const ISessionModel* model)
     : m_model(model), m_slot(std::make_unique<Slot>())
 {
   if (!m_model)
@@ -43,17 +43,17 @@ ModelListener::ModelListener(const ISessionModel *model)
 
 ModelListener::~ModelListener() = default;
 
-const ISessionModel *ModelListener::GetModel() const
+const ISessionModel* ModelListener::GetModel() const
 {
   return m_model;
 }
 
-ModelEventHandler *ModelListener::GetEventHandler()
+ModelEventHandler& ModelListener::GetEventHandler() &
 {
-  return m_model->GetEventHandler();
+  return *m_model->GetEventHandler();
 }
 
-Slot *ModelListener::GetSlot() const
+Slot* ModelListener::GetSlot() const
 {
   return m_slot.get();
 }

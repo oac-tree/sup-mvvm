@@ -84,7 +84,7 @@ public:
   template <typename EventT>
   void Connect(const std::function<void(const event_variant_t&)>& callback)
   {
-    (void)GetEventHandler()->Connect<EventT>(callback, GetSlot());
+    (void)GetEventHandler().Connect<EventT>(callback, GetSlot());
   }
 
   /**
@@ -117,7 +117,7 @@ public:
   template <typename EventT, typename ReceiverT>
   void Connect(ReceiverT* receiver, void (ReceiverT::*method)(const event_variant_t&))
   {
-    GetEventHandler()->Connect<EventT>(receiver, method, GetSlot());
+    GetEventHandler().Connect<EventT>(receiver, method, GetSlot());
   }
 
   /**
@@ -145,7 +145,7 @@ public:
   const ISessionModel* GetModel() const;
 
 private:
-  ModelEventHandler* GetEventHandler();
+  ModelEventHandler& GetEventHandler() &;
   Slot* GetSlot() const;
 
   const ISessionModel* m_model{nullptr};
