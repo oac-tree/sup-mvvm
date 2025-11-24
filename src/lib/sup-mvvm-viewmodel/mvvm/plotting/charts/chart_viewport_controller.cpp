@@ -39,9 +39,9 @@ namespace
 /**
  * @brief Returns animation option encoded in ChartViewportItem.
  */
-QChart::AnimationOptions GetAnimationOption(const ChartViewportItem *item)
+QChart::AnimationOptions GetAnimationOption(const ChartViewportItem& item)
 {
-  auto values = item->Property<ComboProperty>(ChartViewportItem::kAnimation).GetSelectedValues();
+  auto values = item.Property<ComboProperty>(ChartViewportItem::kAnimation).GetSelectedValues();
 
   QChart::AnimationOptions result = QChart::NoAnimation;
 
@@ -60,7 +60,7 @@ QChart::AnimationOptions GetAnimationOption(const ChartViewportItem *item)
 
 }  // namespace
 
-ChartViewportController::ChartViewportController(QChart *chart) : m_chart(chart) {}
+ChartViewportController::ChartViewportController(QChart* chart) : m_chart(chart) {}
 
 ChartViewportController::~ChartViewportController() = default;
 
@@ -74,17 +74,17 @@ void ChartViewportController::Subscribe()
   Listener()->Connect<PropertyChangedEvent>(this, &ChartViewportController::OnPropertyChangedEvent);
 }
 
-QAbstractAxis *ChartViewportController::GetXQtAxis() const
+QAbstractAxis* ChartViewportController::GetXQtAxis() const
 {
   return m_x_axis_controller ? m_x_axis_controller->GetQtAxis() : nullptr;
 }
 
-QAbstractAxis *ChartViewportController::GetYQtAxis() const
+QAbstractAxis* ChartViewportController::GetYQtAxis() const
 {
   return m_y_axis_controller ? m_y_axis_controller->GetQtAxis() : nullptr;
 }
 
-QLineSeries *ChartViewportController::SetupChartForLineSeries(LineSeriesItem *item)
+QLineSeries* ChartViewportController::SetupChartForLineSeries(LineSeriesItem* item)
 {
   auto qt_line_series = new QLineSeries;
   m_chart->addSeries(qt_line_series);  // ownership is taken by Qt
@@ -98,7 +98,7 @@ QLineSeries *ChartViewportController::SetupChartForLineSeries(LineSeriesItem *it
 
 void ChartViewportController::SetupChart()
 {
-  m_chart->setAnimationOptions(GetAnimationOption(GetItem()));
+  m_chart->setAnimationOptions(GetAnimationOption(GetItemRef()));
 
   auto item = GetItem();
   for (auto line_series_item : item->GetLineSeries())
@@ -118,21 +118,21 @@ void ChartViewportController::SetupAxes()
   if (!x_axes.empty())
   {
     m_x_axis_controller = std::make_unique<mvvm::ChartAxisPlotController>(x_axes.at(0));
-    m_x_axis_controller->SetItem(GetItem()->GetXAxis());
+    m_x_axis_controller->SetItem(GetItemRef().GetXAxis());
   }
 
   auto y_axes = m_chart->axes(Qt::Vertical);
   if (!y_axes.empty())
   {
     m_y_axis_controller = std::make_unique<mvvm::ChartAxisPlotController>(y_axes.at(0));
-    m_y_axis_controller->SetItem(GetItem()->GetYAxis());
+    m_y_axis_controller->SetItem(GetItemRef().GetYAxis());
   }
 }
 
-void ChartViewportController::OnItemInsertedEvent(const ItemInsertedEvent &event)
+void ChartViewportController::OnItemInsertedEvent(const ItemInsertedEvent& event)
 {
   const auto [parent, tagindex] = event;
-  auto added_child = dynamic_cast<LineSeriesItem *>(parent->GetItem(tagindex));
+  auto added_child = dynamic_cast<LineSeriesItem*>(parent->GetItem(tagindex));
   auto qt_line_series = SetupChartForLineSeries(added_child);
 
   if ((GetXQtAxis() == nullptr) || (GetYQtAxis() == nullptr))
@@ -148,19 +148,19 @@ void ChartViewportController::OnItemInsertedEvent(const ItemInsertedEvent &event
   }
 }
 
-void ChartViewportController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent &event)
+void ChartViewportController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event)
 {
   const auto [parent, tagindex] = event;
-  auto child_about_to_be_removed = dynamic_cast<LineSeriesItem *>(parent->GetItem(tagindex));
+  auto child_about_to_be_removed = dynamic_cast<LineSeriesItem*>(parent->GetItem(tagindex));
 
   // looking for controller serving item
-  auto on_element = [&](const std::unique_ptr<LineSeriesController> &cntrl) -> bool
+  auto on_element = [&](const std::unique_ptr<LineSeriesController>& cntrl) -> bool
   { return cntrl->GetItem() == child_about_to_be_removed; };
   auto iter = std::find_if(m_line_controllers.begin(), m_line_controllers.end(), on_element);
 
   if (iter != m_line_controllers.end())
   {
-    auto &controller = *iter;
+    auto& controller = *iter;
 
     // removing Qt's line series from canvas
     auto qt_line_series = controller->GetQtLineSeries();
@@ -171,16 +171,16 @@ void ChartViewportController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEv
   }
 }
 
-void ChartViewportController::OnPropertyChangedEvent(const PropertyChangedEvent &event)
+void ChartViewportController::OnPropertyChangedEvent(const PropertyChangedEvent& event)
 {
   if (event.name == ChartViewportItem::kAnimation)
   {
-    m_chart->setAnimationOptions(GetAnimationOption(GetItem()));
+    m_chart->setAnimationOptions(GetAnimationOption(GetItemRef()));
   }
 
   if (event.name == ChartViewportItem::kLegendEnabled)
   {
-    m_chart->legend()->setVisible(GetItem()->Property<bool>(ChartViewportItem::kLegendEnabled));
+    m_chart->legend()->setVisible(GetItemRef().Property<bool>(ChartViewportItem::kLegendEnabled));
   }
 }
 

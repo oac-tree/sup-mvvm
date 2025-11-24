@@ -30,7 +30,7 @@
 namespace mvvm
 {
 
-ChartPenController::ChartPenController(QLineSeries *line_series) : m_qt_line_series(line_series)
+ChartPenController::ChartPenController(QLineSeries* line_series) : m_qt_line_series(line_series)
 {
   if (!line_series)
   {
@@ -38,7 +38,7 @@ ChartPenController::ChartPenController(QLineSeries *line_series) : m_qt_line_ser
   }
 }
 
-QLineSeries *ChartPenController::GetQtLineSeries() const
+QLineSeries* ChartPenController::GetQtLineSeries() const
 {
   return m_qt_line_series;
 }
@@ -49,7 +49,7 @@ void ChartPenController::Subscribe()
   UpdateLineSeriesFromItem();
 }
 
-void ChartPenController::OnPropertyChanged([[maybe_unused]] const PropertyChangedEvent &event)
+void ChartPenController::OnPropertyChanged([[maybe_unused]] const PropertyChangedEvent& event)
 {
   UpdateLineSeriesFromItem();
 }
@@ -61,7 +61,7 @@ void ChartPenController::UpdateLineSeriesFromItem()
   QPen pen;
   pen.setColor(color);
   pen.setStyle(GetQtPenStyle(*GetItem()));
-  pen.setWidth(GetItem()->GetWidth());
+  pen.setWidth(GetItemRef().GetWidth());
   m_qt_line_series->setPen(pen);
 }
 

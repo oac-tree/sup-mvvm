@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-ChartAxisTitleController::ChartAxisTitleController(QAbstractAxis *axis) : m_axis(axis)
+ChartAxisTitleController::ChartAxisTitleController(QAbstractAxis* axis) : m_axis(axis)
 {
   if (!m_axis)
   {
@@ -35,7 +35,7 @@ ChartAxisTitleController::ChartAxisTitleController(QAbstractAxis *axis) : m_axis
   }
 }
 
-QAbstractAxis *ChartAxisTitleController::GetQtAxis()
+QAbstractAxis* ChartAxisTitleController::GetQtAxis()
 {
   return m_axis;
 }
@@ -51,9 +51,9 @@ void ChartAxisTitleController::Subscribe()
 void ChartAxisTitleController::UpdateAxisTitleFromItem()
 {
   auto font = GetQtAxis()->titleFont();
-  font.setPointSize(GetItem()->GetPointSize());
-  font.setFamily(QString::fromStdString(GetItem()->GetFont()));
-  m_axis->setTitleText(QString::fromStdString(GetItem()->GetText()));
+  font.setPointSize(GetItemRef().GetPointSize());
+  font.setFamily(QString::fromStdString(GetItemRef().GetFont()));
+  m_axis->setTitleText(QString::fromStdString(GetItemRef().GetText()));
   m_axis->setTitleFont(font);
 }
 

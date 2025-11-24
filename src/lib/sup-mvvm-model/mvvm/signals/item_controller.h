@@ -21,6 +21,7 @@
 #ifndef MVVM_SIGNALS_ITEM_CONTROLLER_H_
 #define MVVM_SIGNALS_ITEM_CONTROLLER_H_
 
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/signals/item_listener.h>
 
 namespace mvvm
@@ -93,6 +94,15 @@ public:
   ItemT* GetItem() const
   {
     return static_cast<ItemT*>(m_listener ? m_listener->GetItem() : nullptr);
+  }
+
+  ItemT& GetItemRef() const
+  {
+    if (!GetItem())
+    {
+      throw RuntimeException("Error: Attempt to get reference to null item in ItemController.");
+    }
+    return *GetItem();
   }
 
   /**

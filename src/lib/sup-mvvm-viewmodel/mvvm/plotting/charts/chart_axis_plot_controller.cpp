@@ -21,17 +21,17 @@
 #include "chart_axis_plot_controller.h"
 
 #include "chart_axis_title_controller.h"
-#include "qt_charts.h"   // IWYU pragma: export
+#include "qt_charts.h"  // IWYU pragma: export
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/item_constants.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
-#include <mvvm/model/item_constants.h>
 
 namespace mvvm
 {
 
-ChartAxisPlotController::ChartAxisPlotController(QAbstractAxis *axis)
+ChartAxisPlotController::ChartAxisPlotController(QAbstractAxis* axis)
     : m_axis(axis), m_axis_connection(std::make_unique<QMetaObject::Connection>())
 {
   if (!m_axis)
@@ -42,7 +42,7 @@ ChartAxisPlotController::ChartAxisPlotController(QAbstractAxis *axis)
 
 ChartAxisPlotController::~ChartAxisPlotController() = default;
 
-QAbstractAxis *ChartAxisPlotController::GetQtAxis()
+QAbstractAxis* ChartAxisPlotController::GetQtAxis()
 {
   return m_axis;
 }
@@ -66,9 +66,9 @@ void ChartAxisPlotController::Unsubscribe()
 
 void ChartAxisPlotController::SetQtConnected()
 {
-  if (auto value_axis = dynamic_cast<QValueAxis *>(m_axis); value_axis)
+  if (auto value_axis = dynamic_cast<QValueAxis*>(m_axis); value_axis)
   {
-    auto on_axis_range = [this](double min, double max) { GetItem()->SetRange(min, max); };
+    auto on_axis_range = [this](double min, double max) { GetItemRef().SetRange(min, max); };
 
     *m_axis_connection = QObject::connect(value_axis, &QValueAxis::rangeChanged, on_axis_range);
   }
@@ -81,10 +81,10 @@ void ChartAxisPlotController::SetQtDisonnected()
 
 void ChartAxisPlotController::SetAxisRangeFromItem()
 {
-  m_axis->setRange(GetItem()->GetMin(), GetItem()->GetMax());
+  m_axis->setRange(GetItemRef().GetMin(), GetItemRef().GetMax());
 }
 
-void ChartAxisPlotController::OnPropertyChangedEvent(const PropertyChangedEvent &event)
+void ChartAxisPlotController::OnPropertyChangedEvent(const PropertyChangedEvent& event)
 {
   auto [item, name] = event;
 
