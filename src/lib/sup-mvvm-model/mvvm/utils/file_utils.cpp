@@ -20,8 +20,9 @@
 
 #include "file_utils.h"
 
-#include <mvvm/core/filesystem.h>
 #include <mvvm/core/mvvm_exceptions.h>
+
+#include <filesystem>
 
 namespace mvvm::utils
 {
