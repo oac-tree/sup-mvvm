@@ -63,7 +63,9 @@ std::vector<std::uint8_t> GetTestData(const std::string& filename)
   std::ifstream fstr(filename, std::ios::in | std::ios::binary);
   for (std::size_t i = 0; i < byte_length; i++)
   {
-    result[i] = fstr.get();
+    std::ifstream::char_type byte{};
+    fstr.read(&byte, 1);
+    result[i] = byte;
   }
   return result;
 }
