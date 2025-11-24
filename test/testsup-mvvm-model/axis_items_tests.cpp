@@ -143,4 +143,13 @@ TEST_F(AxisItemsTests, PointwiseAxisFactoryMethod)
   EXPECT_EQ(axis->GetSize(), 3);
 }
 
+TEST_F(AxisItemsTests, PointwiseAxisGetRange)
+{
+  const std::vector<double> expected_centers{1.0, 2.0, 3.0};
+  auto axis = PointwiseAxisItem::Create(expected_centers);
+  auto [lower, upper] = axis->GetRange();
+  EXPECT_EQ(lower, 1.0);
+  EXPECT_EQ(upper, 3.0);
+}
+
 }  // namespace mvvm::test
