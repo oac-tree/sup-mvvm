@@ -55,105 +55,30 @@ class threadsafe_container_adapter
 public:
   using value_t = typename ContainerT::value_type;
 
-  threadsafe_container_adapter() {}
-  ~threadsafe_container_adapter() { stop(); }
+  threadsafe_container_adapter() = default;
+  ~threadsafe_container_adapter();
 
-  threadsafe_container_adapter(const threadsafe_container_adapter& other)
-  {
-    std::lock_guard<std::mutex> lock(other.m_mutex);
-    m_data = other.m_data;
-  }
+  threadsafe_container_adapter(const threadsafe_container_adapter& other);
   threadsafe_container_adapter& operator=(const threadsafe_container_adapter&) = delete;
 
-  void push(value_t new_value)
-  {
-    std::lock_guard<std::mutex> lock(m_mutex);
-    m_data.push(std::move(new_value));
-    m_data_condition.notify_one();
-  }
+  void push(value_t new_value);
 
-  void wait_and_pop(value_t& value)
-  {
-    std::unique_lock<std::mutex> lock(m_mutex);
-    m_data_condition.wait(lock, [this] { return !m_data.empty() || !m_is_in_operation; });
-    if (m_data.empty())
-    {
-      throw empty_container_exception();
-    }
+  void wait_and_pop(value_t& value);
 
-    value = std::move(GetTop());
-    m_data.pop();
-  }
+  std::shared_ptr<value_t> wait_and_pop();
 
-  std::shared_ptr<value_t> wait_and_pop()
-  {
-    std::unique_lock<std::mutex> lock(m_mutex);
-    m_data_condition.wait(lock, [this] { return !m_data.empty() || !m_is_in_operation; });
-    if (m_data.empty())
-    {
-      throw empty_container_exception();
-    }
+  bool try_pop(value_t& value);
 
-    std::shared_ptr<value_t> result(std::make_shared<value_t>(std::move(GetTop())));
-    m_data.pop();
-    return result;
-  }
+  std::shared_ptr<value_t> try_pop();
 
-  bool try_pop(value_t& value)
-  {
-    std::lock_guard<std::mutex> lock(m_mutex);
-    if (m_data.empty())
-    {
-      return false;
-    }
-    value = std::move(GetTop());
-    m_data.pop();
-    return true;
-  }
+  bool empty() const;
 
-  std::shared_ptr<value_t> try_pop()
-  {
-    std::lock_guard<std::mutex> lock(m_mutex);
-    if (m_data.empty())
-    {
-      return std::shared_ptr<value_t>();
-    }
-    std::shared_ptr<value_t> result(std::make_shared<value_t>(std::move(GetTop())));
-    m_data.pop();
-    return result;
-  }
+  void stop();
 
-  bool empty() const
-  {
-    std::lock_guard<std::mutex> lock(m_mutex);
-    return m_data.empty();
-  }
-
-  void stop()
-  {
-    std::lock_guard<std::mutex> lock(m_mutex);
-    m_is_in_operation = false;
-    m_data_condition.notify_all();
-  }
-
-  std::size_t size() const
-  {
-    std::lock_guard<std::mutex> lock(m_mutex);
-    return m_data.size();
-  }
+  std::size_t size() const;
 
 protected:
-  typename ContainerT::reference GetTop()
-  {
-    if constexpr (is_stack<ContainerT>())
-    {
-      return m_data.top();
-    }
-    else
-    {
-      return m_data.front();
-    }
-  }
+  typename ContainerT::reference GetTop();
 
   ContainerT m_data;
   mutable std::mutex m_mutex;
@@ -163,6 +88,120 @@ protected:
   //!< threads waiting at wait_and_pop will get an exception.
   bool m_is_in_operation{true};
 };
+
+template <typename ContainerT>
+inline threadsafe_container_adapter<ContainerT>::~threadsafe_container_adapter()
+{
+  stop();
+}
+
+template <typename ContainerT>
+inline threadsafe_container_adapter<ContainerT>::threadsafe_container_adapter(
+    const threadsafe_container_adapter& other)
+{
+  std::scoped_lock lock(other.m_mutex);
+  m_data = other.m_data;
+}
+
+template <typename ContainerT>
+inline void threadsafe_container_adapter<ContainerT>::push(value_t new_value)
+{
+  std::scoped_lock lock(m_mutex);
+  m_data.push(std::move(new_value));
+  m_data_condition.notify_one();
+}
+
+template <typename ContainerT>
+inline void threadsafe_container_adapter<ContainerT>::wait_and_pop(value_t& value)
+{
+  std::unique_lock<std::mutex> lock(m_mutex);
+  m_data_condition.wait(lock, [this] { return !m_data.empty() || !m_is_in_operation; });
+  if (m_data.empty())
+  {
+    throw empty_container_exception();
+  }
+
+  value = std::move(GetTop());
+  m_data.pop();
+}
+
+template <typename ContainerT>
+inline bool threadsafe_container_adapter<ContainerT>::try_pop(value_t& value)
+{
+  std::scoped_lock lock(m_mutex);
+  if (m_data.empty())
+  {
+    return false;
+  }
+  value = std::move(GetTop());
+  m_data.pop();
+  return true;
+}
+
+template <typename ContainerT>
+inline bool threadsafe_container_adapter<ContainerT>::empty() const
+{
+  std::scoped_lock lock(m_mutex);
+  return m_data.empty();
+}
+
+template <typename ContainerT>
+inline void threadsafe_container_adapter<ContainerT>::stop()
+{
+  std::scoped_lock lock(m_mutex);
+  m_is_in_operation = false;
+  m_data_condition.notify_all();
+}
+
+template <typename ContainerT>
+inline std::size_t threadsafe_container_adapter<ContainerT>::size() const
+{
+  std::scoped_lock lock(m_mutex);
+  return m_data.size();
+}
+
+template <typename ContainerT>
+inline typename ContainerT::reference threadsafe_container_adapter<ContainerT>::GetTop()
+{
+  if constexpr (is_stack<ContainerT>())
+  {
+    return m_data.top();
+  }
+  else
+  {
+    return m_data.front();
+  }
+}
+
+template <typename ContainerT>
+inline std::shared_ptr<typename threadsafe_container_adapter<ContainerT>::value_t>
+threadsafe_container_adapter<ContainerT>::try_pop()
+{
+  std::scoped_lock lock(m_mutex);
+  if (m_data.empty())
+  {
+    return std::shared_ptr<value_t>();
+  }
+  std::shared_ptr<value_t> result(std::make_shared<value_t>(std::move(GetTop())));
+  m_data.pop();
+  return result;
+}
+
+template <typename ContainerT>
+inline std::shared_ptr<typename threadsafe_container_adapter<ContainerT>::value_t>
+threadsafe_container_adapter<ContainerT>::wait_and_pop()
+{
+  std::unique_lock<std::mutex> lock(m_mutex);
+  m_data_condition.wait(lock, [this] { return !m_data.empty() || !m_is_in_operation; });
+  if (m_data.empty())
+  {
+    throw empty_container_exception();
+  }
+
+  std::shared_ptr<value_t> result(std::make_shared<value_t>(std::move(GetTop())));
+  m_data.pop();
+  return result;
+}
 
 }  // namespace mvvm
 
