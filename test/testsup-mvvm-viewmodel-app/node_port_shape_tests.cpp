@@ -58,6 +58,19 @@ TEST_F(NodePortShapeTest, InitialState)
   EXPECT_EQ(shape.GetNodePort(), node_port_ptr);
 }
 
+TEST_F(NodePortShapeTest, GetPortColor)
+{
+  EXPECT_CALL(m_mock_node_port, SetScenePosition(0.0, 0.0)).Times(1);
+  EXPECT_CALL(m_mock_node_port, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_port, GetPortDirection()).Times(3);
+
+  NodePortStyle custom_style;
+  custom_style.base_color = Qt::red;
+  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", custom_style);
+  auto shape = CreateNodePortShape(port_appearance);
+  EXPECT_EQ(shape->GetPortColor(), Qt::red);
+}
+
 TEST_F(NodePortShapeTest, BoundingBoxForEmptyLabel)
 {
   // triggered by port creation

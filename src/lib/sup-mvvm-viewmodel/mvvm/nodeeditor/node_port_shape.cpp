@@ -22,17 +22,33 @@
 
 #include "node_editor_constants.h"
 
+#include <mvvm/nodeeditor/painting/node_port_shape_painter.h>
+
 #include <QFontMetrics>
 #include <QPainter>
 
 namespace mvvm
 {
 
+namespace
+{
+
+std::unique_ptr<NodePortShapePainter> CreatePainter(const PortAppearance& port_appearance)
+{
+  const auto label_rect =
+      GetLabelRect(port_appearance.GetPortLocation(), {0, 0}, port_appearance.GetPortLabel());
+  return std::make_unique<NodePortShapePainter>(port_appearance.GetPortStyle(),
+                                                port_appearance.GetPortLabel(), label_rect);
+}
+
+}  // namespace
+
 NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INodePort> node_port,
-                             QGraphicsItem *parent)
+                             QGraphicsItem* parent)
     : QGraphicsItem(parent)
     , m_port_appearance(std::move(port_appearance))
     , m_node_port(std::move(node_port))
+    , m_painter(CreatePainter(port_appearance))
 {
   CalculateBoundingRect();
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
@@ -60,51 +76,39 @@ NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INo
   }
 }
 
+NodePortShape::~NodePortShape() = default;
+
 QRectF NodePortShape::boundingRect() const
 {
   return m_bounding_rect;
 }
 
-void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                          QWidget *widget)
+void NodePortShape::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+                          QWidget* widget)
 {
   (void)widget;
-  (void)option;
-  painter->save();
-
-  const auto &port_style = m_port_appearance.GetPortStyle();
-
-  const QPen pen = QPen(port_style.pen_color, port_style.pen_width);
-  const QBrush brush = QBrush(GetPortColor());
-
-  painter->setRenderHint(QPainter::Antialiasing);
-  painter->setPen(pen);
-  painter->setBrush(brush);
-
-  const double x_size = 2.0 * m_port_appearance.GetPortRadius();
-  const QPointF center(0.0, 0.0);
-
-  QRectF ellipse_rect(0.0, 0.0, x_size, x_size);
-  ellipse_rect.moveCenter(center);
-  painter->drawEllipse(ellipse_rect);
-
-  if (!m_port_appearance.GetPortLabel().isEmpty())
-  {
-    painter->setPen(Qt::black);
-    painter->drawText(
-        GetLabelRect(m_port_appearance.GetPortLocation(), center, m_port_appearance.GetPortLabel()),
-        Qt::AlignCenter, m_port_appearance.GetPortLabel());
-  }
-
-  painter->restore();
+  m_painter->Paint(painter, option, GetPortColor());
 }
 
-INodePort *NodePortShape::GetNodePort() const
+INodePort* NodePortShape::GetNodePort() const
 {
   return m_node_port.get();
 }
 
-QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant &value)
+QColor NodePortShape::GetPortColor() const
+{
+  const auto& port_style = m_port_appearance.GetPortStyle();
+  if (m_node_port->GetPortDirection() == PortDirection::kInput)
+  {
+    return m_operation_states.IsSet(NodeOperationState::kCollapsedChildren)
+               ? port_style.base_color_modified
+               : port_style.base_color;
+  }
+
+  return port_style.base_color;
+}
+
+QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant& value)
 {
   if (change == ItemScenePositionHasChanged || change == ItemSceneHasChanged)
   {
@@ -134,19 +138,6 @@ void NodePortShape::PropagateSceneCoordinatesToNodePort()
   m_node_port->SetScenePosition(pos.x(), pos.y());
 }
 
-QColor NodePortShape::GetPortColor() const
-{
-  const auto &port_style = m_port_appearance.GetPortStyle();
-  if (m_node_port->GetPortDirection() == PortDirection::kInput)
-  {
-    return m_operation_states.IsSet(NodeOperationState::kCollapsedChildren)
-               ? port_style.base_color_modified
-               : port_style.base_color;
-  }
-
-  return port_style.base_color;
-}
-
 /**
  * @brief Returns a rectangle for label painting.
  *
@@ -155,7 +146,7 @@ QColor NodePortShape::GetPortColor() const
  * @param label The text of the label.
  * @return The rectangle to plot the text.
  */
-QRectF GetLabelRect(PortLocation port_location, const QPointF &port_position, const QString &label)
+QRectF GetLabelRect(PortLocation port_location, const QPointF& port_position, const QString& label)
 {
   if (label.isEmpty())
   {
