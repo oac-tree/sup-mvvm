@@ -43,19 +43,19 @@ namespace
  */
 struct Node
 {
-  SessionItem *item{nullptr};
-  const ConnectableShape *shape{nullptr};
+  SessionItem* item{nullptr};
+  const ConnectableShape* shape{nullptr};
 };
 
 /**
  * @brief Returns a list of connection shapes that are not connected to two ports.
  */
-std::vector<NodeConnectionShape *> FindHangingConnectionShapes(QGraphicsScene *scene)
+std::vector<NodeConnectionShape*> FindHangingConnectionShapes(const QGraphicsScene* scene)
 {
   auto connections = mvvm::GetShapes<NodeConnectionShape>(*scene);
-  std::vector<NodeConnectionShape *> result;
+  std::vector<NodeConnectionShape*> result;
   (void)std::copy_if(connections.begin(), connections.end(), std::back_inserter(result),
-               [](auto connection) { return connection->IsHanging(); });
+                     [](auto connection) { return connection->IsHanging(); });
   return result;
 }
 
@@ -63,7 +63,7 @@ std::vector<NodeConnectionShape *> FindHangingConnectionShapes(QGraphicsScene *s
 
 ConnectableViewModelController::ConnectableViewModelController(
     std::unique_ptr<IConnectableShapeFactory> factory,
-    std::unique_ptr<IChildrenStrategy> children_strategy, QGraphicsScene *graphics_scene)
+    std::unique_ptr<IChildrenStrategy> children_strategy, QGraphicsScene* graphics_scene)
     : m_shape_factory(std::move(factory))
     , m_children_strategy(std::move(children_strategy))
     , m_graphics_scene(graphics_scene)
@@ -88,7 +88,7 @@ ConnectableViewModelController::ConnectableViewModelController(
 
 ConnectableViewModelController::~ConnectableViewModelController() = default;
 
-void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent &event)
+void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent& event)
 {
   auto [parent, tag_index] = event;
 
@@ -104,7 +104,7 @@ void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent &event
   }
 }
 
-void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
+void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent& event)
 {
   auto [parent, tag_index] = event;
   auto item_to_remove = parent->GetItem(tag_index);
@@ -134,12 +134,12 @@ void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &
     {
       // Attempt to explicitely remove item from scene, and then delete it, might lead to issues
       // during item repainting.
-      delete connection; // will be automatically removed from scene
+      delete connection;  // will be automatically removed from scene
     }
   }
 }
 
-void ConnectableViewModelController::InitScene(mvvm::SessionItem *container_item)
+void ConnectableViewModelController::InitScene(mvvm::SessionItem* container_item)
 {
   if (!container_item)
   {
@@ -158,12 +158,12 @@ void ConnectableViewModelController::InitScene(mvvm::SessionItem *container_item
   }
 }
 
-ConnectableShape *ConnectableViewModelController::FindShapeForItem(const SessionItem &item) const
+ConnectableShape* ConnectableViewModelController::FindShapeForItem(const SessionItem& item) const
 {
   return m_item_view_map.FindView(&item);
 }
 
-void ConnectableViewModelController::UpdateBranch(SessionItem *item)
+void ConnectableViewModelController::UpdateBranch(SessionItem* item)
 {
   // we pretend that all children were removed
   // this will lead to removal of all views related to children (and their children recursively)
@@ -181,28 +181,28 @@ void ConnectableViewModelController::UpdateBranch(SessionItem *item)
   }
 }
 
-ModelListener *ConnectableViewModelController::Listener() const
+ModelListener* ConnectableViewModelController::Listener() const
 {
   return m_listener.get();
 }
 
-const SessionItem *ConnectableViewModelController::FindItemForShape(ConnectableShape *shape) const
+const SessionItem* ConnectableViewModelController::FindItemForShape(ConnectableShape* shape) const
 {
   return m_item_view_map.FindItem(shape);
 }
 
-SessionItem *ConnectableViewModelController::GetRootItem() const
+SessionItem* ConnectableViewModelController::GetRootItem() const
 {
   return m_root_item;
 }
 
-ConnectableViewModelController::item_view_map_t &ConnectableViewModelController::GetItemViewMap()
+ConnectableViewModelController::item_view_map_t& ConnectableViewModelController::GetItemViewMap()
 {
   return m_item_view_map;
 }
 
-void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_item,
-                                                   const ConnectableShape *parent_shape)
+void ConnectableViewModelController::PopulateScene(SessionItem* top_level_node_item,
+                                                   const ConnectableShape* parent_shape)
 {
   std::stack<Node> stack;
 
@@ -239,7 +239,7 @@ void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_i
   }
 }
 
-void ConnectableViewModelController::ConnectToModel(ISessionModel *model)
+void ConnectableViewModelController::ConnectToModel(ISessionModel* model)
 {
   m_listener = std::make_unique<mvvm::ModelListener>(model);
 
@@ -248,20 +248,21 @@ void ConnectableViewModelController::ConnectToModel(ISessionModel *model)
                                                     &ConnectableViewModelController::OnModelEvent);
 }
 
-bool ConnectableViewModelController::IsInScope(const mvvm::SessionItem *parent_item) const
+bool ConnectableViewModelController::IsInScope(const mvvm::SessionItem* parent_item) const
 {
   // the parent should be either our container or one of its children down in the hierarchy
   return (parent_item == m_root_item) || mvvm::utils::IsItemAncestor(parent_item, GetRootItem());
 }
 
-bool ConnectableViewModelController::IsAboutToDestroyRootItem(SessionItem *item_to_remove) const
+bool ConnectableViewModelController::IsAboutToDestroyRootItem(
+    const SessionItem* item_to_remove) const
 {
   // the removal should not be related to root item or items above it
   return (item_to_remove == GetRootItem()) || utils::IsItemAncestor(GetRootItem(), item_to_remove);
 }
 
-bool ConnectableViewModelController::IsChildNeedsView(const SessionItem &parent,
-                                                      const SessionItem &child)
+bool ConnectableViewModelController::IsChildNeedsView(const SessionItem& parent,
+                                                      const SessionItem& child)
 {
   // We check that a child is among children reported by the strategy. If it is not the case, the
   // controller will ignore such children.

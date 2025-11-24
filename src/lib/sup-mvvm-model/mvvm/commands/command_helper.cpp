@@ -89,7 +89,7 @@ std::string GetSetValueCommandDescription(const variant_t &value, role_t role)
   return ostr.str();
 }
 
-std::string GetInsertCommandDescription(SessionItem *parent, SessionItem *child,
+std::string GetInsertCommandDescription(const SessionItem *parent, const SessionItem *child,
                                         const TagIndex &tag_index)
 {
   std::ostringstream ostr;

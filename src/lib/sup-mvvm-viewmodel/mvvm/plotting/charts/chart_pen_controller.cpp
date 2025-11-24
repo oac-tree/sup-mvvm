@@ -60,7 +60,7 @@ void ChartPenController::UpdateLineSeriesFromItem()
 
   QPen pen;
   pen.setColor(color);
-  pen.setStyle(GetQtPenStyle(GetItem()));
+  pen.setStyle(GetQtPenStyle(*GetItem()));
   pen.setWidth(GetItem()->GetWidth());
   m_qt_line_series->setPen(pen);
 }

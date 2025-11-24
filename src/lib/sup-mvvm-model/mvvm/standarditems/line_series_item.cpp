@@ -43,7 +43,7 @@ LineSeriesItem::LineSeriesItem() : CompoundItem(GetTypeName<LineSeriesItem>())
   (void)AddProperty<LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
   (void)AddProperty(kOffset, 0.0).SetDisplayName("Offset");
 
-  auto &pen = AddProperty<PenItem>(constants::kPen);
+  auto& pen = AddProperty<PenItem>(constants::kPen);
   (void)pen.SetDisplayName("Pen");
   pen.SetWidth(kDefaultLineWidth);
   pen.SetNamedColor(std::string(kDefaultLineColor));
@@ -56,19 +56,19 @@ std::unique_ptr<SessionItem> LineSeriesItem::Clone() const
   return std::make_unique<LineSeriesItem>(*this);
 }
 
-void LineSeriesItem::SetDataItem(LineSeriesDataItem *item)
+void LineSeriesItem::SetDataItem(const LineSeriesDataItem* item)
 {
   GetItem<LinkedItem>(constants::kLink)->SetLink(item);
 }
 
-const LineSeriesDataItem *LineSeriesItem::GetDataItem() const
+const LineSeriesDataItem* LineSeriesItem::GetDataItem() const
 {
   return GetItem<LinkedItem>(constants::kLink)->Get<LineSeriesDataItem>();
 }
 
-LineSeriesDataItem *LineSeriesItem::GetDataItem()
+LineSeriesDataItem* LineSeriesItem::GetDataItem()
 {
-  return const_cast<LineSeriesDataItem *>(std::as_const(*this).GetDataItem());
+  return const_cast<LineSeriesDataItem*>(std::as_const(*this).GetDataItem());
 }
 
 double LineSeriesItem::GetXOffset() const
@@ -86,12 +86,12 @@ std::string LineSeriesItem::GetNamedColor() const
   return GetPenItem()->GetNamedColor();
 }
 
-void LineSeriesItem::SetNamedColor(const std::string &named_color)
+void LineSeriesItem::SetNamedColor(const std::string& named_color)
 {
   GetPenItem()->SetNamedColor(named_color);
 }
 
-PenItem *LineSeriesItem::GetPenItem() const
+PenItem* LineSeriesItem::GetPenItem() const
 {
   return GetItem<PenItem>(constants::kPen);
 }

@@ -97,7 +97,7 @@ private:
    * We don't want to continue if our root item is being removed. If so, we will clear the scene
    * and disconnect from the model.
    */
-  bool IsAboutToDestroyRootItem(mvvm::SessionItem* item_to_remove) const;
+  bool IsAboutToDestroyRootItem(const SessionItem* item_to_remove) const;
 
   /**
    * @brief Checks if given children needs a view.

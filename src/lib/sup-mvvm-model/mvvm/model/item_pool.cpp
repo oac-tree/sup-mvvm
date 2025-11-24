@@ -52,7 +52,7 @@ void ItemPool::RegisterItem(SessionItem* item, ItemPool::identifier_t key)
   (void)m_item_to_key.insert(std::make_pair(item, key));
 }
 
-void ItemPool::UnregisterItem(SessionItem* item)
+void ItemPool::UnregisterItem(const SessionItem* item)
 {
   auto iter = m_item_to_key.find(item);
   if (iter == m_item_to_key.end())

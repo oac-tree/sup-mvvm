@@ -46,7 +46,7 @@ struct PenController::PenControllerImpl
 
     QPen pen;
     pen.setColor(color);
-    pen.setStyle(GetQtPenStyle(item));
+    pen.setStyle(GetQtPenStyle(*item));
     pen.setWidth(item->GetWidth());
     m_graph->setPen(pen);
 

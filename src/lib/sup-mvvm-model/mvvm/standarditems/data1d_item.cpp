@@ -29,11 +29,13 @@ namespace mvvm
 
 namespace
 {
-size_t total_bin_count(mvvm::Data1DItem* item)
+
+size_t GetTotalBinCount(const mvvm::Data1DItem& item)
 {
-  auto axis = item->GetAxis();
+  auto axis = item.GetAxis();
   return axis ? axis->GetSize() : 0;
 }
+
 }  // namespace
 
 static inline const std::string_view kAxis = "kAxis";
@@ -68,7 +70,7 @@ std::vector<double> Data1DItem::GetBinCenters() const
 
 void Data1DItem::SetValues(const std::vector<double>& data)
 {
-  if (total_bin_count(this) != data.size())
+  if (GetTotalBinCount(*this) != data.size())
   {
     throw RuntimeException("Error in Data1DItem: data doesn't match size of axis");
   }
@@ -87,7 +89,7 @@ std::vector<double> Data1DItem::GetValues() const
 
 void Data1DItem::SetErrors(const std::vector<double>& errors)
 {
-  if (total_bin_count(this) != errors.size())
+  if (GetTotalBinCount(*this) != errors.size())
   {
     throw RuntimeException("Error in Data1DItem: data doesn't match size of axis");
   }

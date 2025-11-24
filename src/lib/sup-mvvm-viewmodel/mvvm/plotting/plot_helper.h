@@ -39,7 +39,7 @@ class PenItem;
 /**
  * @brief Returns Qt's pen style from given item
  */
-Qt::PenStyle GetQtPenStyle(mvvm::PenItem* item);
+Qt::PenStyle GetQtPenStyle(const PenItem& tem);
 
 }  // namespace mvvm
 

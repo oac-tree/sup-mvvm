@@ -78,7 +78,7 @@ public:
    * This method creates a connection between this shape and the provided child shape.
    * The method acts only on shapes and doesn't alter underlying ISessionModel.
    */
-  NodeConnectionShape* MakeChildConnected(ConnectableShape* child_shape) const;
+  NodeConnectionShape* MakeChildConnected(const ConnectableShape* child_shape) const;
 
   /**
    * @brief Returns all ports of this shape.

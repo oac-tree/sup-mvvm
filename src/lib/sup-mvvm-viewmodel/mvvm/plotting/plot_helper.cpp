@@ -25,10 +25,10 @@
 namespace mvvm
 {
 
-Qt::PenStyle GetQtPenStyle(mvvm::PenItem* item)
+Qt::PenStyle GetQtPenStyle(const PenItem& tem)
 {
   // our ComboProperty for pens coincide with Qt definition
-  return static_cast<Qt::PenStyle>(item->GetStyleIndex());
+  return static_cast<Qt::PenStyle>(tem.GetStyleIndex());
 }
 
 }  // namespace mvvm

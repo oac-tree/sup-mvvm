@@ -134,7 +134,7 @@ void ConnectableShape::UpdateViewFromItem()
   m_block_item_update = false;
 }
 
-NodeConnectionShape* ConnectableShape::MakeChildConnected(ConnectableShape* child_shape) const
+NodeConnectionShape* ConnectableShape::MakeChildConnected(const ConnectableShape* child_shape) const
 {
   if (!scene())
   {
@@ -209,13 +209,13 @@ void ConnectableShape::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
   QGraphicsItem::mouseReleaseEvent(event);
 }
 
-void ConnectableShape::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void ConnectableShape::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
   m_shape_painter->SetHovered(true);
   QGraphicsItem::hoverEnterEvent(event);
 }
 
-void ConnectableShape::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+void ConnectableShape::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
   m_shape_painter->SetHovered(false);
   QGraphicsItem::hoverLeaveEvent(event);

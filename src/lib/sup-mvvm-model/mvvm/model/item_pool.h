@@ -37,6 +37,7 @@ public:
   using identifier_t = std::string;
 
   ItemPool() = default;
+  ~ItemPool() = default;
   ItemPool(const ItemPool&) = delete;
   ItemPool(ItemPool&&) = delete;
   ItemPool& operator=(const ItemPool&) = delete;
@@ -46,7 +47,7 @@ public:
 
   void RegisterItem(SessionItem* item, identifier_t key);
 
-  void UnregisterItem(SessionItem* item);
+  void UnregisterItem(const SessionItem* item);
 
   identifier_t KeyForItem(const SessionItem* item) const;
 

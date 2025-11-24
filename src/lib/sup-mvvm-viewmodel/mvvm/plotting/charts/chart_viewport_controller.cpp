@@ -39,7 +39,7 @@ namespace
 /**
  * @brief Returns animation option encoded in ChartViewportItem.
  */
-QChart::AnimationOptions GetAnimationOption(ChartViewportItem *item)
+QChart::AnimationOptions GetAnimationOption(const ChartViewportItem *item)
 {
   auto values = item->Property<ComboProperty>(ChartViewportItem::kAnimation).GetSelectedValues();
 
