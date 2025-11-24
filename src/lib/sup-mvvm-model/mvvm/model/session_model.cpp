@@ -85,13 +85,6 @@ SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> poo
   p_impl->m_root_item->SetModel(this);
 }
 
-SessionModel::SessionModel(const SessionModel& other)
-    : SessionModel(other.GetType(), other.p_impl->m_pool,
-                   other.p_impl->m_command_processor->Clone())
-{
-  ReplaceRootItem(utils::CopyItem(*other.GetRootItem()));
-}
-
 SessionModel::~SessionModel()
 {
   // Explicitely call root item's destructor. It uses p_impl pointer during own descruction
@@ -99,6 +92,26 @@ SessionModel::~SessionModel()
   // of pecularities of MacOS libc++. See explanations here:
   // http://ibob.github.io/blog/2019/11/07/dont-use-unique_ptr-for-pimpl/
   p_impl->m_root_item.reset();
+}
+
+SessionModel::SessionModel(const SessionModel& other)
+    : SessionModel(other.GetType(), other.p_impl->m_pool,
+                   other.p_impl->m_command_processor->Clone())
+{
+  ReplaceRootItem(utils::CopyItem(*other.GetRootItem()));
+}
+
+SessionModel& SessionModel::operator=(const SessionModel& other)
+{
+  if (this == &other)
+  {
+    return *this;
+  }
+  // It is hard to implement proper assignment operator due to ownership issues of children items.
+  // We can't delete it either, because NISRA C++ forbids having user-defined copy constructor
+  // without copy. And we can't get rid of copy constructor, because it is hard to implement clone
+  // pattern without it.
+  throw RuntimeException("Cannot assign SessionModel objects");
 }
 
 std::unique_ptr<ISessionModel> SessionModel::Clone() const

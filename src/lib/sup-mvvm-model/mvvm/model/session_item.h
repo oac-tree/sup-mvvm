@@ -59,10 +59,8 @@ public:
   SessionItem(SessionItem&&) = delete;
   SessionItem& operator=(SessionItem&&) = delete;
 
-  /**
-   * @brief Copy constructor.
-   */
   SessionItem(const SessionItem& other);
+  SessionItem& operator=(const SessionItem&other);
 
   /**
    * @brief Creates a clone of the item.
@@ -406,7 +404,6 @@ protected:
   explicit SessionItem(const std::string& item_type);
   SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
               std::unique_ptr<TaggedItems> tags);
-  SessionItem& operator=(const SessionItem&);
 
   /**
    * @brief A method to activate custom data strategies.

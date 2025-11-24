@@ -78,11 +78,6 @@ SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionIt
 {
 }
 
-SessionItem& SessionItem::operator=(const SessionItem&)
-{
-  throw RuntimeException("Cannot assign SessionItem objects");
-}
-
 void SessionItem::ActivateStrategies()
 {
   // nothing to do by default
@@ -104,6 +99,20 @@ SessionItem::SessionItem(const SessionItem& other)
   {
     child->SetParent(this);
   }
+}
+
+SessionItem& SessionItem::operator=(const SessionItem& other)
+{
+  if (this == &other)
+  {
+    return *this;
+  }
+
+  // It is hard to implement proper assignment operator due to ownership issues of children items.
+  // We can't delete it either, because NISRA C++ forbids having user-defined copy constructor
+  // without copy. And we can't get rid of copy constructor, because it is hard to implement clone
+  // pattern without it.
+  throw RuntimeException("Cannot assign SessionItem objects");
 }
 
 std::unique_ptr<SessionItem> SessionItem::Clone() const
