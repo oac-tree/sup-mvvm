@@ -216,7 +216,7 @@ inline std::string LimitedInteger<std::uint16_t>::GetValueAsText() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 {
-  T parsed_value;
+  T parsed_value{};
   std::from_chars_result result =
       std::from_chars(text.data(), text.data() + text.size(), parsed_value);
 

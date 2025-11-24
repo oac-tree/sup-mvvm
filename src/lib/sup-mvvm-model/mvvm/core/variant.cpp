@@ -60,7 +60,7 @@ variant_t to_bool(const std::string& str)
 template <typename T>
 variant_t to_int(const std::string& str)
 {
-  T parsed_value;
+  T parsed_value{};
   const std::from_chars_result result =
       std::from_chars(str.data(), str.data() + str.size(), parsed_value);
 
