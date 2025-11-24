@@ -21,8 +21,8 @@
 #ifndef MVVM_UTILS_STRING_FORMAT_H_
 #define MVVM_UTILS_STRING_FORMAT_H_
 
-#include <string>
 #include <cstdint>
+#include <string>
 
 namespace mvvm::utils
 {
@@ -43,9 +43,12 @@ class StringFormat
 {
 public:
   explicit StringFormat(std::string str);
+  ~StringFormat() = default;
 
   StringFormat(const StringFormat& other) = delete;
   StringFormat& operator=(const StringFormat& other) = delete;
+  StringFormat(StringFormat&&) = default;
+  StringFormat& operator=(StringFormat&&) = default;
 
   /**
    * @brief Replaces pattern in internal buffer.

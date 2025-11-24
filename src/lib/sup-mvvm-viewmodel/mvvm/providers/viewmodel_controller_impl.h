@@ -101,7 +101,7 @@ public:
    */
   std::vector<std::unique_ptr<ViewItem>> CreateTreeOfRows(SessionItem &item, bool is_root = false);
 
-  item_view_map_t &GetViewItemMap();
+  item_view_map_t &GetViewItemMap() &;
 
 private:
   ViewModelBase *m_view_model{nullptr};

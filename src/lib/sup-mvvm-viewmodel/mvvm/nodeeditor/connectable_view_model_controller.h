@@ -61,7 +61,7 @@ public:
 
   void InitScene(mvvm::SessionItem* container_item);
 
-  item_view_map_t& GetItemViewMap();
+  item_view_map_t& GetItemViewMap() &;
 
   mvvm::SessionItem* GetRootItem() const;
 

@@ -126,7 +126,7 @@ std::string SessionItem::GetDisplayName() const
   return HasData(DataRole::kDisplay) ? Data<std::string>(DataRole::kDisplay) : GetType();
 }
 
-SessionItem& SessionItem::SetDisplayName(const std::string& name)
+SessionItem& SessionItem::SetDisplayName(const std::string& name) &
 {
   (void)SetData(name, DataRole::kDisplay);
   return *this;
@@ -242,7 +242,7 @@ bool SessionItem::IsEditable() const
   return !GetFlags(*this).IsSet(Appearance::kReadOnly);
 }
 
-SessionItem& SessionItem::SetEditable(bool value)
+SessionItem& SessionItem::SetEditable(bool value) &
 {
   return SetFlag(Appearance::kReadOnly, !value);
 }
@@ -252,7 +252,7 @@ bool SessionItem::IsEnabled() const
   return !GetFlags(*this).IsSet(Appearance::kDisabled);
 }
 
-SessionItem& SessionItem::SetEnabled(bool value)
+SessionItem& SessionItem::SetEnabled(bool value) &
 {
   return SetFlag(Appearance::kDisabled, !value);
 }
@@ -262,7 +262,7 @@ bool SessionItem::IsVisible() const
   return !GetFlags(*this).IsSet(Appearance::kHidden);
 }
 
-SessionItem& SessionItem::SetVisible(bool value)
+SessionItem& SessionItem::SetVisible(bool value) &
 {
   return SetFlag(Appearance::kHidden, !value);
 }
@@ -272,7 +272,7 @@ std::string SessionItem::GetToolTip() const
   return HasData(DataRole::kTooltip) ? Data<std::string>(DataRole::kTooltip) : std::string();
 }
 
-SessionItem& SessionItem::SetToolTip(const std::string& tooltip)
+SessionItem& SessionItem::SetToolTip(const std::string& tooltip) &
 {
   (void)SetData(tooltip, DataRole::kTooltip);
   return *this;
@@ -283,7 +283,7 @@ std::string SessionItem::GetEditorType() const
   return HasData(DataRole::kEditor) ? Data<std::string>(DataRole::kEditor) : std::string();
 }
 
-SessionItem& SessionItem::SetEditorType(const std::string_view& editor_type)
+SessionItem& SessionItem::SetEditorType(const std::string_view& editor_type) &
 {
   (void)SetData(std::string(editor_type), DataRole::kEditor);
   return *this;
@@ -294,7 +294,7 @@ bool SessionItem::HasFlag(Appearance flag) const
   return GetFlags(*this).IsSet(flag);
 }
 
-SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
+SessionItem& SessionItem::SetFlag(Appearance flag, bool value) &
 {
   SetFlags(GetFlags(*this).Set(flag, value), *this);
   return *this;

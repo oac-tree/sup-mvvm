@@ -54,7 +54,7 @@ double PortAppearance::GetPortRadius() const
   return GetPortStyle().radius;
 }
 
-const NodePortStyle &PortAppearance::GetPortStyle() const
+const NodePortStyle &PortAppearance::GetPortStyle() const &
 {
   return m_port_style;
 }

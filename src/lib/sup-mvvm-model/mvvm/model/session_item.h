@@ -92,7 +92,7 @@ public:
   /**
    * @brief Sets the display name.
    */
-  SessionItem& SetDisplayName(const std::string& name);
+  SessionItem& SetDisplayName(const std::string& name) &;
 
   /**
    * @brief Returns the model to which given item belongs to, or nullptr if item doesn't belong to a
@@ -273,7 +273,7 @@ public:
    *
    * @return The reference to the same item (fluent interface).
    */
-  SessionItem& SetEditable(bool value);
+  SessionItem& SetEditable(bool value) &;
 
   /**
    * @brief Returns true if this item has enabled flag set.
@@ -287,7 +287,7 @@ public:
    * @brief Sets item's enabled flag to given value.
    * @return The reference to the same item (fluent interface).
    */
-  SessionItem& SetEnabled(bool value);
+  SessionItem& SetEnabled(bool value) &;
 
   /**
    * @brief Returns true if this item has visibility flag set.
@@ -302,7 +302,7 @@ public:
    *
    * @return The reference to the same item (fluent interface).
    */
-  SessionItem& SetVisible(bool value);
+  SessionItem& SetVisible(bool value) &;
 
   /**
    * @brief Returns item tooltip, if exists.
@@ -314,7 +314,7 @@ public:
    *
    * @return The reference to the same item (fluent interface).
    */
-  SessionItem& SetToolTip(const std::string& tooltip);
+  SessionItem& SetToolTip(const std::string& tooltip) &;
 
   /**
    * @brief Returns editor type which is used to edit data role.
@@ -326,7 +326,7 @@ public:
    *
    * @details This allows to define custom cell editors to edit data role of the item.
    */
-  SessionItem& SetEditorType(const std::string_view& editor_type);
+  SessionItem& SetEditorType(const std::string_view& editor_type) &;
 
   /**
    * @brief Returns true if the item has given appearance flag set.
@@ -336,7 +336,7 @@ public:
   /**
    * @brief Sets appearance flag to given value.
    */
-  SessionItem& SetFlag(Appearance flag, bool value);
+  SessionItem& SetFlag(Appearance flag, bool value) &;
 
   /**
    * @brief Set item's model to the given value.

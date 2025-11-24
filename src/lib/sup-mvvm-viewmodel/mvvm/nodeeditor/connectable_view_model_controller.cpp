@@ -196,7 +196,7 @@ SessionItem* ConnectableViewModelController::GetRootItem() const
   return m_root_item;
 }
 
-ConnectableViewModelController::item_view_map_t& ConnectableViewModelController::GetItemViewMap()
+ConnectableViewModelController::item_view_map_t& ConnectableViewModelController::GetItemViewMap() &
 {
   return m_item_view_map;
 }
