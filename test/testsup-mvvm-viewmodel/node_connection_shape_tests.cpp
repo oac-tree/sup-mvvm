@@ -142,6 +142,12 @@ TEST_P(NodeConnectionShapeTest, UpdatePathWithPorts)
 
   EXPECT_EQ(node_connection_shape->GetPainterPath().elementCount(), 4);  // MoveTo + 3x CurveTo;
   EXPECT_EQ(node_connection_shape->GetPainterPath().currentPosition(), QPointF(300.0, 300.0));
+
+  auto shape = node_connection_shape->GetPainterPath();
+  EXPECT_EQ(shape.elementAt(0).x, 100.0);
+  EXPECT_EQ(shape.elementAt(0).y, 100.0);
+  EXPECT_EQ(shape.elementAt(3).x, 300.0);
+  EXPECT_EQ(shape.elementAt(3).y, 300.0);
 }
 
 INSTANTIATE_TEST_SUITE_P(FunctionalTests, NodeConnectionShapeTest,
