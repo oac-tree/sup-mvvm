@@ -12,12 +12,7 @@ cpptest_add_executable(sup-mvvm-cpptest
   src-sup-mvvm-model=${CMAKE_SOURCE_DIR}/src/lib/sup-mvvm-model
   src-sup-mvvm-viewmodel=${CMAKE_SOURCE_DIR}/src/lib/sup-mvvm-viewmodel
   src-sup-mvvm-view=${CMAKE_SOURCE_DIR}/src/lib/sup-mvvm-view
-  src-sup-mvvm-test=${CMAKE_SOURCE_DIR}/src/lib/sup-mvvm-test
-  src-testsup-mvvm-model=${CMAKE_SOURCE_DIR}/test/testsup-mvvm-model
-  src-testsup-mvvm-viewmodel=${CMAKE_SOURCE_DIR}/test/testsup-mvvm-viewmodel
-  src-testsup-mvvm-viewmodel-app=${CMAKE_SOURCE_DIR}/test/testsup-mvvm-viewmodel-app
-  src-testsup-mvvm-view=${CMAKE_SOURCE_DIR}/test/testsup-mvvm-view
-  TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view sup-mvvm-test testsup-mvvm-model testsup-mvvm-viewmodel testsup-mvvm-viewmodel-app testsup-mvvm-view
+  TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view
 )
 
 get_target_property(SUP_MVVM_MODEL_INCLUDE_DIRECTORIES sup-mvvm-model INCLUDE_DIRECTORIES)
@@ -33,9 +28,6 @@ target_include_directories(sup-mvvm-cpptest PUBLIC
 target_link_libraries(sup-mvvm-cpptest
   PUBLIC
   LibXml2::LibXml2
-  sup-mvvm::model
-  sup-mvvm::view
-  sup-mvvm::viewmodel
   qcustomplot
   stduuid
   sup-utils-tree-data
