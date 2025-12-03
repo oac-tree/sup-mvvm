@@ -21,26 +21,24 @@
 #ifndef MVVM_SERIALIZATION_TREE_DATA_CONSTANTS_H_
 #define MVVM_SERIALIZATION_TREE_DATA_CONSTANTS_H_
 
-#include <string>
-
 namespace mvvm::constants
 {
 
-const std::string kRootElementType = "MvvmDocument";
-const std::string kApplicationTypeAttribute = "application";
-const std::string kModelElementType = "Model";
-const std::string kItemElementType = "Item";
-const std::string kTaggedItemsElementType = "TaggedItems";
-const std::string kItemDataElementType = "ItemData";
-const std::string kDefaultTagKey = "defaultTag";
-const std::string kItemContainerElementType = "ItemContainer";
-const std::string kTagInfoElementType = "TagInfo";
-const std::string kVariantElementType = "Variant";
-const std::string kRoleAttributeKey = "role";
-const std::string kTypeAttributeKey = "type";
-const std::string kMinAttributeKey = "min";
-const std::string kMaxAttributeKey = "max";
-const std::string kNameAttributeKey = "name";
+constexpr auto kRootElementType = "MvvmDocument";
+constexpr auto kApplicationTypeAttribute = "application";
+constexpr auto kModelElementType = "Model";
+constexpr auto kItemElementType = "Item";
+constexpr auto kTaggedItemsElementType = "TaggedItems";
+constexpr auto kItemDataElementType = "ItemData";
+constexpr auto kDefaultTagKey = "defaultTag";
+constexpr auto kItemContainerElementType = "ItemContainer";
+constexpr auto kTagInfoElementType = "TagInfo";
+constexpr auto kVariantElementType = "Variant";
+constexpr auto kRoleAttributeKey = "role";
+constexpr auto kTypeAttributeKey = "type";
+constexpr auto kMinAttributeKey = "min";
+constexpr auto kMaxAttributeKey = "max";
+constexpr auto kNameAttributeKey = "name";
 
 }  // namespace mvvm::constants
 
