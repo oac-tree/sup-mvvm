@@ -52,7 +52,7 @@ class MainBarWidget : public QFrame
 
 public:
   MainBarWidget(QWidget* parent_widget = nullptr);
-  ~MainBarWidget();
+  ~MainBarWidget() override;
 
   void AddWidget(QWidget* widget, const QString& title, bool is_enabled = true);
 

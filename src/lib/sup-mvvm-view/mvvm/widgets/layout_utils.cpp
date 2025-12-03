@@ -37,7 +37,9 @@ namespace mvvm
 void ClearLayout(QLayout* layout, bool deleteWidgets)
 {
   if (layout == nullptr)
+  {
     return;
+  }
 
   while (QLayoutItem* item = layout->takeAt(0))
   {
@@ -117,9 +119,13 @@ void Remove(QGridLayout* layout, int row, int column, bool deleteWidgets)
   // We avoid usage of QGridLayout::itemAtPosition() here to improve performance.
   for (int i = layout->count() - 1; i >= 0; i--)
   {
-    int r, c, rs, cs;
-    layout->getItemPosition(i, &r, &c, &rs, &cs);
-    if ((r <= row && r + rs - 1 >= row) || (c <= column && c + cs - 1 >= column))
+    std::int32_t row_out{0};
+    std::int32_t column_out{0};
+    std::int32_t row_span{0};
+    std::int32_t column_spans{0};
+    layout->getItemPosition(i, &row_out, &column_out, &row_span, &column_spans);
+    if ((row_out <= row && (row_out + row_span - 1) >= row)
+        || (column_out <= column && (column_out + column_spans - 1) >= column))
     {
       // This layout item is subject to deletion.
       QLayoutItem* item = layout->takeAt(i);

@@ -99,7 +99,7 @@ public:
   TabFromFocusProxy(QWidget* parent_widget = nullptr);
 
 protected:
-  bool eventFilter(QObject* obj, QEvent* event);
+  bool eventFilter(QObject* obj, QEvent* event) override;
 
 public:
   QWidget* m_parent{nullptr};

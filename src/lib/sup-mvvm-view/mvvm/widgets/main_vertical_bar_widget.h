@@ -49,7 +49,7 @@ class MainVerticalBarWidget : public QFrame
 
 public:
   MainVerticalBarWidget(QWidget* parent_widget = nullptr);
-  ~MainVerticalBarWidget();
+  ~MainVerticalBarWidget() override;
 
   /**
    * @brief Adds widget to the toolbar.

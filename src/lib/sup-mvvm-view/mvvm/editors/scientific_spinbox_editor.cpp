@@ -44,7 +44,7 @@ ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent_widget)
 
   layout->addWidget(m_double_editor);
 
-  connect(m_double_editor, &ScientificSpinBox::valueChanged, [=] { this->OnEditingFinished(); });
+  connect(m_double_editor, &ScientificSpinBox::valueChanged, [this] { this->OnEditingFinished(); });
 
   setLayout(layout);
 
