@@ -49,6 +49,11 @@ public:
 
   ~ViewModelDelegate() override;
 
+  ViewModelDelegate(const ViewModelDelegate&) = delete;
+  ViewModelDelegate& operator=(const ViewModelDelegate&) = delete;
+  ViewModelDelegate(ViewModelDelegate&&) noexcept = delete;
+  ViewModelDelegate& operator=(ViewModelDelegate&&) noexcept = delete;
+
   QWidget* createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option,
                         const QModelIndex& index) const override;
 

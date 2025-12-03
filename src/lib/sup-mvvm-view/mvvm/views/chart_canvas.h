@@ -46,6 +46,11 @@ public:
   explicit ChartCanvas(QWidget* parent_widget = nullptr);
   ~ChartCanvas() override;
 
+  ChartCanvas(const ChartCanvas&) = delete;
+  ChartCanvas& operator=(const ChartCanvas&) = delete;
+  ChartCanvas(ChartCanvas&&) noexcept = delete;
+  ChartCanvas& operator=(ChartCanvas&&) noexcept = delete;
+
   void SetViewport(ChartViewportItem* viewport);
 
   void ZoomIn();

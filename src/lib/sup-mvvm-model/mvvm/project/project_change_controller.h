@@ -46,6 +46,11 @@ public:
                                     callback_t project_changed_callback = {});
   ~ProjectChangedController();
 
+  ProjectChangedController(const ProjectChangedController&) = delete;
+  ProjectChangedController& operator=(const ProjectChangedController&) = delete;
+  ProjectChangedController(ProjectChangedController&&) noexcept = delete;
+  ProjectChangedController& operator=(ProjectChangedController&&) noexcept = delete;
+
   /**
    * @brief Checks if the change in the models has been detected since the last call of
    * ResetIsChanged.

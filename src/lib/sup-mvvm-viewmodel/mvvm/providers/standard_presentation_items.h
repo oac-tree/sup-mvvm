@@ -40,8 +40,6 @@ class SessionItem;
 class SessionItemPresentation : public IViewItemData
 {
 public:
-  ~SessionItemPresentation() override = default;
-
   QVariant Data(role_t qt_role) const override;
 
   bool SetData(const QVariant& data, role_t qt_role) override;
@@ -109,8 +107,6 @@ public:
    * @param role The data role of SessionItem
    */
   explicit DataPresentationItem(SessionItem* item, role_t role = DataRole::kData);
-
-  ~DataPresentationItem() override = default;
 
   QVariant Data(role_t qt_role) const override;
 

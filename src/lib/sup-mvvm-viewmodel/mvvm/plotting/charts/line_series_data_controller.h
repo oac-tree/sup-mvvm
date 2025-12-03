@@ -51,6 +51,11 @@ public:
   explicit LineSeriesDataController(QLineSeries* line_series);
   ~LineSeriesDataController();
 
+  LineSeriesDataController(const LineSeriesDataController&) = delete;
+  LineSeriesDataController& operator=(const LineSeriesDataController&) = delete;
+  LineSeriesDataController(LineSeriesDataController&&) noexcept = delete;
+  LineSeriesDataController& operator=(LineSeriesDataController&&) noexcept = delete;
+
   void SetItem(const LineSeriesDataItem* item);
 
   void OnModelEvent(const ItemInsertedEvent& event);

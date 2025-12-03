@@ -40,6 +40,11 @@ public:
 
   ~ProjectHandler() override;
 
+  ProjectHandler(const ProjectHandler&) = delete;
+  ProjectHandler& operator=(const ProjectHandler&) = delete;
+  ProjectHandler(ProjectHandler&&) noexcept = delete;
+  ProjectHandler& operator=(ProjectHandler&&) noexcept = delete;
+
   bool CreateNewProject(const std::string& path) override;
 
   bool CloseProject() override;

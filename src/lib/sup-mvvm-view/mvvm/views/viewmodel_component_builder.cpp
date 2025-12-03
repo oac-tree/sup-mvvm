@@ -35,7 +35,6 @@ namespace mvvm
 // ------------------------------------------------------------------------------------------------
 // ViewModelDelegateBuilder
 // ------------------------------------------------------------------------------------------------
-ViewModelDelegateBuilder::~ViewModelDelegateBuilder() = default;
 
 ViewModelDelegateBuilder::operator std::unique_ptr<ViewModelDelegate>()
 {
@@ -61,7 +60,6 @@ std::unique_ptr<ViewModelDelegate> ViewModelDelegateBuilder::Build()
 // ------------------------------------------------------------------------------------------------
 // ItemViewComponentProviderBuilder
 // ------------------------------------------------------------------------------------------------
-ItemViewComponentProviderBuilder::~ItemViewComponentProviderBuilder() = default;
 
 ViewModelDelegateBuilder& ItemViewComponentProviderBuilder::Delegate()
 {

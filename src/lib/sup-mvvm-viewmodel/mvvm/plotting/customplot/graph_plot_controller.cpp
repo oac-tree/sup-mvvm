@@ -46,6 +46,19 @@ struct GraphPlotController::GraphItemControllerImpl
   {
   }
 
+  ~GraphItemControllerImpl()
+  {
+    if (m_graph != nullptr)
+    {
+      (void)m_custom_plot->removePlottable(m_graph);
+    }
+  }
+
+  GraphItemControllerImpl(const GraphItemControllerImpl&) = delete;
+  GraphItemControllerImpl& operator=(const GraphItemControllerImpl&) = delete;
+  GraphItemControllerImpl(GraphItemControllerImpl&&) noexcept = delete;
+  GraphItemControllerImpl& operator=(GraphItemControllerImpl&&) noexcept = delete;
+
   //! Setups controllers and updates graph properties.
 
   void InitGraph()
@@ -57,14 +70,6 @@ struct GraphPlotController::GraphItemControllerImpl
     UpdateDataController();
     UpdateGraphPen();
     UpdateVisibility();
-  }
-
-  ~GraphItemControllerImpl()
-  {
-    if (m_graph != nullptr)
-    {
-      (void)m_custom_plot->removePlottable(m_graph);
-    }
   }
 
   GraphItem* GetGraphItem() { return m_self->GetItem(); }

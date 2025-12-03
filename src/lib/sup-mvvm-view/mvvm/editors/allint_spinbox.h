@@ -55,6 +55,11 @@ public:
   explicit AllIntSpinBox(QWidget* parent = nullptr);
   ~AllIntSpinBox() override;
 
+  AllIntSpinBox(const AllIntSpinBox&) = delete;
+  AllIntSpinBox& operator=(const AllIntSpinBox&) = delete;
+  AllIntSpinBox(AllIntSpinBox&&) noexcept = delete;
+  AllIntSpinBox& operator=(AllIntSpinBox&&) noexcept = delete;
+
   void SetLimitedInteger(std::unique_ptr<ILimitedInteger> value);
 
   QVariant value() const;

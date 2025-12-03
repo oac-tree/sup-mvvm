@@ -40,6 +40,11 @@ public:
   explicit ViewItem(std::unique_ptr<IViewItemData> view_item_data);
   virtual ~ViewItem();
 
+  ViewItem(const ViewItem&) = delete;
+  ViewItem& operator=(const ViewItem&) = delete;
+  ViewItem(ViewItem&&) noexcept = delete;
+  ViewItem& operator=(ViewItem&&) noexcept = delete;
+
   /**
    * @brief Checks if item has children.
    */

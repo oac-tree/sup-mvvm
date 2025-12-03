@@ -41,6 +41,11 @@ public:
   explicit GraphCanvas(QWidget* parent_widget = nullptr);
   ~GraphCanvas() override;
 
+  GraphCanvas(const GraphCanvas&) = delete;
+  GraphCanvas& operator=(const GraphCanvas&) = delete;
+  GraphCanvas(GraphCanvas&&) noexcept = delete;
+  GraphCanvas& operator=(GraphCanvas&&) noexcept = delete;
+
   void SetItem(GraphViewportItem* viewport_item);
 
   void SetViewportToContent(double left, double top, double right, double bottom);

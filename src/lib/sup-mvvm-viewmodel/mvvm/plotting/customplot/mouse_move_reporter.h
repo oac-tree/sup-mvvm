@@ -42,6 +42,11 @@ public:
   MouseMoveReporter(QCustomPlot* custom_plot, callback_t callback);
   ~MouseMoveReporter();
 
+  MouseMoveReporter(const MouseMoveReporter&) = delete;
+  MouseMoveReporter& operator=(const MouseMoveReporter&) = delete;
+  MouseMoveReporter(MouseMoveReporter&&) noexcept = delete;
+  MouseMoveReporter& operator=(MouseMoveReporter&&) noexcept = delete;
+
 private:
   struct MouseMoveReporterImpl;
   std::unique_ptr<MouseMoveReporterImpl> p_impl;

@@ -53,6 +53,11 @@ public:
   AbstractProject(ProjectType project_type, const ProjectContext& context);
   ~AbstractProject() override;
 
+  AbstractProject(const AbstractProject&) = delete;
+  AbstractProject& operator=(const AbstractProject&) = delete;
+  AbstractProject(AbstractProject&&) noexcept = delete;
+  AbstractProject& operator=(AbstractProject&&) noexcept = delete;
+
   ProjectType GetProjectType() const override;
 
   std::string GetApplicationType() const override;

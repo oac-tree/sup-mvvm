@@ -45,6 +45,11 @@ public:
   explicit ChartAxisPlotController(QAbstractAxis* axis);
   ~ChartAxisPlotController() override;
 
+  ChartAxisPlotController(const ChartAxisPlotController&) = delete;
+  ChartAxisPlotController& operator=(const ChartAxisPlotController&) = delete;
+  ChartAxisPlotController(ChartAxisPlotController&&) noexcept = delete;
+  ChartAxisPlotController& operator=(ChartAxisPlotController&&) noexcept = delete;
+
   QAbstractAxis* GetQtAxis();
 
 protected:

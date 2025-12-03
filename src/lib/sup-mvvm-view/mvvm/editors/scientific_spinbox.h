@@ -35,6 +35,11 @@ public:
   explicit ScientificSpinBox(QWidget* parent_widget = nullptr);
   ~ScientificSpinBox() override;
 
+  ScientificSpinBox(const ScientificSpinBox&) = delete;
+  ScientificSpinBox& operator=(const ScientificSpinBox&) = delete;
+  ScientificSpinBox(ScientificSpinBox&&) noexcept = delete;
+  ScientificSpinBox& operator=(ScientificSpinBox&&) noexcept = delete;
+
   double value() const;
   void setValue(double val);
 

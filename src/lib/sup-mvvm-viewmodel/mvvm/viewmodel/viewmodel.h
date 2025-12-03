@@ -49,6 +49,11 @@ public:
   explicit ViewModel(QObject* parent_object = nullptr);
   ~ViewModel() override;
 
+  ViewModel(const ViewModel&) = delete;
+  ViewModel& operator=(const ViewModel&) = delete;
+  ViewModel(ViewModel&&) noexcept = delete;
+  ViewModel& operator=(ViewModel&&) noexcept = delete;
+
   QVariant headerData(int section, Qt::Orientation orientation,
                       int role = Qt::DisplayRole) const override;
 

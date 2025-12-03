@@ -55,6 +55,11 @@ public:
   explicit PropertyGridController(QAbstractItemModel* model, QObject* parent_object = nullptr);
   ~PropertyGridController() override;
 
+  PropertyGridController(const PropertyGridController&) = delete;
+  PropertyGridController& operator=(const PropertyGridController&) = delete;
+  PropertyGridController(PropertyGridController&&) noexcept = delete;
+  PropertyGridController& operator=(PropertyGridController&&) noexcept = delete;
+
   /**
    * @brief Creates a 2D array of widgets for editing model cells.
    *

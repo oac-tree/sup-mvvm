@@ -42,8 +42,8 @@ public:
 
   IEditorFactory(const IEditorFactory&) = delete;
   IEditorFactory& operator=(const IEditorFactory&) = delete;
-  IEditorFactory(IEditorFactory&&) = delete;
-  IEditorFactory& operator=(IEditorFactory&&) = delete;
+  IEditorFactory(IEditorFactory&&) noexcept = delete;
+  IEditorFactory& operator=(IEditorFactory&&) noexcept = delete;
 
   /**
    * @brief Returns factory function to create an editor suitable for a cell with the given index.

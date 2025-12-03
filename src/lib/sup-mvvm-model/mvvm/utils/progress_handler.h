@@ -37,9 +37,12 @@ public:
 
   ProgressHandler() = default;
   ProgressHandler(callback_t callback, std::size_t max_ticks_count);
+  ~ProgressHandler() = default;
 
-  ProgressHandler(const ProgressHandler& other) = delete;
-  ProgressHandler& operator=(const ProgressHandler& other) = delete;
+  ProgressHandler(const ProgressHandler&) = delete;
+  ProgressHandler& operator=(const ProgressHandler&) = delete;
+  ProgressHandler(ProgressHandler&&) noexcept = delete;
+  ProgressHandler& operator=(ProgressHandler&&) noexcept = delete;
 
   void Subscribe(callback_t callback);
 

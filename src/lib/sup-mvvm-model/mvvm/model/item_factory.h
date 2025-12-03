@@ -42,6 +42,11 @@ public:
 
   ~ItemFactory() override;
 
+  ItemFactory(const ItemFactory&) = delete;
+  ItemFactory& operator=(const ItemFactory&) = delete;
+  ItemFactory(ItemFactory&&) noexcept = delete;
+  ItemFactory& operator=(ItemFactory&&) noexcept = delete;
+
   using IItemFactory::IsRegistered;
   using IItemFactory::RegisterItem;
 

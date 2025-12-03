@@ -40,8 +40,8 @@ public:
 
   IViewItemData(const IViewItemData&) = delete;
   IViewItemData& operator=(const IViewItemData&) = delete;
-  IViewItemData(IViewItemData&&) = delete;
-  IViewItemData& operator=(IViewItemData&&) = delete;
+  IViewItemData(IViewItemData&&) noexcept = delete;
+  IViewItemData& operator=(IViewItemData&&) noexcept = delete;
 
   virtual QVariant Data(role_t qt_role) const = 0;
 

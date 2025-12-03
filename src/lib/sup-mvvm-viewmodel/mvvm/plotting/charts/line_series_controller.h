@@ -53,6 +53,11 @@ public:
   explicit LineSeriesController(QLineSeries* line_series);
   ~LineSeriesController() override;
 
+  LineSeriesController(const LineSeriesController&) = delete;
+  LineSeriesController& operator=(const LineSeriesController&) = delete;
+  LineSeriesController(LineSeriesController&&) noexcept = delete;
+  LineSeriesController& operator=(LineSeriesController&&) noexcept = delete;
+
   void Subscribe() override;
 
   /**

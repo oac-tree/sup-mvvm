@@ -41,6 +41,11 @@ public:
   explicit GraphViewportPlotController(QCustomPlot* plot);
   ~GraphViewportPlotController() override;
 
+  GraphViewportPlotController(const GraphViewportPlotController&) = delete;
+  GraphViewportPlotController& operator=(const GraphViewportPlotController&) = delete;
+  GraphViewportPlotController(GraphViewportPlotController&&) noexcept = delete;
+  GraphViewportPlotController& operator=(GraphViewportPlotController&&) noexcept = delete;
+
 protected:
   void Subscribe() override;
 

@@ -42,6 +42,11 @@ public:
   explicit AbstractItemView(QWidget* parent_widget = nullptr);
   ~AbstractItemView() override;
 
+  AbstractItemView(const AbstractItemView&) = delete;
+  AbstractItemView& operator=(const AbstractItemView&) = delete;
+  AbstractItemView(AbstractItemView&&) noexcept = delete;
+  AbstractItemView& operator=(AbstractItemView&&) noexcept = delete;
+
   void SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider);
 
   void SetApplicationModel(ISessionModel* model);

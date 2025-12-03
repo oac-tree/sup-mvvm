@@ -44,8 +44,11 @@ public:
   ProjectManager(IProject* project, UserInteractionContext user_context);
 
   ~ProjectManager() override;
-  ProjectManager(const ProjectManager& other) = delete;
-  ProjectManager& operator=(const ProjectManager& other) = delete;
+
+  ProjectManager(const ProjectManager&) = delete;
+  ProjectManager& operator=(const ProjectManager&) = delete;
+  ProjectManager(ProjectManager&&) noexcept = delete;
+  ProjectManager& operator=(ProjectManager&&) noexcept = delete;
 
   /**
    * @details If the path is empty will call a dialog for folder selection (for folder-based

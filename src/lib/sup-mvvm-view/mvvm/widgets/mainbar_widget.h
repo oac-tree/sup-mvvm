@@ -54,6 +54,11 @@ public:
   MainBarWidget(QWidget* parent_widget = nullptr);
   ~MainBarWidget() override;
 
+  MainBarWidget(const MainBarWidget&) = delete;
+  MainBarWidget& operator=(const MainBarWidget&) = delete;
+  MainBarWidget(MainBarWidget&&) noexcept = delete;
+  MainBarWidget& operator=(MainBarWidget&&) noexcept = delete;
+
   void AddWidget(QWidget* widget, const QString& title, bool is_enabled = true);
 
   void SetCurrentIndex(int index);

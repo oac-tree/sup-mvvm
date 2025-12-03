@@ -49,6 +49,11 @@ public:
   FolderOutputBasedTest(std::string test_suite_output_dir, std::string test_home_dirname);
   ~FolderOutputBasedTest() override;
 
+  FolderOutputBasedTest(const FolderOutputBasedTest&) = delete;
+  FolderOutputBasedTest& operator=(const FolderOutputBasedTest&) = delete;
+  FolderOutputBasedTest(FolderOutputBasedTest&&) noexcept = delete;
+  FolderOutputBasedTest& operator=(FolderOutputBasedTest&&) noexcept = delete;
+
   /**
    * @brief Returns full path to the test folder.
    */

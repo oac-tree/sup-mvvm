@@ -43,6 +43,11 @@ public:
   explicit PropertyFlatView(QWidget* parent_widget = nullptr);
   ~PropertyFlatView() override;
 
+  PropertyFlatView(const PropertyFlatView&) = delete;
+  PropertyFlatView& operator=(const PropertyFlatView&) = delete;
+  PropertyFlatView(PropertyFlatView&&) noexcept = delete;
+  PropertyFlatView& operator=(PropertyFlatView&&) noexcept = delete;
+
   void SetViewModel(QAbstractItemModel* view_model);
 
 private:

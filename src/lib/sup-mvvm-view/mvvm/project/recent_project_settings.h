@@ -36,6 +36,11 @@ public:
   explicit RecentProjectSettings(const QString& group_name = "RecentProjectSettings");
   ~RecentProjectSettings() override;
 
+  RecentProjectSettings(const RecentProjectSettings&) = default;
+  RecentProjectSettings& operator=(const RecentProjectSettings&) = default;
+  RecentProjectSettings(RecentProjectSettings&&) noexcept = default;
+  RecentProjectSettings& operator=(RecentProjectSettings&&) noexcept = default;
+
 private:
   /**
    * @brief Writes settings to disk.

@@ -42,11 +42,12 @@ class IProjectManager
 {
 public:
   IProjectManager() = default;
-  IProjectManager(const IProjectManager&) = delete;
-  IProjectManager(IProjectManager&&) = delete;
-  IProjectManager& operator=(const IProjectManager&) = delete;
-  IProjectManager& operator=(IProjectManager&&) = delete;
   virtual ~IProjectManager() = default;
+
+  IProjectManager(const IProjectManager&) = delete;
+  IProjectManager& operator=(const IProjectManager&) = delete;
+  IProjectManager(IProjectManager&&) noexcept = delete;
+  IProjectManager& operator=(IProjectManager&&) noexcept = delete;
 
   /**
    * @brief Creates new project in a given path.

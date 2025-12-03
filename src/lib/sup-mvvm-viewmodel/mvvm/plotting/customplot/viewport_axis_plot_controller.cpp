@@ -52,6 +52,11 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
     m_axis_connection = std::make_unique<QMetaObject::Connection>();
   }
 
+  AxesPlotControllerImpl(const AxesPlotControllerImpl&) = delete;
+  AxesPlotControllerImpl& operator=(const AxesPlotControllerImpl&) = delete;
+  AxesPlotControllerImpl(AxesPlotControllerImpl&&) noexcept = delete;
+  AxesPlotControllerImpl& operator=(AxesPlotControllerImpl&&) noexcept = delete;
+
   //! Connects QCustomPlot signals with controller methods.
   void SetConnected()
   {

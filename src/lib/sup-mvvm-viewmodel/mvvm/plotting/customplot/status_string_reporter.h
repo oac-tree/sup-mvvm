@@ -43,6 +43,11 @@ public:
                        std::unique_ptr<StatusStringFormatterInterface> formatter);
   ~StatusStringReporter();
 
+  StatusStringReporter(const StatusStringReporter&) = delete;
+  StatusStringReporter& operator=(const StatusStringReporter&) = delete;
+  StatusStringReporter(StatusStringReporter&&) noexcept = delete;
+  StatusStringReporter& operator=(StatusStringReporter&&) noexcept = delete;
+
 private:
   struct StatusStringReporterImpl;
   std::unique_ptr<StatusStringReporterImpl> p_impl;

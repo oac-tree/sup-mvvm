@@ -51,6 +51,11 @@ public:
   MainVerticalBarWidget(QWidget* parent_widget = nullptr);
   ~MainVerticalBarWidget() override;
 
+  MainVerticalBarWidget(const MainVerticalBarWidget&) = delete;
+  MainVerticalBarWidget& operator=(const MainVerticalBarWidget&) = delete;
+  MainVerticalBarWidget(MainVerticalBarWidget&&) noexcept = delete;
+  MainVerticalBarWidget& operator=(MainVerticalBarWidget&&) noexcept = delete;
+
   /**
    * @brief Adds widget to the toolbar.
    *

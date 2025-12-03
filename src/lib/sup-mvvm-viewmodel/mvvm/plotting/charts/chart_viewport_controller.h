@@ -51,6 +51,11 @@ public:
   explicit ChartViewportController(QChart* chart);
   ~ChartViewportController() override;
 
+  ChartViewportController(const ChartViewportController&) = delete;
+  ChartViewportController& operator=(const ChartViewportController&) = delete;
+  ChartViewportController(ChartViewportController&&) noexcept = delete;
+  ChartViewportController& operator=(ChartViewportController&&) noexcept = delete;
+
   void Subscribe() override;
 
   QAbstractAxis* GetXQtAxis() const;

@@ -39,9 +39,6 @@ class MacroCommand : public AbstractCommand
 public:
   explicit MacroCommand(const std::string& description);
 
-  MacroCommand(const MacroCommand& other) = delete;
-  MacroCommand& operator=(const MacroCommand& other) = delete;
-
   CommandStatus GetCommandStatus() const override;
 
   /**

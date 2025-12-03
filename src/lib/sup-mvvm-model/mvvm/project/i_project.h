@@ -43,11 +43,12 @@ class IProject
 {
 public:
   IProject() = default;
-  IProject(const IProject&) = delete;
-  IProject(IProject&&) = delete;
-  IProject& operator=(const IProject&) = delete;
-  IProject& operator=(IProject&&) = delete;
   virtual ~IProject() = default;
+
+  IProject(const IProject&) = delete;
+  IProject& operator=(const IProject&) = delete;
+  IProject(IProject&&) noexcept = delete;
+  IProject& operator=(IProject&&) noexcept = delete;
 
   /**
    * @brief Returns the type of the project.

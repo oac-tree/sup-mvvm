@@ -41,6 +41,11 @@ public:
   explicit PenController(QCPGraph* graph);
   ~PenController() override;
 
+  PenController(const PenController&) = delete;
+  PenController& operator=(const PenController&) = delete;
+  PenController(PenController&&) noexcept = delete;
+  PenController& operator=(PenController&&) noexcept = delete;
+
 protected:
   void Subscribe() override;
 

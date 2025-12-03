@@ -41,6 +41,11 @@ public:
   explicit AxisTitleController(QCPAxis* axis);
   ~AxisTitleController() override;
 
+  AxisTitleController(const AxisTitleController&) = delete;
+  AxisTitleController& operator=(const AxisTitleController&) = delete;
+  AxisTitleController(AxisTitleController&&) noexcept = delete;
+  AxisTitleController& operator=(AxisTitleController&&) noexcept = delete;
+
 protected:
   void Subscribe() override;
 

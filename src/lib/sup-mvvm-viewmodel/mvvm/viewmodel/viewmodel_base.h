@@ -53,6 +53,11 @@ public:
   explicit ViewModelBase(QObject* parent_object = nullptr);
   ~ViewModelBase() override;
 
+  ViewModelBase(const ViewModelBase&) = delete;
+  ViewModelBase& operator=(const ViewModelBase&) = delete;
+  ViewModelBase(ViewModelBase&&) noexcept = delete;
+  ViewModelBase& operator=(ViewModelBase&&) noexcept = delete;
+
   QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
 
   QModelIndex parent(const QModelIndex& child) const override;

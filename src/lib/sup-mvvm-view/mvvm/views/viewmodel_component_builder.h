@@ -44,8 +44,6 @@ class ItemViewComponentProvider;
 class ViewModelDelegateBuilder
 {
 public:
-  ~ViewModelDelegateBuilder();
-
   /**
    * @brief Creates cell editor factory and stores it in internal cache for further use.
    *
@@ -106,8 +104,6 @@ ViewModelDelegateBuilder& ViewModelDelegateBuilder::Decorator(Args&&... args)
 class ItemViewComponentProviderBuilder
 {
 public:
-  ~ItemViewComponentProviderBuilder();
-
   /**
    * @brief Creates view model and stores it in internal cache for further use.
    *

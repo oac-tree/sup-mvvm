@@ -41,6 +41,11 @@ public:
   explicit Data1DPlotController(QCPGraph* graph);
   ~Data1DPlotController() override;
 
+  Data1DPlotController(const Data1DPlotController&) = delete;
+  Data1DPlotController& operator=(const Data1DPlotController&) = delete;
+  Data1DPlotController(Data1DPlotController&&) noexcept = delete;
+  Data1DPlotController& operator=(Data1DPlotController&&) noexcept = delete;
+
 protected:
   void Subscribe() override;
   void Unsubscribe() override;

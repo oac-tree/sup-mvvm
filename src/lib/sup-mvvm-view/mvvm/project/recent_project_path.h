@@ -44,6 +44,11 @@ public:
   explicit RecentProjectPath(int max_project_count);
   virtual ~RecentProjectPath() = default;
 
+  RecentProjectPath(const RecentProjectPath&) = default;
+  RecentProjectPath& operator=(const RecentProjectPath&) = default;
+  RecentProjectPath(RecentProjectPath&&) noexcept = default;
+  RecentProjectPath& operator=(RecentProjectPath&&) noexcept = default;
+
   /**
    * @brief Returns current working directory.
    *

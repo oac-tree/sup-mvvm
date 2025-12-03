@@ -41,6 +41,11 @@ public:
   explicit ViewportAxisPlotController(QCPAxis* axis);
   ~ViewportAxisPlotController() override;
 
+  ViewportAxisPlotController(const ViewportAxisPlotController&) = delete;
+  ViewportAxisPlotController& operator=(const ViewportAxisPlotController&) = delete;
+  ViewportAxisPlotController(ViewportAxisPlotController&&) noexcept = delete;
+  ViewportAxisPlotController& operator=(ViewportAxisPlotController&&) noexcept = delete;
+
 protected:
   void Subscribe() override;
   void Unsubscribe() override;
