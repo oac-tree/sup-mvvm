@@ -68,7 +68,7 @@ ConnectableViewModelController::ConnectableViewModelController(
     , m_children_strategy(std::move(children_strategy))
     , m_graphics_scene(graphics_scene)
 {
-  if (!m_graphics_scene)
+  if (m_graphics_scene == nullptr)
   {
     throw RuntimeException("Attempt to initialize view model controller with invalid scene");
   }
@@ -141,7 +141,7 @@ void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent& 
 
 void ConnectableViewModelController::InitScene(mvvm::SessionItem* container_item)
 {
-  if (!container_item)
+  if (container_item == nullptr)
   {
     throw RuntimeException("Attempt to initialize view model controller with invalid item");
   }
@@ -225,7 +225,7 @@ void ConnectableViewModelController::PopulateScene(SessionItem* top_level_node_i
 
     m_item_view_map.Insert(current_item, new_shape_ptr);
 
-    if (current_parent_shape)
+    if (current_parent_shape != nullptr)
     {
       (void)current_parent_shape->MakeChildConnected(new_shape_ptr);
     }

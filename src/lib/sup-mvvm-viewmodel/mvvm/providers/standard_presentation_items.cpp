@@ -36,7 +36,7 @@ SessionItemPresentation::SessionItemPresentation(SessionItem* item, role_t role)
 
 QVariant SessionItemPresentation::Data(role_t qt_role) const
 {
-  if (!GetItem())
+  if (GetItem() == nullptr)
   {
     return {};
   }
@@ -129,7 +129,7 @@ bool LabelPresentationItem::IsEditable() const
 DataPresentationItem::DataPresentationItem(SessionItem* item, role_t role)
     : SessionItemPresentation(item, role)
 {
-  if (!item)
+  if (item == nullptr)
   {
     throw RuntimeException("Error in DataPresentationItem: uninitialized item");
   }
@@ -167,7 +167,7 @@ bool DataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem* item)
     : SessionItemPresentation(item, DataRole::kDisplay)
 {
-  if (!item)
+  if (item == nullptr)
   {
     throw RuntimeException("Error in DisplayNamePresentationItem: uninitialized item");
   }

@@ -78,7 +78,7 @@ public:
     }
 
     // if provided item is nullptr, leave everything unconnected
-    if (!item)
+    if (item == nullptr)
     {
       return;
     }

@@ -83,7 +83,7 @@ struct GraphCanvas::GraphCanvasImpl
   //! Updates viewport.
   void setViewportToContent() const
   {
-    if (!viewport_controller->GetItem())
+    if (viewport_controller->GetItem() == nullptr)
     {
       return;
     }
@@ -93,7 +93,7 @@ struct GraphCanvas::GraphCanvasImpl
   //! Updates viewport.
   void setViewportToContent(double left, double top, double right, double bottom) const
   {
-    if (!viewport_controller->GetItem())
+    if (viewport_controller->GetItem() == nullptr)
     {
       return;
     }

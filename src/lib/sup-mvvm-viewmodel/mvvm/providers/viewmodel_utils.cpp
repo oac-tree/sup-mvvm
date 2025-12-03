@@ -175,7 +175,7 @@ std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list
   std::set<SessionItem*> unique_parents;
   for (auto item : ItemsFromIndex(index_list))
   {
-    if (item)
+    if (item != nullptr)
     {
       (void)unique_parents.insert(item->GetParent());
     }

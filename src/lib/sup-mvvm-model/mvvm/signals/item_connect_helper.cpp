@@ -43,12 +43,12 @@ SessionItem* GetEventSource(const event_variant_t& event)
 
 mvvm::ModelEventHandler* GetEventHandler(const mvvm::SessionItem* item)
 {
-  if (!item)
+  if (item == nullptr)
   {
     throw NullArgumentException("Error in ItemConnectUtils: uninitialised item");
   }
 
-  if (!item->GetModel())
+  if (item->GetModel() == nullptr)
   {
     throw NullArgumentException("Error in ItemConnectUtils: item doesn't have a model");
   }

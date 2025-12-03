@@ -46,7 +46,7 @@ struct Data1DPlotController::Data1DPlotControllerImpl
 
   explicit Data1DPlotControllerImpl(QCPGraph* graph) : m_graph(graph)
   {
-    if (!m_graph)
+    if (m_graph == nullptr)
     {
       throw RuntimeException("Error in Data1DPlotController: uninitialised graph");
     }
@@ -75,7 +75,7 @@ struct Data1DPlotController::Data1DPlotControllerImpl
       return;
     }
 
-    if (!m_error_bars)
+    if (m_error_bars == nullptr)
     {
       m_error_bars = new QCPErrorBars(GetCustomPlot()->xAxis, GetCustomPlot()->yAxis);
     }

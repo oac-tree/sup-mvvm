@@ -136,7 +136,7 @@ void ConnectableShape::UpdateViewFromItem()
 
 NodeConnectionShape* ConnectableShape::MakeChildConnected(const ConnectableShape* child_shape) const
 {
-  if (!scene())
+  if (scene() == nullptr)
   {
     throw RuntimeException("Shape is not in the scene.");
   }

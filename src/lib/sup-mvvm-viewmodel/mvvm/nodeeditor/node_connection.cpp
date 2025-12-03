@@ -35,12 +35,12 @@ NodeConnection::NodeConnection(INodePort* start_port, INodePort* end_port)
 
 NodeConnection::~NodeConnection()
 {
-  if (m_start_port)
+  if (m_start_port != nullptr)
   {
     m_start_port->RemoveConnection(this);
   }
 
-  if (m_end_port)
+  if (m_end_port != nullptr)
   {
     m_end_port->RemoveConnection(this);
   }
@@ -104,7 +104,7 @@ void NodeConnection::SetNotifyShapeCallback(shape_callback_t callback)
 
 void NodeConnection::SetStartPortImpl(INodePort* port)
 {
-  if (m_start_port)
+  if (m_start_port != nullptr)
   {
     throw RuntimeException("Current logic allows to set connection only once");
   }
@@ -115,7 +115,7 @@ void NodeConnection::SetStartPortImpl(INodePort* port)
 
 void NodeConnection::SetEndPortImpl(INodePort* port)
 {
-  if (m_end_port)
+  if (m_end_port != nullptr)
   {
     throw RuntimeException("Current logic allows to set connection only once");
   }

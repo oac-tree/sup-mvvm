@@ -76,7 +76,7 @@ void SetIdentifier(SessionItem& item)
 
 bool SetData(SessionItem& item, const variant_t& value, role_t role)
 {
-  if (item.GetModel())
+  if (item.GetModel() != nullptr)
   {
     return ProcessCommand<SetValueCommand>(*item.GetModel(), &item, value, role);
   }
@@ -117,7 +117,7 @@ void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
 
 void iterate(const SessionItem* item, const std::function<void(const SessionItem*)>& func)
 {
-  if (!item)
+  if (item == nullptr)
   {
     return;
   }
@@ -148,7 +148,7 @@ void iterate(std::nullptr_t, const std::function<void(const SessionItem*)>& func
 
 void iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& func)
 {
-  if (!item)
+  if (item == nullptr)
   {
     return;
   }
@@ -179,7 +179,7 @@ std::size_t CopyNumber(const SessionItem* item)
 {
   std::size_t result = constants::kInvalidIndex;
 
-  if (!item)
+  if (item == nullptr)
   {
     return result;
   }
@@ -206,7 +206,7 @@ std::size_t CopyNumber(const SessionItem* item)
 
 SessionItem* ChildAt(const SessionItem* parent, std::size_t index)
 {
-  if (!parent)
+  if (parent == nullptr)
   {
     return nullptr;
   }
@@ -263,8 +263,8 @@ std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item)
 
 SessionItem* FindNextSibling(SessionItem* item)
 {
-  auto parent = item ? item->GetParent() : nullptr;
-  if (!parent)
+  auto parent = (item != nullptr) ? item->GetParent() : nullptr;
+  if (parent == nullptr)
   {
     return nullptr;
   }
@@ -273,8 +273,8 @@ SessionItem* FindNextSibling(SessionItem* item)
 
 SessionItem* FindPreviousSibling(SessionItem* item)
 {
-  auto parent = item ? item->GetParent() : nullptr;
-  if (!parent)
+  auto parent = (item != nullptr) ? item->GetParent() : nullptr;
+  if (parent == nullptr)
   {
     return nullptr;
   }
@@ -284,24 +284,24 @@ SessionItem* FindPreviousSibling(SessionItem* item)
 SessionItem* FindNextItemToSelect(SessionItem* item)
 {
   auto closest = FindNextSiblingToSelect(item);
-  return closest ? closest : item->GetParent();
+  return (closest != nullptr) ? closest : item->GetParent();
 }
 
 SessionItem* FindNextSiblingToSelect(SessionItem* item)
 {
   auto next = FindNextSibling(item);
-  auto closest = next ? next : FindPreviousSibling(item);
-  return closest ? closest : nullptr;
+  auto closest = (next != nullptr) ? next : FindPreviousSibling(item);
+  return (closest != nullptr) ? closest : nullptr;
 }
 
 bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
 {
-  if (!item || !candidate)
+  if ((item == nullptr) || (candidate == nullptr))
   {
     return false;
   }
   const SessionItem* parent = item->GetParent();
-  while (parent)
+  while (parent != nullptr)
   {
     if (parent == candidate)
     {
@@ -323,7 +323,7 @@ std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items)
 
 std::size_t GetNestingDepth(const SessionItem* basis, const SessionItem* item)
 {
-  if (!basis || !item)
+  if ((basis == nullptr) || (item == nullptr))
   {
     return constants::kInvalidIndex;
   }
@@ -349,7 +349,7 @@ std::size_t GetNestingDepth(const SessionItem* item)
 {
   std::size_t level{constants::kInvalidIndex};
 
-  if (!item)
+  if (item == nullptr)
   {
     return level;
   }
@@ -400,7 +400,7 @@ bool MoveDown(SessionItem& item)
 
 void RemoveItem(SessionItem& item)
 {
-  if (!item.GetParent())
+  if (item.GetParent() == nullptr)
   {
     throw LogicErrorException("Item doesn't have a parent");
   }
@@ -456,7 +456,7 @@ void EndMacro(const SessionItem& item)
 std::string ItemToDebugString(const SessionItem* item)
 {
   std::ostringstream ostr;
-  if (item)
+  if (item != nullptr)
   {
     ostr << (item);
     ostr << " " << "[" + item->GetDisplayName() + "]";
@@ -472,7 +472,7 @@ std::string ItemToDebugString(const SessionItem* item)
 
 bool HasNotifications(const SessionItem* item)
 {
-  if (!item || !item->GetModel())
+  if ((item == nullptr) || (item->GetModel() == nullptr))
   {
     return false;
   }

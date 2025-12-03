@@ -131,7 +131,7 @@ void SelectableComboBoxEditor::OnModelDataChanged(const QModelIndex& top_left,
 #endif
 
   auto item = m_model->itemFromIndex(top_left);
-  if (!item)
+  if (item == nullptr)
   {
     return;
   }

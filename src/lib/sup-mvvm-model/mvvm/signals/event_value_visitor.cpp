@@ -39,7 +39,7 @@ std::string TagIndexString(const TagIndex& tag_index)
 std::string ItemToString(const SessionItem* item)
 {
   std::ostringstream ostr;
-  if (item)
+  if (item != nullptr)
   {
     ostr << (item);
     ostr << " " << "[" + item->GetDisplayName() + "]";

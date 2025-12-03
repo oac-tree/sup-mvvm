@@ -78,7 +78,7 @@ std::vector<INodePort*> GetPortsByDirection(const std::vector<INodePort*>& ports
 
 SessionItem* GetConnectableChild(const INodePort* port1, const INodePort* port2)
 {
-  if (!port1 || !port2)
+  if ((port1 == nullptr) || (port2 == nullptr))
   {
     return nullptr;
   }
@@ -99,7 +99,7 @@ SessionItem* GetConnectableChild(const INodePort* port1, const INodePort* port2)
 
 SessionItem* GetConnectableParent(const INodePort* port1, const INodePort* port2)
 {
-  if (!port1 || !port2)
+  if ((port1 == nullptr) || (port2 == nullptr))
   {
     return nullptr;
   }
@@ -123,7 +123,7 @@ bool ConnectPorts(const INodePort* port1, const INodePort* port2)
   auto parent = GetConnectableParent(port1, port2);
   auto child = GetConnectableChild(port1, port2);
 
-  if (parent && child)
+  if ((parent != nullptr) && (child != nullptr))
   {
     if (auto model = parent->GetModel(); model)
     {
@@ -139,7 +139,7 @@ bool DisconnectPortsAndMove(const INodePort* port1, const INodePort* port2, Sess
 {
   auto parent = GetConnectableParent(port1, port2);
   auto child = GetConnectableChild(port1, port2);
-  if (parent && child && new_parent)
+  if ((parent != nullptr) && (child != nullptr) && (new_parent != nullptr))
   {
     if (auto model = parent->GetModel(); model)
     {
@@ -152,7 +152,7 @@ bool DisconnectPortsAndMove(const INodePort* port1, const INodePort* port2, Sess
 
 SessionItem* GetPortOrigin(const INodePort* port)
 {
-  return port ? port->GetPortInfo().GetOrigin() : nullptr;
+  return (port != nullptr) ? port->GetPortInfo().GetOrigin() : nullptr;
 }
 
 }  // namespace mvvm

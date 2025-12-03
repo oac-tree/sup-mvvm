@@ -71,7 +71,7 @@ bool ViewModel::setData(const QModelIndex& index, const QVariant& value, int rol
 
 const ISessionModel* ViewModel::GetModel() const
 {
-  return GetRootSessionItem() ? GetRootSessionItem()->GetModel() : nullptr;
+  return (GetRootSessionItem() != nullptr) ? GetRootSessionItem()->GetModel() : nullptr;
 }
 
 void ViewModel::SetModel(ISessionModel* model)

@@ -41,7 +41,7 @@ struct StatusStringReporter::StatusStringReporterImpl
                            std::unique_ptr<StatusStringFormatterInterface> formatter)
       : custom_plot(custom_plot), callback(std::move(callback)), fmt(std::move(formatter))
   {
-    if (!custom_plot)
+    if (custom_plot == nullptr)
     {
       throw RuntimeException("StatusStringReporter: not initialized custom plot.");
     }

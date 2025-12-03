@@ -37,7 +37,7 @@ std::unique_ptr<AbstractViewModelController> CreateViewModelController(
       context.view_model, std::move(context.children_strategy), std::move(context.row_strategy));
   result = std::make_unique<ViewModelController>(std::move(impl));
 
-  if (context.model)
+  if (context.model != nullptr)
   {
     result->SetModel(context.model);
   }

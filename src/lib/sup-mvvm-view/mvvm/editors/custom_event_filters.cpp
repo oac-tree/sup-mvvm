@@ -162,7 +162,7 @@ bool ShortcodeFilter::eventFilter(QObject* obj, QEvent* event)
 TabFromFocusProxy::TabFromFocusProxy(QWidget* parent_widget)
     : QObject(parent_widget), m_parent(parent_widget)
 {
-  if (parent_widget->focusProxy())
+  if (parent_widget->focusProxy() != nullptr)
   {
     parent_widget->focusProxy()->installEventFilter(this);
   }

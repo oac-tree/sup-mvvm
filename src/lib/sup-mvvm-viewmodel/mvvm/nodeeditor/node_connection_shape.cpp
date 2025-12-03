@@ -120,7 +120,7 @@ QPainterPath NodeConnectionShape::CalculatePainterPath() const
   auto start_port = m_node_connection->GetStartPort();
   auto end_port = m_node_connection->GetEndPort();
 
-  if (!start_port || !end_port)
+  if ((start_port == nullptr) || (end_port == nullptr))
   {
     return {};
   }

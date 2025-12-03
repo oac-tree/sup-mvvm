@@ -29,12 +29,12 @@ namespace mvvm
 ModelListener::ModelListener(const ISessionModel* model)
     : m_model(model), m_slot(std::make_unique<Slot>())
 {
-  if (!m_model)
+  if (m_model == nullptr)
   {
     throw NullArgumentException("Attempt to set-up listener for uninitialized model");
   }
 
-  if (!m_model->GetEventHandler())
+  if (m_model->GetEventHandler() == nullptr)
   {
     throw NullArgumentException(
         "Attempt to set-up listener for the model which lacks event handler");

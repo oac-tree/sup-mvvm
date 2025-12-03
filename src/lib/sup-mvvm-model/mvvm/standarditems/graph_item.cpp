@@ -74,17 +74,17 @@ Data1DItem* GraphItem::GetDataItem() const
 
 std::vector<double> GraphItem::GetBinCenters() const
 {
-  return GetDataItem() ? GetDataItem()->GetBinCenters() : std::vector<double>();
+  return (GetDataItem() != nullptr) ? GetDataItem()->GetBinCenters() : std::vector<double>();
 }
 
 std::vector<double> GraphItem::GetValues() const
 {
-  return GetDataItem() ? GetDataItem()->GetValues() : std::vector<double>();
+  return (GetDataItem() != nullptr) ? GetDataItem()->GetValues() : std::vector<double>();
 }
 
 std::vector<double> GraphItem::GetErrors() const
 {
-  return GetDataItem() ? GetDataItem()->GetErrors() : std::vector<double>();
+  return (GetDataItem() != nullptr) ? GetDataItem()->GetErrors() : std::vector<double>();
 }
 
 //! Returns color name in `#RRGGBB` format.

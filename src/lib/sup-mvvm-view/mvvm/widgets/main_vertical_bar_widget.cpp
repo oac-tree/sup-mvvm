@@ -193,7 +193,7 @@ void MainVerticalBarWidget::UpdateButtonLayout()
   }
 
   // set fixed width in filler and progress bar
-  if (m_filler_button)
+  if (m_filler_button != nullptr)
   {
     m_filler_button->setFixedWidth(button_extent);
   }

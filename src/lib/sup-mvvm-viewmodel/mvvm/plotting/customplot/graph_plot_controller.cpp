@@ -61,7 +61,7 @@ struct GraphPlotController::GraphItemControllerImpl
 
   ~GraphItemControllerImpl()
   {
-    if (m_graph)
+    if (m_graph != nullptr)
     {
       m_custom_plot->removePlottable(m_graph);
     }

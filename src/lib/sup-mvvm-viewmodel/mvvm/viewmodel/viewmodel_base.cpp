@@ -49,7 +49,7 @@ ViewModelBase::~ViewModelBase() = default;
 
 QModelIndex ViewModelBase::index(int row, int column, const QModelIndex& parent) const
 {
-  auto parent_item = itemFromIndex(parent) ? itemFromIndex(parent) : rootItem();
+  auto parent_item = (itemFromIndex(parent) != nullptr) ? itemFromIndex(parent) : rootItem();
   const bool is_valid_row = row >= 0 && row < rowCount(parent);
   const bool is_valid_column = column >= 0 && column < columnCount(parent);
   return is_valid_row && is_valid_column
@@ -73,24 +73,24 @@ QModelIndex ViewModelBase::parent(const QModelIndex& child) const
 int ViewModelBase::rowCount(const QModelIndex& parent) const
 {
   auto parent_item = itemFromIndex(parent);
-  return parent_item ? parent_item->GetRowCount() : rootItem()->GetRowCount();
+  return (parent_item != nullptr) ? parent_item->GetRowCount() : rootItem()->GetRowCount();
 }
 
 int ViewModelBase::columnCount(const QModelIndex& parent) const
 {
   auto parent_item = itemFromIndex(parent);
-  return parent_item ? parent_item->GetColumnCount() : rootItem()->GetColumnCount();
+  return (parent_item != nullptr) ? parent_item->GetColumnCount() : rootItem()->GetColumnCount();
 }
 
 QVariant ViewModelBase::data(const QModelIndex& index, int role) const
 {
-  if (!rootItem())
+  if (rootItem() == nullptr)
   {
     return {};
   }
 
   auto item = itemFromIndex(index);
-  return item ? item->Data(role) : QVariant();
+  return (item != nullptr) ? item->Data(role) : QVariant();
 }
 
 bool ViewModelBase::setData(const QModelIndex& index, const QVariant& value, int role)
@@ -135,7 +135,7 @@ const ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const
 
 QModelIndex ViewModelBase::indexFromItem(const ViewItem* item) const
 {
-  return item && item->GetParent()
+  return (item != nullptr) && (item->GetParent() != nullptr)
              ? createIndex(item->Row(), item->Column(), const_cast<ViewItem*>(item))
              : QModelIndex();
 }
@@ -200,7 +200,7 @@ Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
 bool ViewModelBase::hasChildren(const QModelIndex& parent) const
 {
   auto parent_item = itemFromIndex(parent);
-  return parent_item ? parent_item->HasChildren() : rootItem()->HasChildren();
+  return (parent_item != nullptr) ? parent_item->HasChildren() : rootItem()->HasChildren();
 }
 
 void ViewModelBase::ResetRootViewItem(std::unique_ptr<ViewItem> root_item, bool notify)

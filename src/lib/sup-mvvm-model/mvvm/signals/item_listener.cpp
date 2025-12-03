@@ -28,12 +28,12 @@ namespace mvvm
 
 ItemListener::ItemListener(SessionItem *item) : m_item(item), m_slot(std::make_unique<Slot>())
 {
-  if (!m_item)
+  if (m_item == nullptr)
   {
     throw RuntimeException("Unitialised item");
   }
 
-  if (!m_item->GetModel() || !m_item->GetModel()->GetEventHandler())
+  if ((m_item->GetModel() == nullptr) || (m_item->GetModel()->GetEventHandler() == nullptr))
   {
     throw RuntimeException("Error in ItemListenerBase: model doesn't have signals");
   }

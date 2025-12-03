@@ -34,7 +34,7 @@ namespace mvvm
 LineSeriesDataController::LineSeriesDataController(QLineSeries *line_series)
     : m_qt_line_series(line_series)
 {
-  if (!line_series)
+  if (line_series == nullptr)
   {
     throw std::runtime_error("Error in LineSeriesController: not initialized line series.");
   }
@@ -53,12 +53,12 @@ void LineSeriesDataController::SetItem(const LineSeriesDataItem *item)
 
   Unsubscribe();
 
-  if (!item)
+  if (item == nullptr)
   {
     return;
   }
 
-  if (!item->GetModel() || !item->GetModel()->GetEventHandler())
+  if ((item->GetModel() == nullptr) || (item->GetModel()->GetEventHandler() == nullptr))
   {
     throw std::runtime_error("Error in LineSeriesController: model doesn't have signals");
   }
@@ -129,7 +129,7 @@ void LineSeriesDataController::SetXOffset(double value)
 
   m_x_offset = value;
 
-  if (m_data_item)
+  if (m_data_item != nullptr)
   {
     QList<QPointF> new_values;
     for (auto [xpos, ypos] : m_data_item->GetWaveform())

@@ -226,12 +226,12 @@ std::int32_t ViewItem::Column() const
 
 QVariant ViewItem::Data(std::int32_t qt_role) const
 {
-  return GetItemData() ? GetItemData()->Data(qt_role) : QVariant();
+  return (GetItemData() != nullptr) ? GetItemData()->Data(qt_role) : QVariant();
 }
 
 bool ViewItem::SetData(const QVariant& value, std::int32_t qt_role)
 {
-  return GetItemData() ? GetItemData()->SetData(value, qt_role) : false;
+  return (GetItemData() != nullptr) ? GetItemData()->SetData(value, qt_role) : false;
 }
 
 Qt::ItemFlags ViewItem::Flags() const
@@ -239,7 +239,7 @@ Qt::ItemFlags ViewItem::Flags() const
   Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
   auto item_data = GetItemData();
-  if (item_data && item_data->IsEditable())
+  if ((item_data != nullptr) && item_data->IsEditable())
   {
     result |= Qt::ItemIsEditable;
   }

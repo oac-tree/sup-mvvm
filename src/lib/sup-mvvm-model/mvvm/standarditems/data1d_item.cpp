@@ -33,7 +33,7 @@ namespace
 size_t GetTotalBinCount(const mvvm::Data1DItem& item)
 {
   auto axis = item.GetAxis();
-  return axis ? axis->GetSize() : 0;
+  return (axis != nullptr) ? axis->GetSize() : 0;
 }
 
 }  // namespace
@@ -62,7 +62,7 @@ std::unique_ptr<SessionItem> Data1DItem::Clone() const
 std::vector<double> Data1DItem::GetBinCenters() const
 {
   auto axis = GetItem<BinnedAxisItem>(TagIndex(kAxis));
-  return axis ? axis->GetBinCenters() : std::vector<double>{};
+  return (axis != nullptr) ? axis->GetBinCenters() : std::vector<double>{};
 }
 
 //! Sets internal data buffer to given data. If size of axis doesn't match the size of the data,
@@ -112,7 +112,7 @@ BinnedAxisItem* Data1DItem::GetAxis() const
 void Data1DItem::SetAxis(std::unique_ptr<BinnedAxisItem> axis)
 {
   // we disable possibility to re-create axis to facilitate undo/redo
-  if (GetAxis())
+  if (GetAxis() != nullptr)
   {
     throw RuntimeException("Error in Data1DItem: axis was already set");
   }

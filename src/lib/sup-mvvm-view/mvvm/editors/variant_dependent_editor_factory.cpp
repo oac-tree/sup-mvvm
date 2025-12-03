@@ -40,7 +40,7 @@ namespace
  */
 std::string GetQtVariantName(const SessionItem* item, role_t role = DataRole::kData)
 {
-  if (!item)
+  if (item == nullptr)
   {
     return {};
   }

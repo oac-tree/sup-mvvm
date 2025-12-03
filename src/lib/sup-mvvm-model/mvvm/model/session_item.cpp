@@ -85,7 +85,7 @@ void SessionItem::ActivateStrategies()
 
 SessionItem::~SessionItem()
 {
-  if (GetModel())
+  if (GetModel() != nullptr)
   {
     GetModel()->CheckOut(this);
   }
@@ -153,7 +153,7 @@ SessionItem* SessionItem::GetParent() const
 
 TagIndex SessionItem::GetTagIndex() const
 {
-  return GetParent() ? GetParent()->TagIndexOfItem(this) : TagIndex();
+  return (GetParent() != nullptr) ? GetParent()->TagIndexOfItem(this) : TagIndex();
 }
 
 bool SessionItem::HasData(role_t role) const
@@ -178,7 +178,7 @@ bool SessionItem::SetDataInternal(const variant_t& value, role_t role)
     return m_data_strategy(this, value, role);
   }
 
-  if (GetModel())
+  if (GetModel() != nullptr)
   {
     return ProcessCommand<SetValueCommand>(*GetModel(), this, value, role);
   }
@@ -225,7 +225,7 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 {
   auto insert_tag_index = GetTaggedItems()->GetInsertTagIndex(tag_index);
 
-  if (GetModel())
+  if (GetModel() != nullptr)
   {
     utils::ValidateItemInsert(item.get(), this, insert_tag_index);
     return ProcessCommand<InsertItemCommand>(*GetModel(), std::move(item), this, insert_tag_index);
@@ -236,7 +236,7 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
-  if (GetModel())
+  if (GetModel() != nullptr)
   {
     utils::ValidateTakeItem(this, tag_index);
 

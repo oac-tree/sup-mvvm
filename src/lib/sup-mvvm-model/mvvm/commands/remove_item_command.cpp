@@ -33,12 +33,12 @@ namespace mvvm
 {
 
 RemoveItemCommand::RemoveItemCommand(SessionItem* parent, const TagIndex& tag_index)
-    : ModelCommand(parent ? parent->GetModel() : nullptr)
+    : ModelCommand((parent != nullptr) ? parent->GetModel() : nullptr)
     , m_cached_parent(parent)
     , m_tag_index(tag_index)
     , m_backup_strategy(CreateItemCloneBackupStrategy())
 {
-  if (!m_cached_parent)
+  if (m_cached_parent == nullptr)
   {
     throw RuntimeException("Uninitialized item");
   }
@@ -57,7 +57,7 @@ std::optional<event_variant_t> RemoveItemCommand::GetEventBefore() const
 {
   // we find parent once and then use it for notification and command execution
   m_cached_parent = FindParent();
-  if (!m_cached_parent)
+  if (m_cached_parent == nullptr)
   {
     throw RuntimeException("Can't find parent");
   }
@@ -86,7 +86,7 @@ void RemoveItemCommand::UndoImpl()
 SessionItem* RemoveItemCommand::FindParent() const
 {
   auto current_parent = FindItem(m_parent_identifier);
-  return current_parent ? current_parent : m_cached_parent;
+  return (current_parent != nullptr) ? current_parent : m_cached_parent;
 }
 
 }  // namespace mvvm

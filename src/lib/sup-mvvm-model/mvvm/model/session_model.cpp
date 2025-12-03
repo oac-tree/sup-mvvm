@@ -145,7 +145,7 @@ ICommandStack* SessionModel::GetCommandStack() const
 SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                       const TagIndex& tag_index)
 {
-  if (!parent)
+  if (parent == nullptr)
   {
     parent = GetRootItem();
   }
@@ -161,7 +161,7 @@ std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const T
 
 void SessionModel::RemoveItem(SessionItem* item)
 {
-  if (!item)
+  if (item == nullptr)
   {
     throw InvalidOperationException("Item is not initialised");
   }

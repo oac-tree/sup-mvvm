@@ -34,7 +34,7 @@ struct PenController::PenControllerImpl
   QCPGraph* m_graph{nullptr};
   explicit PenControllerImpl(QCPGraph* graph) : m_graph(graph)
   {
-    if (!m_graph)
+    if (m_graph == nullptr)
     {
       throw RuntimeException("Error in PenController: uninitialised graph");
     }

@@ -44,7 +44,7 @@ namespace
  */
 bool IsValidChildForMove(const SessionItem *item)
 {
-  return item && item->GetModel() && item->GetParent();
+  return (item != nullptr) && (item->GetModel() != nullptr) && (item->GetParent() != nullptr);
 }
 
 /**
@@ -52,14 +52,14 @@ bool IsValidChildForMove(const SessionItem *item)
  */
 bool IsValidParentToMoveIn(const SessionItem *item)
 {
-  return item && item->GetModel();
+  return (item != nullptr) && (item->GetModel() != nullptr);
 }
 
 }  // namespace
 
 TagIndex GetInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
 {
-  if (!parent)
+  if (parent == nullptr)
   {
     throw NullArgumentException("Unintialised parent");
   }
@@ -69,7 +69,7 @@ TagIndex GetInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
 std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const SessionItem *parent,
                                            const TagIndex &tag_index)
 {
-  if (!item)
+  if (item == nullptr)
   {
     return {kFailure, "Invalid input item"};
   }
@@ -79,12 +79,12 @@ std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const Sessio
     return {kFailure, "Attempt to insert to itself"};
   }
 
-  if (item->GetParent())
+  if (item->GetParent() != nullptr)
   {
     return {kFailure, "Item belongs to another parent"};
   }
 
-  if (!parent)
+  if (parent == nullptr)
   {
     return {kFailure, "Invalid parent item"};
   }
@@ -114,7 +114,7 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
 std::pair<bool, std::string> CanInsertType(const std::string &item_type, const SessionItem *parent,
                                            const TagIndex &tag_index)
 {
-  if (!parent)
+  if (parent == nullptr)
   {
     return {kFailure, "Invalid parent item"};
   }
@@ -190,7 +190,7 @@ void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
 
 std::pair<bool, std::string> CanTakeItem(const SessionItem *parent, const TagIndex &tag_index)
 {
-  if (!parent)
+  if (parent == nullptr)
   {
     return {kFailure, "Parent is not defined"};
   }

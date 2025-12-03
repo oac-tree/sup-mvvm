@@ -45,12 +45,12 @@ std::unique_ptr<SessionItem> LinkedItem::Clone() const
 
 void LinkedItem::SetLink(const SessionItem* item)
 {
-  (void)SetData(item ? item->GetIdentifier() : std::string(kEmptyLinkIdentifier));
+  (void)SetData((item != nullptr) ? item->GetIdentifier() : std::string(kEmptyLinkIdentifier));
 }
 
 SessionItem* LinkedItem::GetLink() const
 {
-  return GetModel() ? GetModel()->FindItem(Data<std::string>()) : nullptr;
+  return (GetModel() != nullptr) ? GetModel()->FindItem(Data<std::string>()) : nullptr;
 }
 
 }  // namespace mvvm

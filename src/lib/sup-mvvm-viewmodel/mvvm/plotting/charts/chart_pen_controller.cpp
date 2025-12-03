@@ -32,7 +32,7 @@ namespace mvvm
 
 ChartPenController::ChartPenController(QLineSeries* line_series) : m_qt_line_series(line_series)
 {
-  if (!line_series)
+  if (line_series == nullptr)
   {
     throw std::runtime_error("Error in PenController: uninitialized line series.");
   }

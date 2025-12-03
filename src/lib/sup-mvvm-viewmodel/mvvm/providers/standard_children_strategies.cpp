@@ -32,12 +32,12 @@ namespace mvvm
 std::vector<SessionItem*> AllChildrenStrategy::GetChildren(const SessionItem* item) const
 {
   // we returns all children, even if some marked as invisible
-  return item ? item->GetAllItems() : std::vector<SessionItem*>();
+  return (item != nullptr) ? item->GetAllItems() : std::vector<SessionItem*>();
 }
 
 std::vector<SessionItem*> AllVisibleChildrenStrategy::GetChildren(const SessionItem* item) const
 {
-  if (!item)
+  if (item == nullptr)
   {
     return {};
   }
@@ -51,12 +51,12 @@ std::vector<SessionItem*> AllVisibleChildrenStrategy::GetChildren(const SessionI
 
 std::vector<SessionItem*> TopItemsStrategy::GetChildren(const SessionItem* item) const
 {
-  return item ? utils::TopLevelItems(*item) : std::vector<SessionItem*>();
+  return (item != nullptr) ? utils::TopLevelItems(*item) : std::vector<SessionItem*>();
 }
 
 std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* item) const
 {
-  return item ? utils::SinglePropertyItems(*item) : std::vector<SessionItem*>();
+  return (item != nullptr) ? utils::SinglePropertyItems(*item) : std::vector<SessionItem*>();
 }
 
 FixedItemTypeStrategy::FixedItemTypeStrategy(std::vector<std::string> item_types)
@@ -66,7 +66,7 @@ FixedItemTypeStrategy::FixedItemTypeStrategy(std::vector<std::string> item_types
 
 std::vector<SessionItem*> FixedItemTypeStrategy::GetChildren(const SessionItem* item) const
 {
-  if (!item)
+  if (item == nullptr)
   {
     return {};
   }

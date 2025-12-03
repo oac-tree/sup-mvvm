@@ -38,7 +38,7 @@ struct MouseMoveReporter::MouseMoveReporterImpl
   MouseMoveReporterImpl(QCustomPlot* custom_plot, callback_t callback)
       : m_custom_plot(custom_plot), m_callback(std::move(callback))
   {
-    if (!m_custom_plot)
+    if (m_custom_plot == nullptr)
     {
       throw RuntimeException("MouseMoveReporter: not initialized custom plot");
     }

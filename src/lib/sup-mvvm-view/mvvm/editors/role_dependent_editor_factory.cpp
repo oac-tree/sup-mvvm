@@ -50,7 +50,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 editor_t RoleDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   auto item = utils::ItemFromProxyIndex(index);
-  return item ? CreateEditor(item) : editor_t{};
+  return (item != nullptr) ? CreateEditor(item) : editor_t{};
 }
 
 editor_t RoleDependentEditorFactory::CreateEditor(const SessionItem* item) const

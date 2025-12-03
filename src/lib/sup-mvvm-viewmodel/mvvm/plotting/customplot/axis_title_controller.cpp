@@ -33,7 +33,7 @@ struct AxisTitleController::AxisTitleControllerImpl
 
   explicit AxisTitleControllerImpl(QCPAxis* axis) : m_axis(axis)
   {
-    if (!axis)
+    if (axis == nullptr)
     {
       throw RuntimeException("AxisTitleController: axis is not initialized.");
     }

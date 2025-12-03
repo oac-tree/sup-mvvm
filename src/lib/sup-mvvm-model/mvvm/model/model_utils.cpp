@@ -32,14 +32,14 @@ namespace mvvm::utils
 {
 Path PathFromItem(const SessionItem* item)
 {
-  if (!item || !item->GetModel())
+  if ((item == nullptr) || (item->GetModel() == nullptr))
   {
     return {};
   }
 
   Path result;
   const SessionItem* current(item);
-  while (current && current->GetParent())
+  while ((current != nullptr) && (current->GetParent() != nullptr))
   {
     result.Prepend(static_cast<Path::PathElement>(utils::IndexOfChild(current->GetParent(), current)));
     current = current->GetParent();
@@ -53,7 +53,7 @@ SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
   for (const auto& idx : path)
   {
     result = utils::ChildAt(result, idx);
-    if (!result)
+    if (result == nullptr)
     {
       break;
     }

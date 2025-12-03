@@ -48,7 +48,7 @@ ItemViewComponentProvider::ItemViewComponentProvider(
     , m_selection_model(new QItemSelectionModel(m_view_model.get(), this))
     , m_selection_flags(QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows)
 {
-  if (!view)
+  if (view == nullptr)
   {
     throw RuntimeException("View is not initialised");
   }

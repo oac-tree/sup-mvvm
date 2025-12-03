@@ -27,7 +27,7 @@ namespace mvvm
 void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
                    const std::function<void(const QModelIndex& child)>& fun)
 {
-  if (!model)
+  if (model == nullptr)
   {
     return;
   }

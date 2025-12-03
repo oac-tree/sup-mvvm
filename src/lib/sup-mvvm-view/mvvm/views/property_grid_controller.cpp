@@ -35,7 +35,7 @@ namespace mvvm
 PropertyGridController::PropertyGridController(QAbstractItemModel *model, QObject *parent_object)
     : QObject(parent_object), m_view_model(model)
 {
-  if (!m_view_model)
+  if (m_view_model == nullptr)
   {
     throw NullArgumentException("Uninitialized model");
   }

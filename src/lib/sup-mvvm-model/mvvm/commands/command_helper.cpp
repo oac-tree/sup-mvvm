@@ -93,8 +93,8 @@ std::string GetInsertCommandDescription(const SessionItem *parent, const Session
                                         const TagIndex &tag_index)
 {
   std::ostringstream ostr;
-  const std::string parent_name = parent ? parent->GetDisplayName() : "nullptr";
-  const std::string child_name = child ? child->GetDisplayName() : "nullptr";
+  const std::string parent_name = (parent != nullptr) ? parent->GetDisplayName() : "nullptr";
+  const std::string child_name = (child != nullptr) ? child->GetDisplayName() : "nullptr";
   ostr << "Insert: " << parent_name << " " << child_name << " " << tag_index.GetTag() << " "
        << tag_index.GetIndex();
   return ostr.str();

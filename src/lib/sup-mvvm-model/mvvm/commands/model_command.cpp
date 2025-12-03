@@ -29,7 +29,7 @@ namespace mvvm
 
 ModelCommand::ModelCommand(ISessionModel *model) : m_model(model)
 {
-  if (!m_model)
+  if (m_model == nullptr)
   {
     throw RuntimeException("Model is not defined");
   }
@@ -42,7 +42,7 @@ ISessionModel *ModelCommand::GetModel() const
 
 SessionItem *ModelCommand::FindItem(const std::string &identifier) const
 {
-  return m_model ? m_model->FindItem(identifier) : nullptr;
+  return (m_model != nullptr) ? m_model->FindItem(identifier) : nullptr;
 }
 
 void ModelCommand::Notify(const event_variant_t &event)

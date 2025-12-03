@@ -29,7 +29,7 @@ namespace mvvm
 
 ChartAxisTitleController::ChartAxisTitleController(QAbstractAxis* axis) : m_axis(axis)
 {
-  if (!m_axis)
+  if (m_axis == nullptr)
   {
     throw RuntimeException("Error in ChartAxisTitleController: axis is not initialized");
   }

@@ -36,7 +36,7 @@ namespace mvvm
 
 void ClearLayout(QLayout* layout, bool deleteWidgets)
 {
-  if (!layout)
+  if (layout == nullptr)
     return;
 
   while (QLayoutItem* item = layout->takeAt(0))

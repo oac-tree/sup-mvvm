@@ -38,7 +38,7 @@ constexpr std::string_view kDefaultPortType = "kDefaultPortType";
 NodeItemConnectableShapeAdapter::NodeItemConnectableShapeAdapter(NodeItem *node_item)
     : m_node_item(node_item)
 {
-  if (!m_node_item)
+  if (m_node_item == nullptr)
   {
     throw RuntimeException("Node item is not set");
   }

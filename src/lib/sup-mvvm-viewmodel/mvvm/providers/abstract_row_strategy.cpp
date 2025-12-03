@@ -37,7 +37,7 @@ QStringList AbstractRowStrategy::GetHorizontalHeaderLabels() const
 
 std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::ConstructRow(SessionItem *item)
 {
-  if (!item)
+  if (item == nullptr)
   {
     return {};
   }

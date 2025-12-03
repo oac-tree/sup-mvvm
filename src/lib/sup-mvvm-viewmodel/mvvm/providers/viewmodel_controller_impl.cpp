@@ -60,7 +60,7 @@ void ViewModelControllerImpl::OnItemInsertedEvent(const ItemInsertedEvent& event
   const auto insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
   auto parent_view = const_cast<ViewItem*>(m_view_item_map.FindView(parent));
 
-  if ((insert_view_index != constants::kInvalidIndex) && parent_view)
+  if ((insert_view_index != constants::kInvalidIndex) && (parent_view != nullptr))
   {
     m_view_model->insertRow(parent_view, static_cast<std::int32_t>(insert_view_index),
                             CreateTreeOfRows(*new_child));
@@ -139,7 +139,7 @@ void ViewModelControllerImpl::SetRootItem(SessionItem* root_item)
 {
   CheckInitialState();
 
-  if (root_item)
+  if (root_item != nullptr)
   {
     m_view_item_map.Clear();
     auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
@@ -164,7 +164,7 @@ QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const
 
 void ViewModelControllerImpl::CheckInitialState() const
 {
-  if (!m_view_model)
+  if (m_view_model == nullptr)
   {
     throw RuntimeException("Error in ViewModewlController: viewmodel is absent");
   }

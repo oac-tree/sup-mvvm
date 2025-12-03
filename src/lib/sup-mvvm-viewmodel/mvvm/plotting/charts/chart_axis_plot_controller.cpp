@@ -34,7 +34,7 @@ namespace mvvm
 ChartAxisPlotController::ChartAxisPlotController(QAbstractAxis* axis)
     : m_axis(axis), m_axis_connection(std::make_unique<QMetaObject::Connection>())
 {
-  if (!m_axis)
+  if (m_axis == nullptr)
   {
     throw RuntimeException("Error in ChartAxisPlotController: axis is not initialized");
   }

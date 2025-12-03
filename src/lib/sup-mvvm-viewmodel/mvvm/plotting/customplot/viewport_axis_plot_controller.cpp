@@ -45,7 +45,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
   AxesPlotControllerImpl(ViewportAxisPlotController* controller, QCPAxis* axis)
       : m_self(controller), m_axis(axis)
   {
-    if (!axis)
+    if (axis == nullptr)
     {
       throw RuntimeException("AxisPlotController: axis is not initialized");
     }

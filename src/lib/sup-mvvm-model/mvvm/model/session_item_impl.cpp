@@ -82,7 +82,7 @@ ISessionModel *SessionItemImpl::GetModel()
 
 void SessionItemImpl::SetModel(ISessionModel *model, SessionItem *my_owner)
 {
-  if (m_model)
+  if (m_model != nullptr)
   {
     m_model->CheckOut(my_owner);
     m_slot.reset();  // we do not want to receive notification after removal from the model
@@ -96,7 +96,7 @@ void SessionItemImpl::SetModel(ISessionModel *model, SessionItem *my_owner)
   {
     child->SetModel(model);
   }
-  if (m_model)
+  if (m_model != nullptr)
   {
     m_model->CheckIn(my_owner);
   }

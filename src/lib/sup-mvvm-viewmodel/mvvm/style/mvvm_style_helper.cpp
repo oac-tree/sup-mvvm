@@ -40,7 +40,7 @@ bool kStoreUniSizeInStaticConst = false;
 
 bool IsDarkTheme()
 {
-  if (QApplication::instance())
+  if (QApplication::instance() != nullptr)
   {
     const auto palette = QApplication::palette();
     return palette.color(QPalette::WindowText).lightness()
@@ -68,7 +68,7 @@ int32_t SystemReferenceUnitSize()
 std::int32_t SystemPointSize(double scale)
 {
   const std::int32_t current_psize =
-      QApplication::instance() ? QApplication::font().pointSize() : SystemReferencePointSize();
+      (QApplication::instance() != nullptr) ? QApplication::font().pointSize() : SystemReferencePointSize();
   return static_cast<std::int32_t>(static_cast<double>(current_psize) * scale);
 }
 
@@ -82,7 +82,7 @@ QSize GetUnitSizeFromFont(const QFont& font)
 
 QSize FindSizeOfLetterM()
 {
-  if (QApplication::instance())
+  if (QApplication::instance() != nullptr)
   {
     return GetUnitSizeFromFont(QApplication::font());
   }

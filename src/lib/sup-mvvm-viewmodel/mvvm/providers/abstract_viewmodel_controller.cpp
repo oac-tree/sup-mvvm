@@ -33,7 +33,7 @@ AbstractViewModelController::~AbstractViewModelController() = default;
 
 void AbstractViewModelController::SetModel(ISessionModel *model)
 {
-  SetRootItem(model ? model->GetRootItem() : nullptr);
+  SetRootItem((model != nullptr) ? model->GetRootItem() : nullptr);
 }
 
 const ISessionModel *AbstractViewModelController::GetModel() const
@@ -73,7 +73,7 @@ void AbstractViewModelController::SetRootItem(SessionItem *root_item)
   // strategies. If an item is nullptr, will reset the view model, and unsubscribe from all
   // SessionModel notifications. If same item was already set, will do nothing.
 
-  if (!root_item)
+  if (root_item == nullptr)
   {
     Unsubscribe();
     SetRootItemImpl(nullptr);

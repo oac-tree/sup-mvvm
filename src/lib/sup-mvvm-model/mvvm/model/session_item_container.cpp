@@ -55,7 +55,7 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, std::size_t index) const
 {
-  if (!item || IndexOfItem(item).has_value())
+  if ((item == nullptr) || IndexOfItem(item).has_value())
   {
     // item belongs to this container already
     return false;
@@ -74,7 +74,7 @@ bool SessionItemContainer::CanInsertType(const std::string& item_type, std::size
 
 bool SessionItemContainer::CanMoveItem(const SessionItem* item, std::size_t index) const
 {
-  if (!item || !m_tag_info.IsValidType(item->GetType()))
+  if ((item == nullptr) || !m_tag_info.IsValidType(item->GetType()))
   {
     return false;
   }
@@ -117,7 +117,7 @@ SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item,
 
 bool SessionItemContainer::CanTakeItem(std::size_t index) const
 {
-  return ItemAt(index) && !IsMinimumReached();
+  return (ItemAt(index) != nullptr) && !IsMinimumReached();
 }
 
 std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(std::size_t index)
