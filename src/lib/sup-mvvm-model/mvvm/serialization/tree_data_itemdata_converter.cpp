@@ -61,7 +61,7 @@ void PopulateItemData(const tree_data_t &tree_data, SessionItemData &item_data)
   for (const auto &child : tree_data.Children())
   {
     auto role_data = TreeDataVariantConverter::ToRoleData(child);
-    item_data.SetData(role_data.second, role_data.first);
+    (void)item_data.SetData(role_data.second, role_data.first);
   }
 }
 

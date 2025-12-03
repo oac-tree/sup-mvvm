@@ -59,7 +59,7 @@ void MoveTo(mvvm::SessionItem& item, const mvvm::TagIndex& tag_index)
     auto parent = item.GetParent();
     auto current_tag_index = item.GetTagIndex();
     auto taken = parent->TakeItem(current_tag_index);
-    parent->InsertItem(std::move(taken), tag_index);
+    (void)parent->InsertItem(std::move(taken), tag_index);
   }
 }
 
@@ -369,7 +369,7 @@ bool ReplaceData(SessionItem& item, const variant_t& value, role_t role)
 {
   if (item.HasData(role))
   {
-    item.SetData(variant_t(), role);  // will remove old variant for given role
+    (void)item.SetData(variant_t(), role);  // will remove old variant for given role
   }
   return item.SetData(value, role);  // will succeed
 }
@@ -405,7 +405,7 @@ void RemoveItem(SessionItem& item)
     throw LogicErrorException("Item doesn't have a parent");
   }
 
-  item.GetParent()->TakeItem(item.GetTagIndex());
+  (void)item.GetParent()->TakeItem(item.GetTagIndex());
 }
 
 SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,

@@ -66,7 +66,7 @@ std::size_t ItemComposerComponent::GetComponentCount() const
 
 void ItemComposerComponent::AddNextComponent(component_t component)
 {
-  m_component_queue.emplace_back(std::move(component));
+  (void)m_component_queue.emplace_back(std::move(component));
 }
 
 ItemComposerComponent::component_t ItemComposerComponent::TakeNextComponent()
@@ -103,7 +103,7 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &
 
     auto child = context.factory->CreateItem(model_type);
     auto child_ptr = child.get();
-    container_ptr->InsertItem(std::move(child), container_ptr->GetItemCount());
+    (void)container_ptr->InsertItem(std::move(child), container_ptr->GetItemCount());
 
     AddNextComponent(std::make_unique<SessionItemFromTreeData>(context, (*it), *child_ptr, parent));
   }
@@ -162,7 +162,7 @@ SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext &cont
 
   if (IsRegenerateIdWhenBackFromXML(context.mode))
   {
-    item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+    (void)item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
   }
 
   AddNextComponent(

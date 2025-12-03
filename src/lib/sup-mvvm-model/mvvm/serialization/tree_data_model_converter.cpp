@@ -80,7 +80,7 @@ void TreeDataModelConverter::PopulateSessionModel(const tree_data_t &tree_data,
   auto root_item = utils::CreateEmptyRootItem();
   for (const auto &tree_child : tree_data.Children())
   {
-    root_item->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
+    (void)root_item->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
   }
   model.ReplaceRootItem(std::move(root_item));
 }

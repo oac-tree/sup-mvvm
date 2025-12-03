@@ -69,7 +69,7 @@ void XmlDocument::Load(const std::string& file_name)
   {
     throw RuntimeException(
         "Error in XML document: given XML doesn't containt correct entry element ["
-        + constants::kRootElementType + "].");
+        + std::string(constants::kRootElementType) + "].");
   }
 
   if (document_tree->HasAttribute(constants::kApplicationTypeAttribute)

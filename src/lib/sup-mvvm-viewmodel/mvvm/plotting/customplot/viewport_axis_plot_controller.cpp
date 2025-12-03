@@ -70,7 +70,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
 
   //! Disonnects QCustomPlot signals.
 
-  void SetDisconnected() { QObject::disconnect(*m_axis_connection); }
+  void SetDisconnected() { (void)QObject::disconnect(*m_axis_connection); }
 
   //! Sets axesRange from SessionItem.
   void SetAxisRangeFromItem() const

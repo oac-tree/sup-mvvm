@@ -44,7 +44,7 @@ std::size_t GetTestBufferSize(const std::string& filename)
 
   std::ifstream file_stream;
   file_stream.open(filename, std::ios_base::binary);
-  file_stream.seekg(0, std::ios_base::end);
+  (void)file_stream.seekg(0, std::ios_base::end);
   const std::size_t size = static_cast<std::size_t>(file_stream.tellg());
   file_stream.close();
   return (size > kBuferSize) ? kBuferSize : size;
@@ -64,7 +64,7 @@ std::vector<std::uint8_t> GetTestData(const std::string& filename)
   for (std::size_t i = 0; i < byte_length; i++)
   {
     std::ifstream::char_type byte{};
-    fstr.read(&byte, 1);
+    (void)fstr.read(&byte, 1);
     result[i] = byte;
   }
   return result;
