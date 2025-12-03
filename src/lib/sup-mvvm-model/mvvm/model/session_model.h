@@ -46,10 +46,11 @@ public:
 
   ~SessionModel() override;
 
-  SessionModel(const SessionModel& other);
-  SessionModel& operator=(const SessionModel&other);
-  SessionModel(SessionModel&&) = delete;
   SessionModel& operator=(SessionModel&&) = delete;
+  SessionModel& operator=(const SessionModel&other) = delete;
+
+  SessionModel(const SessionModel& other);
+  SessionModel(SessionModel&& other) noexcept;
 
   std::unique_ptr<ISessionModel> Clone() const override;
 

@@ -101,17 +101,17 @@ SessionModel::SessionModel(const SessionModel& other)
   ReplaceRootItem(utils::CopyItem(*other.GetRootItem()));
 }
 
-SessionModel& SessionModel::operator=(const SessionModel& other)
+SessionModel::SessionModel(SessionModel&& other) noexcept : p_impl(std::move(other.p_impl))
 {
-  if (this == &other)
-  {
-    return *this;
-  }
-  // It is hard to implement proper assignment operator due to ownership issues of children items.
-  // We can't delete it either, because NISRA C++ forbids having user-defined copy constructor
-  // without copy. And we can't get rid of copy constructor, because it is hard to implement clone
-  // pattern without it.
-  throw RuntimeException("Cannot assign SessionModel objects");
+  // FIXME we are currently experimenting with MISRA complaining about
+  // "Class 'SessionModel' shall be either unmovable, move-only or copy-constructible. Special
+  // member functions shall be provided appropriately [MISRACPP2023-15_0_1-a]"
+
+  // I want to provide both copy c-tor and move c-tor and see if MISRA is happy, but I d;nt want to
+  // use it yet
+  std::terminate();
+
+  p_impl->m_root_item->SetModel(this);
 }
 
 std::unique_ptr<ISessionModel> SessionModel::Clone() const

@@ -56,11 +56,11 @@ public:
   SessionItem();
   virtual ~SessionItem();
 
-  SessionItem(SessionItem&&) = delete;
   SessionItem& operator=(SessionItem&&) = delete;
+  SessionItem& operator=(const SessionItem&other) = delete;
 
   SessionItem(const SessionItem& other);
-  SessionItem& operator=(const SessionItem&other);
+  SessionItem(SessionItem&& other) noexcept;
 
   /**
    * @brief Creates a clone of the item.
