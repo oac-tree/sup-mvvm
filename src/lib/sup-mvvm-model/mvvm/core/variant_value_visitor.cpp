@@ -95,17 +95,17 @@ std::string VariantValueVisitor::operator()(std::string value)
   return value;
 }
 
-std::string VariantValueVisitor::operator()(const std::vector<double> &value)
+std::string VariantValueVisitor::operator()(const std::vector<double>& value)
 {
   return {utils::VectorToString(value, std::string(utils::kDefaultSeparator))};
 }
 
-std::string VariantValueVisitor::operator()(const ComboProperty &value)
+std::string VariantValueVisitor::operator()(const ComboProperty& value)
 {
   return {value.ToString()};
 }
 
-std::string VariantValueVisitor::operator()(const ExternalProperty &value)
+std::string VariantValueVisitor::operator()(const ExternalProperty& value)
 {
   return value.ToString();
 }

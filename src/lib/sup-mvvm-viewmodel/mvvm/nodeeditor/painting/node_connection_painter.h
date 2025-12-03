@@ -55,7 +55,7 @@ public:
   /**
    * @brief Sets operation states for the connection.
    */
-  void SetOperationStates(const  NodeOperationStates& operation_state);
+  void SetOperationStates(const NodeOperationStates& operation_state);
 
   /**
    * @brief Returns base connection color according to operation states.

@@ -37,14 +37,14 @@ namespace
  * @brief Creates specialised limited integer, for given input value and bounds.
  */
 template <typename IntegerT>
-std::unique_ptr<ILimitedInteger> FactoryFunc(const variant_t &value, const variant_t &lower_bound,
-                                             const variant_t &upper_bound)
+std::unique_ptr<ILimitedInteger> FactoryFunc(const variant_t& value, const variant_t& lower_bound,
+                                             const variant_t& upper_bound)
 {
   return std::make_unique<LimitedInteger<IntegerT>>(value, lower_bound, upper_bound);
 }
 
 using factory_funct_t = std::function<std::unique_ptr<ILimitedInteger>(
-    const variant_t &value, const variant_t &lower_bound, const variant_t &upper_bound)>;
+    const variant_t& value, const variant_t& lower_bound, const variant_t& upper_bound)>;
 
 std::map<TypeCode, factory_funct_t> CreateFactoryMap()
 {
@@ -59,9 +59,9 @@ std::map<TypeCode, factory_funct_t> CreateFactoryMap()
 
 }  // namespace
 
-std::unique_ptr<ILimitedInteger> CreateLimitedInteger(const variant_t &value,
-                                                      const variant_t &lower_bound,
-                                                      const variant_t &upper_bound)
+std::unique_ptr<ILimitedInteger> CreateLimitedInteger(const variant_t& value,
+                                                      const variant_t& lower_bound,
+                                                      const variant_t& upper_bound)
 {
   static const auto kFactoryMap = CreateFactoryMap();
 

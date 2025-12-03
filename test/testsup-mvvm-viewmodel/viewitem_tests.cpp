@@ -21,10 +21,10 @@
 #include "mvvm/providers/viewitem.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/test/test_container_helper.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <gtest/gtest.h>
-#include <mvvm/test/test_container_helper.h>
 
 namespace mvvm::test
 {

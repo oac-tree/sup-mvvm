@@ -31,43 +31,54 @@ namespace mvvm
 AbstractViewModelController::AbstractViewModelController() = default;
 AbstractViewModelController::~AbstractViewModelController() = default;
 
-void AbstractViewModelController::SetModel(ISessionModel *model)
+void AbstractViewModelController::SetModel(ISessionModel* model)
 {
   SetRootItem((model != nullptr) ? model->GetRootItem() : nullptr);
 }
 
-const ISessionModel *AbstractViewModelController::GetModel() const
+const ISessionModel* AbstractViewModelController::GetModel() const
 {
   return m_listener ? m_listener->GetModel() : nullptr;
 }
 
-void AbstractViewModelController::OnAboutToInsertItemEvent([[maybe_unused]] const AboutToInsertItemEvent &event)
+void AbstractViewModelController::OnAboutToInsertItemEvent(
+    [[maybe_unused]] const AboutToInsertItemEvent& event)
 {
 }
 
-void AbstractViewModelController::OnItemInsertedEvent([[maybe_unused]] const ItemInsertedEvent &event) {}
-
-void AbstractViewModelController::OnAboutToRemoveItemEvent([[maybe_unused]] const AboutToRemoveItemEvent &event)
+void AbstractViewModelController::OnItemInsertedEvent(
+    [[maybe_unused]] const ItemInsertedEvent& event)
 {
 }
 
-void AbstractViewModelController::OnItemRemovedEvent([[maybe_unused]] const ItemRemovedEvent &event) {}
+void AbstractViewModelController::OnAboutToRemoveItemEvent(
+    [[maybe_unused]] const AboutToRemoveItemEvent& event)
+{
+}
 
-void AbstractViewModelController::OnDataChangedEvent([[maybe_unused]] const DataChangedEvent &event) {}
+void AbstractViewModelController::OnItemRemovedEvent([[maybe_unused]] const ItemRemovedEvent& event)
+{
+}
+
+void AbstractViewModelController::OnDataChangedEvent([[maybe_unused]] const DataChangedEvent& event)
+{
+}
 
 void AbstractViewModelController::OnModelAboutToBeResetEvent(
-    [[maybe_unused]] const ModelAboutToBeResetEvent &event)
+    [[maybe_unused]] const ModelAboutToBeResetEvent& event)
 {
 }
 
-void AbstractViewModelController::OnModelResetEvent([[maybe_unused]] const ModelResetEvent &event) {}
+void AbstractViewModelController::OnModelResetEvent([[maybe_unused]] const ModelResetEvent& event)
+{
+}
 
 void AbstractViewModelController::OnModelAboutToBeDestroyedEvent(
-    [[maybe_unused]] const ModelAboutToBeDestroyedEvent &event)
+    [[maybe_unused]] const ModelAboutToBeDestroyedEvent& event)
 {
 }
 
-void AbstractViewModelController::SetRootItem(SessionItem *root_item)
+void AbstractViewModelController::SetRootItem(SessionItem* root_item)
 {
   // It will subscribe to model notifications, and regenerate view model according to child/row
   // strategies. If an item is nullptr, will reset the view model, and unsubscribe from all
@@ -107,33 +118,36 @@ QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
   return {};
 }
 
-void AbstractViewModelController::SubscribeAll(ISessionModel *model)
+void AbstractViewModelController::SubscribeAll(ISessionModel* model)
 {
   m_listener = std::make_unique<mvvm::ModelListener>(model);
 
-  m_listener->Connect<mvvm::DataChangedEvent>(this, &AbstractViewModelController::OnDataChangedEvent);
+  m_listener->Connect<mvvm::DataChangedEvent>(this,
+                                              &AbstractViewModelController::OnDataChangedEvent);
 
-  m_listener->Connect<mvvm::AboutToInsertItemEvent>(this,
-                                                    &AbstractViewModelController::OnAboutToInsertItemEvent);
-  m_listener->Connect<mvvm::ItemInsertedEvent>(this, &AbstractViewModelController::OnItemInsertedEvent);
-  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(this,
-                                                    &AbstractViewModelController::OnAboutToRemoveItemEvent);
-  m_listener->Connect<mvvm::ItemRemovedEvent>(this, &AbstractViewModelController::OnItemRemovedEvent);
+  m_listener->Connect<mvvm::AboutToInsertItemEvent>(
+      this, &AbstractViewModelController::OnAboutToInsertItemEvent);
+  m_listener->Connect<mvvm::ItemInsertedEvent>(this,
+                                               &AbstractViewModelController::OnItemInsertedEvent);
+  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
+      this, &AbstractViewModelController::OnAboutToRemoveItemEvent);
+  m_listener->Connect<mvvm::ItemRemovedEvent>(this,
+                                              &AbstractViewModelController::OnItemRemovedEvent);
 
-  m_listener->Connect<mvvm::ModelAboutToBeResetEvent>(this,
-                                                      &AbstractViewModelController::OnModelAboutToBeResetEvent);
+  m_listener->Connect<mvvm::ModelAboutToBeResetEvent>(
+      this, &AbstractViewModelController::OnModelAboutToBeResetEvent);
   m_listener->Connect<mvvm::ModelResetEvent>(this, &AbstractViewModelController::OnModelResetEvent);
 
   m_listener->Connect<mvvm::ModelAboutToBeDestroyedEvent>(
       this, &AbstractViewModelController::OnModelAboutToBeDestroyedEvent);
 }
 
-void AbstractViewModelController::Subscribe(ISessionModel *model)
+void AbstractViewModelController::Subscribe(ISessionModel* model)
 {
   SubscribeImpl(model);
 }
 
-void AbstractViewModelController::SubscribeImpl(ISessionModel *model)
+void AbstractViewModelController::SubscribeImpl(ISessionModel* model)
 {
   SubscribeAll(model);
 }

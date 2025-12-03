@@ -74,7 +74,7 @@ NodePortStyle CreateDefaultNodePortStyle(ColorFlavor color_flavor)
                               : CreateDefaultStyleForLightThemes();
 }
 
-const NodePortStyle &GetDefaultNodePortStyle()
+const NodePortStyle& GetDefaultNodePortStyle()
 {
   static const auto kStyle = CreateDefaultNodePortStyle(ColorFlavor::kAuto);
   return kStyle;

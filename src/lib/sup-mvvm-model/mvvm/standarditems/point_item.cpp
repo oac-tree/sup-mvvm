@@ -61,7 +61,7 @@ std::pair<double, double> PointItem::GetPointCoordinates() const
   return std::make_pair(GetX(), GetY());
 }
 
-void PointItem::SetPointCoordinates(const std::pair<double, double> &coordinates)
+void PointItem::SetPointCoordinates(const std::pair<double, double>& coordinates)
 {
   SetX(coordinates.first);
   SetY(coordinates.second);

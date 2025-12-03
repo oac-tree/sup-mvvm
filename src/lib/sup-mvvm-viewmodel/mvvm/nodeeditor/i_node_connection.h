@@ -21,8 +21,9 @@
 #ifndef MVVM_NODEEDITOR_I_NODE_CONNECTION_H_
 #define MVVM_NODEEDITOR_I_NODE_CONNECTION_H_
 
-#include <functional>
 #include <mvvm/nodeeditor/node_editor_types.h>
+
+#include <functional>
 
 namespace mvvm
 {

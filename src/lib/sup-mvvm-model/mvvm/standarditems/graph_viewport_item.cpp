@@ -58,8 +58,9 @@ namespace mvvm
 GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportItem(model_type)
 {
   RegisterAxes();
-  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag), {GetTypeName<GraphItem>()}),
-              /*set_default*/ true);
+  RegisterTag(
+      TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag), {GetTypeName<GraphItem>()}),
+      /*set_default*/ true);
 }
 
 std::unique_ptr<SessionItem> GraphViewportItem::Clone() const

@@ -37,11 +37,11 @@ public:
   class TestListener
   {
   public:
-    void OnEvent(const mvvm::event_variant_t &event) {}
+    void OnEvent(const mvvm::event_variant_t& event) {}
   };
 };
 
-BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventNoConnections)(benchmark::State &state)
+BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventNoConnections)(benchmark::State& state)
 {
   ModelEventHandler m_event_handler;
   mvvm::SessionItem item;
@@ -53,7 +53,7 @@ BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventNoConnections)(benchmark::Sta
   }
 }
 
-BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListener)(benchmark::State &state)
+BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListener)(benchmark::State& state)
 {
   ModelEventHandler m_event_handler;
   TestListener listener;
@@ -69,7 +69,7 @@ BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListener)(benchmark::State
   }
 }
 
-BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListenerV2)(benchmark::State &state)
+BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListenerV2)(benchmark::State& state)
 {
   ModelEventHandler m_event_handler;
   TestListener listener;
@@ -87,7 +87,7 @@ BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListenerV2)(benchmark::Sta
   }
 }
 
-BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsNoListeners)(benchmark::State &state)
+BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsNoListeners)(benchmark::State& state)
 {
   ModelEventHandler m_event_handler;
   mvvm::SessionItem item;
@@ -101,7 +101,7 @@ BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsNoListeners)(benchmark::State &
   }
 }
 
-BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsTwoListeners)(benchmark::State &state)
+BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsTwoListeners)(benchmark::State& state)
 {
   ModelEventHandler m_event_handler;
   TestListener listener;

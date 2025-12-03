@@ -60,7 +60,6 @@ bool operator!=(const ExternalProperty& lhs, const ExternalProperty& rhs);
 bool operator<(const ExternalProperty& lhs, const ExternalProperty& rhs);
 bool operator>=(const ExternalProperty& lhs, const ExternalProperty& rhs);
 
-
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_EXTERNAL_PROPERTY_H_

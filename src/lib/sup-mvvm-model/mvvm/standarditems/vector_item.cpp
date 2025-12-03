@@ -89,7 +89,7 @@ void VectorItem::ActivateStrategies()
   GetItem(kZ)->SetStrategy(this, &VectorItem::SetPropertyValue);
 }
 
-bool VectorItem::SetPropertyValue(SessionItem *property, const variant_t &variant, role_t role)
+bool VectorItem::SetPropertyValue(SessionItem* property, const variant_t& variant, role_t role)
 {
   utils::BeginMacro(*this, "SetPropertyValue");
 

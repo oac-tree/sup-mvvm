@@ -46,7 +46,8 @@ ViewModelControllerImpl::ViewModelControllerImpl(
 
 ViewModelControllerImpl::~ViewModelControllerImpl() = default;
 
-void ViewModelControllerImpl::OnAboutToInsertItemEvent([[maybe_unused]] const AboutToInsertItemEvent& event)
+void ViewModelControllerImpl::OnAboutToInsertItemEvent(
+    [[maybe_unused]] const AboutToInsertItemEvent& event)
 {
   // default implementation does nothing
 }
@@ -104,7 +105,8 @@ void ViewModelControllerImpl::OnDataChangedEvent(const DataChangedEvent& event)
   }
 }
 
-void ViewModelControllerImpl::OnModelAboutToBeResetEvent([[maybe_unused]] const ModelAboutToBeResetEvent& event)
+void ViewModelControllerImpl::OnModelAboutToBeResetEvent(
+    [[maybe_unused]] const ModelAboutToBeResetEvent& event)
 {
   // Here we are notified that the model content will be destroyed soon.
   // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to

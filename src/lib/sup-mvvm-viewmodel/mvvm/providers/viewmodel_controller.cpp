@@ -36,37 +36,37 @@ ViewModelController::ViewModelController(std::unique_ptr<IViewModelController> i
 
 ViewModelController::~ViewModelController() = default;
 
-void ViewModelController::OnItemInsertedEvent(const ItemInsertedEvent &event)
+void ViewModelController::OnItemInsertedEvent(const ItemInsertedEvent& event)
 {
   p_impl->OnItemInsertedEvent(event);
 }
 
-void ViewModelController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent &event)
+void ViewModelController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event)
 {
   p_impl->OnAboutToRemoveItemEvent(event);
 }
 
-void ViewModelController::OnDataChangedEvent(const DataChangedEvent &event)
+void ViewModelController::OnDataChangedEvent(const DataChangedEvent& event)
 {
   p_impl->OnDataChangedEvent(event);
 }
 
-void ViewModelController::OnModelAboutToBeResetEvent(const ModelAboutToBeResetEvent &event)
+void ViewModelController::OnModelAboutToBeResetEvent(const ModelAboutToBeResetEvent& event)
 {
   p_impl->OnModelAboutToBeResetEvent(event);
 }
 
-void ViewModelController::OnModelResetEvent(const ModelResetEvent &event)
+void ViewModelController::OnModelResetEvent(const ModelResetEvent& event)
 {
   p_impl->OnModelResetEvent(event);
 }
 
-void ViewModelController::OnModelAboutToBeDestroyedEvent(const ModelAboutToBeDestroyedEvent &event)
+void ViewModelController::OnModelAboutToBeDestroyedEvent(const ModelAboutToBeDestroyedEvent& event)
 {
   p_impl->OnModelAboutToBeDestroyedEvent(event);
 }
 
-const SessionItem *ViewModelController::GetRootItem() const
+const SessionItem* ViewModelController::GetRootItem() const
 {
   return p_impl->GetRootItem();
 }
@@ -81,7 +81,7 @@ QStringList ViewModelController::GetHorizontalHeaderLabels() const
   return p_impl->GetHorizontalHeaderLabels();
 }
 
-void ViewModelController::SetRootItemImpl(SessionItem *root_item)
+void ViewModelController::SetRootItemImpl(SessionItem* root_item)
 {
   p_impl->SetRootItem(root_item);
 }

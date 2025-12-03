@@ -22,12 +22,12 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_constants.h>
 #include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/signals/event_types.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
 #include <mvvm/test/mock_item_listener.h>
-#include <mvvm/model/item_constants.h>
 
 #include <gtest/gtest.h>
 

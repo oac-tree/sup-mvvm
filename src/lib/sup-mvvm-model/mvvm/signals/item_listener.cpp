@@ -26,7 +26,7 @@
 namespace mvvm
 {
 
-ItemListener::ItemListener(SessionItem *item) : m_item(item), m_slot(std::make_unique<Slot>())
+ItemListener::ItemListener(SessionItem* item) : m_item(item), m_slot(std::make_unique<Slot>())
 {
   if (m_item == nullptr)
   {
@@ -41,12 +41,12 @@ ItemListener::ItemListener(SessionItem *item) : m_item(item), m_slot(std::make_u
 
 ItemListener::~ItemListener() = default;
 
-SessionItem *ItemListener::GetItem() const
+SessionItem* ItemListener::GetItem() const
 {
   return m_item;
 }
 
-Slot *ItemListener::GetSlot() const
+Slot* ItemListener::GetSlot() const
 {
   return m_slot.get();
 }

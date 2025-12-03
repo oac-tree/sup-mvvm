@@ -54,7 +54,7 @@ ComboProperty CreateAnimationCombo()
  * @param method Method from LineSeriesItem.
  */
 template <typename MethodT>
-auto GetMinMax(const std::vector<LineSeriesItem *> &container, MethodT method)
+auto GetMinMax(const std::vector<LineSeriesItem*>& container, MethodT method)
 {
   std::vector<double> values;
 
@@ -91,7 +91,7 @@ std::unique_ptr<SessionItem> ChartViewportItem::Clone() const
   return std::make_unique<ChartViewportItem>(*this);
 }
 
-std::vector<LineSeriesItem *> ChartViewportItem::GetLineSeries() const
+std::vector<LineSeriesItem*> ChartViewportItem::GetLineSeries() const
 {
   return GetItems<LineSeriesItem>(constants::kChildrenTag);
 }

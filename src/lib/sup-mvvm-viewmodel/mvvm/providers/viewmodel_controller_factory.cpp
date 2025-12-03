@@ -29,7 +29,7 @@ namespace mvvm::factory
 {
 
 std::unique_ptr<AbstractViewModelController> CreateViewModelController(
-    ViewModelControllerFactoryContext &&context)
+    ViewModelControllerFactoryContext&& context)
 {
   std::unique_ptr<AbstractViewModelController> result;
 

@@ -23,7 +23,7 @@
 namespace mvvm::test
 {
 
-ProjectContext MockProjectContext::CreateContext(const std::string &application_type)
+ProjectContext MockProjectContext::CreateContext(const std::string& application_type)
 {
   ProjectContext result;
   result.modified_callback = [this]() { OnModified(); };

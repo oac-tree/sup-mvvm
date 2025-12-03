@@ -39,7 +39,7 @@ double GetUniformPos(std::size_t port_index, std::size_t total_ports, double len
   return static_cast<double>(port_index + 1) * step;
 }
 
-QPointF GetBottomLocation(std::size_t port_index, std::size_t total_ports, const QRectF &shape_rect)
+QPointF GetBottomLocation(std::size_t port_index, std::size_t total_ports, const QRectF& shape_rect)
 {
   const double x_pos =
       shape_rect.left() + GetUniformPos(port_index, total_ports, shape_rect.width());
@@ -47,7 +47,7 @@ QPointF GetBottomLocation(std::size_t port_index, std::size_t total_ports, const
   return {x_pos, y_pos};
 }
 
-QPointF GetTopLocation(std::size_t port_index, std::size_t total_ports, const QRectF &shape_rect)
+QPointF GetTopLocation(std::size_t port_index, std::size_t total_ports, const QRectF& shape_rect)
 {
   const double x_pos =
       shape_rect.left() + GetUniformPos(port_index, total_ports, shape_rect.width());
@@ -65,7 +65,7 @@ NodeTreeLayout TopBottomPortPositionStrategy::GetNodeTreeLayout() const
 QPointF TopBottomPortPositionStrategy::GetPortPosition(PortDirection port_direction,
                                                        std::size_t port_index,
                                                        std::size_t total_ports,
-                                                       const QRectF &shape_rect) const
+                                                       const QRectF& shape_rect) const
 {
   if ((total_ports == 0) || (port_index >= total_ports))
   {

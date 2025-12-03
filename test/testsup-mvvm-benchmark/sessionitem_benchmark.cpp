@@ -38,7 +38,7 @@ public:
   std::unique_ptr<SessionItem> CreateItem() { return std::make_unique<PropertyItem>(); }
 };
 
-BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItem)(benchmark::State &state)
+BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItem)(benchmark::State& state)
 {
   for (auto dummy : state)
   {
@@ -46,7 +46,7 @@ BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItem)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItemNoOptimisation)(benchmark::State &state)
+BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItemNoOptimisation)(benchmark::State& state)
 {
   for (auto dummy : state)
   {
@@ -55,7 +55,7 @@ BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItemNoOptimisation)(benchmark:
   }
 }
 
-BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State &state)
+BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State& state)
 {
   mvvm::SessionItem item;
 
@@ -66,7 +66,7 @@ BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionItemBenchmark, SetDataImpl)(benchmark::State &state)
+BENCHMARK_F(SessionItemBenchmark, SetDataImpl)(benchmark::State& state)
 {
   mvvm::SessionItem item;
 
@@ -77,7 +77,7 @@ BENCHMARK_F(SessionItemBenchmark, SetDataImpl)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State &state)
+BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State& state)
 {
   mvvm::SessionItem item;
 
@@ -88,7 +88,7 @@ BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionItemBenchmark, InsertItem)(benchmark::State &state)
+BENCHMARK_F(SessionItemBenchmark, InsertItem)(benchmark::State& state)
 {
   mvvm::SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag"),
@@ -104,7 +104,7 @@ BENCHMARK_F(SessionItemBenchmark, InsertItem)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionItemBenchmark, TakeItem)(benchmark::State &state)
+BENCHMARK_F(SessionItemBenchmark, TakeItem)(benchmark::State& state)
 {
   mvvm::SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag"),
@@ -120,7 +120,7 @@ BENCHMARK_F(SessionItemBenchmark, TakeItem)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionItemBenchmark, InsertAndTake)(benchmark::State &state)
+BENCHMARK_F(SessionItemBenchmark, InsertAndTake)(benchmark::State& state)
 {
   mvvm::SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag"),

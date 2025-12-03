@@ -23,47 +23,47 @@
 namespace mvvm
 {
 
-void ItemEventVisitor::operator()(const DataChangedEvent &event)
+void ItemEventVisitor::operator()(const DataChangedEvent& event)
 {
   m_source = event.item;
 }
 
-void ItemEventVisitor::operator()(const PropertyChangedEvent &event)
+void ItemEventVisitor::operator()(const PropertyChangedEvent& event)
 {
   m_source = event.item;
 }
 
-void ItemEventVisitor::operator()(const AboutToInsertItemEvent &event)
+void ItemEventVisitor::operator()(const AboutToInsertItemEvent& event)
 {
   m_source = event.item;
 }
 
-void ItemEventVisitor::operator()(const ItemInsertedEvent &event)
+void ItemEventVisitor::operator()(const ItemInsertedEvent& event)
 {
   m_source = event.item;
 }
 
-void ItemEventVisitor::operator()(const AboutToRemoveItemEvent &event)
+void ItemEventVisitor::operator()(const AboutToRemoveItemEvent& event)
 {
   m_source = event.item;
 }
 
-void ItemEventVisitor::operator()(const ItemRemovedEvent &event)
+void ItemEventVisitor::operator()(const ItemRemovedEvent& event)
 {
   m_source = event.item;
 }
 
-void ItemEventVisitor::operator()([[maybe_unused]] const ModelAboutToBeResetEvent &event)
+void ItemEventVisitor::operator()([[maybe_unused]] const ModelAboutToBeResetEvent& event)
 {
   m_source = nullptr;
 }
 
-void ItemEventVisitor::operator()([[maybe_unused]] const ModelResetEvent &event)
+void ItemEventVisitor::operator()([[maybe_unused]] const ModelResetEvent& event)
 {
   m_source = nullptr;
 }
 
-void ItemEventVisitor::operator()([[maybe_unused]] const ModelAboutToBeDestroyedEvent &event)
+void ItemEventVisitor::operator()([[maybe_unused]] const ModelAboutToBeDestroyedEvent& event)
 {
   m_source = nullptr;
 }

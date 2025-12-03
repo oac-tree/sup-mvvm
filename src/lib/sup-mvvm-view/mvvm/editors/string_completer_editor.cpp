@@ -34,7 +34,7 @@
 namespace mvvm
 {
 
-StringCompleterEditor::StringCompleterEditor(const string_list_func_t &func, QWidget *parent_widget)
+StringCompleterEditor::StringCompleterEditor(const string_list_func_t& func, QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_string_list_func(func)
     , m_line_edit(new QLineEdit)
@@ -69,7 +69,7 @@ QVariant StringCompleterEditor::value() const
   return m_value;
 }
 
-void StringCompleterEditor::setValue(const QVariant &value)
+void StringCompleterEditor::setValue(const QVariant& value)
 {
   if (m_value != value)
   {
@@ -79,17 +79,17 @@ void StringCompleterEditor::setValue(const QVariant &value)
   }
 }
 
-QLineEdit *StringCompleterEditor::GetLineEdit() const
+QLineEdit* StringCompleterEditor::GetLineEdit() const
 {
   return m_line_edit;
 }
 
-QCompleter *StringCompleterEditor::GetCompleter() const
+QCompleter* StringCompleterEditor::GetCompleter() const
 {
   return m_completer;
 }
 
-bool StringCompleterEditor::eventFilter(QObject *object, QEvent *event)
+bool StringCompleterEditor::eventFilter(QObject* object, QEvent* event)
 {
   if (event->type() == QEvent::FocusIn)
   {

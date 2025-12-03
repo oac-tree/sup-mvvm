@@ -41,7 +41,8 @@ Path PathFromItem(const SessionItem* item)
   const SessionItem* current(item);
   while ((current != nullptr) && (current->GetParent() != nullptr))
   {
-    result.Prepend(static_cast<Path::PathElement>(utils::IndexOfChild(current->GetParent(), current)));
+    result.Prepend(
+        static_cast<Path::PathElement>(utils::IndexOfChild(current->GetParent(), current)));
     current = current->GetParent();
   }
   return result;

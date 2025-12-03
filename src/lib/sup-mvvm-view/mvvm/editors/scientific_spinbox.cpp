@@ -75,7 +75,8 @@ void ScientificSpinBox::setValue(double val)
   double old_val = m_value;
   m_value = round(val, m_decimals);
   updateText();
-  if (std::abs(old_val - m_value) > min_val) {
+  if (std::abs(old_val - m_value) > min_val)
+  {
     emit valueChanged(m_value);
   }
 }
@@ -104,7 +105,8 @@ double ScientificSpinBox::minimum() const
 void ScientificSpinBox::setMinimum(double min)
 {
   m_min = min;
-  if (m_value < m_min) {
+  if (m_value < m_min)
+  {
     setValue(m_min);
   }
 }
@@ -117,14 +119,16 @@ double ScientificSpinBox::maximum() const
 void ScientificSpinBox::setMaximum(double max)
 {
   m_max = max;
-  if (m_value > m_max) {
+  if (m_value > m_max)
+  {
     setValue(m_max);
   }
 }
 
 void ScientificSpinBox::setDecimals(int val)
 {
-  if (val <= 0) {
+  if (val <= 0)
+  {
     return;
   }
   m_decimals = val;
@@ -139,7 +143,8 @@ int ScientificSpinBox::decimals() const
 void ScientificSpinBox::stepBy(int steps)
 {
   double new_val = round(m_value + m_step * steps, m_decimals);
-  if (inRange(new_val)) {
+  if (inRange(new_val))
+  {
     setValue(new_val);
   }
 }
@@ -164,7 +169,8 @@ double ScientificSpinBox::toDouble(QString text, const QDoubleValidator& validat
   if (validator.validate(text, pos) == QValidator::Acceptable)
   {
     double new_val = validator.locale().toDouble(text);
-    if (std::abs(new_val) < min_val) {
+    if (std::abs(new_val) < min_val)
+    {
       new_val = 0.0;
     }
     return new_val >= min && new_val <= max ? new_val : default_value;
@@ -186,7 +192,8 @@ QAbstractSpinBox::StepEnabled ScientificSpinBox::stepEnabled() const
 void ScientificSpinBox::updateText()
 {
   QString new_text = toString(m_value, m_decimals);
-  if (new_text != text()) {
+  if (new_text != text())
+  {
     lineEdit()->setText(new_text);
   }
 }
@@ -204,7 +211,8 @@ bool useExponentialNotation(double val)
 {
   const double abs_val = std::abs(val);
 
-  if (abs_val <= min_val) {
+  if (abs_val <= min_val)
+  {
     return false;
   }
 

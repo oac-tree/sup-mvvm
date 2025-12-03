@@ -29,7 +29,7 @@ PortInfo::PortInfo(PortDirection port_direction, std::string port_type)
 }
 
 PortInfo::PortInfo(PortDirection port_direction, std::string port_type, std::string port_label,
-                   SessionItem *origin)
+                   SessionItem* origin)
     : m_port_direction(port_direction)
     , m_port_type(std::move(port_type))
     , m_port_label(std::move(port_label))
@@ -52,18 +52,18 @@ std::string PortInfo::GetPortLabel() const
   return m_port_label;
 }
 
-SessionItem *PortInfo::GetOrigin() const
+SessionItem* PortInfo::GetOrigin() const
 {
   return m_origin;
 }
 
-bool operator==(const PortInfo &lhs, const PortInfo &rhs)
+bool operator==(const PortInfo& lhs, const PortInfo& rhs)
 {
   return (lhs.GetPortDirection() == rhs.GetPortDirection())
          && (lhs.GetPortType() == rhs.GetPortType());
 }
 
-bool operator!=(const PortInfo &lhs, const PortInfo &rhs)
+bool operator!=(const PortInfo& lhs, const PortInfo& rhs)
 {
   return !(lhs == rhs);
 }

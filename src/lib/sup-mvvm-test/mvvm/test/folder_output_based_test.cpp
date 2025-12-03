@@ -45,19 +45,19 @@ std::string FolderOutputBasedTest::GetTestHomeDir() const
   return m_test_suite_output_dir + std::string("/") + GetTestHomeDirName();
 }
 
-std::string FolderOutputBasedTest::GetFilePath(const std::string &file_name) const
+std::string FolderOutputBasedTest::GetFilePath(const std::string& file_name) const
 {
   return GetTestHomeDir() + std::string("/") + file_name;
 }
 
-std::string FolderOutputBasedTest::GetNewFilePath(const std::string &file_name) const
+std::string FolderOutputBasedTest::GetNewFilePath(const std::string& file_name) const
 {
   const auto result = GetFilePath(file_name);
   utils::Remove(result);
   return result;
 }
 
-std::string FolderOutputBasedTest::CreateEmptyDir(const std::string &subdir) const
+std::string FolderOutputBasedTest::CreateEmptyDir(const std::string& subdir) const
 {
   auto path = mvvm::utils::Join(GetTestHomeDir(), subdir);
   mvvm::utils::RemoveAll(path);

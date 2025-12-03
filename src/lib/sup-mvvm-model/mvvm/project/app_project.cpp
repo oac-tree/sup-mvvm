@@ -28,12 +28,12 @@
 namespace mvvm
 {
 
-AppProject::AppProject(const mvvm::ProjectContext &context)
+AppProject::AppProject(const mvvm::ProjectContext& context)
     : AbstractProject(mvvm::ProjectType::kFileBased, context)
 {
 }
 
-std::vector<mvvm::ISessionModel *> AppProject::GetModels() const
+std::vector<mvvm::ISessionModel*> AppProject::GetModels() const
 {
   return mvvm::utils::GetVectorOfPtrs(m_models);
 }
@@ -50,7 +50,7 @@ std::size_t AppProject::GetModelCount() const
   return m_models.size();
 }
 
-bool AppProject::SaveImpl(const std::string &path)
+bool AppProject::SaveImpl(const std::string& path)
 {
   if (GetModels().empty())
   {
@@ -63,7 +63,7 @@ bool AppProject::SaveImpl(const std::string &path)
   return true;
 }
 
-bool AppProject::LoadImpl(const std::string &path)
+bool AppProject::LoadImpl(const std::string& path)
 {
   // creating and populating copies first
   auto models = CreateModels();
@@ -100,7 +100,7 @@ std::vector<std::unique_ptr<mvvm::ISessionModel>> AppProject::CreateModels()
 {
   std::vector<std::unique_ptr<mvvm::ISessionModel>> result;
   result.reserve(m_factory_func_list.size());
-  for (const auto &factory_func : m_factory_func_list)
+  for (const auto& factory_func : m_factory_func_list)
   {
     result.push_back(factory_func());
   }

@@ -37,39 +37,39 @@ class MockModel : public mvvm::ISessionModel
 public:
   MOCK_METHOD(std::string, GetType, (), (const, override));
 
-  MOCK_METHOD(mvvm::SessionItem *, GetRootItem, (), (const, override));
+  MOCK_METHOD(mvvm::SessionItem*, GetRootItem, (), (const, override));
 
-  MOCK_METHOD(mvvm::ModelEventHandler *, GetEventHandler, (), (const, override));
+  MOCK_METHOD(mvvm::ModelEventHandler*, GetEventHandler, (), (const, override));
 
-  MOCK_METHOD(mvvm::ICommandStack *, GetCommandStack, (), (const, override));
+  MOCK_METHOD(mvvm::ICommandStack*, GetCommandStack, (), (const, override));
 
-  MOCK_METHOD(mvvm::SessionItem *, InsertItem,
-              (std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem *parent,
-               const mvvm::TagIndex &tag_index),
+  MOCK_METHOD(mvvm::SessionItem*, InsertItem,
+              (std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem* parent,
+               const mvvm::TagIndex& tag_index),
               (override));
 
   MOCK_METHOD(std::unique_ptr<mvvm::SessionItem>, TakeItem,
-              (mvvm::SessionItem * parent, const mvvm::TagIndex &tag_index), (override));
+              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
 
   MOCK_METHOD(void, RemoveItem, (mvvm::SessionItem * item), (override));
 
   MOCK_METHOD(void, MoveItem,
-              (mvvm::SessionItem * item, mvvm::SessionItem *new_parent,
-               const mvvm::TagIndex &tag_index),
+              (mvvm::SessionItem * item, mvvm::SessionItem* new_parent,
+               const mvvm::TagIndex& tag_index),
               (override));
 
-  MOCK_METHOD(bool, SetData, (mvvm::SessionItem * item, const mvvm::variant_t &value, role_t role),
+  MOCK_METHOD(bool, SetData, (mvvm::SessionItem * item, const mvvm::variant_t& value, role_t role),
               (override));
 
-  MOCK_METHOD(mvvm::SessionItem *, FindItem, (const std::string &id), (const, override));
+  MOCK_METHOD(mvvm::SessionItem*, FindItem, (const std::string& id), (const, override));
 
   MOCK_METHOD(void, Clear, (), (override));
 
   MOCK_METHOD(void, ReplaceRootItem, (std::unique_ptr<mvvm::SessionItem>), (override));
 
-  MOCK_METHOD(void, CheckIn, (mvvm::SessionItem *), (override));
+  MOCK_METHOD(void, CheckIn, (mvvm::SessionItem*), (override));
 
-  MOCK_METHOD(void, CheckOut, (mvvm::SessionItem *), (override));
+  MOCK_METHOD(void, CheckOut, (mvvm::SessionItem*), (override));
 };
 
 }  // namespace mvvm::test

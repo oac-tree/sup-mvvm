@@ -30,7 +30,7 @@
 namespace mvvm
 {
 
-PropertyFlatView::PropertyFlatView(QWidget *parent_widget)
+PropertyFlatView::PropertyFlatView(QWidget* parent_widget)
     : QWidget(parent_widget), m_grid_layout(new QGridLayout)
 {
   auto layout = new QVBoxLayout(this);
@@ -42,7 +42,7 @@ PropertyFlatView::PropertyFlatView(QWidget *parent_widget)
   layout->addStretch(1);
 }
 
-void PropertyFlatView::SetViewModel(QAbstractItemModel *view_model)
+void PropertyFlatView::SetViewModel(QAbstractItemModel* view_model)
 {
   m_view_model = view_model;
 

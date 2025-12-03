@@ -35,7 +35,7 @@ class SessionModelBenchmark : public benchmark::Fixture
 {
 };
 
-BENCHMARK_F(SessionModelBenchmark, SetData)(benchmark::State &state)
+BENCHMARK_F(SessionModelBenchmark, SetData)(benchmark::State& state)
 {
   mvvm::SessionModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -47,7 +47,7 @@ BENCHMARK_F(SessionModelBenchmark, SetData)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State &state)
+BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State& state)
 {
   mvvm::SessionModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -59,7 +59,7 @@ BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionModelBenchmark, InsertItem)(benchmark::State &state)
+BENCHMARK_F(SessionModelBenchmark, InsertItem)(benchmark::State& state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();
@@ -74,7 +74,7 @@ BENCHMARK_F(SessionModelBenchmark, InsertItem)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionModelBenchmark, TakeItem)(benchmark::State &state)
+BENCHMARK_F(SessionModelBenchmark, TakeItem)(benchmark::State& state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();
@@ -89,7 +89,7 @@ BENCHMARK_F(SessionModelBenchmark, TakeItem)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionModelBenchmark, InsertAndTake)(benchmark::State &state)
+BENCHMARK_F(SessionModelBenchmark, InsertAndTake)(benchmark::State& state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();

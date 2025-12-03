@@ -31,7 +31,7 @@
 namespace mvvm
 {
 
-ChartCanvas::ChartCanvas(QWidget *parent_widget)
+ChartCanvas::ChartCanvas(QWidget* parent_widget)
     : QWidget(parent_widget), m_chart(new QChart), m_chart_view(new mvvm::ChartView)
 {
   auto layout = new QVBoxLayout(this);
@@ -51,7 +51,7 @@ ChartCanvas::ChartCanvas(QWidget *parent_widget)
 
 ChartCanvas::~ChartCanvas() = default;
 
-void ChartCanvas::SetViewport(ChartViewportItem *viewport)
+void ChartCanvas::SetViewport(ChartViewportItem* viewport)
 {
   m_viewport = viewport;
   m_viewport_controller = std::make_unique<ChartViewportController>(m_chart);
@@ -80,7 +80,7 @@ void ChartCanvas::SetOperationMode(int mode)
   m_chart_view->SetOperationMode(static_cast<CanvasOperationMode>(mode));
 }
 
-void ChartCanvas::wheelEvent(QWheelEvent *event)
+void ChartCanvas::wheelEvent(QWheelEvent* event)
 {
   if (event->angleDelta().y() > 0)
   {

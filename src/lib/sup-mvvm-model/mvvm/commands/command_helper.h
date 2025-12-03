@@ -87,7 +87,7 @@ std::string GetSetValueCommandDescription(const variant_t& value, role_t role);
 /**
  * @brief Returns text description for insert command.
  */
-std::string GetInsertCommandDescription(const SessionItem *parent, const SessionItem *child,
+std::string GetInsertCommandDescription(const SessionItem* parent, const SessionItem* child,
                                         const mvvm::TagIndex& tag_index);
 
 /**

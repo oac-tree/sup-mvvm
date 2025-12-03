@@ -22,9 +22,9 @@
 
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
+#include <mvvm/test/test_container_helper.h>
 
 #include <gtest/gtest.h>
-#include <mvvm/test/test_container_helper.h>
 
 namespace mvvm::test
 {

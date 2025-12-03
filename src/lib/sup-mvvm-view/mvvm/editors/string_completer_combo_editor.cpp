@@ -30,8 +30,8 @@
 namespace mvvm
 {
 
-StringCompleterComboEditor::StringCompleterComboEditor(const string_list_func_t &func,
-                                                       QWidget *parent_widget)
+StringCompleterComboEditor::StringCompleterComboEditor(const string_list_func_t& func,
+                                                       QWidget* parent_widget)
     : QWidget(parent_widget), m_string_list_func(func), m_combo_box(new QComboBox)
 {
   if (!m_string_list_func)
@@ -63,7 +63,7 @@ QVariant StringCompleterComboEditor::value() const
   return m_value;
 }
 
-void StringCompleterComboEditor::setValue(const QVariant &value)
+void StringCompleterComboEditor::setValue(const QVariant& value)
 {
   if (m_value != value)
   {
@@ -73,7 +73,7 @@ void StringCompleterComboEditor::setValue(const QVariant &value)
   }
 }
 
-QComboBox *StringCompleterComboEditor::GetComboBox() const
+QComboBox* StringCompleterComboEditor::GetComboBox() const
 {
   return m_combo_box;
 }
@@ -89,7 +89,7 @@ QStringList StringCompleterComboEditor::GetStringList()
   return result;
 }
 
-bool StringCompleterComboEditor::eventFilter(QObject *object, QEvent *event)
+bool StringCompleterComboEditor::eventFilter(QObject* object, QEvent* event)
 {
   if (event->type() == QEvent::FocusIn)
   {

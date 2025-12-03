@@ -31,7 +31,7 @@
 namespace mvvm
 {
 
-AbstractItemView::AbstractItemView(QWidget *parent_widget) : QWidget(parent_widget)
+AbstractItemView::AbstractItemView(QWidget* parent_widget) : QWidget(parent_widget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -48,39 +48,39 @@ void AbstractItemView::SetComponentProvider(std::unique_ptr<ItemViewComponentPro
 
 AbstractItemView::~AbstractItemView() = default;
 
-void AbstractItemView::SetApplicationModel(ISessionModel *model)
+void AbstractItemView::SetApplicationModel(ISessionModel* model)
 {
   m_provider->SetApplicationModel(model);
   UpdateView();
 }
 
-void AbstractItemView::SetItem(SessionItem *item)
+void AbstractItemView::SetItem(SessionItem* item)
 {
   m_provider->SetItem(item);
   UpdateView();
 }
 
-ItemViewComponentProvider *AbstractItemView::GetComponentProvider()
+ItemViewComponentProvider* AbstractItemView::GetComponentProvider()
 {
   return m_provider.get();
 }
 
-SessionItem *AbstractItemView::GetSelectedItem() const
+SessionItem* AbstractItemView::GetSelectedItem() const
 {
   return m_provider->GetSelectedItem();
 }
 
-std::vector<SessionItem *> AbstractItemView::GetSelectedItems() const
+std::vector<SessionItem*> AbstractItemView::GetSelectedItems() const
 {
   return m_provider->GetSelectedItems();
 }
 
-void AbstractItemView::SetSelectedItem(SessionItem *item)
+void AbstractItemView::SetSelectedItem(SessionItem* item)
 {
   m_provider->SetSelectedItem(item);
 }
 
-void AbstractItemView::SetSelectedItems(const std::vector<SessionItem *> &items)
+void AbstractItemView::SetSelectedItems(const std::vector<SessionItem*>& items)
 {
   m_provider->SetSelectedItems(items);
 }

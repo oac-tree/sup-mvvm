@@ -35,7 +35,7 @@ namespace
 constexpr std::string_view kDefaultPortType = "kDefaultPortType";
 }
 
-NodeItemConnectableShapeAdapter::NodeItemConnectableShapeAdapter(NodeItem *node_item)
+NodeItemConnectableShapeAdapter::NodeItemConnectableShapeAdapter(NodeItem* node_item)
     : m_node_item(node_item)
 {
   if (m_node_item == nullptr)
@@ -44,7 +44,7 @@ NodeItemConnectableShapeAdapter::NodeItemConnectableShapeAdapter(NodeItem *node_
   }
 }
 
-SessionItem *NodeItemConnectableShapeAdapter::GetItem() const
+SessionItem* NodeItemConnectableShapeAdapter::GetItem() const
 {
   return m_node_item;
 }
@@ -96,7 +96,7 @@ NodeOperationStates NodeItemConnectableShapeAdapter::GetOperationStates() const
   return {};
 }
 
-void NodeItemConnectableShapeAdapter::ProcessEvent(const node_event_t &event) const
+void NodeItemConnectableShapeAdapter::ProcessEvent(const node_event_t& event) const
 {
   (void)event;
 }

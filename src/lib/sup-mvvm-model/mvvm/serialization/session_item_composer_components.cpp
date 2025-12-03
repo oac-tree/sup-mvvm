@@ -80,9 +80,9 @@ ItemComposerComponent::component_t ItemComposerComponent::TakeNextComponent()
 // ItemContainerFromTreeData
 // ---------------------------------------------------------------------------------------------------
 
-ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &context,
-                                                     const tree_data_t &tree_data,
-                                                     SessionItem &item, SessionItem *parent)
+ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext& context,
+                                                     const tree_data_t& tree_data,
+                                                     SessionItem& item, SessionItem* parent)
 {
   if (!IsItemContainerConvertible(tree_data))
   {
@@ -113,9 +113,9 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &
 // TaggedItemsFromTreeData
 // ---------------------------------------------------------------------------------------------------
 
-TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext &context,
-                                                 const tree_data_t &tree_data, SessionItem &item,
-                                                 SessionItem *parent)
+TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext& context,
+                                                 const tree_data_t& tree_data, SessionItem& item,
+                                                 SessionItem* parent)
 {
   if (!IsTaggedItemsConvertible(tree_data))
   {
@@ -125,7 +125,7 @@ TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext &cont
   auto tagged_items = item.GetTaggedItems();
   tagged_items->SetDefaultTag(tree_data.GetAttribute(constants::kDefaultTagKey));
 
-  for (const auto &container_data : tree_data.Children())
+  for (const auto& container_data : tree_data.Children())
   {
     AddNextComponent(
         std::make_unique<ItemContainerFromTreeData>(context, container_data, item, parent));
@@ -135,9 +135,9 @@ TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext &cont
 // ---------------------------------------------------------------------------------------------------
 // SessionItemFromTreeData
 // ---------------------------------------------------------------------------------------------------
-SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext &context,
-                                                 const tree_data_t &tree_data, SessionItem &item,
-                                                 SessionItem *parent)
+SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext& context,
+                                                 const tree_data_t& tree_data, SessionItem& item,
+                                                 SessionItem* parent)
 {
   if (!IsSessionItemConvertible(tree_data))
   {

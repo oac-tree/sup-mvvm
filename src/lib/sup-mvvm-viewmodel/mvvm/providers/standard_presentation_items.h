@@ -73,7 +73,7 @@ protected:
 
 private:
   SessionItem* m_item{nullptr};  // the item to present
-  role_t m_data_role{0};            // the main item's data role to present
+  role_t m_data_role{0};         // the main item's data role to present
 };
 
 /**

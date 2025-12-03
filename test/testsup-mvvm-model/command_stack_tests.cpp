@@ -393,7 +393,7 @@ TEST_F(CommandStackTest, UndoLimit)
   stack.Execute(std::move(command4));
 
   EXPECT_EQ(stack.GetCommandCount(), 2);
-  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr3, command_ptr4}));
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand*>({command_ptr3, command_ptr4}));
 }
 
 //! Undo limit is set when stack already got 4 commands
@@ -419,7 +419,7 @@ TEST_F(CommandStackTest, SetUndoLimitAfterExecution)
 
   // command1 and command2 should be removed, index should point "after" command4
   EXPECT_EQ(stack.GetIndex(), 2);
-  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr3, command_ptr4}));
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand*>({command_ptr3, command_ptr4}));
 }
 
 TEST_F(CommandStackTest, SetUndoLimitInTheMiddleOfUndo)
@@ -453,7 +453,7 @@ TEST_F(CommandStackTest, SetUndoLimitInTheMiddleOfUndo)
 
   // Thus, despite of undo limit 1, we still have 2 commands in the list.
   EXPECT_EQ(stack.GetCommandCount(), 2);
-  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr3, command_ptr4}));
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand*>({command_ptr3, command_ptr4}));
 
   // Lets redo and check the list again.
   stack.Redo();
@@ -461,12 +461,12 @@ TEST_F(CommandStackTest, SetUndoLimitInTheMiddleOfUndo)
   // There is only one single command4, and it is in undone state
   EXPECT_EQ(stack.GetIndex(), 0);
   EXPECT_EQ(stack.GetCommandCount(), 1);
-  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr4}));
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand*>({command_ptr4}));
 
   stack.Redo();
   EXPECT_EQ(stack.GetIndex(), 1);
   EXPECT_EQ(stack.GetCommandCount(), 1);
-  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr4}));
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand*>({command_ptr4}));
 }
 
 TEST_F(CommandStackTest, Clone)
@@ -476,7 +476,7 @@ TEST_F(CommandStackTest, Clone)
   EXPECT_EQ(stack.GetUndoLimit(), 42U);
 
   auto clone = stack.Clone();
-  auto command_stack_clone = dynamic_cast<CommandStack *>(clone.get());
+  auto command_stack_clone = dynamic_cast<CommandStack*>(clone.get());
   ASSERT_NE(command_stack_clone, nullptr);
   EXPECT_EQ(command_stack_clone->GetUndoLimit(), 42U);
 }

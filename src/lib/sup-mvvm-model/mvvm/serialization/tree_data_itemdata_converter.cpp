@@ -31,24 +31,24 @@
 namespace mvvm::TreeDataItemDataConverter
 {
 
-std::unique_ptr<tree_data_t> ToTreeData(const SessionItemData &item_data)
+std::unique_ptr<tree_data_t> ToTreeData(const SessionItemData& item_data)
 {
   auto result = std::make_unique<tree_data_t>(constants::kItemDataElementType);
-  for (const auto &role_data : item_data)
+  for (const auto& role_data : item_data)
   {
     result->AddChild(TreeDataVariantConverter::ToTreeData(role_data));
   }
   return result;
 }
 
-std::unique_ptr<SessionItemData> ToSessionItemData(const tree_data_t &tree_data)
+std::unique_ptr<SessionItemData> ToSessionItemData(const tree_data_t& tree_data)
 {
   auto result = std::make_unique<SessionItemData>();
   PopulateItemData(tree_data, *result);
   return result;
 }
 
-void PopulateItemData(const tree_data_t &tree_data, SessionItemData &item_data)
+void PopulateItemData(const tree_data_t& tree_data, SessionItemData& item_data)
 {
   if (!IsSessionItemDataConvertible(tree_data))
   {
@@ -58,7 +58,7 @@ void PopulateItemData(const tree_data_t &tree_data, SessionItemData &item_data)
   }
 
   // In the future filtering of roles will be implemented
-  for (const auto &child : tree_data.Children())
+  for (const auto& child : tree_data.Children())
   {
     auto role_data = TreeDataVariantConverter::ToRoleData(child);
     (void)item_data.SetData(role_data.second, role_data.first);

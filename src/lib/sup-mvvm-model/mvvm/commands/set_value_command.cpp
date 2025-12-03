@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, role_t role)
+SetValueCommand::SetValueCommand(SessionItem* item, const variant_t& value, role_t role)
     : ModelCommand((item != nullptr) ? item->GetModel() : nullptr)
     , m_cached_item(item)
     , m_value(value)
@@ -89,7 +89,7 @@ void SetValueCommand::SetResult(bool value)
   m_result = value;
 }
 
-SessionItem *SetValueCommand::FindItemToSet() const
+SessionItem* SetValueCommand::FindItemToSet() const
 {
   auto found_item = FindItem(m_item_identifier);
   return (found_item != nullptr) ? found_item : m_cached_item;

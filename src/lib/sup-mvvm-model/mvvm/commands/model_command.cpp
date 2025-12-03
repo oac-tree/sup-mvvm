@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-ModelCommand::ModelCommand(ISessionModel *model) : m_model(model)
+ModelCommand::ModelCommand(ISessionModel* model) : m_model(model)
 {
   if (m_model == nullptr)
   {
@@ -35,17 +35,17 @@ ModelCommand::ModelCommand(ISessionModel *model) : m_model(model)
   }
 }
 
-ISessionModel *ModelCommand::GetModel() const
+ISessionModel* ModelCommand::GetModel() const
 {
   return m_model;
 }
 
-SessionItem *ModelCommand::FindItem(const std::string &identifier) const
+SessionItem* ModelCommand::FindItem(const std::string& identifier) const
 {
   return (m_model != nullptr) ? m_model->FindItem(identifier) : nullptr;
 }
 
-void ModelCommand::Notify(const event_variant_t &event)
+void ModelCommand::Notify(const event_variant_t& event)
 {
   if (auto event_handler = m_model->GetEventHandler(); event_handler)
   {

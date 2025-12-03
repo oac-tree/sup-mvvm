@@ -52,16 +52,16 @@ class AllIntSpinBox : public QAbstractSpinBox
   Q_PROPERTY(QVariant value MEMBER m_value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:
-  explicit AllIntSpinBox(QWidget *parent = nullptr);
+  explicit AllIntSpinBox(QWidget* parent = nullptr);
   ~AllIntSpinBox() override;
 
   void SetLimitedInteger(std::unique_ptr<ILimitedInteger> value);
 
   QVariant value() const;
 
-  QValidator::State validate(QString &input, int &pos) const override;
+  QValidator::State validate(QString& input, int& pos) const override;
 
-  void fixup(QString &input) const override;
+  void fixup(QString& input) const override;
 
   void stepBy(int steps) override;
 
@@ -74,13 +74,13 @@ public:
   /**
    * @brief Returns underlying limited integer.
    */
-  ILimitedInteger *GetLimitedInteger();
+  ILimitedInteger* GetLimitedInteger();
 
 protected:
   QAbstractSpinBox::StepEnabled stepEnabled() const override;
 
 public slots:
-  void setValue(const QVariant &value);
+  void setValue(const QVariant& value);
 
 signals:
   void valueChanged(QVariant);

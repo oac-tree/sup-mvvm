@@ -50,7 +50,7 @@ public:
    * The item is stored via persistent link machinery. LineSeriesItem and LineSeriesDataItem
    * should be either from the same model or from different models sharing the same item pool.
    */
-  void SetDataItem(const LineSeriesDataItem *item);
+  void SetDataItem(const LineSeriesDataItem* item);
 
   /**
    * @brief Returns waveform data to which this LineSeriesItem is linked (const version).

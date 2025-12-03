@@ -21,9 +21,9 @@
 #include "mvvm/model/session_item_container.h"
 
 #include <mvvm/model/session_item.h>
+#include <mvvm/test/test_container_helper.h>
 
 #include <gtest/gtest.h>
-#include <mvvm/test/test_container_helper.h>
 
 namespace mvvm::test
 {
@@ -292,7 +292,8 @@ TEST_F(SessionItemContainerTest, CanInsertItemForUniversalTag)
 
   // inserting child
   auto [child1, child1_ptr] = CreateItem<SessionItem>();
-  EXPECT_FALSE(tag.CanInsertItem(child1_ptr, constants::kInvalidIndex));  // implementation requires exact index
+  EXPECT_FALSE(tag.CanInsertItem(child1_ptr,
+                                 constants::kInvalidIndex));  // implementation requires exact index
   EXPECT_TRUE(tag.CanInsertItem(child1_ptr, 0));
   EXPECT_TRUE(tag.CanInsertItem(child1_ptr, tag.GetItemCount()));
   EXPECT_EQ(tag.InsertItem(std::move(child1), tag.GetItemCount()), child1_ptr);

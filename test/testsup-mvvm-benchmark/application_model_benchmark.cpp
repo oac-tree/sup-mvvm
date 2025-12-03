@@ -36,7 +36,7 @@ class ApplicationModelBenchmark : public benchmark::Fixture
 {
 };
 
-BENCHMARK_F(ApplicationModelBenchmark, SetData)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, SetData)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -48,7 +48,7 @@ BENCHMARK_F(ApplicationModelBenchmark, SetData)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(ApplicationModelBenchmark, SetDataWhenUndoEnabled)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, SetDataWhenUndoEnabled)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   model.SetUndoEnabled(true, 10000);
@@ -61,7 +61,7 @@ BENCHMARK_F(ApplicationModelBenchmark, SetDataWhenUndoEnabled)(benchmark::State 
   }
 }
 
-BENCHMARK_F(ApplicationModelBenchmark, SetDataUndoRedo)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, SetDataUndoRedo)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   model.SetUndoEnabled(true, 10000);
@@ -84,7 +84,7 @@ BENCHMARK_F(ApplicationModelBenchmark, SetDataUndoRedo)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(ApplicationModelBenchmark, SetSameData)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, SetSameData)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -96,7 +96,7 @@ BENCHMARK_F(ApplicationModelBenchmark, SetSameData)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(ApplicationModelBenchmark, InsertItem)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, InsertItem)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
@@ -111,7 +111,7 @@ BENCHMARK_F(ApplicationModelBenchmark, InsertItem)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(ApplicationModelBenchmark, TakeItem)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, TakeItem)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
@@ -126,7 +126,7 @@ BENCHMARK_F(ApplicationModelBenchmark, TakeItem)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(ApplicationModelBenchmark, InsertAndTake)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, InsertAndTake)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();

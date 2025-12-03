@@ -59,11 +59,11 @@ struct VariantValueVisitor
 
   std::string operator()(std::string value);
 
-  std::string operator()(const std::vector<double> &value);
+  std::string operator()(const std::vector<double>& value);
 
-  std::string operator()(const mvvm::ComboProperty &value);
+  std::string operator()(const mvvm::ComboProperty& value);
 
-  std::string operator()(const mvvm::ExternalProperty &value);
+  std::string operator()(const mvvm::ExternalProperty& value);
 };
 
 }  // namespace mvvm

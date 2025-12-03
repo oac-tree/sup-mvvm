@@ -39,10 +39,10 @@ class IProjectUserInteractor
 {
 public:
   IProjectUserInteractor() = default;
-  IProjectUserInteractor(const IProjectUserInteractor &) = delete;
-  IProjectUserInteractor(IProjectUserInteractor &&) = delete;
-  IProjectUserInteractor &operator=(const IProjectUserInteractor &) = delete;
-  IProjectUserInteractor &operator=(IProjectUserInteractor &&) = delete;
+  IProjectUserInteractor(const IProjectUserInteractor&) = delete;
+  IProjectUserInteractor(IProjectUserInteractor&&) = delete;
+  IProjectUserInteractor& operator=(const IProjectUserInteractor&) = delete;
+  IProjectUserInteractor& operator=(IProjectUserInteractor&&) = delete;
   virtual ~IProjectUserInteractor() = default;
 
   /**

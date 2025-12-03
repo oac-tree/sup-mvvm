@@ -24,8 +24,8 @@
 //!< @file
 //! Common constants for items.
 
-#include <string_view>
 #include <limits>
+#include <string_view>
 
 namespace mvvm::constants
 {

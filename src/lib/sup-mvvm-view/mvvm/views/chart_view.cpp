@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-ChartView::ChartView(QWidget *parent_widget) : QChartView(parent_widget)
+ChartView::ChartView(QWidget* parent_widget) : QChartView(parent_widget)
 {
   setMouseTracking(true);
   SetOperationMode(CanvasOperationMode::kSelection);
@@ -68,7 +68,7 @@ void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
   }
 }
 
-void ChartView::keyPressEvent(QKeyEvent *event)
+void ChartView::keyPressEvent(QKeyEvent* event)
 {
   if (event->key() == Qt::Key_Space)
   {
@@ -82,7 +82,7 @@ void ChartView::keyPressEvent(QKeyEvent *event)
   QGraphicsView::keyPressEvent(event);
 }
 
-void ChartView::keyReleaseEvent(QKeyEvent *event)
+void ChartView::keyReleaseEvent(QKeyEvent* event)
 {
   if (event->key() == Qt::Key_Space)
   {
@@ -96,7 +96,7 @@ void ChartView::keyReleaseEvent(QKeyEvent *event)
   QGraphicsView::keyPressEvent(event);
 }
 
-void ChartView::mousePressEvent(QMouseEvent *event)
+void ChartView::mousePressEvent(QMouseEvent* event)
 {
   if (m_operation_mode == CanvasOperationMode::kPan)
   {
@@ -112,7 +112,7 @@ void ChartView::mousePressEvent(QMouseEvent *event)
   QChartView::mousePressEvent(event);
 }
 
-void ChartView::mouseMoveEvent(QMouseEvent *event)
+void ChartView::mouseMoveEvent(QMouseEvent* event)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   const auto event_pos = event->localPos();
@@ -131,7 +131,7 @@ void ChartView::mouseMoveEvent(QMouseEvent *event)
   QChartView::mouseMoveEvent(event);
 }
 
-void ChartView::mouseReleaseEvent(QMouseEvent *event)
+void ChartView::mouseReleaseEvent(QMouseEvent* event)
 {
   m_current_activity = kIdle;
   m_last_pos = {};

@@ -32,7 +32,7 @@ class UniqueIdGeneratorBenchmark : public benchmark::Fixture
 {
 };
 
-BENCHMARK_F(UniqueIdGeneratorBenchmark, Generate)(benchmark::State &state)
+BENCHMARK_F(UniqueIdGeneratorBenchmark, Generate)(benchmark::State& state)
 {
   for (auto dummy : state)
   {
@@ -40,7 +40,7 @@ BENCHMARK_F(UniqueIdGeneratorBenchmark, Generate)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(UniqueIdGeneratorBenchmark, GenerateNoOptimize)(benchmark::State &state)
+BENCHMARK_F(UniqueIdGeneratorBenchmark, GenerateNoOptimize)(benchmark::State& state)
 {
   for (auto dummy : state)
   {

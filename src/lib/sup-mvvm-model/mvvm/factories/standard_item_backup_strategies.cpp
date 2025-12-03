@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-TreeDataItemBackupStrategy::TreeDataItemBackupStrategy(const IItemFactory *factory)
+TreeDataItemBackupStrategy::TreeDataItemBackupStrategy(const IItemFactory* factory)
     : m_converter(
           std::make_unique<mvvm::TreeDataItemConverter>(factory, mvvm::ConverterMode::kClone))
 {
@@ -36,7 +36,7 @@ TreeDataItemBackupStrategy::TreeDataItemBackupStrategy(const IItemFactory *facto
 
 TreeDataItemBackupStrategy::~TreeDataItemBackupStrategy() = default;
 
-void TreeDataItemBackupStrategy::SaveItem(const SessionItem &item)
+void TreeDataItemBackupStrategy::SaveItem(const SessionItem& item)
 {
   m_tree_data = m_converter->ToTreeData(item);
 }
@@ -56,7 +56,7 @@ std::unique_ptr<SessionItem> TreeDataItemBackupStrategy::RestoreItem() const
 
 ItemCloneBackupStrategy::~ItemCloneBackupStrategy() = default;
 
-void ItemCloneBackupStrategy::SaveItem(const SessionItem &item)
+void ItemCloneBackupStrategy::SaveItem(const SessionItem& item)
 {
   m_backup = item.Clone();
 }

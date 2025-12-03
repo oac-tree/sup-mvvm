@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-FloatSpinBox::FloatSpinBox(QWidget *parent_widget)
+FloatSpinBox::FloatSpinBox(QWidget* parent_widget)
     : QWidget(parent_widget), m_double_editor(new QDoubleSpinBox)
 {
   auto layout = new QVBoxLayout;
@@ -55,7 +55,7 @@ QVariant FloatSpinBox::value() const
   return m_value;
 }
 
-void FloatSpinBox::setValue(const QVariant &value)
+void FloatSpinBox::setValue(const QVariant& value)
 {
   if (m_value != value)
   {

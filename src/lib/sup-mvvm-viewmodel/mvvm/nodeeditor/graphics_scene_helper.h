@@ -104,7 +104,7 @@ INodePort* GetOutputPort(const ConnectableShape& shape, std::size_t index = 0U);
  *
  * Connection starts at output port of the child and ends at the input port of a parent.
  */
-bool IsParentChildConnection(const ConnectableShape *parent, const ConnectableShape* child,
+bool IsParentChildConnection(const ConnectableShape* parent, const ConnectableShape* child,
                              NodeConnectionShape* connection_shape);
 
 /**

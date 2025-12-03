@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-AbstractProject::AbstractProject(ProjectType project_type, const ProjectContext &context)
+AbstractProject::AbstractProject(ProjectType project_type, const ProjectContext& context)
     : m_project_type(project_type), m_project_context(context)
 {
 }
@@ -87,7 +87,7 @@ bool AbstractProject::Close()
   return is_success;
 }
 
-bool AbstractProject::Save(const std::string &path)
+bool AbstractProject::Save(const std::string& path)
 {
   auto result = SaveImpl(path);
   if (result)
@@ -104,7 +104,7 @@ bool AbstractProject::Save(const std::string &path)
   return result;
 }
 
-bool AbstractProject::Load(const std::string &path)
+bool AbstractProject::Load(const std::string& path)
 {
   auto is_success = LoadImpl(path);
   if (is_success)
@@ -116,7 +116,7 @@ bool AbstractProject::Load(const std::string &path)
   return is_success;
 }
 
-void AbstractProject::SetupListener(const std::vector<ISessionModel *> &models)
+void AbstractProject::SetupListener(const std::vector<ISessionModel*>& models)
 {
   m_change_controller =
       std::make_unique<ProjectChangedController>(models, m_project_context.modified_callback);

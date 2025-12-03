@@ -51,7 +51,7 @@ public:
   class TestViewModel : public ViewModel
   {
   public:
-    explicit TestViewModel(SessionModel *model)
+    explicit TestViewModel(SessionModel* model)
     {
       auto controller =
           factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(model, this);
@@ -75,7 +75,7 @@ TEST_F(ViewModelTest, InitialState)
   EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
 
   const SessionItem item;
-  EXPECT_EQ(view_model.FindViews(&item), std::vector<const ViewItem *>());
+  EXPECT_EQ(view_model.FindViews(&item), std::vector<const ViewItem*>());
   EXPECT_EQ(view_model.GetIndexOfSessionItem(&item), QModelIndexList());
 }
 
@@ -102,10 +102,10 @@ TEST_F(ViewModelTest, FindViews)
 {
   TestViewModel view_model(&m_model);
   EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()),
-            std::vector<const ViewItem *>({view_model.rootItem()}));
+            std::vector<const ViewItem*>({view_model.rootItem()}));
 
   EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()->GetItem({"", 0})),
-            std::vector<const ViewItem *>(
+            std::vector<const ViewItem*>(
                 {view_model.rootItem()->GetChild(0, 0), view_model.rootItem()->GetChild(0, 1)}));
 }
 

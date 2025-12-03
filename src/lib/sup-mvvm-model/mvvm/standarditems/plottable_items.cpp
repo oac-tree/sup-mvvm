@@ -71,7 +71,7 @@ std::string TextItem::GetText() const
   return Property<std::string>(kText);
 }
 
-void TextItem::SetText(const std::string &value)
+void TextItem::SetText(const std::string& value)
 {
   (void)SetProperty(kText, value);
 }
@@ -81,7 +81,7 @@ std::string TextItem::GetFont() const
   return Property<std::string>(kFont);
 }
 
-void TextItem::SetFont(const std::string &value)
+void TextItem::SetFont(const std::string& value)
 {
   (void)SetProperty(kFont, value);
 }
@@ -108,7 +108,7 @@ PenItem::PenItem() : CompoundItem(GetTypeName<PenItem>())
       .SetToolTip("Pen color")
       .SetEditorType(constants::kColorEditorType);
   (void)AddProperty(kStyle, GetPenStyleCombo()).SetDisplayName("Style").SetToolTip("Pen style");
-  auto &width_property =
+  auto& width_property =
       AddProperty(kWidth, kPenDefaultWidth).SetDisplayName("Width").SetToolTip("Pen width");
   SetLimited(kPenMinWidth, kPenMaxWidth, width_property);
 }
@@ -135,7 +135,7 @@ std::string PenItem::GetNamedColor() const
   return Property<std::string>(kColor);
 }
 
-void PenItem::SetNamedColor(const std::string &named_color)
+void PenItem::SetNamedColor(const std::string& named_color)
 {
   (void)SetProperty(kColor, named_color);
 }
@@ -145,7 +145,7 @@ std::string PenItem::GetStyle() const
   return Property<ComboProperty>(kStyle).GetValue();
 }
 
-void PenItem::SetStyle(const std::string &style)
+void PenItem::SetStyle(const std::string& style)
 {
   auto combo = Property<ComboProperty>(kStyle);
   combo.SetValue(style);

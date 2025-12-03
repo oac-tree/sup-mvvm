@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-bool IsSupportedVariant(const variant_t &variant)
+bool IsSupportedVariant(const variant_t& variant)
 {
   static const std::vector<mvvm::TypeCode> kSupportedTypes{
       mvvm::TypeCode::Char8,  mvvm::TypeCode::Int8,   mvvm::TypeCode::UInt8,
@@ -36,8 +36,8 @@ bool IsSupportedVariant(const variant_t &variant)
          != kSupportedTypes.end();
 }
 
-void ValidateBounds(const variant_t &value, const variant_t &lower_bound,
-                    const variant_t &upper_bound)
+void ValidateBounds(const variant_t& value, const variant_t& lower_bound,
+                    const variant_t& upper_bound)
 {
   if (!IsSupportedVariant(value))
   {

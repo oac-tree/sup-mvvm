@@ -104,7 +104,7 @@ enum class NodeOperationState : std::uint8_t
   kNotFinished,        //!< started and waiting for next tick
   kRunning,            //!< started and running (child) asyncrhonisoulsy
   kSuccess,            //!< finished successfully
-  kFailure,             //!< finished unsuccessfully
+  kFailure,            //!< finished unsuccessfully
   kCollapsedChildren,  //!< node has children, and all children are collapsed (hidden)
   size                 //!< obligatory last element
 };

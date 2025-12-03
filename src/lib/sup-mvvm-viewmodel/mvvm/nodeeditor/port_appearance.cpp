@@ -23,13 +23,13 @@
 namespace mvvm
 {
 
-PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label)
+PortAppearance::PortAppearance(PortLocation port_location, const QString& port_label)
     : PortAppearance(port_location, port_label, NodePortStyle{})
 {
 }
 
-PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label,
-                               const NodePortStyle &port_style)
+PortAppearance::PortAppearance(PortLocation port_location, const QString& port_label,
+                               const NodePortStyle& port_style)
     : m_port_location(port_location), m_port_label(port_label), m_port_style(port_style)
 {
 }
@@ -54,18 +54,18 @@ double PortAppearance::GetPortRadius() const
   return GetPortStyle().radius;
 }
 
-const NodePortStyle &PortAppearance::GetPortStyle() const &
+const NodePortStyle& PortAppearance::GetPortStyle() const&
 {
   return m_port_style;
 }
 
-bool operator==(const PortAppearance &lhs, const PortAppearance &rhs)
+bool operator==(const PortAppearance& lhs, const PortAppearance& rhs)
 {
   return (lhs.GetPortLocation() == rhs.GetPortLocation())
          && (lhs.GetPortLabel() == rhs.GetPortLabel());
 }
 
-bool operator!=(const PortAppearance &lhs, const PortAppearance &rhs)
+bool operator!=(const PortAppearance& lhs, const PortAppearance& rhs)
 {
   return !(lhs == rhs);
 }

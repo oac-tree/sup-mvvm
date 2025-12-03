@@ -28,7 +28,7 @@
 namespace flatview
 {
 
-FlatWidget::FlatWidget(QWidget *parent) : QWidget(parent), m_flat_view(new mvvm::PropertyFlatView)
+FlatWidget::FlatWidget(QWidget* parent) : QWidget(parent), m_flat_view(new mvvm::PropertyFlatView)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -44,7 +44,7 @@ void FlatWidget::SetViewModel(std::unique_ptr<mvvm::ViewModel> view_model)
   m_flat_view->SetViewModel(m_view_model.get());
 }
 
-void FlatWidget::SetItem(mvvm::SessionItem *item)
+void FlatWidget::SetItem(mvvm::SessionItem* item)
 {
   m_view_model->SetRootSessionItem(item);
 }

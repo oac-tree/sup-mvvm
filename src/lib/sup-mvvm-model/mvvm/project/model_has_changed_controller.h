@@ -37,7 +37,7 @@ class ModelHasChangedController : public ModelListener
 {
 public:
   using callback_t = std::function<void()>;
-  explicit ModelHasChangedController(const ISessionModel *model, const callback_t& callback = {});
+  explicit ModelHasChangedController(const ISessionModel* model, const callback_t& callback = {});
 
   bool IsChanged() const;
 

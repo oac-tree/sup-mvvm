@@ -30,7 +30,7 @@ std::unique_ptr<ICommandStack> DefaultCommandProcessor::Clone()
   return std::make_unique<DefaultCommandProcessor>();
 }
 
-ICommand *DefaultCommandProcessor::Execute(std::unique_ptr<ICommand> command)
+ICommand* DefaultCommandProcessor::Execute(std::unique_ptr<ICommand> command)
 {
   m_last_command = std::move(command);
   m_last_command->Execute();
@@ -77,7 +77,7 @@ void DefaultCommandProcessor::SetUndoLimit([[maybe_unused]] std::size_t limit)
   // do nothing
 }
 
-void DefaultCommandProcessor::BeginMacro([[maybe_unused]] const std::string &name)
+void DefaultCommandProcessor::BeginMacro([[maybe_unused]] const std::string& name)
 {
   // do nothing
 }
@@ -87,12 +87,12 @@ void DefaultCommandProcessor::EndMacro()
   // do nothing
 }
 
-const ICommand *DefaultCommandProcessor::GetNextUndoCommand() const
+const ICommand* DefaultCommandProcessor::GetNextUndoCommand() const
 {
   return nullptr;
 }
 
-const ICommand *DefaultCommandProcessor::GetNextRedoCommand() const
+const ICommand* DefaultCommandProcessor::GetNextRedoCommand() const
 {
   return nullptr;
 }

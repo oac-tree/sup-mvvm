@@ -45,7 +45,8 @@ public:
   /**
    * @brief Initiazes a PortAppearance with the given location, label and style.
    */
-  PortAppearance(PortLocation port_location, const QString& port_label, const NodePortStyle& port_style);
+  PortAppearance(PortLocation port_location, const QString& port_label,
+                 const NodePortStyle& port_style);
 
   /**
    * @brief Returns location of the port.
@@ -70,7 +71,7 @@ public:
   /**
    * @brief Returns port style.
    */
-  const NodePortStyle& GetPortStyle() const &;
+  const NodePortStyle& GetPortStyle() const&;
 
 private:
   PortLocation m_port_location;

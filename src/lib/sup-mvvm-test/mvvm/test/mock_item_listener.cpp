@@ -28,7 +28,7 @@
 namespace mvvm::test
 {
 
-MockItemListener::MockItemListener(SessionItem *item) : mvvm::ItemListener(item)
+MockItemListener::MockItemListener(SessionItem* item) : mvvm::ItemListener(item)
 {
   Connect<mvvm::ItemInsertedEvent>(this, &MockItemListener::OnItemInsertedEvent);
   Connect<mvvm::AboutToRemoveItemEvent>(this, &MockItemListener::OnAboutToRemoveItemEvent);

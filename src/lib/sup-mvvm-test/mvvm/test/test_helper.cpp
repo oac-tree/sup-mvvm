@@ -36,12 +36,12 @@ const std::string footer{R"RAW(</root>
 namespace mvvm::test
 {
 
-std::string CreateXMLDocumentString(const std::string &body)
+std::string CreateXMLDocumentString(const std::string& body)
 {
   return header + body + footer;
 }
 
-std::string GetTextFileContent(const std::string &file_name)
+std::string GetTextFileContent(const std::string& file_name)
 {
   std::ifstream in(file_name);
   const std::stringstream sstr;
@@ -51,7 +51,7 @@ std::string GetTextFileContent(const std::string &file_name)
   return sstr.str();
 }
 
-void CreateTextFile(const std::string &file_name, const std::string &content)
+void CreateTextFile(const std::string& file_name, const std::string& content)
 {
   std::ofstream file_out(file_name);
   file_out.write(content.c_str(), content.size());

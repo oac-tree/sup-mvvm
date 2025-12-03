@@ -47,7 +47,7 @@ public:
   ~SessionModel() override;
 
   SessionModel& operator=(SessionModel&&) = delete;
-  SessionModel& operator=(const SessionModel&other) = delete;
+  SessionModel& operator=(const SessionModel& other) = delete;
 
   SessionModel(const SessionModel& other);
   SessionModel(SessionModel&& other) noexcept;

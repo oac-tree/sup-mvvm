@@ -32,7 +32,7 @@
 namespace mvvm
 {
 
-PropertyGridController::PropertyGridController(QAbstractItemModel *model, QObject *parent_object)
+PropertyGridController::PropertyGridController(QAbstractItemModel* model, QObject* parent_object)
     : QObject(parent_object), m_view_model(model)
 {
   if (m_view_model == nullptr)
@@ -55,7 +55,7 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
 
   for (int row = 0; row < m_view_model->rowCount(); ++row)
   {
-    auto &mapper = m_widget_mappers.at(static_cast<std::size_t>(row));
+    auto& mapper = m_widget_mappers.at(static_cast<std::size_t>(row));
 
     for (int col = 0; col < m_view_model->columnCount(); ++col)
     {
@@ -86,14 +86,14 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
 bool PropertyGridController::Submit()
 {
   bool is_success(true);
-  for (auto &mapper : m_widget_mappers)
+  for (auto& mapper : m_widget_mappers)
   {
     is_success |= mapper->submit();
   }
   return is_success;
 }
 
-std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex &index)
+std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex& index)
 {
   return IsLabel(index) ? CreateLabel(index) : CreateEditor(index);
 }
@@ -105,19 +105,19 @@ void PropertyGridController::ClearContent()
   m_widgets.clear();
 }
 
-bool PropertyGridController::IsLabel(const QModelIndex &index) const
+bool PropertyGridController::IsLabel(const QModelIndex& index) const
 {
   return !(m_view_model->flags(index) & Qt::ItemIsEditable);
 }
 
-std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex &index)
+std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex& index)
 {
   auto result = std::make_unique<QLabel>(m_view_model->data(index, Qt::DisplayRole).toString());
   result->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
   return result;
 }
 
-std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex &index)
+std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex& index)
 {
   if (index.row() < 0 || static_cast<std::size_t>(index.row()) >= m_delegates.size())
   {
@@ -154,12 +154,12 @@ void PropertyGridController::UpdateMappers()
   }
 }
 
-void PropertyGridController::SetupConnections(QAbstractItemModel *model)
+void PropertyGridController::SetupConnections(QAbstractItemModel* model)
 {
-  auto on_row_inserted = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
+  auto on_row_inserted = [this](const QModelIndex&, int, int) { OnLayoutChange(); };
   connect(model, &QAbstractItemModel::rowsInserted, on_row_inserted);
 
-  auto on_row_removed = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
+  auto on_row_removed = [this](const QModelIndex&, int, int) { OnLayoutChange(); };
   connect(model, &QAbstractItemModel::rowsRemoved, on_row_removed);
 
   connect(model, &QAbstractItemModel::modelReset, this, [this]() { OnLayoutChange(); });
@@ -168,7 +168,7 @@ void PropertyGridController::SetupConnections(QAbstractItemModel *model)
   // basically means change of item's enable status). FIXME listen for SessionItem->IsEnabled()
   // directly.
   auto on_data_change =
-      [this](const QModelIndex &index, const QModelIndex &, const QVector<int> &roles)
+      [this](const QModelIndex& index, const QModelIndex&, const QVector<int>& roles)
   {
     QVector<int> expected_roles = {Qt::ForegroundRole};
     if (roles == expected_roles)

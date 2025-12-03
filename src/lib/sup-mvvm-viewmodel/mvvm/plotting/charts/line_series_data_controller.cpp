@@ -31,7 +31,7 @@
 namespace mvvm
 {
 
-LineSeriesDataController::LineSeriesDataController(QLineSeries *line_series)
+LineSeriesDataController::LineSeriesDataController(QLineSeries* line_series)
     : m_qt_line_series(line_series)
 {
   if (line_series == nullptr)
@@ -44,7 +44,7 @@ LineSeriesDataController::LineSeriesDataController(QLineSeries *line_series)
 
 LineSeriesDataController::~LineSeriesDataController() = default;
 
-void LineSeriesDataController::SetItem(const LineSeriesDataItem *item)
+void LineSeriesDataController::SetItem(const LineSeriesDataItem* item)
 {
   if (m_data_item == item)
   {
@@ -68,7 +68,7 @@ void LineSeriesDataController::SetItem(const LineSeriesDataItem *item)
   Subscribe();
 }
 
-void LineSeriesDataController::OnModelEvent(const ItemInsertedEvent &event)
+void LineSeriesDataController::OnModelEvent(const ItemInsertedEvent& event)
 {
   auto [parent, tag_index] = event;
 
@@ -80,7 +80,7 @@ void LineSeriesDataController::OnModelEvent(const ItemInsertedEvent &event)
   }
 }
 
-void LineSeriesDataController::OnModelEvent(const AboutToRemoveItemEvent &event)
+void LineSeriesDataController::OnModelEvent(const AboutToRemoveItemEvent& event)
 {
   if (event.item == m_data_item)
   {
@@ -89,7 +89,7 @@ void LineSeriesDataController::OnModelEvent(const AboutToRemoveItemEvent &event)
   }
 }
 
-void LineSeriesDataController::OnModelEvent(const DataChangedEvent &event)
+void LineSeriesDataController::OnModelEvent(const DataChangedEvent& event)
 {
   // We are here becase the data of either x-item, or y-item was changed.
   // Expected hierarchy:
@@ -110,12 +110,12 @@ void LineSeriesDataController::OnModelEvent(const DataChangedEvent &event)
   }
 }
 
-const LineSeriesDataItem *LineSeriesDataController::GetDataItem() const
+const LineSeriesDataItem* LineSeriesDataController::GetDataItem() const
 {
   return m_data_item;
 }
 
-QLineSeries *LineSeriesDataController::GetQtLineSeries() const
+QLineSeries* LineSeriesDataController::GetQtLineSeries() const
 {
   return m_qt_line_series;
 }

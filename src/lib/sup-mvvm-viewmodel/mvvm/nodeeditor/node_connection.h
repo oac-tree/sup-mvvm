@@ -59,8 +59,8 @@ public:
   void SetNotifyShapeCallback(shape_callback_t callback) override;
 
 private:
-  void SetStartPortImpl(INodePort *port);
-  void SetEndPortImpl(INodePort *port);
+  void SetStartPortImpl(INodePort* port);
+  void SetEndPortImpl(INodePort* port);
 
   INodePort* m_start_port{nullptr};
   INodePort* m_end_port{nullptr};

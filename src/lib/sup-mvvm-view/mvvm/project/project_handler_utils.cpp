@@ -38,7 +38,7 @@ const std::string kAskForName = "";
 /**
  * @brief Creates an action to trigger "create new project" request.
  */
-std::unique_ptr<QAction> CreateNewProjectAction(IProjectManager &handler)
+std::unique_ptr<QAction> CreateNewProjectAction(IProjectManager& handler)
 {
   auto result = std::make_unique<QAction>("&New Project");
   result->setShortcuts(QKeySequence::New);
@@ -51,7 +51,7 @@ std::unique_ptr<QAction> CreateNewProjectAction(IProjectManager &handler)
 /**
  * @brief Creates an action to trigger "open existing project" request.
  */
-std::unique_ptr<QAction> CreateOpenExistingProjectAction(IProjectManager &handler)
+std::unique_ptr<QAction> CreateOpenExistingProjectAction(IProjectManager& handler)
 {
   auto result = std::make_unique<QAction>("&Open Project");
   result->setShortcuts(QKeySequence::Open);
@@ -64,7 +64,7 @@ std::unique_ptr<QAction> CreateOpenExistingProjectAction(IProjectManager &handle
 /**
  * @brief Creates an action to trigger "save current project" request.
  */
-std::unique_ptr<QAction> CreateSaveCurrentProjectAction(IProjectManager &handler)
+std::unique_ptr<QAction> CreateSaveCurrentProjectAction(IProjectManager& handler)
 {
   auto result = std::make_unique<QAction>("&Save Project");
   result->setShortcuts(QKeySequence::Save);
@@ -78,7 +78,7 @@ std::unique_ptr<QAction> CreateSaveCurrentProjectAction(IProjectManager &handler
 /**
  * @brief Creates an action to trigger "save project as" request.
  */
-std::unique_ptr<QAction> CreateSaveProjectAsAction(IProjectManager &handler)
+std::unique_ptr<QAction> CreateSaveProjectAsAction(IProjectManager& handler)
 {
   auto result = std::make_unique<QAction>("Save Project &As...");
   result->setShortcuts(QKeySequence::SaveAs);
@@ -91,7 +91,7 @@ std::unique_ptr<QAction> CreateSaveProjectAsAction(IProjectManager &handler)
 /**
  * @brief Adds action to the menu, transfer ownership.
  */
-void AddAction(QMenu *menu, std::unique_ptr<QAction> action)
+void AddAction(QMenu* menu, std::unique_ptr<QAction> action)
 {
   action->setParent(menu);  // transfer ownerhip
   menu->addAction(action.release());
@@ -99,33 +99,33 @@ void AddAction(QMenu *menu, std::unique_ptr<QAction> action)
 
 }  // namespace
 
-void AddNewProjectAction(QMenu *menu, IProjectManager &handler)
+void AddNewProjectAction(QMenu* menu, IProjectManager& handler)
 {
   AddAction(menu, CreateNewProjectAction(handler));
 }
 
-void AddOpenExistingProjectAction(QMenu *menu, IProjectManager &handler)
+void AddOpenExistingProjectAction(QMenu* menu, IProjectManager& handler)
 {
   AddAction(menu, CreateOpenExistingProjectAction(handler));
 }
 
-void AddSaveCurrentProjectAction(QMenu *menu, IProjectManager &handler)
+void AddSaveCurrentProjectAction(QMenu* menu, IProjectManager& handler)
 {
   AddAction(menu, CreateSaveCurrentProjectAction(handler));
 }
 
-void AddSaveProjectAsAction(QMenu *menu, IProjectManager &handler)
+void AddSaveProjectAsAction(QMenu* menu, IProjectManager& handler)
 {
   AddAction(menu, CreateSaveProjectAsAction(handler));
 }
 
-void AddRecentProjectActions(QMenu *menu, IProjectManager &handler)
+void AddRecentProjectActions(QMenu* menu, IProjectManager& handler)
 {
   auto recent_projects = handler.GetRecentProjectList();
   menu->clear();
   menu->setEnabled(!recent_projects.empty());
 
-  for (const auto &path : recent_projects)
+  for (const auto& path : recent_projects)
   {
     auto trimmed_path = utils::WithTildeHomePath(QString::fromStdString(path));
     auto action = menu->addAction(trimmed_path);

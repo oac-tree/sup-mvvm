@@ -41,10 +41,10 @@ class IRowStrategy
 {
 public:
   IRowStrategy() = default;
-  IRowStrategy(const IRowStrategy &) = delete;
-  IRowStrategy(IRowStrategy &&) = delete;
-  IRowStrategy &operator=(const IRowStrategy &) = delete;
-  IRowStrategy &operator=(IRowStrategy &&) = delete;
+  IRowStrategy(const IRowStrategy&) = delete;
+  IRowStrategy(IRowStrategy&&) = delete;
+  IRowStrategy& operator=(const IRowStrategy&) = delete;
+  IRowStrategy& operator=(IRowStrategy&&) = delete;
   virtual ~IRowStrategy() = default;
 
   /**

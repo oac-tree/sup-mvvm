@@ -57,7 +57,7 @@ DemoItem::DemoItem() : mvvm::CompoundItem("Item")
       .SetEditorType(mvvm::constants::kColorEditorType);
 }
 
-bool DemoItem::OnSetAvailableFlag(SessionItem *property, const mvvm::variant_t &variant,
+bool DemoItem::OnSetAvailableFlag(SessionItem* property, const mvvm::variant_t& variant,
                                   mvvm::role_t role)
 {
   mvvm::utils::BeginMacro(*this, "SetAvailableFlag");

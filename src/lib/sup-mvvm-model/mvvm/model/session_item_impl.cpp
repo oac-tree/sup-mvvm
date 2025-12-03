@@ -50,37 +50,37 @@ variant_t SessionItemImpl::Data(role_t role)
   return GetItemData()->Data(role);
 }
 
-bool SessionItemImpl::SetData(const variant_t &value, role_t role)
+bool SessionItemImpl::SetData(const variant_t& value, role_t role)
 {
   return GetItemData()->SetData(value, role);
 }
 
-SessionItemData *SessionItemImpl::GetItemData()
+SessionItemData* SessionItemImpl::GetItemData()
 {
   return m_item_data.get();
 }
 
-TaggedItems *SessionItemImpl::GetTaggedItems()
+TaggedItems* SessionItemImpl::GetTaggedItems()
 {
   return m_tagged_items.get();
 }
 
-SessionItem *SessionItemImpl::GetParent()
+SessionItem* SessionItemImpl::GetParent()
 {
   return m_parent;
 }
 
-void SessionItemImpl::SetParent(SessionItem *parent)
+void SessionItemImpl::SetParent(SessionItem* parent)
 {
   m_parent = parent;
 }
 
-ISessionModel *SessionItemImpl::GetModel()
+ISessionModel* SessionItemImpl::GetModel()
 {
   return m_model;
 }
 
-void SessionItemImpl::SetModel(ISessionModel *model, SessionItem *my_owner)
+void SessionItemImpl::SetModel(ISessionModel* model, SessionItem* my_owner)
 {
   if (m_model != nullptr)
   {
@@ -102,7 +102,7 @@ void SessionItemImpl::SetModel(ISessionModel *model, SessionItem *my_owner)
   }
 }
 
-Slot *SessionItemImpl::GetSlot()
+Slot* SessionItemImpl::GetSlot()
 {
   if (!m_slot)
   {

@@ -31,13 +31,13 @@
 namespace mvvm
 {
 
-TreeDataFromItemContainer::TreeDataFromItemContainer(const SessionItemContainer &container,
-                                                     const item_filter_t &item_filter)
+TreeDataFromItemContainer::TreeDataFromItemContainer(const SessionItemContainer& container,
+                                                     const item_filter_t& item_filter)
     : TreeDataComposerComponent(constants::kItemContainerElementType)
 {
   AddChild(TreeDataTagInfoConverter::ToTreeData(container.GetTagInfo()));
 
-  for (const auto &item : container)
+  for (const auto& item : container)
   {
     if (item_filter && !item_filter(*item))
     {
@@ -48,20 +48,20 @@ TreeDataFromItemContainer::TreeDataFromItemContainer(const SessionItemContainer 
   }
 }
 
-TreeDataFromTaggedItems::TreeDataFromTaggedItems(const TaggedItems &tagged_items,
-                                                 const item_filter_t &item_filter)
+TreeDataFromTaggedItems::TreeDataFromTaggedItems(const TaggedItems& tagged_items,
+                                                 const item_filter_t& item_filter)
     : TreeDataComposerComponent(constants::kTaggedItemsElementType)
 {
   AddAttribute(constants::kDefaultTagKey, tagged_items.GetDefaultTag());
 
-  for (auto &container : tagged_items)
+  for (auto& container : tagged_items)
   {
     AddNextComponent(std::make_unique<TreeDataFromItemContainer>(*container, item_filter));
   }
 }
 
-TreeDataFromSessionItem::TreeDataFromSessionItem(const SessionItem &item,
-                                                 const item_filter_t &item_filter)
+TreeDataFromSessionItem::TreeDataFromSessionItem(const SessionItem& item,
+                                                 const item_filter_t& item_filter)
     : TreeDataComposerComponent(constants::kItemElementType)
 {
   AddAttribute(constants::kTypeAttributeKey, item.GetType());

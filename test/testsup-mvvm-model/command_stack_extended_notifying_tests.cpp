@@ -29,9 +29,9 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/test/mock_model_listener.h>
+#include <mvvm/test/test_container_helper.h>
 
 #include <gtest/gtest.h>
-#include <mvvm/test/test_container_helper.h>
 
 namespace mvvm::test
 {

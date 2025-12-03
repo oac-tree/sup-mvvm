@@ -46,8 +46,8 @@ std::map<QMessageBox::StandardButton, SaveChangesAnswer> CreateMapOfAnswers()
 
 }  // namespace
 
-AbstractProjectUserInteractor::AbstractProjectUserInteractor(const QString &application_type,
-                                                             QWidget *parent)
+AbstractProjectUserInteractor::AbstractProjectUserInteractor(const QString& application_type,
+                                                             QWidget* parent)
     : m_application_type(application_type), m_parent(parent)
 {
 }
@@ -57,7 +57,7 @@ std::string AbstractProjectUserInteractor::GetCurrentWorkdir() const
   return m_current_workdir;
 }
 
-void AbstractProjectUserInteractor::SetCurrentWorkdir(const std::string &path)
+void AbstractProjectUserInteractor::SetCurrentWorkdir(const std::string& path)
 {
   m_current_workdir = path;
 }
@@ -89,7 +89,7 @@ SaveChangesAnswer AbstractProjectUserInteractor::OnSaveCurrentChangesRequest() c
   return translate_map[ret];
 }
 
-void AbstractProjectUserInteractor::SendMessage(const std::string &message) const
+void AbstractProjectUserInteractor::SendMessage(const std::string& message) const
 {
   QMessageBox msg_box;
   msg_box.setWindowTitle("Can't open the file");
@@ -115,12 +115,12 @@ UserInteractionContext AbstractProjectUserInteractor::CreateContext()
   result.existing_path_callback = [this]() { return GetExistingProjectPath(); };
   result.new_path_callback = [this]() { return GetNewProjectPath(); };
   result.answer_callback = [this]() { return OnSaveCurrentChangesRequest(); };
-  result.message_callback = [this](const std::string &text) { SendMessage(text); };
+  result.message_callback = [this](const std::string& text) { SendMessage(text); };
 
   return result;
 }
 
-void AbstractProjectUserInteractor::UpdateCurrentWorkdir(const std::string &path)
+void AbstractProjectUserInteractor::UpdateCurrentWorkdir(const std::string& path)
 {
   if (!path.empty())
   {
@@ -134,7 +134,7 @@ QString AbstractProjectUserInteractor::GetApplicationType() const
   return m_application_type;
 }
 
-QWidget *AbstractProjectUserInteractor::GetParent() const
+QWidget* AbstractProjectUserInteractor::GetParent() const
 {
   return m_parent;
 }

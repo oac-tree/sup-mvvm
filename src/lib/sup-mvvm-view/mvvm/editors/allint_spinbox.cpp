@@ -29,7 +29,7 @@
 
 namespace
 {
-bool has_digits_only(const std::string &str)
+bool has_digits_only(const std::string& str)
 {
   return str.find_first_not_of("0123456789+-") == std::string::npos;
 }
@@ -38,7 +38,7 @@ bool has_digits_only(const std::string &str)
 namespace mvvm
 {
 
-AllIntSpinBox::AllIntSpinBox(QWidget *parent) : QAbstractSpinBox(parent)
+AllIntSpinBox::AllIntSpinBox(QWidget* parent) : QAbstractSpinBox(parent)
 {
   connect(this, &QAbstractSpinBox::editingFinished, this, &AllIntSpinBox::OnEditingFinished);
 }
@@ -61,7 +61,7 @@ QVariant AllIntSpinBox::value() const
   return GetQtVariant(m_value->GetValueAsVariant());
 }
 
-QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
+QValidator::State AllIntSpinBox::validate(QString& input, int& pos) const
 {
   (void)pos;
 
@@ -88,7 +88,7 @@ QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
   return QValidator::Acceptable;
 }
 
-void AllIntSpinBox::fixup(QString &input) const
+void AllIntSpinBox::fixup(QString& input) const
 {
   (void)input;
 }
@@ -121,7 +121,7 @@ void AllIntSpinBox::CheckNotify()
   }
 }
 
-ILimitedInteger *AllIntSpinBox::GetLimitedInteger()
+ILimitedInteger* AllIntSpinBox::GetLimitedInteger()
 {
   return m_value.get();
 }
@@ -147,7 +147,7 @@ QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const
   return step_enabled;
 }
 
-void AllIntSpinBox::setValue(const QVariant &value)
+void AllIntSpinBox::setValue(const QVariant& value)
 {
   if (!m_value)
   {

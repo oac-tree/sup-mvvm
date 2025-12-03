@@ -57,7 +57,7 @@ public:
   virtual ~SessionItem();
 
   SessionItem& operator=(SessionItem&&) = delete;
-  SessionItem& operator=(const SessionItem&other) = delete;
+  SessionItem& operator=(const SessionItem& other) = delete;
 
   SessionItem(const SessionItem& other);
   SessionItem(SessionItem&& other) noexcept;

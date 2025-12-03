@@ -23,10 +23,10 @@
 #include "data1d_plot_controller.h"
 #include "pen_controller.h"
 
+#include <mvvm/model/item_constants.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/plottable_items.h>
-#include <mvvm/model/item_constants.h>
 
 #include <qcustomplot.h>
 

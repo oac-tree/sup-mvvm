@@ -28,13 +28,13 @@
 namespace mvvm
 {
 
-FileBasedProject::FileBasedProject(const std::vector<ISessionModel *> &models,
-                                   const ProjectContext &context)
+FileBasedProject::FileBasedProject(const std::vector<ISessionModel*>& models,
+                                   const ProjectContext& context)
     : ExternalModelProject(ProjectType::kFileBased, models, context)
 {
 }
 
-bool FileBasedProject::SaveImpl(const std::string &path)
+bool FileBasedProject::SaveImpl(const std::string& path)
 {
   auto document = CreateXmlDocument(GetModels(), GetApplicationType());
   document->Save(path);
@@ -42,7 +42,7 @@ bool FileBasedProject::SaveImpl(const std::string &path)
   return true;
 }
 
-bool FileBasedProject::LoadImpl(const std::string &path)
+bool FileBasedProject::LoadImpl(const std::string& path)
 {
   auto document = CreateXmlDocument(GetModels(), GetApplicationType());
   document->Load(path);

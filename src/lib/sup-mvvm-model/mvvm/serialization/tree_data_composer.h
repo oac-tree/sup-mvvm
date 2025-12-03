@@ -39,7 +39,7 @@ class TreeDataComposer
 public:
   explicit TreeDataComposer(item_filter_t item_filter);
 
-  std::unique_ptr<tree_data_t> CreateTreeData(const SessionItem &item) const;
+  std::unique_ptr<tree_data_t> CreateTreeData(const SessionItem& item) const;
 
 private:
   item_filter_t m_item_filter;

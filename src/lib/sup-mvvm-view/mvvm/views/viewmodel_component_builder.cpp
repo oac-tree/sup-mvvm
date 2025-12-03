@@ -63,12 +63,12 @@ std::unique_ptr<ViewModelDelegate> ViewModelDelegateBuilder::Build()
 // ------------------------------------------------------------------------------------------------
 ItemViewComponentProviderBuilder::~ItemViewComponentProviderBuilder() = default;
 
-ViewModelDelegateBuilder &ItemViewComponentProviderBuilder::Delegate()
+ViewModelDelegateBuilder& ItemViewComponentProviderBuilder::Delegate()
 {
   return m_viewmodel_delegate_builder;
 }
 
-ItemViewComponentProviderBuilder &ItemViewComponentProviderBuilder::View(QAbstractItemView *view)
+ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::View(QAbstractItemView* view)
 {
   m_view = view;
   return *this;

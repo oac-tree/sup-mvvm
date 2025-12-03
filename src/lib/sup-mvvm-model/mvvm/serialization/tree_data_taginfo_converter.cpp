@@ -46,17 +46,17 @@ std::vector<std::string> GetExpectedAttributeKeys()
   return result;
 }
 
-bool IsValidAttributes(const std::vector<std::string> &attributes,
-                       const std::vector<std::string> &possible_values)
+bool IsValidAttributes(const std::vector<std::string>& attributes,
+                       const std::vector<std::string>& possible_values)
 {
-  auto predicate = [&possible_values](const auto &element)
+  auto predicate = [&possible_values](const auto& element)
   { return mvvm::utils::Contains(possible_values, element); };
   return std::all_of(attributes.begin(), attributes.end(), predicate);
 }
 
 }  // namespace
 
-bool IsTagInfoConvertible(const tree_data_t &tree_data)
+bool IsTagInfoConvertible(const tree_data_t& tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
   return tree_data.GetNodeName() == constants::kTagInfoElementType
@@ -64,7 +64,7 @@ bool IsTagInfoConvertible(const tree_data_t &tree_data)
          && tree_data.GetNumberOfChildren() == 0;
 }
 
-TagInfo ToTagInfo(const tree_data_t &tree_data)
+TagInfo ToTagInfo(const tree_data_t& tree_data)
 {
   if (!IsTagInfoConvertible(tree_data))
   {
@@ -88,7 +88,7 @@ TagInfo ToTagInfo(const tree_data_t &tree_data)
   return {name, min, max, model_types};
 }
 
-tree_data_t ToTreeData(const TagInfo &tag_info)
+tree_data_t ToTreeData(const TagInfo& tag_info)
 {
   tree_data_t result(constants::kTagInfoElementType);
   if (tag_info.HasMin())

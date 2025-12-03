@@ -49,7 +49,7 @@ public:
   }
 };
 
-BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsert)(benchmark::State &state)
+BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsert)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
 
@@ -62,7 +62,7 @@ BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsert)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(AllItemsViewModelBenchmark, SetDataWithViewModel)(benchmark::State &state)
+BENCHMARK_F(AllItemsViewModelBenchmark, SetDataWithViewModel)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   mvvm::AllItemsViewModel viewmodel(&model);
@@ -76,7 +76,7 @@ BENCHMARK_F(AllItemsViewModelBenchmark, SetDataWithViewModel)(benchmark::State &
 }
 
 BENCHMARK_F(AllItemsViewModelBenchmark,
-            SetDataWithViewModelWhenUndoEnabled)(benchmark::State &state)
+            SetDataWithViewModelWhenUndoEnabled)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   model.SetUndoEnabled(true, 10000);
@@ -90,7 +90,7 @@ BENCHMARK_F(AllItemsViewModelBenchmark,
   }
 }
 
-BENCHMARK_F(AllItemsViewModelBenchmark, SetDataWithViewModelUndoRedo)(benchmark::State &state)
+BENCHMARK_F(AllItemsViewModelBenchmark, SetDataWithViewModelUndoRedo)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   model.SetUndoEnabled(true, 10000);
@@ -114,7 +114,7 @@ BENCHMARK_F(AllItemsViewModelBenchmark, SetDataWithViewModelUndoRedo)(benchmark:
   }
 }
 
-BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsertWithViewModel)(benchmark::State &state)
+BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsertWithViewModel)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   mvvm::AllItemsViewModel viewmodel(&model);

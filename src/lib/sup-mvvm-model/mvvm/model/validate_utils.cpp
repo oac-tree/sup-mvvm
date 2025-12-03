@@ -42,7 +42,7 @@ namespace
 /**
  * @brief Checks if given item can be considered for move to another place.
  */
-bool IsValidChildForMove(const SessionItem *item)
+bool IsValidChildForMove(const SessionItem* item)
 {
   return (item != nullptr) && (item->GetModel() != nullptr) && (item->GetParent() != nullptr);
 }
@@ -50,14 +50,14 @@ bool IsValidChildForMove(const SessionItem *item)
 /**
  * @brief Checks if given item can be considered for move to another place.
  */
-bool IsValidParentToMoveIn(const SessionItem *item)
+bool IsValidParentToMoveIn(const SessionItem* item)
 {
   return (item != nullptr) && (item->GetModel() != nullptr);
 }
 
 }  // namespace
 
-TagIndex GetInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
+TagIndex GetInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index)
 {
   if (parent == nullptr)
   {
@@ -66,8 +66,8 @@ TagIndex GetInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
   return parent->GetTaggedItems()->GetInsertTagIndex(tag_index);
 }
 
-std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const SessionItem *parent,
-                                           const TagIndex &tag_index)
+std::pair<bool, std::string> CanInsertItem(const SessionItem* item, const SessionItem* parent,
+                                           const TagIndex& tag_index)
 {
   if (item == nullptr)
   {
@@ -102,8 +102,8 @@ std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const Sessio
   return {kSuccess, ""};
 }
 
-void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
-                        const TagIndex &tag_index)
+void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
+                        const TagIndex& tag_index)
 {
   if (auto [flag, reason] = CanInsertItem(item, parent, tag_index); !flag)
   {
@@ -111,8 +111,8 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
   }
 }
 
-std::pair<bool, std::string> CanInsertType(const std::string &item_type, const SessionItem *parent,
-                                           const TagIndex &tag_index)
+std::pair<bool, std::string> CanInsertType(const std::string& item_type, const SessionItem* parent,
+                                           const TagIndex& tag_index)
 {
   if (parent == nullptr)
   {
@@ -127,8 +127,8 @@ std::pair<bool, std::string> CanInsertType(const std::string &item_type, const S
   return {kSuccess, ""};
 }
 
-void ValidateItemTypeInsert(const std::string &item_type, const SessionItem *parent,
-                            const TagIndex &tag_index)
+void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* parent,
+                            const TagIndex& tag_index)
 {
   if (auto [flag, reason] = CanInsertType(item_type, parent, tag_index); !flag)
   {
@@ -136,8 +136,8 @@ void ValidateItemTypeInsert(const std::string &item_type, const SessionItem *par
   }
 }
 
-std::pair<bool, std::string> CanMoveItem(const SessionItem *item, const SessionItem *new_parent,
-                                         const TagIndex &tag_index)
+std::pair<bool, std::string> CanMoveItem(const SessionItem* item, const SessionItem* new_parent,
+                                         const TagIndex& tag_index)
 {
   if (!IsValidChildForMove(item))
   {
@@ -179,8 +179,8 @@ std::pair<bool, std::string> CanMoveItem(const SessionItem *item, const SessionI
   return {kSuccess, ""};
 }
 
-void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
-                      const TagIndex &tag_index)
+void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
+                      const TagIndex& tag_index)
 {
   if (auto [flag, reason] = CanMoveItem(item, new_parent, tag_index); !flag)
   {
@@ -188,7 +188,7 @@ void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
   }
 }
 
-std::pair<bool, std::string> CanTakeItem(const SessionItem *parent, const TagIndex &tag_index)
+std::pair<bool, std::string> CanTakeItem(const SessionItem* parent, const TagIndex& tag_index)
 {
   if (parent == nullptr)
   {
@@ -203,7 +203,7 @@ std::pair<bool, std::string> CanTakeItem(const SessionItem *parent, const TagInd
   return {kSuccess, ""};
 }
 
-void ValidateTakeItem(const SessionItem *parent, const TagIndex &tag_index)
+void ValidateTakeItem(const SessionItem* parent, const TagIndex& tag_index)
 {
   if (auto [flag, reason] = CanTakeItem(parent, tag_index); !flag)
   {

@@ -39,12 +39,12 @@ public:
   class TestController : public AbstractViewModelController
   {
   public:
-    const SessionItem *GetRootItem() const override { return nullptr; }
-    void SetRootItemImpl(SessionItem *root_item) override { (void)root_item; };
+    const SessionItem* GetRootItem() const override { return nullptr; }
+    void SetRootItemImpl(SessionItem* root_item) override { (void)root_item; };
   };
 };
 
-BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetData)(benchmark::State &state)
+BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetData)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -59,7 +59,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetData)(benchmark::State &sta
   }
 }
 
-BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetSameData)(benchmark::State &state)
+BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetSameData)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -74,7 +74,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetSameData)(benchmark::State 
   }
 }
 
-BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State &state)
+BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
@@ -92,7 +92,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State &
   }
 }
 
-BENCHMARK_F(AbstractViewmodelControllerBenchmark, TakeItem)(benchmark::State &state)
+BENCHMARK_F(AbstractViewmodelControllerBenchmark, TakeItem)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
@@ -110,7 +110,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, TakeItem)(benchmark::State &st
   }
 }
 
-BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertAndTake)(benchmark::State &state)
+BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertAndTake)(benchmark::State& state)
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();

@@ -31,7 +31,7 @@
 namespace saveloadproject
 {
 
-MainWindowActions::MainWindowActions(mvvm::IProject *project, QMainWindow *main_window)
+MainWindowActions::MainWindowActions(mvvm::IProject* project, QMainWindow* main_window)
     : QObject(main_window)
     , m_exit_action(new QAction("E&xit Application", this))
     , m_recent_project_menu(new QMenu())
@@ -55,14 +55,14 @@ std::vector<std::string> MainWindowActions::GetRecentProjectList() const
   return m_project_handler->GetRecentProjectList();
 }
 
-void MainWindowActions::OpenExistingProject(const QString &path)
+void MainWindowActions::OpenExistingProject(const QString& path)
 {
   m_project_handler->OpenExistingProject(path.toStdString());
 }
 
 MainWindowActions::~MainWindowActions() = default;
 
-void MainWindowActions::SetupMenu(QMainWindow *main_window)
+void MainWindowActions::SetupMenu(QMainWindow* main_window)
 {
   auto file_menu = main_window->menuBar()->addMenu("&File");
 

@@ -134,7 +134,6 @@ double ScaleToSystem(double device_independent_pixels);
  */
 void ScaleLabelFont(QLabel& label, double scale, bool is_bold = false);
 
-
 /**
  * @brief Generates a color that contrasts well with the given color.
  *

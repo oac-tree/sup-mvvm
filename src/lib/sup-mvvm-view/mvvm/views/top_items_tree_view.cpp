@@ -28,13 +28,13 @@
 
 namespace mvvm
 {
-TopItemsTreeView::TopItemsTreeView(ISessionModel *model, QWidget *parent_widget)
+TopItemsTreeView::TopItemsTreeView(ISessionModel* model, QWidget* parent_widget)
     : AbstractItemView(parent_widget), m_tree_view(new QTreeView)
 {
   SetComponentProvider(CreateProvider().ViewModel<TopItemsViewModel>(model).View(m_tree_view));
 }
 
-QTreeView *TopItemsTreeView::GetTreeView() const
+QTreeView* TopItemsTreeView::GetTreeView() const
 {
   return m_tree_view;
 }

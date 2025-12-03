@@ -35,7 +35,7 @@ namespace mvvm
 struct CommandStack::CommandStackImpl
 {
   std::list<std::unique_ptr<ICommand>> m_commands;
-  std::stack<MacroCommand *> m_macro_stack;
+  std::stack<MacroCommand*> m_macro_stack;
 
   //!< Position in the command list. This command will be redone on the next call to Redo().
   std::list<std::unique_ptr<ICommand>>::const_iterator m_pos;
@@ -146,7 +146,7 @@ std::unique_ptr<ICommandStack> CommandStack::Clone()
   return result;
 }
 
-ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
+ICommand* CommandStack::Execute(std::unique_ptr<ICommand> command)
 {
   if (command->IsObsolete())
   {
@@ -226,7 +226,7 @@ void CommandStack::SetUndoLimit(std::size_t limit)
   p_impl->AssureCommandLimit();
 }
 
-void CommandStack::BeginMacro(const std::string &name)
+void CommandStack::BeginMacro(const std::string& name)
 {
   if (p_impl->IsOperationInProgress())
   {
@@ -272,22 +272,22 @@ bool CommandStack::IsMacroMode() const
   return !p_impl->m_macro_stack.empty();
 }
 
-std::vector<const ICommand *> CommandStack::GetCommands() const
+std::vector<const ICommand*> CommandStack::GetCommands() const
 {
-  std::vector<const ICommand *> result;
+  std::vector<const ICommand*> result;
 
   (void)std::transform(p_impl->m_commands.begin(), p_impl->m_commands.end(),
-                       std::back_inserter(result), [](auto &iter) { return iter.get(); });
+                       std::back_inserter(result), [](auto& iter) { return iter.get(); });
 
   return result;
 }
 
-const ICommand *CommandStack::GetNextUndoCommand() const
+const ICommand* CommandStack::GetNextUndoCommand() const
 {
   return CanUndo() ? std::prev(p_impl->m_pos)->get() : nullptr;
 }
 
-const ICommand *CommandStack::GetNextRedoCommand() const
+const ICommand* CommandStack::GetNextRedoCommand() const
 {
   return CanRedo() ? p_impl->m_pos->get() : nullptr;
 }

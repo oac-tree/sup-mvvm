@@ -62,7 +62,8 @@ std::size_t IndexOfItem(It begin, It end, const T& item)
     pos = find(begin, end, item);
   }
 
-  return pos == end ? constants::kInvalidIndex : static_cast<std::size_t>(std::distance(begin, pos));
+  return pos == end ? constants::kInvalidIndex
+                    : static_cast<std::size_t>(std::distance(begin, pos));
 }
 
 /**

@@ -67,8 +67,9 @@ int32_t SystemReferenceUnitSize()
 
 std::int32_t SystemPointSize(double scale)
 {
-  const std::int32_t current_psize =
-      (QApplication::instance() != nullptr) ? QApplication::font().pointSize() : SystemReferencePointSize();
+  const std::int32_t current_psize = (QApplication::instance() != nullptr)
+                                         ? QApplication::font().pointSize()
+                                         : SystemReferencePointSize();
   return static_cast<std::int32_t>(static_cast<double>(current_psize) * scale);
 }
 

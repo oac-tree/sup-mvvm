@@ -45,7 +45,7 @@ namespace
  *
  * It will provide dialogs to open existing projects, or create new.
  */
-std::unique_ptr<AbstractProjectUserInteractor> CreateUserInteractor(IProject *project)
+std::unique_ptr<AbstractProjectUserInteractor> CreateUserInteractor(IProject* project)
 {
   auto application_type = QString::fromStdString(project->GetApplicationType());
 
@@ -64,7 +64,7 @@ std::unique_ptr<AbstractProjectUserInteractor> CreateUserInteractor(IProject *pr
 
 }  // namespace
 
-ProjectHandler::ProjectHandler(IProject *project)
+ProjectHandler::ProjectHandler(IProject* project)
     : m_user_interactor(CreateUserInteractor(project))
     , m_recent_projects(std::make_unique<RecentProjectSettings>())
     , m_project_manager(CreateProjectManager(*project, m_user_interactor->CreateContext()))
@@ -79,7 +79,7 @@ ProjectHandler::~ProjectHandler()
       QString::fromStdString(m_user_interactor->GetCurrentWorkdir()));
 }
 
-bool ProjectHandler::CreateNewProject(const std::string &path)
+bool ProjectHandler::CreateNewProject(const std::string& path)
 {
   return m_project_manager->CreateNewProject(path);
 }
@@ -94,17 +94,17 @@ bool ProjectHandler::SaveCurrentProject()
   return m_project_manager->SaveCurrentProject();
 }
 
-bool ProjectHandler::SaveProjectAs(const std::string &path)
+bool ProjectHandler::SaveProjectAs(const std::string& path)
 {
   return m_project_manager->SaveProjectAs(path);
 }
 
-bool ProjectHandler::OpenExistingProject(const std::string &path)
+bool ProjectHandler::OpenExistingProject(const std::string& path)
 {
   return m_project_manager->OpenExistingProject(path);
 }
 
-IProject *ProjectHandler::GetProject() const
+IProject* ProjectHandler::GetProject() const
 {
   return m_project_manager->GetProject();
 }

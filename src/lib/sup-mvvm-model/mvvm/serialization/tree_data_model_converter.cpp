@@ -35,7 +35,7 @@
 namespace
 {
 
-std::unique_ptr<mvvm::ITreeDataItemConverter> CreateConverter(const mvvm::IItemFactory *factory)
+std::unique_ptr<mvvm::ITreeDataItemConverter> CreateConverter(const mvvm::IItemFactory* factory)
 {
   return std::make_unique<mvvm::TreeDataItemConverter>(factory, mvvm::ConverterMode::kClone);
 }
@@ -45,7 +45,7 @@ std::unique_ptr<mvvm::ITreeDataItemConverter> CreateConverter(const mvvm::IItemF
 namespace mvvm
 {
 
-std::unique_ptr<tree_data_t> TreeDataModelConverter::ToTreeData(const ISessionModel &model) const
+std::unique_ptr<tree_data_t> TreeDataModelConverter::ToTreeData(const ISessionModel& model) const
 {
   auto item_converter = CreateConverter(&GetGlobalItemFactory());
 
@@ -61,8 +61,8 @@ std::unique_ptr<tree_data_t> TreeDataModelConverter::ToTreeData(const ISessionMo
   return result;
 }
 
-void TreeDataModelConverter::PopulateSessionModel(const tree_data_t &tree_data,
-                                                  ISessionModel &model) const
+void TreeDataModelConverter::PopulateSessionModel(const tree_data_t& tree_data,
+                                                  ISessionModel& model) const
 {
   if (!IsSessionModelConvertible(tree_data))
   {
@@ -78,7 +78,7 @@ void TreeDataModelConverter::PopulateSessionModel(const tree_data_t &tree_data,
   auto item_converter = CreateConverter(&GetGlobalItemFactory());
 
   auto root_item = utils::CreateEmptyRootItem();
-  for (const auto &tree_child : tree_data.Children())
+  for (const auto& tree_child : tree_data.Children())
   {
     (void)root_item->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
   }

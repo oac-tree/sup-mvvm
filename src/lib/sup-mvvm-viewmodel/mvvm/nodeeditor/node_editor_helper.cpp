@@ -94,7 +94,7 @@ SessionItem* GetConnectableChild(const INodePort* port1, const INodePort* port2)
   }
 
   return (port1->GetPortDirection() == PortDirection::kOutput) ? port1->GetPortInfo().GetOrigin()
-                                                             : port2->GetPortInfo().GetOrigin();
+                                                               : port2->GetPortInfo().GetOrigin();
 }
 
 SessionItem* GetConnectableParent(const INodePort* port1, const INodePort* port2)
@@ -115,7 +115,7 @@ SessionItem* GetConnectableParent(const INodePort* port1, const INodePort* port2
   }
 
   return (port1->GetPortDirection() == PortDirection::kInput) ? port1->GetPortInfo().GetOrigin()
-                                                            : port2->GetPortInfo().GetOrigin();
+                                                              : port2->GetPortInfo().GetOrigin();
 }
 
 bool ConnectPorts(const INodePort* port1, const INodePort* port2)

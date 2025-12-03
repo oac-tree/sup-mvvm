@@ -35,7 +35,7 @@ QStringList AbstractRowStrategy::GetHorizontalHeaderLabels() const
   return {};
 }
 
-std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::ConstructRow(SessionItem *item)
+std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::ConstructRow(SessionItem* item)
 {
   if (item == nullptr)
   {
@@ -66,7 +66,7 @@ std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::ConstructRow(Session
 }
 
 std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::CreatePlaceholderRow(
-    SessionItem *item) const
+    SessionItem* item) const
 {
   std::vector<std::unique_ptr<mvvm::ViewItem>> result;
 
