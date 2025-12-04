@@ -87,6 +87,8 @@ QAbstractAxis* ChartViewportController::GetYQtAxis() const
 QLineSeries* ChartViewportController::SetupChartForLineSeries(LineSeriesItem* item)
 {
   auto qt_line_series = new QLineSeries;
+  qt_line_series->setMarkerSize(2.5);
+  qt_line_series->setPointsVisible(true);
   m_chart->addSeries(qt_line_series);  // ownership is taken by Qt
 
   auto controller = std::make_unique<LineSeriesController>(qt_line_series);

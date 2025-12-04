@@ -13,6 +13,7 @@ target_sources(${test} PRIVATE
     connectable_view_model_controller_tests.cpp
     custom_viewmodel_tests.cpp
     graphics_scene_helper_tests.cpp
+    line_series_mouse_listener_tests.cpp
     main.cpp
     node_connection_guide_impl_tests.cpp
     node_connection_guide_tests.cpp
