@@ -100,7 +100,7 @@ void ChartView::mousePressEvent(QMouseEvent* event)
 {
   if (m_operation_mode == CanvasOperationMode::kPan)
   {
-    // user pressed and holding the mouse while in "pan" mode, preparing to scroll canvas
+    // user pressed and holding the mouse key while in "pan" mode, preparing to scroll canvas
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_last_pos = event->localPos();
@@ -108,6 +108,10 @@ void ChartView::mousePressEvent(QMouseEvent* event)
     m_last_pos = event->position();
 #endif
     m_current_activity = kScrollCanvas;
+  }
+  else
+  {
+    m_current_activity = kMovePoint;
   }
   QChartView::mousePressEvent(event);
 }
@@ -126,6 +130,11 @@ void ChartView::mouseMoveEvent(QMouseEvent* event)
     const double dy = event->pos().y() - m_last_pos.y();
     chart()->scroll(dx, dy);
     m_last_pos = event_pos;
+  }
+
+  if (m_current_activity == kMovePoint)
+  {
+    emit MovePointRequested(chart()->mapToValue(event_pos.toPoint()));
   }
 
   QChartView::mouseMoveEvent(event);

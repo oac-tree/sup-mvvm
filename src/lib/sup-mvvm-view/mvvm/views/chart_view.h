@@ -44,6 +44,7 @@ public:
 
 signals:
   void OperationModeChanged(int mode);
+  void MovePointRequested(const QPointF& position);
 
 protected:
   void keyPressEvent(QKeyEvent* event) override;
@@ -61,6 +62,7 @@ private:
   {
     kIdle,          //!< no special activity
     kScrollCanvas,  //!< moving mouse in kPan mode, while holding mouse button pressed
+    kMovePoint,     //!< moving a point of a graph
     kActivityCount
   };
 

@@ -68,7 +68,7 @@ void LineSeriesDataController::SetItem(const LineSeriesDataItem* item)
   Subscribe();
 }
 
-void LineSeriesDataController::OnModelEvent(const ItemInsertedEvent& event)
+void LineSeriesDataController::OnItemInsertedEvent(const ItemInsertedEvent& event)
 {
   auto [parent, tag_index] = event;
 
@@ -80,16 +80,16 @@ void LineSeriesDataController::OnModelEvent(const ItemInsertedEvent& event)
   }
 }
 
-void LineSeriesDataController::OnModelEvent(const AboutToRemoveItemEvent& event)
+void LineSeriesDataController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event)
 {
   if (event.item == m_data_item)
   {
     auto index = event.tag_index.GetIndex();
-    (void)m_qt_line_series->remove(static_cast<std::int32_t>(index));
+    m_qt_line_series->remove(static_cast<std::int32_t>(index));
   }
 }
 
-void LineSeriesDataController::OnModelEvent(const DataChangedEvent& event)
+void LineSeriesDataController::OnDataChangedEvent(const DataChangedEvent& event)
 {
   // We are here becase the data of either x-item, or y-item was changed.
   // Expected hierarchy:
@@ -150,9 +150,9 @@ void LineSeriesDataController::Subscribe()
 
   m_listener = std::make_unique<mvvm::ModelListener>(m_data_item->GetModel());
 
-  m_listener->Connect<mvvm::DataChangedEvent>(this, &LineSeriesDataController::OnModelEvent);
-  m_listener->Connect<mvvm::ItemInsertedEvent>(this, &LineSeriesDataController::OnModelEvent);
-  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(this, &LineSeriesDataController::OnModelEvent);
+  m_listener->Connect<mvvm::DataChangedEvent>(this, &LineSeriesDataController::OnDataChangedEvent);
+  m_listener->Connect<mvvm::ItemInsertedEvent>(this, &LineSeriesDataController::OnItemInsertedEvent);
+  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(this, &LineSeriesDataController::OnAboutToRemoveItemEvent);
 }
 
 void LineSeriesDataController::Unsubscribe()

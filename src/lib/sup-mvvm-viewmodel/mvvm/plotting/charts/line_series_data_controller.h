@@ -58,14 +58,14 @@ public:
 
   void SetItem(const LineSeriesDataItem* item);
 
-  void OnModelEvent(const ItemInsertedEvent& event);
+  void OnItemInsertedEvent(const ItemInsertedEvent& event);
 
-  void OnModelEvent(const AboutToRemoveItemEvent& event);
+  void OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event);
 
   /**
    * @brief Propagates change of (x,y) values to QtCharts.
    */
-  void OnModelEvent(const DataChangedEvent& event);
+  void OnDataChangedEvent(const DataChangedEvent& event);
 
   const LineSeriesDataItem* GetDataItem() const;
 
