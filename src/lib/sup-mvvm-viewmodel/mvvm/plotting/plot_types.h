@@ -30,28 +30,31 @@ namespace mvvm
 {
 
 /**
- * @brief The CanvasOperationMode enum defines the mode in which the chart view is.
+ * @brief The CanvasOperationMode enum defines the mode in which the QGraphicsView is.
  *
- * This is steered either from the toolbar via signal/slot, or keyboard shortcuts. For the moment it
- * can be either object selection or panning of the viewport (the space bar key is pressed).
+ * There are only two modes for the moment. In "selection" mode, the user can click on objects
+ * to select/deselect them. In "panning" mode, the user grabs a viewport and moves it to another
+ * place (aka canvas scrolling).
+ *
+ * This is steered either from the toolbar or by pressing/releasing the spacebar key.
  */
 enum class CanvasOperationMode : std::uint8_t
 {
-  kSelection,          //!< allows to select graphs and points
-  kPan,                //!< allows to pan axes
-  kOperationModeCount  //!< total number of operation mode
+  kSelection,  //!< allows to select graphs and points
+  kPan         //!< allows to pan axes
 };
 
 /**
- * @brief The CurrentActivity enum defines current activity being performed by the user, which
- * requires special awarness of the widget.
+ * @brief The CanvasCurrentActivity enum defines current activity being performed by the user.
+ *
+ * This is used to distinguish between simple mouse move events and those which are part of
+ * some activity like panning the canvas or moving a point of a graph.
  */
-enum class CurrentActivity : std::uint8_t
+enum class CanvasCurrentActivity : std::uint8_t
 {
   kIdle,          //!< no special activity
   kScrollCanvas,  //!< moving mouse in kPan mode, while holding mouse button pressed
   kMovePoint,     //!< moving a point of a graph
-  kActivityCount
 };
 
 }  // namespace mvvm

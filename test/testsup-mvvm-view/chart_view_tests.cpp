@@ -26,12 +26,41 @@
 
 #include <QApplication>
 #include <QKeyEvent>
+#include <QSignalSpy>
 
 namespace mvvm::test
 {
 
 class ChartViewTest : public ::testing::Test
 {
+public:
+  static void SimulateMousePress(QGraphicsView* view, QPointF scene_pos,
+                                 Qt::MouseButton button = Qt::LeftButton)
+  {
+    const QPointF view_pos = view->mapFromScene(scene_pos);
+    QMouseEvent press_event(QEvent::MouseButtonPress, view_pos.toPoint(),
+                            view->mapToGlobal(view_pos.toPoint()), button, button, Qt::NoModifier);
+    QApplication::sendEvent(view->viewport(), &press_event);
+  }
+
+  static void SimulateMouseMove(QGraphicsView* view, QPointF scene_pos)
+  {
+    const QPointF view_pos = view->mapFromScene(scene_pos);
+    QMouseEvent move_event(QEvent::MouseMove, view_pos.toPoint(),
+                           view->mapToGlobal(view_pos.toPoint()), Qt::NoButton, Qt::LeftButton,
+                           Qt::NoModifier);
+    QApplication::sendEvent(view->viewport(), &move_event);
+  }
+
+  static void SimulateMouseRelease(QGraphicsView* view, QPointF scene_pos,
+                                   Qt::MouseButton button = Qt::LeftButton)
+  {
+    const QPointF view_pos = view->mapFromScene(scene_pos);
+    QMouseEvent release_event(QEvent::MouseButtonRelease, view_pos.toPoint(),
+                              view->mapToGlobal(view_pos.toPoint()), button, Qt::NoButton,
+                              Qt::NoModifier);
+    QApplication::sendEvent(view->viewport(), &release_event);
+  }
 };
 
 TEST_F(ChartViewTest, InitialState)
@@ -45,6 +74,29 @@ TEST_F(ChartViewTest, InitialState)
 
   // animations options are not chainged
   EXPECT_EQ(chart_ptr->animationOptions(), initial_options);
+}
+
+TEST_F(ChartViewTest, SetOperationMode)
+{
+  auto chart = std::make_unique<QChart>();
+  chart->setAnimationOptions(QChart::AllAnimations);
+  auto chart_ptr = chart.get();
+
+  ChartView chart_view(chart.release());
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
+
+  QSignalSpy selection_mode_spy(&chart_view, &ChartView::OperationModeChanged);
+  chart_view.SetOperationMode(CanvasOperationMode::kPan);
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kPan);
+  EXPECT_EQ(selection_mode_spy.count(), 1);
+  EXPECT_EQ(selection_mode_spy.takeFirst().at(0).toInt(),
+            static_cast<int>(CanvasOperationMode::kPan));
+
+  chart_view.SetOperationMode(CanvasOperationMode::kSelection);
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
+  EXPECT_EQ(selection_mode_spy.count(), 1);
+  EXPECT_EQ(selection_mode_spy.takeFirst().at(0).toInt(),
+            static_cast<int>(CanvasOperationMode::kSelection));
 }
 
 TEST_F(ChartViewTest, PressAndReleaseSpacebar)
@@ -64,6 +116,41 @@ TEST_F(ChartViewTest, PressAndReleaseSpacebar)
   QKeyEvent release_event(QEvent::KeyRelease, Qt::Key_Space, Qt::NoModifier);
   QApplication::sendEvent(chart_view.viewport(), &release_event);
   EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
+}
+
+TEST_F(ChartViewTest, PressButtonAndMoveMouse)
+{
+  auto chart = std::make_unique<QChart>();
+  chart->setAnimationOptions(QChart::AllAnimations);
+  auto chart_ptr = chart.get();
+  chart_ptr->createDefaultAxes();
+
+  ChartView chart_view(chart.release());
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kIdle);
+  chart_view.setFocus();
+  chart_view.setSceneRect(0, 0, 800, 600);
+
+  QSignalSpy spy_move_point(&chart_view, &ChartView::MovePointRequested);
+
+  const QPointF scene_press_coordinate{10, 10};
+  const QPointF scene_move1_pos{100, 200};
+
+  SimulateMousePress(&chart_view, scene_press_coordinate, Qt::LeftButton);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kMovePoint);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::NoAnimation);
+
+  SimulateMouseMove(&chart_view, scene_move1_pos);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kMovePoint);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::NoAnimation);
+
+  EXPECT_EQ(spy_move_point.count(), 1);
+  const QPointF reported_position = spy_move_point.takeFirst().at(0).toPointF();
+  EXPECT_EQ(reported_position, scene_move1_pos);
+
+  SimulateMouseRelease(&chart_view, scene_move1_pos, Qt::LeftButton);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kIdle);
   EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
 }
 

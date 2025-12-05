@@ -50,7 +50,9 @@ ChartCanvas::ChartCanvas(QWidget* parent_widget)
   {
     if (m_viewport_controller)
     {
-      m_viewport_controller->UpdateActivePointCoordinate(position.x(), position.y());
+      auto position_in_chart = m_chart->mapToValue(position);
+      m_viewport_controller->UpdateActivePointCoordinate(position_in_chart.x(),
+                                                         position_in_chart.y());
     }
   };
   connect(m_chart_view, &ChartView::MovePointRequested, this, on_move_point_request);

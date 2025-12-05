@@ -40,11 +40,21 @@ public:
 
   CanvasOperationMode GetOperationMode() const;
 
+  /**
+   * @brief Sets operation mode of chart view.
+   */
   void SetOperationMode(CanvasOperationMode operation_mode);
+
+  /**
+   * @brief Sets current activity being performed by the user.
+   */
+  void SetCanvasCurrentActivity(CanvasCurrentActivity activity);
+
+  CanvasCurrentActivity GetCanvasCurrentActivity() const;
 
 signals:
   void OperationModeChanged(int mode);
-  void MovePointRequested(const QPointF& position);
+  void MovePointRequested(const QPointF& event_position);
 
 protected:
   void keyPressEvent(QKeyEvent* event) override;
@@ -55,7 +65,7 @@ protected:
 
 private:
   CanvasOperationMode m_operation_mode{CanvasOperationMode::kSelection};
-  CurrentActivity m_current_activity{CurrentActivity::kIdle};
+  CanvasCurrentActivity m_current_activity{CanvasCurrentActivity::kIdle};
   QPointF m_last_pos;
   QChart::AnimationOptions m_animation_options_backup;
 };
