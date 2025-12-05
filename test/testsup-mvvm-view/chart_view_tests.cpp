@@ -111,8 +111,47 @@ TEST_F(ChartViewTest, PressAndReleaseSpacebar)
   QKeyEvent press_event(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
   QApplication::sendEvent(chart_view.viewport(), &press_event);
   EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kPan);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
+
+  QKeyEvent release_event(QEvent::KeyRelease, Qt::Key_Space, Qt::NoModifier);
+  QApplication::sendEvent(chart_view.viewport(), &release_event);
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
+}
+
+TEST_F(ChartViewTest, PressSpacebarClickMouseAndMove)
+{
+  auto chart = std::make_unique<QChart>();
+  chart->setAnimationOptions(QChart::AllAnimations);
+  auto chart_ptr = chart.get();
+
+  ChartView chart_view(chart.release());
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
+
+  // press spacebar
+  QKeyEvent press_event(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+  QApplication::sendEvent(chart_view.viewport(), &press_event);
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kPan);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
+
+  // press mouse button
+  const QPointF scene_press_coordinate{10, 10};
+  SimulateMousePress(&chart_view, scene_press_coordinate, Qt::LeftButton);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kScrollCanvas);
   EXPECT_EQ(chart_ptr->animationOptions(), QChart::NoAnimation);
 
+  // move mouse
+  const QPointF scene_move1_pos{100, 200};
+  SimulateMouseMove(&chart_view, scene_move1_pos);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kScrollCanvas);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::NoAnimation);
+
+  // release mouse button
+  SimulateMouseRelease(&chart_view, scene_move1_pos, Qt::LeftButton);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kIdle);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
+
+  // release spacebar
   QKeyEvent release_event(QEvent::KeyRelease, Qt::Key_Space, Qt::NoModifier);
   QApplication::sendEvent(chart_view.viewport(), &release_event);
   EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);

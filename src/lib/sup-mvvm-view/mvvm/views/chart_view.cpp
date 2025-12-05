@@ -49,7 +49,6 @@ void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
 
   if (m_operation_mode == CanvasOperationMode::kSelection)
   {
-    chart()->setAnimationOptions(m_animation_options_backup);
     setDragMode(QGraphicsView::NoDrag);
     setInteractive(true);
     emit OperationModeChanged(static_cast<int>(CanvasOperationMode::kSelection));
@@ -58,9 +57,6 @@ void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
 
   if (m_operation_mode == CanvasOperationMode::kPan)
   {
-    m_animation_options_backup = chart()->animationOptions();
-    chart()->setAnimationOptions(QChart::NoAnimation);
-
     setInteractive(false);
     setRubberBand(QChartView::NoRubberBand);
     setDragMode(QChartView::ScrollHandDrag);
@@ -169,7 +165,6 @@ void ChartView::mouseReleaseEvent(QMouseEvent* event)
   SetCanvasCurrentActivity(CanvasCurrentActivity::kIdle);
   m_last_pos = {};
   QChartView::mouseReleaseEvent(event);
-  // chart()->setAnimationOptions(m_animation_options_backup);
 }
 
 }  // namespace mvvm
