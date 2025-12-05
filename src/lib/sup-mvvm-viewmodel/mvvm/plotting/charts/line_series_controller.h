@@ -65,6 +65,10 @@ public:
    */
   QLineSeries* GetQtLineSeries() const;
 
+  /**
+   * @brief Updates coordinates of currently active point.
+   */
+  void UpdateActivePointCoordinate(double x, double y);
 private:
   /**
    * @brief Processes the change of linked data item.

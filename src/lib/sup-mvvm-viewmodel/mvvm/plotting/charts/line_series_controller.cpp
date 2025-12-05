@@ -28,6 +28,7 @@
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/plottable_items.h>
+#include <mvvm/standarditems/point_item.h>
 
 namespace mvvm
 {
@@ -58,6 +59,15 @@ void LineSeriesController::Subscribe()
 QLineSeries* LineSeriesController::GetQtLineSeries() const
 {
   return m_data_controller->GetQtLineSeries();
+}
+
+void LineSeriesController::UpdateActivePointCoordinate(double x, double y)
+{
+  if (auto active_point = m_data_controller->GetActivePoint(); active_point != nullptr)
+  {
+    active_point->SetX(x);
+    active_point->SetY(y);
+  }
 }
 
 void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent& event)

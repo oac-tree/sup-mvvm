@@ -84,6 +84,14 @@ QAbstractAxis* ChartViewportController::GetYQtAxis() const
   return m_y_axis_controller ? m_y_axis_controller->GetQtAxis() : nullptr;
 }
 
+void ChartViewportController::UpdateActivePointCoordinate(double x, double y)
+{
+  for (auto& controller : m_line_controllers)
+  {
+    controller->UpdateActivePointCoordinate(x, y);
+  }
+}
+
 QLineSeries* ChartViewportController::SetupChartForLineSeries(LineSeriesItem* item)
 {
   auto qt_line_series = new QLineSeries;

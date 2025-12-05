@@ -62,6 +62,18 @@ public:
 
   QAbstractAxis* GetYQtAxis() const;
 
+  /**
+   * @brief Update the coordinate of the active point.
+   *
+   * This method is supposed to be called from ChartView when the user moves the mouse while holding
+   * a button. It will be propagated to all underlying LineSeriesController objects. They will
+   * decide whether there is an active point to move and update its coordinates.
+   *
+   * This design is because of the peculiarities of the QLineSeries item. It knows when there is a
+   * click nearby, but it doesn't know if there is a mouse move.
+   */
+  void UpdateActivePointCoordinate(double x, double y);
+
 private:
   /**
    * @brief Setup Qt chart for given LineSeriesItem.

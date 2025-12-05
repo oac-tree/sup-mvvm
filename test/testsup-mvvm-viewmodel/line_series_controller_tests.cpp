@@ -186,4 +186,56 @@ TEST_F(LineSeriesControllerTest, Displayed)
   EXPECT_TRUE(line_series.isVisible());
 }
 
+TEST_F(LineSeriesControllerTest, UpdateActivePointCoordinate)
+{
+  mvvm::ApplicationModel model;
+  auto line_series_item = model.InsertItem<LineSeriesItem>();
+
+  // filling the model with line series data: 3 points
+  auto data_item = model.InsertItem<LineSeriesDataItem>();
+  line_series_item->SetDataItem(data_item);
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
+
+  QLineSeries line_series;
+  LineSeriesController controller(&line_series);
+
+  controller.SetItem(line_series_item);
+  EXPECT_EQ(controller.GetItem(), line_series_item);
+
+  // our graph should get points
+  auto qt_points = line_series.points();
+  EXPECT_EQ(qt_points.at(0).x(), 1.0);
+  EXPECT_EQ(qt_points.at(0).y(), 10.0);
+  EXPECT_EQ(qt_points.at(1).x(), 2.0);
+  EXPECT_EQ(qt_points.at(1).y(), 20.0);
+  EXPECT_EQ(qt_points.at(2).x(), 3.0);
+  EXPECT_EQ(qt_points.at(2).y(), 30.0);
+
+  // simulating press on second point
+  emit line_series.pressed({2.0, 20.0});
+
+  // simulating moving the second point to new coordinates (5.0, 50.0)
+  controller.UpdateActivePointCoordinate(5.0, 50.0);
+  qt_points = line_series.points();
+  EXPECT_EQ(qt_points.at(0).x(), 1.0);
+  EXPECT_EQ(qt_points.at(0).y(), 10.0);
+  EXPECT_EQ(qt_points.at(1).x(), 5.0);
+  EXPECT_EQ(qt_points.at(1).y(), 50.0);
+  EXPECT_EQ(qt_points.at(2).x(), 3.0);
+  EXPECT_EQ(qt_points.at(2).y(), 30.0);
+
+  // simulating the release of second point
+  emit line_series.released({5.0, 50.0});
+
+  // simulating moving to another place, coordinates should remain the same
+  controller.UpdateActivePointCoordinate(50.0, 500.0);
+  qt_points = line_series.points();
+  EXPECT_EQ(qt_points.at(0).x(), 1.0);
+  EXPECT_EQ(qt_points.at(0).y(), 10.0);
+  EXPECT_EQ(qt_points.at(1).x(), 5.0);
+  EXPECT_EQ(qt_points.at(1).y(), 50.0);
+  EXPECT_EQ(qt_points.at(2).x(), 3.0);
+  EXPECT_EQ(qt_points.at(2).y(), 30.0);
+}
+
 }  // namespace mvvm::test

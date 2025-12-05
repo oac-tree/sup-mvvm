@@ -47,6 +47,15 @@ ChartCanvas::ChartCanvas(QWidget* parent_widget)
 
   connect(m_chart_view, &mvvm::ChartView::OperationModeChanged, this,
           &ChartCanvas::OperationModeChanged);
+
+  auto on_move_point_request = [this](const QPointF& position)
+  {
+    if (m_viewport_controller)
+    {
+      m_viewport_controller->UpdateActivePointCoordinate(position.x(), position.y());
+    }
+  };
+  connect(m_chart_view, &ChartView::MovePointRequested, this, on_move_point_request);
 }
 
 ChartCanvas::~ChartCanvas() = default;

@@ -77,7 +77,7 @@ TEST_F(ChartViewportControllerTest, SetNonEmptyViewport)
   // checking that QLineSeries object was created, without points
   auto qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  auto line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
+  auto line_series = dynamic_cast<QLineSeries*>(qt_series.at(0));
   ASSERT_NE(line_series, nullptr);
   EXPECT_EQ(line_series->points().size(), 0);
 }
@@ -106,7 +106,7 @@ TEST_F(ChartViewportControllerTest, SetViewportWithLineSeries)
   // checking that QLineSeries object was created, with points properly set
   auto qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  auto qt_line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
+  auto qt_line_series = dynamic_cast<QLineSeries*>(qt_series.at(0));
   ASSERT_NE(qt_line_series, nullptr);
 
   auto qt_points = qt_line_series->points();
@@ -119,7 +119,7 @@ TEST_F(ChartViewportControllerTest, SetViewportWithLineSeries)
 
   // validating axes
   EXPECT_EQ(qt_line_series->attachedAxes(),
-            QList<QAbstractAxis *>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
+            QList<QAbstractAxis*>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
 }
 
 //! We setup controller on empty viewport, then add new LineSeriesItem (without points) to it.
@@ -140,13 +140,13 @@ TEST_F(ChartViewportControllerTest, AddLineSeries)
   // checking that QLineSeries object was created, without points
   auto qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  auto line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
+  auto line_series = dynamic_cast<QLineSeries*>(qt_series.at(0));
   ASSERT_NE(line_series, nullptr);
   EXPECT_EQ(line_series->points().size(), 0);
 
   // validating axes
   EXPECT_EQ(line_series->attachedAxes(),
-            QList<QAbstractAxis *>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
+            QList<QAbstractAxis*>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
 }
 
 TEST_F(ChartViewportControllerTest, AddLineSeriesWithPoints)
@@ -165,7 +165,7 @@ TEST_F(ChartViewportControllerTest, AddLineSeriesWithPoints)
   // checking that we have Qt line series object without points
   auto qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  auto qt_line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
+  auto qt_line_series = dynamic_cast<QLineSeries*>(qt_series.at(0));
   ASSERT_NE(qt_line_series, nullptr);
   auto qt_points = qt_line_series->points();
   ASSERT_TRUE(qt_points.empty());
@@ -177,7 +177,7 @@ TEST_F(ChartViewportControllerTest, AddLineSeriesWithPoints)
   // checking that QLineSeries object was created, with points properly set
   qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  qt_line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
+  qt_line_series = dynamic_cast<QLineSeries*>(qt_series.at(0));
   ASSERT_NE(qt_line_series, nullptr);
 
   qt_points = qt_line_series->points();
@@ -244,12 +244,12 @@ TEST_F(ChartViewportControllerTest, AxisControllers)
   // expecting some axes created
   auto horizontal_axes = chart.axes(Qt::Horizontal);
   ASSERT_EQ(horizontal_axes.size(), 1);
-  auto x_axis = dynamic_cast<QValueAxis *>(horizontal_axes.at(0));
+  auto x_axis = dynamic_cast<QValueAxis*>(horizontal_axes.at(0));
   ASSERT_NE(x_axis, nullptr);
 
   auto vertical_axes = chart.axes(Qt::Vertical);
   ASSERT_EQ(vertical_axes.size(), 1);
-  auto y_axis = dynamic_cast<QValueAxis *>(vertical_axes.at(0));
+  auto y_axis = dynamic_cast<QValueAxis*>(vertical_axes.at(0));
   ASSERT_NE(y_axis, nullptr);
 
   // default axes range is (0,1) for both x and y
@@ -293,7 +293,7 @@ TEST_F(ChartViewportControllerTest, AnimationProperty)
   EXPECT_EQ(chart.animationOptions(), QChart::GridAxisAnimations);
 }
 
-TEST_F(ChartViewportControllerTest, SHowHideLegend)
+TEST_F(ChartViewportControllerTest, ShowHideLegend)
 {
   // setting up empty viewport and controller
   QChart chart;
@@ -310,6 +310,54 @@ TEST_F(ChartViewportControllerTest, SHowHideLegend)
 
   viewport_item->SetProperty(ChartViewportItem::kLegendEnabled, false);
   EXPECT_FALSE(chart.legend()->isVisible());
+}
+
+TEST_F(ChartViewportControllerTest, UpdateActivePointCoordinate)
+{
+  QChart chart;
+  ChartViewportController controller(&chart);
+  ApplicationModel model;
+
+  auto viewport_item = model.InsertItem<ChartViewportItem>();
+
+  auto line_series_item0 = model.InsertItem<LineSeriesItem>(viewport_item);
+  auto data_item0 = model.InsertItem<LineSeriesDataItem>();
+  line_series_item0->SetDataItem(data_item0);
+  data_item0->SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
+
+  auto line_series_item1 = model.InsertItem<LineSeriesItem>(viewport_item);
+  auto data_item1 = model.InsertItem<LineSeriesDataItem>();
+  line_series_item1->SetDataItem(data_item1);
+  data_item1->SetWaveform({{1.0, 100.0}, {2.0, 200.0}, {3.0, 300.0}});
+
+  controller.SetItem(viewport_item);
+
+  auto qt_series = chart.series();
+  ASSERT_EQ(qt_series.size(), 2);
+
+  // simulating press on second point of first series
+  emit dynamic_cast<QLineSeries*>(qt_series.at(0))->pressed({2.0, 20.0});
+
+  controller.UpdateActivePointCoordinate(50.0, 500.0);
+
+  auto qt_line_series0 = dynamic_cast<QLineSeries*>(qt_series.at(0));
+  // first line series has updated coordinates
+  auto qt_points0 = qt_line_series0->points();
+  EXPECT_EQ(qt_points0.at(0).x(), 1.0);
+  EXPECT_EQ(qt_points0.at(0).y(), 10.0);
+  EXPECT_EQ(qt_points0.at(1).x(), 50.0);
+  EXPECT_EQ(qt_points0.at(1).y(), 500.0);
+  EXPECT_EQ(qt_points0.at(2).x(), 3.0);
+  EXPECT_EQ(qt_points0.at(2).y(), 30.0);
+  // coordinates of the second line series remin the same
+  auto qt_line_series1 = dynamic_cast<QLineSeries*>(qt_series.at(1));
+  auto qt_points1 = qt_line_series1->points();
+  EXPECT_EQ(qt_points1.at(0).x(), 1.0);
+  EXPECT_EQ(qt_points1.at(0).y(), 100.0);
+  EXPECT_EQ(qt_points1.at(1).x(), 2.0);
+  EXPECT_EQ(qt_points1.at(1).y(), 200.0);
+  EXPECT_EQ(qt_points1.at(2).x(), 3.0);
+  EXPECT_EQ(qt_points1.at(2).y(), 300.0);
 }
 
 }  // namespace mvvm::test
