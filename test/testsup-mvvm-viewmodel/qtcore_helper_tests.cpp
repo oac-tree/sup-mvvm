@@ -63,14 +63,28 @@ TEST_F(QtCoreHelperTest, GetDistanceSquared)
 
 TEST_F(QtCoreHelperTest, GetNearestPointIndex)
 {
-  const QList<QPointF> points = {QPointF(1.0, 2.0), QPointF(4.0, 6.0), QPointF(-1.0, -1.0)};
+  // for empty array
+  {
+    const QList<QPointF> points;
+    const std::int32_t index = utils::GetNearestPointIndex(points, QPointF(0.0, 0.0));
+    EXPECT_EQ(index, -1);
+  }
+
+  // for one element array
+  {
+    const QList<QPointF> points = {QPointF(1.0, 2.0)};
+    const std::int32_t index = utils::GetNearestPointIndex(points, QPointF(3.0, 5.0));
+    EXPECT_EQ(index, 0);
+  }
 
   {
+    const QList<QPointF> points = {QPointF(1.0, 2.0), QPointF(4.0, 6.0), QPointF(-1.0, -1.0)};
     const std::int32_t index = utils::GetNearestPointIndex(points, QPointF(3.0, 5.0));
     EXPECT_EQ(index, 1);
   }
 
   {
+    const QList<QPointF> points = {QPointF(1.0, 2.0), QPointF(4.0, 6.0), QPointF(-1.0, -1.0)};
     const std::int32_t index = utils::GetNearestPointIndex(points, QPointF(-1.0, -1.0));
     EXPECT_EQ(index, 2);
   }

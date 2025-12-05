@@ -1,5 +1,6 @@
 Changes for 2.1.0:
 
+- Implement interactive points move for waveforms
 - Implement custom painter for node editor shapes and connections
 
 Changes for 2.0.0:

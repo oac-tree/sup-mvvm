@@ -74,10 +74,10 @@ std::int32_t GetNearestPointIndex(const QList<QPointF>& points, const QPointF& p
     return -1;
   }
 
-  int32_t nearest_index = -1;
-  qreal min_distance_squared = std::numeric_limits<qreal>::max();
+  std::int32_t nearest_index{0};
+  double min_distance_squared = GetDistanceSquared(points[0], point);
 
-  for (int32_t i = 0; i < points.size(); ++i)
+  for (std::int32_t i = 1; i < points.size(); ++i)
   {
     const qreal distance_squared = GetDistanceSquared(points[i], point);
 
