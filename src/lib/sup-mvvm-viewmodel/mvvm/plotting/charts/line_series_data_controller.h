@@ -32,6 +32,7 @@ namespace mvvm
 class LineSeriesDataItem;
 class ModelListener;
 class LineSeriesMouseListener;
+class PointItem;
 
 /**
  * @brief The LineSeriesDataController class establishes communication between LineSeriesDataItem
@@ -82,9 +83,15 @@ public:
    */
   void SetXOffset(double value);
 
+  /**
+   * @brief Returns the currently active point being moved by user, or nullptr if no point is active.
+   */
+  PointItem* GetActivePoint() const;
+
 private:
   void Subscribe();
   void Unsubscribe();
+  std::unique_ptr<LineSeriesMouseListener> CreateMouseListener();
 
   /**
    * @brief Provide initial setup of QLineSeries from
@@ -96,6 +103,7 @@ private:
   std::unique_ptr<ModelListener> m_listener;
   double m_x_offset{0.0};
   std::unique_ptr<LineSeriesMouseListener> m_mouse_listener;
+  PointItem* m_active_point{nullptr};
 };
 
 }  // namespace mvvm

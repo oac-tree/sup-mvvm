@@ -34,9 +34,7 @@ namespace mvvm
 {
 
 LineSeriesDataController::LineSeriesDataController(QLineSeries* line_series)
-    : m_qt_line_series(line_series)
-    , m_mouse_listener(std::make_unique<LineSeriesMouseListener>(
-          line_series, LineSeriesMouseListener::ReportCallback{}))
+    : m_qt_line_series(line_series), m_mouse_listener(CreateMouseListener())
 {
   if (line_series == nullptr)
   {
@@ -148,6 +146,11 @@ void LineSeriesDataController::SetXOffset(double value)
   }
 }
 
+PointItem* LineSeriesDataController::GetActivePoint() const
+{
+  return m_active_point;
+}
+
 void LineSeriesDataController::Subscribe()
 {
   InitLineSeriesData();
@@ -166,6 +169,27 @@ void LineSeriesDataController::Unsubscribe()
   m_data_item = nullptr;
   m_listener.reset();
   m_qt_line_series->clear();
+}
+
+std::unique_ptr<LineSeriesMouseListener> LineSeriesDataController::CreateMouseListener()
+{
+  auto on_point_event = [this](QLineSeries* series, std::int32_t point_index)
+  {
+    (void)series;
+    if (point_index >= 0)
+    {
+      // point pressed
+      auto point_item = m_data_item->GetPoint(static_cast<std::size_t>(point_index));
+      m_active_point = point_item;
+    }
+    else
+    {
+      // point released
+      m_active_point = nullptr;
+    }
+  };
+
+  return std::make_unique<LineSeriesMouseListener>(m_qt_line_series, on_point_event);
 }
 
 void LineSeriesDataController::InitLineSeriesData()

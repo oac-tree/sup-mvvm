@@ -24,6 +24,7 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/point_item.h>
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
@@ -42,18 +43,17 @@ TEST_F(LineSeriesDataControllerTest, InitialState)
   EXPECT_THROW(LineSeriesDataController{nullptr}, RuntimeException);
 
   QLineSeries line_series;
-  LineSeriesDataController controller(&line_series);
+  const LineSeriesDataController controller(&line_series);
 
   EXPECT_EQ(controller.GetQtLineSeries(), &line_series);
   EXPECT_EQ(controller.GetDataItem(), nullptr);
+  EXPECT_EQ(controller.GetActivePoint(), nullptr);
 }
 
-//! Validating SetItem method.
-
-TEST_F(LineSeriesDataControllerTest, SetEmptyItem)
+TEST_F(LineSeriesDataControllerTest, SetEmptyLineSeriesDataItem)
 {
   {  // attempt to set item without the model
-    LineSeriesDataItem data_item;
+    const LineSeriesDataItem data_item;
     QLineSeries line_series;
     LineSeriesDataController controller(&line_series);
     EXPECT_THROW(controller.SetItem(&data_item), RuntimeException);
@@ -74,9 +74,7 @@ TEST_F(LineSeriesDataControllerTest, SetEmptyItem)
   }
 }
 
-//! Validating SetItem method and initial initialization of time series from non-empty
-//! AnyValueArrayItem.
-TEST_F(LineSeriesDataControllerTest, SetItem)
+TEST_F(LineSeriesDataControllerTest, SetNonEmptyLineSeriesDataItem)
 {
   mvvm::ApplicationModel model;
 
@@ -102,9 +100,7 @@ TEST_F(LineSeriesDataControllerTest, SetItem)
   EXPECT_EQ(qt_points.at(2).y(), 30.0);
 }
 
-//! Validation QLineSeries update on data change event.
-
-TEST_F(LineSeriesDataControllerTest, OnDataChanged)
+TEST_F(LineSeriesDataControllerTest, ValidateLineSeriesOnCoordinateUpdate)
 {
   // filling the model with line series data: 3 points
   mvvm::ApplicationModel model;
@@ -137,7 +133,7 @@ TEST_F(LineSeriesDataControllerTest, OnDataChanged)
   EXPECT_EQ(qt_points.at(2).y(), 30.0);
 }
 
-TEST_F(LineSeriesDataControllerTest, OnPointRemoved)
+TEST_F(LineSeriesDataControllerTest, ValidateLineSeriesOnPointRemoved)
 {
   // filling the model with line series data: 3 points
   mvvm::ApplicationModel model;
@@ -168,7 +164,7 @@ TEST_F(LineSeriesDataControllerTest, OnPointRemoved)
   EXPECT_EQ(qt_points.at(1).y(), 30.0);
 }
 
-TEST_F(LineSeriesDataControllerTest, OnPointInserted)
+TEST_F(LineSeriesDataControllerTest, ValidateLineSeriesOnPointInserted)
 {
   mvvm::ApplicationModel model;
 
@@ -216,7 +212,7 @@ TEST_F(LineSeriesDataControllerTest, SetXOffset)
   LineSeriesDataController controller(&line_series);
   controller.SetItem(data_item_ptr);
 
-  QSignalSpy spy_points_replaced(&line_series, &QLineSeries::pointsReplaced);
+  const QSignalSpy spy_points_replaced(&line_series, &QLineSeries::pointsReplaced);
 
   controller.SetXOffset(10.0);
 
@@ -228,6 +224,32 @@ TEST_F(LineSeriesDataControllerTest, SetXOffset)
   EXPECT_EQ(qt_points.at(0).y(), 10.0);
   EXPECT_EQ(qt_points.at(1).x(), 12.0);
   EXPECT_EQ(qt_points.at(1).y(), 20.0);
+}
+
+TEST_F(LineSeriesDataControllerTest, ActivePointOnPointPressed)
+{
+  mvvm::ApplicationModel model;
+
+  auto data_item = std::make_unique<LineSeriesDataItem>();
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}});
+  auto data_item_ptr = data_item.get();
+  model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
+
+  // setting up controller
+  QLineSeries line_series;
+  LineSeriesDataController controller(&line_series);
+  controller.SetItem(data_item_ptr);
+
+  // simulating mouse press on first point
+  emit controller.GetQtLineSeries()->pressed({1.0, 10.0});
+  const auto active_point = controller.GetActivePoint();
+  ASSERT_NE(active_point, nullptr);
+  EXPECT_EQ(active_point->GetX(), 1.0);
+  EXPECT_EQ(active_point->GetY(), 10.0);
+
+  // simulating mouse release
+  emit controller.GetQtLineSeries()->released({1.0, 10.0});
+  EXPECT_EQ(controller.GetActivePoint(), nullptr);
 }
 
 }  // namespace mvvm::test
