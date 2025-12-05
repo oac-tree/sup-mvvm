@@ -24,6 +24,9 @@
 
 #include <gtest/gtest.h>
 
+#include <QApplication>
+#include <QKeyEvent>
+
 namespace mvvm::test
 {
 
@@ -38,9 +41,30 @@ TEST_F(ChartViewTest, InitialState)
   const auto initial_options = chart_ptr->animationOptions();
 
   const ChartView chart_view(chart.release());
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
 
   // animations options are not chainged
   EXPECT_EQ(chart_ptr->animationOptions(), initial_options);
+}
+
+TEST_F(ChartViewTest, PressAndReleaseSpacebar)
+{
+  auto chart = std::make_unique<QChart>();
+  chart->setAnimationOptions(QChart::AllAnimations);
+  auto chart_ptr = chart.get();
+
+  const ChartView chart_view(chart.release());
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
+
+  QKeyEvent press_event(QEvent::KeyPress, Qt::Key_Space, Qt::NoModifier);
+  QApplication::sendEvent(chart_view.viewport(), &press_event);
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kPan);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::NoAnimation);
+
+  QKeyEvent release_event(QEvent::KeyRelease, Qt::Key_Space, Qt::NoModifier);
+  QApplication::sendEvent(chart_view.viewport(), &release_event);
+  EXPECT_EQ(chart_view.GetOperationMode(), CanvasOperationMode::kSelection);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
 }
 
 }  // namespace mvvm::test

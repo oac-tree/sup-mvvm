@@ -87,7 +87,7 @@ void ChartView::keyReleaseEvent(QKeyEvent* event)
 {
   if (event->key() == Qt::Key_Space)
   {
-    if (GetOperationMode() != CanvasOperationMode::kSelection && !event->isAutoRepeat())
+    if (GetOperationMode() == CanvasOperationMode::kPan && !event->isAutoRepeat())
     {
       // user released a spacebar, switching operation mode to "selection"
       SetOperationMode(CanvasOperationMode::kSelection);
