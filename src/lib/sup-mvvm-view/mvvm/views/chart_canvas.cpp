@@ -32,7 +32,7 @@ namespace mvvm
 {
 
 ChartCanvas::ChartCanvas(QWidget* parent_widget)
-    : QWidget(parent_widget), m_chart(new QChart), m_chart_view(new mvvm::ChartView)
+    : QWidget(parent_widget), m_chart(new QChart), m_chart_view(new mvvm::ChartView(m_chart))
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

@@ -48,7 +48,6 @@ std::int32_t LineSeriesMouseListener::GetNearestPointIndex(const QPointF& point)
 
 void LineSeriesMouseListener::OnPressed(const QPointF& point)
 {
-  qDebug() << "pressed" << (this) << m_line_series;
   if (m_callback)
   {
     m_callback(m_line_series, GetNearestPointIndex(point));
@@ -57,7 +56,6 @@ void LineSeriesMouseListener::OnPressed(const QPointF& point)
 
 void LineSeriesMouseListener::OnReleased(const QPointF& point)
 {
-  qDebug() << "released" << (this) << m_line_series;
   (void)point;
   if (m_callback)
   {
