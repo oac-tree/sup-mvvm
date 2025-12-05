@@ -54,20 +54,8 @@ protected:
   void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
-  /**
-   * @brief The CurrentActivity enum defines current activity being performed by the user, which
-   * requires special awarness of the widget.
-   */
-  enum CurrentActivity
-  {
-    kIdle,          //!< no special activity
-    kScrollCanvas,  //!< moving mouse in kPan mode, while holding mouse button pressed
-    kMovePoint,     //!< moving a point of a graph
-    kActivityCount
-  };
-
   CanvasOperationMode m_operation_mode{CanvasOperationMode::kSelection};
-  CurrentActivity m_current_activity{kIdle};
+  CurrentActivity m_current_activity{CurrentActivity::kIdle};
   QPointF m_last_pos;
   QChart::AnimationOptions m_animation_options_backup;
 };

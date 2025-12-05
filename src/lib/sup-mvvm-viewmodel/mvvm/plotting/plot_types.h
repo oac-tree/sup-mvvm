@@ -42,6 +42,18 @@ enum class CanvasOperationMode : std::uint8_t
   kOperationModeCount  //!< total number of operation mode
 };
 
+/**
+ * @brief The CurrentActivity enum defines current activity being performed by the user, which
+ * requires special awarness of the widget.
+ */
+enum class CurrentActivity : std::uint8_t
+{
+  kIdle,          //!< no special activity
+  kScrollCanvas,  //!< moving mouse in kPan mode, while holding mouse button pressed
+  kMovePoint,     //!< moving a point of a graph
+  kActivityCount
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_PLOTTING_PLOT_TYPES_H_

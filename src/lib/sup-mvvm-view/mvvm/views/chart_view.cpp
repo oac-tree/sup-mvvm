@@ -108,11 +108,11 @@ void ChartView::mousePressEvent(QMouseEvent* event)
 #else
     m_last_pos = event->position();
 #endif
-    m_current_activity = kScrollCanvas;
+    m_current_activity = CurrentActivity::kScrollCanvas;
   }
   else
   {
-    m_current_activity = kMovePoint;
+    m_current_activity = CurrentActivity::kMovePoint;
   }
   QChartView::mousePressEvent(event);
 }
@@ -125,7 +125,7 @@ void ChartView::mouseMoveEvent(QMouseEvent* event)
   const auto event_pos = event->position();
 #endif
 
-  if (m_current_activity == kScrollCanvas)
+  if (m_current_activity == CurrentActivity::kScrollCanvas)
   {
     const double dx = -(event_pos.x() - m_last_pos.x());
     const double dy = event->pos().y() - m_last_pos.y();
@@ -133,7 +133,7 @@ void ChartView::mouseMoveEvent(QMouseEvent* event)
     m_last_pos = event_pos;
   }
 
-  if (m_current_activity == kMovePoint)
+  if (m_current_activity == CurrentActivity::kMovePoint)
   {
     emit MovePointRequested(chart()->mapToValue(event_pos.toPoint()));
   }
@@ -143,7 +143,7 @@ void ChartView::mouseMoveEvent(QMouseEvent* event)
 
 void ChartView::mouseReleaseEvent(QMouseEvent* event)
 {
-  m_current_activity = kIdle;
+  m_current_activity = CurrentActivity::kIdle;
   m_last_pos = {};
   QChartView::mouseReleaseEvent(event);
   // chart()->setAnimationOptions(m_animation_options_backup);
