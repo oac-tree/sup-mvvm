@@ -60,4 +60,35 @@ QStringList GetStringList(const QByteArray& byteArray)
   return result;
 }
 
+double GetDistanceSquared(const QPointF& lhs, const QPointF& rhs)
+{
+  const qreal dx = lhs.x() - rhs.x();
+  const qreal dy = lhs.y() - rhs.y();
+  return (dx * dx) + (dy * dy);
+}
+
+std::int32_t GetNearestPointIndex(const QList<QPointF>& points, const QPointF& point)
+{
+  if (points.isEmpty())
+  {
+    return -1;
+  }
+
+  int32_t nearest_index = -1;
+  qreal min_distance_squared = std::numeric_limits<qreal>::max();
+
+  for (int32_t i = 0; i < points.size(); ++i)
+  {
+    const qreal distance_squared = GetDistanceSquared(points[i], point);
+
+    if (distance_squared < min_distance_squared)
+    {
+      min_distance_squared = distance_squared;
+      nearest_index = i;
+    }
+  }
+
+  return nearest_index;
+}
+
 }  // namespace mvvm::utils

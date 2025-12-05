@@ -26,11 +26,6 @@
 
 #include <Qt>
 
-namespace AnimationOptions
-{
-
-}
-
 namespace mvvm
 {
 

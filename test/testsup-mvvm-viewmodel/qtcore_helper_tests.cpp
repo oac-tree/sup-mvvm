@@ -53,4 +53,27 @@ TEST_F(QtCoreHelperTest, GetByteArray)
   EXPECT_EQ(utils::GetStringList(array), expected);
 }
 
+TEST_F(QtCoreHelperTest, GetDistanceSquared)
+{
+  const QPointF p1(1.0, 2.0);
+  const QPointF p2(4.0, 6.0);
+  const double dist_sq = utils::GetDistanceSquared(p1, p2);
+  EXPECT_DOUBLE_EQ(dist_sq, 25.0);
+}
+
+TEST_F(QtCoreHelperTest, GetNearestPointIndex)
+{
+  const QList<QPointF> points = {QPointF(1.0, 2.0), QPointF(4.0, 6.0), QPointF(-1.0, -1.0)};
+
+  {
+    const std::int32_t index = utils::GetNearestPointIndex(points, QPointF(3.0, 5.0));
+    EXPECT_EQ(index, 1);
+  }
+
+  {
+    const std::int32_t index = utils::GetNearestPointIndex(points, QPointF(-1.0, -1.0));
+    EXPECT_EQ(index, 2);
+  }
+}
+
 }  // namespace mvvm::test

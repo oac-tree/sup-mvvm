@@ -25,8 +25,11 @@
 //! Collection of helper functions related to Qt core object conversion.
 
 #include <QStringList>
+#include <QPointF>
+#include <QList>
 #include <string>
 #include <vector>
+#include <cstdint>
 
 namespace mvvm::utils
 {
@@ -50,6 +53,16 @@ QByteArray GetByteArray(const QStringList& data);
  * @brief Converts byte array to vector of strings.
  */
 QStringList GetStringList(const QByteArray& byteArray);
+
+/**
+ * @brief Returns distance between two points.
+ */
+double GetDistanceSquared(const QPointF& lhs, const QPointF& rhs);
+
+/**
+ * @brief Returns index of the nearest point from the list to the given point.
+ */
+std::int32_t GetNearestPointIndex(const QList<QPointF>& points, const QPointF& point);
 
 }  // namespace mvvm::utils
 
