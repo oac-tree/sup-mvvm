@@ -20,6 +20,9 @@
 
 #include "mvvm/plotting/charts/line_series_mouse_listener.h"
 
+#include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/plotting/charts/qt_charts.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -32,8 +35,27 @@ namespace mvvm::test
 class LineSeriesMouseListenerTest : public ::testing::Test
 {
 public:
+  ::testing::MockFunction<LineSeriesMouseListener::ReportCallback> m_listener;
 };
 
-TEST_F(LineSeriesMouseListenerTest, Construct) {}
+TEST_F(LineSeriesMouseListenerTest, AttemptToConstruct)
+{
+  EXPECT_THROW(LineSeriesMouseListener(nullptr, LineSeriesMouseListener::ReportCallback{}),
+               RuntimeException);
+}
+
+TEST_F(LineSeriesMouseListenerTest, ValidateCallbacksOnPressedAndReleased)
+{
+  QLineSeries line_series;
+  line_series << QPointF(0.0, 0.0) << QPointF(1.0, 1.0) << QPointF(2.0, 2.0);
+
+  LineSeriesMouseListener listener(&line_series, m_listener.AsStdFunction());
+
+  EXPECT_CALL(m_listener, Call(&line_series, 1)).Times(1);
+  emit line_series.pressed(QPointF(1.1, 1.1));
+
+  EXPECT_CALL(m_listener, Call(&line_series, -1)).Times(1);
+  emit line_series.released(QPointF(1.1, 1.1));
+}
 
 }  // namespace mvvm::test

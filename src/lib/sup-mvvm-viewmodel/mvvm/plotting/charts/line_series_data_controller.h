@@ -31,6 +31,7 @@ namespace mvvm
 
 class LineSeriesDataItem;
 class ModelListener;
+class LineSeriesMouseListener;
 
 /**
  * @brief The LineSeriesDataController class establishes communication between LineSeriesDataItem
@@ -94,6 +95,7 @@ private:
   const LineSeriesDataItem* m_data_item{nullptr};
   std::unique_ptr<ModelListener> m_listener;
   double m_x_offset{0.0};
+  std::unique_ptr<LineSeriesMouseListener> m_mouse_listener;
 };
 
 }  // namespace mvvm

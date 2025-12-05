@@ -38,7 +38,7 @@ class LineSeriesControllerTest : public ::testing::Test
 
 TEST_F(LineSeriesControllerTest, InitialState)
 {
-  EXPECT_THROW(LineSeriesController{nullptr}, std::runtime_error);
+  EXPECT_THROW(LineSeriesController{nullptr}, RuntimeException);
 
   QLineSeries line_series;
   LineSeriesController controller(&line_series);

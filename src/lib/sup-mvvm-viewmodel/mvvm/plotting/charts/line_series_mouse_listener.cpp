@@ -20,13 +20,51 @@
 
 #include "line_series_mouse_listener.h"
 
+#include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/plotting/charts/qt_charts.h>
+#include <mvvm/providers/qtcore_helper.h>
+
 namespace mvvm
 {
 
 LineSeriesMouseListener::LineSeriesMouseListener(QLineSeries* line_series,
-                                                                 QObject* parent_object)
-    : QObject(parent_object), m_line_series(line_series)
+                                                 const ReportCallback& callback,
+                                                 QObject* parent_object)
+    : QObject(parent_object), m_line_series(line_series), m_callback(callback)
 {
+  if (m_line_series == nullptr)
+  {
+    throw RuntimeException("Line series is not initialised");
+  }
+
+  (void)connect(line_series, &QLineSeries::pressed, this, &LineSeriesMouseListener::OnPressed);
+  (void)connect(line_series, &QLineSeries::released, this, &LineSeriesMouseListener::OnReleased);
+}
+
+std::int32_t LineSeriesMouseListener::GetNearestPointIndex(const QPointF& point) const
+{
+  return ::mvvm::utils::GetNearestPointIndex(m_line_series->points(), point);
+}
+
+void LineSeriesMouseListener::OnPressed(const QPointF& point)
+{
+  qDebug() << "pressed" << (this) << m_line_series;
+  if (m_callback)
+  {
+    m_callback(m_line_series, GetNearestPointIndex(point));
+  }
+}
+
+void LineSeriesMouseListener::OnReleased(const QPointF& point)
+{
+  qDebug() << "released" << (this) << m_line_series;
+  (void)point;
+  if (m_callback)
+  {
+    // Report -1 as point index on release.
+    // The release can happen on any place of canvas, even when hovering another line series.
+    m_callback(m_line_series, -1);
+  }
 }
 
 }  // namespace mvvm

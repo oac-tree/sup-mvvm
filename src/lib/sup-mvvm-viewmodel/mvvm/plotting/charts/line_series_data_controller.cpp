@@ -20,8 +20,10 @@
 
 #include "line_series_data_controller.h"
 
+#include "line_series_mouse_listener.h"
 #include "qt_charts.h"
 
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_listener.h>
@@ -33,10 +35,12 @@ namespace mvvm
 
 LineSeriesDataController::LineSeriesDataController(QLineSeries* line_series)
     : m_qt_line_series(line_series)
+    , m_mouse_listener(std::make_unique<LineSeriesMouseListener>(
+          line_series, LineSeriesMouseListener::ReportCallback{}))
 {
   if (line_series == nullptr)
   {
-    throw std::runtime_error("Error in LineSeriesController: not initialized line series.");
+    throw RuntimeException("Error in LineSeriesController: not initialized line series.");
   }
 
   m_qt_line_series->clear();
@@ -60,7 +64,7 @@ void LineSeriesDataController::SetItem(const LineSeriesDataItem* item)
 
   if ((item->GetModel() == nullptr) || (item->GetModel()->GetEventHandler() == nullptr))
   {
-    throw std::runtime_error("Error in LineSeriesController: model doesn't have signals");
+    throw RuntimeException("Error in LineSeriesController: model doesn't have signals");
   }
 
   m_data_item = item;
@@ -151,8 +155,10 @@ void LineSeriesDataController::Subscribe()
   m_listener = std::make_unique<mvvm::ModelListener>(m_data_item->GetModel());
 
   m_listener->Connect<mvvm::DataChangedEvent>(this, &LineSeriesDataController::OnDataChangedEvent);
-  m_listener->Connect<mvvm::ItemInsertedEvent>(this, &LineSeriesDataController::OnItemInsertedEvent);
-  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(this, &LineSeriesDataController::OnAboutToRemoveItemEvent);
+  m_listener->Connect<mvvm::ItemInsertedEvent>(this,
+                                               &LineSeriesDataController::OnItemInsertedEvent);
+  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
+      this, &LineSeriesDataController::OnAboutToRemoveItemEvent);
 }
 
 void LineSeriesDataController::Unsubscribe()

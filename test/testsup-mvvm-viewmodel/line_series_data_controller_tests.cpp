@@ -39,7 +39,7 @@ class LineSeriesDataControllerTest : public ::testing::Test
 
 TEST_F(LineSeriesDataControllerTest, InitialState)
 {
-  EXPECT_THROW(LineSeriesDataController{nullptr}, std::runtime_error);
+  EXPECT_THROW(LineSeriesDataController{nullptr}, RuntimeException);
 
   QLineSeries line_series;
   LineSeriesDataController controller(&line_series);
@@ -56,7 +56,7 @@ TEST_F(LineSeriesDataControllerTest, SetEmptyItem)
     LineSeriesDataItem data_item;
     QLineSeries line_series;
     LineSeriesDataController controller(&line_series);
-    EXPECT_THROW(controller.SetItem(&data_item), std::runtime_error);
+    EXPECT_THROW(controller.SetItem(&data_item), RuntimeException);
   }
 
   {  // setting data item without points
