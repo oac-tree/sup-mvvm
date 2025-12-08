@@ -45,6 +45,8 @@ TEST_F(LineSeriesItemTest, LineSeriesItemInitialState)
 
   EXPECT_TRUE(item.GetDataItem() == nullptr);
   EXPECT_TRUE(item.IsDisplayed());
+  EXPECT_TRUE(item.IsPointsVisible());
+  EXPECT_DOUBLE_EQ(item.GetMarkerSize(), LineSeriesItem::kDefaultMarkerSize);
 }
 
 TEST_F(LineSeriesItemTest, GetAndSet)
@@ -55,6 +57,14 @@ TEST_F(LineSeriesItemTest, GetAndSet)
 
   item.SetDisplayed(false);
   EXPECT_FALSE(item.IsDisplayed());
+
+  item.SetPointsVisible(false);
+  EXPECT_FALSE(item.IsPointsVisible());
+  item.SetPointsVisible(true);
+  EXPECT_TRUE(item.IsPointsVisible());
+
+  item.SetMarkerSize(5.5);
+  EXPECT_DOUBLE_EQ(item.GetMarkerSize(), 5.5);
 }
 
 //! Validating link mechanism.

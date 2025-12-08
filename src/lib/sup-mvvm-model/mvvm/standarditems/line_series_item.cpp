@@ -42,13 +42,14 @@ LineSeriesItem::LineSeriesItem() : CompoundItem(GetTypeName<LineSeriesItem>())
 {
   (void)AddProperty<LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
   (void)AddProperty(kOffset, 0.0).SetDisplayName("Offset");
+  (void)AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
+  (void)AddProperty(kPointsVisible, true).SetDisplayName("Points visible");
+  (void)AddProperty(kMarkerSize, kDefaultMarkerSize).SetDisplayName("Marker size");
 
   auto& pen = AddProperty<PenItem>(constants::kPen);
   (void)pen.SetDisplayName("Pen");
   pen.SetWidth(kDefaultLineWidth);
   pen.SetNamedColor(std::string(kDefaultLineColor));
-
-  (void)AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
 }
 
 std::unique_ptr<SessionItem> LineSeriesItem::Clone() const
@@ -118,6 +119,26 @@ bool LineSeriesItem::IsDisplayed() const
 void LineSeriesItem::SetDisplayed(bool value)
 {
   (void)SetProperty(constants::kDisplayed, value);
+}
+
+bool LineSeriesItem::IsPointsVisible() const
+{
+  return Property<bool>(kPointsVisible);
+}
+
+void LineSeriesItem::SetPointsVisible(bool value)
+{
+  SetProperty(kPointsVisible, value);
+}
+
+double LineSeriesItem::GetMarkerSize() const
+{
+  return Property<double>(kMarkerSize);
+}
+
+void LineSeriesItem::SetMarkerSize(double value)
+{
+  SetProperty(kMarkerSize, value);
 }
 
 }  // namespace mvvm

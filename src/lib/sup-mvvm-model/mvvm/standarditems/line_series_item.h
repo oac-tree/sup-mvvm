@@ -39,6 +39,9 @@ class LineSeriesItem : public CompoundItem
 {
 public:
   static constexpr std::string_view kOffset = "kOffset";
+  static constexpr std::string_view kPointsVisible = "kPointsVisible";
+  static constexpr std::string_view kMarkerSize = "kMarkerSize";
+  static constexpr double kDefaultMarkerSize = 3.0;
 
   LineSeriesItem();
 
@@ -114,6 +117,26 @@ public:
    * @brief Makes line series shown or hidden on a chart view.
    */
   void SetDisplayed(bool value);
+
+  /**
+   * @brief Checks whether points are visible.
+   */
+  bool IsPointsVisible() const;
+
+  /**
+   *  @brief Sets whether points are visible.
+   */
+  void SetPointsVisible(bool value);
+
+  /**
+   * @brief Returns the size of markers for points.
+   */
+  double GetMarkerSize() const;
+
+  /**
+   * @brief Set the size of markers for points.
+   */
+  void SetMarkerSize(double value);
 };
 
 template <>
