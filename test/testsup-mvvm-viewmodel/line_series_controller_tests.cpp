@@ -238,4 +238,48 @@ TEST_F(LineSeriesControllerTest, UpdateActivePointCoordinate)
   EXPECT_EQ(qt_points.at(2).y(), 30.0);
 }
 
+TEST_F(LineSeriesControllerTest, SetMarkerSize)
+{
+  mvvm::ApplicationModel model;
+  auto line_series_item = model.InsertItem<LineSeriesItem>();
+  line_series_item->SetMarkerSize(7.5);
+
+  QLineSeries line_series;
+  LineSeriesController controller(&line_series);
+
+  controller.SetItem(line_series_item);
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+  EXPECT_DOUBLE_EQ(line_series.markerSize(), 7.5);
+#else
+  EXPECT_DOUBLE_EQ(3.0, LineSeriesItem::kDefaultMarkerSize);
+#endif
+
+  // changing marker size and checking its propagation to Qt
+  line_series_item->SetMarkerSize(12.0);
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+  EXPECT_DOUBLE_EQ(line_series.markerSize(), 12.0);
+#else
+  EXPECT_DOUBLE_EQ(3.0, LineSeriesItem::kDefaultMarkerSize);
+#endif
+}
+
+TEST_F(LineSeriesControllerTest, SetPointsVisible)
+{
+  mvvm::ApplicationModel model;
+  auto line_series_item = model.InsertItem<LineSeriesItem>();
+  line_series_item->SetPointsVisible(false);
+
+  QLineSeries line_series;
+  LineSeriesController controller(&line_series);
+
+  controller.SetItem(line_series_item);
+
+  // initial points visible property was propagated
+  EXPECT_FALSE(line_series.pointsVisible());
+
+  // changing visibility and checking its propagation to Qt
+  line_series_item->SetPointsVisible(true);
+  EXPECT_TRUE(line_series.pointsVisible());
+}
+
 }  // namespace mvvm::test

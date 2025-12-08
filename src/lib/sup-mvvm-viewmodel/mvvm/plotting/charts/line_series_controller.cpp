@@ -51,6 +51,10 @@ void LineSeriesController::Subscribe()
 
   GetQtLineSeries()->setName(QString::fromStdString(line_series_item->GetDisplayName()));
   GetQtLineSeries()->setVisible(GetItemRef().IsDisplayed());
+  GetQtLineSeries()->setPointsVisible(GetItemRef().IsPointsVisible());
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+  GetQtLineSeries()->setMarkerSize(GetItemRef().GetMarkerSize());
+#endif
 
   Listener()->Connect<PropertyChangedEvent>(this, &LineSeriesController::OnPropertyChanged);
   Listener()->Connect<DataChangedEvent>(this, &LineSeriesController::OnDataChanged);
@@ -90,6 +94,20 @@ void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent& event)
     GetQtLineSeries()->setVisible(GetItemRef().IsDisplayed());
     return;
   }
+
+  if (event.name == LineSeriesItem::kPointsVisible)
+  {
+    GetQtLineSeries()->setPointsVisible(GetItemRef().IsPointsVisible());
+    return;
+  }
+
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+  if (event.name == LineSeriesItem::kMarkerSize)
+  {
+    GetQtLineSeries()->setMarkerSize(GetItemRef().GetMarkerSize());
+    return;
+  }
+#endif
 }
 
 void LineSeriesController::OnDataChanged(const DataChangedEvent& event)
