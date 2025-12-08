@@ -50,7 +50,8 @@ void LineSeriesMouseListener::OnPressed(const QPointF& point)
 {
   if (m_callback)
   {
-    m_callback(m_line_series, GetNearestPointIndex(point));
+    const auto index = GetNearestPointIndex(point);
+    m_callback(m_line_series, index);
   }
 }
 

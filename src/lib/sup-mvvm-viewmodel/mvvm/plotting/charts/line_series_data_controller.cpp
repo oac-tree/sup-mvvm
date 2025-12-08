@@ -100,15 +100,25 @@ void LineSeriesDataController::OnDataChangedEvent(const DataChangedEvent& event)
   //     - X PropertyItem
   //     - Y PropertyItem
 
-  const std::int32_t expected_distance_to_data_item = 2;
-  if (auto depth = utils::GetNestingDepth(m_data_item, event.item);
-      depth == expected_distance_to_data_item)
+  const auto depth = utils::GetNestingDepth(m_data_item, event.item);
+
+  const std::int32_t kDistanceFromDataItemToXY = 2;
+  if (depth == kDistanceFromDataItemToXY)
   {
     auto point_item = event.item->GetParent();
     auto index = point_item->GetTagIndex().GetIndex();
 
     auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);
     m_qt_line_series->replace(static_cast<std::int32_t>(index), new_x + m_x_offset, new_y);
+  }
+
+  const std::int32_t kDistanceFromDataItemToPoint = 1;
+  if (depth == kDistanceFromDataItemToPoint && event.data_role == DataRole::kSelected)
+  {
+    auto index = event.item->GetTagIndex().GetIndex();  // index of PointItem
+
+    m_qt_line_series->setPointSelected(static_cast<std::int32_t>(index),
+                                       m_data_item->IsPointSelected(index));
   }
 }
 

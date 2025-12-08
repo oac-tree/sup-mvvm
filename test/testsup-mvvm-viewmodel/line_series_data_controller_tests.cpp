@@ -252,4 +252,35 @@ TEST_F(LineSeriesDataControllerTest, ActivePointOnPointPressed)
   EXPECT_EQ(controller.GetActivePoint(), nullptr);
 }
 
+TEST_F(LineSeriesDataControllerTest, SetPointSelected)
+{
+  mvvm::ApplicationModel model;
+
+  auto data_item = std::make_unique<LineSeriesDataItem>();
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}});
+  auto data_item_ptr = data_item.get();
+  model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
+
+  // setting up controller
+  QLineSeries line_series;
+  LineSeriesDataController controller(&line_series);
+  controller.SetItem(data_item_ptr);
+  EXPECT_FALSE(data_item_ptr->IsPointSelected(0));
+
+  const QSignalSpy spy_selected_point_changed(&line_series, &QLineSeries::selectedPointsChanged);
+  data_item_ptr->SetPointSelected(0, true);
+
+  EXPECT_EQ(spy_selected_point_changed.count(), 1);
+
+  EXPECT_TRUE(data_item_ptr->IsPointSelected(0));
+  EXPECT_TRUE(line_series.isPointSelected(0));
+
+  EXPECT_FALSE(data_item_ptr->IsPointSelected(1));
+  EXPECT_FALSE(line_series.isPointSelected(1));
+
+  // selecting same point again
+  data_item_ptr->SetPointSelected(0, true);
+  EXPECT_EQ(spy_selected_point_changed.count(), 1);  // no new signal
+}
+
 }  // namespace mvvm::test
