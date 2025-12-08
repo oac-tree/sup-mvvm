@@ -106,4 +106,16 @@ TEST_F(LineSeriesDataItemTest, InsertPoint)
   EXPECT_EQ(item.GetWaveform(), expected);
 }
 
+TEST_F(LineSeriesDataItemTest, SetPointSelected)
+{
+  LineSeriesDataItem item;
+  const std::vector<std::pair<double, double>> waveform({{1.0, 10.0}, {2.0, 20.0}});
+  item.SetWaveform(waveform);
+  EXPECT_FALSE(item.IsPointSelected(0));
+  EXPECT_FALSE(item.IsPointSelected(1));
+  item.SetPointSelected(0, true);
+  EXPECT_TRUE(item.IsPointSelected(0));
+  EXPECT_FALSE(item.IsPointSelected(1));
+}
+
 }  // namespace mvvm::test

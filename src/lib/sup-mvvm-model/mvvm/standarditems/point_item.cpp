@@ -67,4 +67,14 @@ void PointItem::SetPointCoordinates(const std::pair<double, double>& coordinates
   SetY(coordinates.second);
 }
 
+void PointItem::SetSelected(bool selected)
+{
+  SetData(selected, DataRole::kSelected);
+}
+
+bool PointItem::IsSelected() const
+{
+  return HasData(DataRole::kSelected) ? Data<bool>(DataRole::kSelected) : false;
+}
+
 }  // namespace mvvm

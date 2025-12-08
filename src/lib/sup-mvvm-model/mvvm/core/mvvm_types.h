@@ -41,6 +41,7 @@ const role_t kLowerLimit = 6;  //!< lower limit on main data role
 const role_t kUpperLimit = 7;  //!< upper limit on main data role
 const role_t kDataBackup = 8;  //!< secondary data role
 const role_t kTextColor = 9;   //!< text color role
+const role_t kSelected = 10;   //!< selected role
 const role_t kUser = 100;      //!< user role
 }  // namespace DataRole
 
