@@ -67,6 +67,11 @@ void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
 
 void ChartView::SetCanvasCurrentActivity(CanvasCurrentActivity activity)
 {
+  if (activity == m_current_activity)
+  {
+    return;
+  }
+
   m_current_activity = activity;
 
   if (m_current_activity == CanvasCurrentActivity::kIdle)
@@ -126,13 +131,9 @@ void ChartView::mousePressEvent(QMouseEvent* event)
 #else
     m_last_pos = event->position();
 #endif
-    SetCanvasCurrentActivity(CanvasCurrentActivity::kScrollCanvas);
-  }
-  else
-  {
-    SetCanvasCurrentActivity(CanvasCurrentActivity::kMovePoint);
   }
 
+  m_mouse_pressed = true;
   QChartView::mousePressEvent(event);
 }
 
@@ -143,6 +144,13 @@ void ChartView::mouseMoveEvent(QMouseEvent* event)
 #else
   const auto event_pos = event->position();
 #endif
+
+  if (m_mouse_pressed)
+  {
+    SetCanvasCurrentActivity(m_operation_mode == CanvasOperationMode::kPan
+                                 ? CanvasCurrentActivity::kScrollCanvas
+                                 : CanvasCurrentActivity::kMovePoint);
+  }
 
   if (m_current_activity == CanvasCurrentActivity::kScrollCanvas)
   {
@@ -164,6 +172,7 @@ void ChartView::mouseReleaseEvent(QMouseEvent* event)
 {
   SetCanvasCurrentActivity(CanvasCurrentActivity::kIdle);
   m_last_pos = {};
+  m_mouse_pressed = false;
   QChartView::mouseReleaseEvent(event);
 }
 

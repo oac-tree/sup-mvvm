@@ -68,6 +68,7 @@ private:
   CanvasCurrentActivity m_current_activity{CanvasCurrentActivity::kIdle};
   QPointF m_last_pos;
   QChart::AnimationOptions m_animation_options_backup;
+  bool m_mouse_pressed{false};
 };
 
 }  // namespace mvvm

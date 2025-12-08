@@ -137,8 +137,8 @@ TEST_F(ChartViewTest, PressSpacebarClickMouseAndMove)
   // press mouse button
   const QPointF scene_press_coordinate{10, 10};
   SimulateMousePress(&chart_view, scene_press_coordinate, Qt::LeftButton);
-  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kScrollCanvas);
-  EXPECT_EQ(chart_ptr->animationOptions(), QChart::NoAnimation);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kIdle);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
 
   // move mouse
   const QPointF scene_move1_pos{100, 200};
@@ -177,8 +177,8 @@ TEST_F(ChartViewTest, PressButtonAndMoveMouse)
   const QPointF scene_move1_pos{100, 200};
 
   SimulateMousePress(&chart_view, scene_press_coordinate, Qt::LeftButton);
-  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kMovePoint);
-  EXPECT_EQ(chart_ptr->animationOptions(), QChart::NoAnimation);
+  EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kIdle);
+  EXPECT_EQ(chart_ptr->animationOptions(), QChart::AllAnimations);
 
   SimulateMouseMove(&chart_view, scene_move1_pos);
   EXPECT_EQ(chart_view.GetCanvasCurrentActivity(), CanvasCurrentActivity::kMovePoint);
