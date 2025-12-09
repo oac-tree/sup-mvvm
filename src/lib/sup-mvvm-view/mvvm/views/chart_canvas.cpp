@@ -26,6 +26,8 @@
 #include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/views/chart_view.h>
 
+#include <mvvm/style/mvvm_style_helper.h>
+
 #include <QVBoxLayout>
 
 namespace mvvm
@@ -38,6 +40,10 @@ ChartCanvas::ChartCanvas(QWidget* parent_widget)
   layout->setContentsMargins(0, 0, 0, 0);
 
   layout->addWidget(m_chart_view);
+
+  // seems that GridAxisAnimations is buggy and can cause crash on negative axis ranges
+  // FIXME: to be investigated after migration from QtChart to QtGraphs
+  m_chart->setAnimationOptions(QChart::SeriesAnimations);
 
   // The only way to eliminate the narrow gray frame around canvas which came from underlying scroll
   // area container
@@ -87,6 +93,11 @@ void ChartCanvas::SetViewportToContent()
 void ChartCanvas::SetOperationMode(int mode)
 {
   m_chart_view->SetOperationMode(static_cast<CanvasOperationMode>(mode));
+}
+
+QChart *ChartCanvas::GetQtChart() const
+{
+  return m_chart;
 }
 
 void ChartCanvas::wheelEvent(QWheelEvent* event)

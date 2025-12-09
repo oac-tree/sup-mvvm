@@ -61,6 +61,8 @@ public:
 
   void SetOperationMode(int mode);
 
+  QChart* GetQtChart() const;
+
 signals:
   void OperationModeChanged(int mode);
 

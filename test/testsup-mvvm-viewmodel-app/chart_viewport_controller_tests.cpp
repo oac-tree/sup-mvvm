@@ -279,7 +279,7 @@ TEST_F(ChartViewportControllerTest, AnimationProperty)
   // setting viewport to the controller
   controller.SetItem(viewport_item);
 
-  EXPECT_EQ(chart.animationOptions(), QChart::AllAnimations);
+  EXPECT_EQ(chart.animationOptions(), QChart::SeriesAnimations);
 
   auto combo = viewport_item->Property<ComboProperty>(ChartViewportItem::kAnimation);
 

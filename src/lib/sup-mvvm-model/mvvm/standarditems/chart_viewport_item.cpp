@@ -40,7 +40,7 @@ ComboProperty CreateAnimationCombo()
 {
   ComboProperty result({std::string(ChartViewportItem::kSeriesAnimation),
                         std::string(ChartViewportItem::kGridAnimation)});
-  result.SetSelectedIndices({0, 1});
+  result.SetSelectedIndices({0}); // only kSeriesAnimation is enabled by default
   return result;
 }
 
