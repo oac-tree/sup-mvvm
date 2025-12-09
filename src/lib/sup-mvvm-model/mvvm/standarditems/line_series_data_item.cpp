@@ -121,17 +121,4 @@ PointItem* LineSeriesDataItem::GetPoint(std::size_t index) const
   ValidateIndex(index);
   return GetPoints().at(index);
 }
-
-bool LineSeriesDataItem::IsPointSelected(std::size_t index) const
-{
-  ValidateIndex(index);
-  return GetPoint(index)->IsSelected();
-}
-
-void LineSeriesDataItem::SetPointSelected(std::size_t index, bool selected)
-{
-  ValidateIndex(index);
-  GetPoint(index)->SetSelected(selected);
-}
-
 }  // namespace mvvm

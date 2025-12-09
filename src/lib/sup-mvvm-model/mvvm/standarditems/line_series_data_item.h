@@ -102,16 +102,6 @@ public:
    */
   PointItem* GetPoint(std::size_t index) const;
 
-  /**
-   * @brief Checks if point at given index is selected.
-   */
-  bool IsPointSelected(std::size_t index) const;
-
-  /**
-   * @brief Sets selection state of point at given index.
-   */
-  void SetPointSelected(std::size_t index, bool selected);
-
 private:
   void ValidateIndex(std::size_t index) const;
 };

@@ -36,7 +36,6 @@ TEST_F(PointItemTest, InitialState)
   EXPECT_EQ(item_traits<PointItem>::type_name(), "Point");
   EXPECT_EQ(item_traits<PointItem>::type_name(), item.GetType());
   EXPECT_EQ(item.GetType(), item.GetDisplayName());
-  EXPECT_FALSE(item.IsSelected());
 }
 
 TEST_F(PointItemTest, GetAndSet)
@@ -53,18 +52,6 @@ TEST_F(PointItemTest, GetAndSet)
 
   item.SetPointCoordinates({1.0, 2.0});
   EXPECT_EQ(item.GetPointCoordinates(), std::make_pair(1.0, 2.0));
-}
-
-TEST_F(PointItemTest, SetSelected)
-{
-  PointItem item;
-  EXPECT_FALSE(item.IsSelected());
-
-  item.SetSelected(true);
-  EXPECT_TRUE(item.IsSelected());
-
-  item.SetSelected(false);
-  EXPECT_FALSE(item.IsSelected());
 }
 
 }  // namespace mvvm::test

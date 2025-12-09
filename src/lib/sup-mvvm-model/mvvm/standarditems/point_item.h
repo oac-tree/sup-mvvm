@@ -68,16 +68,6 @@ public:
    * @brief Set x,y to given value.
    */
   void SetPointCoordinates(const std::pair<double, double>& coordinates);
-
-  /**
-   * @brief Sets the selection state of the point.
-   */
-  void SetSelected(bool selected);
-
-  /**
-   * @brief Checks if the point is selected.
-   */
-  bool IsSelected() const;
 };
 
 template <>

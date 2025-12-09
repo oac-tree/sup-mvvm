@@ -113,18 +113,6 @@ void LineSeriesDataController::OnDataChangedEvent(const DataChangedEvent& event)
     auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);
     m_qt_line_series->replace(static_cast<std::int32_t>(index), new_x + m_x_offset, new_y);
   }
-
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
-  const std::int32_t kDistanceFromDataItemToPoint = 1;
-  if (depth == kDistanceFromDataItemToPoint && event.data_role == DataRole::kSelected)
-  {
-    auto index = event.item->GetTagIndex().GetIndex();  // index of PointItem
-    m_qt_line_series->setPointSelected(static_cast<std::int32_t>(index),
-                                       m_data_item->IsPointSelected(index));
-  }
-#else
-  std::cerr << " Point selection is not supported for Qt5\n";
-#endif
 }
 
 const LineSeriesDataItem* LineSeriesDataController::GetDataItem() const
@@ -168,12 +156,16 @@ PointItem* LineSeriesDataController::GetActivePoint() const
 
 void LineSeriesDataController::SetPointsSelected(const std::vector<PointItem*>& points)
 {
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
   auto current_points = GetDataItem()->GetPoints();
   for (std::size_t index = 0; index < current_points.size(); ++index)
   {
     const bool should_be_selected = utils::Contains(points, current_points.at(index));
     m_qt_line_series->setPointSelected(static_cast<std::int32_t>(index), should_be_selected);
   }
+#else
+  std::cerr << " Point selection is not supported for Qt5\n";
+#endif
 }
 
 void LineSeriesDataController::Subscribe()
