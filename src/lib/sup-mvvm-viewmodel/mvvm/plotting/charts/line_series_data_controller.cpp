@@ -166,6 +166,16 @@ PointItem* LineSeriesDataController::GetActivePoint() const
   return m_active_point;
 }
 
+void LineSeriesDataController::SetPointsSelected(const std::vector<PointItem*>& points)
+{
+  auto current_points = GetDataItem()->GetPoints();
+  for (std::size_t index = 0; index < current_points.size(); ++index)
+  {
+    const bool should_be_selected = utils::Contains(points, current_points.at(index));
+    m_qt_line_series->setPointSelected(static_cast<std::int32_t>(index), should_be_selected);
+  }
+}
+
 void LineSeriesDataController::Subscribe()
 {
   InitLineSeriesData();

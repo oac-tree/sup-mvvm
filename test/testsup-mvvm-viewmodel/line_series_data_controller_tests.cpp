@@ -255,7 +255,6 @@ TEST_F(LineSeriesDataControllerTest, ActivePointOnPointPressed)
 #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
 TEST_F(LineSeriesDataControllerTest, SetPointSelected)
 {
-
   mvvm::ApplicationModel model;
 
   auto data_item = std::make_unique<LineSeriesDataItem>();
@@ -284,6 +283,72 @@ TEST_F(LineSeriesDataControllerTest, SetPointSelected)
   data_item_ptr->SetPointSelected(0, true);
   EXPECT_EQ(spy_selected_point_changed.count(), 1);  // no new signal
 }
+
+TEST_F(LineSeriesDataControllerTest, INvestigatingHowQtSelectPoints)
+{
+  mvvm::ApplicationModel model;
+
+  auto data_item = std::make_unique<LineSeriesDataItem>();
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}});
+  auto data_item_ptr = data_item.get();
+  model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
+
+  // setting up controller
+  QLineSeries line_series;
+  LineSeriesDataController controller(&line_series);
+  controller.SetItem(data_item_ptr);
+
+  const QSignalSpy spy_selected_point_changed(&line_series, &QLineSeries::selectedPointsChanged);
+  line_series.setPointSelected(0, true);
+
+  EXPECT_EQ(spy_selected_point_changed.count(), 1);
+  EXPECT_TRUE(line_series.isPointSelected(0));
+
+  // selecting the same again
+  line_series.setPointSelected(0, true);
+  EXPECT_EQ(spy_selected_point_changed.count(), 1);  // no new signal
+}
+
+TEST_F(LineSeriesDataControllerTest, SetPointsSelected)
+{
+  mvvm::ApplicationModel model;
+
+  auto data_item = std::make_unique<LineSeriesDataItem>();
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}});
+  auto data_item_ptr = data_item.get();
+  model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
+
+  // setting up controller
+  QLineSeries line_series;
+  LineSeriesDataController controller(&line_series);
+  controller.SetItem(data_item_ptr);
+  EXPECT_FALSE(data_item_ptr->IsPointSelected(0));
+
+  const QSignalSpy spy_selected_point_changed(&line_series, &QLineSeries::selectedPointsChanged);
+
+  std::vector<PointItem*> selection1({data_item_ptr->GetPoint(0)});
+  controller.SetPointsSelected(selection1);
+
+  EXPECT_EQ(spy_selected_point_changed.count(), 1);
+
+  // EXPECT_TRUE(data_item_ptr->IsPointSelected(0));
+  EXPECT_TRUE(line_series.isPointSelected(0));
+
+  // EXPECT_FALSE(data_item_ptr->IsPointSelected(1));
+  EXPECT_FALSE(line_series.isPointSelected(1));
+
+  // selecting same point again
+  controller.SetPointsSelected(selection1);
+  EXPECT_EQ(spy_selected_point_changed.count(), 1);  // no new signal
+
+  // adding second point to selection
+  std::vector<PointItem*> selection2({data_item_ptr->GetPoint(0), data_item_ptr->GetPoint(1)});
+  controller.SetPointsSelected(selection2);
+  EXPECT_EQ(spy_selected_point_changed.count(), 2);
+  EXPECT_TRUE(line_series.isPointSelected(0));
+  EXPECT_TRUE(line_series.isPointSelected(1));
+}
+
 #endif
 
 }  // namespace mvvm::test

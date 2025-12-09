@@ -25,6 +25,7 @@
 #include <mvvm/signals/event_types.h>
 
 #include <memory>
+#include <vector>
 
 namespace mvvm
 {
@@ -87,6 +88,11 @@ public:
    * @brief Returns the currently active point being moved by user, or nullptr if no point is active.
    */
   PointItem* GetActivePoint() const;
+
+  /**
+   * @brief Mark the point as it is selected by the user.
+   */
+  void SetPointsSelected(const std::vector<PointItem*>& points);
 
 private:
   void Subscribe();
