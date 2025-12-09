@@ -30,6 +30,8 @@
 #include <mvvm/standarditems/plottable_items.h>
 #include <mvvm/standarditems/point_item.h>
 
+#include <iostream>
+
 namespace mvvm
 {
 
@@ -54,6 +56,8 @@ void LineSeriesController::Subscribe()
   GetQtLineSeries()->setPointsVisible(GetItemRef().IsPointsVisible());
 #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
   GetQtLineSeries()->setMarkerSize(GetItemRef().GetMarkerSize());
+#else
+  std::cerr << " Marker size is not supported for Qt5\n";
 #endif
 
   Listener()->Connect<PropertyChangedEvent>(this, &LineSeriesController::OnPropertyChanged);
@@ -107,6 +111,8 @@ void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent& event)
     GetQtLineSeries()->setMarkerSize(GetItemRef().GetMarkerSize());
     return;
   }
+#else
+  std::cerr << " Marker size is not supported for Qt5\n";
 #endif
 }
 

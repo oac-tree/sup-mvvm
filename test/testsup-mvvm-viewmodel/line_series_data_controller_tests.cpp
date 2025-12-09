@@ -252,8 +252,10 @@ TEST_F(LineSeriesDataControllerTest, ActivePointOnPointPressed)
   EXPECT_EQ(controller.GetActivePoint(), nullptr);
 }
 
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
 TEST_F(LineSeriesDataControllerTest, SetPointSelected)
 {
+
   mvvm::ApplicationModel model;
 
   auto data_item = std::make_unique<LineSeriesDataItem>();
@@ -282,5 +284,6 @@ TEST_F(LineSeriesDataControllerTest, SetPointSelected)
   data_item_ptr->SetPointSelected(0, true);
   EXPECT_EQ(spy_selected_point_changed.count(), 1);  // no new signal
 }
+#endif
 
 }  // namespace mvvm::test
