@@ -92,6 +92,14 @@ void ChartViewportController::UpdateActivePointCoordinate(double x, double y)
   }
 }
 
+void ChartViewportController::SetPointsSelected(const std::vector<PointItem*>& points)
+{
+  for (auto& controller : m_line_controllers)
+  {
+    controller->SetPointsSelected(points);
+  }
+}
+
 QLineSeries* ChartViewportController::SetupChartForLineSeries(LineSeriesItem* item)
 {
   auto qt_line_series = new QLineSeries;

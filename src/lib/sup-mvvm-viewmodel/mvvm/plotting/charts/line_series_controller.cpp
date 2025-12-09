@@ -78,6 +78,11 @@ void LineSeriesController::UpdateActivePointCoordinate(double x, double y)
   }
 }
 
+void LineSeriesController::SetPointsSelected(const std::vector<PointItem*>& points)
+{
+  m_data_controller->SetPointsSelected(points);
+}
+
 void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent& event)
 {
   if (event.name == constants::kLink)

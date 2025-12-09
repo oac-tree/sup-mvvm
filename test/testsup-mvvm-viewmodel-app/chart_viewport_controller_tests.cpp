@@ -360,4 +360,41 @@ TEST_F(ChartViewportControllerTest, UpdateActivePointCoordinate)
   EXPECT_EQ(qt_points1.at(2).y(), 300.0);
 }
 
+TEST_F(ChartViewportControllerTest, SetPointsSelected)
+{
+  QChart chart;
+  ChartViewportController controller(&chart);
+  ApplicationModel model;
+
+  auto viewport_item = model.InsertItem<ChartViewportItem>();
+
+  auto line_series_item0 = model.InsertItem<LineSeriesItem>(viewport_item);
+  auto data_item0 = model.InsertItem<LineSeriesDataItem>();
+  line_series_item0->SetDataItem(data_item0);
+  data_item0->SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
+
+  auto line_series_item1 = model.InsertItem<LineSeriesItem>(viewport_item);
+  auto data_item1 = model.InsertItem<LineSeriesDataItem>();
+  line_series_item1->SetDataItem(data_item1);
+  data_item1->SetWaveform({{1.0, 100.0}, {2.0, 200.0}, {3.0, 300.0}});
+
+  controller.SetItem(viewport_item);
+
+  auto qt_series = chart.series();
+  ASSERT_EQ(qt_series.size(), 2);
+
+  const std::vector<PointItem*> selection({data_item0->GetPoint(1), data_item1->GetPoint(2)});
+  controller.SetPointsSelected(selection);
+
+  auto qt_line_series0 = dynamic_cast<QLineSeries*>(qt_series.at(0));
+  EXPECT_FALSE(qt_line_series0->isPointSelected(0));
+  EXPECT_TRUE(qt_line_series0->isPointSelected(1));
+  EXPECT_FALSE(qt_line_series0->isPointSelected(2));
+
+  auto qt_line_series1 = dynamic_cast<QLineSeries*>(qt_series.at(1));
+  EXPECT_FALSE(qt_line_series1->isPointSelected(0));
+  EXPECT_FALSE(qt_line_series1->isPointSelected(1));
+  EXPECT_TRUE(qt_line_series1->isPointSelected(2));
+}
+
 }  // namespace mvvm::test

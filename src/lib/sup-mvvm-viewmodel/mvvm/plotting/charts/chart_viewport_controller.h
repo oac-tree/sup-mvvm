@@ -33,6 +33,7 @@ class ChartAxisPlotController;
 class ChartViewportItem;
 class LineSeriesController;
 class LineSeriesItem;
+class PointItem;
 
 /**
  * @brief The ChartViewportController class establishes communication between ChartViewportItem and
@@ -73,6 +74,11 @@ public:
    * click nearby, but it doesn't know if there is a mouse move.
    */
   void UpdateActivePointCoordinate(double x, double y);
+
+  /**
+   * @brief Mark the point as it is selected by the user.
+   */
+  void SetPointsSelected(const std::vector<PointItem*>& points);
 
 private:
   /**

@@ -32,6 +32,7 @@ namespace mvvm
 class LineSeriesItem;
 class LineSeriesDataController;
 class ChartPenController;
+class PointItem;
 
 /**
  * @brief The LineSeriesDataController class establishes communication between LineSeriesItem object
@@ -69,6 +70,12 @@ public:
    * @brief Updates coordinates of currently active point.
    */
   void UpdateActivePointCoordinate(double x, double y);
+
+  /**
+   * @brief Mark the point as it is selected by the user.
+   */
+  void SetPointsSelected(const std::vector<PointItem*>& points);
+
 private:
   /**
    * @brief Processes the change of linked data item.
