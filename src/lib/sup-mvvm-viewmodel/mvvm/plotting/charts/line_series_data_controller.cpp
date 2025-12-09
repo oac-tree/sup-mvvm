@@ -154,7 +154,7 @@ PointItem* LineSeriesDataController::GetActivePoint() const
   return m_active_point;
 }
 
-void LineSeriesDataController::SetPointsSelected(const std::vector<PointItem*>& points)
+void LineSeriesDataController::SetSelectedPoints(const std::vector<PointItem*>& points)
 {
 #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
   auto current_points = GetDataItem()->GetPoints();

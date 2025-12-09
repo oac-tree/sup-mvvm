@@ -92,11 +92,11 @@ void ChartViewportController::UpdateActivePointCoordinate(double x, double y)
   }
 }
 
-void ChartViewportController::SetPointsSelected(const std::vector<PointItem*>& points)
+void ChartViewportController::SetSelectedPoints(const std::vector<PointItem*>& points)
 {
   for (auto& controller : m_line_controllers)
   {
-    controller->SetPointsSelected(points);
+    controller->SetSelectedPoints(points);
   }
 }
 

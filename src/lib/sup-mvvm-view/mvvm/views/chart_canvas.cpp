@@ -103,6 +103,14 @@ QChart* ChartCanvas::GetQtChart() const
   return m_chart;
 }
 
+void ChartCanvas::SetSelectedPoints(const std::vector<PointItem*>& points)
+{
+  if (m_viewport_controller)
+  {
+    m_viewport_controller->SetSelectedPoints(points);
+  }
+}
+
 void ChartCanvas::wheelEvent(QWheelEvent* event)
 {
   if (event->angleDelta().y() > 0)

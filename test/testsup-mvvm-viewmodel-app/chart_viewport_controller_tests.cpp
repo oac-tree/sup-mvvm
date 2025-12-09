@@ -384,7 +384,7 @@ TEST_F(ChartViewportControllerTest, SetPointsSelected)
   ASSERT_EQ(qt_series.size(), 2);
 
   const std::vector<PointItem*> selection({data_item0->GetPoint(1), data_item1->GetPoint(2)});
-  controller.SetPointsSelected(selection);
+  controller.SetSelectedPoints(selection);
 
   auto qt_line_series0 = dynamic_cast<QLineSeries*>(qt_series.at(0));
   EXPECT_FALSE(qt_line_series0->isPointSelected(0));

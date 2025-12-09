@@ -78,9 +78,9 @@ void LineSeriesController::UpdateActivePointCoordinate(double x, double y)
   }
 }
 
-void LineSeriesController::SetPointsSelected(const std::vector<PointItem*>& points)
+void LineSeriesController::SetSelectedPoints(const std::vector<PointItem*>& points)
 {
-  m_data_controller->SetPointsSelected(points);
+  m_data_controller->SetSelectedPoints(points);
 }
 
 void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent& event)

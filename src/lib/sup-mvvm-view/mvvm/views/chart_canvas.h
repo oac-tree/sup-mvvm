@@ -32,6 +32,7 @@ namespace mvvm
 class ChartViewportItem;
 class ChartViewportController;
 class ChartView;
+class PointItem;
 
 /**
  * @brief The GraphCanvas class represent widget with embeded QT's chart.
@@ -62,6 +63,8 @@ public:
   void SetOperationMode(int mode);
 
   QChart* GetQtChart() const;
+
+  void SetSelectedPoints(const std::vector<PointItem*>& points);
 
 signals:
   void OperationModeChanged(int mode);
