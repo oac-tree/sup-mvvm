@@ -60,10 +60,19 @@ ViewportArea ViewportItem::GetViewportArea() const
   return area;
 }
 
+ViewportArea ViewportItem::GetDataArea() const
+{
+  auto [xmin, xmax] = GetDataXRange();
+  auto [ymin, ymax] = GetDataYRange();
+  return {{xmin, xmax}, {ymin, ymax}};
+}
+
 void ViewportItem::SetViewportArea(const ViewportArea& area) const
 {
+  utils::BeginMacro(*this, "SetViewportToContent");
   GetXAxis()->SetRange(area.xrange.lower, area.xrange.upper);
   GetYAxis()->SetRange(area.yrange.lower, area.yrange.upper);
+  utils::EndMacro(*this);
 }
 
 void ViewportItem::SetViewportToContent()
@@ -73,22 +82,13 @@ void ViewportItem::SetViewportToContent()
 
 void ViewportItem::SetViewportToContent(const ViewportMargins& margins)
 {
-  utils::BeginMacro(*this, "SetViewportToContent");
   SetViewportArea(ApplyRelativeMargins(GetDataArea(), margins));
-  utils::EndMacro(*this);
 }
 
 void ViewportItem::RegisterAxes()
 {
   (void)AddProperty<ViewportAxisItem>(kXaxis).SetDisplayName("X axis").SetEditable(false);
   (void)AddProperty<ViewportAxisItem>(kYaxis).SetDisplayName("Y axis").SetEditable(false);
-}
-
-ViewportArea ViewportItem::GetDataArea() const
-{
-  auto [xmin, xmax] = GetDataXRange();
-  auto [ymin, ymax] = GetDataYRange();
-  return {{xmin, xmax}, {ymin, ymax}};
 }
 
 }  // namespace mvvm

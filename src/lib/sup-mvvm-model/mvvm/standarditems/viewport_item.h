@@ -69,6 +69,11 @@ public:
   ViewportArea GetViewportArea() const;
 
   /**
+   * @brief Returns area occupied by the data.
+   */
+  ViewportArea GetDataArea() const;
+
+  /**
    * @brief Sets viewport area.
    */
   void SetViewportArea(const ViewportArea& area) const;
@@ -76,7 +81,7 @@ public:
   /**
    * @brief Sets the range of x,y window to show all data.
    */
-  virtual void SetViewportToContent();
+  void SetViewportToContent();
 
   /**
    * @brief Sets range of x,y window to show all data.
@@ -85,18 +90,13 @@ public:
    * relative units wrt calculated axis range. For example, setViewportToContent(0.0, 0.1, 0.0, 0.1)
    * will set axes to show all graphs with 10% gap above and below graph's max and min.
    */
-  virtual void SetViewportToContent(const ViewportMargins& margins);
+  void SetViewportToContent(const ViewportMargins& margins);
 
 protected:
   /**
    * @brief Registers X and Y axes.
    */
   void RegisterAxes();
-
-  /**
-   * @brief Returns area occupied by the data.
-   */
-  ViewportArea GetDataArea() const;
 
   /**
    * @brief Returns the area occupied by the data along the x-axis.
