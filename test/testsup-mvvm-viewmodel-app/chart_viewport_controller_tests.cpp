@@ -360,6 +360,7 @@ TEST_F(ChartViewportControllerTest, UpdateActivePointCoordinate)
   EXPECT_EQ(qt_points1.at(2).y(), 300.0);
 }
 
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
 TEST_F(ChartViewportControllerTest, SetPointsSelected)
 {
   QChart chart;
@@ -396,5 +397,6 @@ TEST_F(ChartViewportControllerTest, SetPointsSelected)
   EXPECT_FALSE(qt_line_series1->isPointSelected(1));
   EXPECT_TRUE(qt_line_series1->isPointSelected(2));
 }
+#endif
 
 }  // namespace mvvm::test
