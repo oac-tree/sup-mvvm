@@ -27,6 +27,8 @@ target_sources(${library_name} PRIVATE
     standard_item_includes.h
     vector_item.cpp
     vector_item.h
+    viewport_helper.cpp
+    viewport_helper.h
     viewport_item.cpp
     viewport_item.h
     waveform_helper.cpp

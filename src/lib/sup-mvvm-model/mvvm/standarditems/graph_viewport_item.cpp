@@ -21,35 +21,12 @@
 #include "graph_viewport_item.h"
 
 #include "graph_item.h"
+#include "viewport_helper.h"
 
 #include <mvvm/model/item_constants.h>
 
 #include <algorithm>
 #include <vector>
-
-namespace
-{
-
-constexpr double kFallBackMin = 0.0;
-constexpr double kFallBackMax = 1.0;
-
-template <typename ContainerT, typename MethodT>
-auto GetMinMax(const ContainerT& container, MethodT method)
-{
-  std::vector<double> values;
-
-          // accumulate all data points from all LineSeriesItem in the container.
-  for (auto container_item : container)
-  {
-    const auto array = std::invoke(method, container_item);
-    (void)std::copy(std::begin(array), std::end(array), std::back_inserter(values));
-  }
-
-  auto [xmin, xmax] = std::minmax_element(std::begin(values), std::end(values));
-  return xmin != xmax ? std::make_pair(*xmin, *xmax) : std::make_pair(kFallBackMin, kFallBackMax);
-}
-
-}  // namespace
 
 namespace mvvm
 {
@@ -72,14 +49,10 @@ std::size_t GraphViewportItem::GetGraphCount() const
   return GetItemCount(std::string(constants::kChildrenTag));
 }
 
-//! Returns the selected graph items.
-
 std::vector<GraphItem*> GraphViewportItem::GetGraphItems() const
 {
   return GetItems<GraphItem>(constants::kChildrenTag);
 }
-
-//! Returns the selected graph items.
 
 std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 {
@@ -90,8 +63,6 @@ std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
                      { return graph_item->Property<bool>(constants::kDisplayed); });
   return visible_items;
 }
-
-//! Set the graph selection.
 
 void GraphViewportItem::SetVisibleGraphItems(const std::vector<GraphItem*>& visible_graph_items)
 {
@@ -109,8 +80,6 @@ void GraphViewportItem::SetVisibleGraphItems(const std::vector<GraphItem*>& visi
   }
 }
 
-//! Reset the graph selection.
-
 void GraphViewportItem::SetAllVisible()
 {
   for (auto graph_item : GetItems<GraphItem>(constants::kChildrenTag))
@@ -119,14 +88,10 @@ void GraphViewportItem::SetAllVisible()
   }
 }
 
-//! Returns lower, upper range on x-axis occupied by all data points of all graphs.
-
 std::pair<double, double> GraphViewportItem::GetDataXRangeImpl() const
 {
   return GetMinMax(GetVisibleGraphItems(), &GraphItem::GetBinCenters);
 }
-
-//! Returns lower, upper range on y-axis occupied by all data points of all graphs.
 
 std::pair<double, double> GraphViewportItem::GetDataYRangeImpl() const
 {
