@@ -75,12 +75,12 @@ void ViewportItem::SetViewportArea(const ViewportArea& area) const
   utils::EndMacro(*this);
 }
 
-void ViewportItem::SetViewportToContent()
+void ViewportItem::SetViewportToContent() const
 {
   SetViewportToContent({0.0, 0.0, 0.0, 0.0});
 }
 
-void ViewportItem::SetViewportToContent(const ViewportMargins& margins)
+void ViewportItem::SetViewportToContent(const ViewportMargins& margins) const
 {
   SetViewportArea(ApplyRelativeMargins(GetDataArea(), margins));
 }

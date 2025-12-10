@@ -81,16 +81,17 @@ public:
   /**
    * @brief Sets the range of x,y window to show all data.
    */
-  void SetViewportToContent();
+  void SetViewportToContent() const;
 
   /**
    * @brief Sets range of x,y window to show all data.
    *
    * Allows adding an additional margin to automatically calculated axis range. Margins are given in
-   * relative units wrt calculated axis range. For example, setViewportToContent(0.0, 0.1, 0.0, 0.1)
+   * relative units wrt calculated axis range.  For example,
+   * setViewportToContent({0.0, 0.1, 0.0, 0.1}) // left, top, right, bottom
    * will set axes to show all graphs with 10% gap above and below graph's max and min.
    */
-  void SetViewportToContent(const ViewportMargins& margins);
+  void SetViewportToContent(const ViewportMargins& margins) const;
 
 protected:
   /**

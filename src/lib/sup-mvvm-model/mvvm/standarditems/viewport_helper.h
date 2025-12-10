@@ -77,6 +77,15 @@ AxisRange ExpandRelativeRange(const AxisRange& range, double lower_margin, doubl
 ViewportArea ApplyRelativeMargins(const ViewportArea& area,
                                   const ViewportMargins& relative_margins);
 
+/**
+ * @brief Apply margins to viewport area, ensuring that the area is not zero-sized.
+ *
+ * If the size of the area along any axis is less than min_delta, the area is expanded by
+ * safety_margin.
+ */
+ViewportArea ApplySafetyMargins(const ViewportArea& area, double min_delta = 1e-5,
+                                double safety_margin = 0.5);
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_VIEWPORT_HELPER_H_

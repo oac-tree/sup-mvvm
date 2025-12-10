@@ -132,4 +132,29 @@ TEST_F(ViewportHelperTests, ApplyRelativeMargins)
   }
 }
 
+TEST_F(ViewportHelperTests, ApplySafetyMargins)
+{
+  {  // apply safety margins
+    const ViewportArea area{{10.0, 10.00001}, {20.0, 20.00001}};
+    const double min_delta = 1e-5;
+    const double safety_margin = 0.5;
+    const ViewportArea safe_area = ApplySafetyMargins(area, min_delta, safety_margin);
+    EXPECT_DOUBLE_EQ(safe_area.xrange.lower, 9.5);
+    EXPECT_DOUBLE_EQ(safe_area.xrange.upper, 10.50001);
+    EXPECT_DOUBLE_EQ(safe_area.yrange.lower, 19.5);
+    EXPECT_DOUBLE_EQ(safe_area.yrange.upper, 20.50001);
+  }
+
+  {  // no need to apply safety margins
+    const ViewportArea area{{10.0, 11.0}, {20.0, 21.0}};
+    const double min_delta = 1e-5;
+    const double safety_margin = 0.5;
+    const ViewportArea safe_area = ApplySafetyMargins(area, min_delta, safety_margin);
+    EXPECT_DOUBLE_EQ(safe_area.xrange.lower, area.xrange.lower);
+    EXPECT_DOUBLE_EQ(safe_area.xrange.upper, area.xrange.upper);
+    EXPECT_DOUBLE_EQ(safe_area.yrange.lower, area.yrange.lower);
+    EXPECT_DOUBLE_EQ(safe_area.yrange.upper, area.yrange.upper);
+  }
+}
+
 }  // namespace mvvm::test
