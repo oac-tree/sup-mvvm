@@ -21,6 +21,7 @@
 #include "viewport_item.h"
 
 #include "axis_items.h"
+#include "viewport_helper.h"
 
 #include <mvvm/model/item_utils.h>
 

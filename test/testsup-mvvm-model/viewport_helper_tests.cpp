@@ -54,7 +54,7 @@ public:
 TEST_F(ViewportHelperTests, GetMinMax)
 {
   {  // empty values
-    std::vector<TestItem*> items;
+    const std::vector<TestItem*> items;
     auto [min, max] = GetMinMax(items, &TestItem::GetValues);
     EXPECT_EQ(min, constants::kFallBackMin);
     EXPECT_EQ(max, constants::kFallBackMax);
@@ -62,7 +62,7 @@ TEST_F(ViewportHelperTests, GetMinMax)
 
   {  // single item
     TestItem item1({1.0, 2.0, 3.0});
-    std::vector<TestItem*> items = {&item1};
+    const std::vector<TestItem*> items = {&item1};
     auto [min, max] = GetMinMax(items, &TestItem::GetValues);
     EXPECT_EQ(min, 1.0);
     EXPECT_EQ(max, 3.0);
@@ -72,7 +72,7 @@ TEST_F(ViewportHelperTests, GetMinMax)
     TestItem item1({1.0, 2.0, 3.0});
     TestItem item2({-1.0, 0.0, 4.0});
     TestItem item3({5.0, 6.0});
-    std::vector<TestItem*> items = {&item1, &item2, &item3};
+    const std::vector<TestItem*> items = {&item1, &item2, &item3};
     auto [min, max] = GetMinMax(items, &TestItem::GetValues);
     EXPECT_EQ(min, -1.0);
     EXPECT_EQ(max, 6.0);
@@ -81,10 +81,54 @@ TEST_F(ViewportHelperTests, GetMinMax)
   {  // multiple items, same values
     TestItem item1({1.0, 1.0, 1.0});
     TestItem item2({1.0, 1.0, 1.0});
-    std::vector<TestItem*> items = {&item1, &item2};
+    const std::vector<TestItem*> items = {&item1, &item2};
     auto [min, max] = GetMinMax(items, &TestItem::GetValues);
     EXPECT_EQ(min, 1.0);
     EXPECT_EQ(max, 1.0);
+  }
+}
+
+TEST_F(ViewportHelperTests, ExpandRelativeRange)
+{
+  {  // positive margins
+    const AxisRange range{10.0, 20.0};
+    const double lower_margin = 0.1;
+    const double upper_margin = 0.2;
+    const AxisRange expanded_range = ExpandRelativeRange(range, lower_margin, upper_margin);
+    EXPECT_DOUBLE_EQ(expanded_range.lower, 9.0);
+    EXPECT_DOUBLE_EQ(expanded_range.upper, 22.0);
+  }
+
+  {  // negative margins
+    const AxisRange range{10.0, 20.0};
+    const double lower_margin = -0.1;
+    const double upper_margin = -0.2;
+    const AxisRange expanded_range = ExpandRelativeRange(range, lower_margin, upper_margin);
+    EXPECT_DOUBLE_EQ(expanded_range.lower, 11.0);
+    EXPECT_DOUBLE_EQ(expanded_range.upper, 18.0);
+  }
+}
+
+TEST_F(ViewportHelperTests, ApplyRelativeMargins)
+{
+  {  // apply margins
+    const ViewportArea area{{10.0, 20.0}, {40.0, 50.0}};
+    const ViewportMargins margins{0.1, 0.2, 0.2, 0.1};  // left, top, right, bottom
+    const ViewportArea expanded_area = ApplyRelativeMargins(area, margins);
+    EXPECT_DOUBLE_EQ(expanded_area.xrange.lower, 9.0);
+    EXPECT_DOUBLE_EQ(expanded_area.xrange.upper, 22.0);
+    EXPECT_DOUBLE_EQ(expanded_area.yrange.lower, 39.0);
+    EXPECT_DOUBLE_EQ(expanded_area.yrange.upper, 52.0);
+  }
+
+  {  // apply zero margins
+    const ViewportArea area{{10.0, 20.0}, {40.0, 50.0}};
+    const ViewportMargins margins{0.0, 0.0, 0.0, 0.0};  // left, top, right, bottom
+    const ViewportArea expanded_area = ApplyRelativeMargins(area, margins);
+    EXPECT_DOUBLE_EQ(expanded_area.xrange.lower, area.xrange.lower);
+    EXPECT_DOUBLE_EQ(expanded_area.xrange.upper, area.xrange.upper);
+    EXPECT_DOUBLE_EQ(expanded_area.yrange.lower, area.yrange.lower);
+    EXPECT_DOUBLE_EQ(expanded_area.yrange.upper, area.yrange.upper);
   }
 }
 

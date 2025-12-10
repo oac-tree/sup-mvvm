@@ -21,6 +21,8 @@
 #ifndef MVVM_STANDARDITEMS_VIEWPORT_HELPER_H_
 #define MVVM_STANDARDITEMS_VIEWPORT_HELPER_H_
 
+#include <mvvm/standarditems/viewport_types.h>
+
 #include <algorithm>
 #include <functional>
 #include <vector>
@@ -63,6 +65,17 @@ auto GetMinMax(const ContainerT& container, MethodT method)
   return xmin != xmax ? std::make_pair(*xmin, *xmax)
                       : std::make_pair(constants::kFallBackMin, constants::kFallBackMax);
 }
+
+/**
+ * @brief Expands given axis range by relative margins.
+ */
+AxisRange ExpandRelativeRange(const AxisRange& range, double lower_margin, double upper_margin);
+
+/**
+ * @brief Returns viewport area with applied relative margins.
+ */
+ViewportArea ApplyRelativeMargins(const ViewportArea& area,
+                                  const ViewportMargins& relative_margins);
 
 }  // namespace mvvm
 
