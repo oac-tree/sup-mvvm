@@ -22,6 +22,7 @@
 #define MVVM_STANDARDITEMS_VIEWPORT_ITEM_H_
 
 #include <mvvm/model/compound_item.h>
+#include <mvvm/standarditems/viewport_types.h>
 
 namespace mvvm
 {
@@ -63,6 +64,16 @@ public:
   std::pair<double, double> GetDataYRange() const;
 
   /**
+   * @brief Returns viewport area.
+   */
+  ViewportArea GetViewportArea() const;
+
+  /**
+   * @brief Sets viewport area.
+   */
+  void SetViewportArea(const ViewportArea& area) const;
+
+  /**
    * @brief Sets the range of x,y window to show all data.
    */
   virtual void SetViewportToContent();
@@ -78,7 +89,7 @@ public:
 
 protected:
   /**
-   * @brief Register tags for axes.
+   * @brief Registers X and Y axes.
    */
   void RegisterAxes();
 

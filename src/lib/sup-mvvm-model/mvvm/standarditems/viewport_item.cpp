@@ -49,6 +49,22 @@ std::pair<double, double> ViewportItem::GetDataYRange() const
   return GetDataYRangeImpl();
 }
 
+ViewportArea ViewportItem::GetViewportArea() const
+{
+  ViewportArea area;
+  area.xrange.lower = GetXAxis()->GetMin();
+  area.xrange.upper = GetXAxis()->GetMax();
+  area.yrange.lower = GetYAxis()->GetMin();
+  area.yrange.upper = GetYAxis()->GetMax();
+  return area;
+}
+
+void ViewportItem::SetViewportArea(const ViewportArea& area) const
+{
+  GetXAxis()->SetRange(area.xrange.lower, area.xrange.upper);
+  GetYAxis()->SetRange(area.yrange.lower, area.yrange.upper);
+}
+
 void ViewportItem::SetViewportToContent()
 {
   SetViewportToContent(0.0, 0.0, 0.0, 0.0);
