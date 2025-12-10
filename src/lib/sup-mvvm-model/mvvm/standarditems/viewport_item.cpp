@@ -39,6 +39,16 @@ ViewportAxisItem* ViewportItem::GetYAxis() const
   return GetItem<ViewportAxisItem>(kYaxis);
 }
 
+std::pair<double, double> ViewportItem::GetDataXRange() const
+{
+  return GetDataXRangeImpl();
+}
+
+std::pair<double, double> ViewportItem::GetDataYRange() const
+{
+  return GetDataYRangeImpl();
+}
+
 void ViewportItem::SetViewportToContent()
 {
   SetViewportToContent(0.0, 0.0, 0.0, 0.0);

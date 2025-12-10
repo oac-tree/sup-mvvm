@@ -50,8 +50,8 @@ public:
   void SetAllVisible();
 
 protected:
-  std::pair<double, double> GetDataXRange() const override;
-  std::pair<double, double> GetDataYRange() const override;
+  std::pair<double, double> GetDataXRangeImpl() const override;
+  std::pair<double, double> GetDataYRangeImpl() const override;
 };
 
 template <>

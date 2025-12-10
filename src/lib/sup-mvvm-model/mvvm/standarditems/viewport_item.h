@@ -53,6 +53,16 @@ public:
   ViewportAxisItem* GetYAxis() const;
 
   /**
+   * @brief Returns the area occupied by the data along the x-axis.
+   */
+  std::pair<double, double> GetDataXRange() const;
+
+  /**
+   * @brief Returns the area occupied by the data along the y-axis.
+   */
+  std::pair<double, double> GetDataYRange() const;
+
+  /**
    * @brief Sets the range of x,y window to show all data.
    */
   virtual void SetViewportToContent();
@@ -68,19 +78,19 @@ public:
 
 protected:
   /**
-   * @brief Register tags to attach axes.
+   * @brief Register tags for axes.
    */
   void RegisterAxes();
 
   /**
    * @brief Returns the area occupied by the data along the x-axis.
    */
-  virtual std::pair<double, double> GetDataXRange() const = 0;
+  virtual std::pair<double, double> GetDataXRangeImpl() const = 0;
 
   /**
    * @brief Returns the area occupied by the data along the y-axis.
    */
-  virtual std::pair<double, double> GetDataYRange() const = 0;
+  virtual std::pair<double, double> GetDataYRangeImpl() const = 0;
 };
 
 }  // namespace mvvm

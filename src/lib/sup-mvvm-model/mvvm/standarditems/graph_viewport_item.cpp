@@ -122,14 +122,14 @@ void GraphViewportItem::SetAllVisible()
 
 //! Returns lower, upper range on x-axis occupied by all data points of all graphs.
 
-std::pair<double, double> GraphViewportItem::GetDataXRange() const
+std::pair<double, double> GraphViewportItem::GetDataXRangeImpl() const
 {
   return GetMinMax(GetVisibleGraphItems(), [](GraphItem* graph) { return graph->GetBinCenters(); });
 }
 
 //! Returns lower, upper range on y-axis occupied by all data points of all graphs.
 
-std::pair<double, double> GraphViewportItem::GetDataYRange() const
+std::pair<double, double> GraphViewportItem::GetDataYRangeImpl() const
 {
   return GetMinMax(GetVisibleGraphItems(), [](GraphItem* graph) { return graph->GetValues(); });
 }

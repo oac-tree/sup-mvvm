@@ -101,12 +101,12 @@ std::size_t ChartViewportItem::GetLineSeriesCount() const
   return GetItemCount(std::string(constants::kChildrenTag));
 }
 
-std::pair<double, double> ChartViewportItem::GetDataXRange() const
+std::pair<double, double> ChartViewportItem::GetDataXRangeImpl() const
 {
   return GetMinMax(GetLineSeries(), &LineSeriesItem::GetBinCenters);
 }
 
-std::pair<double, double> ChartViewportItem::GetDataYRange() const
+std::pair<double, double> ChartViewportItem::GetDataYRangeImpl() const
 {
   return GetMinMax(GetLineSeries(), &LineSeriesItem::GetValues);
 }
