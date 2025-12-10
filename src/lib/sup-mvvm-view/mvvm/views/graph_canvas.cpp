@@ -97,7 +97,7 @@ struct GraphCanvas::GraphCanvasImpl
     {
       return;
     }
-    viewport_controller->GetItem()->SetViewportToContent(left, top, right, bottom);
+    viewport_controller->GetItem()->SetViewportToContent({left, top, right, bottom});
   }
 
   QCustomPlot* customPlot() const { return custom_plot; }

@@ -143,7 +143,7 @@ TEST_F(GraphViewportItemTests, SetViewportToContentWithMargins)
   // updating viewport to graph
   const double bottom{0.1};
   const double top{0.1};
-  viewport_item->SetViewportToContent(0.0, top, 0.0, bottom);
+  viewport_item->SetViewportToContent({0.0, top, 0.0, bottom});
 
   // x-axis of viewport should be set to FixedBinAxis of DataItem
   auto xaxis = viewport_item->GetXAxis();

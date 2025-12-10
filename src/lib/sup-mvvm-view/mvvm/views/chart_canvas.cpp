@@ -90,7 +90,7 @@ void ChartCanvas::ZoomOut()
 void ChartCanvas::SetViewportToContent()
 {
   // add 10% empty gap on top, above all graphs
-  m_viewport->SetViewportToContent(0.0, 0.1, 0.0, 0.0);
+  m_viewport->SetViewportToContent({0.0, 0.1, 0.0, 0.0});
 }
 
 void ChartCanvas::SetOperationMode(int mode)

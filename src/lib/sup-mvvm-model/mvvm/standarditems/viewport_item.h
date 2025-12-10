@@ -85,13 +85,18 @@ public:
    * relative units wrt calculated axis range. For example, setViewportToContent(0.0, 0.1, 0.0, 0.1)
    * will set axes to show all graphs with 10% gap above and below graph's max and min.
    */
-  virtual void SetViewportToContent(double left, double top, double right, double bottom);
+  virtual void SetViewportToContent(const ViewportMargins& margins);
 
 protected:
   /**
    * @brief Registers X and Y axes.
    */
   void RegisterAxes();
+
+  /**
+   * @brief Returns area occupied by the data.
+   */
+  ViewportArea GetDataArea() const;
 
   /**
    * @brief Returns the area occupied by the data along the x-axis.
