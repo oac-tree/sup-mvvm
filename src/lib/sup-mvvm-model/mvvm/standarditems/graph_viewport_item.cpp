@@ -33,16 +33,15 @@ namespace
 constexpr double kFallBackMin = 0.0;
 constexpr double kFallBackMax = 1.0;
 
-//! Find min and max values along all data points in all graphs.
-//! Function 'func' is used to run either through binCenters or binValues.
-
-template <typename T>
-auto GetMinMax(const std::vector<mvvm::GraphItem*>& graphs, T func)
+template <typename ContainerT, typename MethodT>
+auto GetMinMax(const ContainerT& container, MethodT method)
 {
   std::vector<double> values;
-  for (auto graph : graphs)
+
+          // accumulate all data points from all LineSeriesItem in the container.
+  for (auto container_item : container)
   {
-    const auto array = func(graph);
+    const auto array = std::invoke(method, container_item);
     (void)std::copy(std::begin(array), std::end(array), std::back_inserter(values));
   }
 
@@ -124,14 +123,14 @@ void GraphViewportItem::SetAllVisible()
 
 std::pair<double, double> GraphViewportItem::GetDataXRangeImpl() const
 {
-  return GetMinMax(GetVisibleGraphItems(), [](GraphItem* graph) { return graph->GetBinCenters(); });
+  return GetMinMax(GetVisibleGraphItems(), &GraphItem::GetBinCenters);
 }
 
 //! Returns lower, upper range on y-axis occupied by all data points of all graphs.
 
 std::pair<double, double> GraphViewportItem::GetDataYRangeImpl() const
 {
-  return GetMinMax(GetVisibleGraphItems(), [](GraphItem* graph) { return graph->GetValues(); });
+  return GetMinMax(GetVisibleGraphItems(), &GraphItem::GetValues);
 }
 
 }  // namespace mvvm

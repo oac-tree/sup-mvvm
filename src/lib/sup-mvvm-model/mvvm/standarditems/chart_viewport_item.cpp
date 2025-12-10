@@ -40,28 +40,31 @@ ComboProperty CreateAnimationCombo()
 {
   ComboProperty result({std::string(ChartViewportItem::kSeriesAnimation),
                         std::string(ChartViewportItem::kGridAnimation)});
-  result.SetSelectedIndices({0}); // only kSeriesAnimation is enabled by default
+  result.SetSelectedIndices({0});  // only kSeriesAnimation is enabled by default
   return result;
 }
 
 /**
- * @brief Finds min and max values along all data points in all graphs.
+ * @brief Finds min and max values along all data points for all items in the container.
  *
- * Used to find min, max range of all points either along x-axis, or y-axis.
+ * It is assumed, that an item in the container represents a graph, and it has a method to get array
+ * of data points. This can be the method returning all x-values, or all y-values. Used to find min,
+ * max range of all points either along x-axis, or y-axis.
  *
- * @tparam MethodT Either GetBinCenters or GetValues method.
+ * @tparam ContainerT Container type with line series items.
+ * @tparam MethodT A method which retuns array of values from the item.
  * @param container Container with line series items.
- * @param method Method from LineSeriesItem.
+ * @param method Method from graph item in the container.
  */
-template <typename MethodT>
-auto GetMinMax(const std::vector<LineSeriesItem*>& container, MethodT method)
+template <typename ContainerT, typename MethodT>
+auto GetMinMax(const ContainerT& container, MethodT method)
 {
   std::vector<double> values;
 
   // accumulate all data points from all LineSeriesItem in the container.
-  for (auto line_serie_item : container)
+  for (auto container_item : container)
   {
-    const auto array = std::invoke(method, line_serie_item);
+    const auto array = std::invoke(method, container_item);
     (void)std::copy(std::begin(array), std::end(array), std::back_inserter(values));
   }
 
