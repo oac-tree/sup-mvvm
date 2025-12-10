@@ -24,6 +24,7 @@
 #include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/plotting/plot_constants.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
+#include <mvvm/standarditems/viewport_helper.h>
 #include <mvvm/style/mvvm_style_helper.h>
 #include <mvvm/views/chart_view.h>
 
@@ -90,7 +91,10 @@ void ChartCanvas::ZoomOut()
 void ChartCanvas::SetViewportToContent()
 {
   // add 10% empty gap on top, above all graphs
-  m_viewport->SetViewportToContent({0.0, 0.1, 0.0, 0.0});
+  auto data_area = m_viewport->GetDataArea();
+  auto adjusted_area = ApplyRelativeMargins(data_area, {0.0, 0.1, 0.0, 0.0});
+  auto adjusted_for_safety_area = ApplySafetyMargins(adjusted_area);
+  m_viewport->SetViewportArea(adjusted_for_safety_area);
 }
 
 void ChartCanvas::SetOperationMode(int mode)
