@@ -80,10 +80,10 @@ ViewportArea ApplyRelativeMargins(const ViewportArea& area,
 /**
  * @brief Apply margins to viewport area, ensuring that the area is not zero-sized.
  *
- * If the size of the area along any axis is less than min_delta, the area is expanded by
- * safety_margin.
+ * If the size of the area along any axis is less than smallest_range_to_display, the area
+ * is expanded by safety_margin.
  */
-ViewportArea ApplySafetyMargins(const ViewportArea& area, double min_delta = 1e-5,
+ViewportArea ApplySafetyMargins(const ViewportArea& area, double smallest_range_to_display = 1e-5,
                                 double safety_margin = 0.5);
 
 }  // namespace mvvm

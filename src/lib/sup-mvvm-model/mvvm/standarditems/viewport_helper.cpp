@@ -41,16 +41,23 @@ ViewportArea ApplyRelativeMargins(const ViewportArea& area, const ViewportMargin
   return {expanded_xrange, expanded_yrange};
 }
 
-ViewportArea ApplySafetyMargins(const ViewportArea& area, double min_delta, double safety_margin)
+ViewportArea ApplySafetyMargins(const ViewportArea& area, double smallest_range_to_display,
+                                double safety_margin)
 {
   AxisRange safe_xrange;
-  const double xdelta = area.xrange.upper - area.xrange.lower;
-  safe_xrange.lower = xdelta < min_delta ? area.xrange.lower - safety_margin : area.xrange.lower;
-  safe_xrange.upper = xdelta < min_delta ? area.xrange.upper + safety_margin : area.xrange.upper;
+  const bool xaxis_is_too_short =
+      (area.xrange.upper - area.xrange.lower) < smallest_range_to_display;
+
+  safe_xrange.lower = xaxis_is_too_short ? (area.xrange.lower - safety_margin) : area.xrange.lower;
+  safe_xrange.upper = xaxis_is_too_short ? (area.xrange.upper + safety_margin) : area.xrange.upper;
+
   AxisRange safe_yrange;
-  const double ydelta = area.yrange.upper - area.yrange.lower;
-  safe_yrange.lower = ydelta < min_delta ? area.yrange.lower - safety_margin : area.yrange.lower;
-  safe_yrange.upper = ydelta < min_delta ? area.yrange.upper + safety_margin : area.yrange.upper;
+  const bool yaxis_is_too_short =
+      (area.yrange.upper - area.yrange.lower) < smallest_range_to_display;
+
+  safe_yrange.lower = yaxis_is_too_short ? (area.yrange.lower - safety_margin) : area.yrange.lower;
+  safe_yrange.upper = yaxis_is_too_short ? (area.yrange.upper + safety_margin) : area.yrange.upper;
+
   return {safe_xrange, safe_yrange};
 }
 
