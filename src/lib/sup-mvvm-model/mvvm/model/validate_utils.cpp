@@ -113,28 +113,30 @@ void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
   }
 }
 
-std::pair<bool, std::string> CanInsertType(const std::string& item_type, const SessionItem* parent,
-                                           const TagIndex& tag_index)
+std::error_code GetInsertTypeErrorCode(const std::string& item_type, const SessionItem* parent,
+                                       const TagIndex& tag_index)
 {
   if (parent == nullptr)
   {
-    return {kFailure, "Invalid parent item"};
+    return ModelError::InvalidParentItem;
   }
 
   if (!parent->GetTaggedItems()->CanInsertType(item_type, GetInsertTagIndex(parent, tag_index)))
   {
-    return {kFailure, "Can't insert item of the given type to the parent"};
+    return ModelError::FailedToInsertItem;
   }
 
-  return {kSuccess, ""};
+  return ModelError::Success;
 }
 
 void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* parent,
                             const TagIndex& tag_index)
 {
-  if (auto [flag, reason] = CanInsertType(item_type, parent, tag_index); !flag)
+  const auto error_code = GetInsertTypeErrorCode(item_type, parent, tag_index);
+  if (error_code != ModelError::Success)
   {
-    throw InvalidOperationException(reason);
+    throw InvalidOperationException("Item type insert validation failed: "
+                                    + std::string(error_code.message()));
   }
 }
 

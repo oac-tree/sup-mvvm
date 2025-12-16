@@ -58,12 +58,10 @@ void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
                         const TagIndex& tag_index);
 
 /**
- * @brief Perform validation if insert of the new item of the given type is allowed.
- *
- * @return Success flag, and the reason if insert is not possible.
+ * @brief Returns a error code for potential insert of a new item of the given type.
  */
-std::pair<bool, std::string> CanInsertType(const std::string& item_type, const SessionItem* parent,
-                                           const TagIndex& tag_index);
+std::error_code GetInsertTypeErrorCode(const std::string& item_type, const SessionItem* parent,
+                                       const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if insert of the new item of the given type insert is allowed.

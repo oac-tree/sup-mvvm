@@ -153,7 +153,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
 
 TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
 {
-  using ::mvvm::utils::CanInsertType;
+  using ::mvvm::utils::GetInsertTypeErrorCode;
   using ::mvvm::utils::ValidateItemTypeInsert;
 
   const std::string item_type("some-item-type");
@@ -165,17 +165,20 @@ TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
   auto child = std::make_unique<CompoundItem>(item_type);
   m_model.InsertItem(std::move(child), parent0, {"tag1", 0});
 
-  EXPECT_FALSE(CanInsertType(item_type, nullptr, {"tag1", 0}).first);
-  EXPECT_TRUE(CanInsertType(item_type, parent0, {"tag1", 0}).first);
-  EXPECT_TRUE(CanInsertType(item_type, parent0, {"tag1", 1}).first);
-  EXPECT_FALSE(CanInsertType(item_type, parent0, {"tag1", 2}).first);               // wrong index
-  EXPECT_FALSE(CanInsertType(item_type, parent0, {"non-existing-type", 1}).first);  // wrong tag
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, nullptr, {"tag1", 0}), ModelError::InvalidParentItem);
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, {"tag1", 0}), ModelError::Success);
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, {"tag1", 1}), ModelError::Success);
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, {"tag1", 2}),
+            ModelError::FailedToInsertItem);  // wrong index
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, {"non-existing-type", 1}),
+            ModelError::FailedToInsertItem);  // wrong tag
 
   // we do allow  implicit conversion of TagIndex::Append into real index
-  EXPECT_TRUE(CanInsertType(item_type, parent0, TagIndex::Append()).first);
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, TagIndex::Append()), ModelError::Success);
 
   // not-registered item type
-  EXPECT_FALSE(CanInsertType("wrong-type", parent0, {"tag1", 0}).first);  // wrong index
+  EXPECT_EQ(GetInsertTypeErrorCode("wrong-type", parent0, {"tag1", 0}),
+            ModelError::FailedToInsertItem);  // wrong index
   EXPECT_THROW(ValidateItemTypeInsert("wrong-type", parent0, {"tag1", 0}),
                InvalidOperationException);
 }
