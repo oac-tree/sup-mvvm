@@ -20,6 +20,8 @@
 
 #include "mvvm_errors.h"
 
+#include "mvvm_error_condition.h"
+
 #include <map>
 
 namespace mvvm
@@ -39,6 +41,20 @@ std::map<ModelError, std::string> GetModelErrorMessageMap()
       {ModelError::ItemHasNoParent, "item has no parent"},
       {ModelError::ItemHasParent, "item already has parent"},
       {ModelError::MaxCount, "MaxCount"}};
+  return result;
+}
+
+/**
+ * @brief Returns a map with correspondance of ModelError to MvvmErrorCondition.
+ */
+std::map<ModelError, MvvmErrorCondition> GetModelErrorConditionMap()
+{
+  const std::map<ModelError, MvvmErrorCondition> result = {
+      {ModelError::Success, MvvmErrorCondition::ModelError},
+      {ModelError::NullItem, MvvmErrorCondition::ModelError},
+      {ModelError::ItemHasNoParent, MvvmErrorCondition::ModelError},
+      {ModelError::ItemHasParent, MvvmErrorCondition::ModelError},
+      {ModelError::MaxCount, MvvmErrorCondition::ModelError}};
   return result;
 }
 
@@ -67,6 +83,17 @@ public:
       return iter->second;
     }
     return kUnknownErrorMessage;
+  }
+
+  std::error_condition default_error_condition(int ev) const noexcept override
+  {
+    const static auto kErrorConditionMap = GetModelErrorConditionMap();
+    auto iter = kErrorConditionMap.find(static_cast<ModelError>(ev));
+    if (iter != kErrorConditionMap.end())
+    {
+      return make_error_condition(iter->second);
+    }
+    return std::error_condition(ev, *this);
   }
 };
 

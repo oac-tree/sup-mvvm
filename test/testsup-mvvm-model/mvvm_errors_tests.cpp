@@ -20,6 +20,8 @@
 
 #include "mvvm/core/mvvm_errors.h"
 
+#include <mvvm/core/mvvm_error_condition.h>
+
 #include <gtest/gtest.h>
 
 #include <set>
@@ -100,6 +102,24 @@ TEST_F(MvvmErrorsTest, UniqueErrorMessages)
 
   // all error messages are different
   EXPECT_EQ(all_messages.size(), static_cast<std::size_t>(ModelError::MaxCount));
+}
+
+TEST_F(MvvmErrorsTest, UsingErrorCodesWithMvvmErrorCondition)
+{
+  const auto error_code = make_error_code(ModelError::NullItem);
+  const auto error_condition = error_code.default_error_condition();
+  EXPECT_EQ(error_condition.value(), static_cast<int>(MvvmErrorCondition::ModelError));
+  EXPECT_EQ(error_condition.category().name(), std::string(kModelErrorCondition));
+  EXPECT_EQ(error_condition.message(), "model error");
+
+  EXPECT_TRUE(error_code == error_condition);
+
+  const auto error_condition2 = make_error_condition(MvvmErrorCondition::ModelError);
+  EXPECT_TRUE(error_condition == error_condition2);
+  EXPECT_TRUE(error_code == error_condition2);
+
+  EXPECT_TRUE(error_code == MvvmErrorCondition::ModelError);
+  EXPECT_TRUE(make_error_code(ModelError::NullItem) == MvvmErrorCondition::ModelError);
 }
 
 }  // namespace mvvm::test
