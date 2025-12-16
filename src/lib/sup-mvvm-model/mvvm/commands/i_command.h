@@ -25,7 +25,6 @@
 #include <mvvm/signals/event_types.h>
 
 #include <optional>
-#include <string>
 
 namespace mvvm
 {

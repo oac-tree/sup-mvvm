@@ -42,8 +42,11 @@ public:
   using const_iterator = container_t::const_iterator;
 
   explicit SessionItemContainer(TagInfo tag_info);
-  SessionItemContainer(const SessionItemContainer& other) = delete;
+
+  SessionItemContainer(const SessionItemContainer&) = delete;
   SessionItemContainer& operator=(const SessionItemContainer&) = delete;
+  SessionItemContainer(SessionItemContainer&&) = delete;
+  SessionItemContainer& operator=(SessionItemContainer&&) = delete;
 
   ~SessionItemContainer();
 
