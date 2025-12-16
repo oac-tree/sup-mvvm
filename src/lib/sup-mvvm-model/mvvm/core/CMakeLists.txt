@@ -2,6 +2,10 @@ target_sources(${library_name} PRIVATE
   basic_scalar_types.cpp
   basic_scalar_types.h
   flags.h
+  mvvm_error_condition.cpp
+  mvvm_error_condition.cpp
+  mvvm_error_condition.h
+  mvvm_error_condition.h
   mvvm_errors.cpp
   mvvm_errors.h
   mvvm_exceptions.cpp
