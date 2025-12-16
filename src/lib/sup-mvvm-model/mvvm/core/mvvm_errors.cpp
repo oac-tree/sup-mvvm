@@ -85,6 +85,11 @@ public:
     return kUnknownErrorMessage;
   }
 
+  /**
+   * @brief Returns the default error condition corresponding to the error value.
+   *
+   * All our ModelError codes map to a single MvvmErrorCondition::ModelError condition.
+   */
   std::error_condition default_error_condition(int ev) const noexcept override
   {
     const static auto kErrorConditionMap = GetModelErrorConditionMap();
@@ -93,7 +98,7 @@ public:
     {
       return make_error_condition(iter->second);
     }
-    return std::error_condition(ev, *this);
+    return {ev, *this};
   }
 };
 

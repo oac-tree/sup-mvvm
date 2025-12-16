@@ -48,4 +48,11 @@ InvalidOperationException::InvalidOperationException(const std::string& message)
 
 LogicErrorException::LogicErrorException(const std::string& message) : MessageException{message} {}
 
+SystemException::SystemException(std::error_code error_code) : std::system_error(error_code) {}
+
+SystemException::SystemException(std::error_code error_code, const std::string& message)
+    : std::system_error(error_code, message)
+{
+}
+
 }  // namespace mvvm
