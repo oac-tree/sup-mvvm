@@ -41,8 +41,12 @@ enum class ModelError : std::uint8_t
 {
   Success = 0,
   NullItem,
+  ItemAndParentAreTheSame,
   ItemHasNoParent,
   ItemHasParent,
+  InvalidParentItem,
+  ItemIsAncestorOfNewParent,
+  FailedToInsertItem,
   MaxCount
 };
 

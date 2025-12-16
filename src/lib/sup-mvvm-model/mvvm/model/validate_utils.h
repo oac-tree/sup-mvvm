@@ -24,6 +24,8 @@
 //! @file
 //! Collection of utility function to check if certain operations on the model are valid.
 
+#include <mvvm/core/mvvm_errors.h>
+
 #include <string>
 
 namespace mvvm
@@ -42,12 +44,10 @@ namespace mvvm::utils
 TagIndex GetInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
 
 /**
- * @brief Perform validation if item insert is allowed.
- *
- * @return Success flag, and the reason if insert is not possible.
+ * @brief Returns a error code for potential insert item operation.
  */
-std::pair<bool, std::string> CanInsertItem(const SessionItem* item, const SessionItem* parent,
-                                           const TagIndex& tag_index);
+std::error_code GetInsertItemErrorCode(const SessionItem* item, const SessionItem* parent,
+                                       const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item insert is allowed.

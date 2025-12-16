@@ -199,9 +199,10 @@ SessionItem* FindNextItemToSelect(SessionItem* item);
 SessionItem* FindNextSiblingToSelect(SessionItem* item);
 
 /**
- * @brief Returns true if 'candidate' is one of ancestor (parent, grand-parent etc) of given item.
+ * @brief Returns true if 'ancestor_candidate' is one of ancestor (parent, grand-parent etc) of
+ * given item.
  */
-bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate);
+bool IsItemAncestor(const SessionItem* item, const SessionItem* ancestor_candidate);
 
 /**
  * @brief Returns vector with duplicates and 'nullptr' filtered out.

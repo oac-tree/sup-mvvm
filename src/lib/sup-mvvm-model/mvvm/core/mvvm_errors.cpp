@@ -38,8 +38,12 @@ std::map<ModelError, std::string> GetModelErrorMessageMap()
   const std::map<ModelError, std::string> result = {
       {ModelError::Success, "success"},
       {ModelError::NullItem, "null item"},
+      {ModelError::ItemAndParentAreTheSame, "item and parent are the same"},
       {ModelError::ItemHasNoParent, "item has no parent"},
       {ModelError::ItemHasParent, "item already has parent"},
+      {ModelError::InvalidParentItem, "invalid parent item"},
+      {ModelError::ItemIsAncestorOfNewParent, "item is ancestor of new parent"},
+      {ModelError::FailedToInsertItem, "failed to insert item"},
       {ModelError::MaxCount, "MaxCount"}};
   return result;
 }

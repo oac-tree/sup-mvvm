@@ -66,48 +66,50 @@ TagIndex GetInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index)
   return parent->GetTaggedItems()->GetInsertTagIndex(tag_index);
 }
 
-std::pair<bool, std::string> CanInsertItem(const SessionItem* item, const SessionItem* parent,
-                                           const TagIndex& tag_index)
+std::error_code GetInsertItemErrorCode(const SessionItem* item, const SessionItem* parent,
+                                       const TagIndex& tag_index)
 {
   if (item == nullptr)
   {
-    return {kFailure, "Invalid input item"};
+    return ModelError::NullItem;
   }
 
   if (item == parent)
   {
-    return {kFailure, "Attempt to insert to itself"};
+    return ModelError::ItemAndParentAreTheSame;
   }
 
   if (item->GetParent() != nullptr)
   {
-    return {kFailure, "Item belongs to another parent"};
+    return ModelError::ItemHasParent;
   }
 
   if (parent == nullptr)
   {
-    return {kFailure, "Invalid parent item"};
+    return ModelError::InvalidParentItem;
   }
 
   if (utils::IsItemAncestor(parent, item))
   {
-    return {kFailure, "Attempt to turn ancestor into a child"};
+    return ModelError::ItemIsAncestorOfNewParent;
   }
 
   if (!parent->GetTaggedItems()->CanInsertItem(item, GetInsertTagIndex(parent, tag_index)))
   {
-    return {kFailure, "Can't insert item to parent"};
+    return ModelError::FailedToInsertItem;
   }
 
-  return {kSuccess, ""};
+  return ModelError::Success;
 }
 
 void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
                         const TagIndex& tag_index)
 {
-  if (auto [flag, reason] = CanInsertItem(item, parent, tag_index); !flag)
+  const auto error_code = GetInsertItemErrorCode(item, parent, tag_index);
+  if (error_code != ModelError::Success)
   {
-    throw InvalidOperationException(reason);
+    throw InvalidOperationException("Item insert validation failed: "
+                                    + std::string(error_code.message()));
   }
 }
 

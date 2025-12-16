@@ -294,16 +294,16 @@ SessionItem* FindNextSiblingToSelect(SessionItem* item)
   return (closest != nullptr) ? closest : nullptr;
 }
 
-bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
+bool IsItemAncestor(const SessionItem* item, const SessionItem* ancestor_candidate)
 {
-  if ((item == nullptr) || (candidate == nullptr))
+  if ((item == nullptr) || (ancestor_candidate == nullptr))
   {
     return false;
   }
   const SessionItem* parent = item->GetParent();
   while (parent != nullptr)
   {
-    if (parent == candidate)
+    if (parent == ancestor_candidate)
     {
       return true;
     }

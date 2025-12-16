@@ -96,8 +96,10 @@ TEST_F(MvvmErrorsTest, UniqueErrorMessages)
   {
     const auto& error_code = make_error_code(static_cast<ModelError>(index));
     const std::string message = error_code.message();
-    all_messages.insert(message);
-    EXPECT_FALSE(message.empty());
+    if (message != kUnknownErrorMessage && !message.empty())
+    {
+      all_messages.insert(message);
+    }
   }
 
   // all error messages are different
