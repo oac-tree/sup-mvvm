@@ -1,0 +1,93 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2025 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ * SPDX-License-Identifier: MIT
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file LICENSE located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "mvvm_errors.h"
+
+#include <map>
+
+namespace mvvm
+{
+
+namespace
+{
+
+/**
+ * @brief Returns a map with correspondance of ModelError to the error message.
+ */
+std::map<ModelError, std::string> GetModelErrorMessageMap()
+{
+  const std::map<ModelError, std::string> result = {
+      {ModelError::Success, "success"},
+      {ModelError::NullItem, "null item"},
+      {ModelError::ItemHasNoParent, "item has no parent"},
+      {ModelError::ItemHasParent, "item already has parent"},
+      {ModelError::MaxCount, "MaxCount"}};
+  return result;
+}
+
+/**
+ * @brief The ModelErrorCategory class provides description for mvvm::ModelError codes.
+ *
+ * It is also used to create std::error_code from mvvm::ModelError enums.
+ */
+class ModelErrorCategory : public std::error_category
+{
+public:
+  /**
+   * @brief The name of the error category.
+   */
+  const char* name() const noexcept override { return kModelErrorCategory; }
+
+  /**
+   * @brief Returns the error message corresponding to the error value.
+   */
+  std::string message(int error_value) const override
+  {
+    const static auto kErrorMessageMap = GetModelErrorMessageMap();
+    auto iter = kErrorMessageMap.find(static_cast<ModelError>(error_value));
+    if (iter != kErrorMessageMap.end())
+    {
+      return iter->second;
+    }
+    return kUnknownErrorMessage;
+  }
+};
+
+/**
+ * @brief Returns a reference to a global ModelErrorCategory instance.
+ *
+ * It's unique address is used to construct error codes from our error enums.
+ */
+const ModelErrorCategory& model_error_category()
+{
+  static const ModelErrorCategory instance;
+  return instance;
+}
+
+}  // namespace
+
+std::error_code make_error_code(ModelError model_error)
+{
+  return {static_cast<int>(model_error), model_error_category()};
+}
+
+// namespace
+
+}  // namespace mvvm
