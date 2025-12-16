@@ -44,6 +44,10 @@ std::map<ModelError, std::string> GetModelErrorMessageMap()
       {ModelError::InvalidParentItem, "invalid parent item"},
       {ModelError::ItemIsAncestorOfNewParent, "item is ancestor of new parent"},
       {ModelError::FailedToInsertItem, "failed to insert item"},
+      {ModelError::ItemBelongToDifferentModel, "item belong to different model"},
+      {ModelError::FailedToTakeItem, "can't take item from parent"},
+      {ModelError::FailedToMoveItem, "can't move item to this place"},
+      {ModelError::InvalidChildItem, "invalid child item"},
       {ModelError::MaxCount, "MaxCount"}};
   return result;
 }

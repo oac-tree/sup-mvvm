@@ -47,6 +47,10 @@ enum class ModelError : std::uint8_t
   InvalidParentItem,
   ItemIsAncestorOfNewParent,
   FailedToInsertItem,
+  ItemBelongToDifferentModel,
+  FailedToTakeItem,
+  FailedToMoveItem,
+  InvalidChildItem,
   MaxCount
 };
 

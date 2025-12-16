@@ -140,55 +140,57 @@ void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* par
   }
 }
 
-std::pair<bool, std::string> CanMoveItem(const SessionItem* item, const SessionItem* new_parent,
-                                         const TagIndex& tag_index)
+std::error_code GetMoveItemErrorCode(const SessionItem* item, const SessionItem* new_parent,
+                                     const TagIndex& tag_index)
 {
   if (!IsValidChildForMove(item))
   {
-    return {kFailure, "Invalid input item"};
+    return ModelError::NullItem;
   }
 
   if (!IsValidParentToMoveIn(new_parent))
   {
-    return {kFailure, "Invalid parent item"};
+    return ModelError::InvalidParentItem;
   }
 
   if (item->GetModel() != new_parent->GetModel())
   {
-    return {kFailure, "Items belong to different models"};
+    return ModelError::ItemBelongToDifferentModel;
   }
 
   auto current_parent = item->GetParent();
 
   if (!current_parent->GetTaggedItems()->CanTakeItem(item->GetTagIndex()))
   {
-    return {kFailure, "Can't take item from parent"};
+    return ModelError::FailedToTakeItem;
   }
 
   if (!new_parent->GetTaggedItems()->CanMoveItem(item, GetInsertTagIndex(new_parent, tag_index)))
   {
-    return {kFailure, "Can't move item to this place"};
+    return ModelError::FailedToMoveItem;
   }
 
   if (utils::IsItemAncestor(new_parent, item))
   {
-    return {kFailure, "Attempt to make ancestor a child"};
+    return ModelError::ItemIsAncestorOfNewParent;
   }
 
   if (item == new_parent)
   {
-    return {kFailure, "Attempt to insert an item to itself"};
+    return ModelError::ItemAndParentAreTheSame;
   }
 
-  return {kSuccess, ""};
+  return ModelError::Success;
 }
 
 void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
                       const TagIndex& tag_index)
 {
-  if (auto [flag, reason] = CanMoveItem(item, new_parent, tag_index); !flag)
+  const auto error_code = GetMoveItemErrorCode(item, new_parent, tag_index);
+  if (error_code)
   {
-    throw InvalidOperationException(reason);
+    throw InvalidOperationException("Item move validation failed: "
+                                    + std::string(error_code.message()));
   }
 }
 

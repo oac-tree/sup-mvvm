@@ -72,12 +72,10 @@ void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* par
                             const TagIndex& tag_index);
 
 /**
- * @brief Perform validation if item move is allowed.
- *
- * @return Success flag, and the reason if moving is not possible.
+ * @brief Returns a error code for potential move operation.
  */
-std::pair<bool, std::string> CanMoveItem(const SessionItem* item, const SessionItem* new_parent,
-                                         const TagIndex& tag_index);
+std::error_code GetMoveItemErrorCode(const SessionItem* item, const SessionItem* new_parent,
+                                     const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item move is allowed. Will throw InvalidMoveException otherwise.
