@@ -26,6 +26,7 @@
 
 #include <exception>
 #include <string>
+#include <system_error>
 
 namespace mvvm
 {
@@ -120,6 +121,23 @@ public:
   LogicErrorException(LogicErrorException&&) = default;
   LogicErrorException& operator=(LogicErrorException&&) = default;
 };
+
+/**
+ * @brief The SystemException class is an exception that includes error_code value.
+ */
+class SystemException : public std::system_error
+{
+public:
+  explicit SystemException(std::error_code error_code);
+  SystemException(std::error_code error_code,  const std::string& message);
+
+  ~SystemException() override = default;
+  SystemException(const SystemException& other) = default;
+  SystemException& operator=(const SystemException& other) & = default;
+  SystemException(SystemException&&) = default;
+  SystemException& operator=(SystemException&&) = default;
+};
+
 
 }  // namespace mvvm
 

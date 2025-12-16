@@ -20,6 +20,8 @@
 
 #include "mvvm/core/mvvm_exceptions.h"
 
+#include <mvvm/core/mvvm_errors.h>
+
 #include <gtest/gtest.h>
 
 namespace mvvm::test
@@ -56,6 +58,21 @@ TEST_F(MvvmExceptionsTest, Message)
   {
     auto exception = LogicErrorException(message);
     EXPECT_EQ(std::string(exception.what()), message);
+  }
+
+  {
+    const std::error_code error_code = make_error_code(ModelError::NullItem);
+    auto exception = SystemException(error_code, message);
+    // Looks liks std::exception concatenates messages so it becomes "custom message: null item"
+    EXPECT_EQ(std::string(exception.what()), message + ": " + error_code.message());
+    EXPECT_EQ(exception.code(), error_code);
+  }
+
+  {
+    const std::error_code error_code = ModelError::NullItem;
+    auto exception = SystemException(error_code);
+    EXPECT_EQ(std::string(exception.what()), error_code.message());
+    EXPECT_EQ(exception.code(), error_code);
   }
 }
 
