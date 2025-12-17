@@ -64,7 +64,8 @@ TEST_F(SessionItemContainerTest, InsertItem)
   SessionItemContainer tag(TagInfo::CreateUniversalTag(tag_name));
 
   // inserting non-existing item is not allowed
-  EXPECT_EQ(tag.InsertItem(nullptr, tag.GetItemCount()), nullptr);
+  EXPECT_THROW(tag.InsertItem(std::unique_ptr<SessionItem>(), tag.GetItemCount()),
+               InvalidOperationException);
   EXPECT_EQ(tag.GetItemCount(), 0);
 
   // insertion at the end
@@ -97,7 +98,7 @@ TEST_F(SessionItemContainerTest, InsertItem)
 
   // insertion with wrong index
   auto [child6, child6_ptr] = CreateItem();
-  EXPECT_EQ(tag.InsertItem(std::move(child6), 42), nullptr);
+  EXPECT_THROW(tag.InsertItem(std::move(child6), 42), InvalidOperationException);
   EXPECT_EQ(tag.GetItems(), expected);
 }
 
@@ -112,7 +113,7 @@ TEST_F(SessionItemContainerTest, InsertItemWithType)
   auto [child1, child1_ptr] = CreateItem<TestItem>("model_a");
   auto [child2, child2_ptr] = CreateItem<TestItem>("model_b");
   EXPECT_EQ(tag.InsertItem(std::move(child1), tag.GetItemCount()), child1_ptr);
-  EXPECT_EQ(tag.InsertItem(std::move(child2), tag.GetItemCount()), nullptr);
+  EXPECT_THROW(tag.InsertItem(std::move(child2), tag.GetItemCount()), InvalidOperationException);
 
   EXPECT_EQ(tag.GetItems(), std::vector<SessionItem*>({child1_ptr}));
 }
@@ -128,11 +129,11 @@ TEST_F(SessionItemContainerTest, InsertItemRelatedToPropertyTag)
   auto [child1, child1_ptr] = CreateItem<TestItem>(property_type);
   auto [child2, child2_ptr] = CreateItem<TestItem>(property_type);
   EXPECT_EQ(tag.InsertItem(std::move(child1), tag.GetItemCount()), child1_ptr);
-  EXPECT_EQ(tag.InsertItem(std::move(child2), tag.GetItemCount()), nullptr);
+  EXPECT_THROW(tag.InsertItem(std::move(child2), tag.GetItemCount()), InvalidOperationException);
 
   // insertion of wrong model type is not allowed
   auto [child3, child3_ptr] = CreateItem<TestItem>("another_model");
-  EXPECT_EQ(tag.InsertItem(std::move(child3), tag.GetItemCount()), nullptr);
+  EXPECT_THROW(tag.InsertItem(std::move(child3), tag.GetItemCount()), InvalidOperationException);
   EXPECT_EQ(tag.GetItems(), std::vector<SessionItem*>({child1_ptr}));
 }
 

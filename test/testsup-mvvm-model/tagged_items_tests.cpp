@@ -49,11 +49,8 @@ public:
   }
 };
 
-//! Initial state of emty SessionItemTags.
-
 TEST_F(TaggedItemsTests, InitialState)
 {
-  const std::string name("tag");
   const TaggedItems items;
 
   EXPECT_EQ(items.GetDefaultTag(), "");
@@ -61,11 +58,8 @@ TEST_F(TaggedItemsTests, InitialState)
   EXPECT_EQ(items.GetTagCount(), 0);
 }
 
-//! Registering tags.
-
 TEST_F(TaggedItemsTests, RegisterTag)
 {
-  const std::string name("tag");
   TaggedItems items;
 
   items.RegisterTag(TagInfo::CreateUniversalTag("abc"));
@@ -82,8 +76,6 @@ TEST_F(TaggedItemsTests, RegisterTag)
   EXPECT_THROW(items.RegisterTag(TagInfo::CreateUniversalTag("abc")), RuntimeException);
 }
 
-//! Testing ::canInsertItem.
-
 TEST_F(TaggedItemsTests, CanInsertItem)
 {
   TaggedItems items;
@@ -94,8 +86,6 @@ TEST_F(TaggedItemsTests, CanInsertItem)
   EXPECT_TRUE(items.CanInsertItem(item.get(), {"tag1", 0}));
   EXPECT_FALSE(items.CanInsertItem(item.get(), {"tag2", 0}));
 }
-
-//! Testing ::canInsertItem.
 
 TEST_F(TaggedItemsTests, CanInsertItemForUniversalTag)
 {
@@ -108,21 +98,21 @@ TEST_F(TaggedItemsTests, CanInsertItemForUniversalTag)
   EXPECT_TRUE(items.CanInsertItem(child1.get(), {tagname, 0}));
   EXPECT_FALSE(items.CanInsertItem(child1.get(), TagIndex::Append(tagname)));
   EXPECT_TRUE(items.CanInsertItem(child1.get(), {tagname, items.GetItemCount(tagname)}));
-  EXPECT_EQ(items.InsertItem(std::move(child1), TagIndex::Append(tagname)), nullptr);
+  EXPECT_THROW(items.InsertItem(std::move(child1), TagIndex::Append(tagname)),
+               InvalidOperationException);
 
   // inserting second child
   auto [child2, child2_ptr] = CreateItem();
   EXPECT_TRUE(items.CanInsertItem(child2.get(), {tagname, 0}));
   EXPECT_FALSE(items.CanInsertItem(child2.get(), TagIndex::Append(tagname)));
   EXPECT_TRUE(items.CanInsertItem(child2.get(), {tagname, items.GetItemCount(tagname)}));
-  EXPECT_EQ(items.InsertItem(std::move(child2), TagIndex::Append(tagname)), nullptr);
+  EXPECT_THROW(items.InsertItem(std::move(child2), TagIndex::Append(tagname)),
+               InvalidOperationException);
 
   // inserting third child is not possible
   auto child3 = std::make_unique<SessionItem>();
   EXPECT_FALSE(items.CanInsertItem(child3.get(), TagIndex::Append(tagname)));
 }
-
-//! Insert item.
 
 TEST_F(TaggedItemsTests, InsertItem)
 {
@@ -166,8 +156,6 @@ TEST_F(TaggedItemsTests, InsertItem)
   EXPECT_EQ(items.GetAllItems(), expected);
 }
 
-//! Testing method TagIndexOfItem.
-
 TEST_F(TaggedItemsTests, GetTagIndexOfItem)
 {
   const std::string tag1 = "tag1";
@@ -205,8 +193,6 @@ TEST_F(TaggedItemsTests, GetTagIndexOfItem)
   EXPECT_EQ(items.TagIndexOfItem(nullptr), TagIndex::Invalid());
 }
 
-//! Testing method getItem.
-
 TEST_F(TaggedItemsTests, GetItem)
 {
   const std::string tag1 = "tag1";
@@ -232,8 +218,6 @@ TEST_F(TaggedItemsTests, GetItem)
   EXPECT_EQ(items.GetItem({tag2, 0}), child_t2_a_ptr);
   EXPECT_EQ(items.GetItem({tag2, 2}), nullptr);
 }
-
-//! Testing method getItem.
 
 TEST_F(TaggedItemsTests, TakeItem)
 {
@@ -275,8 +259,6 @@ TEST_F(TaggedItemsTests, TakeItem)
   EXPECT_FALSE(items.CanTakeItem(TagIndex::Append()));
   EXPECT_EQ(items.TakeItem(TagIndex::Append()), nullptr);
 }
-
-//! Testing method TaggedItems::Clone
 
 TEST_F(TaggedItemsTests, Clone)
 {
@@ -351,7 +333,7 @@ TEST_F(TaggedItemsTests, FindContainer)
 TEST_F(TaggedItemsTests, GetValidatedInsertTagIndex)
 {
   {  // no tags
-    TaggedItems items;
+    const TaggedItems items;
     EXPECT_FALSE(items.GetInsertTagIndex(TagIndex::Append()).IsValid());
   }
 

@@ -23,6 +23,7 @@
 #include "session_item.h"
 
 #include <algorithm>
+#include <sstream>
 
 namespace mvvm
 {
@@ -102,9 +103,18 @@ bool SessionItemContainer::CanMoveItem(const SessionItem* item, std::size_t inde
 
 SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, std::size_t index)
 {
-  if (!CanInsertItem(item.get(), index))
+  if (!item)
   {
-    return nullptr;
+    throw InvalidOperationException("Attempt to insert uninitialized item");
+  }
+
+  if (!CanInsertType(item->GetType(), index))
+  {
+    std::ostringstream ostr;
+    ostr << "Can't insert item of type [" << item->GetType() << "] into tag ["
+         << m_tag_info.GetName() << "] at index " << index;
+    ;
+    throw InvalidOperationException(ostr.str());
   }
 
   auto result = item.get();
