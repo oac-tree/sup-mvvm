@@ -92,7 +92,6 @@ bool SetDataImpl(SessionItem& item, const variant_t& value, role_t role)
 SessionItem* InsertItemImpl(std::unique_ptr<SessionItem> to_insert, SessionItem& item,
                             const TagIndex& tag_index)
 {
-  utils::ValidateItemInsert(to_insert.get(), &item, tag_index);
   auto result = item.GetTaggedItems()->InsertItem(std::move(to_insert), tag_index);
   result->SetParent(&item);
   result->SetModel(item.GetModel());

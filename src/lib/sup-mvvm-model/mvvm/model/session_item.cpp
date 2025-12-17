@@ -227,10 +227,10 @@ void SessionItem::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   auto insert_tag_index = GetTaggedItems()->GetInsertTagIndex(tag_index);
+  utils::ValidateItemInsert(item.get(), this, insert_tag_index);
 
   if (GetModel() != nullptr)
   {
-    utils::ValidateItemInsert(item.get(), this, insert_tag_index);
     return ProcessCommand<InsertItemCommand>(*GetModel(), std::move(item), this, insert_tag_index);
   }
 
