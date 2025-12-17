@@ -22,8 +22,6 @@
 
 #include "session_item.h"
 
-#include <mvvm/utils/container_utils.h>
-
 #include <algorithm>
 
 namespace mvvm
@@ -55,7 +53,7 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, std::size_t index) const
 {
-  if ((item == nullptr) || IndexOfItem(item).has_value())
+  if ((item == nullptr) || Contains(item))
   {
     // item belongs to this container already
     return false;
@@ -117,24 +115,19 @@ SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item,
 
 bool SessionItemContainer::CanTakeItem(std::size_t index) const
 {
-  return (ItemAt(index) != nullptr) && !IsMinimumReached();
+  return (index < GetItemCount()) && !IsMinimumReached();
 }
 
 std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(std::size_t index)
 {
-  if (IsMinimumReached())
-  {
-    return nullptr;
-  }
-
-  if (index < GetItemCount())
+  if ((index < GetItemCount()) && !IsMinimumReached())
   {
     auto item = std::move(m_items.at(index));
     (void)m_items.erase(std::next(m_items.begin(), static_cast<std::ptrdiff_t>(index)));
     return item;
   }
 
-  return nullptr;
+  return {};
 }
 
 std::optional<std::size_t> SessionItemContainer::IndexOfItem(const SessionItem* item) const
@@ -187,6 +180,13 @@ bool SessionItemContainer::IsMaximumReached() const
 bool SessionItemContainer::IsMinimumReached() const
 {
   return m_tag_info.GetMin() == GetItemCount();
+}
+
+bool SessionItemContainer::Contains(const SessionItem* item) const
+{
+  auto pos = std::find_if(m_items.begin(), m_items.end(),
+                          [item](const auto& element) { return element.get() == item; });
+  return pos != m_items.end();
 }
 
 }  // namespace mvvm

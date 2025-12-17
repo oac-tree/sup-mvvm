@@ -134,4 +134,30 @@ BENCHMARK_F(SessionItemBenchmark, InsertAndTake)(benchmark::State& state)
   }
 }
 
+BENCHMARK_F(SessionItemBenchmark, TagIndexOfItem)(benchmark::State& state)
+{
+  mvvm::SessionItem parent;
+  parent.RegisterTag(TagInfo::CreateUniversalTag("tag0"));
+  parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"));
+  parent.RegisterTag(TagInfo::CreateUniversalTag("tag2"));
+
+  std::vector<SessionItem*> items;
+  for (int i = 0; i < 100; ++i)
+  {
+    const TagIndex tag_index{"tag" + std::to_string(i % 3), static_cast<std::size_t>(i / 3)};
+    auto item = parent.InsertItem<PropertyItem>(tag_index);
+    items.push_back(item);
+  }
+  for (auto dummy : state)
+  {
+    for (const auto& item : items)
+    {
+      benchmark::DoNotOptimize(parent.TagIndexOfItem(item));
+    }
+  }
+
+
+}
+
+
 }  // namespace mvvm::test

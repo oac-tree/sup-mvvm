@@ -114,7 +114,7 @@ public:
    *
    * @return Convenience pointer to just inserted item.
    */
-  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index) const;
 
   /**
    * @brief Checks if item can be removed from given place.
@@ -124,7 +124,7 @@ public:
   /**
    * @brief Removes an item from the given tag_index, returns it to the caller.
    */
-  std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index);
+  std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index) const;
 
   /**
    * @brief Checks if the item can be moved into the given index.

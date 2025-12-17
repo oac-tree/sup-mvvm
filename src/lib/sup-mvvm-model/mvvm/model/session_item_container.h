@@ -155,6 +155,11 @@ public:
    */
   bool IsMinimumReached() const;
 
+  /**
+   * @brief Checks if the container contains the given item.
+   */
+  bool Contains(const SessionItem* item) const;
+
 private:
   TagInfo m_tag_info;
   container_t m_items;

@@ -91,7 +91,8 @@ bool TaggedItems::CanInsertType(const std::string& item_type, const TagIndex& ta
   return false;
 }
 
-SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
+SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item,
+                                     const TagIndex& tag_index) const
 {
   return GetContainer(tag_index.GetTag())->InsertItem(std::move(item), tag_index.GetIndex());
 }
@@ -105,7 +106,7 @@ bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const
   return false;
 }
 
-std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index)
+std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index) const
 {
   return GetContainer(tag_index.GetTag())->TakeItem(tag_index.GetIndex());
 }
