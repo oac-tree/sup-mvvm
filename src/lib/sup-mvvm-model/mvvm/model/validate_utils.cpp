@@ -194,26 +194,28 @@ void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
   }
 }
 
-std::pair<bool, std::string> CanTakeItem(const SessionItem* parent, const TagIndex& tag_index)
+std::error_code GetTakeItemErrorCode(const SessionItem* parent, const TagIndex& tag_index)
 {
   if (parent == nullptr)
   {
-    return {kFailure, "Parent is not defined"};
+    return ModelError::InvalidParentItem;
   }
 
   if (!parent->GetTaggedItems()->CanTakeItem(tag_index))
   {
-    return {kFailure, "Can't take item from parent"};
+    return ModelError::FailedToTakeItem;
   }
 
-  return {kSuccess, ""};
+  return ModelError::Success;
 }
 
 void ValidateTakeItem(const SessionItem* parent, const TagIndex& tag_index)
 {
-  if (auto [flag, reason] = CanTakeItem(parent, tag_index); !flag)
+  const auto error_code = GetTakeItemErrorCode(parent, tag_index);
+  if (error_code)
   {
-    throw InvalidOperationException(reason);
+    throw InvalidOperationException("Take item validation failed: "
+                                    + std::string(error_code.message()));
   }
 }
 

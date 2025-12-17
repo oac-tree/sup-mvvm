@@ -84,11 +84,10 @@ void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
                       const TagIndex& tag_index);
 
 /**
- * @brief Perform validation if item take is allowed.
- *
- * @return Success flag, and the reason if take is not possible.
+ * @brief Returns a error code for potential take item operation.
  */
-std::pair<bool, std::string> CanTakeItem(const SessionItem* parent, const TagIndex& tag_index);
+std::error_code GetTakeItemErrorCode(const SessionItem* parent,
+                                                  const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item take is allowed.
