@@ -239,10 +239,10 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
+  utils::ValidateTakeItem(this, tag_index);
+
   if (GetModel() != nullptr)
   {
-    utils::ValidateTakeItem(this, tag_index);
-
     return ProcessCommand<RemoveItemCommand>(*GetModel(), this, tag_index);
   }
 

@@ -100,11 +100,9 @@ SessionItem* InsertItemImpl(std::unique_ptr<SessionItem> to_insert, SessionItem&
 
 std::unique_ptr<SessionItem> TakeItemImpl(SessionItem& item, const TagIndex& tag_index)
 {
-  utils::ValidateTakeItem(&item, tag_index);
   auto taken = item.GetTaggedItems()->TakeItem(tag_index);
   taken->SetParent(nullptr);
   taken->SetModel(nullptr);
-
   return taken;
 }
 
