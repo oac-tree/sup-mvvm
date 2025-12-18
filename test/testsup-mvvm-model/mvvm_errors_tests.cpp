@@ -124,4 +124,17 @@ TEST_F(MvvmErrorsTest, UsingErrorCodesWithMvvmErrorCondition)
   EXPECT_TRUE(make_error_code(ModelError::NullItem) == MvvmErrorCondition::ModelError);
 }
 
+TEST_F(MvvmErrorsTest, CheckAllErrorCodeForSameErrorCondition)
+{
+  const std::error_condition expected_error_condition = MvvmErrorCondition::ModelError;
+
+  for (std::int32_t index = 0; index < static_cast<std::int32_t>(ModelError::MaxCount); ++index)
+  {
+    const auto& error_code = make_error_code(static_cast<ModelError>(index));
+    const auto& error_condition = error_code.default_error_condition();
+    EXPECT_EQ(error_condition, expected_error_condition);
+    EXPECT_TRUE(error_code == expected_error_condition);
+  }
+}
+
 }  // namespace mvvm::test

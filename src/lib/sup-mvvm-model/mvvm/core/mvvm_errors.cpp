@@ -60,8 +60,16 @@ std::map<ModelError, MvvmErrorCondition> GetModelErrorConditionMap()
   const std::map<ModelError, MvvmErrorCondition> result = {
       {ModelError::Success, MvvmErrorCondition::ModelError},
       {ModelError::NullItem, MvvmErrorCondition::ModelError},
+      {ModelError::ItemAndParentAreTheSame, MvvmErrorCondition::ModelError},
       {ModelError::ItemHasNoParent, MvvmErrorCondition::ModelError},
       {ModelError::ItemHasParent, MvvmErrorCondition::ModelError},
+      {ModelError::InvalidParentItem, MvvmErrorCondition::ModelError},
+      {ModelError::ItemIsAncestorOfNewParent, MvvmErrorCondition::ModelError},
+      {ModelError::FailedToInsertItem, MvvmErrorCondition::ModelError},
+      {ModelError::ItemBelongToDifferentModel, MvvmErrorCondition::ModelError},
+      {ModelError::FailedToTakeItem, MvvmErrorCondition::ModelError},
+      {ModelError::FailedToMoveItem, MvvmErrorCondition::ModelError},
+      {ModelError::InvalidChildItem, MvvmErrorCondition::ModelError},
       {ModelError::MaxCount, MvvmErrorCondition::ModelError}};
   return result;
 }
