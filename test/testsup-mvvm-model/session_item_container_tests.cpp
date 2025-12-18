@@ -190,7 +190,7 @@ TEST_F(SessionItemContainerTest, TakeItem)
   SessionItemContainer tag(TagInfo::CreateUniversalTag(tag_name));
 
   // taking non existing items
-  EXPECT_EQ(tag.TakeItem(0), nullptr);
+  EXPECT_THROW(tag.TakeItem(0), InvalidOperationException);
 
   // inserting items
   auto [child1, child1_ptr] = CreateItem<TestItem>(model_type);
@@ -208,8 +208,8 @@ TEST_F(SessionItemContainerTest, TakeItem)
   EXPECT_EQ(tag.GetItems(), std::vector<SessionItem*>({child1_ptr, child3_ptr}));
 
   // taking non existing items
-  EXPECT_EQ(tag.TakeItem(-1), nullptr);
-  EXPECT_EQ(tag.TakeItem(tag.GetItemCount()), nullptr);
+  EXPECT_THROW(tag.TakeItem(-1), InvalidOperationException);
+  EXPECT_THROW(tag.TakeItem(tag.GetItemCount()), InvalidOperationException);
 }
 
 TEST_F(SessionItemContainerTest, CanTakeItem)
@@ -348,7 +348,7 @@ TEST_F(SessionItemContainerTest, TakeItemFromPropertyTag)
 
   // attempt to take property item
   EXPECT_FALSE(tag.CanTakeItem(0));
-  EXPECT_EQ(tag.TakeItem(0), nullptr);
+  EXPECT_THROW(tag.TakeItem(0), InvalidOperationException);
 }
 
 TEST_F(SessionItemContainerTest, Clone)

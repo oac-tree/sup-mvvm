@@ -137,7 +137,7 @@ std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(std::size_t index)
     return item;
   }
 
-  return {};
+  throw InvalidOperationException("Can't take item from container");
 }
 
 std::optional<std::size_t> SessionItemContainer::IndexOfItem(const SessionItem* item) const

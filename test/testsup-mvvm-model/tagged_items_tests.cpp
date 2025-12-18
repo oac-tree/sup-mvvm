@@ -230,7 +230,7 @@ TEST_F(TaggedItemsTests, TakeItem)
   items.RegisterTag(TagInfo::CreateUniversalTag(tag2));
 
   // taking non existing items
-  EXPECT_EQ(items.TakeItem({"", 0}), nullptr);
+  EXPECT_THROW(items.TakeItem({"", 0}), InvalidOperationException);
 
   // inserting items
   auto [child1, child1_ptr] = CreateItem<TestItem>(model_type);
@@ -257,7 +257,7 @@ TEST_F(TaggedItemsTests, TakeItem)
 
   // taking non existing items
   EXPECT_FALSE(items.CanTakeItem(TagIndex::Append()));
-  EXPECT_EQ(items.TakeItem(TagIndex::Append()), nullptr);
+  EXPECT_THROW(items.TakeItem(TagIndex::Append()), InvalidOperationException);
 }
 
 TEST_F(TaggedItemsTests, Clone)
