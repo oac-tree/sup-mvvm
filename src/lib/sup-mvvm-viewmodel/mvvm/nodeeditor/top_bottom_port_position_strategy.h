@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_PORT_POSITION_STRATEGY_H_
-#define MVVM_NODEEDITOR_PORT_POSITION_STRATEGY_H_
+#ifndef MVVM_NODEEDITOR_TOP_BOTTOM_PORT_POSITION_STRATEGY_H_
+#define MVVM_NODEEDITOR_TOP_BOTTOM_PORT_POSITION_STRATEGY_H_
 
 #include <mvvm/nodeeditor/i_port_position_strategy.h>
 
@@ -51,4 +51,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_NODEEDITOR_PORT_POSITION_STRATEGY_H_
+#endif  // MVVM_NODEEDITOR_TOP_BOTTOM_PORT_POSITION_STRATEGY_H_

@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_CORE_MVVM_ERROR_CONDITION_H
-#define MVVM_CORE_MVVM_ERROR_CONDITION_H
+#ifndef MVVM_CORE_MVVM_ERROR_CONDITION_H_
+#define MVVM_CORE_MVVM_ERROR_CONDITION_H_
 
 //! @file
 //! Contains MvvmErrorCondition enum to inspect/classify error codes.
@@ -65,4 +65,4 @@ struct is_error_condition_enum<mvvm::MvvmErrorCondition> : true_type
 
 }  // namespace std
 
-#endif  // MVVM_CORE_MVVM_ERROR_CONDITION_H
+#endif  // MVVM_CORE_MVVM_ERROR_CONDITION_H_

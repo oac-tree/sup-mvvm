@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_I_CONNECTABLE_VIEW_MODEL_CONTROLLER_H_
-#define MVVM_NODEEDITOR_I_CONNECTABLE_VIEW_MODEL_CONTROLLER_H_
+#ifndef MVVM_NODEEDITOR_CONNECTABLE_VIEW_MODEL_CONTROLLER_H_
+#define MVVM_NODEEDITOR_CONNECTABLE_VIEW_MODEL_CONTROLLER_H_
 
 #include <mvvm/providers/item_view_map.h>
 #include <mvvm/signals/event_types.h>
@@ -114,4 +114,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_NODEEDITOR_I_CONNECTABLE_VIEW_MODEL_CONTROLLER_H_
+#endif  // MVVM_NODEEDITOR_CONNECTABLE_VIEW_MODEL_CONTROLLER_H_

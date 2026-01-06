@@ -47,4 +47,4 @@ using node_event_t = std::variant<DoubleClickEvent>;
 
 }  // namespace mvvm
 
-#endif  //
+#endif  // MVVM_NODEEDITOR_NODE_EDITOR_EVENTS_H_

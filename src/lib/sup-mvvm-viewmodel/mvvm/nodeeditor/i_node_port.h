@@ -119,4 +119,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_ALL_ITEMS_VIEWMODEL_H_
+#endif  // MVVM_NODEEDITOR_I_NODE_PORT_H_

@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_NODE_TYPES_H_
-#define MVVM_NODEEDITOR_NODE_TYPES_H_
+#ifndef MVVM_NODEEDITOR_NODE_EDITOR_TYPES_H_
+#define MVVM_NODEEDITOR_NODE_EDITOR_TYPES_H_
 
 //! @file
 //! Collection of simple types for node editor.
@@ -113,4 +113,4 @@ using NodeOperationStates = Flags<NodeOperationState>;
 
 }  // namespace mvvm
 
-#endif  // MVVM_NODEEDITOR_NODE_TYPES_H_
+#endif  // MVVM_NODEEDITOR_NODE_EDITOR_TYPES_H_

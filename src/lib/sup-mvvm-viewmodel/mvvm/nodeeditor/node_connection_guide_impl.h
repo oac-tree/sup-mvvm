@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_IMPL_H_
-#define MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_IMPL_H_
+#ifndef MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_IMPL_H_
+#define MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_IMPL_H_
 
 #include <mvvm/nodeeditor/node_connection_guide_context.h>
 #include <mvvm/nodeeditor/node_editor_types.h>
@@ -75,4 +75,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_H_
+#endif  // MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_IMPL_H_

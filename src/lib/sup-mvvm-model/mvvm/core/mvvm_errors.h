@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_CORE_MVVM_ERRORS_H
-#define MVVM_CORE_MVVM_ERRORS_H
+#ifndef MVVM_CORE_MVVM_ERRORS_H_
+#define MVVM_CORE_MVVM_ERRORS_H_
 
 //! @file
 //! Contains ModelError enum with all model-related errors, and the machinery to register it as
@@ -74,4 +74,4 @@ struct is_error_code_enum<mvvm::ModelError> : true_type
 
 }  // namespace std
 
-#endif  // MVVM_CORE_MVVM_ERRORS_H
+#endif  // MVVM_CORE_MVVM_ERRORS_H_
