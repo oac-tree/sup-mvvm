@@ -86,8 +86,7 @@ void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
 /**
  * @brief Returns a error code for potential take item operation.
  */
-std::error_code GetTakeItemErrorCode(const SessionItem* parent,
-                                                  const TagIndex& tag_index);
+std::error_code GetTakeItemErrorCode(const SessionItem* parent, const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item take is allowed.

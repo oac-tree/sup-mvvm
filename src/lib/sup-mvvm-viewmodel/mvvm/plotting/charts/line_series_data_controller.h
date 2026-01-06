@@ -85,7 +85,8 @@ public:
   void SetXOffset(double value);
 
   /**
-   * @brief Returns the currently active point being moved by user, or nullptr if no point is active.
+   * @brief Returns the currently active point being moved by user, or nullptr if no point is
+   * active.
    */
   PointItem* GetActivePoint() const;
 

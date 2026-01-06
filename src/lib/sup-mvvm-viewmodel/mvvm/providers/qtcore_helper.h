@@ -24,12 +24,12 @@
 //! @file
 //! Collection of helper functions related to Qt core object conversion.
 
-#include <QStringList>
-#include <QPointF>
 #include <QList>
+#include <QPointF>
+#include <QStringList>
+#include <cstdint>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 namespace mvvm::utils
 {

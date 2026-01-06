@@ -310,7 +310,8 @@ TEST_F(LineSeriesDataControllerTest, SetPointsSelected)
   EXPECT_EQ(spy_selected_point_changed.count(), 1);  // no new signal
 
   // adding second point to selection
-  const std::vector<PointItem*> selection2({data_item_ptr->GetPoint(0), data_item_ptr->GetPoint(1)});
+  const std::vector<PointItem*> selection2(
+      {data_item_ptr->GetPoint(0), data_item_ptr->GetPoint(1)});
   controller.SetSelectedPoints(selection2);
   EXPECT_EQ(spy_selected_point_changed.count(), 2);
   EXPECT_TRUE(line_series.isPointSelected(0));

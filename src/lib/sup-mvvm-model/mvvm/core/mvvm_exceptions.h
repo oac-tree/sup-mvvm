@@ -129,7 +129,7 @@ class SystemException : public std::system_error
 {
 public:
   explicit SystemException(std::error_code error_code);
-  SystemException(std::error_code error_code,  const std::string& message);
+  SystemException(std::error_code error_code, const std::string& message);
 
   ~SystemException() override = default;
   SystemException(const SystemException& other) = default;
@@ -137,7 +137,6 @@ public:
   SystemException(SystemException&&) = default;
   SystemException& operator=(SystemException&&) = default;
 };
-
 
 }  // namespace mvvm
 

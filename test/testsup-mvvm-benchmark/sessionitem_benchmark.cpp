@@ -155,9 +155,6 @@ BENCHMARK_F(SessionItemBenchmark, TagIndexOfItem)(benchmark::State& state)
       benchmark::DoNotOptimize(parent.TagIndexOfItem(item));
     }
   }
-
-
 }
-
 
 }  // namespace mvvm::test
