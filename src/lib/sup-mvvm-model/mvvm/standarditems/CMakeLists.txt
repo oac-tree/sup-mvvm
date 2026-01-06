@@ -31,7 +31,6 @@ target_sources(${library_name} PRIVATE
     viewport_helper.h
     viewport_item.cpp
     viewport_item.h
-    viewport_types.cpp
     viewport_types.h
     waveform_helper.cpp
     waveform_helper.h
