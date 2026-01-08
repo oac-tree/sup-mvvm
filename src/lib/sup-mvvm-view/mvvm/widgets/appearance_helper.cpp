@@ -54,8 +54,8 @@ QString GetFlatButtonStyleString(const QColor& background_color)
 {
   static const QString result =
       "QToolButton { border: none; color: white; background-color: %1;}"
-      "QToolButton:pressed { color: black; background-color: %2; }"
       "QToolButton:hover { color: white; background-color: %3; }"
+      "QToolButton:pressed { color: black; background-color: %2; }"
       "QToolButton:checked { color: white; background-color: %4; }";
   return result.arg(GetBackgroundColorName(background_color), GetPressedColorName(background_color),
                     GetHoverColorName(background_color), GetCheckedColorName(background_color));
