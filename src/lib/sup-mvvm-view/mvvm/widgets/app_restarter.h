@@ -24,6 +24,7 @@
 #include <mvvm/widgets/main_window_types.h>
 
 #include <QString>
+#include <QStringList>
 #include <cstdint>
 
 namespace mvvm
@@ -40,11 +41,20 @@ class AppRestarter
 public:
   AppRestarter(int argc, char* argv[]);
 
+  /**
+   * @brief Handles exit code of the application.
+   *
+   * @param app_exit_code The exit code as reported by QApplication::exec() method
+   * @return Returns the final exit code to be returned by main() function.
+   */
   std::int32_t HandleExitCode(std::int32_t app_exit_code);
 
 private:
+  void HandleAppExitCode(mvvm::AppExitCode stored_exit_code);
+
   QString m_executable;
   QString m_working_path;
+  QStringList m_args;
 };
 
 }  // namespace mvvm

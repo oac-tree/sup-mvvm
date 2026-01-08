@@ -35,5 +35,9 @@ int main(int argc, char** argv)
   applauncher::MainWindow win;
   win.show();
 
-  return restarter.HandleExitCode(app.exec());
+  qDebug() << "main() 1.1";
+  auto exit_code = restarter.HandleExitCode(app.exec());
+
+  qDebug() << "main() 1.2 " << exit_code;
+  return exit_code;
 }

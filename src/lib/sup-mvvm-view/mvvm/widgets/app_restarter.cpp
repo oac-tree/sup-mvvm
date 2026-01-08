@@ -20,8 +20,9 @@
 
 #include "app_restarter.h"
 
-#include <QDir>
 #include <QApplication>
+#include <QDir>
+#include <QProcess>
 
 namespace mvvm
 {
@@ -38,9 +39,22 @@ int32_t AppRestarter::HandleExitCode(int32_t app_exit_code)
   qDebug() << "AppRestarter::HandleExitCode -> app_exit_code" << app_exit_code;
 
   auto stored_exit_code = qApp->property(mvvm::constants::kAppExitCodeProperty).toInt();
-  qDebug() << "AppRestarter::HandleExitCode -> stored_exit_code" << stored_exit_code;
 
-  return app_exit_code;
+  HandleAppExitCode(static_cast<mvvm::AppExitCode>(stored_exit_code));
+
+  return app_exit_code;  // returning back same exit code as received
+}
+
+void AppRestarter::HandleAppExitCode(AppExitCode stored_exit_code)
+{
+  qDebug() << "AppRestarter::HandleAppExitCode -> stored_exit_code"
+           << static_cast<int>(stored_exit_code);
+  if (stored_exit_code == AppExitCode::Restart)
+  {
+    qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.1";
+    QProcess::startDetached(m_executable, m_args, m_working_path);
+    qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.2";
+  }
 }
 
 }  // namespace mvvm
