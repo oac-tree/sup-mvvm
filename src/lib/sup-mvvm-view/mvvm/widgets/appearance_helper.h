@@ -39,6 +39,20 @@ namespace mvvm
  */
 QString GetFlatButtonStyleString(const QColor& button_color, const QColor& text_color);
 
+/**
+ * @brief Returns a string representing a style for QToolButton embedded in a toolbar.
+ *
+ * It's normally a middle-size button with border when hovered.
+ */
+QString GetToolBarButtonStyleString();
+
+/**
+ * @brief Returns a string representing a borderless style for QToolButton embedded in a status bar.
+ *
+ * It's normally a tiny button without borders.
+ */
+QString GetStatusBarButtonStyleString();
+
 }  // namespace mvvm
 
 #endif  // MVVM_WIDGETS_APPEARANCE_HELPER_H_
