@@ -48,17 +48,24 @@ QString GetCheckedColorName(const QColor& base_color)
   return base_color.lighter(120).name(QColor::HexRgb);
 }
 
+QString GetTextColorName(const QColor& text_color)
+{
+  return text_color.name(QColor::HexRgb);
+}
+
 }  // namespace
 
-QString GetFlatButtonStyleString(const QColor& background_color)
+QString GetFlatButtonStyleString(const QColor& button_color, const QColor& text_color)
 {
-  static const QString result =
-      "QToolButton { border: none; color: white; background-color: %1;}"
-      "QToolButton:hover { color: white; background-color: %3; }"
-      "QToolButton:pressed { color: black; background-color: %2; }"
-      "QToolButton:checked { color: white; background-color: %4; }";
-  return result.arg(GetBackgroundColorName(background_color), GetPressedColorName(background_color),
-                    GetHoverColorName(background_color), GetCheckedColorName(background_color));
+  static const QString result = (R"RAW(
+QToolButton { border: none; color: %5; background-color: %1;}
+QToolButton:hover { color: %5; background-color: %3; }
+QToolButton:pressed { color: %5; background-color: %2; }
+QToolButton:checked { color: %5; background-color: %4; }
+)RAW");
+  return result.arg(GetBackgroundColorName(button_color), GetPressedColorName(button_color),
+                    GetHoverColorName(button_color), GetCheckedColorName(button_color),
+                    GetTextColorName(text_color));
 }
 
 }  // namespace mvvm

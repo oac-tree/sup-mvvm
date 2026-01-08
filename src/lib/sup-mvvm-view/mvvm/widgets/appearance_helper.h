@@ -34,9 +34,10 @@ namespace mvvm
 /**
  * @brief Returns a string representing a borderless style for QToolButton.
  *
- * @param background_color A color of the widget under the button.
+ * @param button_color A button background collor.
+ * @param text_color A button text color.
  */
-QString GetFlatButtonStyleString(const QColor& background_color);
+QString GetFlatButtonStyleString(const QColor& button_color, const QColor& text_color);
 
 }  // namespace mvvm
 

@@ -168,7 +168,7 @@ std::unique_ptr<QToolButton> MainVerticalBarWidget::CreateControlButton()
   auto result = std::make_unique<QToolButton>();
   result->setCheckable(true);
   result->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-  result->setStyleSheet(GetFlatButtonStyleString(m_base_color));
+  result->setStyleSheet(GetFlatButtonStyleString(m_base_color, Qt::white));
   return result;
 }
 
@@ -182,7 +182,7 @@ void MainVerticalBarWidget::UpdateButtonLayout()
   auto [max_text_width, max_text_height] = GetMaxWidthHeight(m_button_group->buttons());
 
   const auto margin = GetMargin();
-  const int button_extent = std::max(GetMinimumToolBarWidth(), max_text_width + 2 * margin);
+  const int button_extent = std::max(GetMinimumToolBarWidth(), max_text_width + (2 * margin));
   const int icon_extent = 0.9 * button_extent - margin - max_text_height;
 
   // set new values in all buttons
