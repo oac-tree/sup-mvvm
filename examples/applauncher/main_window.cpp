@@ -22,6 +22,8 @@
 
 #include "central_widget.h"
 
+#include <mvvm/widgets/main_window_types.h>
+
 #include <QCoreApplication>
 #include <QSettings>
 
@@ -46,6 +48,7 @@ MainWindow::~MainWindow() = default;
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
+  qDebug() << "MainWindow::closeEvent";
   WriteSettings();
   QMainWindow::closeEvent(event);
 }
@@ -78,7 +81,11 @@ void MainWindow::WriteSettings()
 
 void MainWindow::OnExitRequest(int exit_code)
 {
-  qDebug() << "Exit code" << exit_code;
+  qDebug() << "MainWindow::OnExitRequest -> Exit code" << exit_code;
+
+  qApp->setProperty(mvvm::constants::kAppExitCodeProperty, exit_code);
+  qDebug() << "MainWindow::OnExitRequest -> About to close";
+  close();
 }
 
 }  // namespace applauncher

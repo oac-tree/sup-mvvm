@@ -26,6 +26,11 @@
 namespace mvvm
 {
 
+namespace constants
+{
+constexpr auto kAppExitCodeProperty = "app_exit_code";
+}
+
 /**
  * @brief The AppExitCode enum defines exit codes of the application.
  */

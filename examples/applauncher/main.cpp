@@ -20,10 +20,14 @@
 
 #include "main_window.h"
 
+#include <mvvm/widgets/app_restarter.h>
+
 #include <QApplication>
 
 int main(int argc, char** argv)
 {
+  mvvm::AppRestarter restarter(argc, argv);
+
   QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
 
   QApplication app(argc, argv);
@@ -31,5 +35,5 @@ int main(int argc, char** argv)
   applauncher::MainWindow win;
   win.show();
 
-  return app.exec();
+  return restarter.HandleExitCode(app.exec());
 }
