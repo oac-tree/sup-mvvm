@@ -20,6 +20,8 @@
 
 #include "main_window.h"
 
+#include "central_widget.h"
+
 #include <QCoreApplication>
 #include <QSettings>
 
@@ -33,9 +35,11 @@ const QString pos_key = "pos";
 namespace applauncher
 {
 
-MainWindow::MainWindow()
+MainWindow::MainWindow() : m_central_widget(new CentralWidget)
 {
   InitApplication();
+
+  connect(m_central_widget, &CentralWidget::ExitRequest, this, &MainWindow::OnExitRequest);
 }
 
 MainWindow::~MainWindow() = default;
@@ -48,7 +52,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::InitApplication()
 {
-  QCoreApplication::setApplicationName("applaucnher");
+  QCoreApplication::setApplicationName("applauncher");
   QCoreApplication::setApplicationVersion("0.1");
   QCoreApplication::setOrganizationName("sup-mvvm");
 
@@ -60,7 +64,7 @@ void MainWindow::InitApplication()
     move(settings.value(pos_key, QPoint(200, 200)).toPoint());
     settings.endGroup();
   }
-  setCentralWidget(new QWidget);
+  setCentralWidget(m_central_widget);
 }
 
 void MainWindow::WriteSettings()
@@ -70,6 +74,11 @@ void MainWindow::WriteSettings()
   settings.setValue(size_key, size());
   settings.setValue(pos_key, pos());
   settings.endGroup();
+}
+
+void MainWindow::OnExitRequest(int exit_code)
+{
+  qDebug() << "Exit code" << exit_code;
 }
 
 }  // namespace applauncher

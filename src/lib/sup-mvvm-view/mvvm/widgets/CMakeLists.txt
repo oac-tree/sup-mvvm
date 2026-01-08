@@ -17,5 +17,6 @@ target_sources(${library_name} PRIVATE
   status_label.h
   widget_utils.cpp
   widget_utils.h
+  main_window_types.h
 )
 

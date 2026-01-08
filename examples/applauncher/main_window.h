@@ -18,13 +18,15 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef APP_LAUNCHER_MAIN_WINDOW_H_
-#define APP_LAUNCHER_MAIN_WINDOW_H_
+#ifndef APPLAUNCHER_MAIN_WINDOW_H_
+#define APPLAUNCHER_MAIN_WINDOW_H_
 
 #include <QMainWindow>
 
 namespace applauncher
 {
+
+class CentralWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -40,8 +42,11 @@ protected:
 private:
   void InitApplication();
   void WriteSettings();
+  void OnExitRequest(int exit_code);
+
+  CentralWidget* m_central_widget{nullptr};
 };
 
 }  // namespace applauncher
 
-#endif  // APP_LAUNCHER_MAIN_WINDOW_H_
+#endif  // APPLAUNCHER_MAIN_WINDOW_H_
