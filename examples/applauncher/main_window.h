@@ -42,7 +42,7 @@ protected:
 private:
   void InitApplication();
   void WriteSettings();
-  void OnExitRequest(int exit_code);
+  void OnExitRequest(int exit_request);
 
   CentralWidget* m_central_widget{nullptr};
 };

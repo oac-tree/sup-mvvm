@@ -20,8 +20,6 @@
 
 #include "central_widget.h"
 
-#include <mvvm/widgets/main_window_types.h>
-
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -41,15 +39,15 @@ CentralWidget::CentralWidget(QWidget* parent_widget)
 {
   m_exit_button->setMaximumWidth(200);
   connect(m_exit_button, &QPushButton::clicked, this,
-          [this]() { emit ExitRequest(static_cast<int>(mvvm::AppExitCode::NormalExit)); });
+          [this]() { SendExitRequest(mvvm::AppExitRequest::NormalExit); });
 
   m_restart_button->setMaximumWidth(200);
   connect(m_restart_button, &QPushButton::clicked, this,
-          [this]() { emit ExitRequest(static_cast<int>(mvvm::AppExitCode::Restart)); });
+          [this]() { SendExitRequest(mvvm::AppExitRequest::Restart); });
 
   m_clear_and_restart_button->setMaximumWidth(200);
-  connect(m_clear_and_restart_button, &QPushButton::clicked, this, [this]()
-          { emit ExitRequest(static_cast<int>(mvvm::AppExitCode::CleanSettingsAndRestart)); });
+  connect(m_clear_and_restart_button, &QPushButton::clicked, this,
+          [this]() { SendExitRequest(mvvm::AppExitRequest::CleanSettingsAndRestart); });
 
   auto button_layout = new QHBoxLayout;
   button_layout->addWidget(m_exit_button);
@@ -67,7 +65,7 @@ CentralWidget::CentralWidget(QWidget* parent_widget)
   layout->addSpacing(10);
 
   connect(m_timer, &QTimer::timeout, this, &CentralWidget::UpdateLabel);
-  m_timer->start(1000);
+  m_timer->start(1000); // uupdate label every 1 sec
 }
 
 void CentralWidget::UpdateLabel() const
@@ -75,9 +73,15 @@ void CentralWidget::UpdateLabel() const
   m_counter_label->setText(QString("Counter value: %1").arg(GetIncrementedCounter()));
 }
 
-int32_t GetIncrementedCounter()
+void CentralWidget::SendExitRequest(mvvm::AppExitRequest exit_request)
 {
-  static int32_t counter = 0;
+  // to not to bother registering custom enum type with Qt meta-object system
+  emit ExitRequest(static_cast<int>(exit_request));
+}
+
+std::int32_t GetIncrementedCounter()
+{
+  static std::int32_t counter = 0;
   return ++counter;
 }
 

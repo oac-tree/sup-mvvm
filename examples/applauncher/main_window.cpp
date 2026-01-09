@@ -23,6 +23,7 @@
 #include "central_widget.h"
 
 #include <mvvm/widgets/main_window_types.h>
+#include <mvvm/widgets/app_restarter.h>
 
 #include <QCoreApplication>
 #include <QSettings>
@@ -48,7 +49,6 @@ MainWindow::~MainWindow() = default;
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-  qDebug() << "MainWindow::closeEvent";
   WriteSettings();
   QMainWindow::closeEvent(event);
 }
@@ -79,12 +79,9 @@ void MainWindow::WriteSettings()
   settings.endGroup();
 }
 
-void MainWindow::OnExitRequest(int exit_code)
+void MainWindow::OnExitRequest(int exit_request)
 {
-  qDebug() << "MainWindow::OnExitRequest -> Exit code" << exit_code;
-
-  qApp->setProperty(mvvm::constants::kAppExitCodeProperty, exit_code);
-  qDebug() << "MainWindow::OnExitRequest -> About to close";
+  mvvm::AppRestarter::StoreExitRequest(static_cast<mvvm::AppExitRequest>(exit_request));
   close();
 }
 

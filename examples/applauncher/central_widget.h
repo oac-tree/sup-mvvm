@@ -21,6 +21,8 @@
 #ifndef APPLAUNCHER_CENTRAL_WIDGET_H_
 #define APPLAUNCHER_CENTRAL_WIDGET_H_
 
+#include <mvvm/widgets/main_window_types.h>
+
 #include <QWidget>
 
 class QPushButton;
@@ -30,6 +32,10 @@ class QTimer;
 namespace applauncher
 {
 
+/**
+ * @brief The CentralWidget class contains a label with running counter,
+ * and 3 buttons to define different ways of exiting from the application.
+ */
 class CentralWidget : public QWidget
 {
   Q_OBJECT
@@ -38,10 +44,11 @@ public:
   explicit CentralWidget(QWidget* parent_widget = nullptr);
 
 signals:
-  void ExitRequest(int exit_code);
+  void ExitRequest(int exit_request);
 
 public:
   void UpdateLabel() const;
+  void SendExitRequest(mvvm::AppExitRequest exit_request);
 
   QLabel* m_counter_label{nullptr};
   QTimer* m_timer{nullptr};

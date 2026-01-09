@@ -32,41 +32,44 @@ AppRestarter::AppRestarter(int argc, char* argv[])
     : m_executable(QString::fromLocal8Bit(argv[0])), m_working_path(QDir::currentPath())
 {
   Q_UNUSED(argc)
-  qDebug() << "AppRestarter" << m_executable << m_working_path;
 }
 
-int32_t AppRestarter::HandleExitCode(int32_t app_exit_code)
+void AppRestarter::StoreExitRequest(AppExitRequest exit_request)
 {
-  qDebug() << "AppRestarter::HandleExitCode -> app_exit_code" << app_exit_code;
-
-  auto stored_exit_code = qApp->property(mvvm::constants::kAppExitCodeProperty).toInt();
-
-  HandleAppExitCode(static_cast<mvvm::AppExitCode>(stored_exit_code));
-
-  return app_exit_code;  // returning back same exit code as received from QApplication
+  qApp->setProperty(kAppExitRequestProperty, static_cast<int>(exit_request));
 }
 
-void AppRestarter::HandleAppExitCode(AppExitCode stored_exit_code)
+int32_t AppRestarter::HandleExit(int32_t app_exit_code)
 {
-  qDebug() << "AppRestarter::HandleAppExitCode -> stored_exit_code"
-           << static_cast<int>(stored_exit_code);
+  auto stored_exit_code = qApp->property(kAppExitRequestProperty).toInt();
 
-  if (stored_exit_code == AppExitCode::CleanSettingsAndRestart)
+  HandleExitRequest(static_cast<mvvm::AppExitRequest>(stored_exit_code));
+
+  // returning back same exit code as received from QApplication
+  return app_exit_code;
+}
+
+void AppRestarter::HandleExitRequest(AppExitRequest exit_request)
+{
+  if (exit_request == AppExitRequest::CleanSettingsAndRestart)
   {
     // this will remove all settings for the current application (main window size)
     QSettings settings;
     settings.clear();
-    qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.1";
+
+    // will start new main() in a separate process
     QProcess::startDetached(m_executable, m_args, m_working_path);
-    qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.2";
+    return;
   }
 
-  if (stored_exit_code == AppExitCode::Restart)
+  if (exit_request == AppExitRequest::Restart)
   {
-    qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.1";
+    // will start new main() in a separate process
     QProcess::startDetached(m_executable, m_args, m_working_path);
-    qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.2";
+    return;
   }
+
+  // for NormalExit do nothing
 }
 
 }  // namespace mvvm
