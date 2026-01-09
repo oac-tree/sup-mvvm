@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QProcess>
+#include <QSettings>
 
 namespace mvvm
 {
@@ -42,13 +43,24 @@ int32_t AppRestarter::HandleExitCode(int32_t app_exit_code)
 
   HandleAppExitCode(static_cast<mvvm::AppExitCode>(stored_exit_code));
 
-  return app_exit_code;  // returning back same exit code as received
+  return app_exit_code;  // returning back same exit code as received from QApplication
 }
 
 void AppRestarter::HandleAppExitCode(AppExitCode stored_exit_code)
 {
   qDebug() << "AppRestarter::HandleAppExitCode -> stored_exit_code"
            << static_cast<int>(stored_exit_code);
+
+  if (stored_exit_code == AppExitCode::CleanSettingsAndRestart)
+  {
+    // this will remove all settings for the current application (main window size)
+    QSettings settings;
+    settings.clear();
+    qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.1";
+    QProcess::startDetached(m_executable, m_args, m_working_path);
+    qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.2";
+  }
+
   if (stored_exit_code == AppExitCode::Restart)
   {
     qDebug() << "AppRestarter::HandleAppExitCode -> startDetached Restart 1.1";
