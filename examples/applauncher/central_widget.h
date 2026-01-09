@@ -24,6 +24,8 @@
 #include <QWidget>
 
 class QPushButton;
+class QLabel;
+class QTimer;
 
 namespace applauncher
 {
@@ -39,10 +41,22 @@ signals:
   void ExitRequest(int exit_code);
 
 public:
+  void UpdateLabel() const;
+
+  QLabel* m_counter_label{nullptr};
+  QTimer* m_timer{nullptr};
   QPushButton* m_exit_button{nullptr};
   QPushButton* m_restart_button{nullptr};
   QPushButton* m_clear_and_restart_button{nullptr};
 };
+
+/**
+ * @brief Returns incremented value of the static counter.
+ *
+ * The main purpose of this function is to check that static variable get reset after application
+ * launched as separate process.
+ */
+std::int32_t GetIncrementedCounter();
 
 }  // namespace applauncher
 
