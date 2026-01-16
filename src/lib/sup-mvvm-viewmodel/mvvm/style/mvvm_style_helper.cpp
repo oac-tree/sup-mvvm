@@ -29,15 +29,6 @@
 namespace mvvm::style
 {
 
-namespace
-{
-//! Stores the value of "UnitSize" constants in a static variable when true. This allows us to
-//! provide faster access to the often-used variable. The downside is that after the application
-//! restarts with another font size setting (without exiting main()), the size of UI elements might
-//! remain without additional scaling.
-bool kStoreUniSizeInStaticConst = false;
-}  // namespace
-
 bool IsDarkTheme()
 {
   if (QApplication::instance() != nullptr)
@@ -57,7 +48,7 @@ std::int32_t SystemReferencePointSize()
   return kFixedSize;
 }
 
-int32_t SystemReferenceUnitSize()
+std::int32_t SystemReferenceUnitSize()
 {
   // Fixed reference size representing width of letter 'M' in device independent pixels on a typical
   // system.
@@ -96,13 +87,8 @@ QSize FindSizeOfLetterM()
 
 double UnitSizeF(double scale)
 {
-  if (kStoreUniSizeInStaticConst)
-  {
-    // much faster access
-    static const QSize kUnitSizeStatic = FindSizeOfLetterM();
-    return kUnitSizeStatic.width() * scale;
-  }
-  return FindSizeOfLetterM().width() * scale;
+  static const QSize kUnitSizeStatic = FindSizeOfLetterM();
+  return kUnitSizeStatic.width() * scale;
 }
 
 int32_t UnitSize(double scale)
