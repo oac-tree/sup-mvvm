@@ -39,7 +39,7 @@ void AppRestarter::StoreExitRequest(AppExitRequest exit_request)
   qApp->setProperty(kAppExitRequestProperty, static_cast<int>(exit_request));
 }
 
-int32_t AppRestarter::HandleExit(int32_t app_exit_code)
+std::int32_t AppRestarter::HandleExit(std::int32_t app_exit_code)
 {
   auto stored_exit_code = qApp->property(kAppExitRequestProperty).toInt();
 
