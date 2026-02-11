@@ -67,14 +67,10 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
   using ::mvvm::utils::GetInsertItemErrorCode;
   using ::mvvm::utils::ValidateItemInsert;
 
-  // invalid items
-  EXPECT_EQ(GetInsertItemErrorCode(nullptr, nullptr, TagIndex()), ModelError::NullItem);
-  EXPECT_THROW(ValidateItemInsert(nullptr, nullptr, TagIndex()), InvalidOperationException);
-
   const SessionItem item;
   CompoundItem parent;
-  EXPECT_EQ(GetInsertItemErrorCode(&item, &parent, TagIndex()), ModelError::FailedToInsertItem);
-  EXPECT_THROW(ValidateItemInsert(&item, &parent, TagIndex()), InvalidOperationException);
+  EXPECT_EQ(GetInsertItemErrorCode(item, parent, TagIndex()), ModelError::FailedToInsertItem);
+  EXPECT_THROW(ValidateItemInsert(item, parent, TagIndex()), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertWhenInsertToItself)
@@ -85,9 +81,8 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenInsertToItself)
   auto item = std::make_unique<CompoundItem>();
   item->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  EXPECT_EQ(GetInsertItemErrorCode(item.get(), item.get(), {"tag1", 0}),
-            ModelError::ItemAndParentAreTheSame);
-  EXPECT_THROW(ValidateItemInsert(item.get(), item.get(), {"tag1", 0}), InvalidOperationException);
+  EXPECT_EQ(GetInsertItemErrorCode(*item, *item, {"tag1", 0}), ModelError::ItemAndParentAreTheSame);
+  EXPECT_THROW(ValidateItemInsert(*item, *item, {"tag1", 0}), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertOnAttemptToMakeParentAChild)
@@ -98,9 +93,9 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertOnAttemptToMakeParentAChild)
   auto child = m_model.InsertItem<CompoundItem>();
   child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  EXPECT_EQ(GetInsertItemErrorCode(m_model.GetRootItem(), child, {"tag1", 0}),
+  EXPECT_EQ(GetInsertItemErrorCode(*m_model.GetRootItem(), *child, {"tag1", 0}),
             ModelError::ItemIsAncestorOfNewParent);
-  EXPECT_THROW(ValidateItemInsert(m_model.GetRootItem(), child, {"tag1", 0}),
+  EXPECT_THROW(ValidateItemInsert(*m_model.GetRootItem(), *child, {"tag1", 0}),
                InvalidOperationException);
 }
 
@@ -113,8 +108,8 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenItemBelongsToAnotherParent)
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
 
-  EXPECT_EQ(GetInsertItemErrorCode(child, parent0, {"tag1", 0}), ModelError::ItemHasParent);
-  EXPECT_THROW(ValidateItemInsert(child, parent0, {"tag1", 0}), InvalidOperationException);
+  EXPECT_EQ(GetInsertItemErrorCode(*child, *parent0, {"tag1", 0}), ModelError::ItemHasParent);
+  EXPECT_THROW(ValidateItemInsert(*child, *parent0, {"tag1", 0}), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
@@ -127,12 +122,12 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
 
   CompoundItem candidate;
 
-  EXPECT_FALSE(GetInsertItemErrorCode(&candidate, parent0, {"tag1", 0}));
-  EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, {"tag1", 0}));
+  EXPECT_FALSE(GetInsertItemErrorCode(candidate, *parent0, {"tag1", 0}));
+  EXPECT_NO_THROW(ValidateItemInsert(candidate, *parent0, {"tag1", 0}));
 
   // we do allow  implicit conversion of TagIndex::Append into real index
-  EXPECT_FALSE(GetInsertItemErrorCode(&candidate, parent0, TagIndex::Append()));
-  EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()));
+  EXPECT_FALSE(GetInsertItemErrorCode(candidate, *parent0, TagIndex::Append()));
+  EXPECT_NO_THROW(ValidateItemInsert(candidate, *parent0, TagIndex::Append()));
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
@@ -143,11 +138,11 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
   auto parent0 = m_model.InsertItem<CompoundItem>();
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ false);
 
-  CompoundItem candidate;
+  const CompoundItem candidate;
 
-  EXPECT_EQ(GetInsertItemErrorCode(&candidate, parent0, TagIndex::Append()),
+  EXPECT_EQ(GetInsertItemErrorCode(candidate, *parent0, TagIndex::Append()),
             ModelError::FailedToInsertItem);
-  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()),
+  EXPECT_THROW(ValidateItemInsert(candidate, *parent0, TagIndex::Append()),
                InvalidOperationException);
 }
 

@@ -60,35 +60,25 @@ TagIndex GetInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index)
   return parent->GetTaggedItems()->GetInsertTagIndex(tag_index);
 }
 
-std::error_code GetInsertItemErrorCode(const SessionItem* item, const SessionItem* parent,
+std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionItem& parent,
                                        const TagIndex& tag_index)
 {
-  if (item == nullptr)
-  {
-    return ModelError::NullItem;
-  }
-
-  if (item == parent)
+  if (&item == &parent)
   {
     return ModelError::ItemAndParentAreTheSame;
   }
 
-  if (item->GetParent() != nullptr)
+  if (item.GetParent() != nullptr)
   {
     return ModelError::ItemHasParent;
   }
 
-  if (parent == nullptr)
-  {
-    return ModelError::InvalidParentItem;
-  }
-
-  if (utils::IsItemAncestor(parent, item))
+  if (utils::IsItemAncestor(&parent, &item))
   {
     return ModelError::ItemIsAncestorOfNewParent;
   }
 
-  if (!parent->GetTaggedItems()->CanInsertItem(item, GetInsertTagIndex(parent, tag_index)))
+  if (!parent.GetTaggedItems()->CanInsertItem(&item, GetInsertTagIndex(&parent, tag_index)))
   {
     return ModelError::FailedToInsertItem;
   }
@@ -96,7 +86,7 @@ std::error_code GetInsertItemErrorCode(const SessionItem* item, const SessionIte
   return ModelError::Success;
 }
 
-void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
+void ValidateItemInsert(const SessionItem& item, const SessionItem& parent,
                         const TagIndex& tag_index)
 {
   const auto error_code = GetInsertItemErrorCode(item, parent, tag_index);

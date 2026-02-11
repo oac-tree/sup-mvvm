@@ -46,7 +46,7 @@ TagIndex GetInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index)
 /**
  * @brief Returns a error code for potential insert item operation.
  */
-std::error_code GetInsertItemErrorCode(const SessionItem* item, const SessionItem* parent,
+std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionItem& parent,
                                        const TagIndex& tag_index);
 
 /**
@@ -54,7 +54,7 @@ std::error_code GetInsertItemErrorCode(const SessionItem* item, const SessionIte
  *
  * Will throw InvalidInsertException otherwise.
  */
-void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
+void ValidateItemInsert(const SessionItem& item, const SessionItem& parent,
                         const TagIndex& tag_index);
 
 /**

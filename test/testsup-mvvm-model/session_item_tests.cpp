@@ -337,6 +337,9 @@ TEST_F(SessionItemTests, InsertItem)
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
   EXPECT_EQ(parent->GetItem({"", 0}), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
+
+  // attempt to insert non-initialised item
+  EXPECT_THROW(parent->InsertItem(std::unique_ptr<SessionItem>(), {"", 1}), NullArgumentException);
 }
 
 TEST_F(SessionItemTests, InsertItemTemplated)
