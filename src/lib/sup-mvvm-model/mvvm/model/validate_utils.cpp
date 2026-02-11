@@ -36,17 +36,17 @@ namespace
 /**
  * @brief Checks if given item can be considered for move to another place.
  */
-bool IsValidChildForMove(const SessionItem* item)
+bool IsValidChildForMove(const SessionItem& item)
 {
-  return (item != nullptr) && (item->GetModel() != nullptr) && (item->GetParent() != nullptr);
+  return (item.GetModel() != nullptr) && (item.GetParent() != nullptr);
 }
 
 /**
  * @brief Checks if given item can be considered for move to another place.
  */
-bool IsValidParentToMoveIn(const SessionItem* item)
+bool IsValidParentToMoveIn(const SessionItem& item)
 {
-  return (item != nullptr) && (item->GetModel() != nullptr);
+  return (item.GetModel() != nullptr);
 }
 
 }  // namespace
@@ -124,7 +124,7 @@ void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* par
   }
 }
 
-std::error_code GetMoveItemErrorCode(const SessionItem* item, const SessionItem* new_parent,
+std::error_code GetMoveItemErrorCode(const SessionItem& item, const SessionItem& new_parent,
                                      const TagIndex& tag_index)
 {
   if (!IsValidChildForMove(item))
@@ -137,29 +137,29 @@ std::error_code GetMoveItemErrorCode(const SessionItem* item, const SessionItem*
     return ModelError::InvalidParentItem;
   }
 
-  if (item->GetModel() != new_parent->GetModel())
+  if (item.GetModel() != new_parent.GetModel())
   {
     return ModelError::ItemBelongToDifferentModel;
   }
 
-  auto current_parent = item->GetParent();
+  auto current_parent = item.GetParent();
 
-  if (!current_parent->GetTaggedItems()->CanTakeItem(item->GetTagIndex()))
+  if (!current_parent->GetTaggedItems()->CanTakeItem(item.GetTagIndex()))
   {
     return ModelError::FailedToTakeItem;
   }
 
-  if (!new_parent->GetTaggedItems()->CanMoveItem(item, GetInsertTagIndex(new_parent, tag_index)))
+  if (!new_parent.GetTaggedItems()->CanMoveItem(&item, GetInsertTagIndex(&new_parent, tag_index)))
   {
     return ModelError::FailedToMoveItem;
   }
 
-  if (utils::IsItemAncestor(new_parent, item))
+  if (utils::IsItemAncestor(&new_parent, &item))
   {
     return ModelError::ItemIsAncestorOfNewParent;
   }
 
-  if (item == new_parent)
+  if (&item == &new_parent)
   {
     return ModelError::ItemAndParentAreTheSame;
   }
@@ -167,7 +167,7 @@ std::error_code GetMoveItemErrorCode(const SessionItem* item, const SessionItem*
   return ModelError::Success;
 }
 
-void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
+void ValidateItemMove(const SessionItem& item, const SessionItem& new_parent,
                       const TagIndex& tag_index)
 {
   const auto error_code = GetMoveItemErrorCode(item, new_parent, tag_index);

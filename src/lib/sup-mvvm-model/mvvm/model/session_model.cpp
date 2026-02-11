@@ -173,6 +173,16 @@ void SessionModel::RemoveItem(SessionItem* item)
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
+  if (item == nullptr)
+  {
+    throw NullArgumentException("SessionModel::MoveItem: item is not initialised");
+  }
+
+  if (new_parent == nullptr)
+  {
+    throw NullArgumentException("SessionModel::MoveItem: parent is not initialised");
+  }
+
   auto actual_tagindex = utils::GetInsertTagIndex(new_parent, tag_index);
 
   // moving to the same position we are now is noop (no move, no notifications)
@@ -181,7 +191,7 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
     return;
   }
 
-  utils::ValidateItemMove(item, new_parent, actual_tagindex);
+  utils::ValidateItemMove(*item, *new_parent, actual_tagindex);
   utils::BeginMacro(*this, "MoveItem");
   auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
   (void)InsertItem(std::move(taken), new_parent, tag_index);

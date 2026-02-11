@@ -74,13 +74,13 @@ void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* par
 /**
  * @brief Returns a error code for potential move operation.
  */
-std::error_code GetMoveItemErrorCode(const SessionItem* item, const SessionItem* new_parent,
+std::error_code GetMoveItemErrorCode(const SessionItem& item, const SessionItem& new_parent,
                                      const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item move is allowed. Will throw InvalidMoveException otherwise.
  */
-void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
+void ValidateItemMove(const SessionItem& item, const SessionItem& new_parent,
                       const TagIndex& tag_index);
 
 /**

@@ -155,6 +155,10 @@ TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
   EXPECT_THROW(model.InsertItem(std::unique_ptr<SessionItem>(), model.GetRootItem(), {"", 0}),
                NullArgumentException);
 
+  // attempt to insert in invalid root
+  EXPECT_THROW(model.InsertItem(std::unique_ptr<SessionItem>(), nullptr, {"", 0}),
+               NullArgumentException);
+
   auto item = std::make_unique<PropertyItem>();
   auto item_ptr = item.get();
 

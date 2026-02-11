@@ -183,17 +183,12 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
   using ::mvvm::utils::GetMoveItemErrorCode;
   using ::mvvm::utils::ValidateItemMove;
 
-  // invalid items
-  EXPECT_EQ(GetMoveItemErrorCode(nullptr, nullptr, TagIndex()), ModelError::NullItem);
-  EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidOperationException);
-
   // item without model
   const SessionItem item;
   CompoundItem parent;
-  EXPECT_EQ(GetMoveItemErrorCode(&item, nullptr, TagIndex()), ModelError::NullItem);
-  EXPECT_EQ(GetMoveItemErrorCode(&item, &parent, TagIndex()),
+  EXPECT_EQ(GetMoveItemErrorCode(item, parent, TagIndex()),
             ModelError::NullItem);  // FIXME should be some other flag
-  EXPECT_THROW(ValidateItemMove(&item, &parent, TagIndex()), InvalidOperationException);
+  EXPECT_THROW(ValidateItemMove(item, parent, TagIndex()), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
@@ -205,27 +200,23 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move parent into parent
-  EXPECT_EQ(GetMoveItemErrorCode(parent0, parent0, {"tag1", 0}),
+  EXPECT_EQ(GetMoveItemErrorCode(*parent0, *parent0, {"tag1", 0}),
             ModelError::ItemAndParentAreTheSame);
-  EXPECT_THROW(ValidateItemMove(parent0, parent0, {"tag1", 0}), InvalidOperationException);
+  EXPECT_THROW(ValidateItemMove(*parent0, *parent0, {"tag1", 0}), InvalidOperationException);
 
   auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
   child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move parent to child
-  EXPECT_EQ(GetMoveItemErrorCode(parent0, child, {"tag1", 0}),
+  EXPECT_EQ(GetMoveItemErrorCode(*parent0, *child, {"tag1", 0}),
             ModelError::ItemIsAncestorOfNewParent);
-  EXPECT_THROW(ValidateItemMove(parent0, child, {"tag1", 0}), InvalidOperationException);
+  EXPECT_THROW(ValidateItemMove(*parent0, *child, {"tag1", 0}), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
 {
   using ::mvvm::utils::GetMoveItemErrorCode;
   using ::mvvm::utils::ValidateItemMove;
-
-  // invalid items
-  EXPECT_EQ(GetMoveItemErrorCode(nullptr, nullptr, TagIndex()), ModelError::NullItem);
-  EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
@@ -234,8 +225,8 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
   auto parent1 = m_model.InsertItem<CompoundItem>();
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  EXPECT_EQ(GetMoveItemErrorCode(child, parent1, {"tag1", 0}), ModelError::Success);
-  EXPECT_NO_THROW(ValidateItemMove(child, parent1, {"tag1", 0}));
+  EXPECT_EQ(GetMoveItemErrorCode(*child, *parent1, {"tag1", 0}), ModelError::Success);
+  EXPECT_NO_THROW(ValidateItemMove(*child, *parent1, {"tag1", 0}));
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
@@ -250,8 +241,8 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // it is not allowed to take property item
-  EXPECT_EQ(GetMoveItemErrorCode(&property, parent1, {"tag1", 0}), ModelError::FailedToTakeItem);
-  EXPECT_THROW(ValidateItemMove(&property, parent1, {"tag1", 0}), InvalidOperationException);
+  EXPECT_EQ(GetMoveItemErrorCode(property, *parent1, {"tag1", 0}), ModelError::FailedToTakeItem);
+  EXPECT_THROW(ValidateItemMove(property, *parent1, {"tag1", 0}), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
@@ -267,8 +258,8 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
   auto& property = parent1->AddProperty("thickness", 42);
 
   // invalid move of property item
-  EXPECT_EQ(GetMoveItemErrorCode(child, parent1, {"thickness", 0}), ModelError::FailedToMoveItem);
-  EXPECT_THROW(ValidateItemMove(child, parent1, {"thickness", 0}), InvalidOperationException);
+  EXPECT_EQ(GetMoveItemErrorCode(*child, *parent1, {"thickness", 0}), ModelError::FailedToMoveItem);
+  EXPECT_THROW(ValidateItemMove(*child, *parent1, {"thickness", 0}), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveToLast)
@@ -281,13 +272,14 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToLast)
   auto item2 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 2
   auto item3 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 3
 
-  EXPECT_EQ(GetMoveItemErrorCode(item0, m_model.GetRootItem(), {"", 3}), ModelError::Success);
-  EXPECT_NO_THROW(ValidateItemMove(item0, m_model.GetRootItem(), {"", 3}));
+  EXPECT_EQ(GetMoveItemErrorCode(*item0, *m_model.GetRootItem(), {"", 3}), ModelError::Success);
+  EXPECT_NO_THROW(ValidateItemMove(*item0, *m_model.GetRootItem(), {"", 3}));
 
   // invalid move of item too far back
-  EXPECT_EQ(GetMoveItemErrorCode(item0, m_model.GetRootItem(), {"", 4}),
+  EXPECT_EQ(GetMoveItemErrorCode(*item0, *m_model.GetRootItem(), {"", 4}),
             ModelError::FailedToMoveItem);
-  EXPECT_THROW(ValidateItemMove(item0, m_model.GetRootItem(), {"", 4}), InvalidOperationException);
+  EXPECT_THROW(ValidateItemMove(*item0, *m_model.GetRootItem(), {"", 4}),
+               InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenChildDoesntExist)
