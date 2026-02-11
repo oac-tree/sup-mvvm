@@ -43,23 +43,21 @@ TEST_F(ValidateUtilsTests, GetInsertTagIndex)
 {
   using ::mvvm::utils::GetInsertTagIndex;
 
-  EXPECT_THROW(GetInsertTagIndex(nullptr, TagIndex::Append()).IsValid(), NullArgumentException);
-
   CompoundItem item;
-  EXPECT_FALSE(GetInsertTagIndex(&item, TagIndex::Append()).IsValid());
+  EXPECT_FALSE(GetInsertTagIndex(item, TagIndex::Append()).IsValid());
 
   // registering default tag
   item.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
   // checking that uninitialised tag is correctly converted to the right tag
-  EXPECT_EQ(GetInsertTagIndex(&item, TagIndex::Append()), TagIndex("tag", 0));
+  EXPECT_EQ(GetInsertTagIndex(item, TagIndex::Append()), TagIndex("tag", 0));
 
   // inserting an item, checking if tag points to the next one after
   item.InsertItem<SessionItem>({"tag", 0});
-  EXPECT_EQ(GetInsertTagIndex(&item, TagIndex::Append()), TagIndex("tag", 1));
+  EXPECT_EQ(GetInsertTagIndex(item, TagIndex::Append()), TagIndex("tag", 1));
 
   // Wrong tag
-  EXPECT_FALSE(GetInsertTagIndex(&item, {"abc", 0}).IsValid());
+  EXPECT_FALSE(GetInsertTagIndex(item, {"abc", 0}).IsValid());
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
@@ -68,7 +66,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
   using ::mvvm::utils::ValidateItemInsert;
 
   const SessionItem item;
-  CompoundItem parent;
+  const CompoundItem parent;
   EXPECT_EQ(GetInsertItemErrorCode(item, parent, TagIndex()), ModelError::FailedToInsertItem);
   EXPECT_THROW(ValidateItemInsert(item, parent, TagIndex()), InvalidOperationException);
 }
@@ -160,21 +158,20 @@ TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
   auto child = std::make_unique<CompoundItem>(item_type);
   m_model.InsertItem(std::move(child), parent0, {"tag1", 0});
 
-  EXPECT_EQ(GetInsertTypeErrorCode(item_type, nullptr, {"tag1", 0}), ModelError::InvalidParentItem);
-  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, {"tag1", 0}), ModelError::Success);
-  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, {"tag1", 1}), ModelError::Success);
-  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, {"tag1", 2}),
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, *parent0, {"tag1", 0}), ModelError::Success);
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, *parent0, {"tag1", 1}), ModelError::Success);
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, *parent0, {"tag1", 2}),
             ModelError::FailedToInsertItem);  // wrong index
-  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, {"non-existing-type", 1}),
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, *parent0, {"non-existing-type", 1}),
             ModelError::FailedToInsertItem);  // wrong tag
 
   // we do allow  implicit conversion of TagIndex::Append into real index
-  EXPECT_EQ(GetInsertTypeErrorCode(item_type, parent0, TagIndex::Append()), ModelError::Success);
+  EXPECT_EQ(GetInsertTypeErrorCode(item_type, *parent0, TagIndex::Append()), ModelError::Success);
 
   // not-registered item type
-  EXPECT_EQ(GetInsertTypeErrorCode("wrong-type", parent0, {"tag1", 0}),
+  EXPECT_EQ(GetInsertTypeErrorCode("wrong-type", *parent0, {"tag1", 0}),
             ModelError::FailedToInsertItem);  // wrong index
-  EXPECT_THROW(ValidateItemTypeInsert("wrong-type", parent0, {"tag1", 0}),
+  EXPECT_THROW(ValidateItemTypeInsert("wrong-type", *parent0, {"tag1", 0}),
                InvalidOperationException);
 }
 

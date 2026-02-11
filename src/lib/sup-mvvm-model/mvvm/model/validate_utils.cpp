@@ -51,13 +51,9 @@ bool IsValidParentToMoveIn(const SessionItem& item)
 
 }  // namespace
 
-TagIndex GetInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index)
+TagIndex GetInsertTagIndex(const SessionItem& parent, const TagIndex& tag_index)
 {
-  if (parent == nullptr)
-  {
-    throw NullArgumentException("Unintialised parent");
-  }
-  return parent->GetTaggedItems()->GetInsertTagIndex(tag_index);
+  return parent.GetTaggedItems()->GetInsertTagIndex(tag_index);
 }
 
 std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionItem& parent,
@@ -78,7 +74,7 @@ std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionIte
     return ModelError::ItemIsAncestorOfNewParent;
   }
 
-  if (!parent.GetTaggedItems()->CanInsertItem(&item, GetInsertTagIndex(&parent, tag_index)))
+  if (!parent.GetTaggedItems()->CanInsertItem(&item, GetInsertTagIndex(parent, tag_index)))
   {
     return ModelError::FailedToInsertItem;
   }
@@ -97,15 +93,10 @@ void ValidateItemInsert(const SessionItem& item, const SessionItem& parent,
   }
 }
 
-std::error_code GetInsertTypeErrorCode(const std::string& item_type, const SessionItem* parent,
+std::error_code GetInsertTypeErrorCode(const std::string& item_type, const SessionItem& parent,
                                        const TagIndex& tag_index)
 {
-  if (parent == nullptr)
-  {
-    return ModelError::InvalidParentItem;
-  }
-
-  if (!parent->GetTaggedItems()->CanInsertType(item_type, GetInsertTagIndex(parent, tag_index)))
+  if (!parent.GetTaggedItems()->CanInsertType(item_type, GetInsertTagIndex(parent, tag_index)))
   {
     return ModelError::FailedToInsertItem;
   }
@@ -113,7 +104,7 @@ std::error_code GetInsertTypeErrorCode(const std::string& item_type, const Sessi
   return ModelError::Success;
 }
 
-void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* parent,
+void ValidateItemTypeInsert(const std::string& item_type, const SessionItem& parent,
                             const TagIndex& tag_index)
 {
   const auto error_code = GetInsertTypeErrorCode(item_type, parent, tag_index);
@@ -149,7 +140,7 @@ std::error_code GetMoveItemErrorCode(const SessionItem& item, const SessionItem&
     return ModelError::FailedToTakeItem;
   }
 
-  if (!new_parent.GetTaggedItems()->CanMoveItem(&item, GetInsertTagIndex(&new_parent, tag_index)))
+  if (!new_parent.GetTaggedItems()->CanMoveItem(&item, GetInsertTagIndex(new_parent, tag_index)))
   {
     return ModelError::FailedToMoveItem;
   }

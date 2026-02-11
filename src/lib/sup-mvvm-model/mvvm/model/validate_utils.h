@@ -41,7 +41,7 @@ namespace mvvm::utils
 /**
  * @brief Converts TagIndex::Append() to the actual TagIndex.
  */
-TagIndex GetInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
+TagIndex GetInsertTagIndex(const SessionItem& parent, const TagIndex& tag_index);
 
 /**
  * @brief Returns a error code for potential insert item operation.
@@ -60,7 +60,7 @@ void ValidateItemInsert(const SessionItem& item, const SessionItem& parent,
 /**
  * @brief Returns a error code for potential insert of a new item of the given type.
  */
-std::error_code GetInsertTypeErrorCode(const std::string& item_type, const SessionItem* parent,
+std::error_code GetInsertTypeErrorCode(const std::string& item_type, const SessionItem& parent,
                                        const TagIndex& tag_index);
 
 /**
@@ -68,7 +68,7 @@ std::error_code GetInsertTypeErrorCode(const std::string& item_type, const Sessi
  *
  * Will throw InvalidInsertException otherwise.
  */
-void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* parent,
+void ValidateItemTypeInsert(const std::string& item_type, const SessionItem& parent,
                             const TagIndex& tag_index);
 
 /**
