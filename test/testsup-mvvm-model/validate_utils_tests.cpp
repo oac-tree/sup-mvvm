@@ -43,21 +43,50 @@ TEST_F(ValidateUtilsTests, GetInsertTagIndex)
 {
   using ::mvvm::utils::GetInsertTagIndex;
 
-  CompoundItem item;
-  EXPECT_FALSE(GetInsertTagIndex(item, TagIndex::Append()).IsValid());
+  {  // no tags
+    const CompoundItem item;
+    EXPECT_FALSE(GetInsertTagIndex(item, TagIndex::Append()).IsValid());
+  }
 
-  // registering default tag
-  item.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  {  // default tag
+    CompoundItem item;
+    // registering default tag
+    item.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
-  // checking that uninitialised tag is correctly converted to the right tag
-  EXPECT_EQ(GetInsertTagIndex(item, TagIndex::Append()), TagIndex("tag", 0));
+    // checking that uninitialised tag is correctly converted to the right tag
+    auto tag_index = GetInsertTagIndex(item, TagIndex::Append());
+    ASSERT_TRUE(tag_index.IsValid());
+    EXPECT_EQ(tag_index, TagIndex("tag", 0));
 
-  // inserting an item, checking if tag points to the next one after
-  item.InsertItem<SessionItem>({"tag", 0});
-  EXPECT_EQ(GetInsertTagIndex(item, TagIndex::Append()), TagIndex("tag", 1));
+    // inserting an item, checking if tag points to the next one after
+    item.InsertItem(std::make_unique<SessionItem>(), {"tag", 0});
+    auto tag_index2 = GetInsertTagIndex(item, TagIndex::Append());
+    ASSERT_TRUE(tag_index2.IsValid());
+    EXPECT_EQ(tag_index2, TagIndex("tag", 1));
 
-  // Wrong tag
-  EXPECT_FALSE(GetInsertTagIndex(item, {"abc", 0}).IsValid());
+    // it is not possible to convert wrong tag to something meaningful
+    EXPECT_FALSE(GetInsertTagIndex(item, {"abc", 0}).IsValid());
+  }
+
+  {  // non-default tag
+    CompoundItem item;
+    // registering default tag
+    item.RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
+
+    // It is not possible to convert empty tag name into something meaningfull
+    EXPECT_FALSE(GetInsertTagIndex(item, TagIndex::Append()).IsValid());
+
+    // if tag is ok, index will be converted
+    auto tag_index = GetInsertTagIndex(item, TagIndex::Append("tag"));
+    ASSERT_TRUE(tag_index.IsValid());
+    EXPECT_EQ(tag_index, TagIndex("tag", 0));
+
+    // inserting an item, checking if tag points to the next one after
+    item.InsertItem(std::make_unique<SessionItem>(), {"tag", 0});
+    auto tag_index2 = GetInsertTagIndex(item, TagIndex::Append("tag"));
+    ASSERT_TRUE(tag_index2.IsValid());
+    EXPECT_EQ(tag_index2, TagIndex("tag", 1));
+  }
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
