@@ -45,7 +45,7 @@ public:
 class TestModel : public mvvm::SessionModel
 {
 public:
-  TestModel(std::shared_ptr<mvvm::ItemPool> pool) : SessionModel("TestModelType", pool)
+  explicit TestModel(std::shared_ptr<mvvm::ItemPool> pool) : SessionModel("TestModelType", pool)
   {
     mvvm::RegisterGlobalItem<TestItem>();
   };
@@ -53,7 +53,8 @@ public:
 
 /**
  * @brief The InvalidTestCommand tries to execute another command before its own job is done.
- *  * We do not allow adding commands in a stack while the command is running. Macro commands should
+ *
+ * We do not allow adding commands in a stack while the command is running. Macro commands should
  * used for connected actions.
  */
 class InvalidTestCommand : public mvvm::AbstractCommand
@@ -70,7 +71,7 @@ private:
 
   void UndoImpl() override {}
 
-  void Notify(const mvvm::event_variant_t&) override {}
+  void Notify(const mvvm::event_variant_t& event) override { (void)event; }
 
   mvvm::ISessionModel* m_model{nullptr};
 };
@@ -130,7 +131,6 @@ TEST_F(SessionModelTest, SetData)
   EXPECT_FALSE(model.SetData(item, value, DataRole::kData));
 }
 
-//! Insert item into root.
 TEST_F(SessionModelTest, InsertItemIntoRoot)
 {
   TestModel model(m_pool);
@@ -147,7 +147,6 @@ TEST_F(SessionModelTest, InsertItemIntoRoot)
   EXPECT_EQ(m_pool->ItemForKey(item_key), item);
 }
 
-//! Inserting item into root via move.
 TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 {
   TestModel model(m_pool);
@@ -168,7 +167,6 @@ TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
   EXPECT_EQ(m_pool->ItemForKey(item_key), inserted);
 }
 
-//! Insert item into parent using tag and index.
 TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 {
   TestModel model(m_pool);
@@ -205,7 +203,6 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
   EXPECT_EQ(utils::IndexOfChild(item, child2), 0);
 }
 
-//! Insert item into default tag.
 TEST_F(SessionModelTest, InsertItemInDefaultTag)
 {
   TestModel model(m_pool);
@@ -235,7 +232,6 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
   EXPECT_EQ(child2_tagindex.GetIndex(), 1);
 }
 
-//! Insert item into default tag.
 TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
 {
   TestModel model(m_pool);
@@ -265,7 +261,6 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
   EXPECT_EQ(child2_tagindex.GetIndex(), 1);
 }
 
-//! Attempt to insert item into default tag when where is no default tag.
 TEST_F(SessionModelTest, InsertItemInDefaultTagWhenNoDefaultTagIsPresent)
 {
   SessionModel model("Test");
@@ -278,7 +273,6 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagWhenNoDefaultTagIsPresent)
   EXPECT_THROW(model.InsertItem<PropertyItem>(item), InvalidOperationException);
 }
 
-//! Attempt to insert item in property tag.
 TEST_F(SessionModelTest, InsertItemInPropertyTag)
 {
   SessionModel model("Test");
@@ -290,8 +284,6 @@ TEST_F(SessionModelTest, InsertItemInPropertyTag)
   // adding child to default tag
   EXPECT_THROW(model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidOperationException);
 }
-
-//! Attempt to insert item in property tag.
 
 TEST_F(SessionModelTest, InsertNewItemInPropertyTag)
 {
@@ -305,7 +297,6 @@ TEST_F(SessionModelTest, InsertNewItemInPropertyTag)
   EXPECT_THROW(model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidOperationException);
 }
 
-//! Inserting single PropertyItem using move.
 TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
 {
   const std::string tag1("tag1");
@@ -414,8 +405,7 @@ TEST_F(SessionModelTest, TakeRowFromRootItem)
   EXPECT_EQ(m_pool->ItemForKey(child_key), nullptr);
 }
 
-//! Simple move of item from one parent to another.
-TEST_F(SessionModelTest, MoveItem)
+TEST_F(SessionModelTest, ItemMoveFromOneParentToAnother)
 {
   SessionModel model;
 
@@ -437,7 +427,7 @@ TEST_F(SessionModelTest, MoveItem)
   EXPECT_TRUE(parent0->GetAllItems().empty());
 }
 
-TEST_F(SessionModelTest, MoveItemRootContextNext)
+TEST_F(SessionModelTest, MoveItemToNextPosition)
 {
   SessionModel model;
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
@@ -449,11 +439,11 @@ TEST_F(SessionModelTest, MoveItemRootContextNext)
   model.MoveItem(item1, model.GetRootItem(), {"", 2});
 
   // expecting new order of items
-  std::vector<SessionItem*> expected = {item0, item2, item1, item3};
+  const std::vector<SessionItem*> expected = {item0, item2, item1, item3};
   EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
 }
 
-TEST_F(SessionModelTest, MoveItemRootContextSamePos)
+TEST_F(SessionModelTest, MoveItemToSamePosition)
 {
   SessionModel model;
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
@@ -465,11 +455,11 @@ TEST_F(SessionModelTest, MoveItemRootContextSamePos)
   model.MoveItem(item1, model.GetRootItem(), {"", 1});
 
   // expecting same order of items
-  std::vector<SessionItem*> expected = {item0, item1, item2, item3};
+  const std::vector<SessionItem*> expected = {item0, item1, item2, item3};
   EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
 }
 
-TEST_F(SessionModelTest, MoveItemRootContextPrev)
+TEST_F(SessionModelTest, MoveItemToPrevPosition)
 {
   SessionModel model;
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
@@ -481,11 +471,11 @@ TEST_F(SessionModelTest, MoveItemRootContextPrev)
   model.MoveItem(item2, model.GetRootItem(), {"", 1});
 
   // expecting new order of items
-  std::vector<SessionItem*> expected = {item0, item2, item1, item3};
+  const std::vector<SessionItem*> expected = {item0, item2, item1, item3};
   EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
 }
 
-TEST_F(SessionModelTest, MoveItemRootContextLast)
+TEST_F(SessionModelTest, MoveItemToTheBack)
 {
   SessionModel model;
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
@@ -497,27 +487,11 @@ TEST_F(SessionModelTest, MoveItemRootContextLast)
   model.MoveItem(item0, model.GetRootItem(), {"", model.GetRootItem()->GetTotalItemCount() - 1});
 
   // expecting new order of items
-  std::vector<SessionItem*> expected = {item1, item2, item3, item0};
+  const std::vector<SessionItem*> expected = {item1, item2, item3, item0};
   EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
 }
 
-TEST_F(SessionModelTest, MoveItemRootContextLast2)
-{
-  SessionModel model;
-  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
-  auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());  // 1
-  auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());  // 2
-  auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
-
-  // moving item0 in the back of the list
-  model.MoveItem(item0, model.GetRootItem(), {"", 3});
-
-  // expecting new order of items
-  std::vector<SessionItem*> expected = {item1, item2, item3, item0};
-  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
-}
-
-TEST_F(SessionModelTest, MoveItemRootContextLast3)
+TEST_F(SessionModelTest, MoveItemTooFarBack)
 {
   SessionModel model;
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
@@ -568,7 +542,9 @@ TEST_F(SessionModelTest, InvalidMoveOfParentProperty)
   EXPECT_EQ(compound->GetItem("thickness"), &property);
 }
 
-//! More similar test scenarious in validate_utils_tests.cpp
+// ----------------------------------------------------------------------------
+// More similar test scenarious in validate_utils_tests.cpp
+// ----------------------------------------------------------------------------
 
 TEST_F(SessionModelTest, MoveItemBetweenParentTags)
 {
@@ -681,9 +657,7 @@ TEST_F(SessionModelTest, ClearWithRootReplace)
   EXPECT_EQ(m_pool->KeyForItem(new_item), new_item->GetIdentifier());
 }
 
-//! Test item find using identifier.
-
-TEST_F(SessionModelTest, FindItem)
+TEST_F(SessionModelTest, FindItemVaiIdentifier)
 {
   SessionModel model;
   auto parent = model.InsertItem<SessionItem>();
@@ -696,8 +670,6 @@ TEST_F(SessionModelTest, FindItem)
   model.RemoveItem(parent);
   EXPECT_EQ(model.FindItem(identifier), nullptr);
 }
-
-//! Test items in different models.
 
 TEST_F(SessionModelTest, FindItemInAlienModel)
 {
@@ -759,7 +731,7 @@ TEST_F(SessionModelTest, AttemptToExecuteCommandFromCommand)
   EXPECT_THROW(model.ExecuteCommand(std::move(command)), InvalidOperationException);
 }
 
-TEST_F(SessionModelTest, Clone)
+TEST_F(SessionModelTest, CloneModel)
 {
   const std::string model_type("model_type");
   const SessionModel model(model_type);

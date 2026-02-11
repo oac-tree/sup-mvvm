@@ -119,8 +119,6 @@ std::unique_ptr<ISessionModel> SessionModel::Clone() const
   return std::make_unique<SessionModel>(*this);
 }
 
-//! Returns model type.
-
 std::string SessionModel::GetType() const
 {
   return p_impl->m_model_type;

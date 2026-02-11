@@ -54,6 +54,8 @@ public:
   ~TaggedItems();
   TaggedItems(const TaggedItems&) = delete;
   TaggedItems& operator=(const TaggedItems&) = delete;
+  TaggedItems(TaggedItems&&) = delete;
+  TaggedItems& operator=(TaggedItems&&) = delete;
 
   /**
    * @brief Registers tag.

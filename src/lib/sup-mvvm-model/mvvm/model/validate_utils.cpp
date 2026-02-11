@@ -27,12 +27,6 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 
-namespace
-{
-const bool kSuccess = true;
-const bool kFailure = false;
-}  // namespace
-
 namespace mvvm::utils
 {
 
