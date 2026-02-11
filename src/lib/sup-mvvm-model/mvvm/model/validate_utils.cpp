@@ -188,14 +188,9 @@ void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
   }
 }
 
-std::error_code GetTakeItemErrorCode(const SessionItem* parent, const TagIndex& tag_index)
+std::error_code GetTakeItemErrorCode(const SessionItem& parent, const TagIndex& tag_index)
 {
-  if (parent == nullptr)
-  {
-    return ModelError::InvalidParentItem;
-  }
-
-  if (!parent->GetTaggedItems()->CanTakeItem(tag_index))
+  if (!parent.GetTaggedItems()->CanTakeItem(tag_index))
   {
     return ModelError::FailedToTakeItem;
   }
@@ -203,7 +198,7 @@ std::error_code GetTakeItemErrorCode(const SessionItem* parent, const TagIndex& 
   return ModelError::Success;
 }
 
-void ValidateTakeItem(const SessionItem* parent, const TagIndex& tag_index)
+void ValidateTakeItem(const SessionItem& parent, const TagIndex& tag_index)
 {
   const auto error_code = GetTakeItemErrorCode(parent, tag_index);
   if (error_code)

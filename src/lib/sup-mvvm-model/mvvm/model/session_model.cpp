@@ -153,7 +153,11 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  utils::ValidateTakeItem(parent, tag_index);
+  if (parent == nullptr)
+  {
+    throw NullArgumentException("SessionModel::TakeItem: parent item is not specified");
+  }
+  utils::ValidateTakeItem(*parent, tag_index);
   return parent->TakeItem(tag_index);
 }
 

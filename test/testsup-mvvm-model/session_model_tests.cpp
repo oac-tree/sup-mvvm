@@ -367,7 +367,7 @@ TEST_F(SessionModelTest, RemoveFromWrongParent)
   TestModel model(m_pool);
 
   // undefined item
-  EXPECT_THROW(model.TakeItem(nullptr, {"", 0}), InvalidOperationException);
+  EXPECT_THROW(model.TakeItem(nullptr, {"", 0}), NullArgumentException);
 
   // parent non belonging to given model
   SessionItem parent;

@@ -295,23 +295,14 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToLast)
   EXPECT_THROW(ValidateItemMove(item0, m_model.GetRootItem(), {"", 4}), InvalidOperationException);
 }
 
-TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentIsNotDefined)
-{
-  using ::mvvm::utils::GetTakeItemErrorCode;
-  using ::mvvm::utils::ValidateTakeItem;
-  const SessionItem item;
-
-  EXPECT_EQ(GetTakeItemErrorCode(nullptr, {}), ModelError::InvalidParentItem);
-  EXPECT_THROW(ValidateTakeItem(nullptr, {}), InvalidOperationException);
-}
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenChildDoesntExist)
 {
   using ::mvvm::utils::GetTakeItemErrorCode;
   using ::mvvm::utils::ValidateTakeItem;
   auto parent = m_model.InsertItem<CompoundItem>();
 
-  EXPECT_EQ(GetTakeItemErrorCode(parent, {}), ModelError::FailedToTakeItem);
-  EXPECT_THROW(ValidateTakeItem(parent, {}), InvalidOperationException);
+  EXPECT_EQ(GetTakeItemErrorCode(*parent, {}), ModelError::FailedToTakeItem);
+  EXPECT_THROW(ValidateTakeItem(*parent, {}), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
@@ -322,8 +313,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
   auto parent = m_model.InsertItem<CompoundItem>();
   auto& property = parent->AddProperty("thickness", 42);
 
-  EXPECT_EQ(GetTakeItemErrorCode(parent, {"thickness", 0}), ModelError::FailedToTakeItem);
-  EXPECT_THROW(ValidateTakeItem(parent, {"thickness", 0}), InvalidOperationException);
+  EXPECT_EQ(GetTakeItemErrorCode(*parent, {"thickness", 0}), ModelError::FailedToTakeItem);
+  EXPECT_THROW(ValidateTakeItem(*parent, {"thickness", 0}), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemFromNonExistingIndex)
@@ -335,8 +326,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromNonExistingIndex)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent, {"tag1", 0});
 
-  EXPECT_EQ(GetTakeItemErrorCode(parent, {"tag1", 1}), ModelError::FailedToTakeItem);
-  EXPECT_THROW(ValidateTakeItem(parent, {"tag1", 1}), InvalidOperationException);
+  EXPECT_EQ(GetTakeItemErrorCode(*parent, {"tag1", 1}), ModelError::FailedToTakeItem);
+  EXPECT_THROW(ValidateTakeItem(*parent, {"tag1", 1}), InvalidOperationException);
 }
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequest)
@@ -348,8 +339,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequest)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent, {"tag1", 0});
 
-  EXPECT_EQ(GetTakeItemErrorCode(parent, {"tag1", 0}), ModelError::Success);
-  EXPECT_NO_THROW(ValidateTakeItem(parent, {"tag1", 0}));
+  EXPECT_EQ(GetTakeItemErrorCode(*parent, {"tag1", 0}), ModelError::Success);
+  EXPECT_NO_THROW(ValidateTakeItem(*parent, {"tag1", 0}));
 }
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequestWhenNoModel)
@@ -361,8 +352,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequestWhenNoModel)
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = parent.InsertItem<CompoundItem>({"tag1", 0});
 
-  EXPECT_EQ(GetTakeItemErrorCode(&parent, {"tag1", 0}), ModelError::Success);
-  EXPECT_NO_THROW(ValidateTakeItem(&parent, {"tag1", 0}));
+  EXPECT_EQ(GetTakeItemErrorCode(parent, {"tag1", 0}), ModelError::Success);
+  EXPECT_NO_THROW(ValidateTakeItem(parent, {"tag1", 0}));
 }
 
 }  // namespace mvvm::test
