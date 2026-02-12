@@ -51,6 +51,34 @@ namespace mvvm::utils
 TagIndex GetVerifiedTagIndex(const SessionItem& parent, const TagIndex& tag_index);
 
 /**
+ * @brief Returns insert index which has to be used as a part of move operation.
+ *
+ * Since our move operation is a combination of take/insert operations, we have to adjust
+ * insert tag depending on the original position of the item and the position where it is moved to.
+ *
+ * @param item An item to move.
+ * @param new_parent A new parent for the item.
+ * @param tag_index A tag index for the move operation.
+ * @return
+ */
+TagIndex GetInsertTagIndexFromMove(const SessionItem& item, const SessionItem& parent,
+                                   const TagIndex& tag_index);
+
+/**
+ * @brief Checks if move operation is a noop.
+ *
+ * It is a noop if item is moved to the same parent and the same tag index. This method checks only
+ * if item is already at desired place. It doesn't check if move operation is valid. Used to avoid
+ * unnecessary signaling.
+ *
+ * @param item An item to move.
+ * @param new_parent A new parent for the item.
+ * @param tag_index A tag index for the move operation.
+ * @return True if move is a noop, false otherwise.
+ */
+bool IsNoopMove(const SessionItem& item, const SessionItem& new_parent, const TagIndex& tag_index);
+
+/**
  * @brief Returns a error code for potential insert item operation.
  */
 std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionItem& parent,

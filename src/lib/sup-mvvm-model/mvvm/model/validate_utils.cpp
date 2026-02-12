@@ -65,6 +65,35 @@ TagIndex GetVerifiedTagIndex(const SessionItem& parent, const TagIndex& tag_inde
   return TagIndex::Invalid();
 }
 
+TagIndex GetInsertTagIndexFromMove(const SessionItem& item, const SessionItem& parent,
+                                   const TagIndex& tag_index)
+{
+  auto target_move_index = GetVerifiedTagIndex(parent, tag_index);
+  if (item.GetParent() != &parent)
+  {
+    return target_move_index;
+  }
+
+  const auto source_index = item.GetTagIndex();
+  if (target_move_index.GetIndex() > source_index.GetIndex())
+  {  // if we are moving to the same parent and target index is after source index, we need to
+     // decrease target index by one
+    return TagIndex{target_move_index.GetTag(), target_move_index.GetIndex() - 1};
+  }
+
+  return target_move_index;
+}
+
+bool IsNoopMove(const SessionItem& item, const SessionItem& new_parent, const TagIndex& tag_index)
+{
+  if (item.GetParent() != &new_parent)
+  {
+    return false;
+  }
+  const auto insert_tag_index = GetInsertTagIndexFromMove(item, new_parent, tag_index);
+  return item.GetTagIndex() == insert_tag_index;
+}
+
 std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionItem& parent,
                                        const TagIndex& tag_index)
 {

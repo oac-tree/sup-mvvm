@@ -89,6 +89,155 @@ TEST_F(ValidateUtilsTests, GetVerifiedTagIndex)
   }
 }
 
+TEST_F(ValidateUtilsTests, IsNoopMoveParameters)
+{
+  using ::mvvm::utils::IsNoopMove;
+
+  {  // different parents
+    const SessionItem item;
+    const CompoundItem parent;
+    EXPECT_FALSE(IsNoopMove(item, parent, TagIndex()));
+  }
+
+  {  // different parents, parent has default tag and one item already
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+    parent.InsertItem<PropertyItem>(TagIndex::Append());
+
+    const SessionItem item_to_insert;
+    EXPECT_FALSE(IsNoopMove(item_to_insert, parent, TagIndex("tag1", 0)));
+
+    EXPECT_FALSE(IsNoopMove(item_to_insert, parent, TagIndex("tag1", 1)));
+
+    // validate that default tag, and Append-tag leads to verified tag
+    EXPECT_FALSE(IsNoopMove(item_to_insert, parent, TagIndex("", 1)));
+
+    EXPECT_FALSE(IsNoopMove(item_to_insert, parent, TagIndex::Append()));
+  }
+
+  {  // different parents, parent has non-default tag and one item already
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ false);
+    parent.InsertItem<PropertyItem>(TagIndex::Append("tag1"));
+
+    const SessionItem item_to_insert;
+    EXPECT_FALSE(IsNoopMove(item_to_insert, parent, TagIndex("tag1", 0)));
+    EXPECT_FALSE(IsNoopMove(item_to_insert, parent, TagIndex("tag1", 1)));
+
+    // we can't uses default tag name "", or Append-tag if no default tag is defined
+    EXPECT_FALSE(IsNoopMove(item_to_insert, parent, TagIndex("", 1)));
+    EXPECT_FALSE(IsNoopMove(item_to_insert, parent, TagIndex::Append()));
+  }
+
+  {  // same parent, move before original position
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+    auto item0 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 0));
+    auto item1 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 1));
+    auto item2 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 2));
+    auto item3 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 3));
+
+    EXPECT_FALSE(IsNoopMove(*item2, parent, TagIndex("tag1", 0)));
+    EXPECT_FALSE(IsNoopMove(*item2, parent, TagIndex("tag1", 1)));
+    EXPECT_TRUE(IsNoopMove(*item2, parent, TagIndex("tag1", 2)));
+  }
+
+  {  // same parent, move after original position
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+    auto item0 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 0));
+    auto item1 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 1));
+    auto item2 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 2));
+    auto item3 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 3));
+
+    // these two in fact are noop
+    EXPECT_TRUE(IsNoopMove(*item0, parent, TagIndex("tag1", 0)));
+    EXPECT_TRUE(IsNoopMove(*item0, parent, TagIndex("tag1", 1)));
+    // index is adjusted since item will be removed before insert, so we need to decrease target
+    // index by one
+    EXPECT_FALSE(IsNoopMove(*item0, parent, TagIndex("tag1", 2)));
+    EXPECT_FALSE(IsNoopMove(*item0, parent, TagIndex("tag1", 3)));
+  }
+}
+
+TEST_F(ValidateUtilsTests, GetInsertTagIndexFromMove)
+{
+  using ::mvvm::utils::GetInsertTagIndexFromMove;
+  using ::mvvm::utils::IsNoopMove;
+
+  {  // different parents
+    const SessionItem item;
+    const CompoundItem parent;
+    EXPECT_FALSE(GetInsertTagIndexFromMove(item, parent, TagIndex()).IsValid());
+  }
+
+  {  // different parents, parent has default tag and one item already
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+    parent.InsertItem<PropertyItem>(TagIndex::Append());
+
+    const SessionItem item_to_insert;
+    EXPECT_EQ(GetInsertTagIndexFromMove(item_to_insert, parent, TagIndex("tag1", 0)),
+              TagIndex("tag1", 0));
+
+    EXPECT_EQ(GetInsertTagIndexFromMove(item_to_insert, parent, TagIndex("tag1", 1)),
+              TagIndex("tag1", 1));
+
+    // validate that default tag, and Append-tag leads to verified tag
+    EXPECT_EQ(GetInsertTagIndexFromMove(item_to_insert, parent, TagIndex("", 1)),
+              TagIndex("tag1", 1));
+
+    EXPECT_EQ(GetInsertTagIndexFromMove(item_to_insert, parent, TagIndex::Append()),
+              TagIndex("tag1", 1));
+  }
+
+  {  // different parents, parent has non-default tag and one item already
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ false);
+    parent.InsertItem<PropertyItem>(TagIndex::Append("tag1"));
+
+    const SessionItem item_to_insert;
+    EXPECT_EQ(GetInsertTagIndexFromMove(item_to_insert, parent, TagIndex("tag1", 0)),
+              TagIndex("tag1", 0));
+    EXPECT_EQ(GetInsertTagIndexFromMove(item_to_insert, parent, TagIndex("tag1", 1)),
+              TagIndex("tag1", 1));
+
+    // we can't uses default tag name "", or Append-tag if no default tag is defined
+    EXPECT_FALSE(GetInsertTagIndexFromMove(item_to_insert, parent, TagIndex("", 1)).IsValid());
+    EXPECT_FALSE(GetInsertTagIndexFromMove(item_to_insert, parent, TagIndex::Append()).IsValid());
+  }
+
+  {  // same parent, move before original position
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+    auto item0 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 0));
+    auto item1 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 1));
+    auto item2 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 2));
+    auto item3 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 3));
+
+    EXPECT_EQ(GetInsertTagIndexFromMove(*item2, parent, TagIndex("tag1", 0)), TagIndex("tag1", 0));
+    EXPECT_EQ(GetInsertTagIndexFromMove(*item2, parent, TagIndex("tag1", 1)), TagIndex("tag1", 1));
+    EXPECT_EQ(GetInsertTagIndexFromMove(*item2, parent, TagIndex("tag1", 2)), TagIndex("tag1", 2));
+  }
+
+  {  // same parent, move after original position
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+    auto item0 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 0));
+    auto item1 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 1));
+    auto item2 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 2));
+    auto item3 = parent.InsertItem<PropertyItem>(TagIndex("tag1", 3));
+
+    // these two infact are hoop
+    EXPECT_EQ(GetInsertTagIndexFromMove(*item0, parent, TagIndex("tag1", 0)), TagIndex("tag1", 0));
+    EXPECT_EQ(GetInsertTagIndexFromMove(*item0, parent, TagIndex("tag1", 1)), TagIndex("tag1", 0));
+    // index is adjusted since item will be removedbefore insert, so we need to decrease target
+    // index by one
+    EXPECT_EQ(GetInsertTagIndexFromMove(*item0, parent, TagIndex("tag1", 2)), TagIndex("tag1", 1));
+    EXPECT_EQ(GetInsertTagIndexFromMove(*item0, parent, TagIndex("tag1", 3)), TagIndex("tag1", 2));
+  }
+}
+
 TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
 {
   using ::mvvm::utils::GetInsertItemErrorCode;
