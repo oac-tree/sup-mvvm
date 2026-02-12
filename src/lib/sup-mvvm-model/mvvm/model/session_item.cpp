@@ -231,7 +231,7 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
     throw NullArgumentException("SessionItem::InsertItem: item is not specified");
   }
 
-  auto insert_tag_index = utils::GetInsertTagIndex(*this, tag_index);
+  auto insert_tag_index = utils::GetVerifiedTagIndex(*this, tag_index);
   utils::ValidateItemInsert(*item, *this, insert_tag_index);
 
   if (GetModel() != nullptr)

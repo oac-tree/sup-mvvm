@@ -215,18 +215,6 @@ public:
    */
   SessionItemContainer* FindContainer(const std::string& tag) const;
 
-  /**
-   * @brief Converts insert index into an actual TagIndex.
-   *
-   * The method is used to convert TagIndex::Append() to the actual insert index. Also performs
-   * validation if index is valid and tag name exists. Will return a TagIndex in invalid state if it
-   * is not the case.
-   *
-   * @param index A tag index for item insert.
-   * @return Converted TagIndex.
-   */
-  TagIndex GetInsertTagIndex(const TagIndex& tag_index) const;
-
 private:
   container_t m_containers;
   std::string m_default_tag;

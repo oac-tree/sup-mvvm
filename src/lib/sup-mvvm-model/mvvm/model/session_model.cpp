@@ -183,7 +183,7 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
     throw NullArgumentException("SessionModel::MoveItem: parent is not initialised");
   }
 
-  auto actual_tagindex = utils::GetInsertTagIndex(*new_parent, tag_index);
+  auto actual_tagindex = utils::GetVerifiedTagIndex(*new_parent, tag_index);
 
   // moving to the same position we are now is noop (no move, no notifications)
   if ((item->GetParent() == new_parent) && (item->GetTagIndex() == actual_tagindex))

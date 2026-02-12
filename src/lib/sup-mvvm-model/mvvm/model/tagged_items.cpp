@@ -219,15 +219,4 @@ SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
   return nullptr;
 }
 
-TagIndex TaggedItems::GetInsertTagIndex(const TagIndex& tag_index) const
-{
-  if (const auto container = FindContainer(tag_index.GetTag()); container)
-  {
-    const std::size_t actual_index =
-        tag_index.IsAppend() ? container->GetItemCount() : tag_index.GetIndex();
-    return TagIndex{container->GetName(), actual_index};
-  }
-
-  return TagIndex::Invalid();
-}
 }  // namespace mvvm

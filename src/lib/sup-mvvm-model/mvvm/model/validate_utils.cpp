@@ -22,6 +22,7 @@
 
 #include "item_utils.h"
 #include "session_item.h"
+#include "session_item_container.h"
 #include "tagged_items.h"
 #include "tagindex.h"
 
@@ -51,9 +52,17 @@ bool IsValidParentToMoveIn(const SessionItem& item)
 
 }  // namespace
 
-TagIndex GetInsertTagIndex(const SessionItem& parent, const TagIndex& tag_index)
+TagIndex GetVerifiedTagIndex(const SessionItem& parent, const TagIndex& tag_index)
 {
-  return parent.GetTaggedItems()->GetInsertTagIndex(tag_index);
+  auto tagged_items = parent.GetTaggedItems();
+  if (const auto container = tagged_items->FindContainer(tag_index.GetTag()); container)
+  {
+    const std::size_t actual_index =
+        tag_index.IsAppend() ? container->GetItemCount() : tag_index.GetIndex();
+    return TagIndex{container->GetName(), actual_index};
+  }
+
+  return TagIndex::Invalid();
 }
 
 std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionItem& parent,
@@ -74,7 +83,7 @@ std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionIte
     return ModelError::ItemIsAncestorOfNewParent;
   }
 
-  if (!parent.GetTaggedItems()->CanInsertItem(&item, GetInsertTagIndex(parent, tag_index)))
+  if (!parent.GetTaggedItems()->CanInsertItem(&item, GetVerifiedTagIndex(parent, tag_index)))
   {
     return ModelError::FailedToInsertItem;
   }
@@ -96,7 +105,7 @@ void ValidateItemInsert(const SessionItem& item, const SessionItem& parent,
 std::error_code GetInsertTypeErrorCode(const std::string& item_type, const SessionItem& parent,
                                        const TagIndex& tag_index)
 {
-  if (!parent.GetTaggedItems()->CanInsertType(item_type, GetInsertTagIndex(parent, tag_index)))
+  if (!parent.GetTaggedItems()->CanInsertType(item_type, GetVerifiedTagIndex(parent, tag_index)))
   {
     return ModelError::FailedToInsertItem;
   }
@@ -140,7 +149,7 @@ std::error_code GetMoveItemErrorCode(const SessionItem& item, const SessionItem&
     return ModelError::FailedToTakeItem;
   }
 
-  if (!new_parent.GetTaggedItems()->CanMoveItem(&item, GetInsertTagIndex(new_parent, tag_index)))
+  if (!new_parent.GetTaggedItems()->CanMoveItem(&item, GetVerifiedTagIndex(new_parent, tag_index)))
   {
     return ModelError::FailedToMoveItem;
   }
