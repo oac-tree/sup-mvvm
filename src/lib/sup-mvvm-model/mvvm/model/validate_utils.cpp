@@ -28,6 +28,8 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 
+#include <iostream>
+
 namespace mvvm::utils
 {
 
@@ -194,6 +196,56 @@ std::error_code GetMoveItemErrorCode(const SessionItem& item, const SessionItem&
   }
 
   return ModelError::Success;
+}
+
+MoveInfo GetMoveOperationInfo(const SessionItem& item, const SessionItem& new_parent,
+                              const TagIndex& tag_index)
+{
+  const auto target_index = GetInsertTagIndexFromMove(item, new_parent, tag_index);
+  if (IsNoopMove(item, new_parent, tag_index))
+  {
+    return {ModelError::NoopMoveOperation, TagIndex::Invalid()};
+  }
+
+  if (!IsValidChildForMove(item))
+  {
+    return {ModelError::NullItem, TagIndex::Invalid()};
+  }
+
+  if (!IsValidParentToMoveIn(new_parent))
+  {
+    return {ModelError::InvalidParentItem, TagIndex::Invalid()};
+  }
+
+  if (item.GetModel() != new_parent.GetModel())
+  {
+    return {ModelError::ItemBelongToDifferentModel, TagIndex::Invalid()};
+  }
+
+  auto current_parent = item.GetParent();
+
+  if (!current_parent->GetTaggedItems()->CanTakeItem(item.GetTagIndex()))
+  {
+    return {ModelError::FailedToTakeItem, TagIndex::Invalid()};
+  }
+
+  std::cout << "XXX " << target_index.GetTag() << " " << target_index.GetIndex() << "\n";
+  if (!new_parent.GetTaggedItems()->CanInsertType(item.GetType(), target_index))
+  {
+    return {ModelError::FailedToInsertItem, TagIndex::Invalid()};
+  }
+
+  if (utils::IsItemAncestor(&new_parent, &item))
+  {
+    return {ModelError::ItemIsAncestorOfNewParent, TagIndex::Invalid()};
+  }
+
+  if (&item == &new_parent)
+  {
+    return {ModelError::ItemAndParentAreTheSame, TagIndex::Invalid()};
+  }
+
+  return {ModelError::Success, target_index};
 }
 
 void ValidateItemMove(const SessionItem& item, const SessionItem& new_parent,

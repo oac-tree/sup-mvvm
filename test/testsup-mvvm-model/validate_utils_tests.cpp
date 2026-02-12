@@ -356,19 +356,25 @@ TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
 TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
 {
   using ::mvvm::utils::GetMoveItemErrorCode;
+  using ::mvvm::utils::GetMoveOperationInfo;
   using ::mvvm::utils::ValidateItemMove;
 
   // item without model
   const SessionItem item;
-  CompoundItem parent;
+  const CompoundItem parent;
   EXPECT_EQ(GetMoveItemErrorCode(item, parent, TagIndex()),
             ModelError::NullItem);  // FIXME should be some other flag
   EXPECT_THROW(ValidateItemMove(item, parent, TagIndex()), InvalidOperationException);
+
+  auto move_info = GetMoveOperationInfo(item, parent, TagIndex());
+  EXPECT_EQ(move_info.error_code, ModelError::NullItem);
+  EXPECT_EQ(move_info.target_index, TagIndex::Invalid());
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
 {
   using ::mvvm::utils::GetMoveItemErrorCode;
+  using ::mvvm::utils::GetMoveOperationInfo;
   using ::mvvm::utils::ValidateItemMove;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -379,6 +385,10 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
             ModelError::ItemAndParentAreTheSame);
   EXPECT_THROW(ValidateItemMove(*parent0, *parent0, {"tag1", 0}), InvalidOperationException);
 
+  auto move_info = GetMoveOperationInfo(*parent0, *parent0, {"tag1", 0});
+  EXPECT_EQ(move_info.error_code, ModelError::ItemAndParentAreTheSame);
+  EXPECT_EQ(move_info.target_index, TagIndex::Invalid());
+
   auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
   child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
@@ -386,11 +396,16 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
   EXPECT_EQ(GetMoveItemErrorCode(*parent0, *child, {"tag1", 0}),
             ModelError::ItemIsAncestorOfNewParent);
   EXPECT_THROW(ValidateItemMove(*parent0, *child, {"tag1", 0}), InvalidOperationException);
+
+  move_info = GetMoveOperationInfo(*parent0, *child, {"tag1", 0});
+  EXPECT_EQ(move_info.error_code, ModelError::ItemIsAncestorOfNewParent);
+  EXPECT_EQ(move_info.target_index, TagIndex::Invalid());
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
 {
   using ::mvvm::utils::GetMoveItemErrorCode;
+  using ::mvvm::utils::GetMoveOperationInfo;
   using ::mvvm::utils::ValidateItemMove;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -402,11 +417,16 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
 
   EXPECT_EQ(GetMoveItemErrorCode(*child, *parent1, {"tag1", 0}), ModelError::Success);
   EXPECT_NO_THROW(ValidateItemMove(*child, *parent1, {"tag1", 0}));
+
+  auto move_info = GetMoveOperationInfo(*child, *parent1, {"tag1", 0});
+  EXPECT_EQ(move_info.error_code, ModelError::Success);
+  EXPECT_EQ(move_info.target_index, TagIndex("tag1", 0));
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
 {
   using ::mvvm::utils::GetMoveItemErrorCode;
+  using ::mvvm::utils::GetMoveOperationInfo;
   using ::mvvm::utils::ValidateItemMove;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -418,11 +438,16 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
   // it is not allowed to take property item
   EXPECT_EQ(GetMoveItemErrorCode(property, *parent1, {"tag1", 0}), ModelError::FailedToTakeItem);
   EXPECT_THROW(ValidateItemMove(property, *parent1, {"tag1", 0}), InvalidOperationException);
+
+  auto move_info = GetMoveOperationInfo(property, *parent1, {"tag1", 0});
+  EXPECT_EQ(move_info.error_code, ModelError::FailedToTakeItem);
+  EXPECT_EQ(move_info.target_index, TagIndex::Invalid());
 }
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
 {
   using ::mvvm::utils::GetMoveItemErrorCode;
+  using ::mvvm::utils::GetMoveOperationInfo;
   using ::mvvm::utils::ValidateItemMove;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -435,11 +460,16 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
   // invalid move of property item
   EXPECT_EQ(GetMoveItemErrorCode(*child, *parent1, {"thickness", 0}), ModelError::FailedToMoveItem);
   EXPECT_THROW(ValidateItemMove(*child, *parent1, {"thickness", 0}), InvalidOperationException);
+
+  auto move_info = GetMoveOperationInfo(*child, *parent1, {"thickness", 0});
+  EXPECT_EQ(move_info.error_code, ModelError::FailedToInsertItem);
+  EXPECT_EQ(move_info.target_index, TagIndex::Invalid());
 }
 
-TEST_F(ValidateUtilsTests, ValidateItemMoveToLast)
+TEST_F(ValidateUtilsTests, ValidateItemMoveToPreviousPositions)
 {
   using ::mvvm::utils::GetMoveItemErrorCode;
+  using ::mvvm::utils::GetMoveOperationInfo;
   using ::mvvm::utils::ValidateItemMove;
 
   auto item0 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 0
@@ -447,14 +477,71 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToLast)
   auto item2 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 2
   auto item3 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 3
 
+  auto move_info = GetMoveOperationInfo(*item2, *m_model.GetRootItem(), {"", 1});
+  EXPECT_EQ(move_info.error_code, ModelError::Success);
+  EXPECT_EQ(move_info.target_index, TagIndex("RootTag", 1));
+
+  move_info = GetMoveOperationInfo(*item2, *m_model.GetRootItem(), {"", 0});
+  EXPECT_EQ(move_info.error_code, ModelError::Success);
+  EXPECT_EQ(move_info.target_index, TagIndex("RootTag", 0));
+}
+
+TEST_F(ValidateUtilsTests, ValidateItemMoveToSamePositions)
+{
+  using ::mvvm::utils::GetMoveItemErrorCode;
+  using ::mvvm::utils::GetMoveOperationInfo;
+  using ::mvvm::utils::ValidateItemMove;
+
+  auto item0 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 0
+  auto item1 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 1
+  auto item2 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 2
+  auto item3 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 3
+
+  auto move_info = GetMoveOperationInfo(*item1, *m_model.GetRootItem(), {"", 1});
+  EXPECT_EQ(move_info.error_code, ModelError::NoopMoveOperation);
+  EXPECT_EQ(move_info.target_index, TagIndex::Invalid());
+
+  // inserting "before index 2" means same position
+  move_info = GetMoveOperationInfo(*item1, *m_model.GetRootItem(), {"", 2});
+  EXPECT_EQ(move_info.error_code, ModelError::NoopMoveOperation);
+  EXPECT_EQ(move_info.target_index, TagIndex::Invalid());
+}
+
+TEST_F(ValidateUtilsTests, ValidateItemMoveToNextPositions)
+{
+  using ::mvvm::utils::GetMoveItemErrorCode;
+  using ::mvvm::utils::GetMoveOperationInfo;
+  using ::mvvm::utils::ValidateItemMove;
+
+  auto item0 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 0
+  auto item1 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 1
+  auto item2 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 2
+  auto item3 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 3
+
+  auto move_info = GetMoveOperationInfo(*item0, *m_model.GetRootItem(), {"", 2});
+  EXPECT_EQ(move_info.error_code, ModelError::Success);
+  EXPECT_EQ(move_info.target_index, TagIndex("RootTag", 1));
+
   EXPECT_EQ(GetMoveItemErrorCode(*item0, *m_model.GetRootItem(), {"", 3}), ModelError::Success);
   EXPECT_NO_THROW(ValidateItemMove(*item0, *m_model.GetRootItem(), {"", 3}));
+
+  move_info = GetMoveOperationInfo(*item0, *m_model.GetRootItem(), {"", 3});
+  EXPECT_EQ(move_info.error_code, ModelError::Success);
+  EXPECT_EQ(move_info.target_index, TagIndex("RootTag", 2));
 
   // invalid move of item too far back
   EXPECT_EQ(GetMoveItemErrorCode(*item0, *m_model.GetRootItem(), {"", 4}),
             ModelError::FailedToMoveItem);
   EXPECT_THROW(ValidateItemMove(*item0, *m_model.GetRootItem(), {"", 4}),
                InvalidOperationException);
+
+  move_info = GetMoveOperationInfo(*item0, *m_model.GetRootItem(), {"", 4});
+  EXPECT_EQ(move_info.error_code, ModelError::Success);
+  EXPECT_EQ(move_info.target_index, TagIndex("RootTag", 3));
+
+  // move_info = GetMoveOperationInfo(*item0, *m_model.GetRootItem(), {"", 5});
+  // EXPECT_EQ(move_info.error_code, ModelError::Success);
+  // EXPECT_EQ(move_info.target_index, TagIndex("RootTag", 4));
 }
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenChildDoesntExist)

@@ -25,6 +25,7 @@
 //! Collection of utility function to check if certain operations on the model are valid.
 
 #include <mvvm/core/mvvm_errors.h>
+#include <mvvm/model/tagindex.h>
 
 #include <string>
 
@@ -32,11 +33,16 @@ namespace mvvm
 {
 class ISessionModel;
 class SessionItem;
-class TagIndex;
 }  // namespace mvvm
 
 namespace mvvm::utils
 {
+
+struct MoveInfo
+{
+  std::error_code error_code;  //! potential error code of move operation
+  TagIndex target_index;       //! the index where the item will appear in the case of success
+};
 
 /**
  * @brief Returns verified TagIndex.
@@ -117,6 +123,9 @@ std::error_code GetMoveItemErrorCode(const SessionItem& item, const SessionItem&
  */
 void ValidateItemMove(const SessionItem& item, const SessionItem& new_parent,
                       const TagIndex& tag_index);
+
+MoveInfo GetMoveOperationInfo(const SessionItem& item, const SessionItem& new_parent,
+                              const TagIndex& tag_index);
 
 /**
  * @brief Returns a error code for potential take item operation.
