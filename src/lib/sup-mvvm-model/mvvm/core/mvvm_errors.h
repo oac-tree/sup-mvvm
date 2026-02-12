@@ -50,6 +50,7 @@ enum class ModelError : std::uint8_t
   ItemBelongToDifferentModel,
   FailedToTakeItem,
   FailedToMoveItem,
+  NoopMoveOperation,
   InvalidChildItem,
   MaxCount
 };

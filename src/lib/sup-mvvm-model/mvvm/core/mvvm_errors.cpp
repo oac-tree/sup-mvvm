@@ -47,6 +47,7 @@ std::map<ModelError, std::string> GetModelErrorMessageMap()
       {ModelError::ItemBelongToDifferentModel, "item belong to different model"},
       {ModelError::FailedToTakeItem, "can't take item from parent"},
       {ModelError::FailedToMoveItem, "can't move item to this place"},
+      {ModelError::NoopMoveOperation, "noop move, items is already there"},
       {ModelError::InvalidChildItem, "invalid child item"},
       {ModelError::MaxCount, "MaxCount"}};
   return result;
@@ -69,6 +70,7 @@ std::map<ModelError, MvvmErrorCondition> GetModelErrorConditionMap()
       {ModelError::ItemBelongToDifferentModel, MvvmErrorCondition::ModelError},
       {ModelError::FailedToTakeItem, MvvmErrorCondition::ModelError},
       {ModelError::FailedToMoveItem, MvvmErrorCondition::ModelError},
+      {ModelError::NoopMoveOperation, MvvmErrorCondition::ModelError},
       {ModelError::InvalidChildItem, MvvmErrorCondition::ModelError},
       {ModelError::MaxCount, MvvmErrorCondition::ModelError}};
   return result;
