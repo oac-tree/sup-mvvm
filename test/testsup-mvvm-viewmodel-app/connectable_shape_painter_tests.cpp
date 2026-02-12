@@ -50,6 +50,7 @@ TEST_F(ConnectableShapePainterTest, GetBoundaryColor)
   style.failed_boundary_color = Qt::red;
 
   ON_CALL(m_mock_adapter, GetStyle()).WillByDefault(::testing::Return(style));
+  EXPECT_CALL(m_mock_adapter, GetStyle()).Times(1);
 
   const ConnectableShapePainter painter(shape, m_mock_adapter);
 
