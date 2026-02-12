@@ -183,18 +183,22 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
     throw NullArgumentException("SessionModel::MoveItem: parent is not initialised");
   }
 
-  auto actual_tagindex = utils::GetVerifiedTagIndex(*new_parent, tag_index);
+  auto move_info = utils::GetMoveOperationInfo(*item, *new_parent, tag_index);
 
-  // moving to the same position we are now is noop (no move, no notifications)
-  if ((item->GetParent() == new_parent) && (item->GetTagIndex() == actual_tagindex))
+  if (move_info.error_code == ModelError::NoopMoveOperation)
   {
-    return;
+    return; // do nothing in the case of noop operation
   }
 
-  utils::ValidateItemMove(*item, *new_parent, actual_tagindex);
+  if (move_info.error_code)
+  {
+    // any other error code means that move operation is not valid and we should throw
+    throw SystemException(move_info.error_code, "attempt to move item");
+  }
+
   utils::BeginMacro(*this, "MoveItem");
   auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
-  (void)InsertItem(std::move(taken), new_parent, tag_index);
+  (void)InsertItem(std::move(taken), new_parent, move_info.target_index);
   utils::EndMacro(*this);
 }
 

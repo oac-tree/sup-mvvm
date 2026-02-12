@@ -711,6 +711,15 @@ TEST_F(ItemUtilsTests, MoveItemDown)
   EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer0, layer2};
   EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+
+  // moving again
+  EXPECT_TRUE(utils::MoveDown(*layer0));
+  expected = {layer1, layer2, layer0};
+  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+
+  // moving again noop
+  EXPECT_FALSE(utils::MoveDown(*layer0));
+  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
 }
 
 TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
@@ -734,6 +743,14 @@ TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
   // moving top layer down changes the order
   EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer0, layer2};
+  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+
+  // moving again
+  EXPECT_TRUE(utils::MoveDown(*layer0));
+  expected = {layer1, layer2, layer0};
+  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  // moving again noop
+  EXPECT_FALSE(utils::MoveDown(*layer0));
   EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
 }
 

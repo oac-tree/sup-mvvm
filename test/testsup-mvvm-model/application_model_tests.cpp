@@ -479,7 +479,7 @@ TEST_F(ApplicationModelTest, AttemptToMovePropertyItemFromCompoundItem)
   // Expecting no signals. StrictMock will fail if it is not the case.
 
   // removing item
-  EXPECT_THROW(m_model.MoveItem(&property, parent2, {"tag2", 0}), InvalidOperationException);
+  EXPECT_THROW(m_model.MoveItem(&property, parent2, {"tag2", 0}), SystemException);
   EXPECT_EQ(parent1->GetTotalItemCount(), 1);
   EXPECT_EQ(parent2->GetTotalItemCount(), 0);
 

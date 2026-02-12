@@ -28,8 +28,6 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 
-#include <iostream>
-
 namespace mvvm::utils
 {
 
@@ -80,7 +78,7 @@ TagIndex GetInsertTagIndexFromMove(const SessionItem& item, const SessionItem& p
   if (target_move_index.GetIndex() > source_index.GetIndex())
   {  // if we are moving to the same parent and target index is after source index, we need to
      // decrease target index by one
-    return TagIndex{target_move_index.GetTag(), target_move_index.GetIndex() - 1};
+    return target_move_index.Prev();
   }
 
   return target_move_index;
@@ -229,7 +227,6 @@ MoveInfo GetMoveOperationInfo(const SessionItem& item, const SessionItem& new_pa
     return {ModelError::FailedToTakeItem, TagIndex::Invalid()};
   }
 
-  std::cout << "XXX " << target_index.GetTag() << " " << target_index.GetIndex() << "\n";
   if (!new_parent.GetTaggedItems()->CanInsertType(item.GetType(), target_index))
   {
     return {ModelError::FailedToInsertItem, TagIndex::Invalid()};

@@ -444,7 +444,7 @@ TEST_F(SessionModelTest, MoveItemToNextPosition)
   auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
 
   // moving item1 to the next position
-  model.MoveItem(item1, model.GetRootItem(), {"", 2});
+  model.MoveItem(item1, model.GetRootItem(), {"", 3});  // "before 3"
 
   // expecting new order of items
   const std::vector<SessionItem*> expected = {item0, item2, item1, item3};
@@ -464,6 +464,10 @@ TEST_F(SessionModelTest, MoveItemToSamePosition)
 
   // expecting same order of items
   const std::vector<SessionItem*> expected = {item0, item1, item2, item3};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+
+  // moving item1 to the next "same" position also noop
+  model.MoveItem(item1, model.GetRootItem(), {"", 2});
   EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
 }
 
@@ -492,7 +496,7 @@ TEST_F(SessionModelTest, MoveItemToTheBack)
   auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
 
   // moving item0 in the back of the list
-  model.MoveItem(item0, model.GetRootItem(), {"", model.GetRootItem()->GetTotalItemCount() - 1});
+  model.MoveItem(item0, model.GetRootItem(), {"", model.GetRootItem()->GetTotalItemCount()});
 
   // expecting new order of items
   const std::vector<SessionItem*> expected = {item1, item2, item3, item0};
@@ -508,7 +512,9 @@ TEST_F(SessionModelTest, MoveItemTooFarBack)
   auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
 
   // attempt to move item too far back
-  EXPECT_THROW(model.MoveItem(item0, model.GetRootItem(), {"", 4}), InvalidOperationException);
+  EXPECT_THROW(model.MoveItem(item0, model.GetRootItem(),
+                              {"", model.GetRootItem()->GetTotalItemCount() + 1}),
+               InvalidOperationException);
 }
 
 TEST_F(SessionModelTest, MoveItemFromRootToParent)
@@ -543,7 +549,7 @@ TEST_F(SessionModelTest, InvalidMoveOfParentProperty)
   new_parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move property from parent to root
-  EXPECT_THROW(model.MoveItem(&property, new_parent, {"", 0}), InvalidOperationException);
+  EXPECT_THROW(model.MoveItem(&property, new_parent, {"", 0}), SystemException);
 
   // items as before
   EXPECT_EQ(new_parent->GetTotalItemCount(), 0);

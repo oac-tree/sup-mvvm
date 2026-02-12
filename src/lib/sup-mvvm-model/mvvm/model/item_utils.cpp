@@ -33,6 +33,7 @@
 #include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
+#include <mvvm/model/validate_utils.h>
 #include <mvvm/serialization/tree_data_item_converter.h>
 #include <mvvm/utils/container_utils.h>
 
@@ -42,13 +43,16 @@
 #include <sstream>
 #include <stack>
 
+namespace mvvm::utils
+{
+
 namespace
 {
 /**
  * @brief Move item to a new index within the same parent. No check is performed for index
  * validity.
  */
-void MoveTo(mvvm::SessionItem& item, const mvvm::TagIndex& tag_index)
+void MoveTo(SessionItem& item, const TagIndex& tag_index)
 {
   if (auto model = item.GetModel(); model)
   {
@@ -58,15 +62,14 @@ void MoveTo(mvvm::SessionItem& item, const mvvm::TagIndex& tag_index)
   {
     auto parent = item.GetParent();
     auto current_tag_index = item.GetTagIndex();
+    const TagIndex target_index =
+        (tag_index.GetIndex() > current_tag_index.GetIndex()) ? tag_index.Prev() : tag_index;
     auto taken = parent->TakeItem(current_tag_index);
-    (void)parent->InsertItem(std::move(taken), tag_index);
+    (void)parent->InsertItem(std::move(taken), target_index);
   }
 }
 
 }  // namespace
-
-namespace mvvm::utils
-{
 
 void SetIdentifier(SessionItem& item)
 {
@@ -391,7 +394,10 @@ bool MoveDown(SessionItem& item)
     return false;  // item already at the bottom
   }
 
-  MoveTo(item, tag_index.Next());
+  // [a b c d e f]
+  // [0 1 2 3 4 5]
+  // to shift item "c" to the right we have to use index "4" as move index
+  MoveTo(item, tag_index.Next().Next());  // moving index twice
   return true;
 }
 
