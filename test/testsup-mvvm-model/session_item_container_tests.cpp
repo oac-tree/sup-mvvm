@@ -368,22 +368,4 @@ TEST_F(SessionItemContainerTest, Clone)
   }
 }
 
-TEST_F(SessionItemContainerTest, CanMoveWithinContainer)
-{
-  const std::string tag_name("tag");
-  SessionItemContainer container(TagInfo::CreateUniversalTag(tag_name));
-
-  auto [child1, child1_ptr] = CreateItem();
-  container.InsertItem(std::move(child1), container.GetItemCount());
-  auto [child2, child2_ptr] = CreateItem();
-  container.InsertItem(std::move(child2), container.GetItemCount());
-  auto [child3, child3_ptr] = CreateItem();
-  container.InsertItem(std::move(child3), container.GetItemCount());
-
-  EXPECT_FALSE(container.CanMoveItem(child1_ptr, 0));
-  EXPECT_TRUE(container.CanMoveItem(child1_ptr, 1));
-  EXPECT_TRUE(container.CanMoveItem(child1_ptr, 2));
-  EXPECT_FALSE(container.CanMoveItem(child1_ptr, 3));
-}
-
 }  // namespace mvvm::test

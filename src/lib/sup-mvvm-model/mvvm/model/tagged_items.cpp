@@ -111,15 +111,6 @@ std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index) co
   return GetContainer(tag_index.GetTag())->TakeItem(tag_index.GetIndex());
 }
 
-bool TaggedItems::CanMoveItem(const SessionItem* item, const TagIndex& tag_index) const
-{
-  if (auto container = FindContainer(tag_index.GetTag()); container)
-  {
-    return container->CanMoveItem(item, tag_index.GetIndex());
-  }
-  return false;
-}
-
 SessionItem* TaggedItems::GetItem(const TagIndex& tag_index) const
 {
   return GetContainer(tag_index.GetTag())->ItemAt(tag_index.GetIndex());

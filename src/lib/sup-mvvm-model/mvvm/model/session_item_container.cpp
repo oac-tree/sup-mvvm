@@ -71,36 +71,6 @@ bool SessionItemContainer::CanInsertType(const std::string& item_type, std::size
   return valid_index && enough_place && valid_type;
 }
 
-bool SessionItemContainer::CanMoveItem(const SessionItem* item, std::size_t index) const
-{
-  if ((item == nullptr) || !m_tag_info.IsValidType(item->GetType()))
-  {
-    return false;
-  }
-
-  auto current_item_index = IndexOfItem(item);
-
-  // item belongs to another container
-  if (!current_item_index.has_value())
-  {
-    return CanInsertItem(item, index);
-  }
-
-  // item is already in proper place
-  if (current_item_index == index)
-  {
-    return false;
-  }
-
-  // item belongs already to this container, and we can't remove it
-  if (!CanTakeItem(current_item_index.value()))
-  {
-    return false;
-  }
-
-  return index < GetItemCount();
-}
-
 SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, std::size_t index)
 {
   if (!item)

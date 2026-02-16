@@ -129,17 +129,6 @@ public:
   std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index) const;
 
   /**
-   * @brief Checks if the item can be moved into the given index.
-   *
-   * A TagIndex should be in a valid state, TagIndex::Append() should be converted already to normal
-   * index using TaggedItems::GetInsertTagIndex().
-   *
-   * @param item An item which well be moved.
-   * @param tag_index A TagIndex pointing to the insert place.
-   */
-  bool CanMoveItem(const SessionItem* item, const TagIndex& tag_index) const;
-
-  /**
    * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.
    *
    * If the tag name is empty, the tag registered as default will be used. Will throw, when

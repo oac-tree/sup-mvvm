@@ -90,13 +90,6 @@ public:
   bool CanInsertType(const std::string& item_type, std::size_t index) const;
 
   /**
-   * @brief Checks if the item can be moved into the given index.
-   *
-   * The behavior depends on if the item belongs already to the container, or not.
-   */
-  bool CanMoveItem(const SessionItem* item, std::size_t index) const;
-
-  /**
    * @brief Checks if the item can be removed from the given index.
    */
   bool CanTakeItem(std::size_t index) const;
