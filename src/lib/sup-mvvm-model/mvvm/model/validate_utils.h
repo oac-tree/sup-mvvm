@@ -27,17 +27,17 @@
 #include <mvvm/core/mvvm_errors.h>
 #include <mvvm/model/tagindex.h>
 
-#include <string>
-
 namespace mvvm
 {
-class ISessionModel;
 class SessionItem;
 }  // namespace mvvm
 
 namespace mvvm::utils
 {
 
+/**
+ * @brief The MoveInfo structs defines outcome of possible move operation.
+ */
 struct MoveInfo
 {
   std::error_code error_code;  //! potential error code of move operation
@@ -99,17 +99,14 @@ void ValidateItemTypeInsert(const std::string& item_type, const SessionItem& par
                             const TagIndex& tag_index);
 
 /**
- * @brief Returns a error code for potential move operation.
+ * @brief Returns MoveInfo for potential move operation.
+ *
+ * @item An item to move.
+ * @new_parent A new parent for the item.
+ * @tag_index A tag index for the move operation.
+ *
+ * @see SessionModel::MoveItem
  */
-std::error_code GetMoveItemErrorCode(const SessionItem& item, const SessionItem& new_parent,
-                                     const TagIndex& tag_index);
-
-/**
- * @brief Perform validation if item move is allowed. Will throw InvalidMoveException otherwise.
- */
-void ValidateItemMove(const SessionItem& item, const SessionItem& new_parent,
-                      const TagIndex& tag_index);
-
 MoveInfo GetMoveOperationInfo(const SessionItem& item, const SessionItem& new_parent,
                               const TagIndex& tag_index);
 

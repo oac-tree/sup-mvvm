@@ -51,11 +51,13 @@ bool IsValidParentToMoveIn(const SessionItem& item)
 }
 
 /**
- * @brief Checks if insert operation is noop, meaning that item will stay in the same place after
- * the move.
+ * @brief Checks if insert operation is noop, meaning that item will stay in the same place.
+ *
+ * The function is used in the context of move operation, when it is first taken from the location,
+ * and then inserted in the new location.
  */
-bool IsNoopInsert(const SessionItem& item, const SessionItem& new_parent,
-                  const TagIndex& insert_tag_index)
+bool IsNoopInsertTagIndex(const SessionItem& item, const SessionItem& new_parent,
+                          const TagIndex& insert_tag_index)
 {
   if (item.GetParent() != &new_parent)
   {
@@ -157,54 +159,11 @@ void ValidateItemTypeInsert(const std::string& item_type, const SessionItem& par
   }
 }
 
-std::error_code GetMoveItemErrorCode(const SessionItem& item, const SessionItem& new_parent,
-                                     const TagIndex& tag_index)
-{
-  if (!IsValidChildForMove(item))
-  {
-    return ModelError::NullItem;
-  }
-
-  if (!IsValidParentToMoveIn(new_parent))
-  {
-    return ModelError::InvalidParentItem;
-  }
-
-  if (item.GetModel() != new_parent.GetModel())
-  {
-    return ModelError::ItemBelongToDifferentModel;
-  }
-
-  auto current_parent = item.GetParent();
-
-  if (!current_parent->GetTaggedItems()->CanTakeItem(item.GetTagIndex()))
-  {
-    return ModelError::FailedToTakeItem;
-  }
-
-  if (!new_parent.GetTaggedItems()->CanMoveItem(&item, GetVerifiedTagIndex(new_parent, tag_index)))
-  {
-    return ModelError::FailedToMoveItem;
-  }
-
-  if (utils::IsItemAncestor(&new_parent, &item))
-  {
-    return ModelError::ItemIsAncestorOfNewParent;
-  }
-
-  if (&item == &new_parent)
-  {
-    return ModelError::ItemAndParentAreTheSame;
-  }
-
-  return ModelError::Success;
-}
-
 MoveInfo GetMoveOperationInfo(const SessionItem& item, const SessionItem& new_parent,
                               const TagIndex& tag_index)
 {
   const auto target_index = GetInsertTagIndexFromMove(item, new_parent, tag_index);
-  if (IsNoopInsert(item, new_parent, target_index))
+  if (IsNoopInsertTagIndex(item, new_parent, target_index))
   {
     return {ModelError::NoopMoveOperation, TagIndex::Invalid()};
   }
@@ -247,17 +206,6 @@ MoveInfo GetMoveOperationInfo(const SessionItem& item, const SessionItem& new_pa
   }
 
   return {ModelError::Success, target_index};
-}
-
-void ValidateItemMove(const SessionItem& item, const SessionItem& new_parent,
-                      const TagIndex& tag_index)
-{
-  const auto error_code = GetMoveItemErrorCode(item, new_parent, tag_index);
-  if (error_code)
-  {
-    throw InvalidOperationException("Item move validation failed: "
-                                    + std::string(error_code.message()));
-  }
 }
 
 std::error_code GetTakeItemErrorCode(const SessionItem& parent, const TagIndex& tag_index)
