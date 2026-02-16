@@ -50,6 +50,20 @@ bool IsValidParentToMoveIn(const SessionItem& item)
   return (item.GetModel() != nullptr);
 }
 
+/**
+ * @brief Checks if insert operation is noop, meaning that item will stay in the same place after
+ * the move.
+ */
+bool IsNoopInsert(const SessionItem& item, const SessionItem& new_parent,
+                  const TagIndex& insert_tag_index)
+{
+  if (item.GetParent() != &new_parent)
+  {
+    return false;
+  }
+  return item.GetTagIndex() == insert_tag_index;
+}
+
 }  // namespace
 
 TagIndex GetVerifiedTagIndex(const SessionItem& parent, const TagIndex& tag_index)
@@ -68,30 +82,20 @@ TagIndex GetVerifiedTagIndex(const SessionItem& parent, const TagIndex& tag_inde
 TagIndex GetInsertTagIndexFromMove(const SessionItem& item, const SessionItem& parent,
                                    const TagIndex& tag_index)
 {
-  auto target_move_index = GetVerifiedTagIndex(parent, tag_index);
+  auto target_index = GetVerifiedTagIndex(parent, tag_index);
   if (item.GetParent() != &parent)
   {
-    return target_move_index;
+    return target_index;
   }
 
   const auto source_index = item.GetTagIndex();
-  if (target_move_index.GetIndex() > source_index.GetIndex())
+  if (target_index.GetIndex() > source_index.GetIndex())
   {  // if we are moving to the same parent and target index is after source index, we need to
      // decrease target index by one
-    return target_move_index.Prev();
+    return target_index.Prev();
   }
 
-  return target_move_index;
-}
-
-bool IsNoopMove(const SessionItem& item, const SessionItem& new_parent, const TagIndex& tag_index)
-{
-  if (item.GetParent() != &new_parent)
-  {
-    return false;
-  }
-  const auto insert_tag_index = GetInsertTagIndexFromMove(item, new_parent, tag_index);
-  return item.GetTagIndex() == insert_tag_index;
+  return target_index;
 }
 
 std::error_code GetInsertItemErrorCode(const SessionItem& item, const SessionItem& parent,
@@ -200,7 +204,7 @@ MoveInfo GetMoveOperationInfo(const SessionItem& item, const SessionItem& new_pa
                               const TagIndex& tag_index)
 {
   const auto target_index = GetInsertTagIndexFromMove(item, new_parent, tag_index);
-  if (IsNoopMove(item, new_parent, tag_index))
+  if (IsNoopInsert(item, new_parent, target_index))
   {
     return {ModelError::NoopMoveOperation, TagIndex::Invalid()};
   }
