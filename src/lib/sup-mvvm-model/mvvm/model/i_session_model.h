@@ -124,13 +124,47 @@ public:
   /**
    * @brief Moves an item from it's current parent to a new parent.
    *
-   * Old and new parents should belong to the same model. Please note, that the current
-   * implementation moves and item via combination of take/insert. This leads to corresponding
-   * notifications: about-to-remove, item removed, about-to-insert, item inserted.
+   * Current implementation moves and item via combination of take/insert. This leads to
+   * corresponding notifications: about-to-remove, item removed, about-to-insert, item inserted.
+   *
+   * The address to move in is defined by the new parent and TagIndex. The index in TagIndex defines
+   * the position in the container before which the item will be inserted, and it is counted before
+   * the move.
+   *
+   * @code
+   * // Example 1)
+   * // Item "w" is moved from another container to index=3, the result will be
+   * // [a b c d e f] -> [a b c w d e f]
+   * // [0 1 2 3 4 5]
+   * //
+   * // Example 2)
+   * // Item "e" is moved within the same parent to index = 1, the result will be
+   * // [a b c d e f] -> [a e b c d f]
+   * // [0 1 2 3 4 5]
+   * //
+   * // Example 3)
+   * // Item "b" is moved within the same parent to index = 4, the result will be
+   * // [a b c d e f] -> [a c d b e f]
+   * // [0 1 2 3 4 5]
+   * //
+   * // Example 4)
+   * // Noop: item "b" is moved within the same parent in index 1 or 2. The result will be the same,
+   * // no notifications.
+   *
+   * // [a b c d e f] -> [a b c d e f]
+   * // [0 1 2 3 4 5]
+   * @endcode
+   *
+   * @details Old and new parents should belong to the same model. This limitation is because of
+   * undo/redo. Undo/redo is independent for each model and it is impossible to make undo
+   * consistent, when item is deleted from one model and appears in another model.
+   *
+   * @details See https://doc.qt.io/qt-6/qabstractitemmodel.html#beginMoveRows for more details
+   * about move operation semantics.
    *
    * @param item The item to move.
    * @param new_parent New parent where to insert.
-   * @param tag_index A tag_index pointing to the insert place.
+   * @param tag_index A tag_index pointing to the desired location.
    */
   virtual void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) = 0;
 

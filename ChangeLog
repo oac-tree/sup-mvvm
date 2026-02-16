@@ -1,5 +1,7 @@
 Changes for 2.2.0:
 
+- Change move index convention and make it as in Qt
+- Refactor move/insert validation machinery
 - Faster calculation of HighDPI scaling factor
 
 Changes for 2.1.0:
