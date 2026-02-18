@@ -42,7 +42,6 @@ add_custom_target(sup-mvvm-testall
 
 file(WRITE ${TEST_OUTPUT_DIRECTORY}/test.sh
 "#!/bin/bash
-export QT_QPA_PLATFORM=offscreen
 fail=0
 " ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-view " || fail=1
 " ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel-app " || fail=1

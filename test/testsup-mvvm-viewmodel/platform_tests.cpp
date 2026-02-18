@@ -56,4 +56,16 @@ TEST_F(PlatformTest, CheckPlatform)
 #endif
 }
 
+TEST_F(PlatformTest, IsHeadless)
+{
+  // initial state we don't know, but it should be consistent with QT_QPA_PLATFORM environment
+  // variable
+
+  SetHeadless(false);
+  EXPECT_FALSE(IsHeadless());
+
+  SetHeadless(true);
+  EXPECT_TRUE(IsHeadless());
+}
+
 }  // namespace mvvm::test

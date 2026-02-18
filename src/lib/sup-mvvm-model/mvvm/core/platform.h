@@ -42,6 +42,16 @@ bool IsWindowsHost();
  */
 bool IsMacHost();
 
+/**
+ * @brief Checks if we are in the headless environment (i.e. continuous integration).
+ */
+bool IsHeadless();
+
+/**
+ * @brief Sets headless environment (for unit testing and continuous integration).
+ */
+void SetHeadless(bool value = true);
+
 }  // namespace mvvm
 
 #endif  // MVVM_CORE_PLATFORM_H_

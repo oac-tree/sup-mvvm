@@ -164,6 +164,7 @@ void LineSeriesDataController::SetSelectedPoints(const std::vector<PointItem*>& 
     m_qt_line_series->setPointSelected(static_cast<std::int32_t>(index), should_be_selected);
   }
 #else
+  (void) points;
   std::cerr << " Point selection is not supported for Qt5\n";
 #endif
 }

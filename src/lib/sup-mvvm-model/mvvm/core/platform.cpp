@@ -20,12 +20,21 @@
 
 #include "platform.h"
 
+#include <cstdlib>
+#include <string>
+
 namespace mvvm
 {
 
+namespace
+{
+constexpr auto kQtPlatformEnvironmentVariable = "QT_QPA_PLATFORM";
+constexpr auto kOffscreenPluginName = "offscreen";
+}  // namespace
+
 bool IsLinuxHost()
 {
-#if defined(__linux__)
+#ifdef __linux__
   return true;
 #else
   return false;
@@ -48,6 +57,27 @@ bool IsMacHost()
 #else
   return false;
 #endif
+}
+
+bool IsHeadless()
+{
+  if (std::getenv(kQtPlatformEnvironmentVariable) != nullptr)
+  {
+    return std::string(std::getenv(kQtPlatformEnvironmentVariable)) == kOffscreenPluginName;
+  }
+  return false;
+}
+
+void SetHeadless(bool value)
+{
+  if (value)
+  {
+    setenv(kQtPlatformEnvironmentVariable, kOffscreenPluginName, 1);
+  }
+  else
+  {
+    unsetenv(kQtPlatformEnvironmentVariable);
+  }
 }
 
 }  // namespace mvvm

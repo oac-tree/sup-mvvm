@@ -18,6 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include <mvvm/core/platform.h>
 #include <mvvm/model/session_item.h>
 
 #include <gtest/gtest.h>
@@ -29,7 +30,8 @@ int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
 
-  QApplication app(argc, argv);
+  mvvm::SetHeadless();
+  const QApplication app(argc, argv);
   Q_UNUSED(app)
 
   qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
