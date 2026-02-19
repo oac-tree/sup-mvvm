@@ -40,8 +40,8 @@ ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> 
 }
 
 ItemViewComponentProvider::ItemViewComponentProvider(
-    std::unique_ptr<ViewModelDelegate> view_model_delegate, std::unique_ptr<ViewModel> view_model,
-    QAbstractItemView* view)
+    std::unique_ptr<QAbstractItemDelegate> view_model_delegate,
+    std::unique_ptr<ViewModel> view_model, QAbstractItemView* view)
     : m_delegate(std::move(view_model_delegate))
     , m_view_model(std::move(view_model))
     , m_view(view)

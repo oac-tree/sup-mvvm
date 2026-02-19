@@ -53,8 +53,6 @@ public:
   mvvm::ApplicationModel m_model;
 };
 
-//! Initial state when no ApplicationModel is set.
-
 TEST_F(ItemViewComponentProviderTest, InitialState)
 {
   QTreeView view;

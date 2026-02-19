@@ -30,13 +30,13 @@
 class QAbstractItemView;
 class QItemSelectionModel;
 class QAbstractProxyModel;
+class QAbstractItemDelegate;
 
 namespace mvvm
 {
 
 class SessionItem;
 class ViewModel;
-class ViewModelDelegate;
 class ISessionModel;
 
 /**
@@ -71,7 +71,7 @@ public:
    * @param view_model_delegate The viewmodel delegate.
    * @param view The view to serve.
    */
-  ItemViewComponentProvider(std::unique_ptr<ViewModelDelegate> view_model_delegate,
+  ItemViewComponentProvider(std::unique_ptr<QAbstractItemDelegate> view_model_delegate,
                             std::unique_ptr<ViewModel> view_model, QAbstractItemView* view);
 
   ~ItemViewComponentProvider() override;
@@ -200,7 +200,7 @@ private:
   std::vector<SessionItem*> GetSelectedItemsIntern() const;
   void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
-  std::unique_ptr<ViewModelDelegate> m_delegate;
+  std::unique_ptr<QAbstractItemDelegate> m_delegate;
   std::unique_ptr<ViewModel> m_view_model;
   QAbstractItemView* m_view{nullptr};
   QItemSelectionModel* m_selection_model{nullptr};
