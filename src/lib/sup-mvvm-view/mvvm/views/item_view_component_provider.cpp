@@ -21,6 +21,7 @@
 #include "item_view_component_provider.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/viewmodel.h>
@@ -199,6 +200,44 @@ void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem*> items
   }
 
   GetSelectionModel()->select(selection, m_selection_flags);
+}
+
+ItemSelection ItemViewComponentProvider::GetSelection() const
+{
+  std::vector<mvvm::SessionItem*> result;
+
+  for (auto index : GetSelectionModel()->selectedIndexes())
+  {
+    // skipping nullptr
+    if (auto item = GetItemFromViewIndex(index); item)
+    {
+      result.push_back(const_cast<SessionItem*>(item));
+    }
+  }
+
+  return ItemSelection(mvvm::utils::UniqueWithOrder(result));
+}
+
+void ItemViewComponentProvider::SetSelection(const ItemSelection& selection)
+{
+  auto current_selection = GetSelection();
+  if (current_selection.IsSameSelection(selection))
+  {
+    return;
+  }
+
+  GetSelectionModel()->clearSelection();
+  QItemSelection view_selection;
+  for (auto item : selection.GetSelectedItems())
+  {
+    auto view_indexes = GetViewIndexes(item);
+    if (!view_indexes.empty())
+    {
+      view_selection.push_back(QItemSelectionRange(view_indexes.front(), view_indexes.back()));
+    }
+  }
+
+  GetSelectionModel()->select(view_selection, m_selection_flags);
 }
 
 void ItemViewComponentProvider::SetSelectionFlags(QItemSelectionModel::SelectionFlags flags)

@@ -38,6 +38,7 @@ namespace mvvm
 class SessionItem;
 class ViewModel;
 class ISessionModel;
+class ItemSelection;
 
 /**
  * @brief The ItemViewComponentProvider class provides QAbstractItemView with custom components:
@@ -188,12 +189,23 @@ public:
   void SetSelectedItems(std::vector<SessionItem*> items);
 
   /**
+   * @brief Returns current selection as an object.
+   */
+  ItemSelection GetSelection() const;
+
+  /**
+   * @brief Makes all specified items selected in a view.
+   */
+  void SetSelection(const ItemSelection& selection);
+
+  /**
    * @brief Sets Qt selection flags.
    */
   void SetSelectionFlags(QItemSelectionModel::SelectionFlags flags);
 
 signals:
   void SelectedItemChanged(mvvm::SessionItem*);
+  void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
   void OnViewModelReset();
