@@ -23,6 +23,7 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/test/test_helper.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
@@ -244,7 +245,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
   QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
-  provider->SetSelectedItem(item);
+  provider->SetSelection(ItemSelection(item));
 
   EXPECT_EQ(provider->GetSelectedItem(), item);
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
@@ -254,11 +255,11 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
   spy_selected.clear();
 
   // setting the same item again
-  provider->SetSelectedItem(item);
+  provider->SetSelection(ItemSelection(item));
   EXPECT_EQ(spy_selected.count(), 0);  // no signal should be emitted
 
   // removing selection
-  provider->SetSelectedItem(nullptr);
+  provider->SetSelection(ItemSelection(nullptr));
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
 
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), nullptr);
@@ -354,7 +355,7 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
   QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
   // selecting single item
-  provider->SetSelectedItem(property0);
+  provider->SetSelection(ItemSelection(property0));
 
   // checking selections
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({property0}));
@@ -470,7 +471,7 @@ TEST_F(ItemViewComponentProviderTest, FilterNameProxySetSelected)
 
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
 
-  provider->SetSelectedItem(property0);
+  provider->SetSelection(ItemSelection(property0));
   EXPECT_EQ(provider->GetSelectedItem(), property0);
 
   // filtering out first item "A"; items "AB" and "ABC" should be there
@@ -480,7 +481,7 @@ TEST_F(ItemViewComponentProviderTest, FilterNameProxySetSelected)
 
   // after filtering, selecte item has gone
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
-  provider->SetSelectedItem(property2);
+  provider->SetSelection(ItemSelection(property2));
   EXPECT_EQ(provider->GetSelectedItem(), property2);
 }
 
@@ -542,11 +543,11 @@ TEST_F(ItemViewComponentProviderTest, TwoProxyModels)
             QModelIndexList({displayname_index2, value_index2}));
 
   // only property2 is selectable, others are filtered out
-  provider->SetSelectedItem(property0);
+  provider->SetSelection(ItemSelection(property0));
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
-  provider->SetSelectedItem(property1);
+  provider->SetSelection(ItemSelection(property1));
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
-  provider->SetSelectedItem(property2);
+  provider->SetSelection(ItemSelection(property2));
   EXPECT_EQ(provider->GetSelectedItem(), property2);
 }
 
@@ -562,14 +563,14 @@ TEST_F(ItemViewComponentProviderTest, SelectItemAfterModelSwitch)
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetDisplayName("ABC");
-  provider->SetSelectedItem(item);
+  provider->SetSelection(ItemSelection(item));
 
   EXPECT_EQ(spy_selected.count(), 1);
 
   spy_selected.clear();
 
   // removing selection
-  provider->SetSelectedItem(nullptr);
+  provider->SetSelection(ItemSelection());
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
   EXPECT_EQ(spy_selected.count(), 1);
 
@@ -578,7 +579,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItemAfterModelSwitch)
   auto proxy0 = std::make_unique<FilterNameViewModel>();
   provider->AddProxyModel(std::move(proxy0));
 
-  provider->SetSelectedItem(item);
+  provider->SetSelection(ItemSelection(item));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 

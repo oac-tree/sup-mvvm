@@ -166,10 +166,10 @@ public:
    */
   SessionItem* GetSelectedItem() const;
 
-  /**
-   * @brief Make given item selected in a view.
-   */
-  void SetSelectedItem(SessionItem* item);
+  // /**
+  //  * @brief Make given item selected in a view.
+  //  */
+  // void SetSelectedItem(SessionItem* item);
 
   /**
    * @brief Returns an item currently selected in a view and casted to specified type.

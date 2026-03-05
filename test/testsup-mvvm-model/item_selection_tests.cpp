@@ -52,7 +52,7 @@ TEST_F(ItemSelectionTest, SelectionFromNullptr)
 
 TEST_F(ItemSelectionTest, SelectionFromSinglePointer)
 {
-  {
+  { // const pointer
     const SessionItem item;
     const ItemSelection selection(&item);
     EXPECT_EQ(selection.GetSelectedItem(), &item);
@@ -60,7 +60,15 @@ TEST_F(ItemSelectionTest, SelectionFromSinglePointer)
     EXPECT_EQ(selection.GetSelectedItems(), expected);
   }
 
-  {
+  { // non-const pointer
+    SessionItem item; // non-const
+    const ItemSelection selection(&item);
+    EXPECT_EQ(selection.GetSelectedItem(), &item);
+    const std::vector<const SessionItem*> expected{&item};
+    EXPECT_EQ(selection.GetSelectedItems(), expected);
+  }
+
+  { // pointer to derived class
     // to validate that our templated constructor does not cause any issues
     const VectorItem vector_item;
     const ItemSelection selection(&vector_item);

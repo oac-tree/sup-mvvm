@@ -176,10 +176,10 @@ SessionItem* ItemViewComponentProvider::GetSelectedItem() const
   return selected.empty() ? nullptr : selected.front();
 }
 
-void ItemViewComponentProvider::SetSelectedItem(SessionItem* item)
-{
-  SetSelectedItems({item});
-}
+// void ItemViewComponentProvider::SetSelectedItem(SessionItem* item)
+// {
+//   SetSelectedItems({item});
+// }
 
 void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem*> items)
 {
