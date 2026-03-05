@@ -86,4 +86,17 @@ TEST_F(ItemSelectionTest, ConstructionFromVector)
   EXPECT_EQ(selection.GetSelectedItems<VectorItem>(), vector_items);
 }
 
+TEST_F(ItemSelectionTest, IsSameSelection)
+{
+  const SessionItem item1;
+  const SessionItem item2;
+
+  const ItemSelection selection1({&item1, &item2});
+  const ItemSelection selection2({&item2, &item1});
+  const ItemSelection selection3({&item1});
+
+  EXPECT_TRUE(selection1.IsSameSelection(selection2));
+  EXPECT_FALSE(selection1.IsSameSelection(selection3));
+}
+
 }  // namespace mvvm::test

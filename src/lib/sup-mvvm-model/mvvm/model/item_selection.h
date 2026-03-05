@@ -80,6 +80,13 @@ public:
   template <typename T>
   std::vector<const T*> GetSelectedItems() const;
 
+  /**
+   * @brief Checks if this selection is the same as another selection.
+   *
+   * The selections are the same if they contain the same items, regardless of their order.
+   */
+  bool IsSameSelection(const ItemSelection& other) const;
+
 private:
   std::vector<const SessionItem*> m_items;
 };

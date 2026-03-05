@@ -20,6 +20,8 @@
 
 #include "item_selection.h"
 
+#include <mvvm/utils/container_utils.h>
+
 namespace mvvm
 {
 
@@ -38,6 +40,11 @@ const SessionItem* ItemSelection::GetSelectedItem() const
 std::vector<const SessionItem*> ItemSelection::GetSelectedItems() const
 {
   return m_items;
+}
+
+bool ItemSelection::IsSameSelection(const ItemSelection& other) const
+{
+  return utils::HaveSameElements(GetSelectedItems(), other.GetSelectedItems());
 }
 
 bool operator==(const ItemSelection& lhs, const ItemSelection& rhs)
