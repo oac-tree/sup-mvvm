@@ -25,7 +25,16 @@
 namespace mvvm
 {
 
-ItemSelection::ItemSelection(const SessionItem& selected_item) : m_items({&selected_item}) {}
+ItemSelection::ItemSelection(const SessionItem* selected_item)
+{
+  if (selected_item != nullptr)
+  {
+    // we do not store nullptr
+    m_items.push_back(selected_item);
+  }
+}
+
+ItemSelection::ItemSelection(std::nullptr_t) {}
 
 ItemSelection::ItemSelection(const std::vector<const SessionItem*>& selected_items)
     : m_items(selected_items)

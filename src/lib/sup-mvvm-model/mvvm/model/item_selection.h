@@ -33,7 +33,7 @@ class SessionItem;
 /**
  * @brief The ItemSelection class stores information about currently selected items.
  *
- * Used to notify widgets.
+ * Used to notify widgets in the context of ItemViewComponentProvider.
  */
 class ItemSelection
 {
@@ -42,8 +42,21 @@ public:
 
   /**
    * @brief Constructor to create selection containing single item.
+   *
+   * We allow nullptr for convenience, since the widget can report nullptr as a sign of "no
+   * selection".
    */
-  explicit ItemSelection(const SessionItem& selected_item);
+  explicit ItemSelection(const SessionItem* selected_item);
+
+  /**
+   * @brief Constructor to create selection containing single item.
+   *
+   * This "nullptr" version is to avoid collision with templated version.
+   *
+   * We allow nullptr for convenience, since the widget can report nullptr as a sign of "no
+   * selection".
+   */
+  explicit ItemSelection(std::nullptr_t);
 
   /**
    * @brief Constructor to create selection from vector of items.
@@ -51,10 +64,10 @@ public:
   explicit ItemSelection(const std::vector<const SessionItem*>& selected_items);
 
   /**
-   * @brief Constructor to create selection from any container of items.
+   * @brief Constructor to create selection from any vector of any suitable items.
    */
-  template <typename ContainerT>
-  explicit ItemSelection(const ContainerT& selected_items);
+  template <typename ElementT>
+  explicit ItemSelection(const std::vector<ElementT>& selected_items);
 
   /**
    * @brief Returns currently selected item;
@@ -91,8 +104,8 @@ private:
   std::vector<const SessionItem*> m_items;
 };
 
-template <typename ContainerT>
-inline ItemSelection::ItemSelection(const ContainerT& selected_items)
+template <typename ElementT>
+inline ItemSelection::ItemSelection(const std::vector<ElementT>& selected_items)
 {
   m_items.reserve(selected_items.size());
   for (const auto* item : selected_items)
