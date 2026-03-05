@@ -8,6 +8,8 @@ target_sources(${library_name} PRIVATE
   abstract_row_strategy.h
   abstract_viewmodel_controller.cpp
   abstract_viewmodel_controller.h
+  custom_metatypes.cpp
+  custom_metatypes.h
   custom_variants.cpp
   custom_variants.h
   editor_types_fwd.h
