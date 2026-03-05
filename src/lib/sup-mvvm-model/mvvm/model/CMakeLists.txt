@@ -19,9 +19,11 @@ target_sources(${library_name} PRIVATE
   item_limits_helper.h
   item_pool.cpp
   item_pool.h
+  item_selection.cpp
+  item_selection.h
+  item_traits.h
   item_utils.cpp
   item_utils.h
-  item_traits.h
   model_fwd.h
   model_utils.cpp
   model_utils.h
