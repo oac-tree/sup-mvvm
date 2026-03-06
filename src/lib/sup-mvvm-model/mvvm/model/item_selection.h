@@ -100,6 +100,11 @@ public:
    */
   bool IsSameSelection(const ItemSelection& other) const;
 
+  /**
+   * @brief Checks if there is no selection.
+   */
+  bool IsEmpty() const;
+
 private:
   std::vector<const SessionItem*> m_items;
 };

@@ -48,6 +48,7 @@ TEST_F(ItemSelectionTest, SelectionFromNullptr)
 
   EXPECT_EQ(selection.GetSelectedItem(), nullptr);
   EXPECT_TRUE(selection.GetSelectedItems().empty());
+  EXPECT_TRUE(selection.IsEmpty());
 }
 
 TEST_F(ItemSelectionTest, SelectionFromSinglePointer)
@@ -58,6 +59,7 @@ TEST_F(ItemSelectionTest, SelectionFromSinglePointer)
     EXPECT_EQ(selection.GetSelectedItem(), &item);
     const std::vector<const SessionItem*> expected{&item};
     EXPECT_EQ(selection.GetSelectedItems(), expected);
+    EXPECT_FALSE(selection.IsEmpty());
   }
 
   { // non-const pointer

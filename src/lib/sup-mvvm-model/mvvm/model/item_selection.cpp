@@ -56,6 +56,11 @@ bool ItemSelection::IsSameSelection(const ItemSelection& other) const
   return utils::HaveSameElements(GetSelectedItems(), other.GetSelectedItems());
 }
 
+bool ItemSelection::IsEmpty() const
+{
+  return GetSelectedItems().empty();
+}
+
 bool operator==(const ItemSelection& lhs, const ItemSelection& rhs)
 {
   return lhs.GetSelectedItems() == rhs.GetSelectedItems();
