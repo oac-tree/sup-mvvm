@@ -35,7 +35,9 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-Q_DECLARE_METATYPE(mvvm::SessionItem*)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(mvvm::ItemSelection)
+#endif
 
 namespace mvvm::test
 {
@@ -249,7 +251,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
   provider->SetSelection(ItemSelection(nullptr));
   EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), nullptr);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selected), ItemSelection(nullptr));
 }
 
 TEST_F(ItemViewComponentProviderTest, SetCurrentIndexInViewAndCheckSelection)
@@ -349,7 +351,7 @@ TEST_F(ItemViewComponentProviderTest, CheckSelectionChangeAfterItemRemoval)
   m_model.RemoveItem(property0);
 
   // signal should emit once and report nullptr as selected item
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), nullptr);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selected), ItemSelection());
 }
 
 TEST_F(ItemViewComponentProviderTest, DeleteProviderBeforeView)
