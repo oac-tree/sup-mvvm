@@ -21,9 +21,9 @@
 #include "abstract_item_view.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/viewmodel/viewmodel.h>
-#include <mvvm/model/item_selection.h>
 #include <mvvm/views/item_view_component_provider.h>
 
 #include <QTreeView>
@@ -68,7 +68,7 @@ ItemViewComponentProvider* AbstractItemView::GetComponentProvider()
 
 SessionItem* AbstractItemView::GetSelectedItem() const
 {
-  return m_provider->GetSelectedItem();
+  return const_cast<mvvm::SessionItem*>(m_provider->GetSelection().GetSelectedItem());
 }
 
 std::vector<SessionItem*> AbstractItemView::GetSelectedItems() const

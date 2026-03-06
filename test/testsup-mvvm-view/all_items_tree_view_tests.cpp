@@ -73,7 +73,7 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItemsWithNoModel)
 {
   AllItemsTreeView view;
   EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
-  EXPECT_EQ(view.GetComponentProvider()->GetSelectedItem(), nullptr);
+  EXPECT_EQ(view.GetComponentProvider()->GetSelection().GetSelectedItem(), nullptr);
 }
 
 TEST_F(AllItemsTreeViewTest, GetSelectedItems)
@@ -89,7 +89,7 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   auto provider = view.GetComponentProvider();
 
   EXPECT_TRUE(provider->GetSelectedItems().empty());
-  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
 
   view.SetSelectedItem(x_item);
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({x_item}));

@@ -170,11 +170,11 @@ QList<QModelIndex> ItemViewComponentProvider::GetViewIndexes(const SessionItem* 
   return source_indexes;
 }
 
-SessionItem* ItemViewComponentProvider::GetSelectedItem() const
-{
-  auto selected = GetSelectedItems();
-  return selected.empty() ? nullptr : selected.front();
-}
+// SessionItem* ItemViewComponentProvider::GetSelectedItem() const
+// {
+//   auto selected = GetSelectedItems();
+//   return selected.empty() ? nullptr : selected.front();
+// }
 
 // void ItemViewComponentProvider::SetSelectedItem(SessionItem* item)
 // {
@@ -271,7 +271,7 @@ void ItemViewComponentProvider::OnSelectionChanged(const QItemSelection& selecte
 {
   Q_UNUSED(selected);
   Q_UNUSED(deselected);
-  emit SelectedItemChanged(GetSelectedItem());
+  emit SelectedItemChanged(const_cast<SessionItem*>(GetSelection().GetSelectedItem()));
 }
 
 }  // namespace mvvm
