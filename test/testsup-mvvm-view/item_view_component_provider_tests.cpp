@@ -69,8 +69,7 @@ TEST_F(ItemViewComponentProviderTest, InitialState)
   EXPECT_NE(provider.GetSelectionModel(), nullptr);
   EXPECT_NE(provider.GetSelectionModel()->model(), nullptr);
   EXPECT_NE(provider.GetViewModel(), nullptr);
-  EXPECT_EQ(provider.GetSelection().GetSelectedItem(), nullptr);
-  EXPECT_TRUE(provider.GetSelectedItems().empty());
+  EXPECT_TRUE(provider.GetSelection().IsEmpty());
   EXPECT_EQ(provider.GetLastProxyModel(), nullptr);
   EXPECT_TRUE(provider.GetProxyModelChain().empty());
 }
@@ -86,8 +85,7 @@ TEST_F(ItemViewComponentProviderTest, SetEmptyModel)
   EXPECT_NE(provider->GetSelectionModel(), nullptr);
   EXPECT_NE(provider->GetViewModel(), nullptr);
   EXPECT_NE(dynamic_cast<mvvm::AllItemsViewModel*>(provider->GetViewModel()), nullptr);
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
-  EXPECT_TRUE(provider->GetSelectedItems().empty());
+  EXPECT_TRUE(provider->GetSelection().IsEmpty());
 
   EXPECT_EQ(provider->GetView()->model(), provider->GetViewModel());
   EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
@@ -245,10 +243,11 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
   QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
-  provider->SetSelection(ItemSelection(item));
 
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), item);
-  EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
+  ItemSelection expected_selection(item);
+  provider->SetSelection(expected_selection);
+
+  EXPECT_EQ(provider->GetSelection(), expected_selection);
 
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
 
@@ -283,7 +282,6 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
   provider->GetView()->setCurrentIndex(indexes.at(0));
 
   EXPECT_EQ(provider->GetSelection().GetSelectedItem(), item);
-  EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
 
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
 }
@@ -311,7 +309,8 @@ TEST_F(ItemViewComponentProviderTest, SelectRow)
   view.selectionModel()->select(x_item_index,
                                 QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({x_item}));
+  EXPECT_EQ(provider->GetSelection().GetSelectedItems(),
+            std::vector<const mvvm::SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
@@ -339,8 +338,7 @@ TEST_F(ItemViewComponentProviderTest, DestroyModel)
   EXPECT_EQ(viewmodel->columnCount(), 2);
   EXPECT_EQ(viewmodel->GetRootSessionItem(), nullptr);
 
-  EXPECT_TRUE(provider->GetSelectedItems().empty());
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_TRUE(provider->GetSelection().IsEmpty());
 }
 
 //! Removing selected and checking notifications.
@@ -358,7 +356,8 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
   provider->SetSelection(ItemSelection(property0));
 
   // checking selections
-  EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({property0}));
+  EXPECT_EQ(provider->GetSelection().GetSelectedItems(),
+            std::vector<const mvvm::SessionItem*>({property0}));
 
   // checking signaling
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), property0);

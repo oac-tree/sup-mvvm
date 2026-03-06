@@ -25,6 +25,7 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/item_view_component_provider.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -73,7 +74,7 @@ SessionItem* AbstractItemView::GetSelectedItem() const
 
 std::vector<SessionItem*> AbstractItemView::GetSelectedItems() const
 {
-  return m_provider->GetSelectedItems();
+  return utils::RemoveConst(m_provider->GetSelection().GetSelectedItems());
 }
 
 void AbstractItemView::SetSelectedItem(SessionItem* item)

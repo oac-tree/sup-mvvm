@@ -250,21 +250,21 @@ void ItemViewComponentProvider::OnViewModelReset()
   GetSelectionModel()->clearSelection();
 }
 
-std::vector<SessionItem*> ItemViewComponentProvider::GetSelectedItemsIntern() const
-{
-  std::vector<mvvm::SessionItem*> result;
+// std::vector<SessionItem*> ItemViewComponentProvider::GetSelectedItemsIntern() const
+// {
+//   std::vector<mvvm::SessionItem*> result;
 
-  for (auto index : GetSelectionModel()->selectedIndexes())
-  {
-    // skipping nullptr
-    if (auto item = GetItemFromViewIndex(index); item)
-    {
-      result.push_back(const_cast<SessionItem*>(item));
-    }
-  }
+//   for (auto index : GetSelectionModel()->selectedIndexes())
+//   {
+//     // skipping nullptr
+//     if (auto item = GetItemFromViewIndex(index); item)
+//     {
+//       result.push_back(const_cast<SessionItem*>(item));
+//     }
+//   }
 
-  return mvvm::utils::UniqueWithOrder(result);
-}
+//   return mvvm::utils::UniqueWithOrder(result);
+// }
 
 void ItemViewComponentProvider::OnSelectionChanged(const QItemSelection& selected,
                                                    const QItemSelection& deselected)

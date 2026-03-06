@@ -21,9 +21,9 @@
 #include "mvvm/views/top_items_tree_view.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/viewmodel/viewmodel.h>
-#include <mvvm/model/item_selection.h>
 #include <mvvm/views/item_view_component_provider.h>
 
 #include <gtest/gtest.h>
@@ -90,7 +90,6 @@ TEST_F(TopItemsTreeViewTest, DestroyModel)
   EXPECT_EQ(viewmodel->rowCount(), 0);
   EXPECT_EQ(viewmodel->columnCount(), 2);
 
-  EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
 
@@ -104,18 +103,14 @@ TEST_F(TopItemsTreeViewTest, GetSelectedItems)
 
   TopItemsTreeView view(model.get());
 
-  EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
   view.SetSelectedItem(vector_item0);
-  EXPECT_EQ(view.GetComponentProvider()->GetSelectedItems(),
-            std::vector<SessionItem*>({vector_item0}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
 
   view.GetComponentProvider()->SetSelection(ItemSelection({vector_item0, vector_item1}));
-  EXPECT_EQ(view.GetComponentProvider()->GetSelectedItems(),
-            std::vector<SessionItem*>({vector_item0, vector_item1}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0, vector_item1}));
 }
 
 }  // namespace mvvm::test

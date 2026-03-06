@@ -177,11 +177,11 @@ public:
   // template <typename T>
   // T* GetSelected() const;
 
-  /**
-   * @brief Returns items currently selected in a view and casted to specified type.
-   */
-  template <typename T = SessionItem>
-  std::vector<T*> GetSelectedItems() const;
+  // /**
+  //  * @brief Returns items currently selected in a view and casted to specified type.
+  //  */
+  // template <typename T = SessionItem>
+  // std::vector<T*> GetSelectedItems() const;
 
   // /**
   //  * @brief Makes all specified items selected in a view.
@@ -209,7 +209,7 @@ signals:
 
 private:
   void OnViewModelReset();
-  std::vector<SessionItem*> GetSelectedItemsIntern() const;
+  // std::vector<SessionItem*> GetSelectedItemsIntern() const;
   void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
   std::unique_ptr<QAbstractItemDelegate> m_delegate;
@@ -226,11 +226,11 @@ private:
 //   return dynamic_cast<T*>(GetSelectedItem());
 // }
 
-template <typename T>
-std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
-{
-  return utils::CastItems<T>(GetSelectedItemsIntern());
-}
+// template <typename T>
+// std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
+// {
+//   return utils::CastItems<T>(GetSelectedItemsIntern());
+// }
 
 }  // namespace mvvm
 

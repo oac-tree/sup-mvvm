@@ -57,7 +57,6 @@ TEST_F(AbstractItemViewTest, InitialState)
   TestView view(nullptr);
   EXPECT_NE(view.GetComponentProvider()->GetViewModel(), nullptr);
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
-  EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
 }
 
 TEST_F(AbstractItemViewTest, ModelInConstructor)

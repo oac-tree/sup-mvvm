@@ -110,7 +110,6 @@ TEST_F(PropertyTreeViewTest, DestroyModel)
   EXPECT_EQ(viewmodel->rowCount(), 0);
   EXPECT_EQ(viewmodel->columnCount(), 2);
 
-  EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
 
