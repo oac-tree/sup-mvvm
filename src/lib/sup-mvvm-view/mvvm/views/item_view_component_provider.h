@@ -161,33 +161,6 @@ public:
    */
   QList<QModelIndex> GetViewIndexes(const mvvm::SessionItem* item) const;
 
-  // /**
-  //  * @brief Returns an item currently selected in a view.
-  //  */
-  // SessionItem* GetSelectedItem() const;
-
-  // /**
-  //  * @brief Make given item selected in a view.
-  //  */
-  // void SetSelectedItem(SessionItem* item);
-
-  // /**
-  //  * @brief Returns an item currently selected in a view and casted to specified type.
-  //  */
-  // template <typename T>
-  // T* GetSelected() const;
-
-  // /**
-  //  * @brief Returns items currently selected in a view and casted to specified type.
-  //  */
-  // template <typename T = SessionItem>
-  // std::vector<T*> GetSelectedItems() const;
-
-  // /**
-  //  * @brief Makes all specified items selected in a view.
-  //  */
-  // void SetSelectedItems(std::vector<SessionItem*> items);
-
   /**
    * @brief Returns current selection as an object.
    */
@@ -208,7 +181,6 @@ signals:
 
 private:
   void OnViewModelReset();
-  // std::vector<SessionItem*> GetSelectedItemsIntern() const;
   void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
   std::unique_ptr<QAbstractItemDelegate> m_delegate;
@@ -218,18 +190,6 @@ private:
   std::vector<std::unique_ptr<QAbstractProxyModel>> m_proxy_chain;
   QItemSelectionModel::SelectionFlags m_selection_flags;
 };
-
-// template <typename T>
-// T* ItemViewComponentProvider::GetSelected() const
-// {
-//   return dynamic_cast<T*>(GetSelectedItem());
-// }
-
-// template <typename T>
-// std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
-// {
-//   return utils::CastItems<T>(GetSelectedItemsIntern());
-// }
 
 }  // namespace mvvm
 

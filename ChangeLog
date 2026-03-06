@@ -1,7 +1,9 @@
 Changes for 2.2.0:
 
+- Introduce ItemSelection and refactor ItemViewComponentProvider
 - Change move index convention and make it as in Qt
 - Refactor move/insert validation machinery
+- Introduce IsHeadless helper functions for better testing
 - Faster calculation of HighDPI scaling factor
 
 Changes for 2.1.0:

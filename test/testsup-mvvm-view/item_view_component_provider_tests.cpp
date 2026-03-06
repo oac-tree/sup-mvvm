@@ -22,7 +22,6 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_selection.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/test/test_helper.h>
@@ -74,9 +73,7 @@ TEST_F(ItemViewComponentProviderTest, InitialState)
   EXPECT_TRUE(provider.GetProxyModelChain().empty());
 }
 
-//! Setting empty ApplicationModel to the provider.
-
-TEST_F(ItemViewComponentProviderTest, SetEmptyModel)
+TEST_F(ItemViewComponentProviderTest, SetEmptyApplicationModel)
 {
   QTreeView view;
   auto provider = CreateProvider(&view);
@@ -90,8 +87,6 @@ TEST_F(ItemViewComponentProviderTest, SetEmptyModel)
   EXPECT_EQ(provider->GetView()->model(), provider->GetViewModel());
   EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
 }
-
-//! Setting ApplicationModel with single item to the provider.
 
 TEST_F(ItemViewComponentProviderTest, SetNonEmptyModel)
 {
@@ -115,9 +110,7 @@ TEST_F(ItemViewComponentProviderTest, SetNonEmptyModel)
   EXPECT_EQ(viewmodel->columnCount(), 2);
 }
 
-//! No model initialisation, setting an item.
-
-TEST_F(ItemViewComponentProviderTest, SetItem)
+TEST_F(ItemViewComponentProviderTest, SetItemWithoutModel)
 {
   QTreeView view;
 
@@ -135,8 +128,6 @@ TEST_F(ItemViewComponentProviderTest, SetItem)
   EXPECT_EQ(provider->GetView()->model(), viewmodel);
   EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
 }
-
-//! Initialising provider with application model, then changing root item.
 
 TEST_F(ItemViewComponentProviderTest, SetItemAfterSetModel)
 {
@@ -174,8 +165,6 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterSetModel)
   EXPECT_EQ(new_viewmodel->columnCount(), 2);
 }
 
-//! Initialising provider with application model, then setting it to nullptr.
-
 TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
 {
   QTreeView view;
@@ -208,8 +197,7 @@ TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
 
 //! Attempt to set one item after another, when they belongs to different models
 //! (real life bug)
-
-TEST_F(ItemViewComponentProviderTest, SetItemAfterItem)
+TEST_F(ItemViewComponentProviderTest, SetItemAfterItemWHenTheyBelongsToDifferentModels)
 {
   QTreeView view;
 
@@ -244,7 +232,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
 
-  ItemSelection expected_selection(item);
+  const ItemSelection expected_selection(item);
   provider->SetSelection(expected_selection);
 
   EXPECT_EQ(provider->GetSelection(), expected_selection);
@@ -264,9 +252,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), nullptr);
 }
 
-//! Checking selection when acting through the view.
-
-TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
+TEST_F(ItemViewComponentProviderTest, SetCurrentIndexInViewAndCheckSelection)
 {
   QTreeView view;
 
@@ -286,10 +272,7 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
   EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item));
 }
 
-//! Selecting whole row and checking list of selected items.
-//! There should be no duplications.
-
-TEST_F(ItemViewComponentProviderTest, SelectRow)
+TEST_F(ItemViewComponentProviderTest, SelectWholeRowAndCheckResultingSelection)
 {
   QTreeView view;
 
@@ -303,7 +286,7 @@ TEST_F(ItemViewComponentProviderTest, SelectRow)
 
   auto x_item_index = provider->GetViewModel()->index(0, 1);
 
-  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
+  const QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
 
   // selecting row where xItem is located
   view.selectionModel()->select(x_item_index,
@@ -341,9 +324,7 @@ TEST_F(ItemViewComponentProviderTest, DestroyModel)
   EXPECT_TRUE(provider->GetSelection().IsEmpty());
 }
 
-//! Removing selected and checking notifications.
-
-TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
+TEST_F(ItemViewComponentProviderTest, CheckSelectionChangeAfterItemRemoval)
 {
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
@@ -371,9 +352,7 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), nullptr);
 }
 
-//! Delete provider before the view.
-
-TEST_F(ItemViewComponentProviderTest, DeleteProvider)
+TEST_F(ItemViewComponentProviderTest, DeleteProviderBeforeView)
 {
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
@@ -396,7 +375,7 @@ TEST_F(ItemViewComponentProviderTest, DeleteProvider)
 //! Testing provider in the presence of proxy model. We create the model with 3 items, and then
 //! filtering out the first item. The provider should let us access two remaining items via view
 //! indexes.
-TEST_F(ItemViewComponentProviderTest, FilterNameProxy)
+TEST_F(ItemViewComponentProviderTest, AddProxyModelToFilterNames)
 {
   QTreeView view;
 
@@ -448,9 +427,9 @@ TEST_F(ItemViewComponentProviderTest, FilterNameProxy)
             QModelIndexList({displayname_index1, value_index1}));
 }
 
-//! Testing provider in the presence of proxy model.
-//! Same test as above, with focus on SetSelected/GetSelected.
-TEST_F(ItemViewComponentProviderTest, FilterNameProxySetSelected)
+//! Testing provider in the presence of proxy model. Same test as above, with focus on
+//! SetSelected/GetSelected.
+TEST_F(ItemViewComponentProviderTest, AddProxyModelToFilterNamesAndCheckSelection)
 {
   QTreeView view;
 
@@ -551,7 +530,7 @@ TEST_F(ItemViewComponentProviderTest, TwoProxyModels)
 }
 
 //! Setting the new model leads to the change in view's underlying selection model. This test
-//! checks, that after adding new proxy model, provinder still sends ItemSelected signals.
+//! checks, that after adding new proxy model, provider still sends ItemSelected signals.
 TEST_F(ItemViewComponentProviderTest, SelectItemAfterModelSwitch)
 {
   QTreeView view;

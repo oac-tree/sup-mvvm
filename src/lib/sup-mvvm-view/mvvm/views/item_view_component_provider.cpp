@@ -20,10 +20,8 @@
 
 #include "item_view_component_provider.h"
 
-#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_selection.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/viewmodel_delegate.h>
 
@@ -170,38 +168,6 @@ QList<QModelIndex> ItemViewComponentProvider::GetViewIndexes(const SessionItem* 
   return source_indexes;
 }
 
-// SessionItem* ItemViewComponentProvider::GetSelectedItem() const
-// {
-//   auto selected = GetSelectedItems();
-//   return selected.empty() ? nullptr : selected.front();
-// }
-
-// void ItemViewComponentProvider::SetSelectedItem(SessionItem* item)
-// {
-//   SetSelectedItems({item});
-// }
-
-// void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem*> items)
-// {
-//   if (utils::HaveSameElements(GetSelectedItems(), items))
-//   {
-//     return;
-//   }
-
-//   GetSelectionModel()->clearSelection();
-//   QItemSelection selection;
-//   for (auto item : items)
-//   {
-//     auto view_indexes = GetViewIndexes(item);
-//     if (!view_indexes.empty())
-//     {
-//       selection.push_back(QItemSelectionRange(view_indexes.front(), view_indexes.back()));
-//     }
-//   }
-
-//   GetSelectionModel()->select(selection, m_selection_flags);
-// }
-
 ItemSelection ItemViewComponentProvider::GetSelection() const
 {
   std::vector<mvvm::SessionItem*> result;
@@ -249,22 +215,6 @@ void ItemViewComponentProvider::OnViewModelReset()
 {
   GetSelectionModel()->clearSelection();
 }
-
-// std::vector<SessionItem*> ItemViewComponentProvider::GetSelectedItemsIntern() const
-// {
-//   std::vector<mvvm::SessionItem*> result;
-
-//   for (auto index : GetSelectionModel()->selectedIndexes())
-//   {
-//     // skipping nullptr
-//     if (auto item = GetItemFromViewIndex(index); item)
-//     {
-//       result.push_back(const_cast<SessionItem*>(item));
-//     }
-//   }
-
-//   return mvvm::utils::UniqueWithOrder(result);
-// }
 
 void ItemViewComponentProvider::OnSelectionChanged(const QItemSelection& selected,
                                                    const QItemSelection& deselected)
