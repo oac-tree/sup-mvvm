@@ -240,7 +240,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 
   auto provider = CreateProvider(&view);
 
-  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
 
@@ -249,7 +249,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 
   EXPECT_EQ(provider->GetSelection(), expected_selection);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
+  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item));
 
   spy_selected.clear();
 
@@ -274,7 +274,7 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
 
-  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
 
   // selecting an item and checking results
   auto indexes = provider->GetViewModel()->GetIndexOfSessionItem(item);
@@ -283,7 +283,7 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
 
   EXPECT_EQ(provider->GetSelection().GetSelectedItem(), item);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
+  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item));
 }
 
 //! Selecting whole row and checking list of selected items.
@@ -303,7 +303,7 @@ TEST_F(ItemViewComponentProviderTest, SelectRow)
 
   auto x_item_index = provider->GetViewModel()->index(0, 1);
 
-  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
 
   // selecting row where xItem is located
   view.selectionModel()->select(x_item_index,
@@ -350,7 +350,7 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
 
   auto provider = CreateProvider(&view);
 
-  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
 
   // selecting single item
   provider->SetSelection(ItemSelection(property0));
@@ -360,7 +360,7 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
             std::vector<const mvvm::SessionItem*>({property0}));
 
   // checking signaling
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), property0);
+  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(property0));
 
   spy_selected.clear();
 
@@ -558,7 +558,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItemAfterModelSwitch)
 
   auto provider = CreateProvider(&view);
 
-  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetDisplayName("ABC");

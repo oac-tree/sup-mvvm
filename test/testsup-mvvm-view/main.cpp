@@ -19,7 +19,7 @@
  *****************************************************************************/
 
 #include <mvvm/core/platform.h>
-#include <mvvm/model/session_item.h>
+#include <mvvm/providers/custom_metatypes.h>
 
 #include <gtest/gtest.h>
 
@@ -34,7 +34,7 @@ int main(int argc, char** argv)
   const QApplication app(argc, argv);
   Q_UNUSED(app)
 
-  qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+  mvvm::RegisterCustomMetaTypes();
 
   // run all google tests
   return RUN_ALL_TESTS();

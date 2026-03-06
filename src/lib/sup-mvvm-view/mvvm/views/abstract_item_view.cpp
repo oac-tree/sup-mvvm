@@ -23,9 +23,9 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_selection.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/item_view_component_provider.h>
-#include <mvvm/utils/container_utils.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -43,8 +43,8 @@ AbstractItemView::AbstractItemView(QWidget* parent_widget) : QWidget(parent_widg
 void AbstractItemView::SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider)
 {
   m_provider = std::move(provider);
-  connect(m_provider.get(), &ItemViewComponentProvider::SelectedItemChanged, this,
-          &AbstractItemView::SelectedItemChanged);
+  connect(m_provider.get(), &ItemViewComponentProvider::SelectionChanged, this,
+          &AbstractItemView::SelectionChanged);
   layout()->addWidget(m_provider->GetView());
 }
 

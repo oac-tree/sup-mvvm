@@ -122,7 +122,7 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
 
   auto x_item_index = view_model->index(0, 1);
 
-  QSignalSpy spy_selected(&view, &AllItemsTreeView::SelectedItemChanged);
+  QSignalSpy spy_selected(&view, &AllItemsTreeView::SelectionChanged);
 
   // selecting row where xItem is located
   view.GetTreeView()->selectionModel()->select(
@@ -168,7 +168,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
 
   AllItemsTreeView view(&model);
 
-  QSignalSpy spy_selected(&view, &AllItemsTreeView::SelectedItemChanged);
+  QSignalSpy spy_selected(&view, &AllItemsTreeView::SelectionChanged);
 
   // selecting single item
   view.SetSelectedItem(property0);
@@ -179,7 +179,8 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({property0}));
 
   // checking signaling
-  EXPECT_EQ(mvvm::test::GetSendItem<SessionItem*>(spy_selected), property0);
+  ItemSelection expected_selection(property0);
+  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), expected_selection);
 
   spy_selected.clear();
 

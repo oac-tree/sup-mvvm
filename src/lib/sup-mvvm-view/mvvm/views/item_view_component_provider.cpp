@@ -271,7 +271,7 @@ void ItemViewComponentProvider::OnSelectionChanged(const QItemSelection& selecte
 {
   Q_UNUSED(selected);
   Q_UNUSED(deselected);
-  emit SelectedItemChanged(const_cast<SessionItem*>(GetSelection().GetSelectedItem()));
+  emit SelectionChanged(GetSelection());
 }
 
 }  // namespace mvvm

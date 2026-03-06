@@ -31,6 +31,7 @@ namespace mvvm
 class ISessionModel;
 class SessionItem;
 class ItemViewComponentProvider;
+class ItemSelection;
 
 //! Generic view to show SessionModel in Qt lists, trees and tables.
 
@@ -65,7 +66,7 @@ public:
   void SetSelectedItems(const std::vector<SessionItem*>& items);
 
 signals:
-  void SelectedItemChanged(mvvm::SessionItem*);
+  void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
   virtual void UpdateView();

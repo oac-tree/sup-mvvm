@@ -204,7 +204,6 @@ public:
   void SetSelectionFlags(QItemSelectionModel::SelectionFlags flags);
 
 signals:
-  void SelectedItemChanged(mvvm::SessionItem*);
   void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
