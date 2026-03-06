@@ -23,6 +23,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/viewmodel/viewmodel.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/views/item_view_component_provider.h>
 
 #include <gtest/gtest.h>
@@ -111,7 +112,7 @@ TEST_F(TopItemsTreeViewTest, GetSelectedItems)
             std::vector<SessionItem*>({vector_item0}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
 
-  view.GetComponentProvider()->SetSelectedItems({vector_item0, vector_item1});
+  view.GetComponentProvider()->SetSelection(ItemSelection({vector_item0, vector_item1}));
   EXPECT_EQ(view.GetComponentProvider()->GetSelectedItems(),
             std::vector<SessionItem*>({vector_item0, vector_item1}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);

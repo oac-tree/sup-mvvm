@@ -83,7 +83,7 @@ void AbstractItemView::SetSelectedItem(SessionItem* item)
 
 void AbstractItemView::SetSelectedItems(const std::vector<SessionItem*>& items)
 {
-  m_provider->SetSelectedItems(items);
+  m_provider->SetSelection(ItemSelection(items));
 }
 
 void AbstractItemView::UpdateView()

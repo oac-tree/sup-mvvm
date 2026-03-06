@@ -21,6 +21,7 @@
 #include "mvvm/views/all_items_tree_view.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/test/test_helper.h>
@@ -98,7 +99,7 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({y_item}));
   EXPECT_EQ(view.GetSelectedItem(), y_item);
 
-  provider->SetSelectedItems({x_item, y_item});
+  provider->SetSelection(ItemSelection({x_item, y_item}));
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({x_item, y_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 }

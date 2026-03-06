@@ -181,26 +181,26 @@ SessionItem* ItemViewComponentProvider::GetSelectedItem() const
 //   SetSelectedItems({item});
 // }
 
-void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem*> items)
-{
-  if (utils::HaveSameElements(GetSelectedItems(), items))
-  {
-    return;
-  }
+// void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem*> items)
+// {
+//   if (utils::HaveSameElements(GetSelectedItems(), items))
+//   {
+//     return;
+//   }
 
-  GetSelectionModel()->clearSelection();
-  QItemSelection selection;
-  for (auto item : items)
-  {
-    auto view_indexes = GetViewIndexes(item);
-    if (!view_indexes.empty())
-    {
-      selection.push_back(QItemSelectionRange(view_indexes.front(), view_indexes.back()));
-    }
-  }
+//   GetSelectionModel()->clearSelection();
+//   QItemSelection selection;
+//   for (auto item : items)
+//   {
+//     auto view_indexes = GetViewIndexes(item);
+//     if (!view_indexes.empty())
+//     {
+//       selection.push_back(QItemSelectionRange(view_indexes.front(), view_indexes.back()));
+//     }
+//   }
 
-  GetSelectionModel()->select(selection, m_selection_flags);
-}
+//   GetSelectionModel()->select(selection, m_selection_flags);
+// }
 
 ItemSelection ItemViewComponentProvider::GetSelection() const
 {

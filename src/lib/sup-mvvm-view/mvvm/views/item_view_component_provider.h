@@ -183,10 +183,10 @@ public:
   template <typename T = SessionItem>
   std::vector<T*> GetSelectedItems() const;
 
-  /**
-   * @brief Makes all specified items selected in a view.
-   */
-  void SetSelectedItems(std::vector<SessionItem*> items);
+  // /**
+  //  * @brief Makes all specified items selected in a view.
+  //  */
+  // void SetSelectedItems(std::vector<SessionItem*> items);
 
   /**
    * @brief Returns current selection as an object.
