@@ -83,7 +83,7 @@ bool SessionItemData::HasData(role_t role) const
 }
 
 void SessionItemData::AssureCompatibility(const variant_t& old_value, const variant_t& new_value,
-                                          role_t role) const
+                                          role_t role)
 {
   if (!utils::AreCompatible(old_value, new_value))
   {

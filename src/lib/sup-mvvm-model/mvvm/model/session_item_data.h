@@ -78,8 +78,8 @@ private:
    *
    * Throws an exception if variants are incompatible.
    */
-  void AssureCompatibility(const variant_t& old_value, const variant_t& new_value,
-                           role_t role) const;
+  static void AssureCompatibility(const variant_t& old_value, const variant_t& new_value,
+                           role_t role);
 
   container_t m_values;
 };

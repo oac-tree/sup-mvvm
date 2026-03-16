@@ -67,7 +67,7 @@ public:
    * @param factory_func The models' factory function.
    * @return The position of the model in the array of models.
    */
-  std::size_t RegisterModel(model_factory_func_t factory_func);
+  std::size_t RegisterModel(const model_factory_func_t& factory_func);
 
   /**
    * @brief Returns number of existing models.

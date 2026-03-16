@@ -45,7 +45,7 @@ public:
 
   std::size_t GetSize() const;
 
-  void RegisterItem(SessionItem* item, identifier_t key);
+  void RegisterItem(SessionItem* item, const identifier_t& key);
 
   void UnregisterItem(const SessionItem* item);
 

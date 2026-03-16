@@ -54,8 +54,9 @@ ColorEditor::ColorEditor(QWidget* parent_widget)
   setLayout(layout);
 }
 
-void ColorEditor::mousePressEvent(QMouseEvent*)
+void ColorEditor::mousePressEvent(QMouseEvent* event)
 {
+  (void) event;
   // temporarily installing filter to prevent loss of focus caused by too insistent dialog
   installEventFilter(m_focus_filter);
 

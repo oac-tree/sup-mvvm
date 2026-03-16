@@ -34,7 +34,7 @@ std::size_t ItemPool::GetSize() const
   return m_key_to_item.size();
 }
 
-void ItemPool::RegisterItem(SessionItem* item, ItemPool::identifier_t key)
+void ItemPool::RegisterItem(SessionItem* item, const ItemPool::identifier_t& key)
 
 {
   if (m_item_to_key.find(item) != m_item_to_key.end())

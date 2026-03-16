@@ -74,7 +74,7 @@ void MoveTo(SessionItem& item, const TagIndex& tag_index)
 void SetIdentifier(SessionItem& item)
 {
   // we want to bypass any data strategies
-  SetDataImpl(item, UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  (void)SetDataImpl(item, UniqueIdGenerator::Generate(), DataRole::kIdentifier);
 }
 
 bool SetData(SessionItem& item, const variant_t& value, role_t role)
@@ -316,8 +316,8 @@ std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items)
 {
   auto filtered = utils::UniqueWithOrder(items);
   std::vector<SessionItem*> result;
-  std::copy_if(filtered.begin(), filtered.end(), std::back_inserter(result),
-               [](auto item) { return item != nullptr; });
+  (void)std::copy_if(filtered.begin(), filtered.end(), std::back_inserter(result),
+                     [](auto item) { return item != nullptr; });
   return result;
 }
 

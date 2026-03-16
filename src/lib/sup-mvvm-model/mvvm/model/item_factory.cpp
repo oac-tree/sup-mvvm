@@ -33,8 +33,6 @@ namespace mvvm
 namespace
 {
 
-std::once_flag global_item_factory_initialized_flag;
-
 void InitItemFactory(ItemFactory& factory)
 {
   factory.RegisterItem<ChartViewportItem>();
@@ -99,6 +97,7 @@ bool ItemFactory::IsRegistered(const std::string& type_name) const
 
 ItemFactory& GetGlobalItemFactory()
 {
+  static std::once_flag global_item_factory_initialized_flag;
   static ItemFactory global_item_factory(std::make_unique<ItemCatalogue<SessionItem>>());
   std::call_once(global_item_factory_initialized_flag, InitItemFactory,
                  std::ref(global_item_factory));
