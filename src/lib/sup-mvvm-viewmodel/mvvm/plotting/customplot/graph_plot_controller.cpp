@@ -72,7 +72,7 @@ struct GraphPlotController::GraphItemControllerImpl
     UpdateVisibility();
   }
 
-  GraphItem* GetGraphItem() { return m_self->GetItem(); }
+  GraphItem* GetGraphItem() const { return m_self->GetItem(); }
 
   void UpdateDataController() { m_data_controller->SetItem(GetGraphItem()->GetDataItem()); }
 

@@ -35,7 +35,7 @@ class StatusStringReporter;
 
 //! Creates reporter for status string in QCustomPlot containing graphs.
 std::unique_ptr<StatusStringReporter> CreateGraphReporter(
-    QCustomPlot* custom_plot, std::function<void(const std::string&)> callback);
+    QCustomPlot* custom_plot, const std::function<void(const std::string&)>& callback);
 
 }  // namespace mvvm
 

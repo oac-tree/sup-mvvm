@@ -32,7 +32,7 @@ namespace
 
 QColor GetDefaultColor()
 {
-  static QWidget tmpWidget;
+  static const QWidget tmpWidget;
   return tmpWidget.palette().color(QPalette::Window);
 }
 

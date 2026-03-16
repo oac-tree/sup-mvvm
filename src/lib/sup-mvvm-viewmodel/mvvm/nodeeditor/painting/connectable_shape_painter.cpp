@@ -122,7 +122,8 @@ void ConnectableShapePainter::InstallGraphicsEffects(QGraphicsItem& shape) const
 
 bool ConnectableShapePainter::IsSelected(const QStyleOptionGraphicsItem* option)
 {
-  return option->state & (QStyle::State_Selected | QStyle::State_HasFocus);
+  return option->state.testFlag(QStyle::State_Selected)
+         || option->state.testFlag(QStyle::State_HasFocus);
 }
 
 void ConnectableShapePainter::PaintRectangle(QPainter* painter,

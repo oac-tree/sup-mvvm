@@ -39,7 +39,7 @@ class MouseMoveReporter
 {
 public:
   using callback_t = std::function<void(const MousePosInfo& pos_info)>;
-  MouseMoveReporter(QCustomPlot* custom_plot, callback_t callback);
+  MouseMoveReporter(QCustomPlot* custom_plot, const callback_t& callback);
   ~MouseMoveReporter();
 
   MouseMoveReporter(const MouseMoveReporter&) = delete;

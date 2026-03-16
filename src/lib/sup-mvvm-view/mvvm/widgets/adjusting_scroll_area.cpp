@@ -44,7 +44,7 @@ void AdjustingScrollArea::SetWidget(QWidget* widget)
 QSize AdjustingScrollArea::sizeHint() const
 {
   auto horizontal = horizontalScrollBar();
-  QSize result(viewport()->width(), widget()->height() + horizontal->height() * 2);
+  QSize result(viewport()->width(), widget()->height() + (horizontal->height() * 2));
   return result;
 }
 

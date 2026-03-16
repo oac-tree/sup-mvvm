@@ -51,7 +51,7 @@ class MainBarWidget : public QFrame
   Q_OBJECT
 
 public:
-  MainBarWidget(QWidget* parent_widget = nullptr);
+  explicit MainBarWidget(QWidget* parent_widget = nullptr);
   ~MainBarWidget() override;
 
   MainBarWidget(const MainBarWidget&) = delete;

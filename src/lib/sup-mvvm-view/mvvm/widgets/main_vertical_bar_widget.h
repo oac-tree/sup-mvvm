@@ -48,7 +48,7 @@ class MainVerticalBarWidget : public QFrame
   Q_OBJECT
 
 public:
-  MainVerticalBarWidget(QWidget* parent_widget = nullptr);
+  explicit MainVerticalBarWidget(QWidget* parent_widget = nullptr);
   ~MainVerticalBarWidget() override;
 
   MainVerticalBarWidget(const MainVerticalBarWidget&) = delete;

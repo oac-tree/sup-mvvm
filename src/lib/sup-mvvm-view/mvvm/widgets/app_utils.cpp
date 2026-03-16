@@ -213,13 +213,13 @@ std::string GetDesktopInfo()
   return result.toStdString();
 }
 
-void SetupHighDpiScaling(bool use_environment_variable)
+void SetupHighDpiScaling(bool scale_from_environment)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
-  if (use_environment_variable)
+  if (scale_from_environment)
   {
     if (IsAttemptToScaleViaEnvironment())
     {

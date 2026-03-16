@@ -42,7 +42,7 @@ QAbstractAxis* ChartAxisTitleController::GetQtAxis()
 
 void ChartAxisTitleController::Subscribe()
 {
-  auto on_property_change = [this](auto) { UpdateAxisTitleFromItem(); };
+  auto on_property_change = [this](const auto&) { UpdateAxisTitleFromItem(); };
   Listener()->Connect<PropertyChangedEvent>(on_property_change);
 
   UpdateAxisTitleFromItem();

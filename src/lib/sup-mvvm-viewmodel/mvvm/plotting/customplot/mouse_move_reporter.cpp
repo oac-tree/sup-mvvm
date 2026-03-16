@@ -75,7 +75,7 @@ struct MouseMoveReporter::MouseMoveReporterImpl
   }
 };
 
-MouseMoveReporter::MouseMoveReporter(QCustomPlot* custom_plot, callback_t callback)
+MouseMoveReporter::MouseMoveReporter(QCustomPlot* custom_plot, const callback_t& callback)
     : p_impl(std::make_unique<MouseMoveReporterImpl>(custom_plot, callback))
 {
 }

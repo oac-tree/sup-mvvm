@@ -40,7 +40,7 @@ class FancyTab : public QWidget
   Q_OBJECT
 
 public:
-  FancyTab(const QString& title, QWidget* parent_widget = nullptr);
+  explicit FancyTab(const QString& title, QWidget* parent_widget = nullptr);
 
   void SetSelected(bool value);
 

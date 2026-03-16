@@ -28,7 +28,7 @@ namespace mvvm
 {
 
 NodeConnectionPainter::NodeConnectionPainter(NodeConnectionStyle connection_style)
-    : m_connection_style(std::move(connection_style))
+    : m_connection_style(connection_style)
 {
 }
 

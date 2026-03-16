@@ -144,7 +144,7 @@ void Remove(QGridLayout* layout, int row, int column, bool deleteWidgets)
 
 void DeleteChildWidgets(QLayoutItem* item)
 {
-  if (item->layout())
+  if (item->layout() != nullptr)
   {
     // Process all child items recursively.
     for (int i = 0; i < item->layout()->count(); i++)

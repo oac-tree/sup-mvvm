@@ -35,12 +35,12 @@ double GetDefaultPortRadius()
 
 QFont GetDefaultConnectableShapeFont()
 {
-  return QFont("Noto Sans", style::SystemPointSize(1.0), QFont::Normal);
+  return {"Noto Sans", style::SystemPointSize(1.0), QFont::Normal};
 }
 
 QFont GetDefaultPortLabelFont()
 {
-  return QFont("Monospace", style::SystemPointSize(0.8), QFont::Normal);
+  return {"Monospace", style::SystemPointSize(0.8), QFont::Normal};
 }
 
 QRectF GetDefaultConnectableShapeRect()

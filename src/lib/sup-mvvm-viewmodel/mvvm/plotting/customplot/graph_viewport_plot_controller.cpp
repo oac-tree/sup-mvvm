@@ -47,7 +47,7 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
   {
   }
 
-  GraphViewportItem* GetViewportItem() { return m_self->GetItem(); }
+  GraphViewportItem* GetViewportItem() const { return m_self->GetItem(); }
 
   //! Setup controller components.
   void SetupComponents()

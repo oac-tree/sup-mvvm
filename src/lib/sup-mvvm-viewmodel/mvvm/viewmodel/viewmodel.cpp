@@ -48,7 +48,8 @@ QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int rol
 
 int ViewModel::columnCount(const QModelIndex& parent) const
 {
-  return m_controller ? m_controller->GetColumnCount() : ViewModelBase::columnCount(parent);
+  return m_controller ? static_cast<int>(m_controller->GetColumnCount())
+                      : ViewModelBase::columnCount(parent);
 }
 
 bool ViewModel::setData(const QModelIndex& index, const QVariant& value, int role)

@@ -211,7 +211,7 @@ void ItemViewComponentProvider::SetSelectionFlags(QItemSelectionModel::Selection
   m_selection_flags = flags;
 }
 
-void ItemViewComponentProvider::OnViewModelReset()
+void ItemViewComponentProvider::OnViewModelReset() const
 {
   GetSelectionModel()->clearSelection();
 }

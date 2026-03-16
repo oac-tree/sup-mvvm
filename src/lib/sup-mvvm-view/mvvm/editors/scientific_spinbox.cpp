@@ -66,13 +66,13 @@ ScientificSpinBox::~ScientificSpinBox() = default;
 double ScientificSpinBox::value() const
 {
   // return last acceptable input (required for the proper focus-out behaviour)
-  double val = toDouble(text(), m_validator, m_min, m_max, m_value);
+  const double val = toDouble(text(), m_validator, m_min, m_max, m_value);
   return round(val, m_decimals);
 }
 
 void ScientificSpinBox::setValue(double val)
 {
-  double old_val = m_value;
+  const double old_val = m_value;
   m_value = round(val, m_decimals);
   updateText();
   if (std::abs(old_val - m_value) > min_val)
@@ -83,7 +83,7 @@ void ScientificSpinBox::setValue(double val)
 
 void ScientificSpinBox::updateValue()
 {
-  double new_val = toDouble(text(), m_validator, m_min, m_max, m_value);
+  const double new_val = toDouble(text(), m_validator, m_min, m_max, m_value);
   setValue(new_val);
 }
 
@@ -142,7 +142,7 @@ int ScientificSpinBox::decimals() const
 
 void ScientificSpinBox::stepBy(int steps)
 {
-  double new_val = round(m_value + m_step * steps, m_decimals);
+  const double new_val = round(m_value + (m_step * steps), m_decimals);
   if (inRange(new_val))
   {
     setValue(new_val);
@@ -180,7 +180,7 @@ double ScientificSpinBox::toDouble(QString text, const QDoubleValidator& validat
 
 double ScientificSpinBox::round(double val, int decimals)
 {
-  char notation = useExponentialNotation(val) ? 'e' : 'f';
+  const char notation = useExponentialNotation(val) ? 'e' : 'f';
   return QString::number(val, notation, decimals).toDouble();
 }
 
@@ -191,7 +191,7 @@ QAbstractSpinBox::StepEnabled ScientificSpinBox::stepEnabled() const
 
 void ScientificSpinBox::updateText()
 {
-  QString new_text = toString(m_value, m_decimals);
+  const QString new_text = toString(m_value, m_decimals);
   if (new_text != text())
   {
     lineEdit()->setText(new_text);

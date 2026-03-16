@@ -1,5 +1,6 @@
 Changes for 2.2.0:
 
+- Replace string_view based constants with const char
 - Introduce ItemSelection and refactor ItemViewComponentProvider
 - Change move index convention and make it as in Qt
 - Refactor move/insert validation machinery

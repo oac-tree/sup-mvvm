@@ -27,7 +27,7 @@ namespace mvvm
 {
 
 std::unique_ptr<StatusStringReporter> CreateGraphReporter(
-    QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
+    QCustomPlot* custom_plot, const std::function<void(const std::string&)>& callback)
 {
   return std::make_unique<StatusStringReporter>(custom_plot, callback,
                                                 std::make_unique<GraphInfoFormatter>());

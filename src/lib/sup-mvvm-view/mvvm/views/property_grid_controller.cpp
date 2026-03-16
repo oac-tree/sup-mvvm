@@ -170,7 +170,7 @@ void PropertyGridController::SetupConnections(QAbstractItemModel* model)
   auto on_data_change =
       [this](const QModelIndex& index, const QModelIndex&, const QVector<int>& roles)
   {
-    QVector<int> expected_roles = {Qt::ForegroundRole};
+    const QVector<int> expected_roles = {Qt::ForegroundRole};
     if (roles == expected_roles)
     {
       if (auto item = utils::ItemFromIndex(index); item)

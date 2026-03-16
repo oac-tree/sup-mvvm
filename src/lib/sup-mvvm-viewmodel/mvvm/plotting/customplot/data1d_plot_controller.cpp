@@ -37,7 +37,8 @@ QVector<T> fromStdVector(const std::vector<T>& vec)
 }
 }  // namespace
 
-using namespace mvvm;
+namespace mvvm
+{
 
 struct Data1DPlotController::Data1DPlotControllerImpl
 {
@@ -133,3 +134,5 @@ void Data1DPlotController::Unsubscribe()
 {
   p_impl->ResetGraph();
 }
+
+}  // namespace mvvm

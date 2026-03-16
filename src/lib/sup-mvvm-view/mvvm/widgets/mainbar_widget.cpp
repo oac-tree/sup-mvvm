@@ -48,7 +48,7 @@ MainBarWidget::~MainBarWidget() = default;
 
 void MainBarWidget::AddWidget(QWidget* widget, const QString& title, bool is_enabled)
 {
-  int index = m_stacked_widget->addWidget(widget);
+  const int index = m_stacked_widget->addWidget(widget);
 
   auto tab = new FancyTab(title);
   tab->setEnabled(is_enabled);

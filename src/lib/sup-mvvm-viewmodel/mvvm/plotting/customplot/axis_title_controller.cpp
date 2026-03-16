@@ -61,7 +61,7 @@ AxisTitleController::~AxisTitleController() = default;
 
 void AxisTitleController::Subscribe()
 {
-  auto on_property_change = [this](auto) { p_impl->UpdateAxisFromItem(GetItem()); };
+  auto on_property_change = [this](const auto&) { p_impl->UpdateAxisFromItem(GetItem()); };
   Listener()->Connect<PropertyChangedEvent>(on_property_change);
 
   p_impl->UpdateAxisFromItem(GetItem());

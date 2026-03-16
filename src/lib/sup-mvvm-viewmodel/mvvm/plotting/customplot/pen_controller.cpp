@@ -42,7 +42,7 @@ struct PenController::PenControllerImpl
 
   void UpdateGraphFromItem(PenItem* item) const
   {
-    QColor color(QString::fromStdString(item->GetNamedColor()));
+    const QColor color(QString::fromStdString(item->GetNamedColor()));
 
     QPen pen;
     pen.setColor(color);

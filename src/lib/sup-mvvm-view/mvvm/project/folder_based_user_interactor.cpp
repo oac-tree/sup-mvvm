@@ -83,7 +83,7 @@ std::string FolderBasedUserInteractor::SummonSelectDialog(const QString& title) 
   dialog.setOption(QFileDialog::DontUseNativeDialog, !GetUseNativeDialogFlag());
   dialog.setOption(QFileDialog::DontResolveSymlinks);
   dialog.setOption(QFileDialog::ShowDirsOnly);
-  QStringList file_names = dialog.exec() ? dialog.selectedFiles() : QStringList();
+  const QStringList file_names = dialog.exec() ? dialog.selectedFiles() : QStringList();
 
   QString dirname = file_names.empty() ? QString() : file_names.at(0);
   return dirname.toStdString();

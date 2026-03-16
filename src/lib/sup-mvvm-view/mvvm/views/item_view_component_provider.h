@@ -180,7 +180,7 @@ signals:
   void SelectionChanged(const mvvm::ItemSelection&);
 
 private:
-  void OnViewModelReset();
+  void OnViewModelReset() const;
   void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
   std::unique_ptr<QAbstractItemDelegate> m_delegate;

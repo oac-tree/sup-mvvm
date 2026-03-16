@@ -159,7 +159,7 @@ void ViewModelBase::clearRows(ViewItem* parent)
     throw RuntimeException("Error in ViewModelBase: attempt to use parent from another model");
   }
 
-  if (!parent->GetRowCount())
+  if (parent->GetRowCount() == 0)
   {
     return;
   }
