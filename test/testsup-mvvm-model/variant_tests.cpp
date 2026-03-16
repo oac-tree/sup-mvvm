@@ -134,74 +134,72 @@ TEST_F(VariantTests, TypeName)
 {
   using utils::TypeName;
 
-  EXPECT_EQ(TypeName(variant_t()), std::string(constants::EmptyTypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::EmptyTypeName())), TypeCode::Empty);
+  EXPECT_EQ(TypeName(variant_t()), constants::kEmptyTypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kEmptyTypeName), TypeCode::Empty);
 
   mvvm::boolean bool_value{true};
-  EXPECT_EQ(TypeName(variant_t(bool_value)), std::string(constants::BooleanTypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::BooleanTypeName())), TypeCode::Bool);
+  EXPECT_EQ(TypeName(variant_t(bool_value)), constants::kBooleanTypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kBooleanTypeName), TypeCode::Bool);
 
   mvvm::char8 char_value{'a'};
-  EXPECT_EQ(TypeName(variant_t(char_value)), std::string(constants::Char8TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::Char8TypeName())), TypeCode::Char8);
+  EXPECT_EQ(TypeName(variant_t(char_value)), constants::kChar8TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kChar8TypeName), TypeCode::Char8);
 
   mvvm::int8 int8_value{16};
-  EXPECT_EQ(TypeName(variant_t(int8_value)), std::string(constants::Int8TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::Int8TypeName())), TypeCode::Int8);
+  EXPECT_EQ(TypeName(variant_t(int8_value)), constants::kInt8TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kInt8TypeName), TypeCode::Int8);
 
   mvvm::uint8 uint8_value{16};
-  EXPECT_EQ(TypeName(variant_t(uint8_value)), std::string(constants::UInt8TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::UInt8TypeName())), TypeCode::UInt8);
+  EXPECT_EQ(TypeName(variant_t(uint8_value)), constants::kUInt8TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kUInt8TypeName), TypeCode::UInt8);
 
   mvvm::int16 int16_value{42};
-  EXPECT_EQ(TypeName(variant_t(int16_value)), std::string(constants::Int16TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::Int16TypeName())), TypeCode::Int16);
+  EXPECT_EQ(TypeName(variant_t(int16_value)), constants::kInt16TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kInt16TypeName), TypeCode::Int16);
 
   mvvm::uint16 uint16_value{42};
-  EXPECT_EQ(TypeName(variant_t(uint16_value)), std::string(constants::UInt16TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::UInt16TypeName())), TypeCode::UInt16);
+  EXPECT_EQ(TypeName(variant_t(uint16_value)), constants::kUInt16TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kUInt16TypeName), TypeCode::UInt16);
 
   mvvm::int32 int32_value{42};
-  EXPECT_EQ(TypeName(variant_t(int32_value)), std::string(constants::Int32TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::Int32TypeName())), TypeCode::Int32);
+  EXPECT_EQ(TypeName(variant_t(int32_value)), constants::kInt32TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kInt32TypeName), TypeCode::Int32);
 
   mvvm::uint32 uint32_value{42};
-  EXPECT_EQ(TypeName(variant_t(uint32_value)), std::string(constants::UInt32TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::UInt32TypeName())), TypeCode::UInt32);
+  EXPECT_EQ(TypeName(variant_t(uint32_value)), constants::kUInt32TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kUInt32TypeName), TypeCode::UInt32);
 
   mvvm::int64 int64_value{42};
-  EXPECT_EQ(TypeName(variant_t(int64_value)), std::string(constants::Int64TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::Int64TypeName())), TypeCode::Int64);
+  EXPECT_EQ(TypeName(variant_t(int64_value)), constants::kInt64TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kInt64TypeName), TypeCode::Int64);
 
   mvvm::uint64 uint64_value{42};
-  EXPECT_EQ(TypeName(variant_t(uint64_value)), std::string(constants::UInt64TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::UInt64TypeName())), TypeCode::UInt64);
+  EXPECT_EQ(TypeName(variant_t(uint64_value)), constants::kUInt64TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kUInt64TypeName), TypeCode::UInt64);
 
   mvvm::float32 float32_value{42.1};
-  EXPECT_EQ(TypeName(variant_t(float32_value)), std::string(constants::Float32TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::Float32TypeName())), TypeCode::Float32);
+  EXPECT_EQ(TypeName(variant_t(float32_value)), constants::kFloat32TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kFloat32TypeName), TypeCode::Float32);
 
   mvvm::float64 float64_value{42.1};
-  EXPECT_EQ(TypeName(variant_t(float64_value)), std::string(constants::Float64TypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::Float64TypeName())), TypeCode::Float64);
+  EXPECT_EQ(TypeName(variant_t(float64_value)), constants::kFloat64TypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kFloat64TypeName), TypeCode::Float64);
 
   std::string string_value;
-  EXPECT_EQ(TypeName(variant_t(string_value)), std::string(constants::StringTypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::StringTypeName())), TypeCode::String);
+  EXPECT_EQ(TypeName(variant_t(string_value)), constants::kStringTypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kStringTypeName), TypeCode::String);
 
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),
-            std::string(constants::VectorDoubleTypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::VectorDoubleTypeName())),
-            TypeCode::VectorOfDouble);
+            constants::kVectorDoubleTypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kVectorDoubleTypeName), TypeCode::VectorOfDouble);
 
   EXPECT_EQ(TypeName(variant_t(ComboProperty::CreateFrom({"a1"}))),
-            std::string(constants::ComboPropertyTypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::ComboPropertyTypeName())),
-            TypeCode::ComboProperty);
+            constants::kComboPropertyTypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kComboPropertyTypeName), TypeCode::ComboProperty);
 
   EXPECT_EQ(TypeName(variant_t(ExternalProperty("text", "red"))),
-            std::string(constants::ExternalPropertyTypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::ExternalPropertyTypeName())),
+            constants::kExternalPropertyTypeName);
+  EXPECT_EQ(GetTypeCodeFromTypeName(constants::kExternalPropertyTypeName),
             TypeCode::ExternalProperty);
 
   EXPECT_THROW(GetTypeCodeFromTypeName("abc"), RuntimeException);

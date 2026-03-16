@@ -99,13 +99,13 @@ std::map<std::string, converter_func_t> CreateConverterMap()
 
 QVariant GetQtVariant(const variant_t& variant)
 {
-  if (utils::TypeName(variant) == constants::VectorDoubleTypeName())
+  if (utils::TypeName(variant) == constants::kVectorDoubleTypeName)
   {
     // shall we convert to supported QVector<double> instead?
     return QVariant::fromValue(std::get<std::vector<double>>(variant));
   }
 
-  if (utils::TypeName(variant) == constants::StringTypeName())
+  if (utils::TypeName(variant) == constants::kStringTypeName)
   {
     //  converting std::string to QString
     return QVariant::fromValue(QString::fromStdString(std::get<std::string>(variant)));

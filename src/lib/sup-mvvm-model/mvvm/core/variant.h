@@ -29,7 +29,6 @@
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
 
-#include <string_view>
 #include <variant>
 #include <vector>
 
@@ -104,26 +103,6 @@ constexpr auto kVectorDoubleTypeName = "vector_double";
 constexpr auto kComboPropertyTypeName = "ComboProperty";
 constexpr auto kExternalPropertyTypeName = "ExternalProperty";
 
-
-// clang-format off
-constexpr std::string_view EmptyTypeName() noexcept { return "empty"; }
-constexpr std::string_view BooleanTypeName() noexcept { return "bool"; }
-constexpr std::string_view Char8TypeName() noexcept { return "char8"; }
-constexpr std::string_view Int8TypeName() noexcept { return "int8"; }
-constexpr std::string_view UInt8TypeName() noexcept { return "uint8"; }
-constexpr std::string_view Int16TypeName() noexcept { return "int16"; }
-constexpr std::string_view UInt16TypeName() noexcept { return "uint16"; }
-constexpr std::string_view Int32TypeName() noexcept { return "int32"; }
-constexpr std::string_view UInt32TypeName() noexcept { return "uint32"; }
-constexpr std::string_view Int64TypeName() noexcept { return "int64"; }
-constexpr std::string_view UInt64TypeName() noexcept { return "uint64"; }
-constexpr std::string_view Float32TypeName() noexcept { return "float32"; }
-constexpr std::string_view Float64TypeName() noexcept { return "float64"; }
-constexpr std::string_view StringTypeName() noexcept { return "string"; }
-constexpr std::string_view VectorDoubleTypeName() noexcept { return "vector_double"; }
-constexpr std::string_view ComboPropertyTypeName() noexcept { return "ComboProperty"; }
-constexpr std::string_view ExternalPropertyTypeName() noexcept { return "ExternalProperty"; }
-// clang-format on
 }  // namespace mvvm::constants
 
 namespace mvvm::utils

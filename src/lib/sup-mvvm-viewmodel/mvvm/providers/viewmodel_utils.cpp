@@ -107,7 +107,7 @@ QVariant TextColorRole(const SessionItem& item)
 
 QVariant CheckStateRole(const SessionItem& item)
 {
-  if (TypeName(item.Data()) == ::mvvm::constants::BooleanTypeName())
+  if (TypeName(item.Data()) == constants::kBooleanTypeName)
   {
     return item.Data<bool>() ? Qt::Checked : Qt::Unchecked;
   }
@@ -116,13 +116,13 @@ QVariant CheckStateRole(const SessionItem& item)
 
 QVariant DecorationRole(const SessionItem& item)
 {
-  if (TypeName(item.Data()) == ::mvvm::constants::StringTypeName()
-      && item.GetEditorType() == ::mvvm::constants::kColorEditorType)
+  if (TypeName(item.Data()) == constants::kStringTypeName
+      && item.GetEditorType() == constants::kColorEditorType)
   {
     return QColor(QString::fromStdString(item.Data<std::string>()));
   }
 
-  if (TypeName(item.Data()) == ::mvvm::constants::ExternalPropertyTypeName())
+  if (TypeName(item.Data()) == constants::kExternalPropertyTypeName)
   {
     return QColor(QString::fromStdString(item.Data<ExternalProperty>().GetColorName()));
   }
