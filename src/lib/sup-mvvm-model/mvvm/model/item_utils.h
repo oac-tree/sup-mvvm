@@ -166,12 +166,12 @@ std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item);
 /**
  * @brief Returns next sibling within the same tag.
  */
-SessionItem* FindNextSibling(SessionItem* item);
+const SessionItem* FindNextSibling(const SessionItem* item);
 
 /**
  * @brief Returns previous sibling within the same tag.
  */
-SessionItem* FindPreviousSibling(SessionItem* item);
+const SessionItem *FindPreviousSibling(const SessionItem *item);
 
 /**
  * @brief Finds next item to select.
@@ -184,7 +184,7 @@ SessionItem* FindPreviousSibling(SessionItem* item);
  * @param item Item which will be deleted soon.
  * @return An item which should be selected instead.
  */
-SessionItem* FindNextItemToSelect(SessionItem* item);
+const SessionItem* FindNextItemToSelect(const SessionItem* item);
 
 /**
  * @brief Finds next sibling item to select.
@@ -196,7 +196,7 @@ SessionItem* FindNextItemToSelect(SessionItem* item);
  * @param item Item which will be deleted soon.
  * @return An item which should be selected instead, or nullptr if no selection was found.
  */
-SessionItem* FindNextSiblingToSelect(SessionItem* item);
+const SessionItem* FindNextSiblingToSelect(const SessionItem* item);
 
 /**
  * @brief Returns true if 'ancestor_candidate' is one of ancestor (parent, grand-parent etc) of

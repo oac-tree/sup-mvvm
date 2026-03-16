@@ -261,7 +261,7 @@ std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item)
   return result;
 }
 
-SessionItem* FindNextSibling(SessionItem* item)
+const SessionItem *FindNextSibling(const SessionItem *item)
 {
   auto parent = (item != nullptr) ? item->GetParent() : nullptr;
   if (parent == nullptr)
@@ -271,7 +271,7 @@ SessionItem* FindNextSibling(SessionItem* item)
   return parent->GetItem(item->GetTagIndex().Next());
 }
 
-SessionItem* FindPreviousSibling(SessionItem* item)
+const SessionItem* FindPreviousSibling(const SessionItem* item)
 {
   auto parent = (item != nullptr) ? item->GetParent() : nullptr;
   if (parent == nullptr)
@@ -281,13 +281,13 @@ SessionItem* FindPreviousSibling(SessionItem* item)
   return parent->GetItem(item->GetTagIndex().Prev());
 }
 
-SessionItem* FindNextItemToSelect(SessionItem* item)
+const SessionItem *FindNextItemToSelect(const SessionItem *item)
 {
   auto closest = FindNextSiblingToSelect(item);
   return (closest != nullptr) ? closest : item->GetParent();
 }
 
-SessionItem* FindNextSiblingToSelect(SessionItem* item)
+const SessionItem *FindNextSiblingToSelect(const SessionItem *item)
 {
   auto next = FindNextSibling(item);
   auto closest = (next != nullptr) ? next : FindPreviousSibling(item);
