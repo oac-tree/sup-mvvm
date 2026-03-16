@@ -48,7 +48,7 @@ NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INo
     : QGraphicsItem(parent)
     , m_port_appearance(std::move(port_appearance))
     , m_node_port(std::move(node_port))
-    , m_painter(CreatePainter(port_appearance))
+    , m_painter(CreatePainter(m_port_appearance))
 {
   CalculateBoundingRect();
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
