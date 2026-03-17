@@ -52,11 +52,12 @@ namespace
  * @brief Move item to a new index within the same parent. No check is performed for index
  * validity.
  */
-void MoveTo(SessionItem& item, const TagIndex& tag_index)
+void MoveTo(const SessionItem& item, const TagIndex& tag_index)
 {
   if (auto model = item.GetModel(); model)
   {
-    model->MoveItem(&item, item.GetParent(), tag_index);
+    // FIXME: modify MoveItem API so it accepts const item to move
+    model->MoveItem(const_cast<SessionItem*>(&item), item.GetParent(), tag_index);
   }
   else
   {
@@ -374,7 +375,7 @@ bool ReplaceData(SessionItem& item, const variant_t& value, role_t role)
   return item.SetData(value, role);  // will succeed
 }
 
-bool MoveUp(SessionItem& item)
+bool MoveUp(const SessionItem &item)
 {
   auto tag_index = item.GetTagIndex();
   if (tag_index.GetIndex() == 0)
@@ -386,7 +387,7 @@ bool MoveUp(SessionItem& item)
   return true;
 }
 
-bool MoveDown(SessionItem& item)
+bool MoveDown(const SessionItem &item)
 {
   auto tag_index = item.GetTagIndex();
   if (tag_index.GetIndex() == item.GetParent()->GetItemCount(tag_index.GetTag()) - 1)
