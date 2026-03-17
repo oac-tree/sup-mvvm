@@ -64,7 +64,7 @@ public:
 
   QChart* GetQtChart() const;
 
-  void SetSelectedPoints(const std::vector<PointItem*>& points);
+  void SetSelectedPoints(const std::vector<const PointItem*>& points);
 
 signals:
   void OperationModeChanged(int mode);

@@ -74,7 +74,7 @@ public:
   /**
    * @brief Mark the point as it is selected by the user.
    */
-  void SetSelectedPoints(const std::vector<PointItem*>& points);
+  void SetSelectedPoints(const std::vector<const PointItem *> &points);
 
 private:
   /**

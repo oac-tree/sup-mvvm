@@ -107,7 +107,7 @@ QChart* ChartCanvas::GetQtChart() const
   return m_chart;
 }
 
-void ChartCanvas::SetSelectedPoints(const std::vector<PointItem*>& points)
+void ChartCanvas::SetSelectedPoints(const std::vector<const PointItem *> &points)
 {
   if (m_viewport_controller)
   {

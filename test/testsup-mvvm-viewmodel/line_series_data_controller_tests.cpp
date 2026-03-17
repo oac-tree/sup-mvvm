@@ -294,7 +294,7 @@ TEST_F(LineSeriesDataControllerTest, SetPointsSelected)
 
   const QSignalSpy spy_selected_point_changed(&line_series, &QLineSeries::selectedPointsChanged);
 
-  const std::vector<PointItem*> selection1({data_item_ptr->GetPoint(0)});
+  const std::vector<const PointItem*> selection1({data_item_ptr->GetPoint(0)});
   controller.SetSelectedPoints(selection1);
 
   EXPECT_EQ(spy_selected_point_changed.count(), 1);
@@ -310,7 +310,7 @@ TEST_F(LineSeriesDataControllerTest, SetPointsSelected)
   EXPECT_EQ(spy_selected_point_changed.count(), 1);  // no new signal
 
   // adding second point to selection
-  const std::vector<PointItem*> selection2(
+  const std::vector<const PointItem*> selection2(
       {data_item_ptr->GetPoint(0), data_item_ptr->GetPoint(1)});
   controller.SetSelectedPoints(selection2);
   EXPECT_EQ(spy_selected_point_changed.count(), 2);

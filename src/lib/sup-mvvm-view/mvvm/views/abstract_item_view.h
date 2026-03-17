@@ -56,13 +56,13 @@ public:
 
   ItemViewComponentProvider* GetComponentProvider();
 
-  SessionItem* GetSelectedItem() const;
-  void SetSelectedItem(SessionItem* item);
+  const SessionItem* GetSelectedItem() const;
+  void SetSelectedItem(const SessionItem *item);
 
   template <typename T>
   T* GetSelected() const;
 
-  std::vector<SessionItem*> GetSelectedItems() const;
+  std::vector<const SessionItem *> GetSelectedItems() const;
   void SetSelectedItems(const std::vector<SessionItem*>& items);
 
 signals:

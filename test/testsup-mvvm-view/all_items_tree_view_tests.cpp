@@ -130,7 +130,7 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
   view.GetTreeView()->selectionModel()->select(
       x_item_index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
@@ -178,7 +178,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   auto provider = view.GetComponentProvider();
 
   // checking selections
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({property0}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({property0}));
 
   // checking signaling
   ItemSelection expected_selection(property0);

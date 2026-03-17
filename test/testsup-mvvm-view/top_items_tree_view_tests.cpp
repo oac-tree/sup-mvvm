@@ -110,7 +110,7 @@ TEST_F(TopItemsTreeViewTest, GetSelectedItems)
 
   view.GetComponentProvider()->SetSelection(ItemSelection({vector_item0, vector_item1}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0, vector_item1}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({vector_item0, vector_item1}));
 }
 
 }  // namespace mvvm::test
