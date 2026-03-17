@@ -195,6 +195,31 @@ bool HaveSameElements(const VectorT& vec1, const VectorT& vec2)
   return sorted1 == sorted2;
 }
 
+/**
+ * @brief Checks if vectors are of the same size and contain the same elements in the same order.
+ *
+ * Works with vectors of different types, but the elements should be comparable. Can be used to
+ * compare vector containing const and non-const elements.
+ */
+template <typename VectorT1, typename VectorT2>
+bool AreTheSame(const VectorT1& vec1, const VectorT2& vec2)
+{
+  if (vec1.size() != vec2.size())
+  {
+    return false;
+  }
+
+  for (std::size_t i = 0; i < vec1.size(); ++i)
+  {
+    if (vec1[i] != vec2[i])
+    {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_UTILS_CONTAINER_UTILS_H_

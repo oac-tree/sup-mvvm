@@ -160,4 +160,19 @@ TEST_F(ContainerUtilsTests, HaveSameElements)
   EXPECT_FALSE(utils::HaveSameElements(vec1, vec4));
 }
 
+TEST_F(ContainerUtilsTests, AreTheSame)
+{
+  // comparing vector with const pointers against non-const vector
+  TestItemA test_item_a1;
+  TestItemA test_item_a2;
+  const std::vector<TestItem*> non_const_vec({&test_item_a1, &test_item_a2});
+  const std::vector<const TestItem*> const_vec({&test_item_a1, &test_item_a2});
+  EXPECT_TRUE(utils::AreTheSame(non_const_vec, const_vec));
+  // comparing vectors with different order
+  TestItemB test_item_b1;
+  const std::vector<TestItem*> vec1{&test_item_a1, &test_item_b1, &test_item_a2};
+  const std::vector<TestItem*> vec2{&test_item_a1, &test_item_a2, &test_item_b1};
+  EXPECT_FALSE(utils::AreTheSame(vec1, vec2));
+}
+
 }  // namespace mvvm::test
