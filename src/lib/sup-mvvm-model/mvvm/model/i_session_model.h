@@ -119,7 +119,7 @@ public:
    *
    * @param item The item to remove.
    */
-  virtual void RemoveItem(SessionItem* item) = 0;
+  virtual void RemoveItem(const SessionItem* item) = 0;
 
   /**
    * @brief Moves an item from it's current parent to a new parent.

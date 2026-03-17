@@ -161,7 +161,7 @@ std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const T
   return parent->TakeItem(tag_index);
 }
 
-void SessionModel::RemoveItem(SessionItem* item)
+void SessionModel::RemoveItem(const SessionItem *item)
 {
   if (item == nullptr)
   {

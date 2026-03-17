@@ -406,7 +406,7 @@ bool MoveDown(const SessionItem& item);
 /**
  * @brief Removes item from its parent and destroys it.
  */
-void RemoveItem(SessionItem& item);
+void RemoveItem(const SessionItem& item);
 
 /**
  * @brief Removes an existing item at given 'tag_index' and insert a new one in its place.

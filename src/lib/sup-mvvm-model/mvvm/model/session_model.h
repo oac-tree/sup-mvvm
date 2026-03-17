@@ -67,7 +67,7 @@ public:
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 
-  void RemoveItem(SessionItem* item) override;
+  void RemoveItem(const SessionItem* item) override;
 
   void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) override;
 

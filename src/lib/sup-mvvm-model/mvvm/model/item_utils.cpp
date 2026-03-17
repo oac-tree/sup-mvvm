@@ -402,7 +402,7 @@ bool MoveDown(const SessionItem &item)
   return true;
 }
 
-void RemoveItem(SessionItem& item)
+void RemoveItem(const SessionItem &item)
 {
   if (item.GetParent() == nullptr)
   {
