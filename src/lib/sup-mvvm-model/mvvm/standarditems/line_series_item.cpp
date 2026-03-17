@@ -87,7 +87,7 @@ std::string LineSeriesItem::GetNamedColor() const
   return GetPenItem()->GetNamedColor();
 }
 
-void LineSeriesItem::SetNamedColor(const std::string& named_color)
+void LineSeriesItem::SetNamedColor(const std::string& named_color) const
 {
   GetPenItem()->SetNamedColor(named_color);
 }

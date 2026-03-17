@@ -74,7 +74,7 @@ void ColorEditor::mousePressEvent(QMouseEvent* event)
 
 QColor ColorEditor::GetCurrentColor() const
 {
-  return QColor(GetData().toString());
+  return {GetData().toString()};
 }
 
 void ColorEditor::UpdateComponents()

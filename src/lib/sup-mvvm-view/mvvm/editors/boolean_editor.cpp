@@ -68,7 +68,7 @@ void BoolEditor::UpdateComponents()
     throw RuntimeException("BoolEditor: wrong variant type");
   }
 
-  bool value = GetData().value<bool>();
+  const bool value = GetData().value<bool>();
   m_check_box->blockSignals(true);
   m_check_box->setChecked(value);
   m_check_box->setText(value ? true_text : false_text);

@@ -67,7 +67,7 @@ private:
   void UpdateComboBox();
   void OnIndexChanged(int index);
   void OnEditingFinished();
-  void SetConnected(bool isConnected);
+  void SetConnected(bool is_connected);
 
   QVariant m_value;
   string_list_func_t m_string_list_func;

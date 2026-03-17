@@ -97,7 +97,7 @@ struct Data1DPlotController::Data1DPlotControllerImpl
     m_error_bars = nullptr;
   }
 
-  QCustomPlot* GetCustomPlot()
+  QCustomPlot* GetCustomPlot() const
   {
     assert(m_graph);
     return m_graph->parentPlot();

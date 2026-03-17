@@ -116,9 +116,9 @@ public:
   bool IsAtMaximum() const override;
 
 private:
-  T m_value;
-  T m_lower_bound;
-  T m_upper_bound;
+  T m_value{};
+  T m_lower_bound{};
+  T m_upper_bound{};
 };
 
 template <typename T>

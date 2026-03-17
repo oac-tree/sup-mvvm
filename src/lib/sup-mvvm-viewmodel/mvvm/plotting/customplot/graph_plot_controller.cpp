@@ -74,11 +74,11 @@ struct GraphPlotController::GraphItemControllerImpl
 
   GraphItem* GetGraphItem() const { return m_self->GetItem(); }
 
-  void UpdateDataController() { m_data_controller->SetItem(GetGraphItem()->GetDataItem()); }
+  void UpdateDataController() const { m_data_controller->SetItem(GetGraphItem()->GetDataItem()); }
 
   //! Updates graph pen from GraphItem.
 
-  void UpdateGraphPen() { m_pen_controller->SetItem(GetGraphItem()->GetPenItem()); }
+  void UpdateGraphPen() const { m_pen_controller->SetItem(GetGraphItem()->GetPenItem()); }
 
   //! Update visible
   void UpdateVisibility()

@@ -87,7 +87,7 @@ private:
   virtual bool CloseProjectImpl() = 0;
   virtual bool CreateEmptyProjectImpl() = 0;
 
-  void ProjectLoadedNotify();
+  void ProjectLoadedNotify() const;
   void MarkProjectAsUnmodified();
 
   std::string m_project_path;  //!< full path to the project (the place of last save or load)

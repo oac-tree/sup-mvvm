@@ -122,7 +122,7 @@ void AbstractProject::SetupListener(const std::vector<ISessionModel*>& models)
       std::make_unique<ProjectChangedController>(models, m_project_context.modified_callback);
 }
 
-void AbstractProject::ProjectLoadedNotify()
+void AbstractProject::ProjectLoadedNotify() const
 {
   if (m_project_context.loaded_callback)
   {

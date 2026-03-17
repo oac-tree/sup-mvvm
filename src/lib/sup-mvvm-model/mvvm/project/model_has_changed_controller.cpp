@@ -32,10 +32,10 @@ ModelHasChangedController::ModelHasChangedController(const ISessionModel* model,
                                                      const callback_t& callback)
     : ModelListener(model), m_callback(callback)
 {
-  Connect<DataChangedEvent>([this](auto) { OnChange(); });
-  Connect<ItemInsertedEvent>([this](auto) { OnChange(); });
-  Connect<ItemRemovedEvent>([this](auto) { OnChange(); });
-  Connect<ModelResetEvent>([this](auto) { OnChange(); });
+  Connect<DataChangedEvent>([this](const auto&) { OnChange(); });
+  Connect<ItemInsertedEvent>([this](const auto&) { OnChange(); });
+  Connect<ItemRemovedEvent>([this](const auto&) { OnChange(); });
+  Connect<ModelResetEvent>([this](const auto&) { OnChange(); });
 }
 
 //! Returns true if the model was changed since last call of resetChanged.

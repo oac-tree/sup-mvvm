@@ -36,8 +36,8 @@ struct GeneratorData
   {
     std::generate(std::begin(seed_data), std::end(seed_data), std::ref(rd));
     seq = std::make_unique<std::seed_seq>(std::begin(seed_data), std::end(seed_data));
-    generator = std::make_unique<std::mt19937>(*seq.get());
-    gen = std::make_unique<uuids::uuid_random_generator>(*generator.get());
+    generator = std::make_unique<std::mt19937>(*seq);
+    gen = std::make_unique<uuids::uuid_random_generator>(*generator);
   }
 };
 
