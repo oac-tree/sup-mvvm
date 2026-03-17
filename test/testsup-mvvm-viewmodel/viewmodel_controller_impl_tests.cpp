@@ -307,14 +307,14 @@ TEST_F(ViewModelControllerImplTest, SetItem)
 
   controller->SetRootItem(&item);
 
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 4);
   EXPECT_EQ(controller->GetRootItem(), &item);
 
   controller->SetRootItem(nullptr);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 0);
   EXPECT_EQ(controller->GetRootItem(), nullptr);
 }

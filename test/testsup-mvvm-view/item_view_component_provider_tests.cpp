@@ -108,8 +108,8 @@ TEST_F(ItemViewComponentProviderTest, SetNonEmptyModel)
   EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
   EXPECT_EQ(viewmodel->GetRootSessionItem(), m_model.GetRootItem());
 
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 }
 
 TEST_F(ItemViewComponentProviderTest, SetItemWithoutModel)
@@ -124,8 +124,8 @@ TEST_F(ItemViewComponentProviderTest, SetItemWithoutModel)
 
   auto viewmodel = provider->GetViewModel();
   ASSERT_NE(viewmodel, nullptr);
-  EXPECT_EQ(viewmodel->rowCount(), 3);  // x, y, z
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 3);  // x, y, z
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(provider->GetView()->model(), viewmodel);
   EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
@@ -142,8 +142,8 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterSetModel)
 
   auto viewmodel = provider->GetViewModel();
   ASSERT_NE(viewmodel, nullptr);
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(provider->GetView()->model(), viewmodel);
   EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
@@ -163,8 +163,8 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterSetModel)
   EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
 
   // no rows and columns since our item plays the role of root item
-  EXPECT_EQ(new_viewmodel->rowCount(), 0);
-  EXPECT_EQ(new_viewmodel->columnCount(), 2);
+  EXPECT_EQ(new_viewmodel->rowCount(QModelIndex()), 0);
+  EXPECT_EQ(new_viewmodel->columnCount(QModelIndex()), 2);
 }
 
 TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
@@ -178,8 +178,8 @@ TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
 
   auto viewmodel = provider->GetViewModel();
   ASSERT_NE(viewmodel, nullptr);
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(provider->GetView()->model(), viewmodel);
   EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
@@ -193,8 +193,8 @@ TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
   EXPECT_EQ(provider->GetSelectionModel()->model(), viewmodel);
 
   // viewmodel now shows itself empty
-  EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 }
 
 //! Attempt to set one item after another, when they belongs to different models
@@ -217,11 +217,11 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterItemWHenTheyBelongsToDifferent
   provider->SetItem(item1);
 
   EXPECT_EQ(provider->GetViewModel()->GetRootSessionItem(), item1);
-  EXPECT_EQ(provider->GetViewModel()->rowCount(), 1);
+  EXPECT_EQ(provider->GetViewModel()->rowCount(QModelIndex()), 1);
 
   // setting item from the second model
   EXPECT_NO_THROW(provider->SetItem(item2));
-  EXPECT_EQ(provider->GetViewModel()->rowCount(), 0);
+  EXPECT_EQ(provider->GetViewModel()->rowCount(QModelIndex()), 0);
 }
 
 TEST_F(ItemViewComponentProviderTest, SelectItem)
@@ -286,7 +286,7 @@ TEST_F(ItemViewComponentProviderTest, SelectWholeRowAndCheckResultingSelection)
 
   provider->SetItem(vector_item);
 
-  auto x_item_index = provider->GetViewModel()->index(0, 1);
+  auto x_item_index = provider->GetViewModel()->index(0, 1, QModelIndex());
 
   const QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
 
@@ -311,16 +311,16 @@ TEST_F(ItemViewComponentProviderTest, DestroyModel)
   auto provider = CreateProvider(&view, model.get());
 
   auto viewmodel = provider->GetViewModel();
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 
   // destroying the model
   model.reset();
 
   EXPECT_EQ(provider->GetViewModel(), viewmodel);
 
-  EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
   EXPECT_EQ(viewmodel->GetRootSessionItem(), nullptr);
 
   EXPECT_TRUE(provider->GetSelection().IsEmpty());

@@ -56,8 +56,8 @@ public:
 TEST_F(AllItemsViewModelTest, InitialState)
 {
   AllItemsViewModel viewmodel(&m_model);
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
   EXPECT_EQ(viewmodel.GetRootSessionItem(), m_model.GetRootItem());
 }
@@ -68,12 +68,12 @@ TEST_F(AllItemsViewModelTest, GetSessionItemFromIndex)
   item->SetData(42.0);
 
   AllItemsViewModel view_model(&m_model);
-  EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   // accessing first child under the root item
-  const QModelIndex label_index = view_model.index(0, 0);
-  const QModelIndex data_index = view_model.index(0, 1);
+  const QModelIndex label_index = view_model.index(0, 0, QModelIndex());
+  const QModelIndex data_index = view_model.index(0, 1, QModelIndex());
 
   EXPECT_EQ(view_model.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
   EXPECT_EQ(view_model.GetSessionItemFromIndex(label_index), item);
@@ -86,12 +86,12 @@ TEST_F(AllItemsViewModelTest, GetIndexOfPropertyItem)
   item->SetData(42.0);
 
   const AllItemsViewModel view_model(&m_model);
-  EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   // accessing first child under the root item
-  const QModelIndex label_index = view_model.index(0, 0);
-  const QModelIndex data_index = view_model.index(0, 1);
+  const QModelIndex label_index = view_model.index(0, 0, QModelIndex());
+  const QModelIndex data_index = view_model.index(0, 1, QModelIndex());
 
   const QModelIndexList expected{label_index, data_index};
   EXPECT_EQ(view_model.GetIndexOfSessionItem(item), expected);
@@ -103,14 +103,14 @@ TEST_F(AllItemsViewModelTest, ModelWithSingleItem)
   item->SetData(42.0);
 
   AllItemsViewModel viewmodel(&m_model);
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // default controller constructs a row consisting from item label (display name) and data
-  auto label_index = viewmodel.index(0, 0);
+  auto label_index = viewmodel.index(0, 0, QModelIndex());
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(label_index), item);
 
-  auto data_index = viewmodel.index(0, 1);
+  auto data_index = viewmodel.index(0, 1, QModelIndex());
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(data_index), item);
 
   // display role of first item in a row  should coincide with item's DisplayName
@@ -138,14 +138,14 @@ TEST_F(AllItemsViewModelTest, FromPropertyItemWhenHidden)
   item->SetVisible(false);
 
   AllItemsViewModel viewmodel(&m_model, nullptr, true);
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // default controller constructs a row consisting from item label (display name) and data
-  auto label_index = viewmodel.index(0, 0);
+  auto label_index = viewmodel.index(0, 0, QModelIndex());
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(label_index), item);
 
-  auto data_index = viewmodel.index(0, 1);
+  auto data_index = viewmodel.index(0, 1, QModelIndex());
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(data_index), item);
 
   // display role of first item in a row  should coincide with item's DisplayName
@@ -173,8 +173,8 @@ TEST_F(AllItemsViewModelTest, FromPropertyItemWhenHiddenDefault)
   item->SetVisible(false);
 
   const AllItemsViewModel viewmodel(&m_model);
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 }
 
 TEST_F(AllItemsViewModelTest, ModelWithVectorItemWHenControllerIsInitialisedAfter)
@@ -187,12 +187,12 @@ TEST_F(AllItemsViewModelTest, ModelWithVectorItemWHenControllerIsInitialisedAfte
   AllItemsViewModel viewmodel(&m_model);
 
   // the model contains only one entry
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // accessing first child under the root item
-  const QModelIndex vector_label_index = viewmodel.index(0, 0);
-  const QModelIndex vector_data_index = viewmodel.index(0, 1);
+  const QModelIndex vector_label_index = viewmodel.index(0, 0, QModelIndex());
+  const QModelIndex vector_data_index = viewmodel.index(0, 1, QModelIndex());
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(vector_label_index), vector_item);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(vector_data_index), vector_item);
 
@@ -231,15 +231,15 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyModel)
   EXPECT_EQ(arguments.at(2).value<int>(), 0);
 
   // checking model layout
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   // default controller constructs a row consisting from item label (display name) and data
-  auto label_index = m_viewmodel.index(0, 0);
+  auto label_index = m_viewmodel.index(0, 0, QModelIndex());
   auto view_item_label = m_viewmodel.itemFromIndex(label_index);
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(label_index), item);
 
-  auto data_index = m_viewmodel.index(0, 1);
+  auto data_index = m_viewmodel.index(0, 1, QModelIndex());
   auto view_item_data = m_viewmodel.itemFromIndex(data_index);
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(data_index), item);
 
@@ -268,12 +268,12 @@ TEST_F(AllItemsViewModelTest, InitThenInsertProperties)
   EXPECT_EQ(spy_insert.count(), 3);
 
   // checking model layout
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(0, 0)), item0);
-  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(1, 0)), item1);
-  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(2, 0)), item2);
+  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(0, 0, QModelIndex())), item0);
+  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(1, 0, QModelIndex())), item1);
+  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(2, 0, QModelIndex())), item2);
 
   for (int row = 0; row < 3; ++row)
   {
@@ -297,11 +297,11 @@ TEST_F(AllItemsViewModelTest, InsertInFront)
   EXPECT_EQ(spy_insert.count(), 2);
 
   // checking model layout
-  EXPECT_EQ(m_viewmodel.rowCount(), 2);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(0, 0)), item1);
-  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(1, 0)), item0);
+  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(0, 0, QModelIndex())), item1);
+  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(1, 0, QModelIndex())), item0);
 }
 
 TEST_F(AllItemsViewModelTest, InsertBetween)
@@ -318,12 +318,12 @@ TEST_F(AllItemsViewModelTest, InsertBetween)
   EXPECT_EQ(spy_insert.count(), 3);
 
   // checking model layout
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(0, 0)), item0);
-  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(1, 0)), item2);
-  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(2, 0)), item1);
+  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(0, 0, QModelIndex())), item0);
+  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(1, 0, QModelIndex())), item2);
+  EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(2, 0, QModelIndex())), item1);
 }
 
 TEST_F(AllItemsViewModelTest, InsertParentAndThenChild)
@@ -339,7 +339,7 @@ TEST_F(AllItemsViewModelTest, InsertParentAndThenChild)
   EXPECT_EQ(spy_insert.count(), 2);
   EXPECT_EQ(spy_remove.count(), 0);
 
-  auto parent_index = m_viewmodel.index(0, 0);
+  auto parent_index = m_viewmodel.index(0, 0, QModelIndex());
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 1);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(parent_index), parent);
@@ -363,10 +363,10 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
   auto child2 = m_model.InsertItem<SessionItem>(parent, TagIndex::Default(2));
 
   // one entry (parent)
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  auto parent_index = m_viewmodel.index(0, 0);
+  auto parent_index = m_viewmodel.index(0, 0, QModelIndex());
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 3);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
 
@@ -377,8 +377,8 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
   m_model.TakeItem(parent, {"", 1});
 
   // one entry (parent)
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(spy_insert.count(), 0);
   EXPECT_EQ(spy_remove.count(), 1);
@@ -411,12 +411,12 @@ TEST_F(AllItemsViewModelTest, SetDataViaApplicationModel)
 
   EXPECT_EQ(spy_data_changed.count(), 1);
 
-  const QModelIndex data_index = m_viewmodel.index(0, 1);
+  const QModelIndex data_index = m_viewmodel.index(0, 1, QModelIndex());
 
   const QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
-  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1));
-  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1));
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
+  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
   const QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 
@@ -430,18 +430,18 @@ TEST_F(AllItemsViewModelTest, SetDataThroughModel)
 
   QSignalSpy spy_data_changed(&m_viewmodel, &ViewModelBase::dataChanged);
 
-  auto item_index = m_viewmodel.index(0, 1);
+  auto item_index = m_viewmodel.index(0, 1, QModelIndex());
 
   m_viewmodel.setData(item_index, 42.0, Qt::EditRole);
 
   EXPECT_EQ(spy_data_changed.count(), 1);
 
-  const QModelIndex data_index = m_viewmodel.index(0, 1);
+  const QModelIndex data_index = m_viewmodel.index(0, 1, QModelIndex());
 
   const QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
-  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1));
-  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1));
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
+  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
   const QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 }
@@ -458,7 +458,7 @@ TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
   const QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
   const QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
 
-  viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
+  viewmodel1.setData(viewmodel1.index(0, 1, QModelIndex()), 42.0, Qt::EditRole);
 
   EXPECT_EQ(spy_data_changed1.count(), 1);
   EXPECT_EQ(spy_data_changed2.count(), 1);
@@ -490,16 +490,16 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
   // In our case QStandardItem::isEnabled should be always true.
 
   // ViewLabel and ViewDataItem of item1
-  EXPECT_FALSE(viewModel.flags(viewModel.index(0, 0)) & Qt::ItemIsEditable);
-  EXPECT_TRUE(viewModel.flags(viewModel.index(0, 1)) & Qt::ItemIsEditable);
+  EXPECT_FALSE(viewModel.flags(viewModel.index(0, 0, QModelIndex())) & Qt::ItemIsEditable);
+  EXPECT_TRUE(viewModel.flags(viewModel.index(0, 1, QModelIndex())) & Qt::ItemIsEditable);
 
   // ViewLabel and ViewDataItem of item2
-  EXPECT_FALSE(viewModel.flags(viewModel.index(1, 0)) & Qt::ItemIsEditable);
-  EXPECT_TRUE(viewModel.flags(viewModel.index(1, 1)) & Qt::ItemIsEditable);
+  EXPECT_FALSE(viewModel.flags(viewModel.index(1, 0, QModelIndex())) & Qt::ItemIsEditable);
+  EXPECT_TRUE(viewModel.flags(viewModel.index(1, 1, QModelIndex())) & Qt::ItemIsEditable);
 
   // ViewLabel and ViewDataItem of item3
-  EXPECT_FALSE(viewModel.flags(viewModel.index(2, 0)) & Qt::ItemIsEditable);
-  EXPECT_FALSE(viewModel.flags(viewModel.index(2, 1)) & Qt::ItemIsEditable);
+  EXPECT_FALSE(viewModel.flags(viewModel.index(2, 0, QModelIndex())) & Qt::ItemIsEditable);
+  EXPECT_FALSE(viewModel.flags(viewModel.index(2, 1, QModelIndex())) & Qt::ItemIsEditable);
 }
 
 TEST_F(AllItemsViewModelTest, PropertyItemAppearanceChanged)
@@ -512,8 +512,8 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearanceChanged)
 
   // setting up ViewModel and spying it's dataChanged signals
   AllItemsViewModel viewModel(&model);
-  auto labelView = viewModel.itemFromIndex(viewModel.index(0, 0));
-  auto dataView = viewModel.itemFromIndex(viewModel.index(0, 1));
+  auto labelView = viewModel.itemFromIndex(viewModel.index(0, 0, QModelIndex()));
+  auto dataView = viewModel.itemFromIndex(viewModel.index(0, 1, QModelIndex()));
   QSignalSpy spyDataChanged(&viewModel, &AllItemsViewModel::dataChanged);
 
   // Changing item appearance
@@ -556,11 +556,13 @@ TEST_F(AllItemsViewModelTest, TooltipChanged)
 
   // setting up ViewModel and spying it's dataChanged signals
   AllItemsViewModel viewModel(&model);
-  auto labelView = viewModel.itemFromIndex(viewModel.index(0, 0));
-  auto dataView = viewModel.itemFromIndex(viewModel.index(0, 1));
+  auto labelView = viewModel.itemFromIndex(viewModel.index(0, 0, QModelIndex()));
+  auto dataView = viewModel.itemFromIndex(viewModel.index(0, 1, QModelIndex()));
 
-  EXPECT_EQ(viewModel.data(viewModel.index(0, 0), Qt::ToolTipRole).toString(), QString("abc"));
-  EXPECT_EQ(viewModel.data(viewModel.index(0, 1), Qt::ToolTipRole).toString(), QString("abc"));
+  EXPECT_EQ(viewModel.data(viewModel.index(0, 0, QModelIndex()), Qt::ToolTipRole).toString(),
+            QString("abc"));
+  EXPECT_EQ(viewModel.data(viewModel.index(0, 1, QModelIndex()), Qt::ToolTipRole).toString(),
+            QString("abc"));
 
   QSignalSpy spyDataChanged(&viewModel, &AllItemsViewModel::dataChanged);
 
@@ -604,8 +606,8 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRoot)
   view_model.SetRootSessionItem(item);
 
   // new root item doesn't have children
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -620,8 +622,8 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
   auto item = model.InsertItem<PropertyItem>();
 
   AllItemsViewModel view_model(&model);
-  EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   const QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
   const QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
@@ -631,8 +633,8 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
   view_model.SetRootSessionItem(item);
 
   // new root item doesn't have children
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -664,13 +666,13 @@ TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
   EXPECT_EQ(spy_insert.count(), 0);
   EXPECT_EQ(spy_remove.count(), 0);
 
-  EXPECT_EQ(view_model.rowCount(), 3);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(view_model.GetRootSessionItem(), item);
 
   // checking vector item
-  auto index_of_vector_item = view_model.index(1, 0);
+  auto index_of_vector_item = view_model.index(1, 0, QModelIndex());
   EXPECT_EQ(view_model.rowCount(index_of_vector_item), 3);
   EXPECT_EQ(view_model.columnCount(index_of_vector_item), 2);
 }
@@ -683,8 +685,8 @@ TEST_F(AllItemsViewModelTest, SetVectorItemAsRoot)
   AllItemsViewModel view_model(&model);
   view_model.SetRootSessionItem(vector_item);
 
-  EXPECT_EQ(view_model.rowCount(), 3);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(view_model.GetRootSessionItem(), vector_item);
 }
@@ -697,8 +699,8 @@ TEST_F(AllItemsViewModelTest, SetNullptrAsNewRoot)
   AllItemsViewModel view_model(&model);
   view_model.SetRootSessionItem(vector_item);
 
-  EXPECT_EQ(view_model.rowCount(), 3);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(view_model.GetRootSessionItem(), vector_item);
 
@@ -716,8 +718,8 @@ TEST_F(AllItemsViewModelTest, SetNullptrAsNewRoot)
   EXPECT_EQ(spy_insert.count(), 0);
   EXPECT_EQ(spy_remove.count(), 0);
 
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 }
 
 TEST_F(AllItemsViewModelTest, SetAnotherModel)
@@ -732,8 +734,8 @@ TEST_F(AllItemsViewModelTest, SetAnotherModel)
   EXPECT_EQ(view_model.GetModel(), &model1);
   EXPECT_EQ(view_model.GetRootSessionItem(), model1.GetRootItem());
 
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   const QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
   const QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
@@ -753,8 +755,8 @@ TEST_F(AllItemsViewModelTest, SetAnotherModel)
   EXPECT_EQ(spy_insert.count(), 0);
   EXPECT_EQ(spy_remove.count(), 0);
 
-  EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 }
 
 //! Inserting two VectorItems. Setting second VectorItem as root item.
@@ -766,8 +768,8 @@ TEST_F(AllItemsViewModelTest, RemoveItemAboveCustomRootItem)
 
   m_viewmodel.SetRootSessionItem(vector_item1);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), vector_item1);
 
@@ -783,8 +785,8 @@ TEST_F(AllItemsViewModelTest, RemoveItemAboveCustomRootItem)
   EXPECT_EQ(spy_about_remove.count(), 0);
   EXPECT_EQ(spy_remove.count(), 0);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 }
 
 //! Inserting VectorItem and setting it as root item. Removing VectorItem, model has to reset to
@@ -795,8 +797,8 @@ TEST_F(AllItemsViewModelTest, RemoveCustomRootItem)
 
   m_viewmodel.SetRootSessionItem(vector_item);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   const QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
   const QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
@@ -809,8 +811,8 @@ TEST_F(AllItemsViewModelTest, RemoveCustomRootItem)
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), nullptr);
 }
@@ -839,8 +841,8 @@ TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), nullptr);
 }
@@ -851,15 +853,15 @@ TEST_F(AllItemsViewModelTest, OnModelReset)
   m_model.InsertItem<SessionItem>();
   m_model.InsertItem<SessionItem>();
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   const QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
   const QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
   m_model.Clear();
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -873,12 +875,12 @@ TEST_F(AllItemsViewModelTest, OnModelDestroyed)
   AllItemsViewModel viewmodel(model.get());
   EXPECT_EQ(viewmodel.GetModel(), model.get());
   EXPECT_EQ(viewmodel.GetRootSessionItem(), model->GetRootItem());
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   model.reset();
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
   EXPECT_EQ(viewmodel.GetModel(), nullptr);
   EXPECT_EQ(viewmodel.GetRootSessionItem(), nullptr);
 }
@@ -911,8 +913,8 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadEmptyModel)
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 }
 
 TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
@@ -944,8 +946,8 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
   EXPECT_EQ(spyAboutReset.count(), 1);
   EXPECT_EQ(spyReset.count(), 1);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 }
 
 TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
@@ -976,8 +978,8 @@ TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
   EXPECT_EQ(spyAboutReset.count(), 1);
   EXPECT_EQ(spyReset.count(), 1);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 }
 
 //! Testing view model after restoring from XML document. VectorItem is made root item.
@@ -990,8 +992,8 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
   auto vector_item = m_model.InsertItem<VectorItem>();
 
   m_viewmodel.SetRootSessionItem(vector_item);
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), vector_item);
 
   // saving the document
@@ -1013,8 +1015,8 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
 
   // after reload viewmodel forgets about VectorItem and is looking to original root
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), m_model.GetRootItem());
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 }
 
 TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
@@ -1023,8 +1025,8 @@ TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
   auto property = m_model.InsertItem<PropertyItem>(container0, TagIndex::Append());
   auto container1 = m_model.InsertItem<ContainerItem>();
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 2);
-  EXPECT_EQ(m_viewmodel.rowCount(m_viewmodel.index(0, 0)), 1);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(m_viewmodel.index(0, 0, QModelIndex())), 1);
 
   const QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
   const QSignalSpy spyAboutInsert(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeInserted);
@@ -1062,16 +1064,16 @@ TEST_F(AllItemsViewModelTest, DeleteGraphVromViewport)
   viewmodel.SetRootSessionItem(viewport_item);
 
   // validating that we see graph at propeer index
-  EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y and Graph
-  const auto graph_index = viewmodel.index(2, 0);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 3);  // X, Y and Graph
+  const auto graph_index = viewmodel.index(2, 0, QModelIndex());
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(graph_index), graph_item);
 
   // removing graph item
   model.RemoveItem(graph_item);
-  EXPECT_EQ(viewmodel.rowCount(), 2);  // X, Y
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 2);  // X, Y
 
   graph_item = model.InsertItem<GraphItem>(viewport_item);
-  EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y, graph
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 3);  // X, Y, graph
 }
 
 //! Inserting item in an empty tag. This is to validate that item inserted in empty tag appears in
@@ -1099,7 +1101,7 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyTag)
 
   EXPECT_EQ(spy_insert.count(), 1);
 
-  auto parent_index = viewmodel.index(0, 0);
+  auto parent_index = viewmodel.index(0, 0, QModelIndex());
   EXPECT_EQ(viewmodel.rowCount(parent_index), 2);
   EXPECT_EQ(viewmodel.columnCount(parent_index), 2);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(parent_index), parent);

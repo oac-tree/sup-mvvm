@@ -57,15 +57,15 @@ TEST_F(TopItemsTreeViewTest, SetNullptrAsItem)
 
   auto viewmodel = view.GetComponentProvider()->GetViewModel();
 
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 
   view.SetApplicationModel(nullptr);
   model.reset();
 
   ASSERT_EQ(view.GetComponentProvider()->GetViewModel(), viewmodel);
-  EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
   EXPECT_EQ(viewmodel->GetModel(), nullptr);
 }
 
@@ -79,16 +79,16 @@ TEST_F(TopItemsTreeViewTest, DestroyModel)
   view.SetSelectedItem(vector_item);
 
   auto viewmodel = view.GetComponentProvider()->GetViewModel();
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 
   // destroying the model
   model.reset();
 
   EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), viewmodel);
 
-  EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }

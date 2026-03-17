@@ -92,8 +92,8 @@ TEST_F(ViewModelControllerTest, InitialState)
   EXPECT_EQ(controller->GetModel(), &m_model);
   EXPECT_EQ(controller->GetRootItem(), m_model.GetRootItem());
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
 
   EXPECT_EQ(mvvm::utils::GetItemFromView<SessionItem>(m_viewmodel.rootItem()),
             m_model.GetRootItem());
@@ -121,8 +121,8 @@ TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
     auto controller = CreateController(viewmodel);
 
     EXPECT_NO_THROW(controller->SetRootItem(m_model.GetRootItem()));
-    EXPECT_EQ(viewmodel.rowCount(), 0);
-    EXPECT_EQ(viewmodel.columnCount(), 0);
+    EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+    EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 0);
   }
 }
 
@@ -137,15 +137,15 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
   (void)controller;
 
   // the model contains only one entry
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   // default controller constructs a row consisting from item label (display name) and data
-  auto label_index = m_viewmodel.index(0, 0);
+  auto label_index = m_viewmodel.index(0, 0, QModelIndex());
   auto view_item_label = m_viewmodel.itemFromIndex(label_index);
   EXPECT_EQ(GetSessionItem(view_item_label), item);
 
-  auto data_index = m_viewmodel.index(0, 1);
+  auto data_index = m_viewmodel.index(0, 1, QModelIndex());
   auto view_item_data = m_viewmodel.itemFromIndex(data_index);
   EXPECT_EQ(GetSessionItem(view_item_data), item);
 
@@ -173,12 +173,12 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
   (void)controller;
 
   // the model contains only one entry
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   // accessing first child under the root item
-  QModelIndex vector_label_index = m_viewmodel.index(0, 0);
-  QModelIndex vector_data_index = m_viewmodel.index(0, 1);
+  QModelIndex vector_label_index = m_viewmodel.index(0, 0, QModelIndex());
+  QModelIndex vector_data_index = m_viewmodel.index(0, 1, QModelIndex());
   EXPECT_EQ(GetSessionItem(vector_label_index), vector_item);
   EXPECT_EQ(GetSessionItem(vector_data_index), vector_item);
 
@@ -210,8 +210,8 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
   controller->SetRootItem(vector_item);
 
   // the model contains only one entry
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   std::vector<SessionItem*> children = vector_item->GetAllItems();
   for (int row = 0; row < 3; ++row)
@@ -252,15 +252,15 @@ TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
   EXPECT_EQ(arguments.at(2).value<int>(), 0);
 
   // checking model layout
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   // default controller constructs a row consisting from item label (display name) and data
-  auto label_index = m_viewmodel.index(0, 0);
+  auto label_index = m_viewmodel.index(0, 0, QModelIndex());
   auto* view_item_label = m_viewmodel.itemFromIndex(label_index);
   EXPECT_EQ(GetSessionItem(view_item_label), item);
 
-  auto data_index = m_viewmodel.index(0, 1);
+  auto data_index = m_viewmodel.index(0, 1, QModelIndex());
   auto view_item_data = m_viewmodel.itemFromIndex(data_index);
   EXPECT_EQ(GetSessionItem(view_item_data), item);
 
@@ -293,12 +293,12 @@ TEST_F(ViewModelControllerTest, InitThenInsertProperties)
   ASSERT_EQ(spy_insert.count(), 3);
 
   // checking model layout
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0)), item0);
-  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0)), item1);
-  EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0)), item2);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0, QModelIndex())), item0);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0, QModelIndex())), item1);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0, QModelIndex())), item2);
 
   for (int row = 0; row < 3; ++row)
   {
@@ -327,11 +327,11 @@ TEST_F(ViewModelControllerTest, InsertInFront)
   EXPECT_EQ(spy_insert.count(), 2);
 
   // checking model layout
-  EXPECT_EQ(m_viewmodel.rowCount(), 2);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0)), item1);
-  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0)), item0);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0, QModelIndex())), item1);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0, QModelIndex())), item0);
 }
 
 //! Inserting item between two other.
@@ -352,12 +352,12 @@ TEST_F(ViewModelControllerTest, InsertBetween)
   EXPECT_EQ(spy_insert.count(), 3);
 
   // checking model layout
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0)), item0);
-  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0)), item2);
-  EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0)), item1);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0, QModelIndex())), item0);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0, QModelIndex())), item2);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0, QModelIndex())), item1);
 }
 
 //! Initialise controller with the empty model. Insert parent and then child into it.
@@ -378,7 +378,7 @@ TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
   EXPECT_EQ(spy_insert.count(), 2);
   EXPECT_EQ(spy_remove.count(), 0);
 
-  auto parent_index = m_viewmodel.index(0, 0);
+  auto parent_index = m_viewmodel.index(0, 0, QModelIndex());
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 1);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
   EXPECT_EQ(GetSessionItem(parent_index), parent);
@@ -406,8 +406,8 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   m_model.RemoveItem(item);
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
 
   ASSERT_EQ(spy_insert.count(), 0);
   ASSERT_EQ(spy_remove.count(), 1);
@@ -434,10 +434,10 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   auto child2 = m_model.InsertItem<SessionItem>(parent, {"", 2});
 
   // one entry (parent)
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  auto parent_index = m_viewmodel.index(0, 0);
+  auto parent_index = m_viewmodel.index(0, 0, QModelIndex());
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 3);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
 
@@ -448,8 +448,8 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   m_model.TakeItem(parent, {"", 1});
 
   // one entry (parent)
-  EXPECT_EQ(m_viewmodel.rowCount(), 1);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(spyInsert.count(), 0);
   EXPECT_EQ(spyRemove.count(), 1);
@@ -483,11 +483,11 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
   auto container1 = m_model.InsertItem<ContainerItem>();
   auto child0 = m_model.InsertItem<VectorItem>(container0, TagIndex::Append());
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 2);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
-  auto container0_index = m_viewmodel.index(0, 0);
-  auto container1_index = m_viewmodel.index(1, 0);
+  auto container0_index = m_viewmodel.index(0, 0, QModelIndex());
+  auto container1_index = m_viewmodel.index(1, 0, QModelIndex());
 
   EXPECT_EQ(m_viewmodel.rowCount(container0_index), 1);
   EXPECT_EQ(m_viewmodel.columnCount(container0_index), 2);
@@ -532,12 +532,12 @@ TEST_F(ViewModelControllerTest, SetData)
 
   EXPECT_EQ(spy_data_changed.count(), 1);
 
-  QModelIndex dataIndex = m_viewmodel.index(0, 1);
+  QModelIndex dataIndex = m_viewmodel.index(0, 1, QModelIndex());
 
   QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
-  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1));
-  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1));
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
+  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
   QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 }
@@ -554,8 +554,8 @@ TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
   controller->SetRootItem(item);
 
   // new root item doesn't have children
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
 }
 
 //! Setting top level item as ROOT item (case parent and children).
@@ -571,11 +571,11 @@ TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
 
   controller->SetRootItem(item);
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   // checking vector item
-  auto index_of_vector_item = m_viewmodel.index(1, 0);
+  auto index_of_vector_item = m_viewmodel.index(1, 0, QModelIndex());
   EXPECT_EQ(m_viewmodel.rowCount(index_of_vector_item), 3);
   EXPECT_EQ(m_viewmodel.columnCount(index_of_vector_item), 2);
 }
@@ -602,8 +602,8 @@ TEST_F(ViewModelControllerTest, onModelReset)
   EXPECT_EQ(spy_reset.count(), 1);
   EXPECT_EQ(spy_remove.count(), 0);
   EXPECT_EQ(spy_insert.count(), 0);
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
 }
 
 //! Real life scenario: initially empty SessionModel, apply ::clean, and then start to insert item.

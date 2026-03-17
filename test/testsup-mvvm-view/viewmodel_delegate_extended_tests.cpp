@@ -79,7 +79,7 @@ TEST_F(ViewModelDelegateExtendedTest, ViewModelWithoutFiltering)
 {
   const AllItemsViewModel view_model(&m_model);
 
-  auto parent0_index = view_model.index(0, 0);
+  auto parent0_index = view_model.index(0, 0, QModelIndex());
   auto prop0_index = view_model.index(0, 1, parent0_index);  // index of int
   auto prop1_index = view_model.index(1, 1, parent0_index);  // index of int8
   auto prop2_index = view_model.index(2, 1, parent0_index);  // index of float32

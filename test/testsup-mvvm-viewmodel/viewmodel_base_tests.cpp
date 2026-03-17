@@ -68,7 +68,7 @@ TEST_F(ViewModelBaseTest, StandardItemModelIndex)
   EXPECT_EQ(model.rowCount(), 0);
   EXPECT_EQ(model.columnCount(), 0);
 
-  QList<QStandardItem*> children{new QStandardItem, new QStandardItem};
+  const QList<QStandardItem*> children{new QStandardItem, new QStandardItem};
   parent->appendRow(children);
   auto index = model.index(0, 1, QModelIndex());
   EXPECT_EQ(model.itemFromIndex(index), children.at(1));
@@ -143,8 +143,8 @@ TEST_F(ViewModelBaseTest, StandardItemModelSetDisplayRole)
 TEST_F(ViewModelBaseTest, InitialState)
 {
   ViewModelBase viewmodel;
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 0);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 0);
   EXPECT_TRUE(viewmodel.rootItem() != nullptr);
   EXPECT_EQ(viewmodel.itemFromIndex(QModelIndex()), nullptr);
   auto non_existing_index = viewmodel.index(0, 0, QModelIndex());
@@ -163,8 +163,8 @@ TEST_F(ViewModelBaseTest, AppendRow)
 
   // appending one row
   viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 1);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 1);
 
   // constructing index for child
   auto child_index = viewmodel.index(0, 0, QModelIndex());
@@ -197,8 +197,8 @@ TEST_F(ViewModelBaseTest, InsertRow)
   // appending one row
   viewmodel.appendRow(viewmodel.rootItem(), std::move(children_row0));
   viewmodel.insertRow(viewmodel.rootItem(), 0, std::move(children_front));
-  EXPECT_EQ(viewmodel.rowCount(), 2);
-  EXPECT_EQ(viewmodel.columnCount(), 1);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 1);
 
   // constructing index for child
   auto child_index0 = viewmodel.index(0, 0, QModelIndex());
@@ -228,8 +228,8 @@ TEST_F(ViewModelBaseTest, InsertRowToWrongParent)
   EXPECT_THROW(viewmodel.insertRow(viewmodel2.rootItem(), 0, std::move(children_front)),
                RuntimeException);
 
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 1);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 1);
 }
 
 TEST_F(ViewModelBaseTest, RemoveRow)
@@ -241,13 +241,13 @@ TEST_F(ViewModelBaseTest, RemoveRow)
 
   // appending one row
   viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 1);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 1);
 
   // removing row
   viewmodel.removeRow(viewmodel.rootItem(), 0);
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 0);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 0);
 }
 
 TEST_F(ViewModelBaseTest, RemoveRowFromWrongParent)
@@ -260,13 +260,13 @@ TEST_F(ViewModelBaseTest, RemoveRowFromWrongParent)
 
   // appending one row
   viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 1);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 1);
 
   // removing row
   EXPECT_THROW(viewmodel.removeRow(viewmodel2.rootItem(), 0), RuntimeException);
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 1);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 1);
 }
 
 TEST_F(ViewModelBaseTest, AppendRowAfterRow)
@@ -315,8 +315,8 @@ TEST_F(ViewModelBaseTest, NotificationsOnRowAppend)
 
   // appending one row
   viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // checking that signaling is about the parent
   EXPECT_EQ(spy_remove.count(), 0);
@@ -357,7 +357,7 @@ TEST_F(ViewModelBaseTest, NotificationsOnRowsRemoved)
   // checking that signaling is about the parent
   EXPECT_EQ(spy_remove.count(), 1);
   EXPECT_EQ(spy_insert.count(), 3);
-  QList<QVariant> arguments = spy_remove.takeFirst();
+  const QList<QVariant> arguments = spy_remove.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), QModelIndex());
   EXPECT_EQ(arguments.at(1).value<int>(), 1);
@@ -372,9 +372,9 @@ TEST_F(ViewModelBaseTest, Data)
   ViewModelBase viewmodel;
   viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
 
-  QModelIndex children_index = viewmodel.index(0, 0, QModelIndex());
+  const QModelIndex children_index = viewmodel.index(0, 0, QModelIndex());
 
-  QVariant expected(42.0);
+  const QVariant expected(42.0);
   viewmodel.setData(children_index, expected, Qt::EditRole);
   EXPECT_EQ(viewmodel.data(children_index, Qt::EditRole), expected);
 }
@@ -383,7 +383,7 @@ TEST_F(ViewModelBaseTest, SetData)
 {
   // creating item data
   auto item_data = std::make_unique<ViewItemData>();
-  QVariant expected(42.0);
+  const QVariant expected(42.0);
   item_data->SetData(expected, Qt::EditRole);
 
   // creating view model displaying given SessionItem
@@ -395,17 +395,17 @@ TEST_F(ViewModelBaseTest, SetData)
   QSignalSpy spy_data(&viewmodel, &ViewModelBase::dataChanged);
 
   // changing the data
-  QModelIndex children_index = viewmodel.index(0, 0, QModelIndex());
-  QVariant new_value(43.0);
+  const QModelIndex children_index = viewmodel.index(0, 0, QModelIndex());
+  const QVariant new_value(43.0);
   EXPECT_TRUE(viewmodel.setData(children_index, new_value, Qt::EditRole));
 
   // checking signaling
   EXPECT_EQ(spy_data.count(), 1);
-  QList<QVariant> arguments = spy_data.takeFirst();
+  const QList<QVariant> arguments = spy_data.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), children_index);
   EXPECT_EQ(arguments.at(1).value<QModelIndex>(), children_index);
-  QVector<int> expected_roles{Qt::EditRole};
+  const QVector<int> expected_roles{Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expected_roles);
 }
 
@@ -426,8 +426,8 @@ TEST_F(ViewModelBaseTest, Flags)
   ViewModelBase viewmodel;
   viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
 
-  QModelIndex label_index = viewmodel.index(0, 0, QModelIndex());
-  QModelIndex data_index = viewmodel.index(0, 1, QModelIndex());
+  const QModelIndex label_index = viewmodel.index(0, 0, QModelIndex());
+  const QModelIndex data_index = viewmodel.index(0, 1, QModelIndex());
 
   EXPECT_TRUE(viewmodel.flags(label_index) & Qt::ItemIsSelectable);
   EXPECT_TRUE(viewmodel.flags(label_index) & Qt::ItemIsEnabled);
@@ -446,7 +446,7 @@ TEST_F(ViewModelBaseTest, ClearRowsFromRoot)
   auto [children_row0, expected_row0] = test_data(/*ncolumns*/ 2);
   auto [children_row1, expected_row1] = test_data(/*ncolumns*/ 2);
 
-  QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&viewmodel, &ViewModelBase::rowsRemoved);
 
   // appending one row
@@ -455,13 +455,13 @@ TEST_F(ViewModelBaseTest, ClearRowsFromRoot)
 
   viewmodel.clearRows(viewmodel.rootItem());
 
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 0);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 0);
 
   // checking that signaling is about the parent
   EXPECT_EQ(spy_remove.count(), 1);
   EXPECT_EQ(spy_insert.count(), 2);
-  QList<QVariant> arguments = spy_remove.takeFirst();
+  const QList<QVariant> arguments = spy_remove.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), QModelIndex());
   EXPECT_EQ(arguments.at(1).value<int>(), 0);

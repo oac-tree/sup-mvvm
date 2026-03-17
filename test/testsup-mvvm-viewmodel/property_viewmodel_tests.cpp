@@ -44,8 +44,8 @@ TEST_F(PropertyViewModelTest, InitialState)
 {
   ApplicationModel model;
   PropertyViewModel viewModel(&model);
-  EXPECT_EQ(viewModel.rowCount(), 0);
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);
   EXPECT_EQ(viewModel.GetSessionItemFromIndex(QModelIndex()), model.GetRootItem());
 }
 
@@ -58,8 +58,8 @@ TEST_F(PropertyViewModelTest, BaseItem)
 
   // Root item has default tag and all items considered as top items.
   // PropertyViewModel shouldn't see any items.
-  EXPECT_EQ(viewModel.rowCount(), 0);
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);
 }
 
 TEST_F(PropertyViewModelTest, PropertyItem)
@@ -76,8 +76,8 @@ TEST_F(PropertyViewModelTest, PropertyItem)
   viewModel.SetRootSessionItem(parent);
 
   // View model should see only property item belonging to parent.
-  EXPECT_EQ(viewModel.rowCount(), 1);
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);
 }
 
 //! VectorItem in a model.
@@ -89,13 +89,13 @@ TEST_F(PropertyViewModelTest, VectorItem)
 
   PropertyViewModel viewModel(&model);
 
-  EXPECT_EQ(viewModel.rowCount(), 0);  // root item doesn't have properties
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 0);  // root item doesn't have properties
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);
 
   // switching to vectorItem and checking that it has 3 properties
   viewModel.SetRootSessionItem(parent);
-  EXPECT_EQ(viewModel.rowCount(), 3);
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);
 }
 
 //! VectorItem in with hidden component. An item with setVisible(false) set shouldn't appear in a
@@ -110,13 +110,13 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
 
   PropertyViewModel viewModel(&model);
 
-  EXPECT_EQ(viewModel.rowCount(), 0);  // root item doesn't have properties
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 0);  // root item doesn't have properties
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);
 
   // switching to vectorItem and checking that it has only 2 properties (y-item was skipped).
   viewModel.SetRootSessionItem(vector_item);
-  EXPECT_EQ(viewModel.rowCount(), 2);
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);
 
   auto vector_index = QModelIndex();
   auto x_index = viewModel.index(0, 0, vector_index);
@@ -153,14 +153,14 @@ TEST_F(PropertyViewModelTest, LayerInMultiLayerAsRootItem)
   viewmodel.SetRootSessionItem(layer);
 
   // check layer thickness and color
-  EXPECT_EQ(viewmodel.rowCount(), 2);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 
   // remove multilayer
   model.RemoveItem(multilayer);
 
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 2);
 }
 
 //! The data is manipulated through the ApplicationModel. Checking that ViewModel emits signals.
@@ -180,12 +180,12 @@ TEST_F(PropertyViewModelTest, SetData)
 
   ASSERT_EQ(spy_data_changed.count(), 1);
 
-  QModelIndex data_index = viewmodel.index(0, 1);
+  QModelIndex data_index = viewmodel.index(0, 1, QModelIndex());
 
   QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
-  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), viewmodel.index(0, 1));
-  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), viewmodel.index(0, 1));
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), viewmodel.index(0, 1, QModelIndex()));
+  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), viewmodel.index(0, 1, QModelIndex()));
   QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 
@@ -210,7 +210,7 @@ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
   QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
   QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
 
-  viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
+  viewmodel1.setData(viewmodel1.index(0, 1, QModelIndex()), 42.0, Qt::EditRole);
 
   EXPECT_EQ(spy_data_changed1.count(), 1);
   EXPECT_EQ(spy_data_changed2.count(), 1);
@@ -230,8 +230,8 @@ TEST_F(PropertyViewModelTest, LayerPropertyWhileInsertingParticle)
   PropertyViewModel view_model(&model);
   view_model.SetRootSessionItem(layer);
 
-  EXPECT_EQ(view_model.rowCount(), 2);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   QSignalSpy spyAboutInserInsert(&view_model, &ViewModelBase::rowsAboutToBeInserted);
   QSignalSpy spyInsert(&view_model, &ViewModelBase::rowsInserted);
@@ -251,8 +251,8 @@ TEST_F(PropertyViewModelTest, LayerPropertyWhileInsertingParticle)
   EXPECT_EQ(spyAboutReset.count(), 0);
   EXPECT_EQ(spyReset.count(), 0);
 
-  EXPECT_EQ(view_model.rowCount(), 2);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 }
 
 //! View model is set to look at VectorItem.
@@ -269,8 +269,8 @@ TEST_F(PropertyViewModelTest, ShowVectorItemThenClearThenShowAnother)
   QSignalSpy spy_about_reset(&view_model, &ViewModelBase::modelAboutToBeReset);
   QSignalSpy spy_reset(&view_model, &ViewModelBase::modelReset);
 
-  EXPECT_EQ(view_model.rowCount(), 3);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   auto vector_index = QModelIndex();
   auto x_index_label = view_model.index(0, 0, vector_index);
@@ -282,17 +282,17 @@ TEST_F(PropertyViewModelTest, ShowVectorItemThenClearThenShowAnother)
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
 
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   auto vector1 = model.InsertItem<VectorItem>();
   // property model doesn't see vector1 if it is not root
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   view_model.SetRootSessionItem(vector1);
-  EXPECT_EQ(view_model.rowCount(), 3);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 3);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
   vector_index = QModelIndex();
   x_index_label = view_model.index(0, 0, vector_index);

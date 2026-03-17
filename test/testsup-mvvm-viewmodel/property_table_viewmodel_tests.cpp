@@ -42,8 +42,8 @@ TEST_F(PropertyTableViewModelTest, InitialState)
 {
   ApplicationModel model;
   PropertyTableViewModel view_model(&model);
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 0);
   EXPECT_EQ(view_model.GetSessionItemFromIndex(QModelIndex()), model.GetRootItem());
 }
 
@@ -54,8 +54,8 @@ TEST_F(PropertyTableViewModelTest, BaseItem)
 
   PropertyTableViewModel view_model(&model);
 
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 0);
 }
 
 TEST_F(PropertyTableViewModelTest, PropertyItem)
@@ -70,12 +70,12 @@ TEST_F(PropertyTableViewModelTest, PropertyItem)
   PropertyTableViewModel view_model(&model);
 
   // one cell corresponding to single item at property_tag of our parent
-  EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 0);
 
   view_model.SetRootSessionItem(parent);
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 0);
 }
 
 //! VectorItem in a model.
@@ -87,13 +87,13 @@ TEST_F(PropertyTableViewModelTest, VectorItem)
 
   PropertyTableViewModel view_model(&model);
 
-  EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 3);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 3);
 
   // switching to vectorItem and checking that it has 3 properties
   view_model.SetRootSessionItem(parent);
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 3);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 3);
 }
 
 //! MultiLayer with layers, view model still looks to the RootItem.
@@ -111,8 +111,8 @@ TEST_F(PropertyTableViewModelTest, MultiLayerAndRootItem)
   PropertyTableViewModel viewModel(&model);
 
   // ViewModel should be empty, since we are looking to RootItem.
-  EXPECT_EQ(viewModel.rowCount(), 0);
-  EXPECT_EQ(viewModel.columnCount(), 0);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 0);
 }
 
 //! MultiLayer with layers, multilayer is given as root index.
@@ -129,8 +129,8 @@ TEST_F(PropertyTableViewModelTest, MultiLayer)
   PropertyTableViewModel viewModel(&model);
   viewModel.SetRootSessionItem(multilayer);
 
-  EXPECT_EQ(viewModel.rowCount(), 2);     // two layers
-  EXPECT_EQ(viewModel.columnCount(), 2);  // layer thickness and color
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 2);     // two layers
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);  // layer thickness and color
 
   EXPECT_EQ(viewModel.headerData(0, Qt::Horizontal, Qt::DisplayRole).toString(),
             QString("Thickness"));
@@ -138,8 +138,8 @@ TEST_F(PropertyTableViewModelTest, MultiLayer)
 
   // add another layer
   model.InsertItem<LayerItem>(multilayer);
-  EXPECT_EQ(viewModel.rowCount(), 3);     // three layers
-  EXPECT_EQ(viewModel.columnCount(), 2);  // layer thickness and color
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 3);     // three layers
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 2);  // layer thickness and color
 
   EXPECT_EQ(viewModel.headerData(0, Qt::Horizontal, Qt::DisplayRole).toString(),
             QString("Thickness"));
@@ -147,8 +147,8 @@ TEST_F(PropertyTableViewModelTest, MultiLayer)
 
   // switching view model back to model's root, table should be empty
   viewModel.SetRootSessionItem(model.GetRootItem());
-  EXPECT_EQ(viewModel.rowCount(), 0);     // two layers
-  EXPECT_EQ(viewModel.columnCount(), 0);  // layer thickness and color
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 0);     // two layers
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 0);  // layer thickness and color
 }
 
 //! Check signaling of QStandardItemModel to learn from that.
@@ -194,8 +194,8 @@ TEST_F(PropertyTableViewModelTest, InsertItemSignaling)
   ApplicationModel model;
   PropertyTableViewModel view_model(&model);
 
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 0);
 
   QSignalSpy spyAboutInserInsert(&view_model, &ViewModelBase::rowsAboutToBeInserted);
   QSignalSpy spyInsert(&view_model, &ViewModelBase::rowsInserted);
@@ -207,8 +207,8 @@ TEST_F(PropertyTableViewModelTest, InsertItemSignaling)
 
   // inserting item
   model.InsertItem<VectorItem>();
-  EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 3);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 3);
 
   EXPECT_EQ(spyAboutInserInsert.count(), 1);
   EXPECT_EQ(spyInsert.count(), 1);
@@ -237,8 +237,8 @@ TEST_F(PropertyTableViewModelTest, InsertItemSignaling)
 
   // inserting item
   model.InsertItem<VectorItem>();
-  EXPECT_EQ(view_model.rowCount(), 2);
-  EXPECT_EQ(view_model.columnCount(), 3);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 3);
 
   EXPECT_EQ(spyAboutInserInsert.count(), 1);
   EXPECT_EQ(spyInsert.count(), 1);

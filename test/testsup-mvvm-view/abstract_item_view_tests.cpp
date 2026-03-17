@@ -67,8 +67,8 @@ TEST_F(AbstractItemViewTest, ModelInConstructor)
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
   EXPECT_EQ(viewmodel->GetRootSessionItem(), m_model.GetRootItem());
-  EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 }
 
 TEST_F(AbstractItemViewTest, SetApplicationModel)
@@ -86,8 +86,8 @@ TEST_F(AbstractItemViewTest, SetApplicationModel)
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
   EXPECT_EQ(viewmodel->GetRootSessionItem(), m_model.GetRootItem());
 
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 }
 
 TEST_F(AbstractItemViewTest, SetItem)
@@ -104,9 +104,9 @@ TEST_F(AbstractItemViewTest, SetItem)
   EXPECT_EQ(view.GetComponentProvider()->GetViewModel()->GetRootSessionItem(), item);
 
   // no rows since our item plays the role of root item
-  EXPECT_EQ(viewmodel->rowCount(), 0);
+  EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 0);
   // columns are always fixed and depend on the model
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
 }
 
 //! Attempt to set one item after another, when they belongs to different models
@@ -127,11 +127,11 @@ TEST_F(AbstractItemViewTest, SetItemAfterItem)
   // setting item from the first model
   view.SetItem(item1);
   EXPECT_EQ(view.GetComponentProvider()->GetViewModel()->GetRootSessionItem(), item1);
-  EXPECT_EQ(view.GetComponentProvider()->GetViewModel()->rowCount(), 1);
+  EXPECT_EQ(view.GetComponentProvider()->GetViewModel()->rowCount(QModelIndex()), 1);
 
   // setting item from the second model
   EXPECT_NO_THROW(view.SetItem(item2));
-  EXPECT_EQ(view.GetComponentProvider()->GetViewModel()->rowCount(), 0);
+  EXPECT_EQ(view.GetComponentProvider()->GetViewModel()->rowCount(QModelIndex()), 0);
 }
 
 }  // namespace mvvm::test

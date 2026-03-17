@@ -68,8 +68,8 @@ TEST_F(ViewModelTest, InitialState)
 {
   ViewModel view_model;
   EXPECT_EQ(view_model.GetModel(), nullptr);
-  EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 0);
   EXPECT_EQ(view_model.GetRootSessionItem(), nullptr);
   EXPECT_THROW(view_model.GetSessionItemFromIndex(QModelIndex()), RuntimeException);
   EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
@@ -85,7 +85,7 @@ TEST_F(ViewModelTest, GetSessionItem)
   EXPECT_EQ(view_model.GetRootSessionItem(), m_model.GetRootItem());
 
   EXPECT_EQ(view_model.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
-  EXPECT_EQ(view_model.GetSessionItemFromIndex(view_model.index(0, 0)),
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(view_model.index(0, 0, QModelIndex())),
             m_model.GetRootItem()->GetItem({"", 0}));
 }
 
@@ -94,7 +94,7 @@ TEST_F(ViewModelTest, GetViewItemFromIndex)
   TestViewModel view_model(&m_model);
   // behavior duplicates QStandardItemModel. I would make it view_model->rootItem()
   EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
-  EXPECT_EQ(view_model.GetViewItemFromIndex(view_model.index(0, 0)),
+  EXPECT_EQ(view_model.GetViewItemFromIndex(view_model.index(0, 0, QModelIndex())),
             view_model.rootItem()->GetChild(0, 0));
 }
 
@@ -114,8 +114,8 @@ TEST_F(ViewModelTest, GetIndexOfSessionItem)
   const TestViewModel view_model(&m_model);
 
   // accessing first child under the root item
-  const QModelIndex label_index = view_model.index(0, 0);
-  const QModelIndex data_index = view_model.index(0, 1);
+  const QModelIndex label_index = view_model.index(0, 0, QModelIndex());
+  const QModelIndex data_index = view_model.index(0, 1, QModelIndex());
 
   QModelIndexList expected{label_index, data_index};
   EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()->GetItem({"", 0})), expected);

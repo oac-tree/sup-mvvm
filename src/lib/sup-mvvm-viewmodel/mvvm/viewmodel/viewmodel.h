@@ -54,10 +54,9 @@ public:
   ViewModel(ViewModel&&) noexcept = delete;
   ViewModel& operator=(ViewModel&&) noexcept = delete;
 
-  QVariant headerData(int section, Qt::Orientation orientation,
-                      int role = Qt::DisplayRole) const override;
+  QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-  int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+  int columnCount(const QModelIndex& parent) const override;
 
   bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 

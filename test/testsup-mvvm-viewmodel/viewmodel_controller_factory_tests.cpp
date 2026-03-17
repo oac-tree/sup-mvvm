@@ -56,12 +56,12 @@ TEST_F(ViewModelControllerFactoryTest, CreateController)
       factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(&m_model, &m_view_model);
   m_view_model.SetControllerIntern(std::move(controller));
 
-  EXPECT_EQ(m_view_model.rowCount(), 1);
-  EXPECT_EQ(m_view_model.columnCount(), 2);
+  EXPECT_EQ(m_view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(m_view_model.columnCount(QModelIndex()), 2);
 
   // accessing first child under the root item
-  const QModelIndex label_index = m_view_model.index(0, 0);
-  const QModelIndex data_index = m_view_model.index(0, 1);
+  const QModelIndex label_index = m_view_model.index(0, 0, QModelIndex());
+  const QModelIndex data_index = m_view_model.index(0, 1, QModelIndex());
   EXPECT_EQ(m_view_model.GetSessionItemFromIndex(label_index), propertyItem);
   EXPECT_EQ(m_view_model.GetSessionItemFromIndex(data_index), propertyItem);
 }

@@ -122,7 +122,7 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
   auto provider = view.GetComponentProvider();
   auto view_model = provider->GetViewModel();
 
-  auto x_item_index = view_model->index(0, 1);
+  auto x_item_index = view_model->index(0, 1, QModelIndex());
 
   QSignalSpy spy_selected(&view, &AllItemsTreeView::SelectionChanged);
 
@@ -146,16 +146,16 @@ TEST_F(AllItemsTreeViewTest, DestroyModel)
   auto provider = view.GetComponentProvider();
   auto view_model = provider->GetViewModel();
 
-  EXPECT_EQ(view_model->rowCount(), 1);
-  EXPECT_EQ(view_model->columnCount(), 2);
+  EXPECT_EQ(view_model->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model->columnCount(QModelIndex()), 2);
 
   // destroying the model
   model.reset();
 
   EXPECT_EQ(provider->GetViewModel(), view_model);
 
-  EXPECT_EQ(view_model->rowCount(), 0);
-  EXPECT_EQ(view_model->columnCount(), 2);
+  EXPECT_EQ(view_model->rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model->columnCount(QModelIndex()), 2);
 
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
@@ -204,14 +204,14 @@ TEST_F(AllItemsTreeViewTest, SetNullptrAsModel)
   auto provider = view.GetComponentProvider();
   auto view_model = provider->GetViewModel();
 
-  EXPECT_EQ(view_model->rowCount(), 1);
-  EXPECT_EQ(view_model->columnCount(), 2);
+  EXPECT_EQ(view_model->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model->columnCount(QModelIndex()), 2);
 
   view.SetApplicationModel(nullptr);
 
   EXPECT_EQ(provider->GetViewModel(), view_model);
-  EXPECT_EQ(view_model->rowCount(), 0);
-  EXPECT_EQ(view_model->columnCount(), 2);
+  EXPECT_EQ(view_model->rowCount(QModelIndex()), 0);
+  EXPECT_EQ(view_model->columnCount(QModelIndex()), 2);
 }
 
 }  // namespace mvvm::test

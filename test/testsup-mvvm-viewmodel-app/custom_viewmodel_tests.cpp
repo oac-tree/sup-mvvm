@@ -106,8 +106,8 @@ TEST_F(CustomViewModelTest, InsertItem)
   TableViewModel viewmodel(&model);
 
   model.InsertItem<VectorItem>();
-  EXPECT_EQ(viewmodel.rowCount(), 1);
-  EXPECT_EQ(viewmodel.columnCount(), 4);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 4);
 }
 
 TEST_F(CustomViewModelTest, StressInsertRemove)
@@ -139,7 +139,7 @@ TEST_F(CustomViewModelTest, StressInsertRemove)
     model.RemoveItem(container1);
   }
 
-  EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 4);
+  EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(viewmodel.columnCount(QModelIndex()), 4);
 }
 }  // namespace mvvm::test

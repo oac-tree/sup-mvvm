@@ -173,7 +173,7 @@ TEST_F(ViewModelUtilsTest, ItemFromIndex)
   // Difference from ViewModel::GetSessionItemFromIndex, which returns root item.
   EXPECT_EQ(utils::ItemFromIndex(QModelIndex()), nullptr);
 
-  auto parent_index = view_model.index(0, 0);
+  auto parent_index = view_model.index(0, 0, QModelIndex());
   EXPECT_EQ(utils::ItemFromIndex(parent_index), parent);
   EXPECT_EQ(utils::ItemFromIndex(view_model.index(0, 0, parent_index)),
             parent->GetItem(VectorItem::kX));
@@ -190,17 +190,17 @@ TEST_F(ViewModelUtilsTest, ItemsFromIndex)
   const PropertyTableViewModel viewModel(&model);
 
   // it's a table with one row and x,y,z columns
-  EXPECT_EQ(viewModel.rowCount(), 1);
-  EXPECT_EQ(viewModel.columnCount(), 3);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 3);
 
   // empty index list doesn't lead to SessionItem's
   QModelIndexList index_list;
   EXPECT_EQ(utils::ItemsFromIndex(index_list).size(), 0);
 
   // index list populated with column of properties
-  index_list.push_back(viewModel.index(0, 0));
-  index_list.push_back(viewModel.index(0, 1));
-  index_list.push_back(viewModel.index(0, 2));
+  index_list.push_back(viewModel.index(0, 0, QModelIndex()));
+  index_list.push_back(viewModel.index(0, 1, QModelIndex()));
+  index_list.push_back(viewModel.index(0, 2, QModelIndex()));
 
   std::vector<SessionItem*> expected = {parent->GetItem(VectorItem::kX),
                                         parent->GetItem(VectorItem::kY),
@@ -219,8 +219,8 @@ TEST_F(ViewModelUtilsTest, ParentItemsFromIndex)
   PropertyTableViewModel viewModel(&model);
 
   // it's a table with one row and x,y,z columns
-  EXPECT_EQ(viewModel.rowCount(), 1);
-  EXPECT_EQ(viewModel.columnCount(), 3);
+  EXPECT_EQ(viewModel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(viewModel.columnCount(QModelIndex()), 3);
 
   // empty index list doesn't lead to SessionItem's
   QModelIndexList index_list;
@@ -229,22 +229,22 @@ TEST_F(ViewModelUtilsTest, ParentItemsFromIndex)
   std::vector<SessionItem*> expected = {parent};
 
   // one cell in a list should give us pointer to original VectorItem
-  index_list.push_back(viewModel.index(0, 1));
+  index_list.push_back(viewModel.index(0, 1, QModelIndex()));
   EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
 
   index_list.clear();
-  index_list.push_back(viewModel.index(0, 1));
+  index_list.push_back(viewModel.index(0, 1, QModelIndex()));
   EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
 
   index_list.clear();
-  index_list.push_back(viewModel.index(0, 2));
+  index_list.push_back(viewModel.index(0, 2, QModelIndex()));
   EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
 
   // three cells (x, y, z) in a list should give us pointer to original VectorItem
   index_list.clear();
-  index_list.push_back(viewModel.index(0, 0));
-  index_list.push_back(viewModel.index(0, 1));
-  index_list.push_back(viewModel.index(0, 2));
+  index_list.push_back(viewModel.index(0, 0, QModelIndex()));
+  index_list.push_back(viewModel.index(0, 1, QModelIndex()));
+  index_list.push_back(viewModel.index(0, 2, QModelIndex()));
   EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
 }
 
@@ -268,7 +268,7 @@ TEST_F(ViewModelUtilsTest, ItemFromProxyIndexForModelWithoutProxy)
   // Difference from ViewModel::GetSessionItemFromIndex, which returns root item.
   EXPECT_EQ(utils::ItemFromProxyIndex(QModelIndex()), nullptr);
 
-  auto parent_index = view_model.index(0, 0);
+  auto parent_index = view_model.index(0, 0, QModelIndex());
   EXPECT_EQ(utils::ItemFromProxyIndex(parent_index), parent);
   EXPECT_EQ(utils::ItemFromProxyIndex(view_model.index(0, 0, parent_index)),
             parent->GetItem(VectorItem::kX));

@@ -74,8 +74,8 @@ public:
 
 TEST_F(TopItemsViewModelTest, InitialState)
 {
-  EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), m_model.GetRootItem());
 }
