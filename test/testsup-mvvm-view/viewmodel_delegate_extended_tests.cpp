@@ -62,7 +62,7 @@ public:
    *
    * It mimicks how QTreeView creates a cell editor, when user double-click on some value.
    */
-  std::unique_ptr<QWidget> CreateEditor(const QModelIndex& index)
+  std::unique_ptr<QWidget> CreateEditor(const QModelIndex& index) const
   {
     auto result =
         std::unique_ptr<QWidget>(m_delegate.createEditor(nullptr, QStyleOptionViewItem(), index));

@@ -189,9 +189,9 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
     QModelIndex child_data_index = m_viewmodel.index(row, 1, vector_label_index);
     EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
     EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
-    EXPECT_EQ(m_viewmodel.data(child_label_index).toString().toStdString(),
+    EXPECT_EQ(m_viewmodel.data(child_label_index, Qt::DisplayRole).toString().toStdString(),
               children[row]->GetDisplayName());
-    EXPECT_EQ(m_viewmodel.data(child_data_index).toDouble(),
+    EXPECT_EQ(m_viewmodel.data(child_data_index, Qt::DisplayRole).toDouble(),
               children[row]->Data<double>());  // x,y,z coordinates
   }
 }
@@ -220,9 +220,9 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
     QModelIndex child_data_index = m_viewmodel.index(row, 1, QModelIndex());
     EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
     EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
-    EXPECT_EQ(m_viewmodel.data(child_label_index).toString().toStdString(),
+    EXPECT_EQ(m_viewmodel.data(child_label_index, Qt::DisplayRole).toString().toStdString(),
               children[row]->GetDisplayName());
-    EXPECT_EQ(m_viewmodel.data(child_data_index).toDouble(),
+    EXPECT_EQ(m_viewmodel.data(child_data_index, Qt::DisplayRole).toDouble(),
               children[row]->Data<double>());  // x,y,z coordinates
   }
 }
@@ -282,8 +282,8 @@ TEST_F(ViewModelControllerTest, InitThenInsertProperties)
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
 
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item0 = m_model.InsertItem<PropertyItem>();
   auto item1 = m_model.InsertItem<PropertyItem>();
@@ -317,8 +317,8 @@ TEST_F(ViewModelControllerTest, InsertInFront)
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
 
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item0 = m_model.InsertItem<PropertyItem>();
   auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
@@ -367,8 +367,8 @@ TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
 
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
@@ -402,7 +402,7 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
 
   auto item = m_model.InsertItem<PropertyItem>();
 
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   m_model.RemoveItem(item);
@@ -412,7 +412,7 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
   ASSERT_EQ(spy_insert.count(), 0);
   ASSERT_EQ(spy_remove.count(), 1);
 
-  QList<QVariant> arguments = spy_remove.takeFirst();
+  const QList<QVariant> arguments = spy_remove.takeFirst();
   ASSERT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), QModelIndex());
   EXPECT_EQ(arguments.at(1).value<int>(), 0);
@@ -441,7 +441,7 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 3);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
 
-  QSignalSpy spyInsert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  const QSignalSpy spyInsert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
   QSignalSpy spyRemove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   // removing middle child
@@ -494,8 +494,8 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
   EXPECT_EQ(m_viewmodel.rowCount(container1_index), 0);
   EXPECT_EQ(m_viewmodel.columnCount(container1_index), 0);
 
-  QSignalSpy spyInsert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
-  QSignalSpy spyRemove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
+  const QSignalSpy spyInsert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  const QSignalSpy spyRemove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   // taking child, but keeping it
   auto taken = m_model.TakeItem(container0, {"", 0});
@@ -532,9 +532,9 @@ TEST_F(ViewModelControllerTest, SetData)
 
   EXPECT_EQ(spy_data_changed.count(), 1);
 
-  QModelIndex dataIndex = m_viewmodel.index(0, 1, QModelIndex());
+  const QModelIndex dataIndex = m_viewmodel.index(0, 1, QModelIndex());
 
-  QList<QVariant> arguments = spy_data_changed.takeFirst();
+  const QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
   EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
@@ -591,10 +591,10 @@ TEST_F(ViewModelControllerTest, onModelReset)
   m_model.InsertItem<SessionItem>();
   m_model.InsertItem<SessionItem>();
 
-  QSignalSpy spy_about_reset(&m_viewmodel, &ViewModelBase::modelAboutToBeReset);
-  QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_about_reset(&m_viewmodel, &ViewModelBase::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
 
   m_model.Clear();
 
@@ -613,13 +613,13 @@ TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
 
-  QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
+  const QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
   m_model.Clear();
 
   EXPECT_EQ(spy_reset.count(), 1);
 
   // inserting new item
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   m_model.InsertItem<SessionItem>();
 
   EXPECT_EQ(spy_insert.count(), 1);

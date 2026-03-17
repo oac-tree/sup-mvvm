@@ -203,9 +203,9 @@ TEST_F(AllItemsViewModelTest, ModelWithVectorItemWHenControllerIsInitialisedAfte
     const auto child_data_index = viewmodel.index(row, 1, vector_label_index);
     EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_label_index), children[row]);
     EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_data_index), children[row]);
-    EXPECT_EQ(viewmodel.data(child_label_index).toString().toStdString(),
+    EXPECT_EQ(viewmodel.data(child_label_index, Qt::DisplayRole).toString().toStdString(),
               children[row]->GetDisplayName());
-    EXPECT_EQ(viewmodel.data(child_data_index).toDouble(),
+    EXPECT_EQ(viewmodel.data(child_data_index, Qt::DisplayRole).toDouble(),
               children[row]->Data<double>());  // x,y,z coordinates
   }
 }

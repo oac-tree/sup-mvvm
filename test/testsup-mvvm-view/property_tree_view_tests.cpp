@@ -77,7 +77,7 @@ TEST_F(PropertyTreeViewTest, SetNullptrAsItem)
   EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 3);
   EXPECT_EQ(viewmodel->columnCount(QModelIndex()), 2);
   auto x_item_data_index = viewmodel->index(0, 1, QModelIndex());
-  EXPECT_EQ(viewmodel->data(x_item_data_index).toDouble(), 42.0);
+  EXPECT_EQ(viewmodel->data(x_item_data_index, Qt::DisplayRole).toDouble(), 42.0);
 
   view.SetItem(nullptr);
   model.reset();

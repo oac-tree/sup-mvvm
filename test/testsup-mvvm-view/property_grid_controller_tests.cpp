@@ -180,7 +180,8 @@ TEST_F(PropertyGridControllerTest, DataWidgetMapperAndQLabelWithOurViewModel)
   widget_mapper.addMapping(&spinbox, 1);
   widget_mapper.setCurrentIndex(0);
 
-  EXPECT_EQ(view_model.data(view_model.index(0, 0, QModelIndex())), QString("abc"));
+  EXPECT_EQ(view_model.data(view_model.index(0, 0, QModelIndex()), Qt::DisplayRole),
+            QString("abc"));
   EXPECT_EQ(label.text(), QString("abc"));
 
   item->SetEnabled(false);
@@ -279,7 +280,8 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyItemDisabled)
 
   auto label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
   ASSERT_NE(label, nullptr);
-  EXPECT_EQ(view_model.data(view_model.index(0, 0, QModelIndex())), QString("abc"));
+  EXPECT_EQ(view_model.data(view_model.index(0, 0, QModelIndex()), Qt::DisplayRole),
+            QString("abc"));
   EXPECT_EQ(label->text(), QString("abc"));
 
   item->SetEnabled(false);
