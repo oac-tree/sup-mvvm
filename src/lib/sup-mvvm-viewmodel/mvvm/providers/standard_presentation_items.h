@@ -90,6 +90,8 @@ public:
 
   bool IsEditable() const override;
 
+  QVector<role_t> GetQtRoles(role_t data_role) const override;
+
 private:
   std::string m_label;
 };

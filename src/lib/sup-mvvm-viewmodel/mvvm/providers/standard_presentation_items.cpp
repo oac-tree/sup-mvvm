@@ -122,6 +122,15 @@ bool LabelPresentationItem::IsEditable() const
   return false;
 }
 
+QVector<role_t> LabelPresentationItem::GetQtRoles(role_t data_role) const
+{
+  (void)data_role;
+  // LabelPresentationItem contains a fixed label which doesn't depend on SessionItem's data role.
+  // We return no Qt roles here, which means that we do not what to have any notification on
+  // whatever is changed on SessionItem.
+  return {};
+}
+
 // ------------------------------------------------------------------------------------------------
 // DataPresentationItem
 // ------------------------------------------------------------------------------------------------

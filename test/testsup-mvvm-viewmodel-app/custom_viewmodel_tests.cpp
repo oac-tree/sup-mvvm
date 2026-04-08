@@ -25,13 +25,13 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/standarditems/container_item.h>
-#include <mvvm/standarditems/vector_item.h>
 #include <mvvm/providers/abstract_row_strategy.h>
 #include <mvvm/providers/standard_children_strategies.h>
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewitem_factory.h>
 #include <mvvm/providers/viewmodel_controller_factory.h>
+#include <mvvm/standarditems/container_item.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>
 
@@ -59,11 +59,11 @@ public:
   }
 
 private:
-  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem *item) override
+  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem* item) override
   {
     std::vector<std::unique_ptr<mvvm::ViewItem>> result;
 
-    if (auto vector = dynamic_cast<mvvm::VectorItem *>(item); vector)
+    if (auto vector = dynamic_cast<mvvm::VectorItem*>(item); vector)
     {
       result.emplace_back(mvvm::CreateDisplayNameViewItem(vector));
       result.emplace_back(mvvm::CreateDataViewItem(vector->GetItem(mvvm::VectorItem::kX)));
@@ -81,7 +81,7 @@ private:
 class TableViewModel : public mvvm::ViewModel
 {
 public:
-  TableViewModel(mvvm::ISessionModel *model, QObject *parent = nullptr) : ViewModel(parent)
+  TableViewModel(mvvm::ISessionModel* model, QObject* parent = nullptr) : ViewModel(parent)
   {
     SetController(
         mvvm::factory::CreateController<mvvm::AllChildrenStrategy, TableRowStrategy>(model, this));
@@ -90,20 +90,17 @@ public:
 
 }  // namespace
 
-using namespace mvvm;
-
 //! Testing custom viewmodels. This is an integration test to reproduce viewmodels similar to what
 //! we have in other GUIs.
 
 class CustomViewModelTest : public ::testing::Test
 {
-public:
 };
 
 TEST_F(CustomViewModelTest, InsertItem)
 {
   ApplicationModel model;
-  TableViewModel viewmodel(&model);
+  const TableViewModel viewmodel(&model);
 
   model.InsertItem<VectorItem>();
   EXPECT_EQ(viewmodel.rowCount(QModelIndex()), 1);
