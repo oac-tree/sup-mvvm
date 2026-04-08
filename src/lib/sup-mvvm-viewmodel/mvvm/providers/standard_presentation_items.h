@@ -62,9 +62,12 @@ public:
   virtual bool IsValidItemDataRole(role_t data_role) const;
 
   /**
-   * @brief Returns vector of Qt data roles corresponding.
+   * @brief Returns vector of Qt data roles corresponding to given SessionItem's role.
+   *
+   * The method is used in the context, when item's role is changed, and we want to know which Qt
+   * roles should be emitted by the view model to notify all views.
    */
-  virtual QVector<role_t> GetQtRoles(role_t data_role) const;
+  virtual QVector<role_t> GetQtRolesToEmit(role_t data_role) const;
 
 protected:
   explicit SessionItemPresentation(SessionItem* item, role_t role);
@@ -77,9 +80,8 @@ private:
 /**
  * @brief The LabelPresentationItem class shows the label associated with the given item.
  *
- * Item itself is not used directly. It might be used by ViewModelController to find
- * corresponding views. The label is non-editable, and it is not possible to set any other data to
- * it.
+ * Item is used by ViewModelController to keep track on which cells belongs to which item. Item's
+ * data is not used. The label is non-editable, and it is not possible to set any other data to it.
  */
 class LabelPresentationItem : public SessionItemPresentation
 {
@@ -90,7 +92,7 @@ public:
 
   bool IsEditable() const override;
 
-  QVector<role_t> GetQtRoles(role_t data_role) const override;
+  QVector<role_t> GetQtRolesToEmit(role_t data_role) const override;
 
 private:
   std::string m_label;
@@ -164,7 +166,7 @@ public:
 
   bool SetData(const QVariant& data, role_t qt_role) override;
 
-  QVector<role_t> GetQtRoles(role_t data_role) const override;
+  QVector<role_t> GetQtRolesToEmit(role_t data_role) const override;
 
   bool IsEditable() const override;
 

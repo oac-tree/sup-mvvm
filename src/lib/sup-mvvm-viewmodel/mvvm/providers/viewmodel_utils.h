@@ -178,9 +178,9 @@ std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
 std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list);
 
 /**
- * @brief Returns vector of Qt roles corresponding to the given item role.
+ * @brief Returns vector of Qt roles which should be emitted when given item's role is changed.
  */
-QVector<int32_t> GetQtRoles(const ViewItem* view, role_t item_role);
+QVector<int32_t> GetQtRolesToEmit(const ViewItem* view, role_t item_role);
 
 }  // namespace mvvm::utils
 

@@ -97,7 +97,7 @@ void ViewModelControllerImpl::OnDataChangedEvent(const DataChangedEvent& event)
 {
   for (auto view : utils::FindViewsForItem(m_view_model, event.item))
   {
-    if (auto roles = utils::GetQtRoles(view, event.data_role); !roles.empty())
+    if (auto roles = utils::GetQtRolesToEmit(view, event.data_role); !roles.empty())
     {
       auto index = m_view_model->indexFromItem(view);
       emit m_view_model->dataChanged(index, index, roles);

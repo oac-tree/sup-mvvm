@@ -186,12 +186,12 @@ std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list
   return result;
 }
 
-QVector<std::int32_t> GetQtRoles(const ViewItem* view, role_t item_role)
+QVector<std::int32_t> GetQtRolesToEmit(const ViewItem* view, role_t item_role)
 {
   if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view->GetItemData());
       presentation)
   {
-    return presentation->GetQtRoles(item_role);
+    return presentation->GetQtRolesToEmit(item_role);
   }
 
   return {};

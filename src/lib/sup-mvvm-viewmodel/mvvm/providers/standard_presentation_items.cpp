@@ -92,7 +92,7 @@ bool SessionItemPresentation::IsValidItemDataRole(role_t data_role) const
          || (data_role == DataRole::kTooltip);
 }
 
-QVector<role_t> SessionItemPresentation::GetQtRoles(role_t data_role) const
+QVector<role_t> SessionItemPresentation::GetQtRolesToEmit(role_t data_role) const
 {
   return IsValidItemDataRole(data_role) ? utils::ItemRoleToQtRole(data_role) : QVector<role_t>();
 }
@@ -122,7 +122,7 @@ bool LabelPresentationItem::IsEditable() const
   return false;
 }
 
-QVector<role_t> LabelPresentationItem::GetQtRoles(role_t data_role) const
+QVector<role_t> LabelPresentationItem::GetQtRolesToEmit(role_t data_role) const
 {
   (void)data_role;
   // LabelPresentationItem contains a fixed label which doesn't depend on SessionItem's data role.
@@ -237,7 +237,7 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem* item,
 {
 }
 
-QVector<role_t> FixedDataPresentationItem::GetQtRoles(role_t data_role) const
+QVector<role_t> FixedDataPresentationItem::GetQtRolesToEmit(role_t data_role) const
 {
   (void)data_role;
 

@@ -85,22 +85,22 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForNoData)
   EXPECT_FALSE(presentation.IsValidItemDataRole(DataRole::kDisplay));
 
   {
-    auto roles = presentation.GetQtRoles(DataRole::kDisplay);
+    auto roles = presentation.GetQtRolesToEmit(DataRole::kDisplay);
     EXPECT_TRUE(roles.isEmpty());
   }
 
   {
-    auto roles = presentation.GetQtRoles(DataRole::kData);
+    auto roles = presentation.GetQtRolesToEmit(DataRole::kData);
     EXPECT_EQ(roles, QVector<int>({Qt::DisplayRole, Qt::EditRole}));
   }
 
   {
-    auto roles = presentation.GetQtRoles(DataRole::kAppearance);
+    auto roles = presentation.GetQtRolesToEmit(DataRole::kAppearance);
     EXPECT_EQ(roles, QVector<int>({Qt::ForegroundRole}));
   }
 
   {
-    auto roles = presentation.GetQtRoles(DataRole::kTooltip);
+    auto roles = presentation.GetQtRolesToEmit(DataRole::kTooltip);
     EXPECT_EQ(roles, QVector<int>({Qt::ToolTipRole}));
   }
 }
@@ -332,7 +332,7 @@ TEST_F(StandardPresentationItemsTest, CreateLabelPresentation)
   const std::string expected_label("abc");
   LabelPresentationItem presentation(&item, expected_label);
 
-  EXPECT_TRUE(presentation.GetQtRoles(DataRole::kDisplay).isEmpty());
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kDisplay).isEmpty());
 
   EXPECT_FALSE(presentation.IsEditable());
 
@@ -439,7 +439,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     FixedDataPresentationItem presentation(&item, {});
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
-    EXPECT_TRUE(presentation.GetQtRoles(DataRole::kDisplay).empty());
+    EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kDisplay).empty());
     EXPECT_TRUE(presentation.IsEnabled());
     EXPECT_FALSE(presentation.IsEditable());
   }
@@ -449,7 +449,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     FixedDataPresentationItem presentation(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
-    EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
+    EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
     EXPECT_TRUE(presentation.IsEnabled());
     EXPECT_FALSE(presentation.IsEditable());
 
@@ -464,7 +464,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
 
     EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("aaa"));
     EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("bbb"));
-    EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay),
+    EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kDisplay),
               QVector<int>({Qt::DisplayRole, Qt::EditRole}));
   }
 
@@ -477,7 +477,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     FixedDataPresentationItem presentation(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
-    EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
+    EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
     EXPECT_FALSE(presentation.IsEnabled());
     EXPECT_FALSE(presentation.IsEditable());
 
