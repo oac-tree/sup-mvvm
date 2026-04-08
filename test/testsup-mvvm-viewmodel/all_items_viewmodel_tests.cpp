@@ -1144,10 +1144,8 @@ TEST_F(AllItemsViewModelTest, EditableDisplayNamePropertyItem)
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), label_index);
   EXPECT_EQ(arguments.at(1).value<QModelIndex>(), label_index);
-  const QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
-  EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
-
-
+  const QVector<int> expected_roles = {Qt::DisplayRole, Qt::EditRole};
+  EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expected_roles);
 }
 
 }  // namespace mvvm::test
