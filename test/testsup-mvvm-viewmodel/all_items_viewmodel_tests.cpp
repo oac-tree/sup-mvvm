@@ -1113,4 +1113,41 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyTag)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), child);
 }
 
+TEST_F(AllItemsViewModelTest, EditableDisplayNamePropertyItem)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+  item->SetFlag(mvvm::Appearance::kEditableDisplayName, true);
+  item->SetData(42.0);
+
+  AllItemsViewModel view_model(&m_model);
+  EXPECT_EQ(view_model.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
+
+  // accessing first child under the root item
+  const QModelIndex label_index = view_model.index(0, 0, QModelIndex());
+  const QModelIndex data_index = view_model.index(0, 1, QModelIndex());
+
+  EXPECT_TRUE(view_model.flags(label_index) & Qt::ItemIsEditable);
+  EXPECT_TRUE(view_model.flags(data_index) & Qt::ItemIsEditable);
+
+  QSignalSpy spy_data_changed(&view_model, &ViewModelBase::dataChanged);
+
+  // changing item's display name via viewmodel
+  view_model.setData(label_index, "New Name", Qt::EditRole);
+  EXPECT_EQ(spy_data_changed.count(), 1);
+  EXPECT_EQ(item->GetDisplayName(), "New Name");
+
+  // changing item's display name via item
+  item->SetDisplayName("Another Name");
+  EXPECT_EQ(spy_data_changed.count(), 2);
+  const QList<QVariant> arguments = spy_data_changed.takeLast();
+  EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), label_index);
+  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), label_index);
+  const QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
+  EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
+
+
+}
+
 }  // namespace mvvm::test
