@@ -126,7 +126,7 @@ QVector<role_t> LabelPresentationItem::GetQtRolesToEmit(role_t data_role) const
 {
   (void)data_role;
   // LabelPresentationItem contains a fixed label which doesn't depend on SessionItem's data role.
-  // We return no Qt roles here, which means that we do not what to have any notification on
+  // We return no Qt roles here, which means that we do not want to have any notification on
   // whatever is changed on SessionItem.
   return {};
 }
@@ -241,7 +241,7 @@ QVector<role_t> FixedDataPresentationItem::GetQtRolesToEmit(role_t data_role) co
 {
   (void)data_role;
   // FixedDataPresentationItem contains a fixed data doesn't depend on SessionItem's data role.
-  // We return no Qt roles here, which means that we do not what to have any notification on
+  // We return no Qt roles here, which means that we do not want to have any notification on
   // whatever is changed on SessionItem.
   return {};
 }
