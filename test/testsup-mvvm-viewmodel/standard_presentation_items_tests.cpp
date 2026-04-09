@@ -449,7 +449,8 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     FixedDataPresentationItem presentation(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
-    EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
+    // fixed data doesn't depend on SessionItem's data role, so we do not expect any notifications
+    EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kDisplay).empty());
     EXPECT_TRUE(presentation.IsEnabled());
     EXPECT_FALSE(presentation.IsEditable());
 
@@ -464,8 +465,8 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
 
     EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("aaa"));
     EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("bbb"));
-    EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kDisplay),
-              QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+    // fixed data doesn't depend on SessionItem's data role, so we do not expect any notifications
+    EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kDisplay).empty());
   }
 
   {  // label on board, when item is disabled, and there is no explicit ForegroundRoles
@@ -477,7 +478,8 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     FixedDataPresentationItem presentation(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
-    EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
+    // fixed data doesn't depend on SessionItem's data role, so we do not expect any notifications
+    EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kDisplay).empty());
     EXPECT_FALSE(presentation.IsEnabled());
     EXPECT_FALSE(presentation.IsEditable());
 

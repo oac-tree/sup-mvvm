@@ -240,14 +240,10 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem* item,
 QVector<role_t> FixedDataPresentationItem::GetQtRolesToEmit(role_t data_role) const
 {
   (void)data_role;
-
-  // we use fixed roles which are unboard and do not use parameter data_role
-  QVector<role_t> result;
-  for (auto& [qt_role, data] : m_data)
-  {
-    result.push_back(qt_role);
-  }
-  return result;
+  // FixedDataPresentationItem contains a fixed data doesn't depend on SessionItem's data role.
+  // We return no Qt roles here, which means that we do not what to have any notification on
+  // whatever is changed on SessionItem.
+  return {};
 }
 
 bool FixedDataPresentationItem::IsEditable() const
