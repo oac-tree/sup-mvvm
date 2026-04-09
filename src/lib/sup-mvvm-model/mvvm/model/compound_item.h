@@ -77,11 +77,6 @@ public:
   PropertyItem& AddProperty(const std::string_view& name, const char* value);
 
   /**
-   * @brief Returns item display name.
-   */
-  std::string GetDisplayName() const override;
-
-  /**
    * @brief Returns value stored in property item.
    *
    * @param tag The name under which corresponding property item is registered.

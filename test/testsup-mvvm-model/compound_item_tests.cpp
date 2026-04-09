@@ -214,9 +214,9 @@ TEST_F(CompoundItemTests, DisplayNameIndexAddition)
   auto child0 = parent.InsertItem<CompoundItem>(TagIndex::Append(tag));
   auto child1 = parent.InsertItem<CompoundItem>(TagIndex::Append(tag));
 
-  // Default display names of items of the same type should have indices
-  EXPECT_EQ(child0->GetDisplayName(), GetTypeName<CompoundItem>() + "0");
-  EXPECT_EQ(child1->GetDisplayName(), GetTypeName<CompoundItem>() + "1");
+  // Default display names of items of the same type should not have indices
+  EXPECT_EQ(child0->GetDisplayName(), GetTypeName<CompoundItem>());
+  EXPECT_EQ(child1->GetDisplayName(), GetTypeName<CompoundItem>());
 
   // however, if children have custom display name, they should remain intact
   child0->SetDisplayName("Jekyll");

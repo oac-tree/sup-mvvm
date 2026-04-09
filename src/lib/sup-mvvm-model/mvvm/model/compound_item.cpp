@@ -37,17 +37,4 @@ PropertyItem& CompoundItem::AddProperty(const std::string_view& name, const char
   return AddProperty(name, std::string(value));
 }
 
-std::string CompoundItem::GetDisplayName() const
-{
-  // if item has already display name, use it
-  if (HasData(mvvm::DataRole::kDisplay))
-  {
-    return Data<std::string>(DataRole::kDisplay);
-  }
-
-  // add index to type name
-  const auto copy_number = static_cast<std::int32_t>(utils::CopyNumber(this));
-  return (copy_number < 0) ? GetType() : GetType() + std::to_string(copy_number);
-}
-
 }  // namespace mvvm
