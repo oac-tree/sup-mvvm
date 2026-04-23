@@ -24,7 +24,6 @@
 #include "linked_item.h"
 #include "plottable_items.h"
 
-#include <mvvm/model/combo_property.h>
 #include <mvvm/model/item_constants.h>
 
 namespace mvvm

@@ -28,7 +28,6 @@
 namespace mvvm
 {
 
-class SessionItem;
 class ItemPool;
 
 /**

@@ -20,8 +20,6 @@
 
 #include "macro_command.h"
 
-#include <mvvm/core/mvvm_exceptions.h>
-
 #include <algorithm>
 
 namespace mvvm

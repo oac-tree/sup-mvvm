@@ -27,7 +27,6 @@
 namespace mvvm
 {
 
-struct UserInteractionContext;
 class IProject;
 
 /**

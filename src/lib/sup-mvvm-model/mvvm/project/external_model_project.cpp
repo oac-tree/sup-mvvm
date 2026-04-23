@@ -20,9 +20,6 @@
 
 #include "external_model_project.h"
 
-#include "project_context.h"
-
-#include <mvvm/factories/model_document_factory.h>
 #include <mvvm/model/i_session_model.h>
 
 namespace mvvm

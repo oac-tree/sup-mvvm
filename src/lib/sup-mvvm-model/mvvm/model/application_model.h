@@ -29,7 +29,6 @@ namespace mvvm
 {
 
 class ModelEventHandler;
-class ICommandStack;
 
 /**
  * @brief The ApplicationModel class is the main model to hold application data.

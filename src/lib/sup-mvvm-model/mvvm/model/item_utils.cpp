@@ -28,12 +28,10 @@
 #include "session_item_container.h"
 #include "session_item_data.h"
 #include "tagged_items.h"
-#include "validate_utils.h"
 
 #include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
-#include <mvvm/model/validate_utils.h>
 #include <mvvm/serialization/tree_data_item_converter.h>
 #include <mvvm/utils/container_utils.h>
 

@@ -28,7 +28,6 @@
 #include <mvvm/utils/file_utils.h>
 
 #include <algorithm>
-#include <cctype>
 #include <locale>
 
 namespace

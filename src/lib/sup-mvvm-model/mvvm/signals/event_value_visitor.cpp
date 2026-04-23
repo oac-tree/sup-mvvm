@@ -20,7 +20,6 @@
 
 #include "event_value_visitor.h"
 
-#include <mvvm/core/variant.h>
 #include <mvvm/model/session_item.h>
 
 #include <sstream>

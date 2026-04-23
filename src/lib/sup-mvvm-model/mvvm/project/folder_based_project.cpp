@@ -20,11 +20,9 @@
 
 #include "folder_based_project.h"
 
-#include "project_context.h"
 #include "project_utils.h"
 
 #include <mvvm/factories/model_document_factory.h>
-#include <mvvm/model/i_session_model.h>
 #include <mvvm/utils/file_utils.h>
 
 namespace

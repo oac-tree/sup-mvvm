@@ -25,7 +25,6 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
 #include <mvvm/model/i_item_backup_strategy.h>
-#include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 

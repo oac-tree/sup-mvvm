@@ -20,8 +20,6 @@
 
 #include "model_has_changed_controller.h"
 
-#include <mvvm/model/tagindex.h>
-
 namespace mvvm
 {
 

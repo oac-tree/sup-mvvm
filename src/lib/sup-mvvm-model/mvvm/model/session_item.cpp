@@ -25,7 +25,6 @@
 #include "session_item_data.h"
 #include "session_item_impl.h"
 #include "tagged_items.h"
-#include "taginfo.h"
 #include "validate_utils.h"
 
 #include <mvvm/commands/insert_item_command.h>

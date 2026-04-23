@@ -22,7 +22,6 @@
 
 #include <mvvm/factories/model_document_factory.h>
 #include <mvvm/model/i_session_model.h>
-#include <mvvm/serialization/xml_document_helper.h>
 #include <mvvm/utils/container_utils.h>
 
 namespace mvvm

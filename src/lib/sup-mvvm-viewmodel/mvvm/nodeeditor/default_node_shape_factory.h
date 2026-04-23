@@ -26,9 +26,6 @@
 namespace mvvm
 {
 
-class SessionItem;
-class ConnectableShape;
-
 /**
  * @brief The DefaultNodeShapeFactory creates shapes representing NodeItems.
  */

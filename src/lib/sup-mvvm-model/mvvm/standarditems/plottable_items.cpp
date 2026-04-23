@@ -23,7 +23,6 @@
 #include "editor_constants.h"
 
 #include <mvvm/model/item_limits_helper.h>
-#include <mvvm/utils/container_utils.h>
 
 namespace mvvm
 {

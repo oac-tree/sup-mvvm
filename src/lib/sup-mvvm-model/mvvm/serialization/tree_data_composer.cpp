@@ -22,8 +22,6 @@
 
 #include "standard_tree_data_composer_components.h"
 
-#include <mvvm/model/session_item.h>
-
 #include <stack>
 
 namespace mvvm

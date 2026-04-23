@@ -20,7 +20,6 @@
 
 #include "model_utils.h"
 
-#include "application_model.h"
 #include "item_constants.h"
 #include "path.h"
 #include "taginfo.h"

@@ -29,7 +29,6 @@ namespace mvvm
 {
 
 class SessionItem;
-class TagIndex;
 class IItemBackupStrategy;
 
 /**

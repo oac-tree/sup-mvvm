@@ -22,7 +22,6 @@
 #define MVVM_COMMANDS_REMOVE_ITEM_COMMAND_H_
 
 #include <mvvm/commands/model_command.h>
-#include <mvvm/core/variant.h>
 
 #include <memory>
 
@@ -30,7 +29,6 @@ namespace mvvm
 {
 
 class SessionItem;
-class TagIndex;
 class IItemBackupStrategy;
 
 /**

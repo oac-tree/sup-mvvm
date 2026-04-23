@@ -24,7 +24,7 @@
 #include "tree_data_constants.h"
 #include "tree_data_helper.h"
 
-#include <mvvm/utils/string_utils.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 namespace mvvm
 {

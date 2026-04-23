@@ -20,8 +20,6 @@
 
 #include "compound_item.h"
 
-#include <mvvm/model/item_utils.h>
-
 namespace mvvm
 {
 

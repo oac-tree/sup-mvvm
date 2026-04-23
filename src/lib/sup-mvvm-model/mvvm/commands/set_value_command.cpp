@@ -21,7 +21,6 @@
 #include "set_value_command.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 

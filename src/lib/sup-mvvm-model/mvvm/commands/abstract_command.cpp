@@ -21,7 +21,6 @@
 #include "abstract_command.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/signals/event_value_visitor.h>
 
 namespace mvvm
 {

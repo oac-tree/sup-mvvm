@@ -21,7 +21,6 @@
 #ifndef MVVM_PROJECT_MODEL_HAS_CHANGED_CONTROLLER_H_
 #define MVVM_PROJECT_MODEL_HAS_CHANGED_CONTROLLER_H_
 
-#include <mvvm/model/i_session_model.h>
 #include <mvvm/signals/model_listener.h>
 
 #include <functional>
