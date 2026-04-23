@@ -22,11 +22,14 @@
 
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/standarditems/standard_item_includes.h>
+#include <mvvm/standarditems/axis_items.h>
+#include <mvvm/standarditems/container_item.h>
+#include <mvvm/standarditems/data1d_item.h>
+#include <mvvm/standarditems/graph_item.h>
+#include <mvvm/standarditems/graph_viewport_item.h>
 #include <mvvm/utils/numeric_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
-#include <QColor>
 #include <cmath>
 #include <stdexcept>
 

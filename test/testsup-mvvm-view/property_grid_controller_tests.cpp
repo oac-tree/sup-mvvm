@@ -37,10 +37,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QSignalSpy>
-#include <QSpinBox>
 #include <QStandardItem>
-#include <QStandardItemModel>
-#include <QTest>
 #include <QWidget>
 
 namespace mvvm::test

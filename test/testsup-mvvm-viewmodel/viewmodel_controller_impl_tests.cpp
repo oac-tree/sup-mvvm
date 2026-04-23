@@ -22,7 +22,6 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/property_item.h>
 #include <mvvm/providers/standard_children_strategies.h>
 #include <mvvm/providers/standard_row_strategies.h>
 #include <mvvm/providers/viewitem.h>

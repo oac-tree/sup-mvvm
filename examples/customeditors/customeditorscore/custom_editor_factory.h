@@ -22,7 +22,6 @@
 #define CUSTOMEDITORS_CUSTOMEDITORSSCORE_CUSTOM_EDITOR_FACTORY_H_
 
 #include <mvvm/editors/default_editor_factory.h>
-#include <mvvm/providers/viewmodel_utils.h>
 
 #include <QStringList>
 #include <functional>

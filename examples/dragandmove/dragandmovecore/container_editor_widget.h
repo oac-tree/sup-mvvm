@@ -27,7 +27,6 @@
 
 class QTreeView;
 class QBoxLayout;
-class QItemSelectionModel;
 
 namespace mvvm
 {

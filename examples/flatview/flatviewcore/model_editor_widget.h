@@ -26,7 +26,6 @@
 
 class QBoxLayout;
 class QTreeView;
-class QTableView;
 
 namespace mvvm
 {

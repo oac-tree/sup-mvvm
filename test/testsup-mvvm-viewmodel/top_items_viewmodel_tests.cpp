@@ -22,9 +22,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/property_item.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>

@@ -20,7 +20,6 @@
 
 #include "sample_model.h"
 
-#include <mvvm/model/combo_property.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/editor_constants.h>

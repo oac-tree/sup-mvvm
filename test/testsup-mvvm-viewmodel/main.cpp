@@ -18,8 +18,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <mvvm/model/combo_property.h>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 

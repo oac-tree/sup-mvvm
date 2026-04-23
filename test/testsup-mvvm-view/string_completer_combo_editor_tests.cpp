@@ -25,10 +25,10 @@
 
 #include <gtest/gtest.h>
 
+#include <QFocusEvent>
 #include <QComboBox>
 #include <QLineEdit>
 #include <QSignalSpy>
-#include <QTest>
 
 namespace mvvm::test
 {

@@ -29,8 +29,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
-#include <QTreeView>
-#include <QVBoxLayout>
 
 namespace customeditors
 {

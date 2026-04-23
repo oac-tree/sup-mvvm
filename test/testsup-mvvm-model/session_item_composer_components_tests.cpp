@@ -21,8 +21,6 @@
 #include "mvvm/serialization/session_item_composer_components.h"
 
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/session_item_container.h>
-#include <mvvm/model/tagged_items.h>
 #include <mvvm/serialization/tree_data.h>
 
 #include <gtest/gtest.h>

@@ -24,7 +24,6 @@
 #include <gtest/gtest.h>
 
 #include <QApplication>
-#include <QMetaType>
 
 int main(int argc, char** argv)
 {

@@ -23,7 +23,6 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 namespace mvvm::test

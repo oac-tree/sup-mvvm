@@ -26,10 +26,9 @@
 #include <gtest/gtest.h>
 
 #include <QCompleter>
+#include <QFocusEvent>
 #include <QLineEdit>
 #include <QSignalSpy>
-#include <QStringListModel>
-#include <QTest>
 
 namespace mvvm::test
 {

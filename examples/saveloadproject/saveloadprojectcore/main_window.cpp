@@ -25,9 +25,7 @@
 #include "sample_model.h"
 
 #include <mvvm/project/app_project.h>
-#include <mvvm/standarditems/container_item.h>
 
-#include <QCoreApplication>
 #include <QSettings>
 
 namespace

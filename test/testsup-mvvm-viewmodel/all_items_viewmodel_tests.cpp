@@ -23,7 +23,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/session_model.h>
 #include <mvvm/serialization/xml_document.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/container_item.h>
@@ -34,7 +33,6 @@
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
-#include <testutils/toy_items.h>
 
 #include <QSignalSpy>
 

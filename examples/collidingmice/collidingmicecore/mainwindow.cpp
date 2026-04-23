@@ -28,7 +28,6 @@
 #include <mvvm/views/component_provider_helper.h>
 
 #include <QAction>
-#include <QDebug>
 #include <QFileDialog>
 #include <QGraphicsScene>
 #include <QGraphicsView>

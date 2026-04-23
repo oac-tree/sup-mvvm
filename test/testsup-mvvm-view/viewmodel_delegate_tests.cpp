@@ -21,12 +21,11 @@
 #include "mvvm/views/viewmodel_delegate.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/editors/custom_editor_includes.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/editors/boolean_editor.h>
 #include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/model/application_model.h>
-#include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
-#include <mvvm/viewmodel/custom_editor.h>
 #include <mvvm/views/default_cell_decorator.h>
 
 #include <gtest/gtest.h>

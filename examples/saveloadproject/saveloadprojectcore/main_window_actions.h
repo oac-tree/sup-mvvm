@@ -27,7 +27,6 @@
 class QMainWindow;
 class QMenu;
 class QAction;
-class QMenuBar;
 
 namespace mvvm
 {

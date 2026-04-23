@@ -27,14 +27,11 @@
 namespace mvvm
 {
 class AppProject;
-class ProjectContext;
-class ProjectHandler;
 }  // namespace mvvm
 
 namespace saveloadproject
 {
 
-class SampleModel;
 class ModelEditorWidget;
 class MainWindowActions;
 

@@ -23,7 +23,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>

@@ -26,7 +26,6 @@
 #include <gtest/gtest.h>
 
 #include <QColor>
-#include <QDebug>
 
 namespace mvvm::test
 {

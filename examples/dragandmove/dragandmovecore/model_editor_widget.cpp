@@ -23,13 +23,11 @@
 #include "container_editor_widget.h"
 #include "sample_model.h"
 
-#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/model_utils.h>
 
 #include <QAction>
 #include <QHBoxLayout>
 #include <QToolBar>
-#include <QToolButton>
 
 namespace dragandmove
 {

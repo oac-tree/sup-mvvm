@@ -23,7 +23,6 @@
 
 #include <QWidget>
 
-class QBoxLayout;
 class QToolBar;
 class QAction;
 class QSplitter;

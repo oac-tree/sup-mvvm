@@ -22,8 +22,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_selection.h>
-#include <mvvm/model/session_item.h>
-#include <mvvm/standarditems/standard_item_includes.h>
+#include <mvvm/standarditems/vector_item.h>
 #include <mvvm/test/test_helper.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/item_view_component_provider.h>

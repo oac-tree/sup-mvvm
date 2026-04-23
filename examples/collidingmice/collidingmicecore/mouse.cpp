@@ -27,7 +27,6 @@
 
 #include <QGraphicsScene>
 #include <QPainter>
-#include <QStyleOption>
 #include <cmath>
 
 namespace collidingmice

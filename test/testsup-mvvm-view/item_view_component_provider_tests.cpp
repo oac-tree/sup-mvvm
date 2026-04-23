@@ -30,7 +30,6 @@
 
 #include <gtest/gtest.h>
 
-#include <QDebug>
 #include <QItemSelectionModel>
 #include <QSignalSpy>
 #include <QTreeView>

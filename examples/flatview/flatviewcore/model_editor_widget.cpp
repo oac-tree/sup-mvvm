@@ -31,8 +31,6 @@
 
 #include <QBoxLayout>
 #include <QGroupBox>
-#include <QHeaderView>
-#include <QTableView>
 #include <QTreeView>
 
 namespace flatview

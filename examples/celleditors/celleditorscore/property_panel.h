@@ -42,8 +42,6 @@ class ViewModelDelegate;
 namespace celleditors
 {
 
-class SampleModel;
-
 //! Shows content of the model as vertical tree, horizontal tree and table.
 
 class PropertyPanel : public QWidget

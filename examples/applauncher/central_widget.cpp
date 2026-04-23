@@ -20,7 +20,6 @@
 
 #include "central_widget.h"
 
-#include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QTimer>

@@ -27,7 +27,6 @@
 class QGraphicsScene;
 class QGraphicsView;
 class QTimer;
-class QAction;
 class QSlider;
 class QTreeView;
 

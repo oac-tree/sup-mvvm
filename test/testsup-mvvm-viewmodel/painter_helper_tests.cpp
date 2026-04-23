@@ -20,17 +20,11 @@
 
 #include "mvvm/nodeeditor/painter_helper.h"
 
-#include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/nodeeditor/node_connection.h>
 #include <mvvm/style/mvvm_style_helper.h>
-#include <mvvm/utils/numeric_utils.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <QDebug>
 #include <QPainterPath>
-#include <QPainterPathStroker>
 #include <QPen>
 
 namespace mvvm::test

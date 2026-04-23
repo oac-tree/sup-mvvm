@@ -20,8 +20,6 @@
 
 #include "mvvm/core/variant_value_visitor.h"
 
-#include <mvvm/utils/string_utils.h>
-
 #include <gtest/gtest.h>
 
 namespace mvvm::test

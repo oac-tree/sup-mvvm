@@ -22,7 +22,6 @@
 #define DRAGANDMOVE_DRAGANDMOVECORE_MODEL_EDITOR_WIDGET_H_
 
 #include <QWidget>
-#include <memory>
 
 class QToolBar;
 class QAction;

@@ -18,11 +18,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/nodeeditor/node_editor_constants.h"
 #include "mvvm/nodeeditor/node_editor_helper.h"
 #include "mvvm/nodeeditor/node_port.h"
 
-#include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/container_item.h>
 

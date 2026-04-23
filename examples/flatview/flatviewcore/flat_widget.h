@@ -27,7 +27,6 @@
 namespace mvvm
 {
 class SessionItem;
-class SessionModelInterface;
 class ViewModel;
 class PropertyFlatView;
 }  // namespace mvvm

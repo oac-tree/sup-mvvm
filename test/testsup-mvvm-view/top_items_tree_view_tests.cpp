@@ -22,15 +22,11 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_selection.h>
-#include <mvvm/standarditems/standard_item_includes.h>
+#include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/item_view_component_provider.h>
 
 #include <gtest/gtest.h>
-
-#include <QItemSelectionModel>
-#include <QSignalSpy>
-#include <QTreeView>
 
 namespace mvvm::test
 {

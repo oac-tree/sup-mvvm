@@ -20,8 +20,6 @@
 
 #include "mvvm/providers/viewmodel_iterate_helper.h"
 
-#include <mvvm/standarditems/vector_item.h>
-
 #include <gtest/gtest.h>
 
 #include <QModelIndexList>

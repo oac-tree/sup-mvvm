@@ -23,8 +23,6 @@
 #include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/providers/i_cell_decorator.h>
-#include <mvvm/providers/i_editor_factory.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/views/default_cell_decorator.h>
 #include <mvvm/views/item_view_component_provider.h>
@@ -32,11 +30,9 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/mock_cell_decorator.h>
 #include <testutils/mock_editor_factory.h>
 
 #include <QTreeView>
-#include <QWidget>
 
 namespace mvvm::test
 {

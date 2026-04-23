@@ -20,7 +20,7 @@
 
 #include "mvvm/core/variant.h"
 
-#include <mvvm/utils/string_utils.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <gtest/gtest.h>
 

@@ -20,7 +20,7 @@
 
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 
-#include <mvvm/commands/command_stack.h>
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/application_model.h>
 
 #include <benchmark/benchmark.h>

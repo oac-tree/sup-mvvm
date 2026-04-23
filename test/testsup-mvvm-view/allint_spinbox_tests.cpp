@@ -27,7 +27,6 @@
 #include <gtest/gtest.h>
 
 #include <QSignalSpy>
-#include <QTest>
 
 namespace mvvm::test
 {

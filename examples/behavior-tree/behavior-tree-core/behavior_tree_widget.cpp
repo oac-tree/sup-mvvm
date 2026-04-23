@@ -25,16 +25,12 @@
 #include "graphics_view.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/nodeeditor/connectable_shape.h>
 #include <mvvm/nodeeditor/connectable_view_model_controller.h>
 #include <mvvm/nodeeditor/default_node_shape_factory.h>
 #include <mvvm/nodeeditor/i_node_port.h>
 #include <mvvm/nodeeditor/node_connection_guide.h>
 #include <mvvm/nodeeditor/node_editor_helper.h>
-#include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
-#include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 #include <mvvm/providers/standard_children_strategies.h>
-#include <mvvm/standarditems/node_item.h>
 
 #include <QVBoxLayout>
 

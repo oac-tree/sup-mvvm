@@ -28,7 +28,6 @@
 
 #include <gtest/gtest.h>
 
-#include <QSignalSpy>
 #include <QTreeView>
 
 namespace mvvm::test

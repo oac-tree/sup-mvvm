@@ -20,7 +20,6 @@
 
 #include "custom_model.h"
 
-#include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/editor_constants.h>

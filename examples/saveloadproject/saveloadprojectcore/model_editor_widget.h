@@ -23,9 +23,6 @@
 
 #include <QWidget>
 
-class QToolBar;
-class QAction;
-
 namespace saveloadproject
 {
 

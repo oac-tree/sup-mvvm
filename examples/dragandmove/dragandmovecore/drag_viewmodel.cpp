@@ -23,10 +23,7 @@
 #include <mvvm/model/session_model.h>
 #include <mvvm/providers/qtcore_helper.h>
 #include <mvvm/providers/viewmodel_utils.h>
-#include <mvvm/utils/numeric_utils.h>
 
-#include <QByteArray>
-#include <QDataStream>
 #include <QMimeData>
 
 namespace

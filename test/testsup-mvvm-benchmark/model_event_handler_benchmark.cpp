@@ -20,8 +20,7 @@
 
 #include "mvvm/signals/model_event_handler.h"
 
-#include <mvvm/model/application_model.h>
-#include <mvvm/model/property_item.h>
+#include <mvvm/model/session_item.h>
 
 #include <benchmark/benchmark.h>
 

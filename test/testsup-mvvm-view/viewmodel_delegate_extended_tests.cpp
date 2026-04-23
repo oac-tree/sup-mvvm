@@ -20,12 +20,12 @@
 
 #include "mvvm/views/viewmodel_delegate.h"
 
-#include <mvvm/editors/custom_editor_includes.h>
+#include <mvvm/editors/allint_spinbox_editor.h>
+#include <mvvm/editors/float_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
 

@@ -20,13 +20,11 @@
 
 #include "graph_widget_toolbar.h"
 
-#include <QDebug>
 #include <QLabel>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QSlider>
 #include <QSpinBox>
-#include <QVBoxLayout>
 
 namespace
 {

@@ -30,7 +30,6 @@
 #include <QLabel>
 #include <QSpinBox>
 #include <QStandardItemModel>
-#include <QTextEdit>
 
 namespace mvvm::test
 {

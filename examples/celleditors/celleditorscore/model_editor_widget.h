@@ -22,7 +22,6 @@
 #define CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_
 
 #include <QWidget>
-#include <memory>
 
 class QTabWidget;
 

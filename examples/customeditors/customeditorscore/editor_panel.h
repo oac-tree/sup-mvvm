@@ -21,7 +21,6 @@
 #ifndef CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_PANEL_H_
 #define CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_PANEL_H_
 
-#include <QStringList>
 #include <QWidget>
 #include <memory>
 
@@ -32,10 +31,8 @@ class QLineEdit;
 
 namespace mvvm
 {
-class ISessionModel;
 class StringCompleterComboEditor;
 class StringCompleterEditor;
-class AllItemsViewModel;
 class ItemViewComponentProvider;
 }  // namespace mvvm
 

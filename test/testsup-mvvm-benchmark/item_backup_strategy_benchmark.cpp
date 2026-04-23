@@ -20,9 +20,9 @@
 
 #include "mvvm/factories/item_backup_strategy_factory.h"
 
+#include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
-#include <mvvm/model/model_utils.h>
-#include <mvvm/model/session_model.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/test/model_test_helper.h>
 
 #include <benchmark/benchmark.h>

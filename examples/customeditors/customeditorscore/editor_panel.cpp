@@ -29,14 +29,12 @@
 #include <mvvm/views/component_provider_helper.h>
 #include <mvvm/views/default_cell_decorator.h>
 #include <mvvm/views/viewmodel_component_builder.h>
-#include <mvvm/views/viewmodel_delegate.h>
 
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
 #include <QTreeView>
-#include <QVBoxLayout>
 
 namespace customeditors
 {

@@ -21,18 +21,10 @@
 #ifndef CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_WIDGET_H_
 #define CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_WIDGET_H_
 
-#include <QStringList>
 #include <QWidget>
 #include <memory>
 
 class QLineEdit;
-class QTreeView;
-class QAbstractItemView;
-
-namespace mvvm
-{
-class ISessionModel;
-}  // namespace mvvm
 
 namespace customeditors
 {

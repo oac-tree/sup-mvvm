@@ -22,11 +22,9 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/signals/event_value_visitor.h>
 
 #include <gtest/gtest.h>
 

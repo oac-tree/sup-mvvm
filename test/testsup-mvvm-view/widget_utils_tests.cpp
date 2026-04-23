@@ -21,10 +21,6 @@
 #include "mvvm/widgets/widget_utils.h"
 
 #include <gtest/gtest.h>
-#include <testutils/toy_items.h>
-
-#include <QDir>
-#include <QSize>
 
 namespace mvvm::test
 {

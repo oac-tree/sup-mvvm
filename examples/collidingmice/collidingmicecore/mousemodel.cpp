@@ -22,11 +22,9 @@
 
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/factories/model_document_factory.h>
-#include <mvvm/model/item_factory.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/widgets/widget_utils.h>
 
-#include <QColor>
 #include <algorithm>
 #include <cmath>
 

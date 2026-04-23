@@ -31,8 +31,6 @@
 #include <mvvm/utils/numeric_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
-#include <QColor>
-
 namespace
 {
 

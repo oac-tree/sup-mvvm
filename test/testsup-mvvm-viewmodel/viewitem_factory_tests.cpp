@@ -21,9 +21,7 @@
 #include "mvvm/providers/viewitem_factory.h"
 
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/session_model.h>
 #include <mvvm/providers/viewitem.h>
-#include <mvvm/providers/viewmodel_iterate_helper.h>
 #include <mvvm/providers/viewmodel_utils.h>
 #include <mvvm/standarditems/vector_item.h>
 

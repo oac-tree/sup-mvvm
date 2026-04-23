@@ -22,8 +22,6 @@
 
 #include "graph_model.h"
 
-#include <mvvm/model/model_utils.h>
-#include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/views/all_items_tree_view.h>
 #include <mvvm/views/chart_canvas.h>
 

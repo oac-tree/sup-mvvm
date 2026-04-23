@@ -22,7 +22,6 @@
 
 #include "central_widget.h"
 
-#include <mvvm/widgets/main_window_types.h>
 #include <mvvm/widgets/app_restarter.h>
 
 #include <QCoreApplication>

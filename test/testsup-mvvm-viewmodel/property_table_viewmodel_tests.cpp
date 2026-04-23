@@ -21,7 +21,6 @@
 #include "mvvm/viewmodel/property_table_viewmodel.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
