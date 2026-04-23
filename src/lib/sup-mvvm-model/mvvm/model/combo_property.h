@@ -176,4 +176,5 @@ bool operator>=(const ComboProperty& lhs, const ComboProperty& rhs);
 
 }  // namespace mvvm
 
+
 #endif  // MVVM_MODEL_COMBO_PROPERTY_H_

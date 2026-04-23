@@ -1,6 +1,0 @@
-/home/pospelov/development/iter/projects/sup-mvvm/examples/plotgraphs/plotgraphscore/graph_model.cpp should remove these lines:
-- #include <mvvm/standarditems/standard_item_includes.h>  // lines 25-25
-- #include <QColor>  // lines 29-29
-
-/home/pospelov/development/iter/projects/sup-mvvm/examples/plotgraphs/plotgraphscore/graph_widget.h should remove these lines:
-- class QBoxLayout;  // lines 26-26
