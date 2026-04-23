@@ -26,8 +26,6 @@
 #include <mvvm/viewmodel/custom_editor.h>
 #include <mvvm/views/default_cell_decorator.h>
 
-#include <QApplication>
-
 namespace
 {
 constexpr double scale_default_height_factor{1.2};

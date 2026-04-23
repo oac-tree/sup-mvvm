@@ -19,9 +19,8 @@
  *****************************************************************************/
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/session_model.h>
-#include <mvvm/standarditems/standard_item_includes.h>
-#include <mvvm/test/mock_item_listener.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/signals/item_controller.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

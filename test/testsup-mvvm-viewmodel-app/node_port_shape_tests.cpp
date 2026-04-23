@@ -25,11 +25,8 @@
 
 #include <gtest/gtest.h>
 #include <testutils/mock_node_port.h>
-#include <testutils/test_node_editor_helper.h>
 
 #include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QTest>
 
 namespace mvvm::test
 {

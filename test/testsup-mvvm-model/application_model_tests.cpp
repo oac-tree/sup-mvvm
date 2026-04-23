@@ -32,7 +32,6 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/toy_items.h>
 
 namespace mvvm::test
 {

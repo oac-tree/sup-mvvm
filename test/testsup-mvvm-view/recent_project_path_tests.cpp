@@ -24,6 +24,7 @@
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
+#include <testutils/cmake_info.h>
 
 namespace mvvm::test
 {

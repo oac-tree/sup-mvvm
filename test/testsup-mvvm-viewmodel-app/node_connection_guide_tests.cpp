@@ -23,11 +23,9 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/nodeeditor/connectable_shape.h>
 #include <mvvm/nodeeditor/graphics_scene_helper.h>
-#include <mvvm/nodeeditor/node_connection.h>
 #include <mvvm/nodeeditor/node_connection_shape.h>
 #include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
-#include <mvvm/nodeeditor/node_port.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 

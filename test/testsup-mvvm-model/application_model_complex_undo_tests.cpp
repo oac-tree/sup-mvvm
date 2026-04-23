@@ -21,13 +21,11 @@
 #include "mvvm/model/application_model.h"
 
 #include <mvvm/commands/i_command_stack.h>
-#include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/model/property_item.h>
-#include <mvvm/standarditems/standard_item_includes.h>
-#include <mvvm/test/mock_model_listener.h>
+#include <mvvm/standarditems/data1d_item.h>
+#include <mvvm/standarditems/graph_item.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>

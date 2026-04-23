@@ -20,6 +20,7 @@
 
 #include "float_spinbox.h"
 
+#include <mvvm/core/basic_scalar_types.h>
 #include <mvvm/providers/custom_variants.h>
 
 #include <QDoubleSpinBox>

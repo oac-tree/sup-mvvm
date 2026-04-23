@@ -22,7 +22,6 @@
 
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/item_utils.h>
-#include <mvvm/model/property_item.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/test/mock_model_listener.h>
 

@@ -21,8 +21,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <QMetaType>
-
 int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);

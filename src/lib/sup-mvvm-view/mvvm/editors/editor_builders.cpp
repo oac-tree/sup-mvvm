@@ -24,11 +24,9 @@
 
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/providers/variant_converter.h>
 #include <mvvm/standarditems/editor_constants.h>
 
 #include <QDoubleSpinBox>
-#include <QSpinBox>
 
 namespace
 {

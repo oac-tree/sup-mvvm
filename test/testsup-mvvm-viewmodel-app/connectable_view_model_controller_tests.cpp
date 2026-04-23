@@ -33,7 +33,6 @@
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>
 

@@ -21,7 +21,6 @@
 #ifndef MVVM_EDITORS_SELECTABLE_COMBOBOX_EDITOR_H_
 #define MVVM_EDITORS_SELECTABLE_COMBOBOX_EDITOR_H_
 
-#include <mvvm/providers/custom_variants.h>
 #include <mvvm/viewmodel/custom_editor.h>
 
 class QComboBox;

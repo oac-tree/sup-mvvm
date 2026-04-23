@@ -20,7 +20,7 @@
 
 #include "mvvm/nodeeditor/painting/node_connection_painter.h"
 
-#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 namespace mvvm::test
 {

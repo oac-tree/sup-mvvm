@@ -23,7 +23,6 @@
 
 #include <mvvm/nodeeditor/i_node_port.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #ifdef BUILD_QCUSTOMPLOT

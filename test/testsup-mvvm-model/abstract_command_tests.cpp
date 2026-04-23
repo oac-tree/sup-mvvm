@@ -18,8 +18,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/abstract_command.h"
-
 #include <mvvm/core/mvvm_exceptions.h>
 
 #include <gmock/gmock.h>

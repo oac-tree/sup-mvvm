@@ -24,7 +24,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 namespace mvvm::test

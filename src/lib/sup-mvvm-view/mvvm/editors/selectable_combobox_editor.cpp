@@ -36,7 +36,6 @@
 #include <QLineEdit>
 #include <QMouseEvent>
 #include <QStandardItem>
-#include <QStandardItemModel>
 #include <QStyledItemDelegate>
 #include <QVBoxLayout>
 

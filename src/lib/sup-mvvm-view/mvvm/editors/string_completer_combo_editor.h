@@ -21,7 +21,6 @@
 #ifndef MVVM_EDITORS_STRING_COMPLETER_COMBO_EDITOR_H_
 #define MVVM_EDITORS_STRING_COMPLETER_COMBO_EDITOR_H_
 
-#include <QStringList>
 #include <QVariant>
 #include <QWidget>
 #include <functional>

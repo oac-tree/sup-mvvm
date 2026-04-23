@@ -25,7 +25,6 @@
 #include <mvvm/providers/custom_variants.h>
 #include <mvvm/providers/variant_converter.h>
 #include <mvvm/providers/viewmodel_utils.h>
-#include <mvvm/standarditems/editor_constants.h>
 
 #include <QWidget>
 

@@ -20,9 +20,7 @@
 
 #include "mvvm/nodeeditor/node_connection_guide_impl.h"
 
-#include <mvvm/nodeeditor/node_connection.h>
 #include <mvvm/nodeeditor/node_connection_shape.h>
-#include <mvvm/nodeeditor/node_port.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
 
 #include <gtest/gtest.h>

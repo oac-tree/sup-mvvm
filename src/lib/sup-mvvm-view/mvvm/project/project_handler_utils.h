@@ -24,7 +24,6 @@
 //! @file
 //! Contains utility functions to populate menus with (create new, open, save, save as) requests.
 
-class QAction;
 class QMenu;
 
 namespace mvvm

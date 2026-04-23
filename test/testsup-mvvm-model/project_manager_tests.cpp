@@ -23,7 +23,6 @@
 #include <mvvm/core/mvvm_exceptions.h>
 
 #include <gtest/gtest.h>
-#include <testutils/folder_test.h>
 #include <testutils/mock_project.h>
 #include <testutils/mock_user_interactor.h>
 

@@ -21,8 +21,6 @@
 #ifndef MVVM_EDITORS_FLOAT_SPINBOX_H_
 #define MVVM_EDITORS_FLOAT_SPINBOX_H_
 
-#include <mvvm/core/variant.h>
-
 #include <QVariant>
 #include <QWidget>
 

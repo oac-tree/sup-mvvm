@@ -21,8 +21,6 @@
 #include <gtest/gtest.h>
 
 #include <memory>
-#include <stdexcept>
-#include <string>
 
 namespace mvvm::test
 {

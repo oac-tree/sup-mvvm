@@ -22,7 +22,6 @@
 #define LIBTEST_UTILS_TESTUTILS_MOCK_NODE_CONNECTION_GUIDE_CONTEXT_H_
 
 #include <mvvm/nodeeditor/node_connection_guide_context.h>
-#include <mvvm/nodeeditor/node_editor_types.h>
 
 #include <gmock/gmock.h>
 

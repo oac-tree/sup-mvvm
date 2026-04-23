@@ -24,7 +24,6 @@
 #include "mvvm/viewmodel/viewmodel.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/model_utils.h>
 #include <mvvm/providers/abstract_row_strategy.h>
 #include <mvvm/providers/standard_children_strategies.h>
 #include <mvvm/providers/viewitem.h>

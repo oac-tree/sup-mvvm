@@ -21,7 +21,6 @@
 #ifndef MVVM_TEST_MOCK_MODEL_LISTENER_H_
 #define MVVM_TEST_MOCK_MODEL_LISTENER_H_
 
-#include <mvvm/model/i_session_model.h>
 #include <mvvm/signals/model_listener.h>
 
 #include <gmock/gmock.h>

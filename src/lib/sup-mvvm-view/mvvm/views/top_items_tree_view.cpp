@@ -24,10 +24,10 @@
 #include <mvvm/views/component_provider_helper.h>
 
 #include <QTreeView>
-#include <QVBoxLayout>
 
 namespace mvvm
 {
+
 TopItemsTreeView::TopItemsTreeView(ISessionModel* model, QWidget* parent_widget)
     : AbstractItemView(parent_widget), m_tree_view(new QTreeView)
 {

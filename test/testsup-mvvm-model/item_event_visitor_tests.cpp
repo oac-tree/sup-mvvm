@@ -20,11 +20,9 @@
 
 #include "mvvm/signals/item_event_visitor.h"
 
-#include <mvvm/model/application_model.h>
-#include <mvvm/model/compound_item.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/model/session_item.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 namespace mvvm::test

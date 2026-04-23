@@ -31,8 +31,6 @@
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
 
-#include <QSignalSpy>
-
 namespace mvvm::test
 {
 

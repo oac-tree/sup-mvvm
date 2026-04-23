@@ -21,14 +21,13 @@
 #ifndef MVVM_TEST_MOCK_ITEM_LISTENER_H_
 #define MVVM_TEST_MOCK_ITEM_LISTENER_H_
 
-#include <mvvm/signals/item_controller.h>
+#include <mvvm/signals/item_listener.h>
 
 #include <gmock/gmock.h>
 
 namespace mvvm
 {
 class SessionItem;
-class TagIndex;
 }  // namespace mvvm
 
 namespace mvvm::test

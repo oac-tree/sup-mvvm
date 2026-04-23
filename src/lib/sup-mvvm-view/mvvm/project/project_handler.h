@@ -30,7 +30,6 @@ namespace mvvm
 
 class AbstractProjectUserInteractor;
 class IProject;
-class IProjectManager;
 class RecentProjectSettings;
 
 class ProjectHandler : public IProjectManager

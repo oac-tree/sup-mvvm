@@ -21,18 +21,14 @@
 #include "mvvm/plotting/customplot/graph_info_formatter.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/combo_property.h>
 #include <mvvm/plotting/customplot/graph_viewport_plot_controller.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
-#include <mvvm/standarditems/plottable_items.h>
 
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
-
-#include <QSignalSpy>
 
 namespace mvvm::test
 {

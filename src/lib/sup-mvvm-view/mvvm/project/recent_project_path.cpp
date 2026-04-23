@@ -22,8 +22,6 @@
 
 #include <mvvm/utils/file_utils.h>
 
-#include <QDir>
-
 namespace mvvm
 {
 

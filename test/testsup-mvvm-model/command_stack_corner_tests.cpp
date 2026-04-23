@@ -20,10 +20,8 @@
 
 #include "mvvm/commands/command_stack.h"
 
-#include <mvvm/commands/abstract_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/mock_command.h>
 

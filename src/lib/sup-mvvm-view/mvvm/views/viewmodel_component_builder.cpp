@@ -20,7 +20,6 @@
 
 #include "viewmodel_component_builder.h"
 
-#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/providers/i_cell_decorator.h>
 #include <mvvm/providers/i_editor_factory.h>

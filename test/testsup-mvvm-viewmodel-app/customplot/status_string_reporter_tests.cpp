@@ -21,24 +21,19 @@
 #include "mvvm/plotting/customplot/status_string_reporter.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/combo_property.h>
 #include <mvvm/plotting/customplot/graph_info_formatter.h>
 #include <mvvm/plotting/customplot/graph_viewport_plot_controller.h>
-#include <mvvm/plotting/customplot/mouse_pos_info.h>
 #include <mvvm/plotting/customplot/status_string_formatter_interface.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
-#include <mvvm/standarditems/plottable_items.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
 
 #include <QMouseEvent>
-#include <QSignalSpy>
-#include <QTest>
 
 namespace mvvm::test
 {

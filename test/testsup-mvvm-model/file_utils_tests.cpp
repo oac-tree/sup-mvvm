@@ -23,9 +23,9 @@
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
+#include <testutils/cmake_info.h>
 #include <testutils/folder_test.h>
 
-#include <QDir>
 #include <string>
 
 namespace mvvm::test

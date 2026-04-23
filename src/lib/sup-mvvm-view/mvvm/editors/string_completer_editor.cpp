@@ -24,7 +24,6 @@
 
 #include <QCompleter>
 #include <QEvent>
-#include <QFocusEvent>
 #include <QHeaderView>
 #include <QLineEdit>
 #include <QStringListModel>

@@ -23,7 +23,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/test/mock_project_context.h>
-#include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gmock/gmock.h>

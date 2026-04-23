@@ -20,7 +20,6 @@
 
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/session_model.h>
 #include <mvvm/test/model_test_helper.h>
 
 #include <gtest/gtest.h>

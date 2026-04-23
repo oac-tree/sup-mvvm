@@ -20,8 +20,6 @@
 
 #include "recent_project_settings.h"
 
-#include <mvvm/utils/file_utils.h>
-
 #include <QDir>
 #include <QSettings>
 

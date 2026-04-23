@@ -28,7 +28,6 @@ namespace mvvm
 {
 
 class GraphViewportItem;
-class SceneAdapterInterface;
 
 //! Widget to show scientific figure with multiple 1D graphs.
 //! Contains embedded QCustomPlot widget, shows content of GraphViewportItem.
