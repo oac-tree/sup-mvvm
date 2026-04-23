@@ -1,0 +1,1055 @@
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/commands/abstract_command.cpp should remove these lines:
+- #include <mvvm/signals/event_value_visitor.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/commands/command_helper.h should remove these lines:
+- #include <mvvm/commands/command_status.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/commands/insert_item_command.h should remove these lines:
+- namespace mvvm { class TagIndex; }  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/commands/insert_item_command.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/commands/macro_command.cpp should remove these lines:
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/commands/remove_item_command.h should remove these lines:
+- #include <mvvm/core/variant.h>  // lines 25-25
+- namespace mvvm { class TagIndex; }  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/commands/remove_item_command.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/commands/set_value_command.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/core/variant_value_visitor.h should remove these lines:
+- #include <mvvm/core/variant.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/factories/item_backup_strategy_factory.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/application_model.h should remove these lines:
+- namespace mvvm { class ICommandStack; }  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/application_model.cpp should remove these lines:
+- #include <mvvm/commands/i_command.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/compound_item.cpp should remove these lines:
+- #include <mvvm/model/item_utils.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/item_factory.cpp should remove these lines:
+- #include <mvvm/standarditems/standard_item_includes.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/item_utils.cpp should remove these lines:
+- #include <mvvm/model/validate_utils.h>  // lines 36-36
+- #include "validate_utils.h"  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/model_utils.h should remove these lines:
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 24-24
+- #include <mvvm/model/session_model.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/model_utils.cpp should remove these lines:
+- #include "application_model.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/session_item.h should remove these lines:
+- #include <mvvm/model/item_traits.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/session_item.cpp should remove these lines:
+- #include "taginfo.h"  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/session_item_impl.cpp should remove these lines:
+- #include <mvvm/signals/signal_slot.h>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/session_model.h should remove these lines:
+- namespace mvvm { class SessionItem; }  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/model/validate_utils.h should remove these lines:
+- #include <mvvm/core/mvvm_errors.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/abstract_project.cpp should remove these lines:
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 25-25
+- #include <mvvm/model/i_session_model.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/app_project.cpp should remove these lines:
+- #include <mvvm/serialization/xml_document_helper.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/external_model_project.cpp should remove these lines:
+- #include <mvvm/factories/model_document_factory.h>  // lines 25-25
+- #include "project_context.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/file_based_project.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 26-26
+- #include "project_context.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/folder_based_project.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 27-27
+- #include "project_context.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/model_has_changed_controller.h should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/model_has_changed_controller.cpp should remove these lines:
+- #include <mvvm/model/tagindex.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/project_manager.h should remove these lines:
+- namespace mvvm { struct UserInteractionContext; }  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/project_utils.h should remove these lines:
+- #include <mvvm/project/project_types.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/project/project_utils.cpp should remove these lines:
+- #include <cctype>  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/serialization/session_item_composer_components.h should remove these lines:
+- #include <mvvm/serialization/converter_types.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/serialization/tree_data_composer.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/serialization/tree_data_model_converter.h should remove these lines:
+- #include <mvvm/serialization/converter_types.h>  // lines 24-24
+- #include <memory>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/serialization/tree_data_variant_converter.cpp should remove these lines:
+- #include <mvvm/utils/string_utils.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/serialization/xml_document.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/signals/item_listener.h should remove these lines:
+- #include <mvvm/signals/signal_slot.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/signals/item_listener.cpp should remove these lines:
+- #include <mvvm/model/model_utils.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/signals/model_event_handler.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 23-23
+- #include <mvvm/model/session_item.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/signals/model_listener.h should remove these lines:
+- #include <mvvm/signals/model_event_handler.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/signals/event_value_visitor.cpp should remove these lines:
+- #include <mvvm/core/variant.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/signals/item_event_visitor.h should remove these lines:
+- #include <mvvm/signals/event_types.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/standarditems/data1d_item.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/standarditems/graph_item.cpp should remove these lines:
+- #include <mvvm/model/combo_property.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/standarditems/linked_item.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/standarditems/plottable_items.cpp should remove these lines:
+- #include <mvvm/utils/container_utils.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/utils/bin_utils.cpp should remove these lines:
+- #include <iostream>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/utils/file_utils.cpp should remove these lines:
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/utils/limited_integer_helper.cpp should remove these lines:
+- #include "limited_integer.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-model/mvvm/utils/string_utils.cpp should remove these lines:
+- #include <cctype>  // lines 24-24
+- #include <iostream>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/connectable_shape.h should remove these lines:
+- #include <mvvm/nodeeditor/node_editor_types.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/connectable_shape_style.h should remove these lines:
+- #include <QString>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/connectable_view_model_controller.h should remove these lines:
+- #include <mvvm/signals/event_types.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/default_node_shape_factory.h should remove these lines:
+- namespace mvvm { class ConnectableShape; }  // lines 30-30
+- namespace mvvm { class SessionItem; }  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/graphics_scene_helper.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 28-28
+- #include <QColor>  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_connection_guide.h should remove these lines:
+- class QGraphicsSceneMouseEvent;  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_connection_guide_impl.h should remove these lines:
+- #include <QGraphicsScene>  // lines 27-27
+- namespace mvvm { class ConnectableShape; }  // lines 34-34
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_connection_shape.h should remove these lines:
+- #include <mvvm/nodeeditor/i_node_connection.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_connection_shape.cpp should remove these lines:
+- #include <QPainter>  // lines 29-29
+- #include <QPen>  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_connection_style.cpp should remove these lines:
+- #include <mvvm/nodeeditor/node_editor_constants.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_editor_constants.cpp should remove these lines:
+- #include <QApplication>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_item_connectable_shape_adapter.h should remove these lines:
+- namespace mvvm { class ItemListener; }  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_port.h should remove these lines:
+- #include <mvvm/nodeeditor/node_editor_events.h>  // lines 25-25
+- namespace mvvm { class NodeConnection; }  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_port_shape.h should remove these lines:
+- #include <mvvm/nodeeditor/i_node_port.h>  // lines 24-24
+- class QGraphicsTextItem;  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_port_shape.cpp should remove these lines:
+- #include <QPainter>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/node_port_style.h should remove these lines:
+- #include <QRectF>  // lines 27-27
+- #include <QString>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/port_appearance.h should remove these lines:
+- #include <QRectF>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/painting/node_connection_painter.cpp should remove these lines:
+- #include <QPainterPath>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/nodeeditor/painting/node_port_shape_painter.cpp should remove these lines:
+- #include <mvvm/nodeeditor/node_port_shape.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/customplot/custom_plot_utils.h should remove these lines:
+- class QCPColorScale;  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/customplot/mouse_move_reporter.cpp should remove these lines:
+- #include "mouse_pos_info.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/customplot/pen_controller.cpp should remove these lines:
+- #include <mvvm/model/combo_property.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/chart_axis_plot_controller.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts_fwd.h>  // lines 24-24
+- #include <QObject>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/chart_axis_title_controller.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts_fwd.h>  // lines 24-24
+- #include <QObject>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/chart_axis_title_controller.cpp should remove these lines:
+- #include "qt_charts.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/chart_pen_controller.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts_fwd.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/chart_pen_controller.cpp should remove these lines:
+- #include "qt_charts.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/chart_viewport_controller.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts_fwd.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/chart_viewport_controller.cpp should remove these lines:
+- #include <mvvm/standarditems/viewport_item.h>  // lines 30-30
+- #include "qt_charts.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/line_series_controller.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts_fwd.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/line_series_controller.cpp should remove these lines:
+- #include <mvvm/standarditems/line_series_data_item.h>  // lines 28-28
+- #include <iostream>  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/line_series_data_controller.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts_fwd.h>  // lines 24-24
+- #include <mvvm/signals/event_types.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/line_series_data_controller.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 28-28
+- #include <iostream>  // lines 33-33
+- #include "qt_charts.h"  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/line_series_mouse_listener.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts_fwd.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/plotting/charts/line_series_mouse_listener.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/abstract_viewmodel_controller.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/custom_variants.h should remove these lines:
+- #include <mvvm/core/basic_scalar_types.h>  // lines 27-27
+- #include <mvvm/model/combo_property.h>  // lines 28-28
+- #include <mvvm/model/external_property.h>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/qtcore_helper.h should remove these lines:
+- #include <QList>  // lines 27-27
+- #include <QStringList>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/qtcore_helper.cpp should remove these lines:
+- #include <QByteArray>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/standard_children_strategies.h should remove these lines:
+- namespace mvvm { class SessionItem; }  // lines 35-35
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/standard_row_strategies.h should remove these lines:
+- namespace mvvm { class SessionItem; }  // lines 31-31
+- namespace mvvm { class ViewItem; }  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/variant_converter.h should remove these lines:
+- #include <mvvm/providers/custom_variants.h>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/variant_converter.cpp should remove these lines:
+- #include <QMetaType>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/viewitem_factory.h should remove these lines:
+- class QVariant;  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/viewmodel_controller_factory.h should remove these lines:
+- namespace mvvm { class AbstractViewModelController; }  // lines 33-33
+- namespace mvvm { class IChildrenStrategy; }  // lines 31-31
+- namespace mvvm { class IRowStrategy; }  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/viewmodel_controller_factory.cpp should remove these lines:
+- #include "i_children_strategy.h"  // lines 23-23
+- #include "i_row_strategy.h"  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/viewmodel_controller_impl.h should remove these lines:
+- #include <mvvm/signals/event_types.h>  // lines 26-26
+- #include <QStringList>  // lines 28-28
+- namespace mvvm { class ISessionModel; }  // lines 34-34
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/viewmodel_controller_impl.cpp should remove these lines:
+- #include <mvvm/model/model_utils.h>  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/viewmodel_iterate_helper.h should remove these lines:
+- #include <QAbstractItemModel>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/providers/viewmodel_utils.h should remove these lines:
+- #include <QVector>  // lines 31-31
+- namespace mvvm { class SessionItem; }  // lines 35-35
+- namespace mvvm { class ViewItem; }  // lines 36-36
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-viewmodel/mvvm/viewmodel/viewmodel.cpp should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/app_restarter.h should remove these lines:
+- #include <mvvm/widgets/main_window_types.h>  // lines 24-24
+- #include <QStringList>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/layout_utils.cpp should remove these lines:
+- #include <QBoxLayout>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/main_vertical_bar_widget.h should remove these lines:
+- class QPushButton;  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/main_vertical_bar_widget.cpp should remove these lines:
+- #include <QLabel>  // lines 30-30
+- #include <QPushButton>  // lines 31-31
+- #include <QVBoxLayout>  // lines 35-35
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/mainbar_widget.h should remove these lines:
+- class QPushButton;  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/mainbar_widget.cpp should remove these lines:
+- #include <QLabel>  // lines 26-26
+- #include <QPushButton>  // lines 27-27
+- #include <QVBoxLayout>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/status_label.h should remove these lines:
+- class QPaintEvent;  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/status_label.cpp should remove these lines:
+- #include <QFont>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/widget_utils.h should remove these lines:
+- class QFont;  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/widgets/widget_utils.cpp should remove these lines:
+- #include <mvvm/style/mvvm_style_helper.h>  // lines 24-24
+- #include <QLabel>  // lines 30-30
+- #include <QSize>  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/abstract_item_view.h should remove these lines:
+- class QAbstractItemView;  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/abstract_item_view.cpp should remove these lines:
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 23-23
+- #include <mvvm/model/session_item.h>  // lines 25-25
+- #include <mvvm/utils/container_utils.h>  // lines 26-26
+- #include <mvvm/viewmodel/viewmodel.h>  // lines 27-27
+- #include <QTreeView>  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/all_items_tree_view.cpp should remove these lines:
+- #include <QVBoxLayout>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/chart_canvas.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts_fwd.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/chart_canvas.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/chart_view.h should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/chart_view.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/component_provider_helper.h should remove these lines:
+- #include <mvvm/views/item_view_component_provider.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/component_provider_helper.cpp should remove these lines:
+- #include <mvvm/viewmodel/viewmodel.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/item_view_component_provider.h should remove these lines:
+- #include <mvvm/utils/container_utils.h>  // lines 24-24
+- class QItemSelectionModel;  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/item_view_component_provider.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/property_tree_view.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 23-23
+- #include <mvvm/viewmodel/viewmodel.h>  // lines 25-25
+- #include <QVBoxLayout>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/top_items_tree_view.cpp should remove these lines:
+- #include <mvvm/views/component_provider_helper.h>  // lines 24-24
+- #include <QVBoxLayout>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/viewmodel_component_builder.h should remove these lines:
+- namespace mvvm { class ICellDecorator; }  // lines 35-35
+- namespace mvvm { class IEditorFactory; }  // lines 34-34
+- namespace mvvm { class ViewModel; }  // lines 37-37
+- namespace mvvm { class ViewModelDelegate; }  // lines 36-36
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/viewmodel_component_builder.cpp should remove these lines:
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 23-23
+- #include <mvvm/viewmodel/viewmodel.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/viewmodel_delegate.cpp should remove these lines:
+- #include <QApplication>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/views/graph_canvas.h should remove these lines:
+- namespace mvvm { class SceneAdapterInterface; }  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/project/folder_based_user_interactor.cpp should remove these lines:
+- #include <mvvm/project/project_types.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/project/project_handler.h should remove these lines:
+- namespace mvvm { class IProjectManager; }  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/project/project_handler_utils.h should remove these lines:
+- class QAction;  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/project/recent_project_path.h should remove these lines:
+- #include <QStringList>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/project/recent_project_path.cpp should remove these lines:
+- #include <QDir>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/project/recent_project_settings.cpp should remove these lines:
+- #include <mvvm/utils/file_utils.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/allint_spinbox.cpp should remove these lines:
+- #include <mvvm/standarditems/editor_constants.h>  // lines 24-24
+- #include <mvvm/utils/limited_integer.h>  // lines 25-25
+- #include <QEvent>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/combo_property_editor.h should remove these lines:
+- #include <mvvm/providers/custom_variants.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/editor_builders.cpp should remove these lines:
+- #include <mvvm/providers/variant_converter.h>  // lines 27-27
+- #include <QSpinBox>  // lines 31-31
+- #include "custom_editor_includes.h"  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/float_spinbox.h should remove these lines:
+- #include <mvvm/core/variant.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/selectable_combobox_editor.h should remove these lines:
+- #include <mvvm/providers/custom_variants.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/selectable_combobox_editor.cpp should remove these lines:
+- #include <QStandardItemModel>  // lines 39-39
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/string_completer_combo_editor.h should remove these lines:
+- #include <QStringList>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/string_completer_editor.h should remove these lines:
+- #include <QStringList>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/string_completer_editor.cpp should remove these lines:
+- #include <QFocusEvent>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-view/mvvm/editors/variant_dependent_editor_factory.cpp should remove these lines:
+- #include <mvvm/standarditems/editor_constants.h>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-test/mvvm/test/mock_item_listener.h should remove these lines:
+- #include <mvvm/signals/item_controller.h>  // lines 24-24
+- namespace mvvm { class TagIndex; }  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-test/mvvm/test/mock_item_listener.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 25-25
+- #include <mvvm/model/tagindex.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-test/mvvm/test/mock_model_listener.h should remove these lines:
+- #include <mvvm/model/i_session_model.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/src/lib/sup-mvvm-test/mvvm/test/model_test_helper.h should remove these lines:
+- namespace mvvm { class ISessionModel; }  // lines 35-35
+
+/home/pospelov/development/iter/projects/sup-mvvm/extern/qcustomplot/qcustomplot.h should remove these lines:
+- #include <QtCore/qglobal.h>  // lines 29-29
+- #include <QtCore/QElapsedTimer>  // lines 100-100
+- #include <QtCore/QTimer>  // lines 53-53
+- #include <QtCore/QVector>  // lines 60-60
+- #include <QtGui/QMouseEvent>  // lines 57-57
+- #include <QtGui/QWheelEvent>  // lines 58-58
+- #include <QtPrintSupport/QtPrintSupport>  // lines 97-97
+- class QCPAbstractItem;  // lines 116-116
+- class QCPAbstractLegendItem;  // lines 121-121
+- class QCPAbstractPlottable;  // lines 114-114
+- class QCPAxis;  // lines 111-111
+- class QCPAxisPainterPrivate;  // lines 113-113
+- class QCPAxisRect;  // lines 112-112
+- class QCPBars;  // lines 125-125
+- class QCPColorMap;  // lines 123-123
+- class QCPColorScale;  // lines 124-124
+- class QCPGraph;  // lines 115-115
+- class QCPItemPosition;  // lines 119-119
+- class QCPLayer;  // lines 120-120
+- class QCPLayerable;  // lines 108-108
+- class QCPLayout;  // lines 110-110
+- class QCPLayoutElement;  // lines 109-109
+- class QCPLegend;  // lines 118-118
+- class QCPPainter;  // lines 106-106
+- class QCPPlottableInterface1D;  // lines 117-117
+- class QCPPolarAxisAngular;  // lines 127-127
+- class QCPPolarAxisRadial;  // lines 126-126
+- class QCPPolarGraph;  // lines 129-129
+- class QCPPolarGrid;  // lines 128-128
+- class QCPSelectionRect;  // lines 122-122
+- class QCustomPlot;  // lines 107-107
+
+/home/pospelov/development/iter/projects/sup-mvvm/extern/sup-tree-data/sup/xml/tree_data_parser_utils.h should remove these lines:
+- #include <libxml/tree.h>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/extern/sup-tree-data/sup/xml/tree_data_serialize.h should remove these lines:
+- #include <sup/xml/tree_data.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/extern/sup-tree-data/sup/xml/tree_data_serialize.cpp should remove these lines:
+- #include <libxml/encoding.h>  // lines 30-30
+- #include <sup/xml/tree_data.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/extern/sup-tree-data/sup/xml/tree_data_serialize_utils.h should remove these lines:
+- #include <sup/xml/tree_data.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/extern/sup-tree-data/sup/xml/tree_data_validate.h should remove these lines:
+- #include <sup/xml/tree_data.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/libtest-utils/testutils/folder_test.h should remove these lines:
+- #include <testutils/cmake_info.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/libtest-utils/testutils/mock_command_stack.cpp should remove these lines:
+- #include <mvvm/commands/i_command.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/libtest-utils/testutils/mock_node_connection_controller_context.h should remove these lines:
+- #include <mvvm/nodeeditor/node_editor_types.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/libtest-utils/testutils/test_node_editor_helper.cpp should remove these lines:
+- #include <mvvm/nodeeditor/graphics_scene_helper.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/libtest-utils/testutils/test_strategies.cpp should remove these lines:
+- #include <mvvm/providers/viewitem.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/chart_pen_controller_tests.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/chart_viewport_controller_tests.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 24-24
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 25-25
+- #include <mvvm/standarditems/axis_items.h>  // lines 26-26
+- #include <QSignalSpy>  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/connectable_shape_extended_tests.cpp should remove these lines:
+- #include <QTest>  // lines 40-40
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/connectable_view_model_controller_tests.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 36-36
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/custom_viewmodel_tests.cpp should remove these lines:
+- #include <mvvm/model/model_utils.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/graphics_scene_helper_tests.cpp should remove these lines:
+- #include <mvvm/nodeeditor/node_connection_shape.h>  // lines 25-25
+- #include <mvvm/nodeeditor/node_port.h>  // lines 28-28
+- #include <mvvm/test/test_container_helper.h>  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/line_series_mouse_listener_tests.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/main.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/node_connection_guide_impl_tests.cpp should remove these lines:
+- #include <mvvm/nodeeditor/node_connection.h>  // lines 23-23
+- #include <mvvm/nodeeditor/node_port.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/node_connection_guide_tests.cpp should remove these lines:
+- #include <mvvm/nodeeditor/node_connection.h>  // lines 26-26
+- #include <mvvm/nodeeditor/node_port.h>  // lines 30-30
+- #include <QTest>  // lines 41-41
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/node_connection_painter_tests.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/node_port_shape_tests.cpp should remove these lines:
+- #include <testutils/test_node_editor_helper.h>  // lines 28-28
+- #include <QGraphicsView>  // lines 31-31
+- #include <QTest>  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/custom_label_viewmodel_tests.cpp should remove these lines:
+- #include <mvvm/standarditems/container_item.h>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/customplot/graph_info_formatter_tests.cpp should remove these lines:
+- #include <mvvm/model/combo_property.h>  // lines 24-24
+- #include <mvvm/standarditems/plottable_items.h>  // lines 30-30
+- #include <QSignalSpy>  // lines 35-35
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/customplot/graph_plot_controller_tests.cpp should remove these lines:
+- #include <QSignalSpy>  // lines 34-34
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/customplot/mouse_move_reporter_tests.cpp should remove these lines:
+- #include <mvvm/model/combo_property.h>  // lines 24-24
+- #include <mvvm/standarditems/plottable_items.h>  // lines 31-31
+- #include <QSignalSpy>  // lines 38-38
+- #include <QTest>  // lines 39-39
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel-app/customplot/status_string_reporter_tests.cpp should remove these lines:
+- #include <mvvm/model/combo_property.h>  // lines 24-24
+- #include <mvvm/plotting/customplot/mouse_pos_info.h>  // lines 27-27
+- #include <mvvm/standarditems/plottable_items.h>  // lines 33-33
+- #include <QSignalSpy>  // lines 40-40
+- #include <QTest>  // lines 41-41
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/abstract_command_tests.cpp should remove these lines:
+- #include "mvvm/commands/abstract_command.h"  // lines 21-21
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/app_project_tests.cpp should remove these lines:
+- #include <mvvm/utils/container_utils.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/application_model_complex_undo_tests.cpp should remove these lines:
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 24-24
+- #include <mvvm/model/compound_item.h>  // lines 25-25
+- #include <mvvm/model/property_item.h>  // lines 28-28
+- #include <mvvm/standarditems/standard_item_includes.h>  // lines 29-29
+- #include <mvvm/test/mock_model_listener.h>  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/application_model_simple_undo_tests.cpp should remove these lines:
+- #include <mvvm/model/property_item.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/application_model_tests.cpp should remove these lines:
+- #include <testutils/toy_items.h>  // lines 35-35
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/command_stack_corner_tests.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 26-26
+- #include <mvvm/commands/abstract_command.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/command_stack_extended_tests.cpp should remove these lines:
+- #include <mvvm/test/mock_model_listener.h>  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/default_command_processor_tests.cpp should remove these lines:
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/experimental_clone_v2_tests.cpp should remove these lines:
+- #include <stdexcept>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/file_utils_tests.cpp should remove these lines:
+- #include <QDir>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/graph_item_tests.cpp should remove these lines:
+- #include <QColor>  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/item_connect_helper_tests.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/item_controller_tests.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 22-22
+- #include <mvvm/standarditems/standard_item_includes.h>  // lines 23-23
+- #include <mvvm/test/mock_item_listener.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/item_event_visitor_tests.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 27-27
+- #include <mvvm/model/application_model.h>  // lines 23-23
+- #include <mvvm/model/compound_item.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/item_factory_tests.cpp should remove these lines:
+- #include <mvvm/standarditems/standard_item_includes.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/limited_integer_helper_tests.cpp should remove these lines:
+- #include <mvvm/utils/limited_integer.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/linked_item_tests.cpp should remove these lines:
+- #include <mvvm/commands/default_command_processor.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/main.cpp should remove these lines:
+- #include <QMetaType>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/model_command_tests.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 27-27
+- #include <testutils/mock_command.h>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/model_test_helper_tests.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/path_tests.cpp should remove these lines:
+- #include <mvvm/model/model_utils.h>  // lines 23-23
+- #include <mvvm/model/session_item.h>  // lines 24-24
+- #include <mvvm/model/session_model.h>  // lines 25-25
+- #include <mvvm/model/taginfo.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/plottable_items_tests.cpp should remove these lines:
+- #include <QColor>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/project_manager_tests.cpp should remove these lines:
+- #include <testutils/folder_test.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/remove_item_command_tests.cpp should remove these lines:
+- #include <mvvm/model/property_item.h>  // lines 25-25
+- #include <mvvm/signals/event_value_visitor.h>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/session_item_composer_components_tests.cpp should remove these lines:
+- #include <mvvm/model/session_item_container.h>  // lines 24-24
+- #include <mvvm/model/tagged_items.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/tree_data_itemdata_converter_tests.cpp should remove these lines:
+- #include <sup/xml/tree_data_parser.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/tree_data_model_converter_tests.cpp should remove these lines:
+- #include <mvvm/commands/i_command_stack.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/validate_utils_tests.cpp should remove these lines:
+- #include <mvvm/model/tagged_items.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/variant_tests.cpp should remove these lines:
+- #include <mvvm/utils/string_utils.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/variant_value_visitor_tests.cpp should remove these lines:
+- #include <mvvm/utils/string_utils.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-model/vector_item_tests.cpp should remove these lines:
+- #include <mvvm/model/model_utils.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/all_items_viewmodel_tests.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 26-26
+- #include <testutils/toy_items.h>  // lines 37-37
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/chart_axis_plot_controller_tests.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/chart_axis_title_controller_tests.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/item_view_map_tests.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/line_series_controller_tests.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 24-24
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/line_series_data_controller_tests.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/main.cpp should remove these lines:
+- #include <mvvm/model/combo_property.h>  // lines 21-21
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/node_editor_helper_tests.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 25-25
+- #include "mvvm/nodeeditor/node_editor_constants.h"  // lines 21-21
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/painter_helper_tests.cpp should remove these lines:
+- #include <gmock/gmock.h>  // lines 28-28
+- #include <mvvm/core/mvvm_exceptions.h>  // lines 23-23
+- #include <mvvm/nodeeditor/node_connection.h>  // lines 24-24
+- #include <mvvm/utils/numeric_utils.h>  // lines 26-26
+- #include <QDebug>  // lines 31-31
+- #include <QPainterPathStroker>  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/platform_tests.cpp should remove these lines:
+- #include <QtGlobal>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/property_table_viewmodel_tests.cpp should remove these lines:
+- #include <mvvm/model/property_item.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/property_viewmodel_tests.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/standard_children_strategies_tests.cpp should remove these lines:
+- #include <mvvm/model/property_item.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/top_items_viewmodel_tests.cpp should remove these lines:
+- #include <mvvm/model/property_item.h>  // lines 25-25
+- #include <mvvm/standarditems/vector_item.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/variant_converter_tests.cpp should remove these lines:
+- #include <QDebug>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/viewitem_factory_tests.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 24-24
+- #include <mvvm/providers/viewmodel_iterate_helper.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/viewmodel_controller_impl_tests.cpp should remove these lines:
+- #include <mvvm/model/property_item.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-viewmodel/viewmodel_iterate_helper_tests.cpp should remove these lines:
+- #include <mvvm/standarditems/vector_item.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/abstract_item_view_tests.cpp should remove these lines:
+- #include <QSignalSpy>  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/all_items_tree_view_tests.cpp should remove these lines:
+- #include <mvvm/model/session_item.h>  // lines 25-25
+- #include <mvvm/standarditems/standard_item_includes.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/allint_spinbox_tests.cpp should remove these lines:
+- #include <QTest>  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/chart_view_tests.cpp should remove these lines:
+- #include <mvvm/plotting/charts/qt_charts.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/default_editor_factory_tests.cpp should remove these lines:
+- #include <mvvm/editors/custom_editor_includes.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/float_spinbox_tests.cpp should remove these lines:
+- #include <mvvm/utils/limited_integer_helper.h>  // lines 25-25
+- #include <QTest>  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/item_view_component_provider_tests.cpp should remove these lines:
+- #include <QDebug>  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/main.cpp should remove these lines:
+- #include <QMetaType>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/property_flat_view_tests.cpp should remove these lines:
+- #include <QTextEdit>  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/property_grid_controller_tests.cpp should remove these lines:
+- #include <QSpinBox>  // lines 40-40
+- #include <QStandardItemModel>  // lines 42-42
+- #include <QTest>  // lines 43-43
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/property_tree_view_tests.cpp should remove these lines:
+- #include <mvvm/standarditems/standard_item_includes.h>  // lines 24-24
+- #include <QItemSelectionModel>  // lines 30-30
+- #include <QSignalSpy>  // lines 31-31
+- #include <QTreeView>  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/role_dependent_editor_factory_tests.cpp should remove these lines:
+- #include <mvvm/editors/custom_editor_includes.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/string_completer_combo_editor_tests.cpp should remove these lines:
+- #include <QTest>  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/string_completer_editor_tests.cpp should remove these lines:
+- #include <QStringListModel>  // lines 31-31
+- #include <QTest>  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/top_items_tree_view_tests.cpp should remove these lines:
+- #include <mvvm/standarditems/standard_item_includes.h>  // lines 25-25
+- #include <QItemSelectionModel>  // lines 31-31
+- #include <QSignalSpy>  // lines 32-32
+- #include <QTreeView>  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/variant_dependent_editor_factory_tests.cpp should remove these lines:
+- #include <mvvm/editors/custom_editor_includes.h>  // lines 23-23
+- #include <mvvm/model/item_limits_helper.h>  // lines 25-25
+- #include <mvvm/standarditems/editor_constants.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/viewmodel_component_builder_tests.cpp should remove these lines:
+- #include <mvvm/providers/i_cell_decorator.h>  // lines 26-26
+- #include <mvvm/providers/i_editor_factory.h>  // lines 27-27
+- #include <testutils/mock_cell_decorator.h>  // lines 35-35
+- #include <QWidget>  // lines 39-39
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/viewmodel_delegate_extended_tests.cpp should remove these lines:
+- #include <mvvm/editors/custom_editor_includes.h>  // lines 23-23
+- #include <mvvm/standarditems/editor_constants.h>  // lines 28-28
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/viewmodel_delegate_tests.cpp should remove these lines:
+- #include <mvvm/editors/custom_editor_includes.h>  // lines 24-24
+- #include <mvvm/standarditems/vector_item.h>  // lines 27-27
+- #include <mvvm/viewmodel/custom_editor.h>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-view/widget_utils_tests.cpp should remove these lines:
+- #include <testutils/toy_items.h>  // lines 24-24
+- #include <QDir>  // lines 26-26
+- #include <QSize>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-benchmark/all_items_viewmodel_benchmark.cpp should remove these lines:
+- #include <mvvm/commands/command_stack.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-benchmark/application_model_benchmark.cpp should remove these lines:
+- #include <mvvm/commands/command_stack.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-benchmark/item_backup_strategy_benchmark.cpp should remove these lines:
+- #include <mvvm/model/model_utils.h>  // lines 24-24
+- #include <mvvm/model/session_model.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-benchmark/model_event_handler_benchmark.cpp should remove these lines:
+- #include <mvvm/model/application_model.h>  // lines 23-23
+- #include <mvvm/model/property_item.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/test/testsup-mvvm-benchmark/model_utils_benchmark.cpp should remove these lines:
+- #include <mvvm/model/session_model.h>  // lines 22-22
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/applauncher/central_widget.h should remove these lines:
+- #include <mvvm/widgets/main_window_types.h>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/applauncher/central_widget.cpp should remove these lines:
+- #include <QGridLayout>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/applauncher/main_window.cpp should remove these lines:
+- #include <mvvm/widgets/main_window_types.h>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/celleditors/celleditorscore/property_panel.h should remove these lines:
+- namespace celleditors { class SampleModel; }  // lines 45-45
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/celleditors/celleditorscore/model_editor_widget.h should remove these lines:
+- #include <memory>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/collidingmice/collidingmicecore/mainwindow.h should remove these lines:
+- class QAction;  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/collidingmice/collidingmicecore/mainwindow.cpp should remove these lines:
+- #include <QDebug>  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/collidingmice/collidingmicecore/mouse.cpp should remove these lines:
+- #include <QStyleOption>  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/collidingmice/collidingmicecore/mousemodel.cpp should remove these lines:
+- #include <mvvm/model/item_factory.h>  // lines 25-25
+- #include <QColor>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/customeditors/customeditorscore/custom_editor_factory.h should remove these lines:
+- #include <mvvm/providers/viewmodel_utils.h>  // lines 25-25
+- #include <QStringList>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/customeditors/customeditorscore/custom_model.cpp should remove these lines:
+- #include <mvvm/model/compound_item.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/customeditors/customeditorscore/editor_panel.h should remove these lines:
+- #include <QStringList>  // lines 24-24
+- namespace mvvm { class AllItemsViewModel; }  // lines 38-38
+- namespace mvvm { class ISessionModel; }  // lines 35-35
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/customeditors/customeditorscore/editor_panel.cpp should remove these lines:
+- #include <mvvm/views/component_provider_helper.h>  // lines 29-29
+- #include <mvvm/views/viewmodel_delegate.h>  // lines 32-32
+- #include <QVBoxLayout>  // lines 39-39
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/customeditors/customeditorscore/editor_widget.h should remove these lines:
+- #include <QStringList>  // lines 24-24
+- class QAbstractItemView;  // lines 30-30
+- class QTreeView;  // lines 29-29
+- namespace mvvm { class ISessionModel; }  // lines 34-34
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/customeditors/customeditorscore/editor_widget.cpp should remove these lines:
+- #include <QTreeView>  // lines 32-32
+- #include <QVBoxLayout>  // lines 33-33
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/dragandmove/dragandmovecore/container_editor_widget.h should remove these lines:
+- class QItemSelectionModel;  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/dragandmove/dragandmovecore/drag_viewmodel.cpp should remove these lines:
+- #include <mvvm/utils/numeric_utils.h>  // lines 26-26
+- #include <QByteArray>  // lines 28-28
+- #include <QDataStream>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/dragandmove/dragandmovecore/model_editor_widget.h should remove these lines:
+- #include <memory>  // lines 25-25
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/dragandmove/dragandmovecore/model_editor_widget.cpp should remove these lines:
+- #include <mvvm/commands/i_command_stack.h>  // lines 26-26
+- #include <QToolButton>  // lines 32-32
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/dragandmove/dragandmovecore/sample_model.cpp should remove these lines:
+- #include <mvvm/model/combo_property.h>  // lines 23-23
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/flatview/flatviewcore/flat_widget.h should remove these lines:
+- namespace mvvm { class SessionModelInterface; }  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/flatview/flatviewcore/model_editor_widget.h should remove these lines:
+- class QTableView;  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/flatview/flatviewcore/model_editor_widget.cpp should remove these lines:
+- #include <QHeaderView>  // lines 34-34
+- #include <QTableView>  // lines 35-35
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/lineseries/lineseriescore/graph_model.cpp should remove these lines:
+- #include <QColor>  // lines 31-31
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/lineseries/lineseriescore/graph_widget.h should remove these lines:
+- class QBoxLayout;  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/lineseries/lineseriescore/graph_widget.cpp should remove these lines:
+- #include <mvvm/model/model_utils.h>  // lines 25-25
+- #include <mvvm/standarditems/chart_viewport_item.h>  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/saveloadproject/saveloadprojectcore/container_editor_widget.h should remove these lines:
+- class QItemSelectionModel;  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/saveloadproject/saveloadprojectcore/main_window.h should remove these lines:
+- namespace mvvm { class ProjectContext; }  // lines 30-30
+- namespace mvvm { class ProjectHandler; }  // lines 31-31
+- namespace saveloadproject { class SampleModel; }  // lines 37-37
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/saveloadproject/saveloadprojectcore/main_window.cpp should remove these lines:
+- #include <mvvm/standarditems/container_item.h>  // lines 28-28
+- #include <QCoreApplication>  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/saveloadproject/saveloadprojectcore/main_window_actions.h should remove these lines:
+- class QMenuBar;  // lines 30-30
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/saveloadproject/saveloadprojectcore/model_editor_widget.h should remove these lines:
+- class QAction;  // lines 27-27
+- class QToolBar;  // lines 26-26
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/saveloadproject/saveloadprojectcore/model_editor_widget.cpp should remove these lines:
+- #include <mvvm/commands/i_command_stack.h>  // lines 27-27
+- #include <QAction>  // lines 31-31
+- #include <QToolBar>  // lines 33-33
+- #include <QToolButton>  // lines 34-34
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/behavior-tree/behavior-tree-core/behavior_tree_widget.cpp should remove these lines:
+- #include <mvvm/nodeeditor/connectable_shape.h>  // lines 28-28
+- #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>  // lines 34-34
+- #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>  // lines 35-35
+- #include <mvvm/standarditems/node_item.h>  // lines 37-37
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/behavior-tree/behavior-tree-core/graphics_scene.cpp should remove these lines:
+- #include <mvvm/nodeeditor/node_editor_helper.h>  // lines 26-26
+- #include <mvvm/nodeeditor/node_port_shape.h>  // lines 27-27
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/concurrentplot/concurrentplotcore/graph_model.cpp should remove these lines:
+- #include <QColor>  // lines 34-34
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/concurrentplot/concurrentplotcore/graph_widget_toolbar.cpp should remove these lines:
+- #include <QDebug>  // lines 23-23
+- #include <QVBoxLayout>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/plotgraphs/main.cpp should remove these lines:
+- #include <QLocale>  // lines 24-24
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/plotgraphs/plotgraphscore/graph_model.cpp should remove these lines:
+- #include <mvvm/standarditems/standard_item_includes.h>  // lines 25-25
+- #include <QColor>  // lines 29-29
+
+/home/pospelov/development/iter/projects/sup-mvvm/examples/plotgraphs/plotgraphscore/graph_widget.h should remove these lines:
+- class QBoxLayout;  // lines 26-26
