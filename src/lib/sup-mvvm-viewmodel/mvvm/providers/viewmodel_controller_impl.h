@@ -23,15 +23,12 @@
 
 #include <mvvm/providers/i_viewmodel_controller.h>
 #include <mvvm/providers/item_view_map.h>
-#include <mvvm/signals/event_types.h>
 
-#include <QStringList>
 #include <memory>
 
 namespace mvvm
 {
 
-class ISessionModel;
 class ViewModelBase;
 class IChildrenStrategy;
 class IRowStrategy;

@@ -27,12 +27,9 @@
 
 #include <QButtonGroup>
 #include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
 #include <QStackedWidget>
 #include <QStatusBar>
 #include <QToolButton>
-#include <QVBoxLayout>
 
 namespace
 {

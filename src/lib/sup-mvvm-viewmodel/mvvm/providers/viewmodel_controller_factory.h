@@ -30,7 +30,6 @@ namespace mvvm
 
 class IChildrenStrategy;
 class IRowStrategy;
-class AbstractViewModelController;
 class ISessionModel;
 class ViewModelBase;
 

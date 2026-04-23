@@ -26,7 +26,6 @@
 
 class QStackedWidget;
 class QHBoxLayout;
-class QPushButton;
 
 namespace mvvm
 {

@@ -27,7 +27,6 @@ namespace mvvm
 {
 
 class NodeItem;
-class ItemListener;
 
 /**
  * @brief The NodeItemConnectableShapeAdapter adapts NodeItem for needs of ConnectableShape.

@@ -24,7 +24,6 @@
 #include <mvvm/views/item_view_component_provider.h>
 
 #include <QTreeView>
-#include <QVBoxLayout>
 
 namespace mvvm
 {

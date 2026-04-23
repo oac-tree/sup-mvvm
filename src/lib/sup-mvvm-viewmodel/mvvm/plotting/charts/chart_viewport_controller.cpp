@@ -27,7 +27,6 @@
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/standarditems/line_series_item.h>
-#include <mvvm/standarditems/viewport_item.h>
 #include <mvvm/utils/container_utils.h>
 
 namespace mvvm

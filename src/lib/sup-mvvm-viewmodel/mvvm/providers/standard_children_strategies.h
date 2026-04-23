@@ -32,8 +32,6 @@
 namespace mvvm
 {
 
-class SessionItem;
-
 /**
  * @brief The AllChildrenStrategy class finds all actual children of a given item.
  *

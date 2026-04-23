@@ -24,8 +24,6 @@
 #include <mvvm/plotting/charts/qt_charts_fwd.h>
 #include <mvvm/signals/item_controller.h>
 
-#include <QObject>
-
 namespace mvvm
 {
 

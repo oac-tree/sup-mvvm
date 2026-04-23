@@ -21,7 +21,6 @@
 #include "component_provider_helper.h"
 
 #include <mvvm/editors/default_editor_factory.h>
-#include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/default_cell_decorator.h>
 #include <mvvm/views/viewmodel_delegate.h>
 

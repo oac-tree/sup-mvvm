@@ -20,7 +20,6 @@
 
 #include "node_connection_style.h"
 
-#include <mvvm/nodeeditor/node_editor_constants.h>
 #include <mvvm/style/mvvm_style_helper.h>
 
 namespace mvvm

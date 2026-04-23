@@ -23,7 +23,6 @@
 #include <mvvm/style/mvvm_style_helper.h>
 
 #include <QColor>
-#include <QFont>
 #include <QPainter>
 
 namespace

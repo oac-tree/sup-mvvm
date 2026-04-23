@@ -28,13 +28,6 @@
 #include <mvvm/viewmodel/viewmodel_base.h>
 
 #include <QVariant>
-#include <QVector>
-
-namespace mvvm
-{
-class SessionItem;
-class ViewItem;
-}  // namespace mvvm
 
 namespace mvvm::utils
 {

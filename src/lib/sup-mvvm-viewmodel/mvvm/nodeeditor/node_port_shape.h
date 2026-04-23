@@ -27,8 +27,6 @@
 #include <QGraphicsItem>
 #include <memory>
 
-class QGraphicsTextItem;
-
 namespace mvvm
 {
 

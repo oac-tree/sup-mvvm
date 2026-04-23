@@ -20,7 +20,6 @@
 
 #include "layout_utils.h"
 
-#include <QBoxLayout>
 #include <QGridLayout>
 #include <QLayoutItem>
 #include <QWidget>

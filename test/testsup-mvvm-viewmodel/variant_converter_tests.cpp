@@ -21,6 +21,7 @@
 #include "mvvm/providers/variant_converter.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/providers/custom_variants.h>
 
 #include <gtest/gtest.h>
 

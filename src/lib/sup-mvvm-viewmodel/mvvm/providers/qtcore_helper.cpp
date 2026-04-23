@@ -20,7 +20,6 @@
 
 #include "qtcore_helper.h"
 
-#include <QByteArray>
 #include <QDataStream>
 #include <QIODevice>
 

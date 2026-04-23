@@ -22,7 +22,6 @@
 #define MVVM_NODEEDITOR_NODE_CONNECTION_SHAPE_H_
 
 #include <mvvm/nodeeditor/i_node_connection.h>
-#include <mvvm/nodeeditor/node_editor_types.h>
 
 #include <QGraphicsItem>
 #include <memory>

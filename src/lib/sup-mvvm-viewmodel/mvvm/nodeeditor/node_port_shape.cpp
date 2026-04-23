@@ -25,7 +25,6 @@
 #include <mvvm/nodeeditor/painting/node_port_shape_painter.h>
 
 #include <QFontMetrics>
-#include <QPainter>
 
 namespace mvvm
 {

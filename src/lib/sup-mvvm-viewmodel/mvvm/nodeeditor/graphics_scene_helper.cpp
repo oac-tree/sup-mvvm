@@ -27,7 +27,6 @@
 
 #include <mvvm/model/session_item.h>
 
-#include <QColor>
 #include <QGradient>
 
 namespace mvvm

@@ -24,7 +24,6 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 
-#include <QMetaType>
 #include <functional>
 #include <map>
 

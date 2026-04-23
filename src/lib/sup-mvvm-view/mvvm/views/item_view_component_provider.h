@@ -21,14 +21,11 @@
 #ifndef MVVM_VIEWS_ITEM_VIEW_COMPONENT_PROVIDER_H_
 #define MVVM_VIEWS_ITEM_VIEW_COMPONENT_PROVIDER_H_
 
-#include <mvvm/utils/container_utils.h>
-
 #include <QItemSelectionModel>
 #include <QObject>
 #include <memory>
 
 class QAbstractItemView;
-class QItemSelectionModel;
 class QAbstractProxyModel;
 class QAbstractItemDelegate;
 

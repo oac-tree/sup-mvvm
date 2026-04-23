@@ -25,7 +25,6 @@
 #include <mvvm/nodeeditor/node_port_style.h>
 
 #include <QColor>
-#include <QRectF>
 #include <QString>
 
 namespace mvvm

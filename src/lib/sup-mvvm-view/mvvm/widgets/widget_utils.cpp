@@ -21,15 +21,12 @@
 #include "widget_utils.h"
 
 #include <mvvm/core/platform.h>
-#include <mvvm/style/mvvm_style_helper.h>
 #include <mvvm/utils/numeric_utils.h>
 
 #include <QApplication>
 #include <QColor>
 #include <QDir>
-#include <QLabel>
 #include <QMainWindow>
-#include <QSize>
 
 namespace mvvm::utils
 {

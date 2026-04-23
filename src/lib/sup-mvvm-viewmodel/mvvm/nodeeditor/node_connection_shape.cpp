@@ -26,9 +26,6 @@
 #include <mvvm/nodeeditor/painting/node_connection_painter.h>
 #include <mvvm/style/mvvm_style_helper.h>
 
-#include <QPainter>
-#include <QPen>
-
 namespace mvvm
 {
 

@@ -27,7 +27,6 @@
 
 class QStackedWidget;
 class QVBoxLayout;
-class QPushButton;
 class QIcon;
 class QButtonGroup;
 class QToolButton;

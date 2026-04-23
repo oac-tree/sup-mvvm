@@ -28,7 +28,6 @@
 
 class QColor;
 class QMainWindow;
-class QFont;
 
 namespace mvvm::utils
 {

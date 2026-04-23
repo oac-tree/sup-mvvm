@@ -22,7 +22,6 @@
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_listener.h>
 
 namespace mvvm

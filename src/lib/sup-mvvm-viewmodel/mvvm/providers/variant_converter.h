@@ -25,7 +25,6 @@
 //! Collection of utility functions to convert variant_t to QVariant and back.
 
 #include <mvvm/core/variant.h>
-#include <mvvm/providers/custom_variants.h>
 
 #include <QVariant>
 

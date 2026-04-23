@@ -21,7 +21,7 @@
 #include "item_view_component_provider.h"
 
 #include <mvvm/model/item_selection.h>
-#include <mvvm/model/session_item.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/viewmodel_delegate.h>
 

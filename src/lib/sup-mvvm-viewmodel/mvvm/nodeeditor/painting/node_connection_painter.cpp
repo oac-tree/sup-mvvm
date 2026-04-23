@@ -21,7 +21,6 @@
 #include "node_connection_painter.h"
 
 #include <QPainter>
-#include <QPainterPath>
 #include <QStyleOptionGraphicsItem>
 
 namespace mvvm

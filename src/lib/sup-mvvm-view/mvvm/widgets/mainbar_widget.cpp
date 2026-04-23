@@ -23,10 +23,7 @@
 #include "fancytab.h"
 
 #include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
 #include <QStackedWidget>
-#include <QVBoxLayout>
 
 namespace mvvm
 {

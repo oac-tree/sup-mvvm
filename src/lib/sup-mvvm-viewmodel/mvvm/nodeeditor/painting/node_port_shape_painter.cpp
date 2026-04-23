@@ -20,8 +20,6 @@
 
 #include "node_port_shape_painter.h"
 
-#include <mvvm/nodeeditor/node_port_shape.h>
-
 #include <QBrush>
 #include <QPainter>
 #include <QPen>

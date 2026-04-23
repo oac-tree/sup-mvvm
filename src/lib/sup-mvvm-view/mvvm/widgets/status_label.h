@@ -23,8 +23,6 @@
 
 #include <QFrame>
 
-class QPaintEvent;
-
 namespace mvvm
 {
 

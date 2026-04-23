@@ -25,7 +25,6 @@
 
 #include <QColor>
 #include <QRectF>
-#include <QString>
 
 namespace mvvm
 {

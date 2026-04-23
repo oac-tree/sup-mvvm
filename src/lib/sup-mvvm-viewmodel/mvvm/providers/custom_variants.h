@@ -24,7 +24,6 @@
 //! @file customvariants.h
 //! Custom Qt variants registrations and utility functions.
 
-#include <mvvm/core/basic_scalar_types.h>
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
 

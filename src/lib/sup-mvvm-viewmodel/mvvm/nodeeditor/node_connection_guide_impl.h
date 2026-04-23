@@ -31,7 +31,6 @@ namespace mvvm
 {
 
 class NodeConnectionShape;
-class ConnectableShape;
 class INodePort;
 class NodePortShape;
 

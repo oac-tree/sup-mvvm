@@ -29,7 +29,6 @@
 #include <memory>
 
 class QGraphicsScene;
-class QGraphicsSceneMouseEvent;
 
 namespace mvvm
 {

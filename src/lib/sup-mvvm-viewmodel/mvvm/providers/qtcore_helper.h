@@ -24,10 +24,8 @@
 //! @file
 //! Collection of helper functions related to Qt core object conversion.
 
-#include <QList>
 #include <QPointF>
 #include <QStringList>
-#include <cstdint>
 #include <string>
 #include <vector>
 

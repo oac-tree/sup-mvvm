@@ -22,12 +22,9 @@
 #define MVVM_NODEEDITOR_NODE_PORT_H_
 
 #include <mvvm/nodeeditor/i_node_port.h>
-#include <mvvm/nodeeditor/node_editor_events.h>
 
 namespace mvvm
 {
-
-class NodeConnection;
 
 /**
  * @brief The NodePort is a default implementation of INodePort to carry basic connection logic.

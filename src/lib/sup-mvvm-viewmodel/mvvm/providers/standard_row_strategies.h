@@ -28,9 +28,6 @@
 namespace mvvm
 {
 
-class SessionItem;
-class ViewItem;
-
 /**
  * @brief The LabelDataRowStrategy class constructs the rows with label and data for given
  * SessionItem.

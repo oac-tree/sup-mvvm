@@ -25,12 +25,13 @@
 
 #include <mvvm/model/item_constants.h>
 #include <mvvm/plotting/charts/chart_pen_controller.h>
-#include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/plottable_items.h>
 #include <mvvm/standarditems/point_item.h>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <iostream>
+#endif
 
 namespace mvvm
 {

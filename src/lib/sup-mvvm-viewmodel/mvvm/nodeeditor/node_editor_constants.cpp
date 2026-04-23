@@ -22,7 +22,6 @@
 
 #include <mvvm/style/mvvm_style_helper.h>
 
-#include <QApplication>
 #include <QFont>
 
 namespace mvvm::constants
