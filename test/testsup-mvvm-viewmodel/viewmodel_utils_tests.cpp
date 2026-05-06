@@ -110,17 +110,35 @@ TEST_F(ViewModelUtilsTest, ItemTextColorRole)
 
 TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
 {
-  SessionItem item;
+  {  // default item
+    const SessionItem item;
+    auto variant = utils::CheckStateRole(item);
+    EXPECT_FALSE(variant.isValid());
+  }
 
-  // no color defined for item by default
-  auto variant = utils::CheckStateRole(item);
-  EXPECT_FALSE(variant.isValid());
+  {  // item carries a boolean
+    SessionItem item;
+    item.SetData(true);
+    EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Checked);
 
-  item.SetData(true);
-  EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Checked);
+    item.SetData(false);
+    EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Unchecked);
+  }
 
-  item.SetData(false);
-  EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Unchecked);
+  // explicitely defined check state role
+  {
+    SessionItem item;
+    item.SetData(Qt::PartiallyChecked, DataRole::kCheckState);
+    EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::PartiallyChecked);
+
+    item.SetData(Qt::Checked, DataRole::kCheckState);
+    EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Checked);
+
+    // removing checked state
+    item.SetData(variant_t(), DataRole::kCheckState);
+    auto variant = utils::CheckStateRole(item);
+    EXPECT_FALSE(variant.isValid());
+  }
 }
 
 TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
@@ -202,9 +220,9 @@ TEST_F(ViewModelUtilsTest, ItemsFromIndex)
   index_list.push_back(viewModel.index(0, 1, QModelIndex()));
   index_list.push_back(viewModel.index(0, 2, QModelIndex()));
 
-  std::vector<SessionItem*> expected = {parent->GetItem(VectorItem::kX),
-                                        parent->GetItem(VectorItem::kY),
-                                        parent->GetItem(VectorItem::kZ)};
+  const std::vector<SessionItem*> expected = {parent->GetItem(VectorItem::kX),
+                                              parent->GetItem(VectorItem::kY),
+                                              parent->GetItem(VectorItem::kZ)};
   EXPECT_EQ(utils::ItemsFromIndex(index_list), expected);
 }
 
@@ -216,7 +234,7 @@ TEST_F(ViewModelUtilsTest, ParentItemsFromIndex)
   // creating VectorItem and viewModel to see it as a table
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
-  PropertyTableViewModel viewModel(&model);
+  const PropertyTableViewModel viewModel(&model);
 
   // it's a table with one row and x,y,z columns
   EXPECT_EQ(viewModel.rowCount(QModelIndex()), 1);
@@ -226,7 +244,7 @@ TEST_F(ViewModelUtilsTest, ParentItemsFromIndex)
   QModelIndexList index_list;
   EXPECT_EQ(utils::ParentItemsFromIndex(index_list).size(), 0);
 
-  std::vector<SessionItem*> expected = {parent};
+  const std::vector<SessionItem*> expected = {parent};
 
   // one cell in a list should give us pointer to original VectorItem
   index_list.push_back(viewModel.index(0, 1, QModelIndex()));

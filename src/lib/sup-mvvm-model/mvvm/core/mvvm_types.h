@@ -31,18 +31,19 @@ using role_t = std::int32_t;
 //! Defines constants to be used as SessionItem data role.
 namespace DataRole
 {
-const role_t kIdentifier = 0;  //!< unique identifier
-const role_t kData = 1;        //!< main data role
-const role_t kDisplay = 2;     //!< display name
-const role_t kAppearance = 3;  //!< appearance flag
-const role_t kTooltip = 4;     //!< tooltip for item's data
-const role_t kEditor = 5;      //!< type of custom editor for the data role
-const role_t kLowerLimit = 6;  //!< lower limit on main data role
-const role_t kUpperLimit = 7;  //!< upper limit on main data role
-const role_t kDataBackup = 8;  //!< secondary data role
-const role_t kTextColor = 9;   //!< text color role
-const role_t kSelected = 10;   //!< selected role
-const role_t kUser = 100;      //!< user role
+const role_t kIdentifier = 0;   //!< unique identifier
+const role_t kData = 1;         //!< main data role
+const role_t kDisplay = 2;      //!< display name
+const role_t kAppearance = 3;   //!< appearance flag
+const role_t kTooltip = 4;      //!< tooltip for item's data
+const role_t kEditor = 5;       //!< type of custom editor for the data role
+const role_t kLowerLimit = 6;   //!< lower limit on main data role
+const role_t kUpperLimit = 7;   //!< upper limit on main data role
+const role_t kDataBackup = 8;   //!< secondary data role
+const role_t kTextColor = 9;    //!< text color role
+const role_t kSelected = 10;    //!< selected role
+const role_t kCheckState = 11;  //!< check state role
+const role_t kUser = 100;       //!< user role
 }  // namespace DataRole
 
 /**

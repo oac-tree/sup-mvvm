@@ -107,10 +107,18 @@ QVariant TextColorRole(const SessionItem& item)
 
 QVariant CheckStateRole(const SessionItem& item)
 {
+  // item has check state role explicitly defined
+  if (item.HasData(DataRole::kCheckState))
+  {
+    return item.Data<int>(DataRole::kCheckState);
+  }
+
+  // item data role carries a boolean value, which can be represented as check state role
   if (TypeName(item.Data()) == constants::kBooleanTypeName)
   {
     return item.Data<bool>() ? Qt::Checked : Qt::Unchecked;
   }
+
   return {};
 }
 
