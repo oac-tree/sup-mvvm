@@ -21,6 +21,8 @@
 #ifndef MVVM_CORE_FLAGS_H_
 #define MVVM_CORE_FLAGS_H_
 
+#include <mvvm/core/mvvm_exceptions.h>
+
 #include <bitset>
 #include <cstdint>
 #include <type_traits>
@@ -35,7 +37,8 @@ namespace mvvm
  * @tparam EnumT Enum class type.
  *
  * @note Inspired by https://m-peko.github.io/craft-cpp/posts/different-ways-to-define-binary-flags/
- * It is required that the last element of enum class is called "size"
+ * It is required that the last element of enum class is called "size". It is not counted as
+ * a flag and shouldn't be used.
  *
  * enum class Option : std::uint8_t { kLength, kHeight, size};
  * Flags<Option> flags;
@@ -69,12 +72,12 @@ public:
   /**
    * @brief Set bits to true or given value.
    */
-  Flags& Set(EnumT flag, bool value = true) noexcept;
+  Flags& Set(EnumT flag, bool value = true);
 
   /**
    * @brief Set bits to false.
    */
-  Flags& Reset(EnumT flag) noexcept;
+  Flags& Reset(EnumT flag);
 
   /**
    * @brief Set all bits to false.
@@ -130,14 +133,21 @@ private:
 };
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value) noexcept
+inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value)
 {
-  (void)m_bits.set(static_cast<std::size_t>(flag), value);
+  const auto index = static_cast<std::size_t>(underlying(flag));
+
+  if (index >= m_bits.size())
+  {
+    throw RuntimeException("Flag index is out of range");
+  }
+
+  (void)m_bits.set(index, value);
   return *this;
 }
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::Reset(EnumT flag) noexcept
+inline Flags<EnumT>& Flags<EnumT>::Reset(EnumT flag)
 {
   (void)Set(flag, false);
   return *this;
@@ -197,13 +207,27 @@ inline std::size_t Flags<EnumT>::Count() const noexcept
 template <typename EnumT>
 constexpr bool Flags<EnumT>::operator[](EnumT flag) const
 {
-  return m_bits[static_cast<std::size_t>(flag)];
+  const auto index = static_cast<std::size_t>(underlying(flag));
+
+  if (index >= m_bits.size())
+  {
+    throw RuntimeException("Flag index is out of range");
+  }
+
+  return m_bits[index];
 }
 
 template <typename EnumT>
 constexpr bool Flags<EnumT>::IsSet(EnumT flag) const
 {
-  return m_bits[static_cast<std::size_t>(flag)];
+  const auto index = static_cast<std::size_t>(underlying(flag));
+
+  if (index >= m_bits.size())
+  {
+    throw RuntimeException("Flag index is out of range");
+  }
+
+  return m_bits[index];
 }
 
 template <typename EnumT>
