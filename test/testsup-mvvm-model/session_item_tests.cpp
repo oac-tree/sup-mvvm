@@ -110,11 +110,14 @@ TEST_F(SessionItemTests, SetData)
   const role_t role = DataRole::kData;
 
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
+  EXPECT_FALSE(item.HasData(DataRole::kData));
 
   const variant_t expected(42.0);
   EXPECT_TRUE(item.SetData(expected, role));
+  EXPECT_TRUE(utils::IsValid(item.Data(role)));
+  EXPECT_TRUE(item.HasData(DataRole::kData));
 
-  std::vector<role_t> expected_roles = {DataRole::kIdentifier, DataRole::kData};
+  const std::vector<role_t> expected_roles = {DataRole::kIdentifier, DataRole::kData};
   EXPECT_EQ(item.GetItemData()->GetRoles(), expected_roles);
   EXPECT_EQ(item.Data(role), expected);
 
@@ -127,6 +130,11 @@ TEST_F(SessionItemTests, SetData)
   EXPECT_FALSE(item.SetData(43.0, role));
   EXPECT_EQ(item.GetItemData()->GetRoles(), expected_roles);
   EXPECT_EQ(item.Data(role), variant_t(43.0));
+
+  // setting undefined data role will remove data role completely
+  item.SetData(variant_t{}, role);
+  EXPECT_FALSE(utils::IsValid(item.Data(role)));
+  EXPECT_FALSE(item.HasData(DataRole::kData));
 }
 
 TEST_F(SessionItemTests, SetDataAndImplicitConversion)
@@ -173,6 +181,11 @@ TEST_F(SessionItemTests, HasData)
   EXPECT_FALSE(item.HasData(DataRole::kTooltip));
   EXPECT_FALSE(item.HasData(DataRole::kLowerLimit));
   EXPECT_FALSE(item.HasData(DataRole::kUpperLimit));
+  EXPECT_FALSE(item.HasData(DataRole::kDataBackup));
+  EXPECT_FALSE(item.HasData(DataRole::kTextColor));
+  EXPECT_FALSE(item.HasData(DataRole::kSelected));
+  EXPECT_FALSE(item.HasData(DataRole::kCheckState));
+  EXPECT_FALSE(item.HasData(DataRole::kUser));
 
   item.SetData(42.0);
   EXPECT_TRUE(item.HasData());
@@ -302,16 +315,12 @@ TEST_F(SessionItemTests, RegisterTag)
   EXPECT_THROW(item.RegisterTag(TagInfo::CreateUniversalTag("")), RuntimeException);
 }
 
-//! Registering tag and setting it as default
-
 TEST_F(SessionItemTests, RegisterDefaultTag)
 {
   SessionItem item;
   item.RegisterTag(TagInfo::CreateUniversalTag("tagname"), /*set_as_default*/ true);
   EXPECT_EQ(item.GetTaggedItems()->GetDefaultTag(), "tagname");
 }
-
-//! Simple child insert.
 
 TEST_F(SessionItemTests, InsertItem)
 {
