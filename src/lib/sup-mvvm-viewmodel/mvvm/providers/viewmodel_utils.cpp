@@ -63,25 +63,33 @@ QModelIndex GetSourceIndexFromProxyIndex(const QModelIndex& index)
 
 QVector<std::int32_t> ItemRoleToQtRole(role_t role)
 {
-  QVector<std::int32_t> result;
   // In Qt when we are editing the data in a view two roles are emmited.
   if ((role == DataRole::kDisplay) || (role == DataRole::kData))
   {
-    result = {Qt::DisplayRole, Qt::EditRole};
-  }
-  else if (role == DataRole::kAppearance)
-  {
-    result = {Qt::ForegroundRole};
-  }
-  else if (role == DataRole::kTooltip)
-  {
-    result = {Qt::ToolTipRole};
-  }
-  else
-  {
+    return {Qt::DisplayRole, Qt::EditRole};
   }
 
-  return result;
+  if (role == DataRole::kAppearance)
+  {
+    return {Qt::ForegroundRole};
+  }
+
+  if (role == DataRole::kTooltip)
+  {
+    return {Qt::ToolTipRole};
+  }
+
+  if (role == DataRole::kTextColor)
+  {
+    return {Qt::ForegroundRole};
+  }
+
+  if (role == DataRole::kCheckState)
+  {
+    return {Qt::CheckStateRole};
+  }
+
+  return {};
 }
 
 QVariant TextColorRole(const SessionItem& item)
@@ -110,6 +118,8 @@ QVariant CheckStateRole(const SessionItem& item)
   // item has check state role explicitly defined
   if (item.HasData(DataRole::kCheckState))
   {
+    // Item can carry any integer, Qt will understand only 0,1,2 for unchecked, partially checked,
+    // and checked states. It is up to the item creator to set proper values.
     return item.Data<int>(DataRole::kCheckState);
   }
 

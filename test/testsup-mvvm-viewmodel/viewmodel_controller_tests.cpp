@@ -41,12 +41,13 @@
 namespace mvvm::test
 {
 
-//! Tests for ViewModelController class.
-
+/**
+ * @brief Tests for ViewModelController class.
+ */
 class ViewModelControllerTest : public ::testing::Test
 {
 public:
-  ViewModelControllerTest() {}
+  ViewModelControllerTest() = default;
 
   template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
   std::unique_ptr<AbstractViewModelController> CreateController(ISessionModel& model,
@@ -177,16 +178,16 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
   EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 
   // accessing first child under the root item
-  QModelIndex vector_label_index = m_viewmodel.index(0, 0, QModelIndex());
-  QModelIndex vector_data_index = m_viewmodel.index(0, 1, QModelIndex());
+  const QModelIndex vector_label_index = m_viewmodel.index(0, 0, QModelIndex());
+  const QModelIndex vector_data_index = m_viewmodel.index(0, 1, QModelIndex());
   EXPECT_EQ(GetSessionItem(vector_label_index), vector_item);
   EXPECT_EQ(GetSessionItem(vector_data_index), vector_item);
 
   std::vector<SessionItem*> children = vector_item->GetAllItems();
   for (int row = 0; row < 3; ++row)
   {  // x, y, z
-    QModelIndex child_label_index = m_viewmodel.index(row, 0, vector_label_index);
-    QModelIndex child_data_index = m_viewmodel.index(row, 1, vector_label_index);
+    const QModelIndex child_label_index = m_viewmodel.index(row, 0, vector_label_index);
+    const QModelIndex child_data_index = m_viewmodel.index(row, 1, vector_label_index);
     EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
     EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
     EXPECT_EQ(m_viewmodel.data(child_label_index, Qt::DisplayRole).toString().toStdString(),
@@ -216,8 +217,8 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
   std::vector<SessionItem*> children = vector_item->GetAllItems();
   for (int row = 0; row < 3; ++row)
   {  // x, y, z
-    QModelIndex child_label_index = m_viewmodel.index(row, 0, QModelIndex());
-    QModelIndex child_data_index = m_viewmodel.index(row, 1, QModelIndex());
+    const QModelIndex child_label_index = m_viewmodel.index(row, 0, QModelIndex());
+    const QModelIndex child_data_index = m_viewmodel.index(row, 1, QModelIndex());
     EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
     EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
     EXPECT_EQ(m_viewmodel.data(child_label_index, Qt::DisplayRole).toString().toStdString(),
@@ -236,7 +237,7 @@ TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
   (void)controller;
 
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
@@ -334,15 +335,13 @@ TEST_F(ViewModelControllerTest, InsertInFront)
   EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0, QModelIndex())), item0);
 }
 
-//! Inserting item between two other.
-
-TEST_F(ViewModelControllerTest, InsertBetween)
+TEST_F(ViewModelControllerTest, InsertTemBetweenTwoItems)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
 
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item0 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
   auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});
@@ -360,9 +359,7 @@ TEST_F(ViewModelControllerTest, InsertBetween)
   EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0, QModelIndex())), item1);
 }
 
-//! Initialise controller with the empty model. Insert parent and then child into it.
-
-TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
+TEST_F(ViewModelControllerTest, InsertParentAndThenChildIntoEmptyModel)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -393,8 +390,6 @@ TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
   EXPECT_EQ(arguments.at(2).value<int>(), 0);
 }
 
-//! Removing single top level item.
-
 TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
 {
   auto controller = CreateController(m_model, m_viewmodel);
@@ -419,9 +414,7 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
   EXPECT_EQ(arguments.at(2).value<int>(), 0);
 }
 
-//! Sequence with 3 children. Removing the middle one.
-
-TEST_F(ViewModelControllerTest, RemoveMiddleChild)
+TEST_F(ViewModelControllerTest, RemoveMiddleChildFromItemWithThreeChildren)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -464,7 +457,7 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   auto child2_index = m_viewmodel.index(1, 0, parent_index);
   EXPECT_EQ(GetSessionItem(child2_index), child2);
 
-  QList<QVariant> arguments = spyRemove.takeFirst();
+  const QList<QVariant> arguments = spyRemove.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), parent_index);
   EXPECT_EQ(arguments.at(1).value<int>(), 1);
@@ -473,7 +466,6 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
 
 //! Taking child from one container to insert it after in the another.
 //! Checking that controller correctly "forgets" that children was already served (real-life-bug).
-
 TEST_F(ViewModelControllerTest, TakeChildThenInsert)
 {
   auto controller = CreateController(m_model, m_viewmodel);
@@ -516,8 +508,6 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
   EXPECT_EQ(m_viewmodel.columnCount(container1_index), 2);
 }
 
-//! SetData.
-
 TEST_F(ViewModelControllerTest, SetData)
 {
   auto controller = CreateController(m_model, m_viewmodel);
@@ -538,11 +528,9 @@ TEST_F(ViewModelControllerTest, SetData)
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
   EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1, QModelIndex()));
-  QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
+  const QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 }
-
-//! Setting top level item as ROOT item
 
 TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
 {
@@ -558,9 +546,7 @@ TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
   EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
 }
 
-//! Setting top level item as ROOT item (case parent and children).
-
-TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
+TEST_F(ViewModelControllerTest, SetCompoundWithChildAsRootItem)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -580,9 +566,7 @@ TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
   EXPECT_EQ(m_viewmodel.columnCount(index_of_vector_item), 2);
 }
 
-//! On model reset.
-
-TEST_F(ViewModelControllerTest, onModelReset)
+TEST_F(ViewModelControllerTest, OnModelReset)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -607,8 +591,7 @@ TEST_F(ViewModelControllerTest, onModelReset)
 }
 
 //! Real life scenario: initially empty SessionModel, apply ::clean, and then start to insert item.
-
-TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
+TEST_F(ViewModelControllerTest, OnEmptyModelResetAndContinue)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;

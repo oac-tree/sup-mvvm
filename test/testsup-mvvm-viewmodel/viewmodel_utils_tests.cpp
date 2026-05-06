@@ -53,19 +53,28 @@ TEST_F(ViewModelUtilsTest, GetItemFromView)
 TEST_F(ViewModelUtilsTest, ItemRoleToQtRole)
 {
   // DATA role of SessionItem should be translated to two Qt roles (edit and display)
-  auto roles = utils::ItemRoleToQtRole(DataRole::kData);
-  QVector<int> expected = {Qt::DisplayRole, Qt::EditRole};
-  EXPECT_EQ(roles, expected);
 
-  // Appearance roles of SessionItem on Qt site means color
-  roles = utils::ItemRoleToQtRole(DataRole::kAppearance);
-  expected = {Qt::ForegroundRole};
-  EXPECT_EQ(roles, expected);
+  EXPECT_EQ(utils::ItemRoleToQtRole(DataRole::kData),
+            QVector<int>({Qt::DisplayRole, Qt::EditRole}));
 
-  // tooltip role
-  roles = utils::ItemRoleToQtRole(DataRole::kTooltip);
-  expected = {Qt::ToolTipRole};
-  EXPECT_EQ(roles, expected);
+  EXPECT_EQ(utils::ItemRoleToQtRole(DataRole::kDisplay),
+            QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+
+  EXPECT_EQ(utils::ItemRoleToQtRole(DataRole::kAppearance), QVector<int>({Qt::ForegroundRole}));
+
+  EXPECT_EQ(utils::ItemRoleToQtRole(DataRole::kTooltip), QVector<int>({Qt::ToolTipRole}));
+
+  EXPECT_EQ(utils::ItemRoleToQtRole(DataRole::kTextColor), QVector<int>({Qt::ForegroundRole}));
+  EXPECT_EQ(utils::ItemRoleToQtRole(DataRole::kCheckState), QVector<int>({Qt::CheckStateRole}));
+
+  // other roles doesn't have Qt equivalent
+  EXPECT_TRUE(utils::ItemRoleToQtRole(DataRole::kIdentifier).empty());
+  EXPECT_TRUE(utils::ItemRoleToQtRole(DataRole::kEditor).empty());
+  EXPECT_TRUE(utils::ItemRoleToQtRole(DataRole::kLowerLimit).empty());
+  EXPECT_TRUE(utils::ItemRoleToQtRole(DataRole::kUpperLimit).empty());
+  EXPECT_TRUE(utils::ItemRoleToQtRole(DataRole::kDataBackup).empty());
+  EXPECT_TRUE(utils::ItemRoleToQtRole(DataRole::kSelected).empty());
+  EXPECT_TRUE(utils::ItemRoleToQtRole(DataRole::kUser).empty());
 }
 
 TEST_F(ViewModelUtilsTest, ItemTextColorRole)
