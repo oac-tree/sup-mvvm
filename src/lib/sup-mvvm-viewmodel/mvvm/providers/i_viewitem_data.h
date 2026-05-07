@@ -64,21 +64,23 @@ public:
   virtual bool SetData(const QVariant& data, role_t qt_role) = 0;
 
   /**
-   * @brief Returns true if item is enabled, and false otherwise.
+   * @brief Checks if item is enabled.
    *
    * Depending on concrete implementation, the disabled item can be show in gray color.
+   * Please note, that it is different from Qt::ItemIsEnabled flag (we have it always true).
    */
   virtual bool IsEnabled() const = 0;
 
   /**
-   * @brief Returns true if item is editable, and false otherwise.
+   * @brief Checks if item is editable.
    *
    * Normally, it is not possible to edit item's value by double-clicking on the cell in the view.
+   * The item can still be changed programmatically.
    */
   virtual bool IsEditable() const = 0;
 
   /**
-   * @brief Returns true if item is checkable, and false otherwise.
+   * @brief Checks if item is checkable.
    *
    * The behavior is similar to Qt's cell with ItemIsUserCheckable flag set.
    */

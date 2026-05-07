@@ -244,6 +244,11 @@ Qt::ItemFlags ViewItem::Flags() const
     result |= Qt::ItemIsEditable;
   }
 
+  if ((item_data != nullptr) && item_data->IsCheckable())
+  {
+    result |= Qt::ItemIsUserCheckable;
+  }
+
   return result;
 }
 

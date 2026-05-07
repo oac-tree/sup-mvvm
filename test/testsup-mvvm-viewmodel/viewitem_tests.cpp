@@ -21,36 +21,40 @@
 #include "mvvm/providers/viewitem.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/providers/i_viewitem_data.h>
 #include <mvvm/test/test_container_helper.h>
 #include <mvvm/utils/container_utils.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_viewitem_data.h>
 
 namespace mvvm::test
 {
 
-//! Tests for ViewItem class.
-
+/**
+ * @brief Tests for ViewItem class.
+ */
 class ViewItemTest : public ::testing::Test
 {
 public:
   using children_t = std::vector<std::unique_ptr<ViewItem>>;
   using expected_t = std::vector<ViewItem*>;
 
-  //! Helper function to get two vectors, each ncolumns length, in the form of a pair.
-  //! First vector contains unique_ptr objects, second vector bare pointers to same objects.
-  //! First vector is intended to be moved inside a model, second vector is to validate
-  //! the content of a model after the move.
-
-  std::pair<children_t, expected_t> GetTestData(int ncolumns)
+  /**
+   * @brief Helper function to get two vectors, each ncolumns length, in the form of a pair.
+   *
+   * First vector contains unique_ptr objects, second vector bare pointers to same objects.
+   * First vector is intended to be moved inside a model, second vector is to validate
+   * the content of a model after the move.
+   */
+  static std::pair<children_t, expected_t> GetTestData(int ncolumns)
   {
     auto vector_of_unique = mvvm::test::CreateRow<ViewItem, ViewItem>(ncolumns);
     auto vector_of_pointers = mvvm::utils::GetVectorOfPtrs(vector_of_unique);
     return std::make_pair(std::move(vector_of_unique), std::move(vector_of_pointers));
   }
 };
-
-//! Initial state of RefViewItem.
 
 TEST_F(ViewItemTest, InitialState)
 {
@@ -66,9 +70,7 @@ TEST_F(ViewItemTest, InitialState)
   EXPECT_FALSE(view_item.HasChildren());
 }
 
-//! Append single item as Row.
-
-TEST_F(ViewItemTest, AppendRow)
+TEST_F(ViewItemTest, AppendSingleItemAsRow)
 {
   auto [children, expected] = GetTestData(/*ncolumns*/ 1);
 
@@ -89,8 +91,6 @@ TEST_F(ViewItemTest, AppendRow)
   EXPECT_EQ(expected[0]->Column(), 0);
 }
 
-//! Remove row.
-
 TEST_F(ViewItemTest, RemoveRow)
 {
   auto [children, expected] = GetTestData(/*ncolumns*/ 1);
@@ -105,9 +105,7 @@ TEST_F(ViewItemTest, RemoveRow)
   EXPECT_EQ(view_item.GetColumnCount(), 0);
 }
 
-//! Append two rows with two items each.
-
-TEST_F(ViewItemTest, AppendTwoRows)
+TEST_F(ViewItemTest, AppendTwoRowsWithTwoItemsEach)
 {
   // preparing two rows of children, two columns each
   auto [children_row0, expected_row0] = GetTestData(/*ncolumns*/ 2);
@@ -148,8 +146,6 @@ TEST_F(ViewItemTest, AppendTwoRows)
   EXPECT_EQ(view_item.GetRowCount(), 2);
   EXPECT_EQ(view_item.GetColumnCount(), 2);
 }
-
-//! Append two rows with two items each.
 
 TEST_F(ViewItemTest, InsertRowsThenRemove)
 {
@@ -213,9 +209,7 @@ TEST_F(ViewItemTest, InsertRowsThenRemove)
   EXPECT_EQ(expected_row1[1]->Column(), 1);
 }
 
-//! Clean item's children.
-
-TEST_F(ViewItemTest, Clear)
+TEST_F(ViewItemTest, ClearItemChildren)
 {
   auto [children, expected] = GetTestData(/*ncolumns*/ 1);
 
@@ -227,7 +221,7 @@ TEST_F(ViewItemTest, Clear)
   EXPECT_EQ(view_item.GetColumnCount(), 0);
 }
 
-TEST_F(ViewItemTest, Children)
+TEST_F(ViewItemTest, GetChildren)
 {
   auto [children_row0, expected_row0] = GetTestData(/*ncolumns*/ 2);
   auto [children_row1, expected_row1] = GetTestData(/*ncolumns*/ 2);
@@ -243,17 +237,46 @@ TEST_F(ViewItemTest, Children)
   EXPECT_EQ(view_item.GetChildren(), expected);
 }
 
-TEST_F(ViewItemTest, GetFlags)
+TEST_F(ViewItemTest, GetFlagsForViewItemWithDefaultViewItemData)
 {
-  ViewItem view_item;
+  const ViewItem view_item;
 
-  EXPECT_TRUE(view_item.Flags() & Qt::ItemIsSelectable);
-  EXPECT_TRUE(view_item.Flags() & Qt::ItemIsEnabled);
+  EXPECT_TRUE(view_item.Flags().testFlags(Qt::ItemIsSelectable));
+  EXPECT_TRUE(view_item.Flags().testFlags(Qt::ItemIsEnabled));
+  EXPECT_TRUE(view_item.Flags().testFlags(Qt::ItemIsEditable));
+  EXPECT_FALSE(view_item.Flags().testFlags(Qt::ItemIsUserCheckable));
+}
 
-  // Current implementation is that ViewItem is editable by default
-  EXPECT_TRUE(view_item.Flags() & Qt::ItemIsEditable);
-  view_item.SetData(42, Qt::EditRole);
-  EXPECT_TRUE(view_item.Flags() & Qt::ItemIsEditable);
+TEST_F(ViewItemTest, TestWithMockData)
+{
+  MockViewItemData mock_data;
+
+  auto item_data = std::make_unique<ViewItemDataDecorator>(&mock_data);
+
+  // creating view item with mock data
+  ViewItem view_item(std::move(item_data));
+
+  // In Qt::ItemIsEnabled flag means that the user can interact with the item (select, edit,
+  // check/uncheck). It is always true for our viewmodel.
+
+  // It is different from our item being enabled/disabled, which means only some different
+  // appearance (i.e. gray/normal). Thus, we expect no calls to IsEnabled while querring flags.
+  EXPECT_CALL(mock_data, IsEnabled()).Times(0);
+
+  EXPECT_CALL(mock_data, IsEditable()).WillOnce(testing::Return(false));
+  EXPECT_CALL(mock_data, IsCheckable()).WillOnce(testing::Return(true));
+
+  const auto flags = view_item.Flags();
+  EXPECT_TRUE(flags.testFlags(Qt::ItemIsEnabled));
+  EXPECT_FALSE(flags.testFlags(Qt::ItemIsEditable));
+  EXPECT_TRUE(flags.testFlags(Qt::ItemIsUserCheckable));
+
+  // checking that view item forwards calls to data
+  EXPECT_CALL(mock_data, Data(42)).WillOnce(testing::Return(QVariant(123)));
+  EXPECT_CALL(mock_data, SetData(QVariant(456), 42)).WillOnce(testing::Return(true));
+
+  EXPECT_EQ(view_item.Data(42), QVariant(123));
+  EXPECT_TRUE(view_item.SetData(QVariant(456), 42));
 }
 
 }  // namespace mvvm::test

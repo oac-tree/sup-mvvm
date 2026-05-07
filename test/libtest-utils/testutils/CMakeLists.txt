@@ -24,6 +24,8 @@ target_sources(${library_name} PRIVATE
   mock_project.h
   mock_user_interactor.cpp
   mock_user_interactor.h
+  mock_viewitem_data.cpp
+  mock_viewitem_data.h
   test_node_editor_helper.cpp
   test_node_editor_helper.h
   test_strategies.cpp
