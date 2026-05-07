@@ -1,5 +1,7 @@
 Changes for 2.3.0:
 
+- Introduce new CheckState role for SessionItem
+- Fix bug with UB in Flags class
 - Change display name of CompoundItem (no more indices for compound items of the same type)
 - Fix bugs when FixedDataPresentationItem and LabelPresentationItem sends unnecesary events
 - Add unit test
