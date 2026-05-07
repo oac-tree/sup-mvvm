@@ -30,6 +30,8 @@ namespace mvvm
 
 /**
  * @brief The ViewItemData class carries the data for ViewItem.
+ *
+ * This is a default implementation for ViewItem.
  */
 class ViewItemData : public IViewItemData
 {
@@ -48,9 +50,14 @@ public:
 
   void SetEditable(bool value);
 
+  void SetCheckable(bool value);
+
+  bool IsCheckable() const override;
+
 private:
   bool m_is_enabled;
   bool m_is_editable;
+  bool m_is_checkable;
   QMap<std::int32_t, QVariant> m_data;
 };
 

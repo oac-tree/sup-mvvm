@@ -71,6 +71,11 @@ bool SessionItemPresentation::IsEditable() const
   return GetItem()->IsEditable();
 }
 
+bool SessionItemPresentation::IsCheckable() const
+{
+  return GetItem()->HasData(DataRole::kCheckState);
+}
+
 SessionItem* SessionItemPresentation::GetItem()
 {
   return m_item;

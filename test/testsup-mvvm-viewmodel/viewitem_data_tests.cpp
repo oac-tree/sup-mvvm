@@ -35,13 +35,14 @@ public:
 
 TEST_F(ViewItemDataTest, InitialState)
 {
-  mvvm::ViewItemData item;
+  const mvvm::ViewItemData item;
   EXPECT_FALSE(item.Data(Qt::EditRole).isValid());
   EXPECT_FALSE(item.Data(Qt::DisplayRole).isValid());
   EXPECT_FALSE(item.Data(Qt::ToolTipRole).isValid());
 
   EXPECT_TRUE(item.IsEnabled());
   EXPECT_TRUE(item.IsEditable());
+  EXPECT_FALSE(item.IsCheckable());
 }
 
 TEST_F(ViewItemDataTest, SetAppearance)
@@ -55,6 +56,9 @@ TEST_F(ViewItemDataTest, SetAppearance)
   item.SetEnabled(false);
   EXPECT_FALSE(item.IsEnabled());
   EXPECT_FALSE(item.IsEditable());
+
+  item.SetCheckable(true);
+  EXPECT_FALSE(item.IsEnabled());
 }
 
 TEST_F(ViewItemDataTest, SetData)
@@ -77,6 +81,7 @@ TEST_F(ViewItemDataTest, SetData)
 
   EXPECT_TRUE(item.IsEnabled());
   EXPECT_TRUE(item.IsEditable());
+  EXPECT_FALSE(item.IsCheckable());
 }
 
 }  // namespace mvvm::test

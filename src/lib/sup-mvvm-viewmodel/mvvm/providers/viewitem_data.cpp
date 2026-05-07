@@ -23,7 +23,7 @@
 namespace mvvm
 {
 
-ViewItemData::ViewItemData() : m_is_enabled(true), m_is_editable(true) {}
+ViewItemData::ViewItemData() : m_is_enabled(true), m_is_editable(true), m_is_checkable(false) {}
 
 QVariant ViewItemData::Data(role_t qt_role) const
 {
@@ -54,6 +54,16 @@ bool ViewItemData::IsEditable() const
 void ViewItemData::SetEditable(bool value)
 {
   m_is_editable = value;
+}
+
+void ViewItemData::SetCheckable(bool value)
+{
+  m_is_checkable = value;
+}
+
+bool ViewItemData::IsCheckable() const
+{
+  return m_is_checkable;
 }
 
 }  // namespace mvvm
