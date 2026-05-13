@@ -4,6 +4,8 @@
 target_sources(${library_name} PRIVATE
   abstract_editor_factory.cpp
   abstract_editor_factory.h
+  abstract_presentation_item.cpp
+  abstract_presentation_item.h
   abstract_row_strategy.cpp
   abstract_row_strategy.h
   abstract_viewmodel_controller.cpp
