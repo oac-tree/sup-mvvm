@@ -14,6 +14,8 @@ target_sources(${library_name} PRIVATE
   custom_metatypes.h
   custom_variants.cpp
   custom_variants.h
+  default_data_presentation_item.cpp
+  default_data_presentation_item.h
   editor_types_fwd.h
   i_cell_decorator.h
   i_children_strategy.h

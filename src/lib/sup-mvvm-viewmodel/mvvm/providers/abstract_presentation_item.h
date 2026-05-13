@@ -29,10 +29,10 @@ namespace mvvm
 class SessionItem;
 
 /**
- * @brief The AbstractItemPresentation class partially implements IViewItemData.
+ * @brief The AbstractItemPresentation class provides an access to SessionItem data.
  *
- * It is a common base for all presentation representing a single SessionItem in a cell of Qt's
- * trees and tables.
+ * It partially implements IViewItemData and serves as  a common base for all presentations of a
+ * single SessionItem in a cell of Qt's trees and tables.
  */
 class AbstractItemPresentation : public IViewItemData
 {
