@@ -20,6 +20,10 @@
 
 #include "default_data_presentation_item.h"
 
+#include "presentation_item_helper.h"
+#include "variant_converter.h"
+#include "viewmodel_utils.h"
+
 namespace mvvm
 {
 
@@ -35,7 +39,43 @@ bool DefaultDataPresentationItem::IsCheckable() const
 
 QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
 {
-  (void)qt_role;
+  auto item = GetItem();
+
+  if (item == nullptr)
+  {
+    return {};
+  }
+
+  if (qt_role == Qt::DisplayRole)
+  {
+    return GetDisplayRole();
+  }
+
+  if (qt_role == Qt::EditRole)
+  {
+    return GetQtVariant(GetItem()->Data(GetMainDataRole()));
+  }
+
+  if (qt_role == Qt::ForegroundRole)
+  {
+    return utils::TextColorRole(*item);
+  }
+
+  if (qt_role == Qt::ToolTipRole)
+  {
+    return utils::ToolTipRole(*item);
+  }
+
+  if (qt_role == Qt::CheckStateRole)
+  {
+    return utils::CheckStateRole(*GetItem());
+  }
+
+  if (qt_role == Qt::DecorationRole)
+  {
+    return utils::DecorationRole(*GetItem());
+  }
+
   return {};
 }
 
@@ -49,6 +89,18 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 role_t DefaultDataPresentationItem::GetMainDataRole() const
 {
   return m_main_data_role;
+}
+
+QString DefaultDataPresentationItem::GetDisplayRole() const
+{
+  auto item = GetItem();
+
+  if (item == nullptr)
+  {
+    return {};
+  }
+
+  return GetItemDataDisplayRole(*item, m_main_data_role);
 }
 
 }  // namespace mvvm

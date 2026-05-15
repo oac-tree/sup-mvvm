@@ -43,6 +43,12 @@ public:
   bool SetData(const QVariant& data, role_t qt_role) override;
 
   role_t GetMainDataRole() const;
+
+  /**
+   * @brief Returns string to represent Qt::DisplayRole of underlying main data role.
+   */
+  QString GetDisplayRole() const;
+
 private:
   role_t m_main_data_role{0};
 };

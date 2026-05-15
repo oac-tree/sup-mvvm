@@ -30,12 +30,12 @@ AbstractItemPresentation::AbstractItemPresentation(SessionItem* item) : m_item(i
 
 bool AbstractItemPresentation::IsEnabled() const
 {
-  return m_item->IsEnabled();
+  return m_item == nullptr ? false : m_item->IsEnabled();
 }
 
 bool AbstractItemPresentation::IsEditable() const
 {
-  return m_item->IsEditable();
+  return m_item == nullptr ? false : m_item->IsEditable();
 }
 
 SessionItem* AbstractItemPresentation::GetItem()

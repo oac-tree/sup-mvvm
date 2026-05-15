@@ -22,8 +22,11 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/providers/custom_variants.h>
 
 #include <gtest/gtest.h>
+
+#include <QColor>
 
 namespace mvvm::test
 {
@@ -35,7 +38,7 @@ class DefaultDataPresentationItemTest : public ::testing::Test
 {
 };
 
-TEST_F(DefaultDataPresentationItemTest, ItemWithIntAsDataRole)
+TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndDataRoles)
 {
   const auto main_data_role = DataRole::kData;
 
@@ -44,6 +47,25 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithIntAsDataRole)
 
   DefaultDataPresentationItem presentation(&item, main_data_role);
   EXPECT_EQ(presentation.GetMainDataRole(), main_data_role);
+  EXPECT_TRUE(presentation.IsEnabled());
+  EXPECT_TRUE(presentation.IsEditable());
+  EXPECT_FALSE(presentation.IsCheckable());
+
+  // data for various roles
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("42"));
+  EXPECT_TRUE(utils::IsIntVariant(presentation.Data(Qt::EditRole)));
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
+
+  // adjusting item text color
+  item.SetData("#ff0000", DataRole::kTextColor);
+  EXPECT_EQ(presentation.Data(Qt::ForegroundRole).value<QColor>(), QColor(Qt::red));
+
+  // modifying item check state
+  item.SetData(Qt::Checked, DataRole::kCheckState);
+  EXPECT_TRUE(presentation.Data(Qt::CheckStateRole).isValid());
+  EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
 }
 
 }  // namespace mvvm::test

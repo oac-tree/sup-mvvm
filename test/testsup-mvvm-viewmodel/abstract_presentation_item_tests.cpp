@@ -62,6 +62,14 @@ class AbstractPresentationItemTest : public ::testing::Test
 {
 };
 
+TEST_F(AbstractPresentationItemTest, TestPresentationWithNullItem)
+{
+  const TestPresentation presentation(nullptr);
+  EXPECT_EQ(presentation.GetItem(), nullptr);
+  EXPECT_FALSE(presentation.IsEnabled());
+  EXPECT_FALSE(presentation.IsEditable());
+}
+
 TEST_F(AbstractPresentationItemTest, TestPresentation)
 {
   SessionItem item;
