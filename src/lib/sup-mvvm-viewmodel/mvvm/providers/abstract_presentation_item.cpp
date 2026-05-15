@@ -38,6 +38,11 @@ bool AbstractItemPresentation::IsEditable() const
   return m_item == nullptr ? false : m_item->IsEditable();
 }
 
+bool AbstractItemPresentation::IsCheckable() const
+{
+  return false;
+}
+
 SessionItem* AbstractItemPresentation::GetItem()
 {
   return m_item;

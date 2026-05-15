@@ -43,6 +43,8 @@ public:
 
   bool IsEditable() const override;
 
+  bool IsCheckable() const override;
+
   SessionItem* GetItem();
 
   const SessionItem* GetItem() const;

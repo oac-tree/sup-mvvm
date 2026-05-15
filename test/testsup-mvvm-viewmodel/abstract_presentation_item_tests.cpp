@@ -44,13 +44,13 @@ public:
     (void)qt_role;
     return {};
   };
+
   bool SetData(const QVariant& data, role_t qt_role) override
   {
     (void)data;
     (void)qt_role;
     return false;
   }
-  bool IsCheckable() const override { return false; }
 
   QVector<role_t> GetQtRolesToEmit(role_t data_role) const override { return {}; };
 };

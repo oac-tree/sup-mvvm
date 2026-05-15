@@ -111,6 +111,13 @@ LabelPresentationItem::LabelPresentationItem(SessionItem* item, const std::strin
 {
 }
 
+bool LabelPresentationItem::SetData(const QVariant &data, role_t qt_role)
+{
+  (void) data;
+  (void) qt_role;
+  return false;
+}
+
 QVariant LabelPresentationItem::Data(role_t qt_role) const
 {
   // use item's display role
@@ -119,7 +126,22 @@ QVariant LabelPresentationItem::Data(role_t qt_role) const
     return QString::fromStdString(m_label);
   }
 
-  return SessionItemPresentation::Data(qt_role);
+  if (GetItem() == nullptr)
+  {
+    return {};
+  }
+
+  if (qt_role == Qt::ForegroundRole)
+  {
+    return utils::TextColorRole(*GetItem());
+  }
+
+  if (qt_role == Qt::ToolTipRole)
+  {
+    return utils::ToolTipRole(*GetItem());
+  }
+
+  return {};
 }
 
 bool LabelPresentationItem::IsEditable() const
@@ -166,7 +188,22 @@ QVariant DataPresentationItem::Data(role_t qt_role) const
     return utils::DecorationRole(*GetItem());
   }
 
-  return SessionItemPresentation::Data(qt_role);
+  if (GetItem() == nullptr)
+  {
+    return {};
+  }
+
+  if (qt_role == Qt::ForegroundRole)
+  {
+    return utils::TextColorRole(*GetItem());
+  }
+
+  if (qt_role == Qt::ToolTipRole)
+  {
+    return utils::ToolTipRole(*GetItem());
+  }
+
+  return {};
 }
 
 bool DataPresentationItem::SetData(const QVariant& data, role_t qt_role)
@@ -187,6 +224,13 @@ DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem* item)
   }
 }
 
+bool DisplayNamePresentationItem::SetData(const QVariant &data, role_t qt_role)
+{
+  (void) data;
+  (void) qt_role;
+  return false;
+}
+
 QVariant DisplayNamePresentationItem::Data(role_t qt_role) const
 {
   // Here we also report correct data for EditRole, even if item is not editable. This is because
@@ -196,7 +240,22 @@ QVariant DisplayNamePresentationItem::Data(role_t qt_role) const
     return QString::fromStdString(GetItem()->GetDisplayName());
   }
 
-  return SessionItemPresentation::Data(qt_role);
+  if (GetItem() == nullptr)
+  {
+    return {};
+  }
+
+  if (qt_role == Qt::ForegroundRole)
+  {
+    return utils::TextColorRole(*GetItem());
+  }
+
+  if (qt_role == Qt::ToolTipRole)
+  {
+    return utils::ToolTipRole(*GetItem());
+  }
+
+  return {};
 }
 
 bool DisplayNamePresentationItem::IsEditable() const
@@ -229,7 +288,22 @@ QVariant EditableDisplayNamePresentationItem::Data(role_t qt_role) const
     return {};
   }
 
-  return DataPresentationItem::Data(qt_role);
+  if (GetItem() == nullptr)
+  {
+    return {};
+  }
+
+  if (qt_role == Qt::ForegroundRole)
+  {
+    return utils::TextColorRole(*GetItem());
+  }
+
+  if (qt_role == Qt::ToolTipRole)
+  {
+    return utils::ToolTipRole(*GetItem());
+  }
+
+  return {};
 }
 
 // ------------------------------------------------------------------------------------------------

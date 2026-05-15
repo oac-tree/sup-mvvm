@@ -407,7 +407,7 @@ TEST_F(AllItemsViewModelTest, SetDataViaApplicationModel)
 
   m_model.SetData(item, 42.0, DataRole::kData);
 
-  EXPECT_EQ(spy_data_changed.count(), 1);
+  ASSERT_EQ(spy_data_changed.count(), 1);
 
   const QModelIndex data_index = m_viewmodel.index(0, 1, QModelIndex());
 

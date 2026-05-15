@@ -90,6 +90,8 @@ class LabelPresentationItem : public SessionItemPresentation
 public:
   explicit LabelPresentationItem(SessionItem* item, const std::string& label = {});
 
+  bool SetData(const QVariant& data, role_t qt_role) override;
+
   QVariant Data(role_t qt_role) const override;
 
   bool IsEditable() const override;
@@ -126,6 +128,8 @@ class DisplayNamePresentationItem : public SessionItemPresentation
 {
 public:
   explicit DisplayNamePresentationItem(SessionItem* item);
+
+  bool SetData(const QVariant& data, role_t qt_role) override;
 
   QVariant Data(role_t qt_role) const override;
 
