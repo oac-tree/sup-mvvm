@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROVIDERS_ABSTRACT_PRESENTATION_ITEMS_H_
-#define MVVM_PROVIDERS_ABSTRACT_PRESENTATION_ITEMS_H_
+#ifndef MVVM_PROVIDERS_ABSTRACT_PRESENTATION_ITEM_H_
+#define MVVM_PROVIDERS_ABSTRACT_PRESENTATION_ITEM_H_
 
 #include <mvvm/providers/i_viewitem_data.h>
 
@@ -29,15 +29,15 @@ namespace mvvm
 class SessionItem;
 
 /**
- * @brief The AbstractItemPresentation class provides an access to SessionItem data.
+ * @brief The AbstractPresentationItem class provides an access to SessionItem data.
  *
  * It partially implements IViewItemData and serves as  a common base for all presentations of a
  * single SessionItem in a cell of Qt's trees and tables.
  */
-class AbstractItemPresentation : public IViewItemData
+class AbstractPresentationItem : public IViewItemData
 {
 public:
-  explicit AbstractItemPresentation(SessionItem* item);
+  explicit AbstractPresentationItem(SessionItem* item);
 
   bool IsEnabled() const override;
 
@@ -63,4 +63,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROVIDERS_ABSTRACT_PRESENTATION_ITEMS_H_
+#endif  // MVVM_PROVIDERS_ABSTRACT_PRESENTATION_ITEM_H_

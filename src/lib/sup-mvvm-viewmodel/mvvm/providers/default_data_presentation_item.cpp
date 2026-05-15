@@ -28,7 +28,7 @@ namespace mvvm
 {
 
 DefaultDataPresentationItem::DefaultDataPresentationItem(SessionItem* item, role_t main_data_role)
-    : AbstractItemPresentation(item), m_main_data_role(main_data_role)
+    : AbstractPresentationItem(item), m_main_data_role(main_data_role)
 {
 }
 

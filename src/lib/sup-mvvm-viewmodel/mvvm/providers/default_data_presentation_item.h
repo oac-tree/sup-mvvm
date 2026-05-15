@@ -31,7 +31,7 @@ class SessionItem;
 /**
  * @brief The DefaultDataPresentationItem class presents a data role of SessionItem.
  */
-class DefaultDataPresentationItem : public AbstractItemPresentation
+class DefaultDataPresentationItem : public AbstractPresentationItem
 {
 public:
   DefaultDataPresentationItem(SessionItem* item, role_t main_data_role);

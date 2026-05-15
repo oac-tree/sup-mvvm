@@ -26,29 +26,29 @@
 namespace mvvm
 {
 
-AbstractItemPresentation::AbstractItemPresentation(SessionItem* item) : m_item(item) {}
+AbstractPresentationItem::AbstractPresentationItem(SessionItem* item) : m_item(item) {}
 
-bool AbstractItemPresentation::IsEnabled() const
+bool AbstractPresentationItem::IsEnabled() const
 {
   return m_item == nullptr ? false : m_item->IsEnabled();
 }
 
-bool AbstractItemPresentation::IsEditable() const
+bool AbstractPresentationItem::IsEditable() const
 {
   return m_item == nullptr ? false : m_item->IsEditable();
 }
 
-bool AbstractItemPresentation::IsCheckable() const
+bool AbstractPresentationItem::IsCheckable() const
 {
   return false;
 }
 
-SessionItem* AbstractItemPresentation::GetItem()
+SessionItem* AbstractPresentationItem::GetItem()
 {
   return m_item;
 }
 
-const SessionItem* AbstractItemPresentation::GetItem() const
+const SessionItem* AbstractPresentationItem::GetItem() const
 {
   return m_item;
 }

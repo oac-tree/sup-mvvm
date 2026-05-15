@@ -31,7 +31,7 @@ class SessionItem;
 /**
  * @brief The DefaultDisplayNamePresentationItem class presents display name of SessionItem.
  */
-class DefaultDisplayNamePresentationItem : public AbstractItemPresentation
+class DefaultDisplayNamePresentationItem : public AbstractPresentationItem
 {
 public:
   explicit DefaultDisplayNamePresentationItem(SessionItem* item);

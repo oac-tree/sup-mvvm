@@ -34,10 +34,10 @@ namespace
 /**
  * @brief Test implementation of AbstractItemPresentation.
  */
-class TestPresentation : public AbstractItemPresentation
+class TestPresentation : public AbstractPresentationItem
 {
 public:
-  explicit TestPresentation(SessionItem* item) : AbstractItemPresentation(item) {};
+  explicit TestPresentation(SessionItem* item) : AbstractPresentationItem(item) {};
 
   QVariant Data(role_t qt_role) const override
   {
