@@ -57,10 +57,10 @@ std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
  */
 std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role = DataRole::kData);
 
-/**
- * @brief Creates editable ViewItem for SessionItem's display name.
- */
-std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item);
+// /**
+//  * @brief Creates editable ViewItem for SessionItem's display name.
+//  */
+// std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item);
 
 /**
  * @brief Creates ViewItem for SessionItem's with arbitrary data for any Qt role.

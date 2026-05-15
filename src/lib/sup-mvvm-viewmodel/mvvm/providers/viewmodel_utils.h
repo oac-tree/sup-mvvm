@@ -22,7 +22,7 @@
 #define MVVM_PROVIDERS_VIEWMODEL_UTILS_H_
 
 #include <mvvm/model/session_item.h>
-#include <mvvm/providers/standard_presentation_items.h>
+#include <mvvm/providers/abstract_presentation_item.h>
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewmodel_iterate_helper.h>
 #include <mvvm/viewmodel/viewmodel_base.h>
@@ -43,7 +43,7 @@ const T* GetItemFromView(const ViewItem* view_item)
     return nullptr;
   }
 
-  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view_item->GetItemData());
+  if (auto presentation = dynamic_cast<const AbstractPresentationItem*>(view_item->GetItemData());
       presentation)
   {
     return dynamic_cast<const T*>(presentation->GetItem());
@@ -63,7 +63,7 @@ T* GetItemFromView(ViewItem* view_item)
     return nullptr;
   }
 
-  if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->GetItemData());
+  if (auto presentation = dynamic_cast<AbstractPresentationItem*>(view_item->GetItemData());
       presentation)
   {
     return dynamic_cast<T*>(presentation->GetItem());

@@ -59,7 +59,7 @@ bool DefaultCellDecorator::HasCustomDecoration(const QModelIndex& index) const
 
 std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& index) const
 {
-  auto variant = index.data();
+  auto variant = index.data(Qt::EditRole);
   if (!variant.isValid())
   {
     return {};

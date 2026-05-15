@@ -99,7 +99,7 @@ void ViewModelDelegate::setEditorData(QWidget* editor, const QModelIndex& index)
 
   if (auto custom_editor = dynamic_cast<CustomEditor*>(editor); custom_editor)
   {
-    custom_editor->SetData(index.data());
+    custom_editor->SetData(index.data(Qt::EditRole));
   }
   else
   {

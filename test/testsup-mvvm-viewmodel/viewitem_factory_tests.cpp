@@ -88,26 +88,26 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemWhenEditableDisplayNameFlag
   EXPECT_FALSE(viewitem->Flags() & Qt::ItemIsEditable);
 }
 
-TEST_F(ViewItemFactoryTest, CreateEditableDisplayNameViewItem)
-{
-  SessionItem item;
-  item.SetDisplayName("abc");
+// TEST_F(ViewItemFactoryTest, CreateEditableDisplayNameViewItem)
+// {
+//   SessionItem item;
+//   item.SetDisplayName("abc");
 
-  auto viewitem = CreateEditableDisplayNameViewItem(&item);
+//   auto viewitem = CreateEditableDisplayNameViewItem(&item);
 
-  // presentation has a display role, and edit role
-  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
-  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
+//   // presentation has a display role, and edit role
+//   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+//   EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
 
-  // it is not possible to change display role, but it is possible to change edit role
-  EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_TRUE(viewitem->SetData(QString("bbb"), Qt::EditRole));
+//   // it is not possible to change display role, but it is possible to change edit role
+//   EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
+//   EXPECT_TRUE(viewitem->SetData(QString("bbb"), Qt::EditRole));
 
-  // the data was actually changed
-  EXPECT_EQ(item.GetDisplayName(), std::string("bbb"));
-  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
-  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
-}
+//   // the data was actually changed
+//   EXPECT_EQ(item.GetDisplayName(), std::string("bbb"));
+//   EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
+//   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+// }
 
 //! Checking that context method can't cast to underlying item.
 TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)

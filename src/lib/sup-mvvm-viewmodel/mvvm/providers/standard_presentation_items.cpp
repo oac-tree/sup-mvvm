@@ -29,92 +29,92 @@
 namespace mvvm
 {
 
-SessionItemPresentation::SessionItemPresentation(SessionItem* item, role_t role)
-    : m_item(item), m_data_role(role)
-{
-}
+// SessionItemPresentation::SessionItemPresentation(SessionItem* item, role_t role)
+//     : m_item(item), m_data_role(role)
+// {
+// }
 
-QVariant SessionItemPresentation::Data(role_t qt_role) const
-{
-  if (GetItem() == nullptr)
-  {
-    return {};
-  }
+// QVariant SessionItemPresentation::Data(role_t qt_role) const
+// {
+//   if (GetItem() == nullptr)
+//   {
+//     return {};
+//   }
 
-  if (qt_role == Qt::ForegroundRole)
-  {
-    return utils::TextColorRole(*GetItem());
-  }
+//   if (qt_role == Qt::ForegroundRole)
+//   {
+//     return utils::TextColorRole(*GetItem());
+//   }
 
-  if (qt_role == Qt::ToolTipRole)
-  {
-    return utils::ToolTipRole(*GetItem());
-  }
+//   if (qt_role == Qt::ToolTipRole)
+//   {
+//     return utils::ToolTipRole(*GetItem());
+//   }
 
-  return {};
-}
+//   return {};
+// }
 
-bool SessionItemPresentation::SetData(const QVariant& data, role_t qt_role)
-{
-  (void)data;
-  (void)qt_role;
-  return false;
-}
+// bool SessionItemPresentation::SetData(const QVariant& data, role_t qt_role)
+// {
+//   (void)data;
+//   (void)qt_role;
+//   return false;
+// }
 
-bool SessionItemPresentation::IsEnabled() const
-{
-  return GetItem()->IsEnabled();
-}
+// bool SessionItemPresentation::IsEnabled() const
+// {
+//   return GetItem()->IsEnabled();
+// }
 
-bool SessionItemPresentation::IsEditable() const
-{
-  return GetItem()->IsEditable();
-}
+// bool SessionItemPresentation::IsEditable() const
+// {
+//   return GetItem()->IsEditable();
+// }
 
-bool SessionItemPresentation::IsCheckable() const
-{
-  return GetItem()->HasData(DataRole::kCheckState);
-}
+// bool SessionItemPresentation::IsCheckable() const
+// {
+//   return GetItem()->HasData(DataRole::kCheckState);
+// }
 
-SessionItem* SessionItemPresentation::GetItem()
-{
-  return m_item;
-}
+// SessionItem* SessionItemPresentation::GetItem()
+// {
+//   return m_item;
+// }
 
-const SessionItem* SessionItemPresentation::GetItem() const
-{
-  return m_item;
-}
+// const SessionItem* SessionItemPresentation::GetItem() const
+// {
+//   return m_item;
+// }
 
-role_t SessionItemPresentation::GetDataRole() const
-{
-  return m_data_role;
-}
+// role_t SessionItemPresentation::GetDataRole() const
+// {
+//   return m_data_role;
+// }
 
-bool SessionItemPresentation::IsValidItemDataRole(role_t data_role) const
-{
-  return (m_data_role == data_role) || (data_role == DataRole::kAppearance)
-         || (data_role == DataRole::kTooltip);
-}
+// bool SessionItemPresentation::IsValidItemDataRole(role_t data_role) const
+// {
+//   return (m_data_role == data_role) || (data_role == DataRole::kAppearance)
+//          || (data_role == DataRole::kTooltip);
+// }
 
-QVector<role_t> SessionItemPresentation::GetQtRolesToEmit(role_t data_role) const
-{
-  return IsValidItemDataRole(data_role) ? utils::ItemRoleToQtRole(data_role) : QVector<role_t>();
-}
+// QVector<role_t> SessionItemPresentation::GetQtRolesToEmit(role_t data_role) const
+// {
+//   return IsValidItemDataRole(data_role) ? utils::ItemRoleToQtRole(data_role) : QVector<role_t>();
+// }
 
 // ------------------------------------------------------------------------------------------------
 // LabelPresentationItem
 // ------------------------------------------------------------------------------------------------
 
 LabelPresentationItem::LabelPresentationItem(SessionItem* item, const std::string& label)
-    : SessionItemPresentation(item, DataRole::kDisplay), m_label(label)
+    : AbstractPresentationItem(item), m_label(label)
 {
 }
 
-bool LabelPresentationItem::SetData(const QVariant &data, role_t qt_role)
+bool LabelPresentationItem::SetData(const QVariant& data, role_t qt_role)
 {
-  (void) data;
-  (void) qt_role;
+  (void)data;
+  (void)qt_role;
   return false;
 }
 
@@ -162,149 +162,152 @@ QVector<role_t> LabelPresentationItem::GetQtRolesToEmit(role_t data_role) const
 // DataPresentationItem
 // ------------------------------------------------------------------------------------------------
 
-DataPresentationItem::DataPresentationItem(SessionItem* item, role_t role)
-    : SessionItemPresentation(item, role)
-{
-  if (item == nullptr)
-  {
-    throw RuntimeException("Error in DataPresentationItem: uninitialized item");
-  }
-}
+// DataPresentationItem::DataPresentationItem(SessionItem* item, role_t role)
+//     : SessionItemPresentation(item, role)
+// {
+//   if (item == nullptr)
+//   {
+//     throw RuntimeException("Error in DataPresentationItem: uninitialized item");
+//   }
+// }
 
-QVariant DataPresentationItem::Data(role_t qt_role) const
-{
-  if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
-  {
-    return GetQtVariant(GetItem()->Data(GetDataRole()));
-  }
+// QVariant DataPresentationItem::Data(role_t qt_role) const
+// {
+//   if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
+//   {
+//     return GetQtVariant(GetItem()->Data(GetDataRole()));
+//   }
 
-  if (qt_role == Qt::CheckStateRole)
-  {
-    return utils::CheckStateRole(*GetItem());
-  }
+//   if (qt_role == Qt::CheckStateRole)
+//   {
+//     return utils::CheckStateRole(*GetItem());
+//   }
 
-  if (qt_role == Qt::DecorationRole)
-  {
-    return utils::DecorationRole(*GetItem());
-  }
+//   if (qt_role == Qt::DecorationRole)
+//   {
+//     return utils::DecorationRole(*GetItem());
+//   }
 
-  if (GetItem() == nullptr)
-  {
-    return {};
-  }
+//   if (GetItem() == nullptr)
+//   {
+//     return {};
+//   }
 
-  if (qt_role == Qt::ForegroundRole)
-  {
-    return utils::TextColorRole(*GetItem());
-  }
+//   if (qt_role == Qt::ForegroundRole)
+//   {
+//     return utils::TextColorRole(*GetItem());
+//   }
 
-  if (qt_role == Qt::ToolTipRole)
-  {
-    return utils::ToolTipRole(*GetItem());
-  }
+//   if (qt_role == Qt::ToolTipRole)
+//   {
+//     return utils::ToolTipRole(*GetItem());
+//   }
 
-  return {};
-}
+//   return {};
+// }
 
-bool DataPresentationItem::SetData(const QVariant& data, role_t qt_role)
-{
-  return (qt_role == Qt::EditRole) ? GetItem()->SetData(GetStdVariant(data), GetDataRole()) : false;
-}
+// bool DataPresentationItem::SetData(const QVariant& data, role_t qt_role)
+// {
+//   return (qt_role == Qt::EditRole) ? GetItem()->SetData(GetStdVariant(data), GetDataRole()) :
+//   false;
+// }
 
+// //
 // ------------------------------------------------------------------------------------------------
-// DisplayNamePresentationItem
+// // DisplayNamePresentationItem
+// //
 // ------------------------------------------------------------------------------------------------
 
-DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem* item)
-    : SessionItemPresentation(item, DataRole::kDisplay)
-{
-  if (item == nullptr)
-  {
-    throw RuntimeException("Error in DisplayNamePresentationItem: uninitialized item");
-  }
-}
+// DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem* item)
+//     : SessionItemPresentation(item, DataRole::kDisplay)
+// {
+//   if (item == nullptr)
+//   {
+//     throw RuntimeException("Error in DisplayNamePresentationItem: uninitialized item");
+//   }
+// }
 
-bool DisplayNamePresentationItem::SetData(const QVariant &data, role_t qt_role)
-{
-  (void) data;
-  (void) qt_role;
-  return false;
-}
+// bool DisplayNamePresentationItem::SetData(const QVariant &data, role_t qt_role)
+// {
+//   (void) data;
+//   (void) qt_role;
+//   return false;
+// }
 
-QVariant DisplayNamePresentationItem::Data(role_t qt_role) const
-{
-  // Here we also report correct data for EditRole, even if item is not editable. This is because
-  // QDataWidgetMapper uses EditRole while mapping to QLabel.
-  if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
-  {
-    return QString::fromStdString(GetItem()->GetDisplayName());
-  }
+// QVariant DisplayNamePresentationItem::Data(role_t qt_role) const
+// {
+//   // Here we also report correct data for EditRole, even if item is not editable. This is because
+//   // QDataWidgetMapper uses EditRole while mapping to QLabel.
+//   if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
+//   {
+//     return QString::fromStdString(GetItem()->GetDisplayName());
+//   }
 
-  if (GetItem() == nullptr)
-  {
-    return {};
-  }
+//   if (GetItem() == nullptr)
+//   {
+//     return {};
+//   }
 
-  if (qt_role == Qt::ForegroundRole)
-  {
-    return utils::TextColorRole(*GetItem());
-  }
+//   if (qt_role == Qt::ForegroundRole)
+//   {
+//     return utils::TextColorRole(*GetItem());
+//   }
 
-  if (qt_role == Qt::ToolTipRole)
-  {
-    return utils::ToolTipRole(*GetItem());
-  }
+//   if (qt_role == Qt::ToolTipRole)
+//   {
+//     return utils::ToolTipRole(*GetItem());
+//   }
 
-  return {};
-}
+//   return {};
+// }
 
-bool DisplayNamePresentationItem::IsEditable() const
-{
-  return false;
-}
+// bool DisplayNamePresentationItem::IsEditable() const
+// {
+//   return false;
+// }
 
 // ------------------------------------------------------------------------------------------------
 // EditableDisplayNamePresentationItem
 // ------------------------------------------------------------------------------------------------
 
-EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(SessionItem* item)
-    : DataPresentationItem(item, DataRole::kDisplay)
-{
-}
+// EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(SessionItem* item)
+//     : DataPresentationItem(item, DataRole::kDisplay)
+// {
+// }
 
-QVariant EditableDisplayNamePresentationItem::Data(role_t qt_role) const
-{
-  // use item's display role
-  if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
-  {
-    // Display name is different from other roles. When display name is not present, we use item
-    // type for that. This is why we are using GetDisplayName() method and not directly call
-    // DataPresentationItem::Data() method.
-    return QString::fromStdString(GetItem()->GetDisplayName());
-  }
+// QVariant EditableDisplayNamePresentationItem::Data(role_t qt_role) const
+// {
+//   // use item's display role
+//   if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
+//   {
+//     // Display name is different from other roles. When display name is not present, we use item
+//     // type for that. This is why we are using GetDisplayName() method and not directly call
+//     // DataPresentationItem::Data() method.
+//     return QString::fromStdString(GetItem()->GetDisplayName());
+//   }
 
-  if (qt_role == Qt::CheckStateRole)
-  {
-    return {};
-  }
+//   if (qt_role == Qt::CheckStateRole)
+//   {
+//     return {};
+//   }
 
-  if (GetItem() == nullptr)
-  {
-    return {};
-  }
+//   if (GetItem() == nullptr)
+//   {
+//     return {};
+//   }
 
-  if (qt_role == Qt::ForegroundRole)
-  {
-    return utils::TextColorRole(*GetItem());
-  }
+//   if (qt_role == Qt::ForegroundRole)
+//   {
+//     return utils::TextColorRole(*GetItem());
+//   }
 
-  if (qt_role == Qt::ToolTipRole)
-  {
-    return utils::ToolTipRole(*GetItem());
-  }
+//   if (qt_role == Qt::ToolTipRole)
+//   {
+//     return utils::ToolTipRole(*GetItem());
+//   }
 
-  return {};
-}
+//   return {};
+// }
 
 // ------------------------------------------------------------------------------------------------
 // FixedDataPresentationItem
@@ -312,7 +315,7 @@ QVariant EditableDisplayNamePresentationItem::Data(role_t qt_role) const
 
 FixedDataPresentationItem::FixedDataPresentationItem(SessionItem* item,
                                                      std::map<role_t, QVariant> fixed_data)
-    : SessionItemPresentation(item, DataRole::kUser), m_data(std::move(fixed_data))
+    : AbstractPresentationItem(item), m_data(std::move(fixed_data))
 {
 }
 
@@ -338,7 +341,7 @@ QVariant FixedDataPresentationItem::Data(role_t qt_role) const
   {
     // if there is no dedicated ForegroundRole, have to use this from parent class
     // this will allow to show text in gray, if SessionItem is disabled
-    return SessionItemPresentation::Data(qt_role);
+    return utils::TextColorRole(*GetItem());
   }
 
   return iter != m_data.end() ? iter->second : QVariant();

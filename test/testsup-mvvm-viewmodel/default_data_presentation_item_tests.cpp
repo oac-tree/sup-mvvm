@@ -177,7 +177,9 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithoutDataAndDataRoles)
   EXPECT_FALSE(presentation.IsCheckable());
 
   EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
+  // Consider making here invalid variant
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString());
+
   EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());

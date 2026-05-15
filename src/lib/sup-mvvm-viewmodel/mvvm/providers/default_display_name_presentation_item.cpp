@@ -40,7 +40,7 @@ bool DefaultDisplayNamePresentationItem::IsEditable() const
     return false;
   }
 
-  return item->HasFlag(Appearance::kEditableDisplayName);
+  return item->IsEditable() && item->HasFlag(Appearance::kEditableDisplayName);
 }
 
 bool DefaultDisplayNamePresentationItem::IsCheckable() const
