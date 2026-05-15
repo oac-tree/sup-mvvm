@@ -24,6 +24,8 @@ target_sources(${library_name} PRIVATE
   i_viewitem_data.h
   i_viewmodel_controller.h
   item_view_map.h
+  presentation_item_helper.cpp
+  presentation_item_helper.h
   qtcore_helper.cpp
   qtcore_helper.h
   standard_children_strategies.cpp
@@ -34,6 +36,8 @@ target_sources(${library_name} PRIVATE
   standard_row_strategies.h
   variant_converter.cpp
   variant_converter.h
+  variant_display_role_visitor.cpp
+  variant_display_role_visitor.h
   viewitem.cpp
   viewitem.h
   viewitem_data.cpp

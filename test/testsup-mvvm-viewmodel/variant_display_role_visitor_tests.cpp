@@ -46,11 +46,18 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
     EXPECT_EQ(visitor.ToString(), std::string());
   }
 
-  {  // boolean
+  {  // boolean True
     SessionItem item;
     item.SetData(true, main_data_role);
     VariantDisplayRoleVisitor visitor(item, main_data_role);
-    EXPECT_EQ(visitor.ToString(), std::string("true"));
+    EXPECT_EQ(visitor.ToString(), std::string("True"));
+  }
+
+   {  // boolean False
+    SessionItem item;
+    item.SetData(false, main_data_role);
+    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    EXPECT_EQ(visitor.ToString(), std::string("False"));
   }
 
   {  // char8
@@ -123,6 +130,14 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
     EXPECT_EQ(visitor.ToString(), std::string("48.0"));
   }
 
+  { // float32 with 5 digits
+    SessionItem item;
+    item.SetData(static_cast<mvvm::float32>(48.12345), main_data_role);
+    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    // expecting 4 digits in total (current behavior of DoubleToString)
+    EXPECT_EQ(visitor.ToString(), std::string("48.12"));
+  }
+
   {  // float64
     SessionItem item;
     item.SetData(static_cast<mvvm::float64>(48.0), main_data_role);
@@ -149,7 +164,7 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
     const ComboProperty value = ComboProperty::CreateFrom(std::vector<std::string>{"a1", "a2"});
     item.SetData(value, main_data_role);
     VariantDisplayRoleVisitor visitor(item, main_data_role);
-    EXPECT_EQ(visitor.ToString(), std::string("values[a1;a2] selection[0]"));
+    EXPECT_EQ(visitor.ToString(), std::string("a1"));
   }
 
   {  // ExternalProperty
@@ -157,7 +172,7 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
     const ExternalProperty value("text", "color", "identifier");
     item.SetData(value, main_data_role);
     VariantDisplayRoleVisitor visitor(item, main_data_role);
-    EXPECT_EQ(visitor.ToString(), std::string("text;color;identifier"));
+    EXPECT_EQ(visitor.ToString(), std::string("text"));
   }
 }
 

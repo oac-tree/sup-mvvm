@@ -21,6 +21,7 @@
 #include "variant_display_role_visitor.h"
 
 #include <mvvm/model/session_item.h>
+#include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/string_utils.h>
 
 namespace mvvm
@@ -44,7 +45,12 @@ std::string VariantDisplayRoleVisitor::operator()([[maybe_unused]] std::monostat
 
 std::string VariantDisplayRoleVisitor::operator()(boolean value) const
 {
-  return utils::FromBool(value);
+  auto str = utils::FromBool(value);
+  if (!str.empty())
+  {
+    str[0] = std::toupper(str[0]);
+  }
+  return str;
 }
 
 std::string VariantDisplayRoleVisitor::operator()(char8 value) const
@@ -94,12 +100,14 @@ std::string VariantDisplayRoleVisitor::operator()(uint64 value) const
 
 std::string VariantDisplayRoleVisitor::operator()(float32 value) const
 {
-  return utils::DoubleToString(value);
+  const std::int32_t precision = constants::kDefaultDoubleDecimals;
+  return utils::DoubleToString(value, precision);
 }
 
 std::string VariantDisplayRoleVisitor::operator()(float64 value) const
 {
-  return utils::DoubleToString(value);
+  const std::int32_t precision = constants::kDefaultDoubleDecimals;
+  return utils::DoubleToString(value, precision);
 }
 
 std::string VariantDisplayRoleVisitor::operator()(std::string value) const
@@ -114,12 +122,12 @@ std::string VariantDisplayRoleVisitor::operator()(const std::vector<double>& val
 
 std::string VariantDisplayRoleVisitor::operator()(const ComboProperty& value) const
 {
-  return {value.ToString()};
+  return {value.GetLabel()};
 }
 
 std::string VariantDisplayRoleVisitor::operator()(const ExternalProperty& value) const
 {
-  return value.ToString();
+  return value.GetText();
 }
 
 }  // namespace mvvm
