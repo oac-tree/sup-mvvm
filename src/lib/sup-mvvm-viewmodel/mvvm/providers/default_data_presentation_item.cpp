@@ -81,8 +81,22 @@ QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
 
 bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 {
-  (void)data;
-  (void)qt_role;
+  // We allow to set via model only main data role (which corresponds to Qt::DataRole), and check
+  // state.
+
+  if (auto item = GetItem(); item)
+  {
+    if (qt_role == Qt::EditRole)
+    {
+      return item->SetData(GetStdVariant(data), GetMainDataRole());
+    }
+
+    if (qt_role == Qt::CheckStateRole)
+    {
+      return item->SetData(data.toInt(), DataRole::kCheckState);
+    }
+  }
+
   return false;
 }
 
@@ -106,6 +120,7 @@ QString DefaultDataPresentationItem::GetDisplayRole() const
     return {};
   }
 
+  // our own conversion to QString
   return GetItemDataDisplayRole(*item, m_main_data_role);
 }
 

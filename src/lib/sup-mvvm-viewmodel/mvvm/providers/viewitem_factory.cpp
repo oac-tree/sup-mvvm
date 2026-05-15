@@ -41,7 +41,7 @@ std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item, const std::stri
 
 std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 {
-  std::unique_ptr<SessionItemPresentation> presentation;
+  std::unique_ptr<IViewItemData> presentation;
   if (item->HasFlag(Appearance::kEditableDisplayName))
   {
     presentation = std::make_unique<EditableDisplayNamePresentationItem>(item);
