@@ -37,10 +37,13 @@ constexpr std::string_view kDefaultSeparator = ",";
 /**
  * @brief Returns string representation of double with given precision.
  *
- * Provides additional formatting on top of iomanip, so "double x{0}" becomes "0.0".
+ * Precision parameter will be used in std::setprecision call (no std::fixed is used).
+ * Thus, it corresponds to total number of digits.
+ *
+ * Function provides additional formatting on top of iomanip, so "double x{0}" becomes "0.0".
  *
  * @param input The value to convert to a string.
- * @param precision Number of digits after ddecimal sign.
+ * @param precision Precision parameter.
  * @return Resulting string.
  */
 std::string DoubleToString(double input, std::int32_t precision = 12);

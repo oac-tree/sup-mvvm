@@ -48,11 +48,25 @@ class StringUtilsTests : public ::testing::Test
 
 TEST_F(StringUtilsTests, DoubleToString)
 {
+  // The way how numbers are formatted corresponds to standard std::setprecision behavior, but with
+  // some additional formatting for special cases. Thus, "0" becomes "0.0", "1" becomes "1.0", etc.
+
   using utils::DoubleToString;
-  const int precision = 4;
-  EXPECT_EQ(DoubleToString(0.0, precision), "0.0");
-  EXPECT_EQ(DoubleToString(1.001, precision), "1.001");
-  EXPECT_EQ(DoubleToString(1.0001, precision), "1.0");
+  {
+    const int precision = 4; // number of digits in total
+    EXPECT_EQ(DoubleToString(0.0, precision), "0.0");
+    EXPECT_EQ(DoubleToString(1, precision), "1.0");
+    EXPECT_EQ(DoubleToString(1.001, precision), "1.001");
+    EXPECT_EQ(DoubleToString(1.0001, precision), "1.0");
+    EXPECT_EQ(DoubleToString(48.123456, precision), "48.12");
+    EXPECT_EQ(DoubleToString(48.1234321, precision), "48.12");
+    EXPECT_EQ(DoubleToString(48.1234321, precision), "48.12");
+  }
+
+  {
+    const int precision = 5;  // number of digits in total
+    EXPECT_EQ(DoubleToString(3.14159, precision), "3.1416");
+  }
 }
 
 TEST_F(StringUtilsTests, ScientificDoubleToString)
