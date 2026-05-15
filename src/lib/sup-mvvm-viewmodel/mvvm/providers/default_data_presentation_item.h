@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROVIDERS_DEFAULT_DATA_PRESENTATION_ITEMS_H_
-#define MVVM_PROVIDERS_DEFAULT_DATA_PRESENTATION_ITEMS_H_
+#ifndef MVVM_PROVIDERS_DEFAULT_DATA_PRESENTATION_ITEM_H_
+#define MVVM_PROVIDERS_DEFAULT_DATA_PRESENTATION_ITEM_H_
 
 #include <mvvm/providers/abstract_presentation_item.h>
 
@@ -29,12 +29,12 @@ namespace mvvm
 class SessionItem;
 
 /**
- * @brief The DefaultDataPresentationItem class presents a single
+ * @brief The DefaultDataPresentationItem class presents a data role of SessionItem.
  */
 class DefaultDataPresentationItem : public AbstractItemPresentation
 {
 public:
-  DefaultDataPresentationItem(SessionItem* item, role_t role);
+  DefaultDataPresentationItem(SessionItem* item, role_t main_data_role);
 
   bool IsCheckable() const override;
 
@@ -57,4 +57,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROVIDERS_DEFAULT_DATA_PRESENTATION_ITEMS_H_
+#endif  // MVVM_PROVIDERS_DEFAULT_DATA_PRESENTATION_ITEM_H_

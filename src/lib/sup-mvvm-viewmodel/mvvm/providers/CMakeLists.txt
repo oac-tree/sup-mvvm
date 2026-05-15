@@ -16,6 +16,8 @@ target_sources(${library_name} PRIVATE
   custom_variants.h
   default_data_presentation_item.cpp
   default_data_presentation_item.h
+  default_display_name_presentation_item.cpp
+  default_display_name_presentation_item.h
   editor_types_fwd.h
   i_cell_decorator.h
   i_children_strategy.h
