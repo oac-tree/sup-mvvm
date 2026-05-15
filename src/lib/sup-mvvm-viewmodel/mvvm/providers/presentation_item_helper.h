@@ -42,7 +42,7 @@ class SessionItem;
  * @param data_role A data role which we want to present.
  * @return QString Representation
  */
-QString GetDisplayRole(const SessionItem& item, role_t data_role);
+QString GetItemDataDisplayRole(const SessionItem& item, role_t data_role);
 
 }  // namespace mvvm
 

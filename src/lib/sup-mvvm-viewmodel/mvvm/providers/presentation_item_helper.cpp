@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-QString GetDisplayRole(const SessionItem& item, role_t data_role)
+QString GetItemDataDisplayRole(const SessionItem& item, role_t data_role)
 {
   VariantDisplayRoleVisitor visitor(item, data_role);
   return QString::fromStdString(visitor.ToString());

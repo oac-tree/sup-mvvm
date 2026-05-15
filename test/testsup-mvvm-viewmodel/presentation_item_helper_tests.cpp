@@ -35,32 +35,32 @@ class PresentationItemHelperTest : public ::testing::Test
 {
 };
 
-TEST_F(PresentationItemHelperTest, GetDisplayRole)
+TEST_F(PresentationItemHelperTest, GetItemDataDisplayRole)
 {
   const role_t main_data_role = DataRole::kData;
 
   {  // boolean True
     SessionItem item;
     item.SetData(true, main_data_role);
-    EXPECT_EQ(GetDisplayRole(item, main_data_role), QString("True"));
+    EXPECT_EQ(GetItemDataDisplayRole(item, main_data_role), QString("True"));
   }
 
   {  // int
     SessionItem item;
     item.SetData(42, main_data_role);
-    EXPECT_EQ(GetDisplayRole(item, main_data_role), QString("42"));
+    EXPECT_EQ(GetItemDataDisplayRole(item, main_data_role), QString("42"));
   }
 
   {  // float64
     SessionItem item;
     item.SetData(mvvm::float64{42.123456789}, main_data_role);
-    EXPECT_EQ(GetDisplayRole(item, main_data_role), "42.12");
+    EXPECT_EQ(GetItemDataDisplayRole(item, main_data_role), "42.12");
   }
 
   {  // string
     SessionItem item;
     item.SetData(std::string("abc"), main_data_role);
-    EXPECT_EQ(GetDisplayRole(item, main_data_role), "abc");
+    EXPECT_EQ(GetItemDataDisplayRole(item, main_data_role), "abc");
   }
 
   // more tests in variant_display_role_visitor_tests.cpp
