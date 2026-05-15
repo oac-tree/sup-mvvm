@@ -38,6 +38,28 @@ class DefaultDataPresentationItemTest : public ::testing::Test
 {
 };
 
+TEST_F(DefaultDataPresentationItemTest, NullItem)
+{
+  DefaultDataPresentationItem presentation(nullptr, 0);
+  EXPECT_EQ(presentation.GetMainDataRole(), 0);
+  EXPECT_FALSE(presentation.IsEnabled());
+  EXPECT_FALSE(presentation.IsEditable());
+  EXPECT_FALSE(presentation.IsCheckable());
+
+  EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::DecorationRole).isValid());
+
+  EXPECT_TRUE(presentation.GetDisplayRole().isEmpty());
+}
+
+// ------------------------------------------------------------------------------------------------
+// Item carries an integer
+// ------------------------------------------------------------------------------------------------
+
 TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndDataRoles)
 {
   const auto main_data_role = DataRole::kData;
@@ -57,6 +79,7 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndDataRoles)
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::DecorationRole).isValid());
 
   // adjusting item text color
   item.SetData("#ff0000", DataRole::kTextColor);
@@ -66,6 +89,36 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndDataRoles)
   item.SetData(Qt::Checked, DataRole::kCheckState);
   EXPECT_TRUE(presentation.Data(Qt::CheckStateRole).isValid());
   EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
+}
+
+TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndDataRolesToEmit)
+{
+  const auto main_data_role = DataRole::kData;
+
+  SessionItem item;
+  item.SetData(42);
+
+  DefaultDataPresentationItem presentation(&item, main_data_role);
+
+  EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kData),
+            QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kDisplay).isEmpty());
+  EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kAppearance),
+            QVector<int>({Qt::ForegroundRole}));
+  EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kTooltip), QVector<int>({Qt::ToolTipRole}));
+  EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kTextColor),
+            QVector<int>({Qt::ForegroundRole}));
+  EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kCheckState),
+            QVector<int>({Qt::CheckStateRole}));
+
+  // other roles doesn't have Qt equivalent
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kIdentifier).isEmpty());
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kEditor).isEmpty());
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kLowerLimit).isEmpty());
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kUpperLimit).isEmpty());
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kDataBackup).isEmpty());
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kSelected).isEmpty());
+  EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kUser).isEmpty());
 }
 
 }  // namespace mvvm::test

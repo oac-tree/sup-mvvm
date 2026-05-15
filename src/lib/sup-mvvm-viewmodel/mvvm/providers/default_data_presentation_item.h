@@ -42,6 +42,8 @@ public:
 
   bool SetData(const QVariant& data, role_t qt_role) override;
 
+  QVector<role_t> GetQtRolesToEmit(role_t data_role) const override;
+
   role_t GetMainDataRole() const;
 
   /**

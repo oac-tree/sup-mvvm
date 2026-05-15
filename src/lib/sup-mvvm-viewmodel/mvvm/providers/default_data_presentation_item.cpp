@@ -86,6 +86,12 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
   return false;
 }
 
+QVector<role_t> DefaultDataPresentationItem::GetQtRolesToEmit(role_t data_role) const
+{
+  // this presentation has nothing to do with mvvm::DataRole::kDisplay
+  return (data_role == DataRole::kDisplay) ? QVector<role_t>() : utils::ItemRoleToQtRole(data_role);
+}
+
 role_t DefaultDataPresentationItem::GetMainDataRole() const
 {
   return m_main_data_role;

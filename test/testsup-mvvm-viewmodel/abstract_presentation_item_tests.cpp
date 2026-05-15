@@ -51,6 +51,8 @@ public:
     return false;
   }
   bool IsCheckable() const override { return false; }
+
+  QVector<role_t> GetQtRolesToEmit(role_t data_role) const override { return {}; };
 };
 
 }  // namespace

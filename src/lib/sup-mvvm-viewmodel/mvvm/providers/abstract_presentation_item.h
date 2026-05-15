@@ -47,6 +47,14 @@ public:
 
   const SessionItem* GetItem() const;
 
+  /**
+   * @brief Returns vector of Qt data roles corresponding to given SessionItem's role.
+   *
+   * The method is used in the context, when item's role is changed, and we want to know which Qt
+   * roles should be emitted by the view model to notify all views.
+   */
+  virtual QVector<role_t> GetQtRolesToEmit(role_t data_role) const = 0;
+
 private:
   SessionItem* m_item{nullptr};  // the item to present
 };
