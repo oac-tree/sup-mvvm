@@ -30,8 +30,9 @@ namespace celleditors
 class SampleModel;
 class ModelEditorWidget;
 
-//! The main window of this application.
-
+/**
+ * @brief The MainWindow represents main window of this application.
+ */
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
@@ -40,13 +41,17 @@ public:
   MainWindow();
   ~MainWindow() override;
 
+  MainWindow(const MainWindow&) = delete;
+  MainWindow& operator=(const MainWindow&) = delete;
+  MainWindow(MainWindow&&) noexcept = delete;
+  MainWindow& operator=(MainWindow&&) noexcept = delete;
+
 protected:
   void closeEvent(QCloseEvent* event) override;
 
 private:
   void InitApplication();
   void WriteSettings();
-  void PopulateModel();
 
   ModelEditorWidget* m_editor_widget{nullptr};
   std::unique_ptr<SampleModel> m_model;

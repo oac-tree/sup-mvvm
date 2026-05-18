@@ -53,7 +53,7 @@ PropertyPanel::PropertyPanel(QWidget* parent)
 
 void PropertyPanel::SetItem(mvvm::SessionItem* item)
 {
-  if (!item)
+  if (item == nullptr)
   {
     return;
   }

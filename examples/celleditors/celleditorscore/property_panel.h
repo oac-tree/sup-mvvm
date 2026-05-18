@@ -31,10 +31,6 @@ class QTableView;
 namespace mvvm
 {
 class SessionItem;
-}
-
-namespace mvvm
-{
 class ViewModel;
 class ViewModelDelegate;
 }  // namespace mvvm
@@ -42,8 +38,10 @@ class ViewModelDelegate;
 namespace celleditors
 {
 
-//! Shows content of the model as vertical tree, horizontal tree and table.
-
+/**
+ * @brief The PropertyPanel class shows content of the model as vertical tree, horizontal tree and
+ * table.
+ */
 class PropertyPanel : public QWidget
 {
   Q_OBJECT
@@ -51,6 +49,11 @@ class PropertyPanel : public QWidget
 public:
   explicit PropertyPanel(QWidget* parent = nullptr);
   ~PropertyPanel() override;
+
+  PropertyPanel(const PropertyPanel&) = delete;
+  PropertyPanel& operator=(const PropertyPanel&) = delete;
+  PropertyPanel(PropertyPanel&&) noexcept = delete;
+  PropertyPanel& operator=(PropertyPanel&&) noexcept = delete;
 
   void SetItem(mvvm::SessionItem* item);
 

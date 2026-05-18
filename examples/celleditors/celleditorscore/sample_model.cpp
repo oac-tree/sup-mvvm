@@ -21,6 +21,8 @@
 #include "sample_model.h"
 
 #include <mvvm/model/item_limits_helper.h>
+#include <mvvm/model/model_utils.h>
+#include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 
 namespace
@@ -127,5 +129,38 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
+
+void SampleModel::PopulateModel()
+{
+  auto container0 = InsertItem<mvvm::ContainerItem>();
+  InsertItem<BasicPropertyItem>(container0);
+  InsertItem<BasicPropertyItem>(container0);
+  InsertItem<BasicPropertyItem>(container0);
+
+  auto container1 = InsertItem<mvvm::ContainerItem>();
+  InsertItem<AllIntPropertyItem>(container1);
+  InsertItem<AllIntPropertyItem>(container1);
+  InsertItem<AllIntPropertyItem>(container1);
+
+  auto container2 = InsertItem<mvvm::ContainerItem>();
+  InsertItem<FloatPropertyItem>(container2);
+  InsertItem<FloatPropertyItem>(container2);
+  InsertItem<FloatPropertyItem>(container2);
+}
+
+std::uint32_t SampleModel::GetContainerCount() const
+{
+  return GetRootItem()->GetTotalItemCount();
+}
+
+mvvm::ContainerItem* SampleModel::GetContainer(std::uint32_t index) const
+{
+  auto containers = mvvm::utils::GetTopItems<mvvm::ContainerItem>(*this);
+  if (index >= containers.size())
+  {
+    throw std::out_of_range("Container index is out of range");
+  }
+  return containers.at(index);
+}
 
 }  // namespace celleditors

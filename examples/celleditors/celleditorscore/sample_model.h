@@ -24,39 +24,58 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 
+namespace mvvm
+{
+class ContainerItem;
+}
+
 namespace celleditors
 {
 
-//! Demo item demonstrating basing supported properties.
-
+/**
+ * @brief The BasicPropertyItem is used to create demo items populated with basic properties.
+ */
 class BasicPropertyItem : public mvvm::CompoundItem
 {
 public:
   BasicPropertyItem();
 };
 
-//! Demo item showing all kinds of integer-like properties.
-
+/**
+ * @brief The AllIntPropertyItem is used to create demo items containing various integer properties.
+ *
+ * We investigate the behavior of the original QSpinBox vs our AllIntSpinBoxEditor.
+ */
 class AllIntPropertyItem : public mvvm::CompoundItem
 {
 public:
   AllIntPropertyItem();
 };
 
-//! Demo item showing all kinds of float properties.
-
+/**
+ * @brief The FloatPropertyItem is used to create demo items containing various float properties.
+ *
+ * We investigate the behavior of the original QDoubleSpinBox vs our FloatSpinBoxEditor.
+ */
 class FloatPropertyItem : public mvvm::CompoundItem
 {
 public:
   FloatPropertyItem();
 };
 
-//! Main application model.
-
+/**
+ * @brief The SampleModel is the main model of this application, it contains all demo items.
+ */
 class SampleModel : public mvvm::ApplicationModel
 {
 public:
   SampleModel();
+
+  void PopulateModel();
+
+  std::uint32_t GetContainerCount() const;
+
+  mvvm::ContainerItem* GetContainer(std::uint32_t index) const;
 };
 
 }  // namespace celleditors

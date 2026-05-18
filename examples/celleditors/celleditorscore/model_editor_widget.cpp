@@ -23,7 +23,6 @@
 #include "property_panel.h"
 #include "sample_model.h"
 
-#include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 
 #include <QBoxLayout>
@@ -52,19 +51,13 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
 
 void ModelEditorWidget::SetModel(SampleModel* model)
 {
-  if (!model)
+  if (model == nullptr)
   {
     return;
   }
 
-  auto containers = mvvm::utils::GetTopItems<mvvm::ContainerItem>(*model);
-  if (containers.size() != 3)
-  {
-    return;
-  }
-
-  m_panel0->SetItem(containers.at(0));
-  m_panel1->SetItem(containers.at(1));
-  m_panel2->SetItem(containers.at(2));
+  m_panel0->SetItem(model->GetContainer(0));
+  m_panel1->SetItem(model->GetContainer(1));
+  m_panel2->SetItem(model->GetContainer(2));
 }
 }  // namespace celleditors

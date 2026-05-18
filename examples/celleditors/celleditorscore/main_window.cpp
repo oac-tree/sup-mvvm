@@ -23,8 +23,6 @@
 #include "model_editor_widget.h"
 #include "sample_model.h"
 
-#include <mvvm/standarditems/container_item.h>
-
 #include <QCoreApplication>
 #include <QSettings>
 
@@ -40,7 +38,7 @@ namespace celleditors
 
 MainWindow::MainWindow() : m_model(std::make_unique<SampleModel>())
 {
-  PopulateModel();
+  m_model->PopulateModel();
   InitApplication();
 }
 
@@ -78,24 +76,6 @@ void MainWindow::WriteSettings()
   settings.setValue(size_key, size());
   settings.setValue(pos_key, pos());
   settings.endGroup();
-}
-
-void MainWindow::PopulateModel()
-{
-  auto container0 = m_model->InsertItem<mvvm::ContainerItem>();
-  m_model->InsertItem<BasicPropertyItem>(container0);
-  m_model->InsertItem<BasicPropertyItem>(container0);
-  m_model->InsertItem<BasicPropertyItem>(container0);
-
-  auto container1 = m_model->InsertItem<mvvm::ContainerItem>();
-  m_model->InsertItem<AllIntPropertyItem>(container1);
-  m_model->InsertItem<AllIntPropertyItem>(container1);
-  m_model->InsertItem<AllIntPropertyItem>(container1);
-
-  auto container2 = m_model->InsertItem<mvvm::ContainerItem>();
-  m_model->InsertItem<FloatPropertyItem>(container2);
-  m_model->InsertItem<FloatPropertyItem>(container2);
-  m_model->InsertItem<FloatPropertyItem>(container2);
 }
 
 }  // namespace celleditors
