@@ -47,11 +47,12 @@ public:
   role_t GetMainDataRole() const;
 
   /**
-   * @brief Returns string to represent Qt::DisplayRole of underlying main data role.
+   * @brief Returns variant to represent Qt::DisplayRole of underlying main data role.
    *
-   * We perform our own conversion to QString to provide specific formatting for some types.
+   * The returned QVariant will contain QString. We perform our own conversion to QString to provide
+   * specific formatting for some types.
    */
-  QString GetDisplayRole() const;
+  QVariant GetDisplayRole() const;
 
 private:
   role_t m_main_data_role{0};

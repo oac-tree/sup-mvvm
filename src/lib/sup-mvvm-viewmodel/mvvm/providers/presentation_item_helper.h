@@ -26,7 +26,7 @@
 
 #include <mvvm/core/mvvm_types.h>
 
-#include <QString>
+#include <QVariant>
 
 namespace mvvm
 {
@@ -42,7 +42,7 @@ class SessionItem;
  * @param data_role A data role which we want to present.
  * @return QString Representation
  */
-QString GetItemDataDisplayRole(const SessionItem& item, role_t data_role);
+QVariant GetItemDataDisplayRole(const SessionItem& item, role_t data_role);
 
 }  // namespace mvvm
 

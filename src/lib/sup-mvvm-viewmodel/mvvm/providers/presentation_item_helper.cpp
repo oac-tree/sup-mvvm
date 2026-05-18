@@ -25,10 +25,12 @@
 namespace mvvm
 {
 
-QString GetItemDataDisplayRole(const SessionItem& item, role_t data_role)
+QVariant GetItemDataDisplayRole(const SessionItem& item, role_t data_role)
 {
   const VariantDisplayRoleVisitor visitor(item, data_role);
-  return QString::fromStdString(visitor.ToString().value_or(""));
+  const auto optional_str = visitor.ToString();
+  return optional_str.has_value() ? QVariant(QString::fromStdString(optional_str.value()))
+                                  : QVariant();
 }
 
 }  // namespace mvvm

@@ -69,7 +69,7 @@ TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForTopLevelItem)
   EXPECT_EQ(utils::GetItemFromView<SessionItem>(view_item), &item);
 
   view_item = items.at(1).get();
-  EXPECT_TRUE(view_item->Data(Qt::DisplayRole).isValid());
+  EXPECT_FALSE(view_item->Data(Qt::DisplayRole).isValid());
   EXPECT_FALSE(view_item->Data(Qt::EditRole).isValid());
 }
 

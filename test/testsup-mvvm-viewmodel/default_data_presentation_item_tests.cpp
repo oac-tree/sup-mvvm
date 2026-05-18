@@ -54,7 +54,7 @@ TEST_F(DefaultDataPresentationItemTest, NullItem)
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::DecorationRole).isValid());
 
-  EXPECT_TRUE(presentation.GetDisplayRole().isEmpty());
+  EXPECT_FALSE(presentation.GetDisplayRole().isValid());
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -176,8 +176,7 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithoutDataAndDataRoles)
   EXPECT_TRUE(presentation.IsEditable());
   EXPECT_FALSE(presentation.IsCheckable());
 
-  EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
-  // Consider making here invalid variant
+  EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString());
 
   EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
@@ -186,7 +185,7 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithoutDataAndDataRoles)
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::DecorationRole).isValid());
 
-  EXPECT_TRUE(presentation.GetDisplayRole().isEmpty());
+  EXPECT_FALSE(presentation.GetDisplayRole().isValid());
 
   // it is still possible to adjust item's text color role and check state
   item.SetData("#ff0000", DataRole::kTextColor);

@@ -111,7 +111,7 @@ role_t DefaultDataPresentationItem::GetMainDataRole() const
   return m_main_data_role;
 }
 
-QString DefaultDataPresentationItem::GetDisplayRole() const
+QVariant DefaultDataPresentationItem::GetDisplayRole() const
 {
   auto item = GetItem();
 
