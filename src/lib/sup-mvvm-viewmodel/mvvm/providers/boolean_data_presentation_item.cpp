@@ -83,7 +83,6 @@ bool BooleanDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
     if (qt_role == Qt::CheckStateRole)
     {
       // check state is converted to main data role
-      qDebug() << "Setting check state role to" << data.toInt() << qt_role;
       return item->SetData(data.toInt() == Qt::Checked, DataRole::kData);
     }
   }
