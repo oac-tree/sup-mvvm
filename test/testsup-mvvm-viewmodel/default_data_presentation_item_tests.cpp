@@ -89,6 +89,7 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndDataRoles)
 
   // modifying item check state
   item.SetData(Qt::Checked, DataRole::kCheckState);
+  EXPECT_TRUE(presentation.IsCheckable());
   EXPECT_TRUE(presentation.Data(Qt::CheckStateRole).isValid());
   EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
 }

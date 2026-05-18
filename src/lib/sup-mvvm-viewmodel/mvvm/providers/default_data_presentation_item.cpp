@@ -34,7 +34,14 @@ DefaultDataPresentationItem::DefaultDataPresentationItem(SessionItem* item, role
 
 bool DefaultDataPresentationItem::IsCheckable() const
 {
-  return false;
+  auto item = GetItem();
+
+  if (item == nullptr)
+  {
+    return false;
+  }
+
+  return item->HasData(DataRole::kCheckState);
 }
 
 QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
@@ -68,12 +75,12 @@ QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
 
   if (qt_role == Qt::CheckStateRole)
   {
-    return utils::CheckStateRole(*GetItem());
+    return utils::CheckStateRole(*item);
   }
 
   if (qt_role == Qt::DecorationRole)
   {
-    return utils::DecorationRole(*GetItem());
+    return utils::DecorationRole(*item);
   }
 
   return {};
