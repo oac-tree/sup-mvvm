@@ -32,17 +32,9 @@ namespace celleditors
 {
 
 ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
-    : QWidget(parent)
-    , m_tab_widget(new QTabWidget)
-    , m_panel0(new PropertyPanel)
-    , m_panel1(new PropertyPanel)
-    , m_panel2(new PropertyPanel)
+    : QWidget(parent), m_tab_widget(new QTabWidget)
 {
   auto layout = new QHBoxLayout(this);
-
-  m_tab_widget->addTab(m_panel0, "Basic properties");
-  m_tab_widget->addTab(m_panel1, "All integers");
-  m_tab_widget->addTab(m_panel2, "Floats");
 
   layout->addWidget(m_tab_widget);
 
@@ -56,8 +48,14 @@ void ModelEditorWidget::SetModel(SampleModel* model)
     return;
   }
 
-  m_panel0->SetItem(model->GetContainer(0));
-  m_panel1->SetItem(model->GetContainer(1));
-  m_panel2->SetItem(model->GetContainer(2));
+  for (std::uint32_t index = 0; index < model->GetContainerCount(); ++index)
+  {
+    auto container = model->GetContainer(index);
+    auto panel_name = container->GetDisplayName();
+    auto panel = std::make_unique<PropertyPanel>();
+    panel->SetItem(container);
+    m_tab_widget->addTab(panel.release(), QString::fromStdString(panel_name));
+  }
 }
+
 }  // namespace celleditors

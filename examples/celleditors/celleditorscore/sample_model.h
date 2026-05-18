@@ -64,6 +64,16 @@ public:
 };
 
 /**
+ * @brief The CheckboxItem is used to create demo items with boolean properties to investigate the
+ * behavior of the CheckBox editor.
+ */
+class CheckboxItem : public mvvm::CompoundItem
+{
+public:
+  CheckboxItem();
+};
+
+/**
  * @brief The SampleModel is the main model of this application, it contains all demo items.
  */
 class SampleModel : public mvvm::ApplicationModel

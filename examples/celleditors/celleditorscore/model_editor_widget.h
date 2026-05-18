@@ -29,10 +29,11 @@ namespace celleditors
 {
 
 class SampleModel;
-class PropertyPanel;
 
-//! Widget with two tabs for different property set.
-
+/**
+ * @brief The ModelEditorWidget class contains several tabs with PropertyPanels pointing to
+ * different containers.
+ */
 class ModelEditorWidget : public QWidget
 {
   Q_OBJECT
@@ -44,9 +45,6 @@ public:
 
 private:
   QTabWidget* m_tab_widget{nullptr};
-  PropertyPanel* m_panel0{nullptr};
-  PropertyPanel* m_panel1{nullptr};
-  PropertyPanel* m_panel2{nullptr};
 };
 
 }  // namespace celleditors

@@ -25,6 +25,8 @@
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 
+#include <Qt>
+
 namespace
 {
 const std::string kBool = "kBool";
@@ -41,6 +43,10 @@ const std::string kLongInteger = "kLongInteger";
 
 namespace celleditors
 {
+
+// ------------------------------------------------------------------------------------------------
+// BasicPropertyItem
+// ------------------------------------------------------------------------------------------------
 
 BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 {
@@ -68,6 +74,10 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
       .SetEditorType(mvvm::constants::kSelectableComboPropertyEditorType);
   AddProperty(kExternal, mvvm::ExternalProperty({"text", "gold"})).SetDisplayName("External");
 }
+
+// ------------------------------------------------------------------------------------------------
+// AllIntPropertyItem
+// ------------------------------------------------------------------------------------------------
 
 AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 {
@@ -99,6 +109,10 @@ AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
   AddProperty("integer_6", static_cast<mvvm::int64>(0)).SetDisplayName("int64 AllIntEditor");
 }
 
+// ------------------------------------------------------------------------------------------------
+// FloatPropertyItem
+// ------------------------------------------------------------------------------------------------
+
 FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 {
   // Here we want to compare visual appearance of QDoubleSpinBox and FloatSpinBox.
@@ -128,24 +142,48 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
       .SetDisplayName("float32 lim FloatSpinBox");
 }
 
+// ------------------------------------------------------------------------------------------------
+// CheckboxItem
+// ------------------------------------------------------------------------------------------------
+
+CheckboxItem::CheckboxItem()
+{
+  auto& int_prop = AddProperty(kInteger, 42);
+  int_prop.SetDisplayName("Integer with checkbox");
+  int_prop.SetData(Qt::Checked, mvvm::DataRole::kCheckState);
+}
+
+// ------------------------------------------------------------------------------------------------
+// SampleModel
+// ------------------------------------------------------------------------------------------------
+
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 
 void SampleModel::PopulateModel()
 {
   auto container0 = InsertItem<mvvm::ContainerItem>();
+  container0->SetDisplayName("Basic properties");
   InsertItem<BasicPropertyItem>(container0);
   InsertItem<BasicPropertyItem>(container0);
   InsertItem<BasicPropertyItem>(container0);
 
   auto container1 = InsertItem<mvvm::ContainerItem>();
+  container1->SetDisplayName("All integers");
   InsertItem<AllIntPropertyItem>(container1);
   InsertItem<AllIntPropertyItem>(container1);
   InsertItem<AllIntPropertyItem>(container1);
 
   auto container2 = InsertItem<mvvm::ContainerItem>();
+  container2->SetDisplayName("Floats");
   InsertItem<FloatPropertyItem>(container2);
   InsertItem<FloatPropertyItem>(container2);
   InsertItem<FloatPropertyItem>(container2);
+
+  auto container3 = InsertItem<mvvm::ContainerItem>();
+  container3->SetDisplayName("Checkboxes");
+  InsertItem<CheckboxItem>(container3);
+  InsertItem<CheckboxItem>(container3);
+  InsertItem<CheckboxItem>(container3);
 }
 
 std::uint32_t SampleModel::GetContainerCount() const
