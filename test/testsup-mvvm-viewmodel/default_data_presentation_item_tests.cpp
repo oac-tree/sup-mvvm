@@ -41,7 +41,7 @@ class DefaultDataPresentationItemTest : public ::testing::Test
 
 TEST_F(DefaultDataPresentationItemTest, NullItem)
 {
-  DefaultDataPresentationItem presentation(nullptr, 0);
+  const DefaultDataPresentationItem presentation(nullptr, 0);
   EXPECT_EQ(presentation.GetMainDataRole(), 0);
   EXPECT_FALSE(presentation.IsEnabled());
   EXPECT_FALSE(presentation.IsEditable());
@@ -100,7 +100,7 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndDataRolesToEmit)
   SessionItem item;
   item.SetData(42);
 
-  DefaultDataPresentationItem presentation(&item, main_data_role);
+  const DefaultDataPresentationItem presentation(&item, main_data_role);
 
   EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kData),
             QVector<int>({Qt::DisplayRole, Qt::EditRole}));
@@ -170,7 +170,7 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithoutDataAndDataRoles)
   const auto main_data_role = DataRole::kData;
 
   SessionItem item;
-  DefaultDataPresentationItem presentation(&item, main_data_role);
+  const DefaultDataPresentationItem presentation(&item, main_data_role);
   EXPECT_EQ(presentation.GetMainDataRole(), main_data_role);
   EXPECT_TRUE(presentation.IsEnabled());
   EXPECT_TRUE(presentation.IsEditable());
@@ -202,7 +202,7 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithoutDataAndDataRolesToEmit)
 
   SessionItem item;
 
-  DefaultDataPresentationItem presentation(&item, main_data_role);
+  const DefaultDataPresentationItem presentation(&item, main_data_role);
 
   EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kData),
             QVector<int>({Qt::DisplayRole, Qt::EditRole}));
@@ -264,7 +264,7 @@ TEST_F(DefaultDataPresentationItemTest, DataPresentationItemDataForDouble)
   EXPECT_TRUE(presentation.IsEditable());
 
   EXPECT_EQ(presentation.Data(Qt::EditRole), expected);
-  EXPECT_EQ(presentation.Data(Qt::DisplayRole), expected);
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("42.0"));
 }
 
 TEST_F(DefaultDataPresentationItemTest, DataPresentationItemSetDataForDouble)
@@ -281,8 +281,8 @@ TEST_F(DefaultDataPresentationItemTest, DataPresentationItemSetDataForDouble)
   EXPECT_FALSE(presentation.SetData(QVariant::fromValue(new_data), Qt::DisplayRole));
 
   EXPECT_TRUE(presentation.SetData(QVariant::fromValue(new_data), Qt::EditRole));
-  EXPECT_EQ(presentation.Data(Qt::DisplayRole), QVariant::fromValue(new_data));  // new data
-  EXPECT_EQ(presentation.Data(Qt::EditRole), QVariant::fromValue(new_data));     // new data
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("43.0"));             // new data
+  EXPECT_EQ(presentation.Data(Qt::EditRole), QVariant::fromValue(new_data));  // new data
 
   // SessionItem itself should have new data
   EXPECT_EQ(item.Data<double>(), new_data);  // new data
@@ -310,7 +310,7 @@ TEST_F(DefaultDataPresentationItemTest, DataPresentationItemForComboProperty)
   SessionItem item;
   item.SetData(property);
 
-  DefaultDataPresentationItem presentation(&item, main_data_role);
+  const DefaultDataPresentationItem presentation(&item, main_data_role);
 
   EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("abc"));  // currently selected item
   EXPECT_EQ(presentation.Data(Qt::EditRole), expected_variant);
@@ -346,7 +346,7 @@ TEST_F(DefaultDataPresentationItemTest, DataPresentationItemTooltipRole)
   const auto main_data_role = DataRole::kData;
   SessionItem item;
 
-  DefaultDataPresentationItem presentation(&item, main_data_role);
+  const DefaultDataPresentationItem presentation(&item, main_data_role);
   EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());
 
   item.SetToolTip("abc");
@@ -359,7 +359,7 @@ TEST_F(DefaultDataPresentationItemTest, DataPresentationItemForegroundRole)
   SessionItem item;
   item.SetData(42);
 
-  DefaultDataPresentationItem presentation(&item, main_data_role);
+  const DefaultDataPresentationItem presentation(&item, main_data_role);
 
   // Enabled item doesn't have valid foreground role.
   // This means that the color of text is left for a view to decide.

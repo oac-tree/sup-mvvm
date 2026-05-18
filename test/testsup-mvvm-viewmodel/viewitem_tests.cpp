@@ -241,10 +241,10 @@ TEST_F(ViewItemTest, GetFlagsForViewItemWithDefaultViewItemData)
 {
   const ViewItem view_item;
 
-  EXPECT_TRUE(view_item.Flags().testFlags(Qt::ItemIsSelectable));
-  EXPECT_TRUE(view_item.Flags().testFlags(Qt::ItemIsEnabled));
-  EXPECT_TRUE(view_item.Flags().testFlags(Qt::ItemIsEditable));
-  EXPECT_FALSE(view_item.Flags().testFlags(Qt::ItemIsUserCheckable));
+  EXPECT_TRUE(view_item.Flags().testFlag(Qt::ItemIsSelectable));
+  EXPECT_TRUE(view_item.Flags().testFlag(Qt::ItemIsEnabled));
+  EXPECT_TRUE(view_item.Flags().testFlag(Qt::ItemIsEditable));
+  EXPECT_FALSE(view_item.Flags().testFlag(Qt::ItemIsUserCheckable));
 }
 
 TEST_F(ViewItemTest, TestWithMockData)
@@ -267,9 +267,9 @@ TEST_F(ViewItemTest, TestWithMockData)
   EXPECT_CALL(mock_data, IsCheckable()).WillOnce(testing::Return(true));
 
   const auto flags = view_item.Flags();
-  EXPECT_TRUE(flags.testFlags(Qt::ItemIsEnabled));
-  EXPECT_FALSE(flags.testFlags(Qt::ItemIsEditable));
-  EXPECT_TRUE(flags.testFlags(Qt::ItemIsUserCheckable));
+  EXPECT_TRUE(flags.testFlag(Qt::ItemIsEnabled));
+  EXPECT_FALSE(flags.testFlag(Qt::ItemIsEditable));
+  EXPECT_TRUE(flags.testFlag(Qt::ItemIsUserCheckable));
 
   // checking that view item forwards calls to data
   EXPECT_CALL(mock_data, Data(42)).WillOnce(testing::Return(QVariant(123)));

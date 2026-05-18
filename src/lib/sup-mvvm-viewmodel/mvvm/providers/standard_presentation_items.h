@@ -22,63 +22,14 @@
 #define MVVM_PROVIDERS_STANDARD_PRESENTATION_ITEMS_H_
 
 //! @file
-//! Defines standard presentations for sessionitem.
+//! Defines standard presentations for SessionItem.
 
-#include <mvvm/providers/i_viewitem_data.h>
 #include <mvvm/providers/abstract_presentation_item.h>
 
 namespace mvvm
 {
 
 class SessionItem;
-
-/**
- * @brief The SessionItemPresentation class provides ViewItem with access to the SessionItem's data.
- *
- * Serves as an adapter to convert std::variant based data to QVariant. Provides additional Qt's
- * data roles (background, color) that aren't defined in the underlying SessionItem.
- */
-// class SessionItemPresentation : public IViewItemData
-// {
-// public:
-//   QVariant Data(role_t qt_role) const override;
-
-//   bool SetData(const QVariant& data, role_t qt_role) override;
-
-//   bool IsEnabled() const override;
-
-//   bool IsEditable() const override;
-
-//   bool IsCheckable() const override;
-
-//   SessionItem* GetItem();
-//   const SessionItem* GetItem() const;
-
-//   /**
-//    * @brief Returns main item data role served by this presentation.
-//    */
-//   role_t GetDataRole() const;
-
-//   /**
-//    * @brief Returns true if given item data role is served by this presentation.
-//    */
-//   virtual bool IsValidItemDataRole(role_t data_role) const;
-
-//   /**
-//    * @brief Returns vector of Qt data roles corresponding to given SessionItem's role.
-//    *
-//    * The method is used in the context, when item's role is changed, and we want to know which Qt
-//    * roles should be emitted by the view model to notify all views.
-//    */
-//   virtual QVector<role_t> GetQtRolesToEmit(role_t data_role) const;
-
-// protected:
-//   explicit SessionItemPresentation(SessionItem* item, role_t role);
-
-// private:
-//   SessionItem* m_item{nullptr};  // the item to present
-//   role_t m_data_role{0};         // the main item's data role to present
-// };
 
 /**
  * @brief The LabelPresentationItem class shows the label associated with the given item.
@@ -102,52 +53,6 @@ public:
 private:
   std::string m_label;
 };
-
-/**
- * @brief The DataPresentationItem class represents a data role of SessionItem.
- */
-// class DataPresentationItem : public SessionItemPresentation
-// {
-// public:
-//   /**
-//    * @brief Main c-tor of the DataPresentationItem.
-//    *
-//    * @param item An item those data will be presented.
-//    * @param role The data role of SessionItem
-//    */
-//   explicit DataPresentationItem(SessionItem* item, role_t role = DataRole::kData);
-
-//   QVariant Data(role_t qt_role) const override;
-
-//   bool SetData(const QVariant& data, role_t qt_role) override;
-// };
-
-/**
- * @brief The DisplayNamePresentationItem class represents non-editable display role of SessionItem.
- */
-// class DisplayNamePresentationItem : public SessionItemPresentation
-// {
-// public:
-//   explicit DisplayNamePresentationItem(SessionItem* item);
-
-//   bool SetData(const QVariant& data, role_t qt_role) override;
-
-//   QVariant Data(role_t qt_role) const override;
-
-//   bool IsEditable() const override;
-// };
-
-/**
- * @brief The EditableDisplayNamePresentationItem class represents editable display role of
- * SessionItem.
- */
-// class EditableDisplayNamePresentationItem : public DataPresentationItem
-// {
-// public:
-//   explicit EditableDisplayNamePresentationItem(SessionItem* item);
-
-//   QVariant Data(role_t qt_role) const override;
-// };
 
 /**
  * @brief The FixedDataPresentationItem class shows any type of QVariant-based data associated with

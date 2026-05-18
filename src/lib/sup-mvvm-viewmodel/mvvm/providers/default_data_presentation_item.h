@@ -48,6 +48,8 @@ public:
 
   /**
    * @brief Returns string to represent Qt::DisplayRole of underlying main data role.
+   *
+   * We perform our own conversion to QString to provide specific formatting for some types.
    */
   QString GetDisplayRole() const;
 
