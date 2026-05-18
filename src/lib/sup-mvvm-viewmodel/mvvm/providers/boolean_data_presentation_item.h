@@ -38,7 +38,14 @@ class SessionItem;
 class BooleanDataPresentationItem : public DefaultDataPresentationItem
 {
 public:
-  explicit BooleanDataPresentationItem(SessionItem* item);
+  enum class BooleanAppearanceMode : std::uint8_t
+  {
+    kDefault,      //! default appearance: checkbox + text "True"/"False"
+    kCheckBoxOnly  //! only checkbox, without text
+  };
+
+  explicit BooleanDataPresentationItem(
+      SessionItem* item, BooleanAppearanceMode appearance_mode = BooleanAppearanceMode::kDefault);
 
   QVector<role_t> GetQtRolesToEmit(role_t data_role) const override;
 
@@ -49,6 +56,9 @@ public:
   QVariant Data(role_t qt_role) const override;
 
   bool SetData(const QVariant& data, role_t qt_role) override;
+
+private:
+  BooleanAppearanceMode m_appearance_mode{BooleanAppearanceMode::kDefault};
 };
 
 }  // namespace mvvm

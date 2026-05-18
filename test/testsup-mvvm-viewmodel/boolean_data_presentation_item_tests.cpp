@@ -88,4 +88,26 @@ TEST_F(BooleanDataPresentationItemTest, BooleanData)
   }
 }
 
+TEST_F(BooleanDataPresentationItemTest, BooleanDataForCheckBoxOnlyAppearance)
+{
+  SessionItem item;
+  item.SetData(true);
+
+  BooleanDataPresentationItem presentation(
+      &item, BooleanDataPresentationItem::BooleanAppearanceMode::kCheckBoxOnly);
+  EXPECT_EQ(presentation.GetMainDataRole(), DataRole::kData);
+  EXPECT_TRUE(presentation.IsEnabled());
+  EXPECT_FALSE(presentation.IsEditable());  // no editing on double click
+  EXPECT_TRUE(presentation.IsCheckable());
+
+  EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());  // no text
+  EXPECT_TRUE(presentation.Data(Qt::CheckStateRole).isValid());
+  EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
+
+  // SetData
+  EXPECT_TRUE(presentation.SetData(Qt::Unchecked, Qt::CheckStateRole));
+  EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Unchecked);
+  EXPECT_EQ(item.Data<bool>(), false);
+}
+
 }  // namespace mvvm::test
