@@ -22,6 +22,7 @@
 #define MVVM_PROVIDERS_VARIANT_DISPLAY_ROLE_VISITOR_H_
 
 #include <mvvm/core/variant.h>
+#include <optional>
 
 namespace mvvm
 {
@@ -47,41 +48,41 @@ struct VariantDisplayRoleVisitor
    */
   VariantDisplayRoleVisitor(const SessionItem& item, role_t main_data_role);
 
-  std::string operator()(std::monostate value) const;
+  std::optional<std::string> operator()(std::monostate value) const;
 
-  std::string operator()(mvvm::boolean value) const;
+  std::optional<std::string> operator()(mvvm::boolean value) const;
 
-  std::string operator()(mvvm::char8 value) const;
+  std::optional<std::string> operator()(mvvm::char8 value) const;
 
-  std::string operator()(mvvm::int8 value) const;
+  std::optional<std::string> operator()(mvvm::int8 value) const;
 
-  std::string operator()(mvvm::uint8 value) const;
+  std::optional<std::string> operator()(mvvm::uint8 value) const;
 
-  std::string operator()(mvvm::int16 value) const;
+  std::optional<std::string> operator()(mvvm::int16 value) const;
 
-  std::string operator()(mvvm::uint16 value) const;
+  std::optional<std::string> operator()(mvvm::uint16 value) const;
 
-  std::string operator()(mvvm::int32 value) const;
+  std::optional<std::string> operator()(mvvm::int32 value) const;
 
-  std::string operator()(mvvm::uint32 value) const;
+  std::optional<std::string> operator()(mvvm::uint32 value) const;
 
-  std::string operator()(mvvm::int64 value) const;
+  std::optional<std::string> operator()(mvvm::int64 value) const;
 
-  std::string operator()(mvvm::uint64 value) const;
+  std::optional<std::string> operator()(mvvm::uint64 value) const;
 
-  std::string operator()(mvvm::float32 value) const;
+  std::optional<std::string> operator()(mvvm::float32 value) const;
 
-  std::string operator()(mvvm::float64 value) const;
+  std::optional<std::string> operator()(mvvm::float64 value) const;
 
-  std::string operator()(std::string value) const;
+  std::optional<std::string> operator()(std::string value) const;
 
-  std::string operator()(const std::vector<double>& value) const;
+  std::optional<std::string> operator()(const std::vector<double>& value) const;
 
-  std::string operator()(const mvvm::ComboProperty& value) const;
+  std::optional<std::string> operator()(const mvvm::ComboProperty& value) const;
 
-  std::string operator()(const mvvm::ExternalProperty& value) const;
+  std::optional<std::string> operator()(const mvvm::ExternalProperty& value) const;
 
-  std::string ToString() const;
+  std::optional<std::string> ToString() const;
 
 private:
   const SessionItem& m_item;

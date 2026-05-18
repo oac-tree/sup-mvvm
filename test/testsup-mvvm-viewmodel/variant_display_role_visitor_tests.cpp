@@ -42,98 +42,98 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
   {  // empty
     SessionItem item;
     item.SetData(variant_t{}, main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
-    EXPECT_EQ(visitor.ToString(), std::string());
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
+    EXPECT_FALSE(visitor.ToString().has_value());
   }
 
   {  // boolean True
     SessionItem item;
     item.SetData(true, main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("True"));
   }
 
-   {  // boolean False
+  {  // boolean False
     SessionItem item;
     item.SetData(false, main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("False"));
   }
 
   {  // char8
     SessionItem item;
     item.SetData(static_cast<mvvm::char8>('a'), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("97"));  // ascii code
   }
 
   {  // int8
     SessionItem item;
     item.SetData(static_cast<mvvm::int8>(-8), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("-8"));
   }
 
   {  // uint8
     SessionItem item;
     item.SetData(static_cast<mvvm::uint8>(16), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("16"));
   }
 
   {  // int16
     SessionItem item;
     item.SetData(static_cast<mvvm::int16>(-42), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("-42"));
   }
 
   {  // uint16
     SessionItem item;
     item.SetData(static_cast<mvvm::uint16>(42), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("42"));
   }
 
   {  // int32
     SessionItem item;
     item.SetData(static_cast<mvvm::int32>(-42), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("-42"));
   }
 
   {  // uint32
     SessionItem item;
     item.SetData(static_cast<mvvm::uint32>(42), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("42"));
   }
 
   {  // int64
     SessionItem item;
     item.SetData(static_cast<mvvm::int64>(-42), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("-42"));
   }
 
   {  // uint64
     SessionItem item;
     item.SetData(static_cast<mvvm::uint64>(42), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("42"));
   }
 
   {  // float32
     SessionItem item;
     item.SetData(static_cast<mvvm::float32>(48.0), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("48.0"));
   }
 
-  { // float32 with 5 digits
+  {  // float32 with 5 digits
     SessionItem item;
     item.SetData(static_cast<mvvm::float32>(48.12345), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     // expecting 4 digits in total (current behavior of DoubleToString)
     EXPECT_EQ(visitor.ToString(), std::string("48.12"));
   }
@@ -141,21 +141,21 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
   {  // float64
     SessionItem item;
     item.SetData(static_cast<mvvm::float64>(48.0), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("48.0"));
   }
 
   {  // string
     SessionItem item;
     item.SetData(std::string("abc"), main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("abc"));
   }
 
   {  // vector of double
     SessionItem item;
     item.SetData(std::vector<double>{1.0, 2.0, 3.0}, main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("1.0,2.0,3.0"));
   }
 
@@ -163,7 +163,7 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
     SessionItem item;
     const ComboProperty value = ComboProperty::CreateFrom(std::vector<std::string>{"a1", "a2"});
     item.SetData(value, main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("a1"));
   }
 
@@ -171,7 +171,7 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
     SessionItem item;
     const ExternalProperty value("text", "color", "identifier");
     item.SetData(value, main_data_role);
-    VariantDisplayRoleVisitor visitor(item, main_data_role);
+    const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("text"));
   }
 }

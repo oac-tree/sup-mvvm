@@ -32,18 +32,19 @@ VariantDisplayRoleVisitor::VariantDisplayRoleVisitor(const SessionItem& item, ro
 {
 }
 
-std::string VariantDisplayRoleVisitor::ToString() const
+std::optional<std::string> VariantDisplayRoleVisitor::ToString() const
 {
   auto value = m_item.Data(m_main_data_role);
   return std::visit(*this, value);
 }
 
-std::string VariantDisplayRoleVisitor::operator()([[maybe_unused]] std::monostate value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(
+    [[maybe_unused]] std::monostate value) const
 {
   return {};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(boolean value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(boolean value) const
 {
   auto str = utils::FromBool(value);
   if (!str.empty())
@@ -53,79 +54,81 @@ std::string VariantDisplayRoleVisitor::operator()(boolean value) const
   return str;
 }
 
-std::string VariantDisplayRoleVisitor::operator()(char8 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(char8 value) const
 {
   return std::to_string(static_cast<std::int32_t>(value));
 }
 
-std::string VariantDisplayRoleVisitor::operator()(int8 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(int8 value) const
 {
   return {std::to_string(value)};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(uint8 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(uint8 value) const
 {
   return {std::to_string(static_cast<std::int32_t>(value))};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(int16 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(int16 value) const
 {
   return {std::to_string(static_cast<std::int32_t>(value))};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(uint16 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(uint16 value) const
 {
   return {std::to_string(static_cast<uint32>(value))};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(int32 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(int32 value) const
 {
   return {std::to_string(value)};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(uint32 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(uint32 value) const
 {
   return {std::to_string(value)};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(int64 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(int64 value) const
 {
   return {std::to_string(value)};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(uint64 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(uint64 value) const
 {
   return {std::to_string(value)};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(float32 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(float32 value) const
 {
   const std::int32_t precision = constants::kDefaultDoubleDecimals;
   return utils::DoubleToString(value, precision);
 }
 
-std::string VariantDisplayRoleVisitor::operator()(float64 value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(float64 value) const
 {
   const std::int32_t precision = constants::kDefaultDoubleDecimals;
   return utils::DoubleToString(value, precision);
 }
 
-std::string VariantDisplayRoleVisitor::operator()(std::string value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(std::string value) const
 {
   return value;
 }
 
-std::string VariantDisplayRoleVisitor::operator()(const std::vector<double>& value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(
+    const std::vector<double>& value) const
 {
   return {utils::VectorToString(value, std::string(utils::kDefaultSeparator))};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(const ComboProperty& value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(const ComboProperty& value) const
 {
   return {value.GetLabel()};
 }
 
-std::string VariantDisplayRoleVisitor::operator()(const ExternalProperty& value) const
+std::optional<std::string> VariantDisplayRoleVisitor::operator()(
+    const ExternalProperty& value) const
 {
   return value.GetText();
 }
