@@ -10,6 +10,8 @@ target_sources(${library_name} PRIVATE
   abstract_row_strategy.h
   abstract_viewmodel_controller.cpp
   abstract_viewmodel_controller.h
+  boolean_data_presentation_item.cpp
+  boolean_data_presentation_item.h
   custom_metatypes.cpp
   custom_metatypes.h
   custom_variants.cpp
