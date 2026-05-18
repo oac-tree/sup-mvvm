@@ -148,9 +148,11 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 
 CheckboxItem::CheckboxItem()
 {
-  auto& int_prop = AddProperty(kInteger, 42);
-  int_prop.SetDisplayName("Integer with checkbox");
+  auto& int_prop = AddProperty("Integer with checkbox", 42);
   int_prop.SetData(Qt::Checked, mvvm::DataRole::kCheckState);
+
+  AddProperty("Bool with checkbox", true);
+  AddProperty("Another bool", false);
 }
 
 // ------------------------------------------------------------------------------------------------

@@ -20,6 +20,7 @@
 
 #include "viewitem_factory.h"
 
+#include "boolean_data_presentation_item.h"
 #include "default_data_presentation_item.h"
 #include "default_display_name_presentation_item.h"
 #include "standard_presentation_items.h"
@@ -50,7 +51,23 @@ std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 
 std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role)
 {
-  auto presentation = std::make_unique<DefaultDataPresentationItem>(item, role);
+  if (item == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto value = item->Data(role);
+  std::unique_ptr<AbstractPresentationItem> presentation;
+
+  if (GetTypeCode(value) == TypeCode::Bool)
+  {
+    presentation = std::make_unique<BooleanDataPresentationItem>(item);
+  }
+  else
+  {
+    presentation = std::make_unique<DefaultDataPresentationItem>(item, role);
+  }
+
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 

@@ -229,6 +229,24 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
   EXPECT_EQ(viewitem->Data(Qt::EditRole).toString(), new_value);
 }
 
+TEST_F(ViewItemFactoryTest, CreateDataViewItemForBoolean)
+{
+  SessionItem item;
+  item.SetData(true, DataRole::kData);
+
+  auto viewitem = CreateDataViewItem(&item);
+
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), QString("True"));
+  EXPECT_TRUE(viewitem->Data(Qt::CheckStateRole).isValid());
+  EXPECT_EQ(viewitem->Data(Qt::CheckStateRole).toInt(), Qt::Checked);
+
+  // setting check state to false
+  EXPECT_TRUE(viewitem->SetData(Qt::Unchecked, Qt::CheckStateRole));
+  EXPECT_TRUE(viewitem->Data(Qt::CheckStateRole).isValid());
+  EXPECT_EQ(viewitem->Data(Qt::CheckStateRole).toInt(), Qt::Unchecked);
+  EXPECT_EQ(item.Data<bool>(DataRole::kData), false);
+}
+
 TEST_F(ViewItemFactoryTest, CreateFixedDataViewItem)
 {
   SessionItem item;
