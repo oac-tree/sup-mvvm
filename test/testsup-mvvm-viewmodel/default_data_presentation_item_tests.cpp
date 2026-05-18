@@ -104,6 +104,8 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndDataRolesToEmit)
 
   EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kData),
             QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+
+  // DataRole::kDisplay (item display name) doesn't have Qt equivalent, so no roles to emit
   EXPECT_TRUE(presentation.GetQtRolesToEmit(DataRole::kDisplay).isEmpty());
 
   EXPECT_EQ(presentation.GetQtRolesToEmit(DataRole::kAppearance),
