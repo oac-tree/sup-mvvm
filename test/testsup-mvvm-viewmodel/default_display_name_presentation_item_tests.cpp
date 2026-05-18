@@ -222,4 +222,35 @@ TEST_F(DefaultDisplayNamePresentationItemTest, EditableDisplayNamePresentationIt
   EXPECT_EQ(item.GetDisplayName(), std::string("abcabc"));
 }
 
+TEST_F(DefaultDisplayNamePresentationItemTest, EditableDisplayNamePresentationForReadOnlyMode)
+{
+  {  // kEditable
+    SessionItem item;
+    item.SetDisplayName("abc");
+    // setting all possible flags as readonly
+    item.SetFlag(mvvm::Appearance::kEditableDisplayName, false);
+    item.SetEditable(false);
+
+    // but explicitely setting presentation to editable mode
+    const DefaultDisplayNamePresentationItem presentation(
+        &item, DefaultDisplayNamePresentationItem::DisplayNameEditMode::kEditable);
+    // item should be editable
+    EXPECT_TRUE(presentation.IsEditable());
+  }
+
+  {  // kReadOnly
+    SessionItem item;
+    item.SetDisplayName("abc");
+    // setting all possible flags as editable
+    item.SetFlag(mvvm::Appearance::kEditableDisplayName, true);
+    item.SetEditable(true);
+
+    // but explicitely setting presentation to readonly mode
+    const DefaultDisplayNamePresentationItem presentation(
+        &item, DefaultDisplayNamePresentationItem::DisplayNameEditMode::kReadOnly);
+    // item should be readonly
+    EXPECT_FALSE(presentation.IsEditable());
+  }
+}
+
 }  // namespace mvvm::test

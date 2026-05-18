@@ -26,8 +26,11 @@
 namespace mvvm
 {
 
-DefaultDisplayNamePresentationItem::DefaultDisplayNamePresentationItem(SessionItem* item)
-    : AbstractPresentationItem(item), m_main_data_role(DataRole::kDisplay)
+DefaultDisplayNamePresentationItem::DefaultDisplayNamePresentationItem(
+    SessionItem* item, DisplayNameEditMode display_name_edit_mode)
+    : AbstractPresentationItem(item)
+    , m_main_data_role(DataRole::kDisplay)
+    , m_display_name_edit_mode(display_name_edit_mode)
 {
 }
 
@@ -40,6 +43,17 @@ bool DefaultDisplayNamePresentationItem::IsEditable() const
     return false;
   }
 
+  if (m_display_name_edit_mode == DisplayNameEditMode::kEditable)
+  {
+    return true;
+  }
+
+  if (m_display_name_edit_mode == DisplayNameEditMode::kReadOnly)
+  {
+    return false;
+  }
+
+  // kAuto mode
   return item->IsEditable() && item->HasFlag(Appearance::kEditableDisplayName);
 }
 

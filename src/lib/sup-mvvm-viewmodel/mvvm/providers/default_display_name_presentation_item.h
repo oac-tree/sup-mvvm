@@ -34,7 +34,15 @@ class SessionItem;
 class DefaultDisplayNamePresentationItem : public AbstractPresentationItem
 {
 public:
-  explicit DefaultDisplayNamePresentationItem(SessionItem* item);
+  enum class DisplayNameEditMode : std::uint8_t
+  {
+    kReadOnly,  //! display name will be editable
+    kEditable,  //! display name will be read only
+    kAuto       //! display name will be editable if Appearance::kEditableDisplayName flag is set
+  };
+
+  explicit DefaultDisplayNamePresentationItem(
+      SessionItem* item, DisplayNameEditMode display_name_edit_mode = DisplayNameEditMode::kAuto);
 
   bool IsEditable() const override;
 
@@ -50,6 +58,7 @@ public:
 
 private:
   role_t m_main_data_role{0};
+  DisplayNameEditMode m_display_name_edit_mode{DisplayNameEditMode::kAuto};
 };
 
 }  // namespace mvvm

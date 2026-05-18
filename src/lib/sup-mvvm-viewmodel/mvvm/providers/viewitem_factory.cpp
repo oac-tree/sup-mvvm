@@ -20,9 +20,9 @@
 
 #include "viewitem_factory.h"
 
-#include "standard_presentation_items.h"
 #include "default_data_presentation_item.h"
 #include "default_display_name_presentation_item.h"
+#include "standard_presentation_items.h"
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/viewitem.h>
@@ -43,36 +43,23 @@ std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item, const std::stri
 
 std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 {
-  // std::unique_ptr<IViewItemData> presentation;
-  // if (item->HasFlag(Appearance::kEditableDisplayName))
-  // {
-  //   presentation = std::make_unique<EditableDisplayNamePresentationItem>(item);
-  // }
-  // else
-  // {
-  //   presentation = std::make_unique<DisplayNamePresentationItem>(item);
-  // }
-  // return std::make_unique<ViewItem>(std::move(presentation));
-
-  auto presentation = std::make_unique<DefaultDisplayNamePresentationItem>(item);
+  auto presentation = std::make_unique<DefaultDisplayNamePresentationItem>(
+      item, DefaultDisplayNamePresentationItem::DisplayNameEditMode::kAuto);
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
 std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role)
 {
-  // auto presentation = std::make_unique<DataPresentationItem>(item, role);
-  // return std::make_unique<ViewItem>(std::move(presentation));
-
   auto presentation = std::make_unique<DefaultDataPresentationItem>(item, role);
   return std::make_unique<ViewItem>(std::move(presentation));
-
 }
 
-// std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item)
-// {
-//   auto presentation = std::make_unique<EditableDisplayNamePresentationItem>(item);
-//   return std::make_unique<ViewItem>(std::move(presentation));
-// }
+std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item)
+{
+  auto presentation = std::make_unique<DefaultDisplayNamePresentationItem>(
+      item, DefaultDisplayNamePresentationItem::DisplayNameEditMode::kEditable);
+  return std::make_unique<ViewItem>(std::move(presentation));
+}
 
 std::unique_ptr<ViewItem> CreateFixedDataViewItem(SessionItem* item,
                                                   std::map<int32_t, QVariant> fixed_data)

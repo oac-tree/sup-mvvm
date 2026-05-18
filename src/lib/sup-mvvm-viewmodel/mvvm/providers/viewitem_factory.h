@@ -47,8 +47,12 @@ std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item);
  * @brief Creates read-only ViewItem displaying a label.
  */
 std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item, const std::string& label = {});
+
 /**
- * @brief Creates read-only ViewItem for SessionItem's display name.
+ * @brief Creates ViewItem for SessionItem's display name.
+ *
+ * Display name will be editable, if item has attribute Appearance::kEditableDisplayName and is
+ * editable itself. Otherwise, display name will be read-only.
  */
 std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
 
@@ -57,10 +61,13 @@ std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
  */
 std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role = DataRole::kData);
 
-// /**
-//  * @brief Creates editable ViewItem for SessionItem's display name.
-//  */
-// std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item);
+/**
+ * @brief Creates editable ViewItem for SessionItem's display name.
+ *
+ * Item display name will be editable, even if item doesn't have Appearance::kEditableDisplayName
+ * attribute or is not editable itself.
+ */
+std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item);
 
 /**
  * @brief Creates ViewItem for SessionItem's with arbitrary data for any Qt role.
