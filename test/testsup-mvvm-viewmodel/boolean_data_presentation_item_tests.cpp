@@ -110,4 +110,22 @@ TEST_F(BooleanDataPresentationItemTest, BooleanDataForCheckBoxOnlyAppearance)
   EXPECT_EQ(item.Data<bool>(), false);
 }
 
+TEST_F(BooleanDataPresentationItemTest, BooleanDataForItemCOntainingInt)
+{
+  // We are using by mistake BooleanDataPresentationItem together with item carrying an integer.
+
+  SessionItem item;
+  item.SetData(42);
+
+  const BooleanDataPresentationItem presentation(&item);
+  EXPECT_EQ(presentation.GetMainDataRole(), DataRole::kData);
+  EXPECT_TRUE(presentation.IsEnabled());
+  EXPECT_FALSE(presentation.IsEditable());  // no editing on double click
+  EXPECT_TRUE(presentation.IsCheckable());
+
+  EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("42"));
+  EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
+}
+
 }  // namespace mvvm::test

@@ -69,8 +69,13 @@ QVariant BooleanDataPresentationItem::Data(role_t qt_role) const
 
   if (qt_role == Qt::CheckStateRole)
   {
-    // Qt check state role is converted from main data role
-    return item->Data<bool>() ? Qt::Checked : Qt::Unchecked;
+    auto value = item->Data(DataRole::kData);
+    if (GetTypeCode(value) == TypeCode::Bool)
+    {
+      // Qt check state role is converted from main data role
+      return std::get<bool>(value) ? Qt::Checked : Qt::Unchecked;
+    }
+    return {};
   }
 
   return {};
