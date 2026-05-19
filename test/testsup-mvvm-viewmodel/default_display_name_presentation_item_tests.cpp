@@ -233,7 +233,7 @@ TEST_F(DefaultDisplayNamePresentationItemTest, EditableDisplayNamePresentationFo
 
     // but explicitely setting presentation to editable mode
     const DefaultDisplayNamePresentationItem presentation(
-        &item, DefaultDisplayNamePresentationItem::DisplayNameEditMode::kEditable);
+        &item, DefaultDisplayNamePresentationItem::EditMode::kEditable);
     // item should be editable
     EXPECT_TRUE(presentation.IsEditable());
   }
@@ -247,7 +247,7 @@ TEST_F(DefaultDisplayNamePresentationItemTest, EditableDisplayNamePresentationFo
 
     // but explicitely setting presentation to readonly mode
     const DefaultDisplayNamePresentationItem presentation(
-        &item, DefaultDisplayNamePresentationItem::DisplayNameEditMode::kReadOnly);
+        &item, DefaultDisplayNamePresentationItem::EditMode::kReadOnly);
     // item should be readonly
     EXPECT_FALSE(presentation.IsEditable());
   }

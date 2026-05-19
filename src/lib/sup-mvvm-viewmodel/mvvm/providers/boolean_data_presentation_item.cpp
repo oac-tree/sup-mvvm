@@ -26,7 +26,7 @@ namespace mvvm
 {
 
 BooleanDataPresentationItem::BooleanDataPresentationItem(SessionItem* item,
-                                                         BooleanAppearanceMode appearance_mode)
+                                                         AppearanceMode appearance_mode)
     : DefaultDataPresentationItem(item, DataRole::kData), m_appearance_mode(appearance_mode)
 {
 }
@@ -62,7 +62,7 @@ QVariant BooleanDataPresentationItem::Data(role_t qt_role) const
     return {};
   }
 
-  if ((m_appearance_mode == BooleanAppearanceMode::kDefault) && (qt_role == Qt::DisplayRole))
+  if ((m_appearance_mode == AppearanceMode::kDefault) && (qt_role == Qt::DisplayRole))
   {
     return GetDisplayRole();
   }

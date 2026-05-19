@@ -45,7 +45,7 @@ std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item, const std::stri
 std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 {
   auto presentation = std::make_unique<DefaultDisplayNamePresentationItem>(
-      item, DefaultDisplayNamePresentationItem::DisplayNameEditMode::kAuto);
+      item, DefaultDisplayNamePresentationItem::EditMode::kAuto);
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
@@ -74,7 +74,7 @@ std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role)
 std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item)
 {
   auto presentation = std::make_unique<DefaultDisplayNamePresentationItem>(
-      item, DefaultDisplayNamePresentationItem::DisplayNameEditMode::kEditable);
+      item, DefaultDisplayNamePresentationItem::EditMode::kEditable);
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 

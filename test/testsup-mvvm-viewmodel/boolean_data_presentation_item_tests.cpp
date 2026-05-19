@@ -94,7 +94,7 @@ TEST_F(BooleanDataPresentationItemTest, BooleanDataForCheckBoxOnlyAppearance)
   item.SetData(true);
 
   BooleanDataPresentationItem presentation(
-      &item, BooleanDataPresentationItem::BooleanAppearanceMode::kCheckBoxOnly);
+      &item, BooleanDataPresentationItem::AppearanceMode::kCheckBoxOnly);
   EXPECT_EQ(presentation.GetMainDataRole(), DataRole::kData);
   EXPECT_TRUE(presentation.IsEnabled());
   EXPECT_FALSE(presentation.IsEditable());  // no editing on double click
