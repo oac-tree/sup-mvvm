@@ -20,8 +20,8 @@
 
 #include "item_view_component_provider.h"
 
-#include <mvvm/model/item_selection.h>
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/item_selection.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/viewmodel_delegate.h>
 
@@ -45,7 +45,8 @@ ItemViewComponentProvider::ItemViewComponentProvider(
     , m_view_model(std::move(view_model))
     , m_view(view)
     , m_selection_model(new QItemSelectionModel(m_view_model.get(), this))
-    , m_selection_flags(QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows)
+    , m_selection_flags(QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows
+                        | QItemSelectionModel::Toggle)
 {
   if (view == nullptr)
   {
@@ -192,7 +193,6 @@ void ItemViewComponentProvider::SetSelection(const ItemSelection& selection)
     return;
   }
 
-  GetSelectionModel()->clearSelection();
   QItemSelection view_selection;
   for (auto item : selection.GetSelectedItems())
   {

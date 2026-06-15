@@ -253,6 +253,32 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
   EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selected), ItemSelection(nullptr));
 }
 
+TEST_F(ItemViewComponentProviderTest, SelectOneItemThenAnother)
+{
+  QTreeView view;
+
+  auto provider = CreateProvider(&view);
+
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectionChanged);
+
+  auto item0 = m_model.InsertItem<mvvm::CompoundItem>();
+  auto item1 = m_model.InsertItem<mvvm::CompoundItem>();
+
+  const ItemSelection expected_selection0(item0);
+  provider->SetSelection(expected_selection0);
+
+  EXPECT_EQ(provider->GetSelection(), expected_selection0);
+
+  EXPECT_EQ(spy_selected.count(), 1);
+  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item0));
+
+  const ItemSelection expected_selection1(item1);
+  provider->SetSelection(expected_selection1);
+
+  EXPECT_EQ(spy_selected.count(), 1);
+  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item1));
+}
+
 TEST_F(ItemViewComponentProviderTest, SetCurrentIndexInViewAndCheckSelection)
 {
   QTreeView view;
