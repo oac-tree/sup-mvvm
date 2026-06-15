@@ -206,6 +206,11 @@ void ItemViewComponentProvider::SetSelection(const ItemSelection& selection)
   GetSelectionModel()->select(view_selection, m_selection_flags);
 }
 
+QItemSelectionModel::SelectionFlags ItemViewComponentProvider::GetSelectionFlags() const
+{
+  return m_selection_flags;
+}
+
 void ItemViewComponentProvider::SetSelectionFlags(QItemSelectionModel::SelectionFlags flags)
 {
   m_selection_flags = flags;

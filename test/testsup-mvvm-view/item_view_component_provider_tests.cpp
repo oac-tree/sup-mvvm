@@ -72,6 +72,11 @@ TEST_F(ItemViewComponentProviderTest, InitialState)
   EXPECT_TRUE(provider.GetSelection().IsEmpty());
   EXPECT_EQ(provider.GetLastProxyModel(), nullptr);
   EXPECT_TRUE(provider.GetProxyModelChain().empty());
+
+  const QItemSelectionModel::SelectionFlags expected_flags =
+      QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows | QItemSelectionModel::Toggle;
+
+  EXPECT_EQ(provider.GetSelectionFlags(), expected_flags);
 }
 
 TEST_F(ItemViewComponentProviderTest, SetEmptyApplicationModel)

@@ -169,6 +169,11 @@ public:
   void SetSelection(const ItemSelection& selection);
 
   /**
+   * @brief Returns selection flags.
+   */
+  QItemSelectionModel::SelectionFlags GetSelectionFlags() const;
+
+  /**
    * @brief Sets Qt selection flags.
    */
   void SetSelectionFlags(QItemSelectionModel::SelectionFlags flags);
