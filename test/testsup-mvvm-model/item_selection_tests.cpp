@@ -38,16 +38,16 @@ class ItemSelectionTest : public ::testing::Test
 TEST_F(ItemSelectionTest, InitialState)
 {
   const ItemSelection selection;
-  EXPECT_EQ(selection.GetSelectedItem(), nullptr);
-  EXPECT_TRUE(selection.GetSelectedItems().empty());
+  EXPECT_EQ(selection.GetItem(), nullptr);
+  EXPECT_TRUE(selection.GetItems().empty());
 }
 
 TEST_F(ItemSelectionTest, SelectionFromNullptr)
 {
   const ItemSelection selection(nullptr);
 
-  EXPECT_EQ(selection.GetSelectedItem(), nullptr);
-  EXPECT_TRUE(selection.GetSelectedItems().empty());
+  EXPECT_EQ(selection.GetItem(), nullptr);
+  EXPECT_TRUE(selection.GetItems().empty());
   EXPECT_TRUE(selection.IsEmpty());
 }
 
@@ -56,27 +56,27 @@ TEST_F(ItemSelectionTest, SelectionFromSinglePointer)
   { // const pointer
     const SessionItem item;
     const ItemSelection selection(&item);
-    EXPECT_EQ(selection.GetSelectedItem(), &item);
+    EXPECT_EQ(selection.GetItem(), &item);
     const std::vector<const SessionItem*> expected{&item};
-    EXPECT_EQ(selection.GetSelectedItems(), expected);
+    EXPECT_EQ(selection.GetItems(), expected);
     EXPECT_FALSE(selection.IsEmpty());
   }
 
   { // non-const pointer
     SessionItem item; // non-const
     const ItemSelection selection(&item);
-    EXPECT_EQ(selection.GetSelectedItem(), &item);
+    EXPECT_EQ(selection.GetItem(), &item);
     const std::vector<const SessionItem*> expected{&item};
-    EXPECT_EQ(selection.GetSelectedItems(), expected);
+    EXPECT_EQ(selection.GetItems(), expected);
   }
 
   { // pointer to derived class
     // to validate that our templated constructor does not cause any issues
     const VectorItem vector_item;
     const ItemSelection selection(&vector_item);
-    EXPECT_EQ(selection.GetSelectedItem(), &vector_item);
+    EXPECT_EQ(selection.GetItem(), &vector_item);
     const std::vector<const SessionItem*> expected{&vector_item};
-    EXPECT_EQ(selection.GetSelectedItems(), expected);
+    EXPECT_EQ(selection.GetItems(), expected);
   }
 }
 
@@ -84,8 +84,8 @@ TEST_F(ItemSelectionTest, SelectionFromSinglePointerWhichIsNullptr)
 {
   const SessionItem* item{nullptr};
   const ItemSelection selection(item);
-  EXPECT_EQ(selection.GetSelectedItem(), nullptr);
-  EXPECT_TRUE(selection.GetSelectedItems().empty());
+  EXPECT_EQ(selection.GetItem(), nullptr);
+  EXPECT_TRUE(selection.GetItems().empty());
 }
 
 TEST_F(ItemSelectionTest, TwoItemsInSelection)
@@ -95,9 +95,9 @@ TEST_F(ItemSelectionTest, TwoItemsInSelection)
 
   const ItemSelection selection({&item1, &item2});
 
-  EXPECT_EQ(selection.GetSelectedItem(), &item1);
+  EXPECT_EQ(selection.GetItem(), &item1);
   const std::vector<const SessionItem*> expected{&item1, &item2};
-  EXPECT_EQ(selection.GetSelectedItems(), expected);
+  EXPECT_EQ(selection.GetItems(), expected);
 }
 
 TEST_F(ItemSelectionTest, CastedGetters)
@@ -108,13 +108,13 @@ TEST_F(ItemSelectionTest, CastedGetters)
   const ItemSelection selection({&item1, &item2});
 
   const std::vector<const SessionItem*> expected1{&item1, &item2};
-  EXPECT_EQ(selection.GetSelectedItems(), expected1);
+  EXPECT_EQ(selection.GetItems(), expected1);
 
   // casting to type
   const std::vector<const VectorItem*> expected2{&item1, &item2};
-  EXPECT_EQ(selection.GetSelectedItems<VectorItem>(), expected2);
+  EXPECT_EQ(selection.GetItems<VectorItem>(), expected2);
 
-  EXPECT_EQ(selection.GetSelected<VectorItem>(), &item1);
+  EXPECT_EQ(selection.GetItem<VectorItem>(), &item1);
 }
 
 TEST_F(ItemSelectionTest, TemplatedConstructionFromVector)
@@ -128,8 +128,8 @@ TEST_F(ItemSelectionTest, TemplatedConstructionFromVector)
   const ItemSelection selection(vector_items);
 
   const std::vector<const SessionItem*> expected1{&item1, &item2};
-  EXPECT_EQ(selection.GetSelectedItems(), expected1);
-  EXPECT_EQ(selection.GetSelectedItems<VectorItem>(), vector_items);
+  EXPECT_EQ(selection.GetItems(), expected1);
+  EXPECT_EQ(selection.GetItems<VectorItem>(), vector_items);
 }
 
 TEST_F(ItemSelectionTest, IsSameSelection)

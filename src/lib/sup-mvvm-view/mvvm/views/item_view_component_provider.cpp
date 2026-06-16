@@ -194,7 +194,7 @@ void ItemViewComponentProvider::SetSelection(const ItemSelection& selection)
   }
 
   QItemSelection view_selection;
-  for (auto item : selection.GetSelectedItems())
+  for (auto item : selection.GetItems())
   {
     auto view_indexes = GetViewIndexes(item);
     if (!view_indexes.empty())

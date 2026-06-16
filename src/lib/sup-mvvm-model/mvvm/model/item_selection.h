@@ -74,24 +74,24 @@ public:
    *
    * If more than one item is selected, will return first one.
    */
-  const SessionItem* GetSelectedItem() const;
+  const SessionItem* GetItem() const;
 
   /**
    * @brief Returns vector of currently selected items.
    */
-  std::vector<const SessionItem*> GetSelectedItems() const;
+  std::vector<const SessionItem*> GetItems() const;
 
   /**
    * @brief Returns an item currently selected in a view and casted to specified type.
    */
-  template <typename T>
-  const T* GetSelected() const;
+  template <typename T = SessionItem>
+  const T* GetItem() const;
 
   /**
    * @brief Returns items currently selected in a view and casted to specified type.
    */
-  template <typename T>
-  std::vector<const T*> GetSelectedItems() const;
+  template <typename T = SessionItem>
+  std::vector<const T*> GetItems() const;
 
   /**
    * @brief Checks if this selection is the same as another selection.
@@ -120,15 +120,15 @@ inline ItemSelection::ItemSelection(const std::vector<ElementT>& selected_items)
 }
 
 template <typename T>
-const T* ItemSelection::GetSelected() const
+const T* ItemSelection::GetItem() const
 {
-  return dynamic_cast<const T*>(GetSelectedItem());
+  return dynamic_cast<const T*>(GetItem());
 }
 
 template <typename T>
-std::vector<const T*> ItemSelection::GetSelectedItems() const
+std::vector<const T*> ItemSelection::GetItems() const
 {
-  return utils::CastItems<const T>(GetSelectedItems());
+  return utils::CastItems<const T>(GetItems());
 }
 
 bool operator==(const ItemSelection& lhs, const ItemSelection& rhs);

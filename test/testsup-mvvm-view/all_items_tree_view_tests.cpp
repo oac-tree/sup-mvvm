@@ -91,15 +91,15 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   EXPECT_TRUE(provider->GetSelection().IsEmpty());
 
   view.SetSelectedItem(x_item);
-  EXPECT_EQ(provider->GetSelection().GetSelectedItems(), std::vector<const SessionItem*>({x_item}));
+  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<const SessionItem*>({x_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 
   view.SetSelectedItem(y_item);
-  EXPECT_EQ(provider->GetSelection().GetSelectedItems(), std::vector<const SessionItem*>({y_item}));
+  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<const SessionItem*>({y_item}));
   EXPECT_EQ(view.GetSelectedItem(), y_item);
 
   provider->SetSelection(ItemSelection({x_item, y_item}));
-  EXPECT_EQ(provider->GetSelection().GetSelectedItems(),
+  EXPECT_EQ(provider->GetSelection().GetItems(),
             std::vector<const SessionItem*>({x_item, y_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 }

@@ -41,29 +41,29 @@ ItemSelection::ItemSelection(const std::vector<const SessionItem*>& selected_ite
 {
 }
 
-const SessionItem* ItemSelection::GetSelectedItem() const
+const SessionItem* ItemSelection::GetItem() const
 {
   return m_items.empty() ? nullptr : m_items.front();
 }
 
-std::vector<const SessionItem*> ItemSelection::GetSelectedItems() const
+std::vector<const SessionItem*> ItemSelection::GetItems() const
 {
   return m_items;
 }
 
 bool ItemSelection::IsSameSelection(const ItemSelection& other) const
 {
-  return utils::HaveSameElements(GetSelectedItems(), other.GetSelectedItems());
+  return utils::HaveSameElements(GetItems(), other.GetItems());
 }
 
 bool ItemSelection::IsEmpty() const
 {
-  return GetSelectedItems().empty();
+  return GetItems().empty();
 }
 
 bool operator==(const ItemSelection& lhs, const ItemSelection& rhs)
 {
-  return lhs.GetSelectedItems() == rhs.GetSelectedItems();
+  return lhs.GetItems() == rhs.GetItems();
 }
 
 bool operator!=(const ItemSelection& lhs, const ItemSelection& rhs)

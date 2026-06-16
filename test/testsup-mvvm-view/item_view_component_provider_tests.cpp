@@ -109,7 +109,7 @@ TEST_F(ItemViewComponentProviderTest, SetNonEmptyModel)
   auto viewmodel = provider->GetViewModel();
 
   ASSERT_NE(viewmodel, nullptr);
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetItem(), nullptr);
   EXPECT_EQ(viewmodel->GetRootSessionItem(), m_model.GetRootItem());
 
   EXPECT_EQ(viewmodel->rowCount(QModelIndex()), 1);
@@ -164,7 +164,7 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterSetModel)
 
   EXPECT_EQ(new_viewmodel->GetRootSessionItem(), item);
 
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetItem(), nullptr);
 
   // no rows and columns since our item plays the role of root item
   EXPECT_EQ(new_viewmodel->rowCount(QModelIndex()), 0);
@@ -253,7 +253,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 
   // removing selection
   provider->SetSelection(ItemSelection(nullptr));
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetItem(), nullptr);
 
   EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected), ItemSelection(nullptr));
 }
@@ -299,7 +299,7 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndexInViewAndCheckSelection)
   ASSERT_EQ(indexes.size(), 2);
   provider->GetView()->setCurrentIndex(indexes.at(0));
 
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), item);
+  EXPECT_EQ(provider->GetSelection().GetItem(), item);
 
   EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(item));
 }
@@ -324,7 +324,7 @@ TEST_F(ItemViewComponentProviderTest, SelectWholeRowAndCheckResultingSelection)
   view.selectionModel()->select(x_item_index,
                                 QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(provider->GetSelection().GetSelectedItems(),
+  EXPECT_EQ(provider->GetSelection().GetItems(),
             std::vector<const mvvm::SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
@@ -369,7 +369,7 @@ TEST_F(ItemViewComponentProviderTest, CheckSelectionChangeAfterItemRemoval)
   provider->SetSelection(ItemSelection(property0));
 
   // checking selections
-  EXPECT_EQ(provider->GetSelection().GetSelectedItems(),
+  EXPECT_EQ(provider->GetSelection().GetItems(),
             std::vector<const mvvm::SessionItem*>({property0}));
 
   // checking signaling
@@ -479,10 +479,10 @@ TEST_F(ItemViewComponentProviderTest, AddProxyModelToFilterNamesAndCheckSelectio
   auto proxy_ptr = proxy.get();
   provider->AddProxyModel(std::move(proxy));
 
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetItem(), nullptr);
 
   provider->SetSelection(ItemSelection(property0));
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), property0);
+  EXPECT_EQ(provider->GetSelection().GetItem(), property0);
 
   // filtering out first item "A"; items "AB" and "ABC" should be there
   proxy_ptr->SetPattern("AB");
@@ -490,9 +490,9 @@ TEST_F(ItemViewComponentProviderTest, AddProxyModelToFilterNamesAndCheckSelectio
   EXPECT_EQ(proxy_ptr->columnCount(QModelIndex()), 2);
 
   // after filtering, selecte item has gone
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetItem(), nullptr);
   provider->SetSelection(ItemSelection(property2));
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), property2);
+  EXPECT_EQ(provider->GetSelection().GetItem(), property2);
 }
 
 //! Testing provider in the presence of two proxy model. We create the model with 3 items, and then
@@ -554,11 +554,11 @@ TEST_F(ItemViewComponentProviderTest, TwoProxyModels)
 
   // only property2 is selectable, others are filtered out
   provider->SetSelection(ItemSelection(property0));
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetItem(), nullptr);
   provider->SetSelection(ItemSelection(property1));
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetItem(), nullptr);
   provider->SetSelection(ItemSelection(property2));
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), property2);
+  EXPECT_EQ(provider->GetSelection().GetItem(), property2);
 }
 
 //! Setting the new model leads to the change in view's underlying selection model. This test
@@ -581,7 +581,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItemAfterModelSwitch)
 
   // removing selection
   provider->SetSelection(ItemSelection());
-  EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelection().GetItem(), nullptr);
   EXPECT_EQ(spy_selected.count(), 1);
 
   spy_selected.clear();
