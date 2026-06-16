@@ -51,11 +51,15 @@ void CreateTextFile(const std::string& file_name, const std::string& content);
 
 /**
  * @brief Helper function that retrieves an object from QSignalSpy arguments.
+ *
+ * It is assumed that there was at least one signal received, and that the signal has only one
+ * argument. After retrieving the argument, it is removed from the list of received signals.
+ * Always takes first signal from the list.
  */
 template <typename T>
-T GetSendItem(QSignalSpy& signal_spy)
+T TakeValue(QSignalSpy& signal_spy)
 {
-  if (signal_spy.count() == 1)
+  if (signal_spy.count() >= 1)
   {
     auto arguments = signal_spy.takeFirst();
     if (arguments.size() == 1)

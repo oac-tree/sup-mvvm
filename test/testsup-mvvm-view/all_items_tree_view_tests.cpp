@@ -181,7 +181,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
 
   // checking signaling
   ItemSelection expected_selection(property0);
-  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), expected_selection);
+  EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), expected_selection);
 
   spy_selected.clear();
 
@@ -189,7 +189,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   model.RemoveItem(property0);
 
   // signal should emit once and report nullptr as selected item
-  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(nullptr));
+  EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(nullptr));
 }
 
 TEST_F(AllItemsTreeViewTest, SetNullptrAsModel)

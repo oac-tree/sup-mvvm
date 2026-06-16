@@ -83,7 +83,7 @@ TEST_F(AllIntSpinBoxTest, StepBy)
   // in editor this method is called on editing finished event
   editor.CheckNotify();
 
-  auto reported_data = mvvm::test::GetSendItem<QVariant>(spy_value_changed);
+  auto reported_data = mvvm::test::TakeValue<QVariant>(spy_value_changed);
   EXPECT_EQ(GetStdVariant(reported_data), variant_t{43});
 }
 
@@ -106,7 +106,7 @@ TEST_F(AllIntSpinBoxTest, SetValue)
 
   EXPECT_EQ(editor.text(), QString("43"));
 
-  auto reported_data = mvvm::test::GetSendItem<QVariant>(spy_value_changed);
+  auto reported_data = mvvm::test::TakeValue<QVariant>(spy_value_changed);
   EXPECT_EQ(GetStdVariant(reported_data), variant_t{43});
 
   auto qt_variant = editor.value();

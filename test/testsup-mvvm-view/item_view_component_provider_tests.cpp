@@ -243,7 +243,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 
   EXPECT_EQ(provider->GetSelection(), expected_selection);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item));
+  EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(item));
 
   spy_selected.clear();
 
@@ -255,7 +255,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
   provider->SetSelection(ItemSelection(nullptr));
   EXPECT_EQ(provider->GetSelection().GetSelectedItem(), nullptr);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selected), ItemSelection(nullptr));
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected), ItemSelection(nullptr));
 }
 
 TEST_F(ItemViewComponentProviderTest, SelectOneItemThenAnother)
@@ -275,13 +275,13 @@ TEST_F(ItemViewComponentProviderTest, SelectOneItemThenAnother)
   EXPECT_EQ(provider->GetSelection(), expected_selection0);
 
   EXPECT_EQ(spy_selected.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item0));
+  EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(item0));
 
   const ItemSelection expected_selection1(item1);
   provider->SetSelection(expected_selection1);
 
   EXPECT_EQ(spy_selected.count(), 1);
-  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item1));
+  EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(item1));
 }
 
 TEST_F(ItemViewComponentProviderTest, SetCurrentIndexInViewAndCheckSelection)
@@ -301,7 +301,7 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndexInViewAndCheckSelection)
 
   EXPECT_EQ(provider->GetSelection().GetSelectedItem(), item);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(item));
+  EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(item));
 }
 
 TEST_F(ItemViewComponentProviderTest, SelectWholeRowAndCheckResultingSelection)
@@ -373,7 +373,7 @@ TEST_F(ItemViewComponentProviderTest, CheckSelectionChangeAfterItemRemoval)
             std::vector<const mvvm::SessionItem*>({property0}));
 
   // checking signaling
-  EXPECT_EQ(mvvm::test::GetSendItem<ItemSelection>(spy_selected), ItemSelection(property0));
+  EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(property0));
 
   spy_selected.clear();
 
@@ -381,7 +381,7 @@ TEST_F(ItemViewComponentProviderTest, CheckSelectionChangeAfterItemRemoval)
   m_model.RemoveItem(property0);
 
   // signal should emit once and report nullptr as selected item
-  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::ItemSelection>(spy_selected), ItemSelection());
+  EXPECT_EQ(mvvm::test::TakeValue<mvvm::ItemSelection>(spy_selected), ItemSelection());
 }
 
 TEST_F(ItemViewComponentProviderTest, DeleteProviderBeforeView)

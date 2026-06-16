@@ -79,7 +79,7 @@ TEST_F(StringCompleterEditorTest, SetValue)
   EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
   ASSERT_EQ(spy_value_changed.count(), 1);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed), QVariant::fromValue(str_value));
+  EXPECT_EQ(mvvm::test::TakeValue<QVariant>(spy_value_changed), QVariant::fromValue(str_value));
 
   // setting same value again
   editor.setValue(QVariant::fromValue(str_value));

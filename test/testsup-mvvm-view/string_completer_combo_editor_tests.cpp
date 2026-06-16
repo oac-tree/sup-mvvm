@@ -80,7 +80,7 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetValue)
   EXPECT_EQ(editor.GetStringList(), completer_list);
   ASSERT_EQ(spy_value_changed.count(), 1);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed), QVariant::fromValue(str_value));
+  EXPECT_EQ(mvvm::test::TakeValue<QVariant>(spy_value_changed), QVariant::fromValue(str_value));
 
   // setting same value again
   editor.setValue(QVariant::fromValue(str_value));
@@ -107,7 +107,7 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetIndex)
   EXPECT_EQ(editor.GetStringList(), completer_list);
   ASSERT_EQ(spy_value_changed.count(), 1);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed),
+  EXPECT_EQ(mvvm::test::TakeValue<QVariant>(spy_value_changed),
             QVariant::fromValue(expected_str_value));
 }
 
@@ -131,7 +131,7 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnEditingFinished)
   EXPECT_EQ(editor.GetStringList(), completer_list);
   ASSERT_EQ(spy_value_changed.count(), 1);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed),
+  EXPECT_EQ(mvvm::test::TakeValue<QVariant>(spy_value_changed),
             QVariant::fromValue(expected_str_value));
 }
 

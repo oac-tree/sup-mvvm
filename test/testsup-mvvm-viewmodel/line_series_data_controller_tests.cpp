@@ -121,7 +121,7 @@ TEST_F(LineSeriesDataControllerTest, ValidateLineSeriesOnCoordinateUpdate)
   data_item_ptr->SetPointCoordinates(1, {2.0, 25.0});
 
   // expecting notification on Qt side, index of replaced point
-  EXPECT_EQ(mvvm::test::GetSendItem<int>(spy_point_replaced), 1);
+  EXPECT_EQ(mvvm::test::TakeValue<int>(spy_point_replaced), 1);
 
   // validating (x,y) of points in QLineSeries
   auto qt_points = line_series.points();
@@ -154,7 +154,7 @@ TEST_F(LineSeriesDataControllerTest, ValidateLineSeriesOnPointRemoved)
   data_item_ptr->RemovePoint(1);
 
   // expecting notification on Qt side, index of removed point
-  EXPECT_EQ(mvvm::test::GetSendItem<int>(spy_point_removed), 1);
+  EXPECT_EQ(mvvm::test::TakeValue<int>(spy_point_removed), 1);
 
   // validating (x,y) of points in QLineSeries
   auto qt_points = line_series.points();
@@ -185,7 +185,7 @@ TEST_F(LineSeriesDataControllerTest, ValidateLineSeriesOnPointInserted)
   data_item_ptr->InsertPoint(1, {2.0, 20.0});
 
   // expecting notification on Qt side, index of inserted point
-  EXPECT_EQ(mvvm::test::GetSendItem<int>(spy_point_inserted), 1);
+  EXPECT_EQ(mvvm::test::TakeValue<int>(spy_point_inserted), 1);
 
   // validating (x,y) of points in QLineSeries
   auto qt_points = line_series.points();

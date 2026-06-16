@@ -104,7 +104,7 @@ TEST_F(FloatSpinBoxTest, SetValueForFloat64)
 
   double_spinbox->setValue(43.0);
 
-  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed), QVariant{43.0});
+  EXPECT_EQ(mvvm::test::TakeValue<QVariant>(spy_value_changed), QVariant{43.0});
 }
 
 TEST_F(FloatSpinBoxTest, SetValueForFloat32)
@@ -126,7 +126,7 @@ TEST_F(FloatSpinBoxTest, SetValueForFloat32)
 
   double_spinbox->setValue(43.0);
 
-  auto reported_data = mvvm::test::GetSendItem<QVariant>(spy_value_changed);
+  auto reported_data = mvvm::test::TakeValue<QVariant>(spy_value_changed);
 
   const mvvm::float32 new_value(43.0);
   const QVariant expected_variant = QVariant::fromValue(new_value);
