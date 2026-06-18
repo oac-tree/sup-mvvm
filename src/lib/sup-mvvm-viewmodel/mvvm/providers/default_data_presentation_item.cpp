@@ -63,8 +63,8 @@ QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
     return GetQtVariant(GetItem()->Data(GetMainDataRole()));
   }
 
-  // Presentation-only Qt roles set on board take precedence over item-derived values. This also
-  // covers Qt::BackgroundRole, which has no SessionItem equivalent.
+  // Presentation-only Qt roles set on board take precedence over item-derived values (foreground,
+  // decoration), and cover roles with no SessionItem equivalent at all (background).
   if (auto it = m_qt_data.find(qt_role); it != m_qt_data.end())
   {
     return it.value();
@@ -131,7 +131,8 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 
 bool DefaultDataPresentationItem::IsPresentationOnlyRole(role_t qt_role) const
 {
-  return qt_role == Qt::BackgroundRole || qt_role == Qt::ForegroundRole;
+  return qt_role == Qt::BackgroundRole || qt_role == Qt::ForegroundRole
+         || qt_role == Qt::DecorationRole;
 }
 
 QVector<role_t> DefaultDataPresentationItem::GetQtRolesToEmit(role_t data_role) const

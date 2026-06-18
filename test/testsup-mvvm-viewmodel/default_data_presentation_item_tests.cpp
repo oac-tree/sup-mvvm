@@ -156,7 +156,6 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndSetData)
   // it is not possible to change other Qt roles
   EXPECT_FALSE(presentation.SetData(QString("display"), Qt::DisplayRole));
   EXPECT_FALSE(presentation.SetData(QString("tooltip"), Qt::ToolTipRole));
-  EXPECT_FALSE(presentation.SetData(QColor("red"), Qt::DecorationRole));
 
   // it is not allowed to set another type of data for EditRole
   const QVariant not_allowed_value("Layer");
@@ -412,6 +411,7 @@ TEST_F(DefaultDataPresentationItemTest, PresentationOnlyQtRoles)
   // no presentation-only roles set initially
   EXPECT_FALSE(presentation.Data(Qt::BackgroundRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::DecorationRole).isValid());
 
   // setting background role
   EXPECT_TRUE(presentation.SetData(QColor(Qt::yellow), Qt::BackgroundRole));
@@ -420,6 +420,10 @@ TEST_F(DefaultDataPresentationItemTest, PresentationOnlyQtRoles)
   // setting foreground role; it takes precedence over the item-derived value
   EXPECT_TRUE(presentation.SetData(QColor(Qt::red), Qt::ForegroundRole));
   EXPECT_EQ(presentation.Data(Qt::ForegroundRole).value<QColor>(), QColor(Qt::red));
+
+  // setting decoration role
+  EXPECT_TRUE(presentation.SetData(QColor(Qt::blue), Qt::DecorationRole));
+  EXPECT_EQ(presentation.Data(Qt::DecorationRole).value<QColor>(), QColor(Qt::blue));
 
   // presentation-only roles are not propagated to the SessionItem
   EXPECT_FALSE(item.HasData(DataRole::kTextColor));
@@ -431,9 +435,34 @@ TEST_F(DefaultDataPresentationItemTest, PresentationOnlyQtRoles)
 
   EXPECT_TRUE(presentation.SetData(QVariant(), Qt::ForegroundRole));
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+
+  EXPECT_TRUE(presentation.SetData(QVariant(), Qt::DecorationRole));
+  EXPECT_FALSE(presentation.Data(Qt::DecorationRole).isValid());
 }
 
-//! Only background and foreground roles are reported as presentation-only.
+//! An explicitly set decoration role overrides the value derived from a color-editor item.
+TEST_F(DefaultDataPresentationItemTest, DecorationRolePrecedenceOverColorEditor)
+{
+  const auto main_data_role = DataRole::kData;
+  SessionItem item;
+  EXPECT_TRUE(item.SetData("red"));
+  item.SetEditorType(constants::kColorEditorType);
+
+  DefaultDataPresentationItem presentation(&item, main_data_role);
+
+  // item-derived decoration for a color editor
+  EXPECT_EQ(presentation.Data(Qt::DecorationRole).value<QColor>(), QColor("red"));
+
+  // explicit decoration wins over the item-derived value
+  EXPECT_TRUE(presentation.SetData(QColor(Qt::blue), Qt::DecorationRole));
+  EXPECT_EQ(presentation.Data(Qt::DecorationRole).value<QColor>(), QColor(Qt::blue));
+
+  // resetting falls back to the item-derived value
+  EXPECT_TRUE(presentation.SetData(QVariant(), Qt::DecorationRole));
+  EXPECT_EQ(presentation.Data(Qt::DecorationRole).value<QColor>(), QColor("red"));
+}
+
+//! Only background, foreground and decoration roles are reported as presentation-only.
 TEST_F(DefaultDataPresentationItemTest, IsPresentationOnlyRole)
 {
   const auto main_data_role = DataRole::kData;
@@ -444,12 +473,12 @@ TEST_F(DefaultDataPresentationItemTest, IsPresentationOnlyRole)
 
   EXPECT_TRUE(presentation.IsPresentationOnlyRole(Qt::BackgroundRole));
   EXPECT_TRUE(presentation.IsPresentationOnlyRole(Qt::ForegroundRole));
+  EXPECT_TRUE(presentation.IsPresentationOnlyRole(Qt::DecorationRole));
 
   EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::DisplayRole));
   EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::EditRole));
   EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::CheckStateRole));
   EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::ToolTipRole));
-  EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::DecorationRole));
 }
 
 //! The explicitly set foreground role overrides the value derived from a disabled item.

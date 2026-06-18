@@ -34,7 +34,8 @@ class SessionItem;
  * @brief The DefaultDataPresentationItem class presents a data role of SessionItem.
  *
  * In addition to translating SessionItem roles to their Qt equivalents, it can carry a small set of
- * presentation-only Qt roles (currently Qt::BackgroundRole and Qt::ForegroundRole). These roles are
+ * presentation-only Qt roles (currently Qt::BackgroundRole, Qt::ForegroundRole and
+ * Qt::DecorationRole). These roles are
  * set via the view model, are stored on board of the presentation item, and are never propagated to
  * the underlying SessionItem (i.e. they do not end up on disk). They affect only how the item is
  * shown in Qt trees and tables, and can be used, for example, to highlight changed values in cells.
