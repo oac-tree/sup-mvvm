@@ -2,16 +2,130 @@
 
 set(test testsup-mvvm-model)
 
-file(GLOB_RECURSE source_files "*.cpp")
-file(GLOB_RECURSE include_files "*.h")
+add_executable(${test})
 
-# file(GLOB source_files "experimental/*.cpp")
-# file(GLOB include_files "experimental/*.h")
+target_sources(${test} PRIVATE
+  abstract_command_tests.cpp
+  abstract_project_tests.cpp
+  application_model_complex_undo_tests.cpp
+  application_model_simple_undo_tests.cpp
+  application_model_tests.cpp
+  app_project_tests.cpp
+  axis_items_tests.cpp
+  bin_utils_tests.cpp
+  chart_viewport_item_tests.cpp
+  combo_property_tests.cpp
+  command_helper_tests.cpp
+  command_stack_corner_tests.cpp
+  command_stack_extended_notifying_tests.cpp
+  command_stack_extended_tests.cpp
+  command_stack_macro_tests.cpp
+  command_stack_tests.cpp
+  compound_item_tests.cpp
+  container_item_tests.cpp
+  container_utils_tests.cpp
+  data1d_item_tests.cpp
+  default_command_processor_tests.cpp
+  event_handler_tests.cpp
+  event_types_tests.cpp
+  event_value_visitor_tests.cpp
+  experimental_clone_tests.cpp
+  experimental_clone_v2_tests.cpp
+  external_property_tests.cpp
+  file_based_project_tests.cpp
+  file_utils_tests.cpp
+  flags_tests.cpp
+  folder_based_project_tests.cpp
+  graph_item_tests.cpp
+  graph_viewport_item_tests.cpp
+  insert_item_command_tests.cpp
+  item_catalogue_tests.cpp
+  item_connect_helper_tests.cpp
+  item_connect_tests.cpp
+  item_controller_tests.cpp
+  item_event_visitor_tests.cpp
+  item_factory_tests.cpp
+  item_limits_helper_tests.cpp
+  item_listener_tests.cpp
+  item_pool_tests.cpp
+  item_selection_tests.cpp
+  item_utils_tests.cpp
+  limited_integer_helper_tests.cpp
+  limited_integer_tests.cpp
+  line_series_data_item_tests.cpp
+  line_series_item_tests.cpp
+  linked_item_tests.cpp
+  lsignal_tests.cpp
+  macro_command_tests.cpp
+  main.cpp
+  model_command_tests.cpp
+  model_event_handler_tests.cpp
+  model_has_changed_controller_tests.cpp
+  model_listener_tests.cpp
+  model_test_helper_tests.cpp
+  model_utils_tests.cpp
+  mvvm_error_condition_tests.cpp
+  mvvm_errors_tests.cpp
+  mvvm_exceptions_tests.cpp
+  node_item_tests.cpp
+  numeric_utils_tests.cpp
+  path_tests.cpp
+  plottable_items_tests.cpp
+  point_item_tests.cpp
+  process_command_tests.cpp
+  progress_handler_tests.cpp
+  project_change_controller_tests.cpp
+  project_manager_file_based_project_tests.cpp
+  project_manager_folder_based_project_tests.cpp
+  project_manager_tests.cpp
+  project_utils_tests.cpp
+  property_item_tests.cpp
+  remove_item_command_tests.cpp
+  session_item_composer_components_tests.cpp
+  session_item_composer_tests.cpp
+  session_item_container_tests.cpp
+  session_item_data_tests.cpp
+  session_item_impl_tests.cpp
+  session_item_tests.cpp
+  session_model_tests.cpp
+  set_value_command_tests.cpp
+  signal_slot_tests.cpp
+  standard_item_backup_strategies_tests.cpp
+  standard_tree_data_composer_components_tests.cpp
+  string_format_tests.cpp
+  string_utils_tests.cpp
+  tagged_items_tests.cpp
+  tagindex_tests.cpp
+  taginfo_tests.cpp
+  threadsafe_queue_tests.cpp
+  threadsafe_stack_tests.cpp
+  tree_data_composer_component_tests.cpp
+  tree_data_composer_tests.cpp
+  tree_data_helper_tests.cpp
+  tree_data_item_converter_tests.cpp
+  tree_data_itemdata_converter_tests.cpp
+  tree_data_model_converter_tests.cpp
+  tree_data_taginfo_converter_tests.cpp
+  tree_data_variant_converter_integer_tests.cpp
+  tree_data_variant_converter_tests.cpp
+  unique_id_generator_tests.cpp
+  validate_utils_tests.cpp
+  variant_index_tests.cpp
+  variant_limits_helper_tests.cpp
+  variant_limits_visitor_tests.cpp
+  variant_tests.cpp
+  variant_value_visitor_tests.cpp
+  vector_item_tests.cpp
+  version_tests.cpp
+  viewport_helper_tests.cpp
+  viewport_item_tests.cpp
+  waveform_helper_tests.cpp
+  xml_document_helper_tests.cpp
+  xml_document_tests.cpp
+)
 
-add_executable(${test} ${source_files} ${include_files})
 target_link_libraries(${test} PRIVATE sup-mvvm::test sup-utils-tree-data sup-mvvm-test-utils)
 
 set_target_properties(${test} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 
 gtest_discover_tests(${test} DISCOVERY_MODE PRE_TEST TEST_PREFIX "Model.")
-
