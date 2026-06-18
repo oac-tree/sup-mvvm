@@ -116,6 +116,19 @@ TEST_F(FlagsTest, SetTwoFlags)
   EXPECT_EQ(flags.to_ulong(), 0U);
 }
 
+TEST_F(FlagsTest, ToggleFlag)
+{
+  Flags<Option> flags;
+
+  flags.Toggle(Option::kLength);
+  EXPECT_EQ(flags.Count(), 1U);
+  EXPECT_TRUE(flags[Option::kLength]);
+
+  flags.Toggle(Option::kLength);
+  EXPECT_EQ(flags.Count(), 0U);
+  EXPECT_FALSE(flags[Option::kLength]);
+}
+
 TEST_F(FlagsTest, SetAllFlags)
 {
   Flags<Option> flags;

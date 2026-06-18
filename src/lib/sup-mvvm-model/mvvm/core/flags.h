@@ -75,6 +75,11 @@ public:
   Flags& Set(EnumT flag, bool value = true);
 
   /**
+   * @brief Toggle bits.
+   */
+  Flags& Toggle(EnumT flag);
+
+  /**
    * @brief Set bits to false.
    */
   Flags& Reset(EnumT flag);
@@ -143,6 +148,20 @@ inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value)
   }
 
   (void)m_bits.set(index, value);
+  return *this;
+}
+
+template <typename EnumT>
+inline Flags<EnumT>& Flags<EnumT>::Toggle(EnumT flag)
+{
+  const auto index = static_cast<std::size_t>(underlying(flag));
+
+  if (index >= m_bits.size())
+  {
+    throw RuntimeException("Flag index is out of range");
+  }
+
+  (void)m_bits.flip(index);
   return *this;
 }
 
