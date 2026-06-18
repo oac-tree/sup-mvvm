@@ -54,6 +54,8 @@ public:
 
   bool IsCheckable() const override;
 
+  bool IsPresentationOnlyRole(role_t qt_role) const override;
+
 private:
   bool m_is_enabled;
   bool m_is_editable;

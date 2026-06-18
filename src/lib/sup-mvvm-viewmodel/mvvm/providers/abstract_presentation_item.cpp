@@ -43,6 +43,11 @@ bool AbstractPresentationItem::IsCheckable() const
   return false;
 }
 
+bool AbstractPresentationItem::IsPresentationOnlyRole(role_t /*qt_role*/) const
+{
+  return false;
+}
+
 SessionItem* AbstractPresentationItem::GetItem()
 {
   return m_item;

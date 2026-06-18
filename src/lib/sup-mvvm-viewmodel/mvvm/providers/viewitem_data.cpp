@@ -66,4 +66,9 @@ bool ViewItemData::IsCheckable() const
   return m_is_checkable;
 }
 
+bool ViewItemData::IsPresentationOnlyRole(role_t /*qt_role*/) const
+{
+  return false;
+}
+
 }  // namespace mvvm

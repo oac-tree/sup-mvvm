@@ -39,6 +39,7 @@ public:
   MOCK_METHOD(bool, IsEnabled, (), (const, override));
   MOCK_METHOD(bool, IsEditable, (), (const, override));
   MOCK_METHOD(bool, IsCheckable, (), (const, override));
+  MOCK_METHOD(bool, IsPresentationOnlyRole, (role_t qt_role), (const, override));
 };
 
 /**
@@ -59,6 +60,8 @@ public:
   bool IsEditable() const override;
 
   bool IsCheckable() const override;
+
+  bool IsPresentationOnlyRole(role_t qt_role) const override;
 
 private:
   IViewItemData* m_decoratee{nullptr};

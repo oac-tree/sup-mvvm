@@ -48,4 +48,9 @@ bool ViewItemDataDecorator::IsCheckable() const
   return m_decoratee->IsCheckable();
 }
 
+bool ViewItemDataDecorator::IsPresentationOnlyRole(role_t qt_role) const
+{
+  return m_decoratee->IsPresentationOnlyRole(qt_role);
+}
+
 }  // namespace mvvm::test

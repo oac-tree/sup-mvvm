@@ -45,6 +45,14 @@ public:
 
   bool IsCheckable() const override;
 
+  /**
+   * @brief Checks if the given Qt role is a presentation-only role.
+   *
+   * By default no role is treated as presentation-only. Concrete presentations may override this to
+   * carry Qt roles that are not propagated to the underlying SessionItem.
+   */
+  bool IsPresentationOnlyRole(role_t qt_role) const override;
+
   SessionItem* GetItem();
 
   const SessionItem* GetItem() const;
