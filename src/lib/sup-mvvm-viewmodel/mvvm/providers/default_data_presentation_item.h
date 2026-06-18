@@ -50,6 +50,8 @@ public:
 
   bool SetData(const QVariant& data, role_t qt_role) override;
 
+  bool IsPresentationOnlyRole(role_t qt_role) const override;
+
   QVector<role_t> GetQtRolesToEmit(role_t data_role) const override;
 
   role_t GetMainDataRole() const;

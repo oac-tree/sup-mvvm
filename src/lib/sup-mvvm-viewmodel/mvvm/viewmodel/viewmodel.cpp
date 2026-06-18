@@ -22,6 +22,8 @@
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/abstract_viewmodel_controller.h>
+#include <mvvm/providers/i_viewitem_data.h>
+#include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewmodel_utils.h>
 
 namespace mvvm
@@ -60,9 +62,21 @@ bool ViewModel::setData(const QModelIndex& index, const QVariant& value, int rol
 
   if (auto item = itemFromIndex(index); item)
   {
-    // Please note the following difference with ViewModelBase::setData. Here we do not have
-    // explicit notification. ViewModelController will do it for us after the change on SessionModel
-    // side.
+    // Please note the following difference with ViewModelBase::setData. For roles backed by the
+    // SessionModel we do not have explicit notification here: the ViewModelController will do it for
+    // us after the change on the SessionModel side. Presentation-only roles (e.g. background
+    // highlighting) are stored on board of the view item and never reach the SessionModel, so we
+    // have to emit the change ourselves.
+    if (auto data = item->GetItemData(); data && data->IsPresentationOnlyRole(role))
+    {
+      const bool result = item->SetData(value, role);
+      if (result)
+      {
+        emit dataChanged(index, index, QVector<int>() << role);
+      }
+      return result;
+    }
+
     return item->SetData(value, role);
   }
 

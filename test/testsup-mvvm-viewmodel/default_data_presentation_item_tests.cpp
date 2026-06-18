@@ -433,6 +433,25 @@ TEST_F(DefaultDataPresentationItemTest, PresentationOnlyQtRoles)
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
 }
 
+//! Only background and foreground roles are reported as presentation-only.
+TEST_F(DefaultDataPresentationItemTest, IsPresentationOnlyRole)
+{
+  const auto main_data_role = DataRole::kData;
+  SessionItem item;
+  item.SetData(42);
+
+  const DefaultDataPresentationItem presentation(&item, main_data_role);
+
+  EXPECT_TRUE(presentation.IsPresentationOnlyRole(Qt::BackgroundRole));
+  EXPECT_TRUE(presentation.IsPresentationOnlyRole(Qt::ForegroundRole));
+
+  EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::DisplayRole));
+  EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::EditRole));
+  EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::CheckStateRole));
+  EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::ToolTipRole));
+  EXPECT_FALSE(presentation.IsPresentationOnlyRole(Qt::DecorationRole));
+}
+
 //! The explicitly set foreground role overrides the value derived from a disabled item.
 TEST_F(DefaultDataPresentationItemTest, ForegroundRolePrecedenceOverDisabledItem)
 {

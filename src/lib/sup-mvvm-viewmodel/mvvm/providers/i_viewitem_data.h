@@ -85,6 +85,18 @@ public:
    * The behavior is similar to Qt's cell with ItemIsUserCheckable flag set.
    */
   virtual bool IsCheckable() const = 0;
+
+  /**
+   * @brief Checks if the given Qt role is a presentation-only role.
+   *
+   * Presentation-only roles (e.g. background highlighting) are stored on board of the view item
+   * data and are never propagated to the underlying SessionItem. As a consequence, setting such a
+   * role does not trigger any SessionModel notification, and the view model has to emit dataChanged
+   * on its own. By default no role is treated as presentation-only.
+   *
+   * @param qt_role Qt role to check.
+   */
+  virtual bool IsPresentationOnlyRole(role_t /*qt_role*/) const { return false; }
 };
 
 }  // namespace mvvm

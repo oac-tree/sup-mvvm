@@ -111,7 +111,7 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
       return item->SetData(data.toInt(), DataRole::kCheckState);
     }
 
-    if (qt_role == Qt::BackgroundRole || qt_role == Qt::ForegroundRole)
+    if (IsPresentationOnlyRole(qt_role))
     {
       // An invalid variant removes the entry, allowing to reset the role to its default.
       if (data.isValid())
@@ -127,6 +127,11 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
   }
 
   return false;
+}
+
+bool DefaultDataPresentationItem::IsPresentationOnlyRole(role_t qt_role) const
+{
+  return qt_role == Qt::BackgroundRole || qt_role == Qt::ForegroundRole;
 }
 
 QVector<role_t> DefaultDataPresentationItem::GetQtRolesToEmit(role_t data_role) const
