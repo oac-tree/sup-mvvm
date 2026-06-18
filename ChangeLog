@@ -1,5 +1,7 @@
 Changes for 2.3.0:
 
+- Provide possibility to set presentation-only data to DefaultPresentationItem
+- Add Toggle method to Flags class
 - Provide modification of boolean data via Qt's check states
 - Make presentation item responsible for its own display name
 - Introduce AbstractPresentationItem
