@@ -155,7 +155,6 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithIntAndSetData)
 
   // it is not possible to change other Qt roles
   EXPECT_FALSE(presentation.SetData(QString("display"), Qt::DisplayRole));
-  EXPECT_FALSE(presentation.SetData(QColor("red"), Qt::ForegroundRole));
   EXPECT_FALSE(presentation.SetData(QString("tooltip"), Qt::ToolTipRole));
   EXPECT_FALSE(presentation.SetData(QColor("red"), Qt::DecorationRole));
 
@@ -398,6 +397,58 @@ TEST_F(DefaultDataPresentationItemTest, DataPresentationItemCheckStateRole)
 
   item2.SetData(true);
   EXPECT_EQ(presentation2.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
+}
+
+//! Presentation-only Qt roles (background, foreground) are stored on board and are not propagated
+//! to the underlying SessionItem.
+TEST_F(DefaultDataPresentationItemTest, PresentationOnlyQtRoles)
+{
+  const auto main_data_role = DataRole::kData;
+  SessionItem item;
+  item.SetData(42);
+
+  DefaultDataPresentationItem presentation(&item, main_data_role);
+
+  // no presentation-only roles set initially
+  EXPECT_FALSE(presentation.Data(Qt::BackgroundRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+
+  // setting background role
+  EXPECT_TRUE(presentation.SetData(QColor(Qt::yellow), Qt::BackgroundRole));
+  EXPECT_EQ(presentation.Data(Qt::BackgroundRole).value<QColor>(), QColor(Qt::yellow));
+
+  // setting foreground role; it takes precedence over the item-derived value
+  EXPECT_TRUE(presentation.SetData(QColor(Qt::red), Qt::ForegroundRole));
+  EXPECT_EQ(presentation.Data(Qt::ForegroundRole).value<QColor>(), QColor(Qt::red));
+
+  // presentation-only roles are not propagated to the SessionItem
+  EXPECT_FALSE(item.HasData(DataRole::kTextColor));
+  EXPECT_EQ(presentation.Data(Qt::EditRole).toInt(), 42);
+
+  // an invalid variant resets the role to its default
+  EXPECT_TRUE(presentation.SetData(QVariant(), Qt::BackgroundRole));
+  EXPECT_FALSE(presentation.Data(Qt::BackgroundRole).isValid());
+
+  EXPECT_TRUE(presentation.SetData(QVariant(), Qt::ForegroundRole));
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+}
+
+//! The explicitly set foreground role overrides the value derived from a disabled item.
+TEST_F(DefaultDataPresentationItemTest, ForegroundRolePrecedenceOverDisabledItem)
+{
+  const auto main_data_role = DataRole::kData;
+  SessionItem item;
+  item.SetData(42);
+  item.SetEnabled(false);
+
+  DefaultDataPresentationItem presentation(&item, main_data_role);
+
+  // disabled item provides gray foreground
+  EXPECT_EQ(presentation.Data(Qt::ForegroundRole).value<QColor>(), QColor(Qt::gray));
+
+  // explicit foreground wins over the item-derived gray
+  EXPECT_TRUE(presentation.SetData(QColor(Qt::red), Qt::ForegroundRole));
+  EXPECT_EQ(presentation.Data(Qt::ForegroundRole).value<QColor>(), QColor(Qt::red));
 }
 
 TEST_F(DefaultDataPresentationItemTest, DataPresentationItemDecorationRoleForColorEditor)

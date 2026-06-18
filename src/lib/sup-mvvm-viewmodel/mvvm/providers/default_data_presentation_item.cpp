@@ -63,6 +63,13 @@ QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
     return GetQtVariant(GetItem()->Data(GetMainDataRole()));
   }
 
+  // Presentation-only Qt roles set on board take precedence over item-derived values. This also
+  // covers Qt::BackgroundRole, which has no SessionItem equivalent.
+  if (auto it = m_qt_data.find(qt_role); it != m_qt_data.end())
+  {
+    return it.value();
+  }
+
   if (qt_role == Qt::ForegroundRole)
   {
     return utils::TextColorRole(*item);
@@ -88,8 +95,9 @@ QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
 
 bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 {
-  // We allow to set via model only main data role (which corresponds to Qt::DataRole), and check
-  // state.
+  // We propagate to the underlying SessionItem only the main data role (which corresponds to
+  // Qt::EditRole) and the check state. Presentation-only Qt roles (background, foreground) are kept
+  // on board and never reach the SessionItem.
 
   if (auto item = GetItem(); item)
   {
@@ -101,6 +109,20 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
     if (qt_role == Qt::CheckStateRole)
     {
       return item->SetData(data.toInt(), DataRole::kCheckState);
+    }
+
+    if (qt_role == Qt::BackgroundRole || qt_role == Qt::ForegroundRole)
+    {
+      // An invalid variant removes the entry, allowing to reset the role to its default.
+      if (data.isValid())
+      {
+        m_qt_data[qt_role] = data;
+      }
+      else
+      {
+        m_qt_data.remove(qt_role);
+      }
+      return true;
     }
   }
 
