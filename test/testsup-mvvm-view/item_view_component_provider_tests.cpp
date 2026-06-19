@@ -277,11 +277,27 @@ TEST_F(ItemViewComponentProviderTest, SelectOneItemThenAnother)
   EXPECT_EQ(spy_selected.count(), 1);
   EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(item0));
 
+  // changing selection
   const ItemSelection expected_selection1(item1);
   provider->SetSelection(expected_selection1);
 
+  EXPECT_EQ(provider->GetSelection().GetItems().size(), 1);
+
   EXPECT_EQ(spy_selected.count(), 1);
   EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(item1));
+
+  // validating selection directly via indexes
+  auto selection_model = provider->GetSelectionModel();
+  EXPECT_EQ(view.selectionModel(), selection_model);
+
+  auto selected_indexes = selection_model->selectedIndexes();
+  EXPECT_EQ(selected_indexes.size(), 2);  // two columns
+  auto viewmodel = provider->GetViewModel();
+
+  auto index0 = provider->GetViewModel()->index(1, 0, QModelIndex());
+  auto index1 = provider->GetViewModel()->index(1, 1, QModelIndex());
+  EXPECT_EQ(selected_indexes.at(0), index0);
+  EXPECT_EQ(selected_indexes.at(1), index1);
 }
 
 TEST_F(ItemViewComponentProviderTest, SetCurrentIndexInViewAndCheckSelection)
@@ -324,8 +340,7 @@ TEST_F(ItemViewComponentProviderTest, SelectWholeRowAndCheckResultingSelection)
   view.selectionModel()->select(x_item_index,
                                 QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(provider->GetSelection().GetItems(),
-            std::vector<const mvvm::SessionItem*>({x_item}));
+  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<const mvvm::SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
