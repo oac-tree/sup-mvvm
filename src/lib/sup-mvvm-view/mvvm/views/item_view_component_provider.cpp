@@ -45,8 +45,7 @@ ItemViewComponentProvider::ItemViewComponentProvider(
     , m_view_model(std::move(view_model))
     , m_view(view)
     , m_selection_model(new QItemSelectionModel(m_view_model.get(), this))
-    , m_selection_flags(QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows
-                        | QItemSelectionModel::Toggle)
+    , m_selection_flags(QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows)
 {
   if (view == nullptr)
   {

@@ -74,7 +74,7 @@ TEST_F(ItemViewComponentProviderTest, InitialState)
   EXPECT_TRUE(provider.GetProxyModelChain().empty());
 
   const QItemSelectionModel::SelectionFlags expected_flags =
-      QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows | QItemSelectionModel::Toggle;
+      QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows;
 
   EXPECT_EQ(provider.GetSelectionFlags(), expected_flags);
 }
@@ -86,6 +86,7 @@ TEST_F(ItemViewComponentProviderTest, SetEmptyApplicationModel)
 
   EXPECT_EQ(provider->GetView(), &view);
   EXPECT_NE(provider->GetSelectionModel(), nullptr);
+  EXPECT_EQ(provider->GetSelectionModel(), view.selectionModel());
   EXPECT_NE(provider->GetViewModel(), nullptr);
   EXPECT_NE(dynamic_cast<mvvm::AllItemsViewModel*>(provider->GetViewModel()), nullptr);
   EXPECT_TRUE(provider->GetSelection().IsEmpty());
@@ -203,7 +204,7 @@ TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
 
 //! Attempt to set one item after another, when they belongs to different models
 //! (real life bug)
-TEST_F(ItemViewComponentProviderTest, SetItemAfterItemWHenTheyBelongsToDifferentModels)
+TEST_F(ItemViewComponentProviderTest, SetItemAfterItemWhenTheyBelongsToDifferentModels)
 {
   QTreeView view;
 
@@ -298,6 +299,36 @@ TEST_F(ItemViewComponentProviderTest, SelectOneItemThenAnother)
   auto index1 = provider->GetViewModel()->index(1, 1, QModelIndex());
   EXPECT_EQ(selected_indexes.at(0), index0);
   EXPECT_EQ(selected_indexes.at(1), index1);
+}
+
+//! Selecting one item, then another, after the first selection has been committed into the
+//! selection model's permanent ranges. This mimics what happens in a real application, where
+//! between two SetSelection calls the view (or any other actor) issues a selection command without
+//! the QItemSelectionModel::Current flag, which finalizes the transient "current selection". The
+//! second selection must replace the first one, not add to it.
+
+TEST_F(ItemViewComponentProviderTest, SelectOneItemThenAnotherAfterSelectionCommitted)
+{
+  QTreeView view;
+
+  auto provider = CreateProvider(&view);
+
+  auto item0 = m_model.InsertItem<mvvm::CompoundItem>();
+  auto item1 = m_model.InsertItem<mvvm::CompoundItem>();
+
+  provider->SetSelection(ItemSelection(item0));
+  EXPECT_EQ(provider->GetSelection(), ItemSelection(item0));
+
+  // Commit the transient "current selection" into the permanent ranges by issuing a selection
+  // command without the QItemSelectionModel::Current flag (as the view does in a real application).
+  provider->GetSelectionModel()->select(QItemSelection(), QItemSelectionModel::Select);
+  EXPECT_EQ(provider->GetSelection(), ItemSelection(item0));
+
+  // changing selection; the second selection must replace the committed first one
+  provider->SetSelection(ItemSelection(item1));
+
+  EXPECT_EQ(provider->GetSelection().GetItems().size(), 1);
+  EXPECT_EQ(provider->GetSelection(), ItemSelection(item1));
 }
 
 TEST_F(ItemViewComponentProviderTest, SetCurrentIndexInViewAndCheckSelection)
