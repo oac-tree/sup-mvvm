@@ -125,6 +125,9 @@ bool operator!=(const ItemRemovedEvent& lhs, const ItemRemovedEvent& rhs);
  *
  * It reports the address of the item being destroyed. The item pointer should be used for identity
  * comparison only, since the item is in the process of destruction and must not be dereferenced.
+ *
+ * Please note, that event is not emited when item is removed from the model, or the model is in the
+ * destruction stage.
  */
 struct ItemDestroyedEvent
 {
