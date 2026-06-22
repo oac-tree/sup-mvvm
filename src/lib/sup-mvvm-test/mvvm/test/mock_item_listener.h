@@ -44,6 +44,7 @@ public:
   MOCK_METHOD(void, OnItemInserted, (const mvvm::ItemInsertedEvent& event), ());
   MOCK_METHOD(void, OnAboutToRemoveItem, (const mvvm::AboutToRemoveItemEvent& event), ());
   MOCK_METHOD(void, OnItemRemoved, (const mvvm::ItemRemovedEvent& event), ());
+  MOCK_METHOD(void, OnItemDestroyed, (const mvvm::ItemDestroyedEvent& event), ());
   MOCK_METHOD(void, OnDataChanged, (const mvvm::DataChangedEvent& event), ());
   MOCK_METHOD(void, OnPropertyChanged, (const mvvm::PropertyChangedEvent& event), ());
 
@@ -56,6 +57,7 @@ public:
     OnAboutToRemoveItem(event);
   }
   void OnItemRemovedEvent(const mvvm::ItemRemovedEvent& event) { OnItemRemoved(event); }
+  void OnItemDestroyedEvent(const mvvm::ItemDestroyedEvent& event) { OnItemDestroyed(event); }
   void OnDataChangedEvent(const mvvm::DataChangedEvent& event) { OnDataChanged(event); }
   void OnPropertyChangedEvent(const mvvm::PropertyChangedEvent& event) { OnPropertyChanged(event); }
 };

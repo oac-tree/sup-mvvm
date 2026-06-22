@@ -30,6 +30,7 @@ MockItemListener::MockItemListener(SessionItem* item) : mvvm::ItemListener(item)
   Connect<mvvm::ItemInsertedEvent>(this, &MockItemListener::OnItemInsertedEvent);
   Connect<mvvm::AboutToRemoveItemEvent>(this, &MockItemListener::OnAboutToRemoveItemEvent);
   Connect<mvvm::ItemRemovedEvent>(this, &MockItemListener::OnItemRemovedEvent);
+  Connect<mvvm::ItemDestroyedEvent>(this, &MockItemListener::OnItemDestroyedEvent);
   Connect<mvvm::DataChangedEvent>(this, &MockItemListener::OnDataChangedEvent);
   Connect<mvvm::PropertyChangedEvent>(this, &MockItemListener::OnPropertyChangedEvent);
 }

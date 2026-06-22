@@ -201,6 +201,23 @@ TEST_F(ItemListenerTest, OnItemInserted)
   model.InsertItem<CompoundItem>(compound, expected_tagindex);
 }
 
+//! ItemDestroyedEvent is reported when the watched item is destroyed in-place. Here we clear the
+//! model, which destroys the whole root subtree (including the watched item) while the model and
+//! its event handler are still alive.
+TEST_F(ItemListenerTest, OnItemDestroyed)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+
+  mock_listener_t listener(item);
+
+  // the listener watches `item`, so only its destruction is reported (not the root's)
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{item})).Times(1);
+
+  // clearing the model destroys the watched item in-place
+  model.Clear();
+}
+
 //! Removing item.
 TEST_F(ItemListenerTest, OnItemRemoved)
 {
