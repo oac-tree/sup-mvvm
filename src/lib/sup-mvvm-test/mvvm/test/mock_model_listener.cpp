@@ -31,6 +31,7 @@ MockModelListener::MockModelListener(const ISessionModel* model) : ModelListener
   Connect<ItemInsertedEvent>(this, &MockModelListener::OnItemInsertedEvent);
   Connect<AboutToRemoveItemEvent>(this, &MockModelListener::OnAboutToRemoveItemEvent);
   Connect<ItemRemovedEvent>(this, &MockModelListener::OnItemRemovedEvent);
+  Connect<ItemDestroyedEvent>(this, &MockModelListener::OnItemDestroyedEvent);
 
   Connect<ModelAboutToBeResetEvent>(this, &MockModelListener::OnModelAboutToBeResetEvent);
   Connect<ModelResetEvent>(this, &MockModelListener::OnModelResetEvent);

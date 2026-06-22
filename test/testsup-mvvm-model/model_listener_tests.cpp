@@ -22,10 +22,14 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/signals/model_listener.h>
+#include <mvvm/test/mock_model_listener.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <memory>
 
 namespace mvvm::test
 {
@@ -240,6 +244,45 @@ TEST_F(ModelListenerTests, MethodOverload)
 
   auto item = model.InsertItem<SessionItem>();
   EXPECT_EQ(item, model.GetRootItem()->GetAllItems()[0]);
+}
+
+//! Replacing the root item destroys the old root together with its children while the model (and
+//! its event handler) is still alive. We expect ItemDestroyedEvent for both.
+TEST_F(ModelListenerTests, ItemDestroyedOnRootReplace)
+{
+  ApplicationModel model;
+  auto child = model.InsertItem<PropertyItem>();
+  auto root = model.GetRootItem();
+
+  MockModelListener listener(&model);
+
+  // ReplaceRootItem reports a model reset and destroys the old root subtree in-place; both the old
+  // root and its child should report destruction (order is not enforced).
+  EXPECT_CALL(listener, OnModelAboutToBeReset(ModelAboutToBeResetEvent{&model})).Times(1);
+  EXPECT_CALL(listener, OnModelReset(ModelResetEvent{&model})).Times(1);
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{root})).Times(1);
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{child})).Times(1);
+
+  model.ReplaceRootItem(std::make_unique<SessionItem>());
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
+//! After the listener is destroyed, no destruction callbacks should be triggered anymore.
+TEST_F(ModelListenerTests, NoItemDestroyedAfterListenerReset)
+{
+  ApplicationModel model;
+  (void)model.InsertItem<PropertyItem>();
+
+  auto listener = std::make_unique<MockModelListener>(&model);
+
+  EXPECT_CALL(*listener, OnItemDestroyed(::testing::_)).Times(0);
+
+  listener.reset();
+
+  // would have triggered ItemDestroyedEvent if the listener were still subscribed
+  model.ReplaceRootItem(std::make_unique<SessionItem>());
 }
 
 }  // namespace mvvm::test

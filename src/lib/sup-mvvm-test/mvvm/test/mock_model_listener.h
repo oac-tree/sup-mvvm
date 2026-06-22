@@ -44,6 +44,8 @@ public:
 
   MOCK_METHOD(void, OnItemRemoved, (const ItemRemovedEvent& event), ());
 
+  MOCK_METHOD(void, OnItemDestroyed, (const ItemDestroyedEvent& event), ());
+
   MOCK_METHOD(void, OnDataChanged, (const DataChangedEvent& event), ());
 
   MOCK_METHOD(void, OnModelAboutToBeReset, (const ModelAboutToBeResetEvent& event), ());
@@ -62,6 +64,8 @@ public:
   void OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event) { OnAboutToRemoveItem(event); }
 
   void OnItemRemovedEvent(const ItemRemovedEvent& event) { OnItemRemoved(event); }
+
+  void OnItemDestroyedEvent(const ItemDestroyedEvent& event) { OnItemDestroyed(event); }
 
   void OnDataChangedEvent(const DataChangedEvent& event) { OnDataChanged(event); }
 

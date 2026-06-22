@@ -90,6 +90,17 @@ TEST_F(ModelEventHandlerTests, ItemRemoved)
   m_event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 }
 
+TEST_F(ModelEventHandlerTests, ItemDestroyed)
+{
+  mvvm::SessionItem item;
+
+  ItemDestroyedEvent event{&item};
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
+
+  // triggering action
+  m_event_handler.Notify<ItemDestroyedEvent>(&item);
+}
+
 TEST_F(ModelEventHandlerTests, DataChanged)
 {
   mvvm::SessionItem item;
@@ -156,6 +167,7 @@ TEST_F(ModelEventHandlerTests, Unsubscribe)
   event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
   event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
   event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+  event_handler.Notify<ItemDestroyedEvent>(&item);
   event_handler.Notify<DataChangedEvent>(&item, role);
   event_handler.Notify<ModelAboutToBeResetEvent>(&model);
   event_handler.Notify<ModelResetEvent>(&model);

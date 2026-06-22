@@ -30,6 +30,7 @@ ModelEventHandler::ModelEventHandler()
   Register<ItemInsertedEvent>();
   Register<AboutToRemoveItemEvent>();
   Register<ItemRemovedEvent>();
+  Register<ItemDestroyedEvent>();
   Register<ModelAboutToBeResetEvent>();
   Register<ModelResetEvent>();
   Register<ModelAboutToBeDestroyedEvent>();

@@ -51,6 +51,8 @@ public:
     event_handler->Connect<mvvm::AboutToRemoveItemEvent>(this, &MockEventListener::OnEvent,
                                                          m_slot.get());
     event_handler->Connect<mvvm::ItemRemovedEvent>(this, &MockEventListener::OnEvent, m_slot.get());
+    event_handler->Connect<mvvm::ItemDestroyedEvent>(this, &MockEventListener::OnEvent,
+                                                     m_slot.get());
 
     event_handler->Connect<mvvm::ModelAboutToBeResetEvent>(this, &MockEventListener::OnEvent,
                                                            m_slot.get());

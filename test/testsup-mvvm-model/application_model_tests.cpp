@@ -488,9 +488,10 @@ TEST_F(ApplicationModelTest, AttemptToMovePropertyItemFromCompoundItem)
 
 TEST_F(ApplicationModelTest, Clear)
 {
+  auto root = m_model.GetRootItem();
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
-  m_model.InsertItem<PropertyItem>(parent);
+  auto property = m_model.InsertItem<PropertyItem>(parent);
 
   mock_listener_t listener(&m_model);
 
@@ -502,6 +503,11 @@ TEST_F(ApplicationModelTest, Clear)
     EXPECT_CALL(listener, OnModelReset(expected_event2)).Times(1);
   }
 
+  // clearing the model destroys the old root subtree in-place (order not enforced)
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{root})).Times(1);
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{parent})).Times(1);
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{property})).Times(1);
+
   // removing item
   m_model.Clear();
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
@@ -512,9 +518,10 @@ TEST_F(ApplicationModelTest, Clear)
 
 TEST_F(ApplicationModelTest, ReplaceRootItem)
 {
+  auto root = m_model.GetRootItem();
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
-  m_model.InsertItem<PropertyItem>(parent);
+  auto property = m_model.InsertItem<PropertyItem>(parent);
 
   auto new_root_item = utils::CreateEmptyRootItem();
   auto new_root_item_ptr = new_root_item.get();
@@ -528,6 +535,11 @@ TEST_F(ApplicationModelTest, ReplaceRootItem)
     EXPECT_CALL(listener, OnModelAboutToBeReset(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnModelReset(expected_event2)).Times(1);
   }
+
+  // replacing the root item destroys the old root subtree in-place (order not enforced)
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{root})).Times(1);
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{parent})).Times(1);
+  EXPECT_CALL(listener, OnItemDestroyed(ItemDestroyedEvent{property})).Times(1);
 
   m_model.ReplaceRootItem(std::move(new_root_item));
   EXPECT_EQ(m_model.GetRootItem(), new_root_item_ptr);

@@ -33,6 +33,7 @@
 #include <mvvm/core/flags.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/i_session_model.h>
+#include <mvvm/signals/model_event_handler.h>
 
 #include <utility>
 
@@ -84,9 +85,17 @@ void SessionItem::ActivateStrategies()
 
 SessionItem::~SessionItem()
 {
-  if (GetModel() != nullptr)
+  if (auto* model = GetModel(); model != nullptr)
   {
-    GetModel()->CheckOut(this);
+    // Notify subscribers that the item is being destroyed. The event handler is absent when the
+    // item belongs to a model without notification capabilities, and also during the model's own
+    // destruction (the handler is gone by the time items are destroyed); in both cases we simply
+    // skip the notification.
+    if (auto* event_handler = model->GetEventHandler(); event_handler != nullptr)
+    {
+      event_handler->Notify<ItemDestroyedEvent>(this);
+    }
+    model->CheckOut(this);
   }
 }
 
