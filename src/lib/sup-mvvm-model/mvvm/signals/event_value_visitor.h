@@ -40,6 +40,8 @@ struct EventValueVisitor
 
   std::string operator()(const ItemRemovedEvent& value);
 
+  std::string operator()(const ItemDestroyedEvent& value);
+
   std::string operator()(const ModelAboutToBeResetEvent& value);
 
   std::string operator()(const ModelResetEvent& value);

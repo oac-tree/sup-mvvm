@@ -87,6 +87,12 @@ TEST_F(ItemEventVisitorTest, GetEventSource)
   }
 
   {
+    SessionItem item;
+    visitor(ItemDestroyedEvent{&item});
+    EXPECT_EQ(visitor.m_source, &item);
+  }
+
+  {
     visitor(ModelAboutToBeResetEvent{&model});
     EXPECT_EQ(visitor.m_source, nullptr);
   }

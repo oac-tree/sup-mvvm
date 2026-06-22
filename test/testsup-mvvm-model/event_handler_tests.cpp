@@ -58,6 +58,9 @@ public:
     void operator()(const ItemRemovedEvent& event) { OnItemRemovedEvent(event); }
     MOCK_METHOD(void, OnItemRemovedEvent, (const ItemRemovedEvent& event));
 
+    void operator()(const ItemDestroyedEvent& event) { OnItemDestroyedEvent(event); }
+    MOCK_METHOD(void, OnItemDestroyedEvent, (const ItemDestroyedEvent& event));
+
     void operator()(const ModelAboutToBeResetEvent& event) { OnModelAboutToBeResetEvent(event); }
     MOCK_METHOD(void, OnModelAboutToBeResetEvent, (const ModelAboutToBeResetEvent& event));
 

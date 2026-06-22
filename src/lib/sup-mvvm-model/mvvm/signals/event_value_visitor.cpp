@@ -100,6 +100,14 @@ std::string EventValueVisitor::operator()(const ItemRemovedEvent& value)
   return ostr.str();
 }
 
+std::string EventValueVisitor::operator()(const ItemDestroyedEvent& value)
+{
+  std::ostringstream ostr;
+  ostr << "ItemDestroyedEvent ";
+  ostr << ItemToString(value.item);
+  return ostr.str();
+}
+
 std::string EventValueVisitor::operator()(const ModelAboutToBeResetEvent& value)
 {
   std::ostringstream ostr;

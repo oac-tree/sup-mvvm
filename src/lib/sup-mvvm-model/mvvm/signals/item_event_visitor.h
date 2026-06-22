@@ -46,6 +46,8 @@ struct ItemEventVisitor
 
   void operator()(const ItemRemovedEvent& event);
 
+  void operator()(const ItemDestroyedEvent& event);
+
   void operator()(const ModelAboutToBeResetEvent& event);
 
   void operator()(const ModelResetEvent& event);
