@@ -142,6 +142,22 @@ TEST_F(EventTypesTest, ItemRemovedEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
+TEST_F(EventTypesTest, ItemDestroyedEvent)
+{
+  const ItemDestroyedEvent event1{&m_item1};
+  const ItemDestroyedEvent event2{&m_item1};
+  const ItemDestroyedEvent event3{&m_item2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different events
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
 TEST_F(EventTypesTest, ModelAboutToBeResetEvent)
 {
   const ModelAboutToBeResetEvent event1{&m_model1};

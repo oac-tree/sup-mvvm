@@ -121,6 +121,20 @@ bool operator==(const ItemRemovedEvent& lhs, const ItemRemovedEvent& rhs);
 bool operator!=(const ItemRemovedEvent& lhs, const ItemRemovedEvent& rhs);
 
 /**
+ * @brief The ItemDestroyedEvent struct represents an event when the item is being destroyed.
+ *
+ * It reports the address of the item being destroyed. The item pointer should be used for identity
+ * comparison only, since the item is in the process of destruction and must not be dereferenced.
+ */
+struct ItemDestroyedEvent
+{
+  SessionItem* item{nullptr};  //! item being destroyed
+};
+
+bool operator==(const ItemDestroyedEvent& lhs, const ItemDestroyedEvent& rhs);
+bool operator!=(const ItemDestroyedEvent& lhs, const ItemDestroyedEvent& rhs);
+
+/**
  * @brief The ModelAboutToBeResetEvent struct represents an event when the root item of the model is
  * about to be reset.
  */
@@ -158,8 +172,8 @@ bool operator!=(const ModelAboutToBeDestroyedEvent& lhs, const ModelAboutToBeDes
 //! Variant for all application events.
 using event_variant_t =
     std::variant<DataChangedEvent, PropertyChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent,
-                 AboutToRemoveItemEvent, ItemRemovedEvent, ModelAboutToBeResetEvent,
-                 ModelResetEvent, ModelAboutToBeDestroyedEvent>;
+                 AboutToRemoveItemEvent, ItemRemovedEvent, ItemDestroyedEvent,
+                 ModelAboutToBeResetEvent, ModelResetEvent, ModelAboutToBeDestroyedEvent>;
 
 }  // namespace mvvm
 

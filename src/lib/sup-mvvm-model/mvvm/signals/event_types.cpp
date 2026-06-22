@@ -108,6 +108,20 @@ bool operator!=(const ItemRemovedEvent& lhs, const ItemRemovedEvent& rhs)
 }
 
 // ----------------------------------------------------------------------------
+// ItemDestroyedEvent
+// ----------------------------------------------------------------------------
+
+bool operator==(const ItemDestroyedEvent& lhs, const ItemDestroyedEvent& rhs)
+{
+  return lhs.item == rhs.item;
+}
+
+bool operator!=(const ItemDestroyedEvent& lhs, const ItemDestroyedEvent& rhs)
+{
+  return !(lhs == rhs);
+}
+
+// ----------------------------------------------------------------------------
 // ModelAboutToBeResetEvent
 // ----------------------------------------------------------------------------
 
