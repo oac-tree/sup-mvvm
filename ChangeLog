@@ -1,5 +1,7 @@
 Changes for 2.3.0:
 
+- Implement ItemDestroyedEvent
+- Refactor item connection utils
 - Provide possibility to set presentation-only data to DefaultPresentationItem
 - Fix bug with item selection (no nullptr emitted)
 - Provide modification of boolean data via Qt's check states
