@@ -47,10 +47,13 @@ std::unique_ptr<T> MakeClone(const T& source)
 {
   auto result = std::make_unique<T>();
 
-  // Replace freshly constructed content with deep copies of the source's content. The source type
-  // is passed explicitly to preserve type strings, including the case of a subclass cloned through
-  // a base class Clone() override.
-  result->SetDataAndTags(source.GetType(), std::make_unique<SessionItemData>(*source.GetItemData()),
+  // Replace freshly constructed content with deep copies of the source's content. Result's type
+  // is passed explicitly to make consistent cases, when Clone() method is not implemented ("clone
+  // slicing"). Then, the resulting object will be of the base type, with type name consistently
+  // corresponding to the base too.
+
+  result->SetDataAndTags(result->GetType(),
+                         std::make_unique<SessionItemData>(*source.GetItemData()),
                          source.GetTaggedItems()->Clone());
 
   // TaggedItems::Clone() does not repoint children to the new owner.

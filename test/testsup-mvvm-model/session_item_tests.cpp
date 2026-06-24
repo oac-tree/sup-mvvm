@@ -23,11 +23,13 @@
 #include <mvvm/core/flags.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/make_clone.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/test/test_container_helper.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -50,12 +52,20 @@ public:
   {
   public:
     ItemA() : SessionItem("ItemA") {}
+    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
   };
 
   class ItemB : public SessionItem
   {
   public:
     ItemB() : SessionItem("ItemB") {}
+    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+  };
+
+  class ItemWithoutCloneMethod : public SessionItem
+  {
+  public:
+    ItemWithoutCloneMethod() : SessionItem("ItemWithoutCloneMethod") {}
   };
 
   /**
@@ -233,6 +243,27 @@ TEST_F(SessionItemTests, SetConstCharData)
   const char* expected = "abc";
   EXPECT_TRUE(item.SetData(expected));
   EXPECT_EQ(item.Data<std::string>(), std::string(expected));
+}
+
+TEST_F(SessionItemTests, TestItemClone)
+{
+  const ItemA item;
+
+  auto clone = item.Clone();
+  EXPECT_EQ(item.GetType(), clone->GetType());
+  EXPECT_NE(dynamic_cast<ItemA*>(clone.get()), nullptr);
+  EXPECT_TRUE(IsCloneImplemented<ItemA>());
+
+  const ItemWithoutCloneMethod item_without_clone;
+  auto clone2 = item_without_clone.Clone();
+
+  // item without clone method is using clone from SessionItem
+
+  EXPECT_NE(item_without_clone.GetType(), clone2->GetType());
+  EXPECT_EQ(clone2->GetType(), GetTypeName<SessionItem>());
+  EXPECT_EQ(dynamic_cast<ItemWithoutCloneMethod*>(clone2.get()), nullptr);
+  EXPECT_NE(dynamic_cast<SessionItem*>(clone2.get()), nullptr);
+  EXPECT_FALSE(IsCloneImplemented<ItemWithoutCloneMethod>());
 }
 
 TEST_F(SessionItemTests, GetDisplayName)

@@ -89,7 +89,7 @@ bool IsCloneImplemented()
   // be casted to the object type itself.
   T item;
   auto clone = item.Clone();
-  return CanCast<T>(clone.get());
+  return CanCast<T>(clone.get()) && clone->GetType() == item.GetType();
 }
 
 }  // namespace mvvm::test
