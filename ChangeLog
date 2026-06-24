@@ -1,5 +1,7 @@
 Changes for 2.3.0:
 
+- Get rid of copy c-tors for SessionItem and SessionModel
+- Refactor clone machinery for SessionItem and SessionModel
 - Implement ItemDestroyedEvent
 - Refactor item connection utils
 - Provide possibility to set presentation-only data to DefaultPresentationItem
