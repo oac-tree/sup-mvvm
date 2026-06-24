@@ -24,6 +24,7 @@ target_sources(${library_name} PRIVATE
   item_traits.h
   item_utils.cpp
   item_utils.h
+  make_clone.h
   model_fwd.h
   model_utils.cpp
   model_utils.h
