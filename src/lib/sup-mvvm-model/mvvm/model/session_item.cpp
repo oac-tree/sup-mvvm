@@ -365,12 +365,6 @@ void SessionItem::SetStrategy(const data_strategy_t& data_strategy)
   m_data_strategy = data_strategy;
 }
 
-void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
-                                 std::unique_ptr<TaggedItems> tags)
-{
-  SetDataAndTags(GetType(), std::move(data), std::move(tags));
-}
-
 void SessionItem::SetDataAndTags(const std::string& item_type,
                                  std::unique_ptr<SessionItemData> data,
                                  std::unique_ptr<TaggedItems> tags)

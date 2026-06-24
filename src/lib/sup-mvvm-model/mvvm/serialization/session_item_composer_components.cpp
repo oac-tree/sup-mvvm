@@ -153,7 +153,8 @@ SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext& cont
 
   // this resets all item's content, so it can be fully restored from serialization
   // Without this line, VectorItem will get second set of x,y,z containers
-  item.SetDataAndTags(std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>());
+  item.SetDataAndTags(item.GetType(), std::make_unique<SessionItemData>(),
+                      std::make_unique<TaggedItems>());
   // FIXME provide selective update of already existing items and remove line above
 
   item.SetParent(parent);
