@@ -23,7 +23,6 @@
 #include "i_children_strategy.h"
 #include "i_row_strategy.h"
 #include "viewmodel_controller.h"
-#include "viewmodel_controller_impl.h"
 
 namespace mvvm::factory
 {
@@ -31,11 +30,8 @@ namespace mvvm::factory
 std::unique_ptr<AbstractViewModelController> CreateViewModelController(
     ViewModelControllerFactoryContext&& context)
 {
-  std::unique_ptr<AbstractViewModelController> result;
-
-  auto impl = std::make_unique<ViewModelControllerImpl>(
+  auto result = std::make_unique<ViewModelController>(
       context.view_model, std::move(context.children_strategy), std::move(context.row_strategy));
-  result = std::make_unique<ViewModelController>(std::move(impl));
 
   if (context.model != nullptr)
   {

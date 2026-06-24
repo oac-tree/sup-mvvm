@@ -52,8 +52,6 @@ target_sources(${library_name} PRIVATE
   viewmodel_controller.h
   viewmodel_controller_factory.cpp
   viewmodel_controller_factory.h
-  viewmodel_controller_impl.cpp
-  viewmodel_controller_impl.h
   viewmodel_iterate_helper.cpp
   viewmodel_iterate_helper.h
   viewmodel_utils.cpp

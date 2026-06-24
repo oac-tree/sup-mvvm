@@ -51,7 +51,6 @@ target_sources(${test} PRIVATE
   viewitem_tests.cpp
   viewmodel_base_tests.cpp
   viewmodel_controller_factory_tests.cpp
-  viewmodel_controller_impl_tests.cpp
   viewmodel_controller_tests.cpp
   viewmodel_iterate_helper_tests.cpp
   viewmodel_tests.cpp
