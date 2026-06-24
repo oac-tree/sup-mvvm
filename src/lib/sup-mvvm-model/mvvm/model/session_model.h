@@ -45,11 +45,10 @@ public:
 
   ~SessionModel() override;
 
-  SessionModel& operator=(SessionModel&&) = delete;
+  SessionModel(const SessionModel& other) = delete;
+  SessionModel(SessionModel&& other) = delete;
   SessionModel& operator=(const SessionModel& other) = delete;
-
-  SessionModel(const SessionModel& other);
-  SessionModel(SessionModel&& other) noexcept;
+  SessionModel& operator=(SessionModel&&) = delete;
 
   std::unique_ptr<ISessionModel> Clone() const override;
 
@@ -85,6 +84,28 @@ public:
   ICommand* ExecuteCommand(std::unique_ptr<ICommand> command) override;
 
   void SetCommandProcessor(std::unique_ptr<ICommandStack> command_processor);
+
+protected:
+  /**
+   * @brief Returns the item pool shared by this model.
+   *
+   * Intended for cloning: a model clone shares the pool of the original. @see Clone.
+   */
+  std::shared_ptr<ItemPool> GetItemPool() const;
+
+  /**
+   * @brief Populates a freshly constructed clone with a cloned command stack and a deep copy of
+   * this model's root item (with regenerated identifiers).
+   *
+   * A cloneable subclass must provide a constructor accepting a shared ItemPool (forwarding to a
+   * base constructor with its own type) and override Clone() with the following pattern:
+   * @code
+   * auto result = std::make_unique<MyModel>(GetItemPool());
+   * InitClonedModel(*result);
+   * return result;
+   * @endcode
+   */
+  void InitClonedModel(SessionModel& clone) const;
 
 private:
   struct SessionModelImpl;

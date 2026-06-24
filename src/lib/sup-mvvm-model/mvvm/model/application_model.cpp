@@ -62,14 +62,11 @@ ApplicationModel::~ApplicationModel()
   m_event_handler->Notify<ModelAboutToBeDestroyedEvent>(this);
 }
 
-ApplicationModel::ApplicationModel(const ApplicationModel& other)
-    : SessionModel(other), m_event_handler(std::make_unique<ModelEventHandler>())
-{
-}
-
 std::unique_ptr<ISessionModel> ApplicationModel::Clone() const
 {
-  return std::make_unique<ApplicationModel>(*this);
+  auto result = std::make_unique<ApplicationModel>(GetType(), GetItemPool());
+  InitClonedModel(*result);
+  return result;
 }
 
 ModelEventHandler* ApplicationModel::GetEventHandler() const

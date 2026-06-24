@@ -50,9 +50,17 @@ public:
   class TestModel : public ApplicationModel
   {
   public:
-    TestModel() : ApplicationModel("TestModel") {}
+    explicit TestModel(std::shared_ptr<ItemPool> pool = {})
+        : ApplicationModel("TestModel", std::move(pool))
+    {
+    }
 
-    std::unique_ptr<ISessionModel> Clone() const { return std::make_unique<TestModel>(*this); }
+    std::unique_ptr<ISessionModel> Clone() const override
+    {
+      auto result = std::make_unique<TestModel>(GetItemPool());
+      InitClonedModel(*result);
+      return result;
+    }
   };
 
   ApplicationModel m_model;

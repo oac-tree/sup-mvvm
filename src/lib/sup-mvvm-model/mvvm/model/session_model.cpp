@@ -94,29 +94,22 @@ SessionModel::~SessionModel()
   p_impl->m_root_item.reset();
 }
 
-SessionModel::SessionModel(const SessionModel& other)
-    : SessionModel(other.GetType(), other.p_impl->m_pool,
-                   other.p_impl->m_command_processor->Clone())
-{
-  ReplaceRootItem(utils::CopyItem(*other.GetRootItem()));
-}
-
-SessionModel::SessionModel(SessionModel&& other) noexcept : p_impl(std::move(other.p_impl))
-{
-  // FIXME we are currently experimenting with MISRA complaining about
-  // "Class 'SessionModel' shall be either unmovable, move-only or copy-constructible. Special
-  // member functions shall be provided appropriately [MISRACPP2023-15_0_1-a]"
-
-  // I want to provide both copy c-tor and move c-tor and see if MISRA is happy, but I d;nt want to
-  // use it yet
-  std::terminate();
-
-  p_impl->m_root_item->SetModel(this);
-}
-
 std::unique_ptr<ISessionModel> SessionModel::Clone() const
 {
-  return std::make_unique<SessionModel>(*this);
+  auto result = std::make_unique<SessionModel>(GetType(), GetItemPool());
+  InitClonedModel(*result);
+  return result;
+}
+
+std::shared_ptr<ItemPool> SessionModel::GetItemPool() const
+{
+  return p_impl->m_pool;
+}
+
+void SessionModel::InitClonedModel(SessionModel& clone) const
+{
+  clone.ReplaceRootItem(utils::CopyItem(*GetRootItem()));
+  clone.SetCommandProcessor(GetCommandStack()->Clone());
 }
 
 std::string SessionModel::GetType() const
@@ -161,7 +154,7 @@ std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const T
   return parent->TakeItem(tag_index);
 }
 
-void SessionModel::RemoveItem(const SessionItem *item)
+void SessionModel::RemoveItem(const SessionItem* item)
 {
   if (item == nullptr)
   {
@@ -187,7 +180,7 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
 
   if (move_info.error_code == ModelError::NoopMoveOperation)
   {
-    return; // do nothing in the case of noop operation
+    return;  // do nothing in the case of noop operation
   }
 
   if (move_info.error_code)
