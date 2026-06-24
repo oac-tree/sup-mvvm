@@ -43,24 +43,12 @@ namespace mvvm::test
 {
 
 /**
- * @brief Test controller that exposes ViewModelController protected helpers for low-level testing.
+ * @brief Tests for ViewModelController class (viewmodel-related scenario).
  */
-class TestViewModelController : public ViewModelController
+class ViewModelControllerViewmodelTest : public ::testing::Test
 {
 public:
-  using ViewModelController::ViewModelController;
-  using ViewModelController::CheckInitialState;
-  using ViewModelController::CreateTreeOfRows;
-  using ViewModelController::GetViewItemMap;
-};
-
-/**
- * @brief Tests for ViewModelController class.
- */
-class ViewModelControllerTest : public ::testing::Test
-{
-public:
-  ViewModelControllerTest() = default;
+  ViewModelControllerViewmodelTest() = default;
 
   template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
   std::unique_ptr<AbstractViewModelController> CreateController(ISessionModel& model,
@@ -98,7 +86,7 @@ public:
 
 //! Controller pointed to empty model.
 
-TEST_F(ViewModelControllerTest, InitialState)
+TEST_F(ViewModelControllerViewmodelTest, InitialState)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -118,7 +106,7 @@ TEST_F(ViewModelControllerTest, InitialState)
 
 //! Attempt to initialize controller with wrong initial parameters.
 
-TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
+TEST_F(ViewModelControllerViewmodelTest, InvalidControllerInitialization)
 {
   // current approach: if ViewModel is not-empty, it will be cleaned up
   {
@@ -137,7 +125,7 @@ TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
 
 //! SessionModel is populated with a single item. The controller is initialised after.
 
-TEST_F(ViewModelControllerTest, ModelWithSingleItem)
+TEST_F(ViewModelControllerViewmodelTest, ModelWithSingleItem)
 {
   auto* item = m_model.InsertItem<SessionItem>();
   item->SetData(42.0);
@@ -171,7 +159,7 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
 
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
 
-TEST_F(ViewModelControllerTest, ModelWithVectorItem)
+TEST_F(ViewModelControllerViewmodelTest, ModelWithVectorItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
   vector_item->SetX(1.0);
@@ -196,19 +184,19 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
   {  // x, y, z
     const QModelIndex child_label_index = m_viewmodel.index(row, 0, vector_label_index);
     const QModelIndex child_data_index = m_viewmodel.index(row, 1, vector_label_index);
-    EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
-    EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
+    EXPECT_EQ(GetSessionItem(child_label_index), children.at(row));
+    EXPECT_EQ(GetSessionItem(child_data_index), children.at(row));
     EXPECT_EQ(m_viewmodel.data(child_label_index, Qt::DisplayRole).toString().toStdString(),
-              children[row]->GetDisplayName());
+              children.at(row)->GetDisplayName());
     EXPECT_EQ(m_viewmodel.data(child_data_index, Qt::DisplayRole).toDouble(),
-              children[row]->Data<double>());  // x,y,z coordinates
+              children.at(row)->Data<double>());  // x,y,z coordinates
   }
 }
 
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
 //! VectorItem is used as new rootItem.
 
-TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
+TEST_F(ViewModelControllerViewmodelTest, ModelWithVectorItemAsRootItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
   vector_item->SetX(1.0);
@@ -227,19 +215,19 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
   {  // x, y, z
     const QModelIndex child_label_index = m_viewmodel.index(row, 0, QModelIndex());
     const QModelIndex child_data_index = m_viewmodel.index(row, 1, QModelIndex());
-    EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
-    EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
+    EXPECT_EQ(GetSessionItem(child_label_index), children.at(row));
+    EXPECT_EQ(GetSessionItem(child_data_index), children.at(row));
     EXPECT_EQ(m_viewmodel.data(child_label_index, Qt::DisplayRole).toString().toStdString(),
-              children[row]->GetDisplayName());
+              children.at(row)->GetDisplayName());
     EXPECT_EQ(m_viewmodel.data(child_data_index, Qt::DisplayRole).toDouble(),
-              children[row]->Data<double>());  // x,y,z coordinates
+              children.at(row)->Data<double>());  // x,y,z coordinates
   }
 }
 
 //! Initialise controller with the empty model. Then insert new item and check that view model
 //! has been updated.
 
-TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
+TEST_F(ViewModelControllerViewmodelTest, InsertIntoEmptyModel)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -286,7 +274,7 @@ TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
 
 //! Insert three property items in a model, inserted after controller was setup.
 
-TEST_F(ViewModelControllerTest, InitThenInsertProperties)
+TEST_F(ViewModelControllerViewmodelTest, InitThenInsertProperties)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -321,7 +309,7 @@ TEST_F(ViewModelControllerTest, InitThenInsertProperties)
 
 //! Inserting property items in reversed order.
 
-TEST_F(ViewModelControllerTest, InsertInFront)
+TEST_F(ViewModelControllerViewmodelTest, InsertInFront)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -343,7 +331,7 @@ TEST_F(ViewModelControllerTest, InsertInFront)
   EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0, QModelIndex())), item0);
 }
 
-TEST_F(ViewModelControllerTest, InsertTemBetweenTwoItems)
+TEST_F(ViewModelControllerViewmodelTest, InsertTemBetweenTwoItems)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -367,7 +355,7 @@ TEST_F(ViewModelControllerTest, InsertTemBetweenTwoItems)
   EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0, QModelIndex())), item1);
 }
 
-TEST_F(ViewModelControllerTest, InsertParentAndThenChildIntoEmptyModel)
+TEST_F(ViewModelControllerViewmodelTest, InsertParentAndThenChildIntoEmptyModel)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -398,7 +386,7 @@ TEST_F(ViewModelControllerTest, InsertParentAndThenChildIntoEmptyModel)
   EXPECT_EQ(arguments.at(2).value<int>(), 0);
 }
 
-TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
+TEST_F(ViewModelControllerViewmodelTest, RemoveSingleTopItem)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -422,7 +410,7 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
   EXPECT_EQ(arguments.at(2).value<int>(), 0);
 }
 
-TEST_F(ViewModelControllerTest, RemoveMiddleChildFromItemWithThreeChildren)
+TEST_F(ViewModelControllerViewmodelTest, RemoveMiddleChildFromItemWithThreeChildren)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -474,7 +462,7 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChildFromItemWithThreeChildren)
 
 //! Taking child from one container to insert it after in the another.
 //! Checking that controller correctly "forgets" that children was already served (real-life-bug).
-TEST_F(ViewModelControllerTest, TakeChildThenInsert)
+TEST_F(ViewModelControllerViewmodelTest, TakeChildThenInsert)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -516,7 +504,7 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
   EXPECT_EQ(m_viewmodel.columnCount(container1_index), 2);
 }
 
-TEST_F(ViewModelControllerTest, SetData)
+TEST_F(ViewModelControllerViewmodelTest, SetData)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -540,7 +528,7 @@ TEST_F(ViewModelControllerTest, SetData)
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 }
 
-TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
+TEST_F(ViewModelControllerViewmodelTest, SetPropertyItemAsRoot)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -554,7 +542,7 @@ TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
   EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
 }
 
-TEST_F(ViewModelControllerTest, SetCompoundWithChildAsRootItem)
+TEST_F(ViewModelControllerViewmodelTest, SetCompoundWithChildAsRootItem)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -574,7 +562,7 @@ TEST_F(ViewModelControllerTest, SetCompoundWithChildAsRootItem)
   EXPECT_EQ(m_viewmodel.columnCount(index_of_vector_item), 2);
 }
 
-TEST_F(ViewModelControllerTest, OnModelReset)
+TEST_F(ViewModelControllerViewmodelTest, OnModelReset)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -599,7 +587,7 @@ TEST_F(ViewModelControllerTest, OnModelReset)
 }
 
 //! Real life scenario: initially empty SessionModel, apply ::clean, and then start to insert item.
-TEST_F(ViewModelControllerTest, OnEmptyModelResetAndContinue)
+TEST_F(ViewModelControllerViewmodelTest, OnEmptyModelResetAndContinue)
 {
   auto controller = CreateController(m_model, m_viewmodel);
   (void)controller;
@@ -616,7 +604,7 @@ TEST_F(ViewModelControllerTest, OnEmptyModelResetAndContinue)
   EXPECT_EQ(spy_insert.count(), 1);
 }
 
-TEST_F(ViewModelControllerTest, GetHorizontalHeaderLabels)
+TEST_F(ViewModelControllerViewmodelTest, GetHorizontalHeaderLabels)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -625,7 +613,7 @@ TEST_F(ViewModelControllerTest, GetHorizontalHeaderLabels)
   EXPECT_EQ(controller->GetHorizontalHeaderLabels(), expected_labels);
 }
 
-TEST_F(ViewModelControllerTest, BrokenRowStrategy)
+TEST_F(ViewModelControllerViewmodelTest, BrokenRowStrategy)
 {
   // We are deliberatly constructing controller based on broken row strategy, which always returns
   // empty rows. This is abnormal situation when RowStrategy sees an unknown item for which it
@@ -636,307 +624,6 @@ TEST_F(ViewModelControllerTest, BrokenRowStrategy)
       CreateController<AllChildrenStrategy, test::EmptyRowTestStrategy>(m_model, m_viewmodel);
   (void)controller;
   EXPECT_THROW(m_model.InsertItem<SessionItem>(), InvalidOperationException);
-}
-
-//! Low-level tests for ViewModelController built directly (without the factory), exercising the
-//! row-construction machinery and the item-view map.
-
-class ViewModelControllerDirectTest : public ::testing::Test
-{
-public:
-  template <typename ChildrenT, typename RowT>
-  std::unique_ptr<TestViewModelController> CreateController(ViewModelBase* view_model)
-  {
-    auto children_strategy = std::make_unique<ChildrenT>();
-    auto row_strategy = std::make_unique<RowT>();
-    return std::make_unique<TestViewModelController>(view_model, std::move(children_strategy),
-                                                     std::move(row_strategy));
-  }
-
-  template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
-  std::unique_ptr<TestViewModelController> CreateController()
-  {
-    return CreateController<ChildrenT, RowT>(&m_viewmodel);
-  }
-
-  ApplicationModel m_model;
-  ViewModelBase m_viewmodel;
-};
-
-TEST_F(ViewModelControllerDirectTest, InvalidController)
-{
-  {
-    const TestViewModelController controller(nullptr, {}, {});
-    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
-  }
-
-  {
-    const TestViewModelController controller(&m_viewmodel, {}, {});
-    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
-  }
-
-  {
-    const TestViewModelController controller(&m_viewmodel, std::make_unique<AllChildrenStrategy>(),
-                                             {});
-    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
-  }
-}
-
-TEST_F(ViewModelControllerDirectTest, CreateRowFromSingleItem)
-{
-  auto controller = CreateController();
-
-  SessionItem item;
-  item.SetDisplayName("abc");
-  item.SetData(42);
-
-  auto row = controller->CreateTreeOfRows(item);
-  EXPECT_EQ(row.size(), 2);
-
-  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(&item), row.at(0).get());
-
-  auto view_item0 = row.at(0).get();
-  auto view_item1 = row.at(1).get();
-
-  EXPECT_EQ(view_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("abc"));
-  EXPECT_EQ(view_item1->Data(Qt::EditRole).toInt(), 42);
-
-  EXPECT_NO_FATAL_FAILURE(controller->OnAboutToInsertItemEvent(AboutToInsertItemEvent{}));
-  EXPECT_NO_FATAL_FAILURE(controller->OnItemRemovedEvent(ItemRemovedEvent{}));
-}
-
-//! Validate CreateRow() method for VectorItem.
-
-TEST_F(ViewModelControllerDirectTest, CreateRowFromVectorItem)
-{
-  auto controller = CreateController();
-
-  VectorItem item;
-  item.SetX(1.0);
-  item.SetY(2.0);
-  item.SetZ(3.0);
-
-  // parent item
-  auto parent_row = controller->CreateTreeOfRows(item);
-  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 4);  // parent, x, y, z
-
-  EXPECT_EQ(parent_row.size(), 2);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(&item), parent_row.at(0).get());
-  auto view_item0 = parent_row.at(0).get();
-  auto view_item1 = parent_row.at(1).get();
-  EXPECT_EQ(view_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("VectorItem"));
-  EXPECT_EQ(view_item1->Data(Qt::EditRole).toString().toStdString(), std::string("(1, 2, 3)"));
-
-  EXPECT_EQ(view_item0->GetRowCount(), 3);
-  EXPECT_EQ(view_item0->GetColumnCount(), 2);
-  EXPECT_EQ(view_item1->GetRowCount(), 0);
-  EXPECT_EQ(view_item1->GetColumnCount(), 0);
-
-  // x item
-  auto x_item0 = view_item0->GetChild(0, 0);
-  auto x_item1 = view_item0->GetChild(0, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kX)), x_item0);
-  EXPECT_EQ(x_item0->GetParent(), view_item0);
-  EXPECT_EQ(x_item1->GetParent(), view_item0);
-  EXPECT_EQ(x_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
-  EXPECT_EQ(x_item1->Data(Qt::EditRole).toDouble(), 1.0);
-  EXPECT_EQ(x_item0->GetRowCount(), 0);
-  EXPECT_EQ(x_item0->GetColumnCount(), 0);
-  EXPECT_EQ(x_item1->GetRowCount(), 0);
-  EXPECT_EQ(x_item1->GetColumnCount(), 0);
-
-  // y item
-  auto y_item0 = view_item0->GetChild(1, 0);
-  auto y_item1 = view_item0->GetChild(1, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kY)), y_item0);
-  EXPECT_EQ(y_item0->GetParent(), view_item0);
-  EXPECT_EQ(y_item1->GetParent(), view_item0);
-  EXPECT_EQ(y_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("Y"));
-  EXPECT_EQ(y_item1->Data(Qt::EditRole).toDouble(), 2.0);
-  EXPECT_EQ(y_item0->GetRowCount(), 0);
-  EXPECT_EQ(y_item0->GetColumnCount(), 0);
-  EXPECT_EQ(y_item1->GetRowCount(), 0);
-  EXPECT_EQ(y_item1->GetColumnCount(), 0);
-
-  // z item
-  auto z_item0 = view_item0->GetChild(2, 0);
-  auto z_item1 = view_item0->GetChild(2, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kZ)), z_item0);
-  EXPECT_EQ(z_item0->GetParent(), view_item0);
-  EXPECT_EQ(z_item1->GetParent(), view_item0);
-  EXPECT_EQ(z_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
-  EXPECT_EQ(z_item1->Data(Qt::EditRole).toDouble(), 3.0);
-  EXPECT_EQ(z_item0->GetRowCount(), 0);
-  EXPECT_EQ(z_item0->GetColumnCount(), 0);
-  EXPECT_EQ(z_item1->GetRowCount(), 0);
-  EXPECT_EQ(z_item1->GetColumnCount(), 0);
-}
-
-//! Validate CreateRow() method for VectorItem with hidden coordinate.
-
-TEST_F(ViewModelControllerDirectTest, CreateRowFromVectorItemWithHiddenCoordinate)
-{
-  // controller that filters out hidden item thanks to PropertyItemsStrategy
-  auto controller = CreateController<PropertyItemsStrategy, LabelDataRowStrategy>();
-
-  VectorItem item;
-  item.SetX(1.0);
-  item.SetY(2.0);
-  item.SetZ(3.0);
-
-  item.GetItem(VectorItem::kY)->SetVisible(false);
-
-  // parent item
-  auto parent_row = controller->CreateTreeOfRows(item);
-  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 3);  // parent, x, z
-
-  EXPECT_EQ(parent_row.size(), 2);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(&item), parent_row.at(0).get());
-  auto view_item0 = parent_row.at(0).get();
-  auto view_item1 = parent_row.at(1).get();
-  EXPECT_EQ(view_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("VectorItem"));
-  EXPECT_EQ(view_item1->Data(Qt::EditRole).toString().toStdString(), std::string("(1, 2, 3)"));
-
-  EXPECT_EQ(view_item0->GetRowCount(), 2);
-  EXPECT_EQ(view_item0->GetColumnCount(), 2);
-  EXPECT_EQ(view_item1->GetRowCount(), 0);
-  EXPECT_EQ(view_item1->GetColumnCount(), 0);
-
-  // x item
-  auto x_item0 = view_item0->GetChild(0, 0);
-  auto x_item1 = view_item0->GetChild(0, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kX)), x_item0);
-  EXPECT_EQ(x_item0->GetParent(), view_item0);
-  EXPECT_EQ(x_item1->GetParent(), view_item0);
-  EXPECT_EQ(x_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
-  EXPECT_EQ(x_item1->Data(Qt::EditRole).toDouble(), 1.0);
-  EXPECT_EQ(x_item0->GetRowCount(), 0);
-  EXPECT_EQ(x_item0->GetColumnCount(), 0);
-  EXPECT_EQ(x_item1->GetRowCount(), 0);
-  EXPECT_EQ(x_item1->GetColumnCount(), 0);
-
-  // z item
-  auto z_item0 = view_item0->GetChild(1, 0);
-  auto z_item1 = view_item0->GetChild(1, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kZ)), z_item0);
-  EXPECT_EQ(z_item0->GetParent(), view_item0);
-  EXPECT_EQ(z_item1->GetParent(), view_item0);
-  EXPECT_EQ(z_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
-  EXPECT_EQ(z_item1->Data(Qt::EditRole).toDouble(), 3.0);
-  EXPECT_EQ(z_item0->GetRowCount(), 0);
-  EXPECT_EQ(z_item0->GetColumnCount(), 0);
-  EXPECT_EQ(z_item1->GetRowCount(), 0);
-  EXPECT_EQ(z_item1->GetColumnCount(), 0);
-}
-
-//! Validate CreateRow() method for compound item with child and grandchild.
-
-TEST_F(ViewModelControllerDirectTest, CreateRowFromCompoundItem)
-{
-  CompoundItem parent;
-  parent.SetDisplayName("parent");
-  parent.AddProperty("width", 42);
-  parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-
-  auto child = std::make_unique<CompoundItem>();
-  child->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-  auto child_ptr = child.get();
-  child->SetDisplayName("child");
-  parent.InsertItem(std::move(child), TagIndex::Append());
-
-  auto grandchild = std::make_unique<CompoundItem>();
-  auto grandchild_ptr = grandchild.get();
-  grandchild->SetDisplayName("grandchild");
-  grandchild->AddProperty("length", 44);
-
-  child_ptr->InsertItem(std::move(grandchild), TagIndex::Append());
-  child_ptr->AddProperty("height", 43);
-
-  // - parent
-  //   - width
-  //   - child
-  //     - grandchild
-  //       - length
-  //     - height
-
-  auto controller = CreateController();
-  auto parent_row = controller->CreateTreeOfRows(parent);
-
-  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 6);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(&parent), parent_row.at(0).get());
-
-  auto parent_view0 = parent_row.at(0).get();
-  auto parent_view1 = parent_row.at(1).get();
-
-  EXPECT_EQ(parent_view0->Data(Qt::DisplayRole).toString(), QString("parent"));
-  EXPECT_EQ(parent_view1->Data(Qt::EditRole), QVariant());
-
-  auto width_view0 = parent_view0->GetChild(0, 0);
-  auto width_view1 = parent_view0->GetChild(0, 1);
-
-  EXPECT_EQ(width_view0->Data(Qt::DisplayRole).toString(), QString("width"));
-  EXPECT_EQ(width_view1->Data(Qt::EditRole).toInt(), 42);
-
-  auto child_view0 = parent_view0->GetChild(1, 0);
-  auto child_view1 = parent_view0->GetChild(1, 1);
-  EXPECT_EQ(child_view0->Data(Qt::DisplayRole).toString(), QString("child"));
-  EXPECT_EQ(child_view1->Data(Qt::EditRole), QVariant());
-
-  auto grandchild_view0 = child_view0->GetChild(0, 0);
-  auto grandchild_view1 = child_view0->GetChild(0, 1);
-  EXPECT_EQ(grandchild_view0->Data(Qt::DisplayRole).toString(), QString("grandchild"));
-  EXPECT_EQ(grandchild_view1->Data(Qt::EditRole), QVariant());
-
-  auto height_view0 = child_view0->GetChild(1, 0);
-  auto height_view1 = child_view0->GetChild(1, 1);
-  EXPECT_EQ(height_view0->Data(Qt::DisplayRole).toString(), QString("height"));
-  EXPECT_EQ(height_view1->Data(Qt::EditRole).toInt(), 43);
-
-  auto length_view0 = grandchild_view0->GetChild(0, 0);
-  auto length_view1 = grandchild_view0->GetChild(0, 1);
-  EXPECT_EQ(length_view0->Data(Qt::DisplayRole).toString(), QString("length"));
-  EXPECT_EQ(length_view1->Data(Qt::EditRole).toInt(), 44);
-
-  (void)grandchild_ptr;
-}
-
-TEST_F(ViewModelControllerDirectTest, SetItem)
-{
-  auto controller = CreateController();
-
-  auto item = m_model.InsertItem<VectorItem>();
-  item->SetX(1.0);
-  item->SetY(2.0);
-  item->SetZ(3.0);
-
-  controller->SetRootItem(item);
-
-  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
-  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 3);
-  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 4);
-  EXPECT_EQ(controller->GetRootItem(), item);
-
-  controller->SetRootItem(nullptr);
-  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
-  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
-  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 0);
-  EXPECT_EQ(controller->GetRootItem(), nullptr);
-}
-
-//! Validate CreateRow method when RowStrategy reports empty rows.
-TEST_F(ViewModelControllerDirectTest, CreateRowForBrokenConrtoller)
-{
-  // We are deliberatly constructing controller based on broken row strategy, which always returns
-  // empty rows. This is abnormal situation when RowStrategy sees an unknown item for which it
-  // doesn't know what to do. We do not want empty rows to be inserted in the model, so we expect an
-  // exception.
-
-  auto controller = CreateController<AllChildrenStrategy, test::EmptyRowTestStrategy>();
-
-  VectorItem item;
-
-  EXPECT_THROW(controller->CreateTreeOfRows(item), RuntimeException);
 }
 
 }  // namespace mvvm::test

@@ -50,8 +50,9 @@ target_sources(${test} PRIVATE
   viewitem_factory_tests.cpp
   viewitem_tests.cpp
   viewmodel_base_tests.cpp
+  viewmodel_controller_basic_tests.cpp
   viewmodel_controller_factory_tests.cpp
-  viewmodel_controller_tests.cpp
+  viewmodel_controller_viewmodel_tests.cpp
   viewmodel_iterate_helper_tests.cpp
   viewmodel_tests.cpp
   viewmodel_utils_tests.cpp
