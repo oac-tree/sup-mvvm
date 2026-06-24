@@ -29,8 +29,6 @@ target_sources(${test} PRIVATE
   event_handler_tests.cpp
   event_types_tests.cpp
   event_value_visitor_tests.cpp
-  experimental_clone_tests.cpp
-  experimental_clone_v2_tests.cpp
   external_property_tests.cpp
   file_based_project_tests.cpp
   file_utils_tests.cpp
