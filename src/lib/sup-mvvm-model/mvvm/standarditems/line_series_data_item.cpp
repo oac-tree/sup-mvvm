@@ -22,6 +22,7 @@
 
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/make_clone.h>
 #include <mvvm/standarditems/point_item.h>
 
 namespace mvvm
@@ -35,7 +36,7 @@ LineSeriesDataItem::LineSeriesDataItem() : CompoundItem(GetTypeName<LineSeriesDa
 
 std::unique_ptr<SessionItem> LineSeriesDataItem::Clone() const
 {
-  return std::make_unique<LineSeriesDataItem>(*this);
+  return MakeClone(*this);
 }
 
 std::size_t LineSeriesDataItem::GetPointCount() const

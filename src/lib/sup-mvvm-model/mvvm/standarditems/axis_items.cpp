@@ -23,6 +23,7 @@
 #include "plottable_items.h"
 
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/make_clone.h>
 
 namespace mvvm
 {
@@ -72,7 +73,7 @@ ViewportAxisItem::ViewportAxisItem(const std::string& model_type) : BasicAxisIte
 
 std::unique_ptr<SessionItem> ViewportAxisItem::Clone() const
 {
-  return std::make_unique<ViewportAxisItem>(*this);
+  return MakeClone(*this);
 }
 
 TextItem* ViewportAxisItem::GetTitleItem() const
@@ -115,7 +116,7 @@ FixedBinAxisItem::FixedBinAxisItem(const std::string& model_type) : BinnedAxisIt
 
 std::unique_ptr<SessionItem> FixedBinAxisItem::Clone() const
 {
-  return std::make_unique<FixedBinAxisItem>(*this);
+  return MakeClone(*this);
 }
 
 void FixedBinAxisItem::SetParameters(std::size_t nbins, double xmin, double xmax)
@@ -169,7 +170,7 @@ PointwiseAxisItem::PointwiseAxisItem(const std::string& model_type) : BinnedAxis
 
 std::unique_ptr<SessionItem> PointwiseAxisItem::Clone() const
 {
-  return std::make_unique<PointwiseAxisItem>(*this);
+  return MakeClone(*this);
 }
 
 void PointwiseAxisItem::SetParameters(const std::vector<double>& data)

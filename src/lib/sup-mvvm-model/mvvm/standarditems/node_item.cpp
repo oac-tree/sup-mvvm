@@ -21,6 +21,7 @@
 #include "node_item.h"
 
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/make_clone.h>
 
 namespace mvvm
 {
@@ -35,7 +36,7 @@ NodeItem::NodeItem(const std::string& model_type)
 
 std::unique_ptr<mvvm::SessionItem> NodeItem::Clone() const
 {
-  return std::make_unique<NodeItem>(*this);
+  return MakeClone(*this);
 }
 
 double NodeItem::GetX() const

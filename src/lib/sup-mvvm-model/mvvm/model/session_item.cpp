@@ -21,6 +21,7 @@
 #include "session_item.h"
 
 #include "item_utils.h"
+#include "make_clone.h"
 #include "process_command.h"
 #include "session_item_data.h"
 #include "session_item_impl.h"
@@ -99,36 +100,9 @@ SessionItem::~SessionItem()
   }
 }
 
-SessionItem::SessionItem(const SessionItem& other)
-    : SessionItem(other.GetType(), std::make_unique<SessionItemData>(*other.GetItemData()),
-                  other.GetTaggedItems()->Clone())
-{
-  for (auto child : GetAllItems())
-  {
-    child->SetParent(this);
-  }
-}
-
-SessionItem::SessionItem(SessionItem&& other) noexcept : p_impl(std::move(other.p_impl))
-{
-  // FIXME we are currently experimenting with MISRA complaining about
-  // "Class 'SessionItem' shall be either unmovable, move-only or copy-constructible. Special member
-  // functions shall be provided appropriately [MISRACPP2023-15_0_1-a]"
-
-  // I want to provide both copy c-tor and move c-tor and see if MISRA is happy, but I d;nt want to
-  // use it yet
-  std::terminate();
-
-  // update children's parent pointers
-  for (auto child : GetAllItems())
-  {
-    child->SetParent(this);
-  }
-}
-
 std::unique_ptr<SessionItem> SessionItem::Clone() const
 {
-  return std::make_unique<SessionItem>(*this);
+  return MakeClone(*this);
 }
 
 std::string SessionItem::GetType() const

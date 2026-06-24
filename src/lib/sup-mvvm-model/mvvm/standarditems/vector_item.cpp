@@ -21,6 +21,7 @@
 #include "vector_item.h"
 
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/make_clone.h>
 
 #include <sstream>
 
@@ -40,7 +41,7 @@ VectorItem::VectorItem() : CompoundItem(GetTypeName<VectorItem>())
 
 std::unique_ptr<SessionItem> VectorItem::Clone() const
 {
-  auto result = std::make_unique<VectorItem>(*this);
+  auto result = MakeClone(*this);
   result->ActivateStrategies();
   return result;
 }

@@ -21,6 +21,7 @@
 #include "point_item.h"
 
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/make_clone.h>
 
 namespace mvvm
 {
@@ -33,7 +34,7 @@ PointItem::PointItem() : CompoundItem(GetTypeName<PointItem>())
 
 std::unique_ptr<SessionItem> PointItem::Clone() const
 {
-  return std::make_unique<PointItem>(*this);
+  return MakeClone(*this);
 }
 
 double PointItem::GetX() const

@@ -50,8 +50,7 @@ std::unique_ptr<T> MakeClone(const T& source)
   // Replace freshly constructed content with deep copies of the source's content. The source type
   // is passed explicitly to preserve type strings, including the case of a subclass cloned through
   // a base class Clone() override.
-  result->SetDataAndTags(source.GetType(),
-                         std::make_unique<SessionItemData>(*source.GetItemData()),
+  result->SetDataAndTags(source.GetType(), std::make_unique<SessionItemData>(*source.GetItemData()),
                          source.GetTaggedItems()->Clone());
 
   // TaggedItems::Clone() does not repoint children to the new owner.

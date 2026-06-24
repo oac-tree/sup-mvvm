@@ -25,6 +25,7 @@
 #include "plottable_items.h"
 
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/make_clone.h>
 
 namespace mvvm
 {
@@ -41,7 +42,7 @@ GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
 
 std::unique_ptr<SessionItem> GraphItem::Clone() const
 {
-  return std::make_unique<GraphItem>(*this);
+  return MakeClone(*this);
 }
 
 //! Sets link to the data item.

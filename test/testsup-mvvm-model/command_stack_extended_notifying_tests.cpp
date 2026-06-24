@@ -95,7 +95,7 @@ TEST_F(CommandStackExtendedNotifyingTests, InsertItemCommand)
   auto child = std::make_unique<CompoundItem>();
   auto child_ptr = child.get();
   auto child_identifier = child->GetIdentifier();
-  auto grandchild = child->AddProperty("width", 42);
+  auto& grandchild = child->AddProperty("width", 42);
   auto grandchild_identifier = grandchild.GetIdentifier();
 
   auto parent = m_model.InsertItem<SessionItem>();

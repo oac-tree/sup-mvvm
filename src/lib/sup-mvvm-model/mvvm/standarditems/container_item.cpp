@@ -22,6 +22,7 @@
 
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/make_clone.h>
 
 namespace mvvm
 {
@@ -33,7 +34,7 @@ ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model
 
 std::unique_ptr<SessionItem> ContainerItem::Clone() const
 {
-  return std::make_unique<ContainerItem>(*this);
+  return MakeClone(*this);
 }
 
 bool ContainerItem::IsEmpty() const

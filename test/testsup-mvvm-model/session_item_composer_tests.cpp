@@ -73,7 +73,7 @@ TEST_F(SessionItemComposerTest, FromSessionItem)
 TEST_F(SessionItemComposerTest, FromCompountItemWithProperty)
 {
   CompoundItem item;
-  auto property = item.AddProperty("width", mvvm::int32{42});
+  auto& property = item.AddProperty("width", mvvm::int32{42});
 
   const auto tree_data = CreateTreeData(item);
 

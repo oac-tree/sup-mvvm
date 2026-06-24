@@ -20,6 +20,7 @@
 
 #include "linked_item.h"
 
+#include <mvvm/model/make_clone.h>
 #include <mvvm/model/session_model.h>
 
 namespace
@@ -38,7 +39,7 @@ LinkedItem::LinkedItem() : SessionItem(GetTypeName<LinkedItem>())
 
 std::unique_ptr<SessionItem> LinkedItem::Clone() const
 {
-  return std::make_unique<LinkedItem>(*this);
+  return MakeClone(*this);
 }
 
 //! Set link to given item.

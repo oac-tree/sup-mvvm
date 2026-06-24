@@ -24,6 +24,7 @@
 #include "viewport_helper.h"
 
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/make_clone.h>
 #include <mvvm/standarditems/editor_constants.h>
 
 namespace mvvm
@@ -59,7 +60,7 @@ ChartViewportItem::ChartViewportItem() : ViewportItem(GetTypeName<ChartViewportI
 
 std::unique_ptr<SessionItem> ChartViewportItem::Clone() const
 {
-  return std::make_unique<ChartViewportItem>(*this);
+  return MakeClone(*this);
 }
 
 std::vector<LineSeriesItem*> ChartViewportItem::GetLineSeries() const

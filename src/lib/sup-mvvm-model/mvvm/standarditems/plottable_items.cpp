@@ -23,6 +23,7 @@
 #include "editor_constants.h"
 
 #include <mvvm/model/item_limits_helper.h>
+#include <mvvm/model/make_clone.h>
 
 namespace mvvm
 {
@@ -62,7 +63,7 @@ TextItem::TextItem() : CompoundItem(GetTypeName<TextItem>())
 
 std::unique_ptr<SessionItem> TextItem::Clone() const
 {
-  return std::make_unique<TextItem>(*this);
+  return MakeClone(*this);
 }
 
 std::string TextItem::GetText() const
@@ -114,7 +115,7 @@ PenItem::PenItem() : CompoundItem(GetTypeName<PenItem>())
 
 std::unique_ptr<SessionItem> PenItem::Clone() const
 {
-  return std::make_unique<PenItem>(*this);
+  return MakeClone(*this);
 }
 
 bool PenItem::IsSelected() const

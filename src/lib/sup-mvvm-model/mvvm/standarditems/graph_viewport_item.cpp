@@ -24,6 +24,7 @@
 #include "viewport_helper.h"
 
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/make_clone.h>
 
 #include <algorithm>
 #include <vector>
@@ -41,7 +42,7 @@ GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportIt
 
 std::unique_ptr<SessionItem> GraphViewportItem::Clone() const
 {
-  return std::make_unique<GraphViewportItem>(*this);
+  return MakeClone(*this);
 }
 
 std::size_t GraphViewportItem::GetGraphCount() const

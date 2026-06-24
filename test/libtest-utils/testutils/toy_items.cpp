@@ -21,6 +21,7 @@
 #include "toy_items.h"
 
 #include <mvvm/model/item_factory.h>
+#include <mvvm/model/make_clone.h>
 #include <mvvm/standarditems/vector_item.h>
 
 namespace
@@ -49,7 +50,7 @@ ParticleItem::ParticleItem() : CompoundItem(mvvm::GetTypeName<ParticleItem>())
 
 std::unique_ptr<SessionItem> ParticleItem::Clone() const
 {
-  return std::make_unique<ParticleItem>(*this);
+  return MakeClone(*this);
 }
 
 LayerItem::LayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<LayerItem>())
@@ -62,7 +63,7 @@ LayerItem::LayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<LayerItem>())
 
 std::unique_ptr<SessionItem> LayerItem::Clone() const
 {
-  return std::make_unique<LayerItem>(*this);
+  return MakeClone(*this);
 }
 
 MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<MultiLayerItem>())
@@ -71,14 +72,14 @@ MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<MultiLay
               /*set_as_default*/ true);
 }
 
-std::vector<LayerItem *> MultiLayerItem::GetLayers() const
+std::vector<LayerItem*> MultiLayerItem::GetLayers() const
 {
   return GetItems<LayerItem>(kLayerTag);
 }
 
 std::unique_ptr<SessionItem> MultiLayerItem::Clone() const
 {
-  return std::make_unique<MultiLayerItem>(*this);
+  return MakeClone(*this);
 }
 
 SequenceItem::SequenceItem() : NodeItem(mvvm::GetTypeName<SequenceItem>())
@@ -91,9 +92,7 @@ RepeatItem::RepeatItem() : NodeItem(mvvm::GetTypeName<RepeatItem>())
   RegisterSingleChildTag();
 }
 
-WaitItem::WaitItem() : NodeItem(mvvm::GetTypeName<WaitItem>())
-{
-}
+WaitItem::WaitItem() : NodeItem(mvvm::GetTypeName<WaitItem>()) {}
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 

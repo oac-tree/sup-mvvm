@@ -20,6 +20,8 @@
 
 #include "compound_item.h"
 
+#include "make_clone.h"
+
 namespace mvvm
 {
 
@@ -27,7 +29,7 @@ CompoundItem::CompoundItem(const std::string& item_type) : SessionItem(item_type
 
 std::unique_ptr<SessionItem> CompoundItem::Clone() const
 {
-  return std::make_unique<CompoundItem>(*this);
+  return MakeClone(*this);
 }
 
 PropertyItem& CompoundItem::AddProperty(const std::string_view& name, const char* value)

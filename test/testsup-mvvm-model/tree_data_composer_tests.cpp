@@ -65,7 +65,7 @@ TEST_F(TreeDataComposerTests, SingleItem)
 TEST_F(TreeDataComposerTests, ParentWithChild)
 {
   CompoundItem item;
-  auto property = item.AddProperty("width", 42);
+  auto& property = item.AddProperty("width", 42);
 
   const TreeDataComposer composer({});
 

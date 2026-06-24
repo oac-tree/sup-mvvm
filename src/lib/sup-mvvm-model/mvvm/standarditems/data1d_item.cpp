@@ -22,6 +22,8 @@
 
 #include "axis_items.h"
 
+#include <mvvm/model/make_clone.h>
+
 namespace mvvm
 {
 
@@ -52,7 +54,7 @@ Data1DItem::Data1DItem() : CompoundItem(GetTypeName<Data1DItem>())
 
 std::unique_ptr<SessionItem> Data1DItem::Clone() const
 {
-  return std::make_unique<Data1DItem>(*this);
+  return MakeClone(*this);
 }
 
 //! Returns coordinates of bin centers.

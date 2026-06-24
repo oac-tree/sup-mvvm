@@ -20,6 +20,8 @@
 
 #include "property_item.h"
 
+#include "make_clone.h"
+
 namespace mvvm
 {
 
@@ -27,7 +29,7 @@ PropertyItem::PropertyItem() : SessionItem(GetTypeName<PropertyItem>()) {}
 
 std::unique_ptr<SessionItem> PropertyItem::Clone() const
 {
-  return std::make_unique<PropertyItem>(*this);
+  return MakeClone(*this);
 }
 
 }  // namespace mvvm

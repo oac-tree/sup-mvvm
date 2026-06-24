@@ -24,6 +24,7 @@
 #include "waveform_helper.h"
 
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/make_clone.h>
 #include <mvvm/standarditems/linked_item.h>
 #include <mvvm/standarditems/plottable_items.h>
 
@@ -54,7 +55,7 @@ LineSeriesItem::LineSeriesItem() : CompoundItem(GetTypeName<LineSeriesItem>())
 
 std::unique_ptr<SessionItem> LineSeriesItem::Clone() const
 {
-  return std::make_unique<LineSeriesItem>(*this);
+  return MakeClone(*this);
 }
 
 void LineSeriesItem::SetDataItem(const LineSeriesDataItem* item)
