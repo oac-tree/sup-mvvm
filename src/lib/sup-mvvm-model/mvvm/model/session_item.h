@@ -396,9 +396,15 @@ public:
   void SetStrategy(ObjectT* object, const MethodT& method);
 
   /**
-   * @brief Replace item internal structure.
+   * @brief Replace item internal structure, preserving the current item type.
    */
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
+
+  /**
+   * @brief Replace item internal structure and set the item type to the given value.
+   */
+  void SetDataAndTags(const std::string& item_type, std::unique_ptr<SessionItemData> data,
+                      std::unique_ptr<TaggedItems> tags);
 
 protected:
   explicit SessionItem(const std::string& item_type);

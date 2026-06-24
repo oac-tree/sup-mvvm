@@ -368,7 +368,14 @@ void SessionItem::SetStrategy(const data_strategy_t& data_strategy)
 void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
                                  std::unique_ptr<TaggedItems> tags)
 {
-  p_impl = std::make_unique<SessionItemImpl>(GetType(), std::move(data), std::move(tags));
+  SetDataAndTags(GetType(), std::move(data), std::move(tags));
+}
+
+void SessionItem::SetDataAndTags(const std::string& item_type,
+                                 std::unique_ptr<SessionItemData> data,
+                                 std::unique_ptr<TaggedItems> tags)
+{
+  p_impl = std::make_unique<SessionItemImpl>(item_type, std::move(data), std::move(tags));
 }
 
 }  // namespace mvvm
