@@ -12,6 +12,8 @@ target_sources(${library_name} PRIVATE
     graph_item.h
     graph_viewport_item.cpp
     graph_viewport_item.h
+    group_item.cpp
+    group_item.h
     line_series_data_item.cpp
     line_series_data_item.h
     line_series_item.cpp

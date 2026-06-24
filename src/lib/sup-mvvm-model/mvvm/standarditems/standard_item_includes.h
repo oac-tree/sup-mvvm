@@ -32,6 +32,7 @@
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
+#include <mvvm/standarditems/group_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/linked_item.h>

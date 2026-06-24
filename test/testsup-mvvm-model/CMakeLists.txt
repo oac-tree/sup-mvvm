@@ -36,6 +36,7 @@ target_sources(${test} PRIVATE
   folder_based_project_tests.cpp
   graph_item_tests.cpp
   graph_viewport_item_tests.cpp
+  group_item_tests.cpp
   insert_item_command_tests.cpp
   item_catalogue_tests.cpp
   item_connect_helper_tests.cpp
