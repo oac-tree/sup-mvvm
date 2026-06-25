@@ -30,6 +30,7 @@
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>
 
+#include <QPersistentModelIndex>
 #include <memory>
 
 namespace mvvm::test
@@ -183,6 +184,34 @@ TEST_F(PropertyViewModelControllerTests, GroupItemBranchContent)
             cylinder->GetItem(CylinderItem::kRadiusTag));
   EXPECT_EQ(view_model.GetSessionItemFromIndex(height_index),
             cylinder->GetItem(CylinderItem::kHeightTag));
+}
+
+//! The group's own row is kept in place across a selection change; only its children are rebuilt.
+//! A persistent index pointing to the group stays valid, while a persistent index pointing to an
+//! old child gets invalidated.
+TEST_F(PropertyViewModelControllerTests, GroupItemRowIsPreserved)
+{
+  using namespace mvvm::test::toyitems;
+
+  auto particle = m_model.InsertItem<ParticleItem>();
+  auto group = particle->GetItem<ShapeGroupItem>(ParticleItem::kShapeTag);
+
+  PropertyViewModel view_model(&m_model);
+  view_model.SetRootSessionItem(particle);
+
+  const QPersistentModelIndex group_index(view_model.index(1, 0, QModelIndex()));
+  const QPersistentModelIndex old_child_index(view_model.index(0, 0, group_index));
+  ASSERT_TRUE(group_index.isValid());
+  ASSERT_TRUE(old_child_index.isValid());
+
+  group->SetCurrentType(GetTypeName<CylinderItem>());
+
+  // the group row itself was not removed/recreated
+  EXPECT_TRUE(group_index.isValid());
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(group_index), group);
+
+  // the previously shown child row is gone
+  EXPECT_FALSE(old_child_index.isValid());
 }
 
 }  // namespace mvvm::test

@@ -49,11 +49,10 @@ public:
 
 private:
   /**
-   * @brief Regenerates the branch of views representing the given group item.
+   * @brief Regenerates the views shown beneath the given group item.
    *
-   * The branch is removed and recreated from scratch by replaying remove/insert events. Recreation
-   * goes through the children strategy, which reports the property items of the newly selected
-   * item.
+   * The group's own view is kept in place; only its child rows are removed and recreated. Recreation
+   * goes through the children strategy, which reports the property items of the newly selected item.
    */
   void RebuildGroupBranch(SessionItem& group);
 };

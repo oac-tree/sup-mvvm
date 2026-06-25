@@ -20,11 +20,14 @@
 
 #include "property_viewmodel_controller.h"
 
+#include "i_children_strategy.h"
 #include "standard_children_strategies.h"
 #include "standard_row_strategies.h"
+#include "viewitem.h"
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/group_item.h>
+#include <mvvm/viewmodel/viewmodel_base.h>
 
 #include <memory>
 
@@ -49,7 +52,7 @@ void PropertyViewModelController::OnDataChangedEvent(const DataChangedEvent& eve
   ViewModelController::OnDataChangedEvent(event);
 
   // A change of the current item of a group changes the set of property items shown beneath it,
-  // so the whole branch of views has to be regenerated.
+  // so the branch of views beneath the group has to be regenerated.
   if (auto* group = dynamic_cast<GroupItem*>(event.item); group != nullptr)
   {
     RebuildGroupBranch(*group);
@@ -58,21 +61,24 @@ void PropertyViewModelController::OnDataChangedEvent(const DataChangedEvent& eve
 
 void PropertyViewModelController::RebuildGroupBranch(SessionItem& group)
 {
-  auto* parent = group.GetParent();
-
-  // The group is expected to be a property child of a parent which already has a view. We don't
-  // handle the case when the group itself serves as the displayed root item: its parent has no
-  // view, and OnAboutToRemoveItemEvent treats the removal of the root as a full view reset.
-  if (parent == nullptr || &group == GetRootItem())
+  auto* group_view = GetViewItemMap().FindView(&group);
+  if (group_view == nullptr)
   {
     return;
   }
 
-  const auto tag_index = group.GetTagIndex();
+  // Drop the existing branch beneath the group from the item-view map, keeping the group's own
+  // view in place. RemoveRecursively also removes the group itself, so we re-register it.
+  (void)GetViewItemMap().RemoveRecursively(&group);
+  GetViewItemMap().Insert(&group, group_view);
 
-  // Remove all the views of the group branch, then recreate them from scratch.
-  OnAboutToRemoveItemEvent({parent, tag_index});
-  OnItemInsertedEvent({parent, tag_index});
+  // Remove the child rows of the group's view (with notifications), then recreate them. The
+  // children strategy now reports the property items of the newly selected item.
+  m_view_model->clearRows(group_view);
+  for (auto* child : m_children_strategy->GetChildren(&group))
+  {
+    m_view_model->appendRow(group_view, CreateTreeOfRows(*child));
+  }
 }
 
 }  // namespace mvvm
