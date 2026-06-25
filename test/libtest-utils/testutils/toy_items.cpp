@@ -99,8 +99,8 @@ std::unique_ptr<SessionItem> ShapeGroupItem::Clone() const
 
 ParticleItem::ParticleItem() : CompoundItem(GetTypeName<ParticleItem>())
 {
-  AddProperty<mvvm::VectorItem>("position");
-  AddProperty("shape", "sphere");
+  AddProperty<VectorItem>(kPositionTag);
+  AddProperty<ShapeGroupItem>(kShapeTag);
 }
 
 std::unique_ptr<SessionItem> ParticleItem::Clone() const

@@ -214,7 +214,8 @@ TEST_F(StandardChildrenStrategiesTest, FixedItemTypeStrategy)
 
   ASSERT_EQ(strategy.GetChildren(&particle_item).size(), 1);
   EXPECT_EQ(strategy.GetChildren(&particle_item),
-            std::vector<SessionItem*>({particle_item.GetItem("position")}));
+            std::vector<SessionItem*>(
+                {particle_item.GetItem(test::toyitems::ParticleItem::kPositionTag)}));
 }
 
 }  // namespace mvvm::test

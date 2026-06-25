@@ -89,6 +89,9 @@ public:
 class ParticleItem : public mvvm::CompoundItem
 {
 public:
+  static constexpr auto kPositionTag = "position";
+  static constexpr auto kShapeTag = "shapes";
+
   ParticleItem();
   std::unique_ptr<SessionItem> Clone() const override;
 };

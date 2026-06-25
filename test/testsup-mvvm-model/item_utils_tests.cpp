@@ -500,7 +500,7 @@ TEST_F(ItemUtilsTests, FindItemUp)
     EXPECT_EQ(utils::FindItemUp<VectorItem>(vector_item.GetItem(VectorItem::kX)), &vector_item);
 
     const ParticleItem particle;
-    auto x_item = particle.GetItem("position")->GetItem(VectorItem::kX);
+    auto x_item = particle.GetItem(ParticleItem::kPositionTag)->GetItem(VectorItem::kX);
     EXPECT_EQ(utils::FindItemUp<ParticleItem>(x_item), &particle);
     EXPECT_EQ(utils::FindItemUp<LayerItem>(x_item), nullptr);
   }
