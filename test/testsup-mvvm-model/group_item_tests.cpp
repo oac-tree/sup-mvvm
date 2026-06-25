@@ -86,6 +86,18 @@ public:
 
     std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
   };
+
+  class TestGroupItemWithPreselection : public GroupItem
+  {
+  public:
+    TestGroupItemWithPreselection() : GroupItem("TestGroupItemWithPreselection")
+    {
+      AddToGroup<SphereItem>(kSphereLabel);
+      AddToGroup<CylinderItem>(kCylinderLabel, /*make_selected*/ true);
+    }
+
+    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+  };
 };
 
 //! Initial state of the empty group item.
@@ -206,6 +218,15 @@ TEST_F(GroupItemTests, Clone)
   EXPECT_EQ(group_clone->GetCurrentIndex(), 1);
   EXPECT_EQ(group_clone->GetCurrentType(), kCylinderType);
   ASSERT_EQ(group_clone->GetTotalItemCount(), 2);
+}
+
+TEST_F(GroupItemTests, GroupItemWithPreselection)
+{
+  const TestGroupItemWithPreselection item;
+  EXPECT_EQ(item.GetCurrentIndex(), 1);
+  ASSERT_TRUE(item.GetCurrentItem() != nullptr);
+  EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem()->GetType());
+  EXPECT_EQ(item.GetCurrentType(), kCylinderType);
 }
 
 }  // namespace mvvm::test
