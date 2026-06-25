@@ -37,6 +37,7 @@ target_sources(${test} PRIVATE
   port_info_test.cpp
   presentation_item_helper_tests.cpp
   property_table_viewmodel_tests.cpp
+  property_viewmodel_controller_tests.cpp
   property_viewmodel_tests.cpp
   qtcore_helper_tests.cpp
   standard_children_strategies_tests.cpp

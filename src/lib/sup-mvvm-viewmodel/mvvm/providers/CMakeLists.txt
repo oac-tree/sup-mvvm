@@ -30,6 +30,8 @@ target_sources(${library_name} PRIVATE
   item_view_map.h
   presentation_item_helper.cpp
   presentation_item_helper.h
+  property_viewmodel_controller.cpp
+  property_viewmodel_controller.h
   qtcore_helper.cpp
   qtcore_helper.h
   standard_children_strategies.cpp

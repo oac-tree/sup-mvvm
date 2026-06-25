@@ -20,17 +20,16 @@
 
 #include "property_viewmodel.h"
 
-#include <mvvm/providers/standard_children_strategies.h>
-#include <mvvm/providers/standard_row_strategies.h>
-#include <mvvm/providers/viewmodel_controller_factory.h>
+#include <mvvm/providers/property_viewmodel_controller.h>
+
+#include <memory>
 
 namespace mvvm
 {
 PropertyViewModel::PropertyViewModel(ISessionModel* model, QObject* parent_object)
     : ViewModel(parent_object)
 {
-  SetController(
-      factory::CreateController<PropertyItemsStrategy, LabelDataRowStrategy>(model, this));
+  SetController(std::make_unique<PropertyViewModelController>(model, this));
 }
 
 }  // namespace mvvm
