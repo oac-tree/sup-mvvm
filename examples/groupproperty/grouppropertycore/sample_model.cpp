@@ -53,7 +53,7 @@ ShapeGroupItem::ShapeGroupItem() : mvvm::GroupItem("Shape")
 {
   AddToGroup<UndefinedShapeItem>();
   AddToGroup<SphereItem>();
-  AddToGroup<CylinderItem>("XXX", true);
+  AddToGroup<CylinderItem>();
   AddToGroup<BoxItem>();
 }
 

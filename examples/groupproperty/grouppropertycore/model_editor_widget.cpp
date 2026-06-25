@@ -45,7 +45,7 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
 
 void ModelEditorWidget::SetModel(SampleModel* model)
 {
-  if (!model)
+  if (model == nullptr)
   {
     return;
   }
