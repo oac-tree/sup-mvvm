@@ -22,6 +22,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
+#include <mvvm/model/make_clone.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/group_item.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
@@ -47,6 +48,42 @@ public:
     {
       SetController(std::move(controller));
     }
+  };
+
+  //! Shape without any properties.
+  class NoPropShapeItem : public CompoundItem
+  {
+  public:
+    NoPropShapeItem() : CompoundItem("NoProp") {}
+    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+  };
+
+  //! Shape with a single property.
+  class OnePropShapeItem : public CompoundItem
+  {
+  public:
+    OnePropShapeItem() : CompoundItem("OneProp") { AddProperty("Radius", 5.0); }
+    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+  };
+
+  //! Group with an empty-property item selected by default.
+  class TestGroupItem : public GroupItem
+  {
+  public:
+    TestGroupItem() : GroupItem("TestGroup")
+    {
+      AddToGroup<NoPropShapeItem>();  // selected by default (index 0), no properties
+      AddToGroup<OnePropShapeItem>();
+    }
+    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+  };
+
+  //! Compound holding a group as a property.
+  class HolderItem : public CompoundItem
+  {
+  public:
+    HolderItem() : CompoundItem("Holder") { AddProperty<TestGroupItem>("group"); }
+    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
   };
 
   ApplicationModel m_model;
@@ -212,6 +249,33 @@ TEST_F(PropertyViewModelControllerTests, GroupItemRowIsPreserved)
 
   // the previously shown child row is gone
   EXPECT_FALSE(old_child_index.isValid());
+}
+
+//! Reproduces the example scenario: a group whose default current item has no properties, shown
+//! through the PropertyTreeView path (view model built with a null model, then SetRootSessionItem).
+//! Switching to an item with a property must show that property beneath the group.
+TEST_F(PropertyViewModelControllerTests, GroupItemBranchRebuiltFromEmpty)
+{
+  auto holder = m_model.InsertItem<HolderItem>();
+  auto group = holder->GetItem<TestGroupItem>("group");
+
+  // mirror PropertyTreeView: null model at construction, root set afterwards
+  PropertyViewModel view_model(nullptr);
+  view_model.SetRootSessionItem(holder);
+
+  const QModelIndex group_index = view_model.index(0, 0, QModelIndex());
+  ASSERT_EQ(view_model.GetSessionItemFromIndex(group_index), group);
+
+  // the default current item (NoProp) has no properties
+  EXPECT_EQ(view_model.rowCount(group_index), 0);
+
+  // switching to the item with a property
+  group->SetCurrentType("OneProp");
+  {
+    const QModelIndex updated_index = view_model.index(0, 0, QModelIndex());
+    EXPECT_EQ(view_model.GetSessionItemFromIndex(updated_index), group);
+    EXPECT_EQ(view_model.rowCount(updated_index), 1);
+  }
 }
 
 }  // namespace mvvm::test
