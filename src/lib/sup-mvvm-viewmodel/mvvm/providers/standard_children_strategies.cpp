@@ -22,6 +22,7 @@
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/standarditems/group_item.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <algorithm>
@@ -56,7 +57,11 @@ std::vector<SessionItem*> TopItemsStrategy::GetChildren(const SessionItem* item)
 
 std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* item) const
 {
-  return (item != nullptr) ? utils::SinglePropertyItems(*item) : std::vector<SessionItem*>();
+  auto group = dynamic_cast<const GroupItem*>(item);
+  auto next_item = (group == nullptr) ? item : group->GetCurrentItem();
+
+  return (next_item == nullptr) ? std::vector<SessionItem*>()
+                                : utils::SinglePropertyItems(*next_item);
 }
 
 FixedItemTypeStrategy::FixedItemTypeStrategy(std::vector<std::string> item_types)

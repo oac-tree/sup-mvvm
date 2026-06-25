@@ -190,6 +190,17 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
     const TestItem item;
     EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
   }
+
+  {  // GroupItem
+    test::toyitems::ShapeGroupItem group_item;
+    group_item.SetCurrentType(GetTypeName<test::toyitems::CylinderItem>());
+
+    // two properties of cylinder item
+    const auto properties = strategy.GetChildren(&group_item);
+    ASSERT_EQ(properties.size(), 2);
+    EXPECT_EQ(properties.at(0)->GetDisplayName(), test::toyitems::CylinderItem::kRadiusTag);
+    EXPECT_EQ(properties.at(1)->GetDisplayName(), test::toyitems::CylinderItem::kHeightTag);
+  }
 }
 
 //! Testing PropertyItemsStrategy when some items are hidden.
@@ -197,9 +208,23 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategyWhenHidden)
 {
   const PropertyItemsStrategy strategy;
 
-  const VectorItem item;
-  item.GetItem(VectorItem::kY)->SetVisible(false);
-  EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
+  {  // VectorItem
+    const VectorItem item;
+    item.GetItem(VectorItem::kY)->SetVisible(false);
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
+  }
+
+  {  // GroupItem
+    test::toyitems::ShapeGroupItem group_item;
+    group_item.SetCurrentType(GetTypeName<test::toyitems::CylinderItem>());
+    auto radius_item =
+        group_item.GetCurrentItem()->GetItem(test::toyitems::CylinderItem::kRadiusTag);
+    radius_item->SetVisible(false);
+
+    auto properties = strategy.GetChildren(&group_item);
+    ASSERT_EQ(properties.size(), 1);
+    EXPECT_EQ(properties.at(0)->GetDisplayName(), test::toyitems::CylinderItem::kHeightTag);
+  }
 }
 
 //! Testing FixedItemTypeStrategy
