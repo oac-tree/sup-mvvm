@@ -72,14 +72,14 @@ MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<MultiLay
               /*set_as_default*/ true);
 }
 
-std::vector<LayerItem*> MultiLayerItem::GetLayers() const
-{
-  return GetItems<LayerItem>(kLayerTag);
-}
-
 std::unique_ptr<SessionItem> MultiLayerItem::Clone() const
 {
   return MakeClone(*this);
+}
+
+std::vector<LayerItem*> MultiLayerItem::GetLayers() const
+{
+  return GetItems<LayerItem>(kLayerTag);
 }
 
 SequenceItem::SequenceItem() : NodeItem(mvvm::GetTypeName<SequenceItem>())
@@ -93,7 +93,5 @@ RepeatItem::RepeatItem() : NodeItem(mvvm::GetTypeName<RepeatItem>())
 }
 
 WaitItem::WaitItem() : NodeItem(mvvm::GetTypeName<WaitItem>()) {}
-
-SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 
 }  // namespace mvvm::test::toyitems

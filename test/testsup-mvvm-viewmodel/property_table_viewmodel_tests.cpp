@@ -102,12 +102,12 @@ TEST_F(PropertyTableViewModelTest, MultiLayerAndRootItem)
 {
   using namespace mvvm::test::toyitems;
 
-  SampleModel model;
+  ApplicationModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();
   model.InsertItem<LayerItem>(multilayer);
   model.InsertItem<LayerItem>(multilayer);
 
-  PropertyTableViewModel viewModel(&model);
+  const PropertyTableViewModel viewModel(&model);
 
   // ViewModel should be empty, since we are looking to RootItem.
   EXPECT_EQ(viewModel.rowCount(QModelIndex()), 0);
@@ -120,7 +120,7 @@ TEST_F(PropertyTableViewModelTest, MultiLayer)
 {
   using namespace mvvm::test::toyitems;
 
-  SampleModel model;
+  ApplicationModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();
   model.InsertItem<LayerItem>(multilayer);
   model.InsertItem<LayerItem>(multilayer);
@@ -158,14 +158,14 @@ TEST_F(PropertyTableViewModelTest, StandardItemModel)
   QStandardItemModel model;
   QStandardItem* parentItem = model.invisibleRootItem();
 
-  QSignalSpy spyAboutInserInsert(&model, &ViewModelBase::rowsAboutToBeInserted);
+  const QSignalSpy spyAboutInserInsert(&model, &ViewModelBase::rowsAboutToBeInserted);
   QSignalSpy spyInsert(&model, &ViewModelBase::rowsInserted);
-  QSignalSpy spyAboutRemove(&model, &ViewModelBase::rowsAboutToBeRemoved);
-  QSignalSpy spyRemove(&model, &ViewModelBase::rowsRemoved);
-  QSignalSpy spyAboutReset(&model, &ViewModelBase::modelAboutToBeReset);
-  QSignalSpy spyReset(&model, &ViewModelBase::modelReset);
+  const QSignalSpy spyAboutRemove(&model, &ViewModelBase::rowsAboutToBeRemoved);
+  const QSignalSpy spyRemove(&model, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spyAboutReset(&model, &ViewModelBase::modelAboutToBeReset);
+  const QSignalSpy spyReset(&model, &ViewModelBase::modelReset);
 
-  QList<QStandardItem*> items = {new QStandardItem("a"), new QStandardItem("b")};
+  const QList<QStandardItem*> items = {new QStandardItem("a"), new QStandardItem("b")};
   parentItem->insertRow(0, items);
 
   EXPECT_EQ(model.rowCount(), 1);
@@ -198,10 +198,10 @@ TEST_F(PropertyTableViewModelTest, InsertItemSignaling)
 
   QSignalSpy spyAboutInserInsert(&view_model, &ViewModelBase::rowsAboutToBeInserted);
   QSignalSpy spyInsert(&view_model, &ViewModelBase::rowsInserted);
-  QSignalSpy spyAboutRemove(&view_model, &ViewModelBase::rowsAboutToBeRemoved);
-  QSignalSpy spyRemove(&view_model, &ViewModelBase::rowsRemoved);
-  QSignalSpy spyAboutReset(&view_model, &ViewModelBase::modelAboutToBeReset);
-  QSignalSpy spyReset(&view_model, &ViewModelBase::modelReset);
+  const QSignalSpy spyAboutRemove(&view_model, &ViewModelBase::rowsAboutToBeRemoved);
+  const QSignalSpy spyRemove(&view_model, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spyAboutReset(&view_model, &ViewModelBase::modelAboutToBeReset);
+  const QSignalSpy spyReset(&view_model, &ViewModelBase::modelReset);
   QSignalSpy spyLayout(&view_model, &ViewModelBase::layoutChanged);
 
   // inserting item

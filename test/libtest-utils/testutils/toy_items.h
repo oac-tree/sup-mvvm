@@ -24,16 +24,17 @@
 //! @file
 //! Collection of toy items for testing purpose.
 
-#include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/standarditems/node_item.h>
 
 namespace mvvm::test::toyitems
 {
 
-const std::string kParticleTag = "Particles";
-const std::string kLayerTag = "Layers";
-
+/**
+ * @brief The ParticleItem class represents a nano-particle with (x,y,z) coordinate and a shape.
+ *
+ * Used to describe a sample in scattering physics.
+ */
 class ParticleItem : public mvvm::CompoundItem
 {
 public:
@@ -41,43 +42,68 @@ public:
   std::unique_ptr<SessionItem> Clone() const override;
 };
 
+/**
+ * @brief The LayerItem class represents a layer of some material, can contain embedded
+ * nano-particles.
+ *
+ * Used to describe a sample in scattering physics.
+ */
 class LayerItem : public mvvm::CompoundItem
 {
 public:
+  static constexpr auto kParticleTag = "Particles";
+
   LayerItem();
   std::unique_ptr<SessionItem> Clone() const override;
 };
 
+/**
+ * @brief The MultiLayerItem class represent a multi-layered material made of layers.
+ *
+ * Used to describe a sample in scattering physics.
+ */
 class MultiLayerItem : public mvvm::CompoundItem
 {
 public:
+  static constexpr auto kLayerTag = "Layers";
+
   MultiLayerItem();
-  std::vector<LayerItem*> GetLayers() const;
   std::unique_ptr<SessionItem> Clone() const override;
+
+  std::vector<LayerItem*> GetLayers() const;
 };
 
+/**
+ * @brief The SequenceItem class represents a Sequence instruction.
+ *
+ * Used to build behavior tree.
+ */
 class SequenceItem : public mvvm::NodeItem
 {
 public:
   SequenceItem();
 };
 
+/**
+ * @brief The RepeatItem class represents a Repeat instruction.
+ *
+ * Used to build behavior tree.
+ */
 class RepeatItem : public mvvm::NodeItem
 {
 public:
   RepeatItem();
 };
 
+/**
+ * @brief The RepeatItem class represents a Wait instruction.
+ *
+ * Used to build behavior tree.
+ */
 class WaitItem : public mvvm::NodeItem
 {
 public:
   WaitItem();
-};
-
-class SampleModel : public mvvm::ApplicationModel
-{
-public:
-  SampleModel();
 };
 
 }  // namespace mvvm::test::toyitems

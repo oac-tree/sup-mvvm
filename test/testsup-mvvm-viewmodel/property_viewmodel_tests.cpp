@@ -53,7 +53,7 @@ TEST_F(PropertyViewModelTest, BaseItem)
   ApplicationModel model;
   model.InsertItem<SessionItem>();
 
-  PropertyViewModel viewModel(&model);
+  const PropertyViewModel viewModel(&model);
 
   // Root item has default tag and all items considered as top items.
   // PropertyViewModel shouldn't see any items.
@@ -144,7 +144,7 @@ TEST_F(PropertyViewModelTest, LayerInMultiLayerAsRootItem)
 {
   using namespace mvvm::test::toyitems;
 
-  SampleModel model;
+  mvvm::ApplicationModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();
   auto layer = model.InsertItem<LayerItem>(multilayer);
 
@@ -179,13 +179,13 @@ TEST_F(PropertyViewModelTest, SetData)
 
   ASSERT_EQ(spy_data_changed.count(), 1);
 
-  QModelIndex data_index = viewmodel.index(0, 1, QModelIndex());
+  const QModelIndex data_index = viewmodel.index(0, 1, QModelIndex());
 
-  QList<QVariant> arguments = spy_data_changed.takeFirst();
+  const QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), viewmodel.index(0, 1, QModelIndex()));
   EXPECT_EQ(arguments.at(1).value<QModelIndex>(), viewmodel.index(0, 1, QModelIndex()));
-  QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
+  const QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 
   EXPECT_EQ(viewmodel.data(data_index, Qt::EditRole).toDouble(), 42.0);
@@ -206,8 +206,8 @@ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
   PropertyViewModel viewmodel2(&model);
   viewmodel2.SetRootSessionItem(parent);
 
-  QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
-  QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
+  const QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
+  const QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
 
   viewmodel1.setData(viewmodel1.index(0, 1, QModelIndex()), 42.0, Qt::EditRole);
 
@@ -223,7 +223,7 @@ TEST_F(PropertyViewModelTest, LayerPropertyWhileInsertingParticle)
 {
   using namespace mvvm::test::toyitems;
 
-  SampleModel model;
+  ApplicationModel model;
   auto layer = model.InsertItem<LayerItem>();
 
   PropertyViewModel view_model(&model);
@@ -232,13 +232,13 @@ TEST_F(PropertyViewModelTest, LayerPropertyWhileInsertingParticle)
   EXPECT_EQ(view_model.rowCount(QModelIndex()), 2);
   EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
 
-  QSignalSpy spyAboutInserInsert(&view_model, &ViewModelBase::rowsAboutToBeInserted);
-  QSignalSpy spyInsert(&view_model, &ViewModelBase::rowsInserted);
-  QSignalSpy spyAboutRemove(&view_model, &ViewModelBase::rowsAboutToBeRemoved);
-  QSignalSpy spyRemove(&view_model, &ViewModelBase::rowsRemoved);
-  QSignalSpy spyAboutReset(&view_model, &ViewModelBase::modelAboutToBeReset);
-  QSignalSpy spyReset(&view_model, &ViewModelBase::modelReset);
-  QSignalSpy spyLayout(&view_model, &ViewModelBase::layoutChanged);
+  const QSignalSpy spyAboutInserInsert(&view_model, &ViewModelBase::rowsAboutToBeInserted);
+  const QSignalSpy spyInsert(&view_model, &ViewModelBase::rowsInserted);
+  const QSignalSpy spyAboutRemove(&view_model, &ViewModelBase::rowsAboutToBeRemoved);
+  const QSignalSpy spyRemove(&view_model, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spyAboutReset(&view_model, &ViewModelBase::modelAboutToBeReset);
+  const QSignalSpy spyReset(&view_model, &ViewModelBase::modelReset);
+  const QSignalSpy spyLayout(&view_model, &ViewModelBase::layoutChanged);
 
   model.InsertItem<ParticleItem>(layer);
 
@@ -265,8 +265,8 @@ TEST_F(PropertyViewModelTest, ShowVectorItemThenClearThenShowAnother)
   PropertyViewModel view_model(&model);
   view_model.SetRootSessionItem(vector0);
 
-  QSignalSpy spy_about_reset(&view_model, &ViewModelBase::modelAboutToBeReset);
-  QSignalSpy spy_reset(&view_model, &ViewModelBase::modelReset);
+  const QSignalSpy spy_about_reset(&view_model, &ViewModelBase::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&view_model, &ViewModelBase::modelReset);
 
   EXPECT_EQ(view_model.rowCount(QModelIndex()), 3);
   EXPECT_EQ(view_model.columnCount(QModelIndex()), 2);
@@ -325,7 +325,7 @@ TEST_F(PropertyViewModelTest, InsertIntoEmptyTag)
   PropertyViewModel viewmodel(&model);
   viewmodel.SetRootSessionItem(parent);
 
-  QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
 
   EXPECT_EQ(parent->GetAllItems(),
             std::vector<SessionItem*>({&height_property, &hidden_property, &width_property}));

@@ -21,6 +21,7 @@
 #include "mvvm/model/item_utils.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
@@ -38,6 +39,9 @@
 namespace mvvm::test
 {
 
+/**
+ * @brief Tests for helper methods from item_utils.h
+ */
 class ItemUtilsTests : public ::testing::Test
 {
 };
@@ -60,7 +64,7 @@ TEST_F(ItemUtilsTests, IterateItem)
   EXPECT_TRUE(visited_items.empty());
 
   // iteration over lonely parent
-  std::unique_ptr<SessionItem> parent(new SessionItem);
+  auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   std::vector<const SessionItem*> expected = {parent.get()};
@@ -90,7 +94,7 @@ TEST_F(ItemUtilsTests, NonConstIterateItem)
   EXPECT_TRUE(visited_items.empty());
 
   // iteration over lonely parent
-  std::unique_ptr<SessionItem> parent(new SessionItem);
+  auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   std::vector<SessionItem*> expected = {parent.get()};
@@ -123,7 +127,7 @@ TEST_F(ItemUtilsTests, IterateIfItem)
   EXPECT_TRUE(visited_items.empty());
 
   // iteration over lonely parent
-  std::unique_ptr<SessionItem> parent(new SessionItem);
+  auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   parent->InsertItem<SessionItem>(TagIndex::Append());
@@ -459,6 +463,8 @@ TEST_F(ItemUtilsTests, ReplaceData)
 
 TEST_F(ItemUtilsTests, FindItemUp)
 {
+  using namespace mvvm::test::toyitems;
+
   {  // start from parent mode
     SessionModel model;
 
@@ -493,18 +499,16 @@ TEST_F(ItemUtilsTests, FindItemUp)
     EXPECT_EQ(utils::FindItemUp<VectorItem>(item), &vector_item);
     EXPECT_EQ(utils::FindItemUp<VectorItem>(vector_item.GetItem(VectorItem::kX)), &vector_item);
 
-    const test::toyitems::ParticleItem particle;
+    const ParticleItem particle;
     auto x_item = particle.GetItem("position")->GetItem(VectorItem::kX);
-    EXPECT_EQ(utils::FindItemUp<test::toyitems::ParticleItem>(x_item), &particle);
-    EXPECT_EQ(utils::FindItemUp<test::toyitems::LayerItem>(x_item), nullptr);
+    EXPECT_EQ(utils::FindItemUp<ParticleItem>(x_item), &particle);
+    EXPECT_EQ(utils::FindItemUp<LayerItem>(x_item), nullptr);
   }
 }
 
 TEST_F(ItemUtilsTests, FindItemDown)
 {
-  using mvvm::test::toyitems::LayerItem;
-  using mvvm::test::toyitems::MultiLayerItem;
-  using mvvm::test::toyitems::ParticleItem;
+  using namespace mvvm::test::toyitems;
 
   EXPECT_TRUE(utils::FindItemDown<ParticleItem>(nullptr).empty());
 
@@ -553,7 +557,7 @@ TEST_F(ItemUtilsTests, ClonePropertyItem)
   property.SetData(42);
 
   {  // checking clone, when pointer to SessionItem is used
-    SessionItem* to_clone = &property;
+    const SessionItem* to_clone = &property;
     auto clone = utils::CloneItem(*to_clone);
     EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
     EXPECT_EQ(property.GetIdentifier(), clone->GetIdentifier());
@@ -602,7 +606,7 @@ TEST_F(ItemUtilsTests, CopyItem)
   property.SetData(42);
 
   {  // checking copy, when pointer to SessionItem is used
-    SessionItem* to_copy = &property;
+    const SessionItem* to_copy = &property;
     auto clone = utils::CopyItem(*to_copy);
     EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
     EXPECT_NE(property.GetIdentifier(), clone->GetIdentifier());
@@ -645,119 +649,126 @@ TEST_F(ItemUtilsTests, CopyParentAndChild)
 
 TEST_F(ItemUtilsTests, MoveItemUp)
 {
-  mvvm::test::toyitems::MultiLayerItem multilayer;
+  using namespace mvvm::test::toyitems;
 
-  auto layer0 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
-  auto layer1 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
-  auto layer2 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
+  MultiLayerItem multilayer;
+
+  auto layer0 = multilayer.InsertItem<LayerItem>(TagIndex::Append());
+  auto layer1 = multilayer.InsertItem<LayerItem>(TagIndex::Append());
+  auto layer2 = multilayer.InsertItem<LayerItem>(TagIndex::Append());
 
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
   // original layout
-  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer.GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving top layer up doesn't change the order
   EXPECT_FALSE(utils::MoveUp(*layer0));
-  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer.GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving bottom layer up does change the order
   EXPECT_TRUE(utils::MoveUp(*layer2));
   expected = {layer0, layer2, layer1};
-  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer.GetItems(MultiLayerItem::kLayerTag), expected);
 }
 
 TEST_F(ItemUtilsTests, MoveItemUpWhenInModel)
 {
-  mvvm::test::toyitems::SampleModel model;
+  using namespace mvvm::test::toyitems;
+  mvvm::SessionModel model;
 
-  auto multilayer = model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
-  auto layer0 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
-  auto layer1 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
-  auto layer2 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  auto multilayer = model.InsertItem<MultiLayerItem>();
+  auto layer0 = model.InsertItem<LayerItem>(multilayer);
+  auto layer1 = model.InsertItem<LayerItem>(multilayer);
+  auto layer2 = model.InsertItem<LayerItem>(multilayer);
 
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
   // original layout
-  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer->GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving top layer up doesn't change the order
   EXPECT_FALSE(utils::MoveUp(*layer0));
-  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer->GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving bottom layer up does change the order
   EXPECT_TRUE(utils::MoveUp(*layer2));
   expected = {layer0, layer2, layer1};
-  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer->GetItems(MultiLayerItem::kLayerTag), expected);
 }
 
 TEST_F(ItemUtilsTests, MoveItemDown)
 {
-  mvvm::test::toyitems::MultiLayerItem multilayer;
+  using namespace mvvm::test::toyitems;
 
-  auto layer0 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
-  auto layer1 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
-  auto layer2 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
+  MultiLayerItem multilayer;
+
+  auto layer0 = multilayer.InsertItem<LayerItem>(TagIndex::Append());
+  auto layer1 = multilayer.InsertItem<LayerItem>(TagIndex::Append());
+  auto layer2 = multilayer.InsertItem<LayerItem>(TagIndex::Append());
 
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
   // original layout
-  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer.GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving bottom layer down doesn't change the order
   EXPECT_FALSE(utils::MoveDown(*layer2));
-  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer.GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving top layer down changes the order
   EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer0, layer2};
-  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer.GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving again
   EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer2, layer0};
-  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer.GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving again noop
   EXPECT_FALSE(utils::MoveDown(*layer0));
-  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer.GetItems(MultiLayerItem::kLayerTag), expected);
 }
 
 TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
 {
-  mvvm::test::toyitems::SampleModel model;
+  using namespace mvvm::test::toyitems;
 
-  auto multilayer = model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
-  auto layer0 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
-  auto layer1 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
-  auto layer2 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  mvvm::SessionModel model;
+
+  auto multilayer = model.InsertItem<MultiLayerItem>();
+  auto layer0 = model.InsertItem<LayerItem>(multilayer);
+  auto layer1 = model.InsertItem<LayerItem>(multilayer);
+  auto layer2 = model.InsertItem<LayerItem>(multilayer);
 
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
   // original layout
-  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer->GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving bottom layer down doesn't change the order
   EXPECT_FALSE(utils::MoveDown(*layer2));
-  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer->GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving top layer down changes the order
   EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer0, layer2};
-  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer->GetItems(MultiLayerItem::kLayerTag), expected);
 
   // moving again
   EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer2, layer0};
-  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer->GetItems(MultiLayerItem::kLayerTag), expected);
   // moving again noop
   EXPECT_FALSE(utils::MoveDown(*layer0));
-  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
+  EXPECT_EQ(multilayer->GetItems(MultiLayerItem::kLayerTag), expected);
 }
 
 TEST_F(ItemUtilsTests, RemoveItem)
 {
   {  // item doesn't belong to a parent
-    SessionItem item;
+    const SessionItem item;
     EXPECT_THROW(utils::RemoveItem(item), LogicErrorException);
   }
 
@@ -794,7 +805,7 @@ TEST_F(ItemUtilsTests, ReplaceItem)
   EXPECT_EQ(replacee, p_new_item);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), p_new_item), 0);
-  EXPECT_EQ(parent->GetAllItems()[0], p_new_item);
+  EXPECT_EQ(parent->GetAllItems().at(0), p_new_item);
   EXPECT_EQ(parent->GetItem({"", 0}), p_new_item);
   EXPECT_EQ(replacee->GetParent(), parent.get());
 
@@ -890,25 +901,26 @@ TEST_F(ItemUtilsTests, ToStringAndBackClonedID)
 
 TEST_F(ItemUtilsTests, FindItemsUp)
 {
-  mvvm::test::toyitems::SampleModel model;
+  using namespace mvvm::test::toyitems;
 
-  auto multilayer = model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
-  auto layer0 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
-  auto particle0 = model.InsertItem<mvvm::test::toyitems::ParticleItem>(layer0);
-  auto layer1 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
-  auto layer2 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  mvvm::SessionModel model;
 
-  EXPECT_TRUE(utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({}).empty());
-  EXPECT_TRUE(utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({multilayer}).empty());
+  auto multilayer = model.InsertItem<MultiLayerItem>();
+  auto layer0 = model.InsertItem<LayerItem>(multilayer);
+  auto particle0 = model.InsertItem<ParticleItem>(layer0);
+  auto layer1 = model.InsertItem<LayerItem>(multilayer);
+  auto layer2 = model.InsertItem<LayerItem>(multilayer);
 
-  EXPECT_EQ(utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({layer2, layer1, multilayer}),
-            std::vector<mvvm::test::toyitems::LayerItem*>({layer2, layer1}));
+  EXPECT_TRUE(utils::FindItemsUp<LayerItem>({}).empty());
+  EXPECT_TRUE(utils::FindItemsUp<LayerItem>({multilayer}).empty());
 
-  EXPECT_EQ(utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({layer2, particle0}),
-            std::vector<mvvm::test::toyitems::LayerItem*>({layer2, layer0}));
-  EXPECT_EQ(
-      utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({layer2, particle0, layer1, layer0}),
-      std::vector<mvvm::test::toyitems::LayerItem*>({layer2, layer0, layer1}));
+  EXPECT_EQ(utils::FindItemsUp<LayerItem>({layer2, layer1, multilayer}),
+            std::vector<LayerItem*>({layer2, layer1}));
+
+  EXPECT_EQ(utils::FindItemsUp<LayerItem>({layer2, particle0}),
+            std::vector<LayerItem*>({layer2, layer0}));
+  EXPECT_EQ(utils::FindItemsUp<LayerItem>({layer2, particle0, layer1, layer0}),
+            std::vector<LayerItem*>({layer2, layer0, layer1}));
 }
 
 TEST_F(ItemUtilsTests, ItemToDebugString)
