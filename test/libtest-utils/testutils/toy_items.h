@@ -25,10 +25,61 @@
 //! Collection of toy items for testing purpose.
 
 #include <mvvm/model/compound_item.h>
+#include <mvvm/standarditems/group_item.h>
 #include <mvvm/standarditems/node_item.h>
 
 namespace mvvm::test::toyitems
 {
+
+/**
+ * @brief The CylinderItem class represents cylindrical shape.
+ */
+class CylinderItem : public CompoundItem
+{
+public:
+  static constexpr auto kRadiusTag = "Radius";
+  static constexpr auto kHeightTag = "Height";
+
+  CylinderItem();
+  std::unique_ptr<SessionItem> Clone() const override;
+};
+
+/**
+ * @brief The SphereItem class represents sphere.
+ */
+class SphereItem : public CompoundItem
+{
+public:
+  static constexpr auto kRadiusTag = "Radius";
+
+  SphereItem();
+  std::unique_ptr<SessionItem> Clone() const override;
+};
+
+/**
+ * @brief The AnysoPyramidItem class represents an anysotropical pyramid.
+ */
+class AnysoPyramidItem : public CompoundItem
+{
+public:
+  static constexpr auto kLengthTag = "Length";
+  static constexpr auto kWidthTag = "Width";
+  static constexpr auto kHeightTag = "Height";
+  static constexpr auto kAlphaTag = "Alpha";
+
+  AnysoPyramidItem();
+  std::unique_ptr<SessionItem> Clone() const override;
+};
+
+/**
+ * @brief The ShapeGroupItem class represents an anysotropical pyramid.
+ */
+class ShapeGroupItem : public GroupItem
+{
+public:
+  ShapeGroupItem();
+  std::unique_ptr<SessionItem> Clone() const override;
+};
 
 /**
  * @brief The ParticleItem class represents a nano-particle with (x,y,z) coordinate and a shape.
@@ -109,21 +160,45 @@ public:
 }  // namespace mvvm::test::toyitems
 
 template <>
+struct mvvm::item_traits<mvvm::test::toyitems::CylinderItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "CylinderItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::SphereItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "SphereItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::AnysoPyramidItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "AnysoPyramidItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::ShapeGroupItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "ShapeGroupItem"; }
+};
+
+template <>
 struct mvvm::item_traits<mvvm::test::toyitems::ParticleItem>
 {
-  static constexpr std::string_view type_name() noexcept { return "Particle"; }
+  static constexpr std::string_view type_name() noexcept { return "ParticleItem"; }
 };
 
 template <>
 struct mvvm::item_traits<mvvm::test::toyitems::LayerItem>
 {
-  static constexpr std::string_view type_name() noexcept { return "Layer"; }
+  static constexpr std::string_view type_name() noexcept { return "LayerItem"; }
 };
 
 template <>
 struct mvvm::item_traits<mvvm::test::toyitems::MultiLayerItem>
 {
-  static constexpr std::string_view type_name() noexcept { return "MultiLayer"; }
+  static constexpr std::string_view type_name() noexcept { return "MultiLayerItem"; }
 };
 
 template <>

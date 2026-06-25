@@ -22,6 +22,7 @@
 
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/make_clone.h>
+#include <mvvm/standarditems/group_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
 namespace
@@ -29,6 +30,10 @@ namespace
 
 bool RegisterToyItems()
 {
+  mvvm::RegisterGlobalItem<mvvm::test::toyitems::CylinderItem>();
+  mvvm::RegisterGlobalItem<mvvm::test::toyitems::SphereItem>();
+  mvvm::RegisterGlobalItem<mvvm::test::toyitems::AnysoPyramidItem>();
+  mvvm::RegisterGlobalItem<mvvm::test::toyitems::ShapeGroupItem>();
   mvvm::RegisterGlobalItem<mvvm::test::toyitems::ParticleItem>();
   mvvm::RegisterGlobalItem<mvvm::test::toyitems::LayerItem>();
   mvvm::RegisterGlobalItem<mvvm::test::toyitems::MultiLayerItem>();
@@ -42,7 +47,57 @@ bool toy_items_registered_flag = RegisterToyItems();
 namespace mvvm::test::toyitems
 {
 
-ParticleItem::ParticleItem() : CompoundItem(mvvm::GetTypeName<ParticleItem>())
+//! -----------------------------------------------------------------------------------------------
+//! MultiLayer related
+//! -----------------------------------------------------------------------------------------------
+
+CylinderItem::CylinderItem() : CompoundItem(GetTypeName<CylinderItem>())
+{
+  AddProperty(kRadiusTag, 8.0);
+  AddProperty(kHeightTag, 10.0);
+}
+
+std::unique_ptr<SessionItem> CylinderItem::Clone() const
+{
+  return MakeClone(*this);
+}
+
+SphereItem::SphereItem() : CompoundItem(GetTypeName<SphereItem>())
+{
+  AddProperty(kRadiusTag, 8.0);
+}
+
+std::unique_ptr<SessionItem> SphereItem::Clone() const
+{
+  return MakeClone(*this);
+}
+
+AnysoPyramidItem::AnysoPyramidItem() : CompoundItem(GetTypeName<AnysoPyramidItem>())
+{
+  AddProperty(kLengthTag, 8.0);
+  AddProperty(kWidthTag, 8.0);
+  AddProperty(kHeightTag, 8.0);
+  AddProperty(kAlphaTag, 8.0);
+}
+
+std::unique_ptr<SessionItem> AnysoPyramidItem::Clone() const
+{
+  return MakeClone(*this);
+}
+
+ShapeGroupItem::ShapeGroupItem() : GroupItem(GetTypeName<ShapeGroupItem>())
+{
+  AddToGroup<CylinderItem>("Cylinder");
+  AddToGroup<SphereItem>("Full sphere", /*make_selected*/ true);
+  AddToGroup<AnysoPyramidItem>("Anysotropical pyramid");
+}
+
+std::unique_ptr<SessionItem> ShapeGroupItem::Clone() const
+{
+  return MakeClone(*this);
+}
+
+ParticleItem::ParticleItem() : CompoundItem(GetTypeName<ParticleItem>())
 {
   AddProperty<mvvm::VectorItem>("position");
   AddProperty("shape", "sphere");
@@ -53,11 +108,11 @@ std::unique_ptr<SessionItem> ParticleItem::Clone() const
   return MakeClone(*this);
 }
 
-LayerItem::LayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<LayerItem>())
+LayerItem::LayerItem() : CompoundItem(GetTypeName<LayerItem>())
 {
   AddProperty("Thickness", 42.0);
   AddProperty("Color", "green");
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kParticleTag, {mvvm::GetTypeName<ParticleItem>()}),
+  RegisterTag(TagInfo::CreateUniversalTag(kParticleTag, {GetTypeName<ParticleItem>()}),
               /*set_as_default*/ true);
 }
 
@@ -66,9 +121,9 @@ std::unique_ptr<SessionItem> LayerItem::Clone() const
   return MakeClone(*this);
 }
 
-MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<MultiLayerItem>())
+MultiLayerItem::MultiLayerItem() : CompoundItem(GetTypeName<MultiLayerItem>())
 {
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kLayerTag, {mvvm::GetTypeName<LayerItem>()}),
+  RegisterTag(TagInfo::CreateUniversalTag(kLayerTag, {GetTypeName<LayerItem>()}),
               /*set_as_default*/ true);
 }
 
@@ -82,16 +137,20 @@ std::vector<LayerItem*> MultiLayerItem::GetLayers() const
   return GetItems<LayerItem>(kLayerTag);
 }
 
-SequenceItem::SequenceItem() : NodeItem(mvvm::GetTypeName<SequenceItem>())
+//! -----------------------------------------------------------------------------------------------
+//! Behavioral tree related
+//! -----------------------------------------------------------------------------------------------
+
+SequenceItem::SequenceItem() : NodeItem(GetTypeName<SequenceItem>())
 {
   RegisterMultipleChildrenTag();
 }
 
-RepeatItem::RepeatItem() : NodeItem(mvvm::GetTypeName<RepeatItem>())
+RepeatItem::RepeatItem() : NodeItem(GetTypeName<RepeatItem>())
 {
   RegisterSingleChildTag();
 }
 
-WaitItem::WaitItem() : NodeItem(mvvm::GetTypeName<WaitItem>()) {}
+WaitItem::WaitItem() : NodeItem(GetTypeName<WaitItem>()) {}
 
 }  // namespace mvvm::test::toyitems
