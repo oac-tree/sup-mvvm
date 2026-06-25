@@ -23,9 +23,12 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/standarditems/group_item.h>
+#include <mvvm/viewmodel/property_viewmodel.h>
 #include <mvvm/viewmodel/viewmodel.h>
 
 #include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 #include <memory>
 
@@ -93,6 +96,93 @@ TEST_F(PropertyViewModelControllerTests, NullModel)
 
   EXPECT_EQ(m_view_model.rowCount(QModelIndex()), 0);
   EXPECT_EQ(m_view_model.columnCount(QModelIndex()), 2);
+}
+
+//! A GroupItem shows the property items of its current item directly beneath itself.
+TEST_F(PropertyViewModelControllerTests, GroupItemInitialState)
+{
+  using namespace mvvm::test::toyitems;
+
+  auto particle = m_model.InsertItem<ParticleItem>();
+  auto group = particle->GetItem<ShapeGroupItem>(ParticleItem::kShapeTag);
+
+  PropertyViewModel view_model(&m_model);
+  view_model.SetRootSessionItem(particle);
+
+  // particle has two properties: position (VectorItem) and shapes (group)
+  ASSERT_EQ(view_model.rowCount(QModelIndex()), 2);
+
+  // the group is the second property
+  const QModelIndex group_index = view_model.index(1, 0, QModelIndex());
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(group_index), group);
+
+  // the default selection is SphereItem, which has a single property (Radius)
+  EXPECT_EQ(group->GetCurrentType(), GetTypeName<SphereItem>());
+  EXPECT_EQ(view_model.rowCount(group_index), 1);
+}
+
+//! Changing the current item of a group regenerates the branch beneath the group.
+TEST_F(PropertyViewModelControllerTests, GroupItemBranchRebuiltOnSelectionChange)
+{
+  using namespace mvvm::test::toyitems;
+
+  auto particle = m_model.InsertItem<ParticleItem>();
+  auto group = particle->GetItem<ShapeGroupItem>(ParticleItem::kShapeTag);
+
+  PropertyViewModel view_model(&m_model);
+  view_model.SetRootSessionItem(particle);
+
+  // initially the group shows Sphere's single property
+  EXPECT_EQ(view_model.rowCount(view_model.index(1, 0, QModelIndex())), 1);
+
+  // switching to a cylinder (Radius + Height)
+  group->SetCurrentType(GetTypeName<CylinderItem>());
+  {
+    const QModelIndex group_index = view_model.index(1, 0, QModelIndex());
+    // the group itself stays at the same place
+    EXPECT_EQ(view_model.GetSessionItemFromIndex(group_index), group);
+    EXPECT_EQ(view_model.rowCount(group_index), 2);
+  }
+
+  // switching to a pyramid (Length, Width, Height, Alpha)
+  group->SetCurrentType(GetTypeName<AnysoPyramidItem>());
+  {
+    const QModelIndex group_index = view_model.index(1, 0, QModelIndex());
+    EXPECT_EQ(view_model.GetSessionItemFromIndex(group_index), group);
+    EXPECT_EQ(view_model.rowCount(group_index), 4);
+  }
+
+  // switching back to a sphere
+  group->SetCurrentType(GetTypeName<SphereItem>());
+  {
+    const QModelIndex group_index = view_model.index(1, 0, QModelIndex());
+    EXPECT_EQ(view_model.GetSessionItemFromIndex(group_index), group);
+    EXPECT_EQ(view_model.rowCount(group_index), 1);
+  }
+}
+
+//! The currently selected property item is the one reported beneath the group.
+TEST_F(PropertyViewModelControllerTests, GroupItemBranchContent)
+{
+  using namespace mvvm::test::toyitems;
+
+  auto particle = m_model.InsertItem<ParticleItem>();
+  auto group = particle->GetItem<ShapeGroupItem>(ParticleItem::kShapeTag);
+  group->SetCurrentType(GetTypeName<CylinderItem>());
+
+  PropertyViewModel view_model(&m_model);
+  view_model.SetRootSessionItem(particle);
+
+  const QModelIndex group_index = view_model.index(1, 0, QModelIndex());
+  ASSERT_EQ(view_model.rowCount(group_index), 2);
+
+  auto cylinder = group->GetCurrentItem();
+  const QModelIndex radius_index = view_model.index(0, 0, group_index);
+  const QModelIndex height_index = view_model.index(1, 0, group_index);
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(radius_index),
+            cylinder->GetItem(CylinderItem::kRadiusTag));
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(height_index),
+            cylinder->GetItem(CylinderItem::kHeightTag));
 }
 
 }  // namespace mvvm::test

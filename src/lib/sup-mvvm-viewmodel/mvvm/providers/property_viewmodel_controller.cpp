@@ -23,6 +23,9 @@
 #include "standard_children_strategies.h"
 #include "standard_row_strategies.h"
 
+#include <mvvm/model/session_item.h>
+#include <mvvm/standarditems/group_item.h>
+
 #include <memory>
 
 namespace mvvm
@@ -37,6 +40,39 @@ PropertyViewModelController::PropertyViewModelController(ISessionModel* model,
   {
     SetModel(model);
   }
+}
+
+void PropertyViewModelController::OnDataChangedEvent(const DataChangedEvent& event)
+{
+  // Default behavior: notify the views about the changed data. For a GroupItem this updates the
+  // combo cell representing the current selection.
+  ViewModelController::OnDataChangedEvent(event);
+
+  // A change of the current item of a group changes the set of property items shown beneath it,
+  // so the whole branch of views has to be regenerated.
+  if (auto* group = dynamic_cast<GroupItem*>(event.item); group != nullptr)
+  {
+    RebuildGroupBranch(*group);
+  }
+}
+
+void PropertyViewModelController::RebuildGroupBranch(SessionItem& group)
+{
+  auto* parent = group.GetParent();
+
+  // The group is expected to be a property child of a parent which already has a view. We don't
+  // handle the case when the group itself serves as the displayed root item: its parent has no
+  // view, and OnAboutToRemoveItemEvent treats the removal of the root as a full view reset.
+  if (parent == nullptr || &group == GetRootItem())
+  {
+    return;
+  }
+
+  const auto tag_index = group.GetTagIndex();
+
+  // Remove all the views of the group branch, then recreate them from scratch.
+  OnAboutToRemoveItemEvent({parent, tag_index});
+  OnItemInsertedEvent({parent, tag_index});
 }
 
 }  // namespace mvvm
