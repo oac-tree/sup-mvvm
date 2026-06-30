@@ -49,14 +49,21 @@ public:
   std::int32_t GetCurrentIndex() const;
 
   /**
-   * @brief Returns currently selected item, or nullptr if the group is empty (const version).
+   * @brief Returns currently selected item cast to the given type, or nullptr if the group is empty
+   * (const version).
+   *
+   * Will throw, if the current item can't be cast to the requested type.
    */
-  const SessionItem* GetCurrentItem() const;
+  template <typename T = SessionItem>
+  const T* GetCurrentItem() const;
 
   /**
-   * @brief Returns currently selected item, or nullptr if the group is empty.
+   * @brief Returns currently selected item cast to the given type, or nullptr if the group is empty.
+   *
+   * Will throw, if the current item can't be cast to the requested type.
    */
-  SessionItem* GetCurrentItem();
+  template <typename T = SessionItem>
+  T* GetCurrentItem();
 
   /**
    * @brief Returns the type of the currently selected item, or an empty string if the group is
@@ -70,6 +77,17 @@ public:
    * Will throw, if no item of the given type belongs to the group.
    */
   void SetCurrentType(const std::string& item_type);
+
+  /**
+   * @brief Sets the current selection to the item of the given type and returns it.
+   *
+   * Will throw, if no item of the given type belongs to the group.
+   *
+   * @tparam T The type of the item to select.
+   * @return The now-current item cast to the given type.
+   */
+  template <typename T>
+  T* SetCurrentType();
 
 protected:
   explicit GroupItem(const std::string& item_type);
@@ -98,6 +116,27 @@ private:
   std::int32_t m_index_to_select{0};
   std::vector<std::string> m_item_text;
 };
+
+template <typename T>
+const T* GroupItem::GetCurrentItem() const
+{
+  return GetCurrentIndex() < 0
+             ? nullptr
+             : GetItem<T>(TagIndex(kGroupTag, static_cast<std::size_t>(GetCurrentIndex())));
+}
+
+template <typename T>
+T* GroupItem::GetCurrentItem()
+{
+  return const_cast<T*>(static_cast<const GroupItem*>(this)->GetCurrentItem<T>());
+}
+
+template <typename T>
+T* GroupItem::SetCurrentType()
+{
+  SetCurrentType(T().GetType());
+  return GetCurrentItem<T>();
+}
 
 template <typename T>
 void GroupItem::AddToGroup(const std::string& text, bool make_selected)

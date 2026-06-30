@@ -56,22 +56,10 @@ std::int32_t GroupItem::GetCurrentIndex() const
   return Data<ComboProperty>().GetCurrentIndex();
 }
 
-const SessionItem* GroupItem::GetCurrentItem() const
-{
-  return GetCurrentIndex() < 0
-             ? nullptr
-             : GetItem(TagIndex(kGroupTag, static_cast<std::size_t>(GetCurrentIndex())));
-}
-
-SessionItem* GroupItem::GetCurrentItem()
-{
-  return const_cast<SessionItem*>(static_cast<const GroupItem*>(this)->GetCurrentItem());
-}
-
 std::string GroupItem::GetCurrentType() const
 {
-  auto current_item = GetCurrentItem();
-  return (current_item == nullptr) ? std::string() : GetCurrentItem()->GetType();
+  const auto* current_item = GetCurrentItem();
+  return (current_item == nullptr) ? std::string() : current_item->GetType();
 }
 
 void GroupItem::SetCurrentType(const std::string& item_type)

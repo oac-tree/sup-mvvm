@@ -229,4 +229,50 @@ TEST_F(GroupItemTests, GroupItemWithPreselection)
   EXPECT_EQ(item.GetCurrentType(), kCylinderType);
 }
 
+//! Accessing the current item through the templated accessor casting to a concrete type.
+TEST_F(GroupItemTests, GetCurrentItemTemplated)
+{
+  TestGroupItem item;  // SphereItem is current by default
+
+  // non-const version returns a castable, mutable pointer
+  auto* sphere = item.GetCurrentItem<SphereItem>();
+  ASSERT_TRUE(sphere != nullptr);
+  EXPECT_TRUE(sphere->SetProperty("Radius", 42.0));
+  EXPECT_EQ(sphere->Property<double>("Radius"), 42.0);
+
+  // const version returns a const pointer
+  const TestGroupItem& const_item = item;
+  const auto* const_sphere = const_item.GetCurrentItem<SphereItem>();
+  ASSERT_TRUE(const_sphere != nullptr);
+  EXPECT_EQ(const_sphere->Property<double>("Radius"), 42.0);
+
+  // wrong type throws
+  EXPECT_THROW((void)item.GetCurrentItem<CylinderItem>(), RuntimeException);
+
+  // empty group returns nullptr regardless of requested type
+  EmptyGroupItem empty;
+  EXPECT_EQ(empty.GetCurrentItem<SphereItem>(), nullptr);
+}
+
+//! Setting the current item by type and getting it back cast to that type.
+TEST_F(GroupItemTests, SetCurrentTypeTemplated)
+{
+  TestGroupItem item;  // SphereItem is current by default
+
+  auto* cylinder = item.SetCurrentType<CylinderItem>();
+  ASSERT_TRUE(cylinder != nullptr);
+  EXPECT_EQ(item.GetCurrentIndex(), 1);
+  EXPECT_EQ(item.GetCurrentType(), kCylinderType);
+  EXPECT_EQ(cylinder, item.GetCurrentItem<CylinderItem>());
+
+  // the returned pointer is usable as the concrete type
+  EXPECT_TRUE(cylinder->SetProperty("Height", 5.0));
+  EXPECT_EQ(cylinder->Property<double>("Height"), 5.0);
+
+  // switching back
+  auto* sphere = item.SetCurrentType<SphereItem>();
+  ASSERT_TRUE(sphere != nullptr);
+  EXPECT_EQ(item.GetCurrentIndex(), 0);
+}
+
 }  // namespace mvvm::test
