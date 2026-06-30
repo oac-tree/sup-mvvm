@@ -134,7 +134,7 @@ T* GroupItem::GetCurrentItem()
 template <typename T>
 T* GroupItem::SetCurrentType()
 {
-  SetCurrentType(T().GetType());
+  SetCurrentType(mvvm::GetTypeName<T>());
   return GetCurrentItem<T>();
 }
 

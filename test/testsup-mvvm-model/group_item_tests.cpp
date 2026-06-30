@@ -33,11 +33,100 @@ namespace mvvm::test
 
 namespace
 {
-constexpr auto kSphereType = "Sphere";
-constexpr auto kCylinderType = "Cylinder";
+
 constexpr auto kSphereLabel = "SphereLabel";
 constexpr auto kCylinderLabel = "CylinderLabel";
+
+//! Empty group item.
+class EmptyGroupItem : public GroupItem
+{
+public:
+  EmptyGroupItem() : GroupItem(GetTypeName<EmptyGroupItem>()) {}
+};
+
+//! SphereItem (content for GroupItem).
+class SphereItem : public CompoundItem
+{
+public:
+  SphereItem() : CompoundItem(GetTypeName<SphereItem>()) { (void)AddProperty("Radius", 8.0); }
+
+  std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+};
+
+//! CylinderItem (content for GroupItem).
+class CylinderItem : public CompoundItem
+{
+public:
+  CylinderItem() : CompoundItem(GetTypeName<CylinderItem>())
+  {
+    (void)AddProperty("Radius", 8.0);
+    (void)AddProperty("Height", 10.0);
+  }
+
+  std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+};
+
+//! Test group item holding sphere and cylinder items.
+class TestGroupItem : public GroupItem
+{
+public:
+  TestGroupItem() : GroupItem(GetTypeName<TestGroupItem>())
+  {
+    AddToGroup<SphereItem>(kSphereLabel);
+    AddToGroup<CylinderItem>();  // to check usage of the default label
+  }
+
+  std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+};
+
+class TestGroupItemWithPreselection : public GroupItem
+{
+public:
+  TestGroupItemWithPreselection() : GroupItem(GetTypeName<TestGroupItemWithPreselection>())
+  {
+    AddToGroup<SphereItem>(kSphereLabel);
+    AddToGroup<CylinderItem>(kCylinderLabel, /*make_selected*/ true);
+  }
+
+  std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
+};
+
 }  // namespace
+
+}  // namespace mvvm::test
+
+template <>
+struct mvvm::item_traits<mvvm::test::EmptyGroupItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "EmptyGroupItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::SphereItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "SphereItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::CylinderItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "CylinderItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::TestGroupItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "TestGroupItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::TestGroupItemWithPreselection>
+{
+  static constexpr std::string_view type_name() noexcept { return "TestGroupItemWithPreselection"; }
+};
+
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for GroupItem class.
@@ -45,59 +134,6 @@ constexpr auto kCylinderLabel = "CylinderLabel";
 class GroupItemTests : public ::testing::Test
 {
 public:
-  //! Empty group item.
-  class EmptyGroupItem : public GroupItem
-  {
-  public:
-    EmptyGroupItem() : GroupItem("EmptyGroupItem") {}
-  };
-
-  //! SphereItem (content for GroupItem).
-  class SphereItem : public CompoundItem
-  {
-  public:
-    SphereItem() : CompoundItem(kSphereType) { (void)AddProperty("Radius", 8.0); }
-
-    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
-  };
-
-  //! CylinderItem (content for GroupItem).
-  class CylinderItem : public CompoundItem
-  {
-  public:
-    CylinderItem() : CompoundItem(kCylinderType)
-    {
-      (void)AddProperty("Radius", 8.0);
-      (void)AddProperty("Height", 10.0);
-    }
-
-    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
-  };
-
-  //! Test group item holding sphere and cylinder items.
-  class TestGroupItem : public GroupItem
-  {
-  public:
-    TestGroupItem() : GroupItem("TestGroupItem")
-    {
-      AddToGroup<SphereItem>(kSphereLabel);
-      AddToGroup<CylinderItem>();  // to check usage of the default label
-    }
-
-    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
-  };
-
-  class TestGroupItemWithPreselection : public GroupItem
-  {
-  public:
-    TestGroupItemWithPreselection() : GroupItem("TestGroupItemWithPreselection")
-    {
-      AddToGroup<SphereItem>(kSphereLabel);
-      AddToGroup<CylinderItem>(kCylinderLabel, /*make_selected*/ true);
-    }
-
-    std::unique_ptr<SessionItem> Clone() const override { return MakeClone(*this); }
-  };
 };
 
 //! Initial state of the empty group item.
@@ -120,7 +156,7 @@ TEST_F(GroupItemTests, TestGroupItemInitialState)
   EXPECT_EQ(item.GetCurrentIndex(), 0);
   ASSERT_TRUE(item.GetCurrentItem() != nullptr);
   EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem()->GetType());
-  EXPECT_EQ(item.GetCurrentType(), kSphereType);
+  EXPECT_EQ(item.GetCurrentType(), GetTypeName<SphereItem>());
   ASSERT_EQ(item.GetTotalItemCount(), 2);
 
   // parent-child relationship
@@ -130,25 +166,26 @@ TEST_F(GroupItemTests, TestGroupItemInitialState)
   // expected value in combo
   auto combo = item.Data<ComboProperty>();
   EXPECT_EQ(combo.GetCurrentIndex(), 0);
-  EXPECT_EQ(combo.GetValues(), std::vector<std::string>({kSphereLabel, kCylinderType}));
+  EXPECT_EQ(combo.GetValues(),
+            std::vector<std::string>({kSphereLabel, GetTypeName<CylinderItem>()}));
 }
 
 //! Switching current item via type.
 TEST_F(GroupItemTests, SetCurrentType)
 {
   TestGroupItem item;
-  item.SetCurrentType(kCylinderType);
+  item.SetCurrentType(GetTypeName<CylinderItem>());
 
   EXPECT_EQ(item.GetCurrentIndex(), 1);
   ASSERT_TRUE(item.GetCurrentItem() != nullptr);
   EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem()->GetType());
-  EXPECT_EQ(item.GetCurrentItem()->GetType(), kCylinderType);
+  EXPECT_EQ(item.GetCurrentItem()->GetType(), GetTypeName<CylinderItem>());
   EXPECT_EQ(item.GetTotalItemCount(), 2);
 
   // expected value in combo
   auto combo = item.Data<ComboProperty>();
   EXPECT_EQ(combo.GetCurrentIndex(), 1);
-  EXPECT_EQ(combo.GetValues(), std::vector<std::string>({kSphereLabel, kCylinderType}));
+  EXPECT_EQ(combo.GetValues(), std::vector<std::string>({kSphereLabel, GetTypeName<CylinderItem>()}));
 
   // setting non-existing type
   EXPECT_THROW(item.SetCurrentType("non-existing"), RuntimeException);
@@ -200,14 +237,14 @@ TEST_F(GroupItemTests, SetDataInModelContext)
   EXPECT_TRUE(model.SetData(item, combo, DataRole::kData));
 
   EXPECT_EQ(item->GetCurrentIndex(), 1);
-  EXPECT_EQ(item->GetCurrentType(), kCylinderType);
+  EXPECT_EQ(item->GetCurrentType(), GetTypeName<CylinderItem>());
 }
 
 //! Cloning the group item.
 TEST_F(GroupItemTests, Clone)
 {
   TestGroupItem item;
-  item.SetCurrentType(kCylinderType);
+  item.SetCurrentType(GetTypeName<CylinderItem>());
 
   auto clone = item.Clone();
 
@@ -216,7 +253,7 @@ TEST_F(GroupItemTests, Clone)
   EXPECT_EQ(group_clone->GetType(), "TestGroupItem");
   EXPECT_EQ(group_clone->GetIdentifier(), item.GetIdentifier());
   EXPECT_EQ(group_clone->GetCurrentIndex(), 1);
-  EXPECT_EQ(group_clone->GetCurrentType(), kCylinderType);
+  EXPECT_EQ(group_clone->GetCurrentType(), GetTypeName<CylinderItem>());
   ASSERT_EQ(group_clone->GetTotalItemCount(), 2);
 }
 
@@ -226,7 +263,7 @@ TEST_F(GroupItemTests, GroupItemWithPreselection)
   EXPECT_EQ(item.GetCurrentIndex(), 1);
   ASSERT_TRUE(item.GetCurrentItem() != nullptr);
   EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem()->GetType());
-  EXPECT_EQ(item.GetCurrentType(), kCylinderType);
+  EXPECT_EQ(item.GetCurrentType(), GetTypeName<CylinderItem>());
 }
 
 //! Accessing the current item through the templated accessor casting to a concrete type.
@@ -262,7 +299,7 @@ TEST_F(GroupItemTests, SetCurrentTypeTemplated)
   auto* cylinder = item.SetCurrentType<CylinderItem>();
   ASSERT_TRUE(cylinder != nullptr);
   EXPECT_EQ(item.GetCurrentIndex(), 1);
-  EXPECT_EQ(item.GetCurrentType(), kCylinderType);
+  EXPECT_EQ(item.GetCurrentType(), GetTypeName<CylinderItem>());
   EXPECT_EQ(cylinder, item.GetCurrentItem<CylinderItem>());
 
   // the returned pointer is usable as the concrete type
