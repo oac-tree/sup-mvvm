@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sample_model.h"
+#include "demo_item.h"
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/standarditems/editor_constants.h>
@@ -72,7 +72,5 @@ bool DemoItem::OnSetAvailableFlag(SessionItem* property, const mvvm::variant_t& 
 
   return result;
 }
-
-SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 
 }  // namespace flatview

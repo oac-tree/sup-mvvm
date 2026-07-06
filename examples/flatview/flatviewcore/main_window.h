@@ -24,14 +24,18 @@
 #include <QMainWindow>
 #include <memory>
 
+namespace mvvm {
+class ApplicationModel;
+}
+
 namespace flatview
 {
 
-class SampleModel;
 class ModelEditorWidget;
 
-//! The main window of this application.
-
+/**
+ * @brief The MainWindow class is a main window of this application.
+ */
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
@@ -39,6 +43,11 @@ class MainWindow : public QMainWindow
 public:
   MainWindow();
   ~MainWindow() override;
+
+  MainWindow(const MainWindow& other) = delete;
+  MainWindow(MainWindow&& other) = delete;
+  MainWindow& operator=(const MainWindow& other) noexcept = delete;
+  MainWindow& operator=(MainWindow&&) noexcept = delete;
 
 protected:
   void closeEvent(QCloseEvent* event) override;
@@ -49,7 +58,7 @@ private:
   void PopulateModel();
 
   ModelEditorWidget* m_editor_widget{nullptr};
-  std::unique_ptr<SampleModel> m_model;
+  std::unique_ptr<mvvm::ApplicationModel> m_model;
 };
 
 }  // namespace flatview

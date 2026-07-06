@@ -42,6 +42,11 @@ public:
   explicit FlatWidget(QWidget* parent = nullptr);
   ~FlatWidget() override;
 
+  FlatWidget(const FlatWidget& other) = delete;
+  FlatWidget(FlatWidget&& other) = delete;
+  FlatWidget& operator=(const FlatWidget& other) noexcept = delete;
+  FlatWidget& operator=(FlatWidget&&) noexcept = delete;
+
   void SetViewModel(std::unique_ptr<mvvm::ViewModel> view_model);
 
   void SetItem(mvvm::SessionItem* item);

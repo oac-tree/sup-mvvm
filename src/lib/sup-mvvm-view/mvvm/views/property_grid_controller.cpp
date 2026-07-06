@@ -73,8 +73,8 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
       {
         mapper->addMapping(widget.get(), col);
       }
-      m_widgets[row].push_back(widget.get());
-      result[row].push_back(std::move(widget));
+      m_widgets.at(row).push_back(widget.get());
+      result.at(row).push_back(std::move(widget));
     }
 
     mapper->setCurrentIndex(row);

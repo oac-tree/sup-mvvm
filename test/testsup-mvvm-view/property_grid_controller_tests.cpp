@@ -211,8 +211,8 @@ TEST_F(PropertyGridControllerTest, CreateWidget)
   auto widgets = controller.CreateWidgetGrid();
 
   // checking that controller can create proper editors for columns
-  auto label_widget = dynamic_cast<QLabel*>(widgets[0][0].get());
-  auto spinbox_widget = dynamic_cast<QSpinBox*>(widgets[0][1].get());
+  auto label_widget = dynamic_cast<QLabel*>(widgets.at(0).at(0).get());
+  auto spinbox_widget = dynamic_cast<QSpinBox*>(widgets.at(0).at(1).get());
   EXPECT_TRUE(label_widget);
   EXPECT_TRUE(spinbox_widget);
 
@@ -239,7 +239,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForStandardModel)
   auto editor_grid = controller.CreateWidgetGrid();
 
   EXPECT_EQ(editor_grid.size(), 2);
-  EXPECT_EQ(editor_grid[0].size(), 3);
+  EXPECT_EQ(editor_grid.at(0).size(), 3);
 }
 
 //! Checking method CreateGrid. Use PropertyViewModel and single VectorItem in it.
@@ -255,7 +255,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModel)
   auto editor_grid = controller.CreateWidgetGrid();
 
   EXPECT_EQ(editor_grid.size(), 3);
-  EXPECT_EQ(editor_grid[0].size(), 2);
+  EXPECT_EQ(editor_grid.at(0).size(), 2);
 }
 
 TEST_F(PropertyGridControllerTest, CreateGridForPropertyItemDisabled)
@@ -273,9 +273,9 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyItemDisabled)
   item->SetDisplayName("abc");
 
   ASSERT_EQ(editor_grid.size(), 1);
-  ASSERT_EQ(editor_grid[0].size(), 2);
+  ASSERT_EQ(editor_grid.at(0).size(), 2);
 
-  auto label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
+  auto label = dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get());
   ASSERT_NE(label, nullptr);
   EXPECT_EQ(view_model.data(view_model.index(0, 0, QModelIndex()), Qt::DisplayRole),
             QString("abc"));
@@ -302,21 +302,21 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModelDisabled)
   auto editor_grid = controller.CreateWidgetGrid();
 
   ASSERT_EQ(editor_grid.size(), 3);
-  ASSERT_EQ(editor_grid[0].size(), 2);
-  ASSERT_EQ(editor_grid[1].size(), 2);
-  ASSERT_EQ(editor_grid[2].size(), 2);
+  ASSERT_EQ(editor_grid.at(0).size(), 2);
+  ASSERT_EQ(editor_grid.at(1).size(), 2);
+  ASSERT_EQ(editor_grid.at(2).size(), 2);
 
-  auto y_label = dynamic_cast<QLabel*>(editor_grid[1][0].get());
+  auto y_label = dynamic_cast<QLabel*>(editor_grid.at(1).at(0).get());
   EXPECT_EQ(y_label->text(), QString("Y"));
 
   EXPECT_TRUE(y_label->isEnabled());
-  EXPECT_TRUE(editor_grid[1][1]->isEnabled());
+  EXPECT_TRUE(editor_grid.at(1).at(1)->isEnabled());
 
   parent->GetItem(VectorItem::kY)->SetEnabled(false);
 
   ASSERT_NE(y_label, nullptr);
   EXPECT_FALSE(y_label->isEnabled());
-  EXPECT_FALSE(editor_grid[1][1]->isEnabled());
+  EXPECT_FALSE(editor_grid.at(1).at(1)->isEnabled());
   EXPECT_EQ(y_label->text(), QString("Y"));
   EXPECT_EQ(parent->GetItem(VectorItem::kY)->GetDisplayName(), "Y");
 }
@@ -338,7 +338,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForVectorItemProperties)
   auto editor_grid = controller.CreateWidgetGrid();
 
   EXPECT_EQ(editor_grid.size(), 3);
-  EXPECT_EQ(editor_grid[0].size(), 2);
+  EXPECT_EQ(editor_grid.at(0).size(), 2);
 
   EXPECT_EQ(spy_grid_changed.count(), 1);
 }
@@ -356,7 +356,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyTableViewModel)
   auto editor_grid = controller.CreateWidgetGrid();
 
   EXPECT_EQ(editor_grid.size(), 2);
-  EXPECT_EQ(editor_grid[0].size(), 3);
+  EXPECT_EQ(editor_grid.at(0).size(), 3);
 }
 
 //! Checking controller signaling while inserting item through the model.
@@ -390,11 +390,11 @@ TEST_F(PropertyGridControllerTest, SetDataThroughObtainedEditor)
   // we expect here a grid (row, col) = (3, 2) of widgets
   // the first column is a label, the second is an editor
   EXPECT_EQ(editor_grid.size(), 3);
-  EXPECT_EQ(editor_grid[0].size(), 2);
+  EXPECT_EQ(editor_grid.at(0).size(), 2);
 
-  auto x_label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
+  auto x_label = dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get());
   EXPECT_NE(x_label, nullptr);
-  auto x_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid[0][1].get());
+  auto x_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid.at(0).at(1).get());
   EXPECT_NE(x_double_spin_box, nullptr);
 
   // setting the data
@@ -426,18 +426,18 @@ TEST_F(PropertyGridControllerTest, SetDataThroughModel)
   // we expect here a grid (row, col) = (2, 2) of widgets
   // the first column is a label, the second is an editor/label
   EXPECT_EQ(editor_grid.size(), 2);
-  EXPECT_EQ(editor_grid[0].size(), 2);
+  EXPECT_EQ(editor_grid.at(0).size(), 2);
 
   // First row is editable property
   // The first column is a label, the second is an editor
-  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid[0][0].get()), nullptr);
-  auto editable_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid[0][1].get());
+  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get()), nullptr);
+  auto editable_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid.at(0).at(1).get());
   EXPECT_NE(editable_double_spin_box, nullptr);
 
   // First row is non-editable property
   // The first and second column are a label
-  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid[1][0].get()), nullptr);
-  auto non_editable_value_label = dynamic_cast<QLabel*>(editor_grid[1][1].get());
+  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(1).at(0).get()), nullptr);
+  auto non_editable_value_label = dynamic_cast<QLabel*>(editor_grid.at(1).at(1).get());
   EXPECT_NE(non_editable_value_label, nullptr);
 
   // Original data
@@ -479,11 +479,11 @@ TEST_F(PropertyGridControllerTest, ClearModel)
   // we expect here a grid (row, col) = (3, 2) of widgets
   // the first column is a label, the second is an editor
   EXPECT_EQ(editor_grid.size(), 3);
-  EXPECT_EQ(editor_grid[0].size(), 2);
+  EXPECT_EQ(editor_grid.at(0).size(), 2);
 
-  auto x_label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
+  auto x_label = dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get());
   EXPECT_NE(x_label, nullptr);
-  auto x_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid[0][1].get());
+  auto x_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid.at(0).at(1).get());
   EXPECT_NE(x_double_spin_box, nullptr);
 
   // setting the data

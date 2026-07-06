@@ -20,23 +20,25 @@
 
 #include "main_window.h"
 
+#include "demo_item.h"
 #include "model_editor_widget.h"
-#include "sample_model.h"
+
+#include <mvvm/model/application_model.h>
 
 #include <QCoreApplication>
 #include <QSettings>
 
 namespace
 {
-const QString main_window_group = "MainWindow";
-const QString size_key = "size";
-const QString pos_key = "pos";
+constexpr auto main_window_group = "MainWindow";
+constexpr auto size_key = "size";
+constexpr auto pos_key = "pos";
 }  // namespace
 
 namespace flatview
 {
 
-MainWindow::MainWindow() : m_model(std::make_unique<SampleModel>())
+MainWindow::MainWindow() : m_model(std::make_unique<mvvm::ApplicationModel>())
 {
   PopulateModel();
   InitApplication();

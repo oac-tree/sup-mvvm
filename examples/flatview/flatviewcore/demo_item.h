@@ -21,7 +21,6 @@
 #ifndef FLATVIEW_FLATVIEWCORE_SAMPLE_MODEL_H_
 #define FLATVIEW_FLATVIEWCORE_SAMPLE_MODEL_H_
 
-#include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 
 namespace flatview
@@ -36,14 +35,6 @@ public:
 
 private:
   bool OnSetAvailableFlag(SessionItem* property, const mvvm::variant_t& variant, mvvm::role_t role);
-};
-
-//! Main application model.
-
-class SampleModel : public mvvm::ApplicationModel
-{
-public:
-  SampleModel();
 };
 
 }  // namespace flatview

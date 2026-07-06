@@ -42,6 +42,8 @@ PropertyFlatView::PropertyFlatView(QWidget* parent_widget)
   layout->addStretch(1);
 }
 
+PropertyFlatView::~PropertyFlatView() = default;
+
 void PropertyFlatView::SetViewModel(QAbstractItemModel* view_model)
 {
   m_view_model = view_model;
@@ -68,7 +70,5 @@ void PropertyFlatView::UpdateGridLayout()
     }
   }
 }
-
-PropertyFlatView::~PropertyFlatView() = default;
 
 }  // namespace mvvm

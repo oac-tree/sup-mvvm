@@ -21,8 +21,8 @@
 #include "model_editor_widget.h"
 
 #include "flat_widget.h"
-#include "sample_model.h"
 
+#include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
@@ -36,7 +36,7 @@
 namespace flatview
 {
 
-ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
+ModelEditorWidget::ModelEditorWidget(mvvm::ApplicationModel* model, QWidget* parent)
     : QWidget(parent)
     , m_vertical_tree(new QTreeView)
     , m_property_left_widget(new FlatWidget)
@@ -54,9 +54,11 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
   SetModel(model);
 }
 
-void ModelEditorWidget::SetModel(SampleModel* model)
+ModelEditorWidget::~ModelEditorWidget() = default;
+
+void ModelEditorWidget::SetModel(mvvm::ApplicationModel* model)
 {
-  if (!model)
+  if (model == nullptr)
   {
     return;
   }
@@ -77,11 +79,9 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   m_property_bottom_widget->SetViewModel(std::make_unique<mvvm::PropertyTableViewModel>(model));
 
   auto top_items = mvvm::utils::GetTopItems(*model);
-  m_property_left_widget->SetItem(top_items[0]);
-  m_property_right_widget->SetItem(top_items[1]);
+  m_property_left_widget->SetItem(top_items.at(0));
+  m_property_right_widget->SetItem(top_items.at(1));
 }
-
-ModelEditorWidget::~ModelEditorWidget() = default;
 
 QBoxLayout* ModelEditorWidget::CreateLeftLayout()
 {

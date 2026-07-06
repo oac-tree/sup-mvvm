@@ -29,6 +29,7 @@ class QTreeView;
 
 namespace mvvm
 {
+class ApplicationModel;
 class ViewModel;
 class ViewModelDelegate;
 }  // namespace mvvm
@@ -36,20 +37,27 @@ class ViewModelDelegate;
 namespace flatview
 {
 
-class SampleModel;
 class FlatWidget;
 
-//! Shows content of the model as vertical tree, horizontal tree and table.
-
+/**
+ * @brief The ModelEditorWidget class shows content of the model as vertical tree, horizontal tree
+ * and table.
+ */
 class ModelEditorWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit ModelEditorWidget(SampleModel* model = nullptr, QWidget* parent = nullptr);
+  explicit ModelEditorWidget(mvvm::ApplicationModel* model = nullptr, QWidget* parent = nullptr);
+
   ~ModelEditorWidget() override;
 
-  void SetModel(SampleModel* model);
+  ModelEditorWidget(const ModelEditorWidget& other) = delete;
+  ModelEditorWidget(ModelEditorWidget&& other) = delete;
+  ModelEditorWidget& operator=(const ModelEditorWidget& other) noexcept = delete;
+  ModelEditorWidget& operator=(ModelEditorWidget&&) noexcept = delete;
+
+  void SetModel(mvvm::ApplicationModel* model);
 
 private:
   QBoxLayout* CreateLeftLayout();
