@@ -46,6 +46,9 @@ TEST_F(BooleanDataPresentationItemTest, BooleanData)
     EXPECT_FALSE(presentation.IsEditable());  // no editing on double click
     EXPECT_TRUE(presentation.IsCheckable());
 
+    // it doesn't have normal data role since everything is changed via check state role
+    EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+
     EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("True"));
     EXPECT_TRUE(presentation.Data(Qt::CheckStateRole).isValid());
     EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
@@ -65,6 +68,10 @@ TEST_F(BooleanDataPresentationItemTest, BooleanData)
     EXPECT_TRUE(presentation.SetData(Qt::Checked, Qt::CheckStateRole));
     EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
     EXPECT_EQ(item.Data<bool>(), true);
+
+    // attempt to act through edit role
+    EXPECT_FALSE(presentation.SetData(false, Qt::EditRole));
+    EXPECT_EQ(item.Data<bool>(), true); // still old value
   }
 
   {  // false value as main data role
@@ -76,6 +83,9 @@ TEST_F(BooleanDataPresentationItemTest, BooleanData)
     EXPECT_TRUE(presentation.IsEnabled());
     EXPECT_FALSE(presentation.IsEditable());  // no editing on double click
     EXPECT_TRUE(presentation.IsCheckable());
+
+    // it doesn't have normal data role since everything is changed via check state role
+    EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
 
     EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("False"));
     EXPECT_TRUE(presentation.Data(Qt::CheckStateRole).isValid());
@@ -110,7 +120,7 @@ TEST_F(BooleanDataPresentationItemTest, BooleanDataForCheckBoxOnlyAppearance)
   EXPECT_EQ(item.Data<bool>(), false);
 }
 
-TEST_F(BooleanDataPresentationItemTest, BooleanDataForItemCOntainingInt)
+TEST_F(BooleanDataPresentationItemTest, BooleanDataForItemContainingInt)
 {
   // We are using by mistake BooleanDataPresentationItem together with item carrying an integer.
 
