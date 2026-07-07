@@ -130,6 +130,13 @@ struct ViewItem::ViewItemImpl
    */
   void UpdateChildrenCache()
   {
+    // Without columns there are no children to cache; guarding here also keeps the division below
+    // safe (m_columns is only zero when the layout is empty).
+    if (m_columns <= 0)
+    {
+      return;
+    }
+
     for (size_t index = 0; index < m_children.size(); ++index)
     {
       const std::size_t row = index / static_cast<std::size_t>(m_columns);
