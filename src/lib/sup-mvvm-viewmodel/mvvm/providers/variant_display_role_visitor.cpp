@@ -46,17 +46,12 @@ std::optional<std::string> VariantDisplayRoleVisitor::operator()(
 
 std::optional<std::string> VariantDisplayRoleVisitor::operator()(boolean value) const
 {
-  auto str = utils::FromBool(value);
-  if (!str.empty())
-  {
-    str[0] = std::toupper(str[0]);
-  }
-  return str;
+  return value ? std::string("True") : std::string("False");
 }
 
 std::optional<std::string> VariantDisplayRoleVisitor::operator()(char8 value) const
 {
-  return std::to_string(static_cast<std::int32_t>(value));
+  return std::to_string(GetCharNumericValue(value));
 }
 
 std::optional<std::string> VariantDisplayRoleVisitor::operator()(int8 value) const

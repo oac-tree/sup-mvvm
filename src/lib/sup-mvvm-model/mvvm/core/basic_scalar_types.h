@@ -45,6 +45,18 @@ using uint64 = std::uint64_t;
 using float32 = float;
 using float64 = double;
 
+/**
+ * @brief Returns the numeric value of a char8 as a portable signed integer.
+ *
+ * char8 is an alias for plain char, whose signedness is implementation-defined. This helper commits
+ * to a signed interpretation via signed char, so its numeric value can be used portably (MISRA C++
+ * 2023 Rule 7.0.3 forbids using the numeric value of a plain character directly).
+ */
+constexpr std::int32_t GetCharNumericValue(char8 value) noexcept
+{
+  return static_cast<std::int32_t>(static_cast<signed char>(value));
+}
+
 }  // namespace mvvm
 
 #endif  // MVVM_CORE_BASIC_SCALAR_TYPES_H_

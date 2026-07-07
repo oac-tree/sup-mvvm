@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <charconv>
 #include <limits>
+#include <type_traits>
 
 namespace mvvm
 {
@@ -116,6 +117,24 @@ public:
   bool IsAtMaximum() const override;
 
 private:
+  /**
+   * @brief Returns the value in a numeric domain suitable for comparison and printing.
+   *
+   * For char8 (an alias for plain char) it commits to a signed interpretation, so its numeric value
+   * can be used portably (MISRA C++ 2023 Rule 7.0.3). For all other integer types it is the identity.
+   */
+  static constexpr auto AsNumber(T value)
+  {
+    if constexpr (std::is_same_v<T, char8>)
+    {
+      return GetCharNumericValue(value);
+    }
+    else
+    {
+      return value;
+    }
+  }
+
   T m_value{};
   T m_lower_bound{};
   T m_upper_bound{};
@@ -133,7 +152,7 @@ inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t
   m_upper_bound =
       utils::IsValid(upper_bound) ? std::get<T>(upper_bound) : std::numeric_limits<T>::max();
 
-  if (m_upper_bound < m_lower_bound)
+  if (AsNumber(m_upper_bound) < AsNumber(m_lower_bound))
   {
     throw RuntimeException("Upper bound is smaller than lower bound");
   }
@@ -162,7 +181,8 @@ inline T LimitedInteger<T>::GetUpperBound() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValue(const T& value)
 {
-  if ((value < m_lower_bound) || (value > m_upper_bound) || (value == m_value))
+  if ((AsNumber(value) < AsNumber(m_lower_bound)) || (AsNumber(value) > AsNumber(m_upper_bound))
+      || (AsNumber(value) == AsNumber(m_value)))
   {
     return false;
   }
@@ -202,6 +222,12 @@ inline std::string LimitedInteger<T>::GetValueAsText() const
 }
 
 template <>
+inline std::string LimitedInteger<char8>::GetValueAsText() const
+{
+  return std::to_string(GetCharNumericValue(m_value));
+}
+
+template <>
 inline std::string LimitedInteger<std::uint8_t>::GetValueAsText() const
 {
   return std::to_string(static_cast<std::uint32_t>(m_value));
@@ -234,7 +260,7 @@ inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 template <typename T>
 inline bool LimitedInteger<T>::Increment()
 {
-  if (m_value >= m_upper_bound)
+  if (AsNumber(m_value) >= AsNumber(m_upper_bound))
   {
     return false;
   }
@@ -246,7 +272,7 @@ inline bool LimitedInteger<T>::Increment()
 template <typename T>
 inline bool LimitedInteger<T>::Decrement()
 {
-  if (m_value <= m_lower_bound)
+  if (AsNumber(m_value) <= AsNumber(m_lower_bound))
   {
     return false;
   }

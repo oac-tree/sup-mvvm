@@ -62,9 +62,9 @@ std::vector<std::uint8_t> GetTestData(const std::string& filename)
   std::ifstream fstr(filename, std::ios::in | std::ios::binary);
   for (std::size_t i = 0; i < byte_length; i++)
   {
-    std::ifstream::char_type byte{};
-    (void)fstr.read(&byte, 1);
-    result[i] = byte;
+    // Read the raw byte straight into the destination to avoid using the numeric value of a plain
+    // char (MISRA C++ 2023 Rule 7.0.3).
+    (void)fstr.read(reinterpret_cast<std::ifstream::char_type*>(&result[i]), 1);
   }
   return result;
 }
