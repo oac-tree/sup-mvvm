@@ -20,6 +20,7 @@
 
 #include "viewmodel_utils.h"
 
+#include "presentation_item_helper.h"
 #include "standard_presentation_items.h"
 
 #include <mvvm/core/variant.h>
@@ -66,27 +67,27 @@ QVector<std::int32_t> ItemRoleToQtRole(role_t role)
   // In Qt when we are editing the data in a view two roles are emmited.
   if ((role == DataRole::kDisplay) || (role == DataRole::kData))
   {
-    return {Qt::DisplayRole, Qt::EditRole};
+    return {GetQtRole(Qt::DisplayRole), GetQtRole(Qt::EditRole)};
   }
 
   if (role == DataRole::kAppearance)
   {
-    return {Qt::ForegroundRole};
+    return {GetQtRole(Qt::ForegroundRole)};
   }
 
   if (role == DataRole::kTooltip)
   {
-    return {Qt::ToolTipRole};
+    return {GetQtRole(Qt::ToolTipRole)};
   }
 
   if (role == DataRole::kTextColor)
   {
-    return {Qt::ForegroundRole};
+    return {GetQtRole(Qt::ForegroundRole)};
   }
 
   if (role == DataRole::kCheckState)
   {
-    return {Qt::CheckStateRole};
+    return {GetQtRole(Qt::CheckStateRole)};
   }
 
   return {};

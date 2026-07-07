@@ -71,19 +71,19 @@ QVariant DefaultDisplayNamePresentationItem::Data(role_t qt_role) const
     return {};
   }
 
-  if ((qt_role == Qt::DisplayRole) || (qt_role == Qt::EditRole))
+  if ((qt_role == GetQtRole(Qt::DisplayRole)) || (qt_role == GetQtRole(Qt::EditRole)))
   {
     // No matter if item is editable or not, we report display name for both DisplayRole and
     // EditRole. This is because QDataWidgetMapper uses EditRole while mapping to QLabel.
     return QString::fromStdString(item->GetDisplayName());
   }
 
-  if (qt_role == Qt::ForegroundRole)
+  if (qt_role == GetQtRole(Qt::ForegroundRole))
   {
     return utils::TextColorRole(*item);
   }
 
-  if (qt_role == Qt::ToolTipRole)
+  if (qt_role == GetQtRole(Qt::ToolTipRole))
   {
     return utils::ToolTipRole(*item);
   }
@@ -102,7 +102,7 @@ bool DefaultDisplayNamePresentationItem::SetData(const QVariant& data, role_t qt
     return {};
   }
 
-  if (IsEditable() && (qt_role == Qt::EditRole))
+  if (IsEditable() && (qt_role == GetQtRole(Qt::EditRole)))
   {
     return item->SetData(data.toString().toStdString(), DataRole::kDisplay);
   }

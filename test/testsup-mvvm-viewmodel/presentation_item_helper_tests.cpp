@@ -66,4 +66,14 @@ TEST_F(PresentationItemHelperTest, GetItemDataDisplayRole)
   // more tests in variant_display_role_visitor_tests.cpp
 }
 
+TEST_F(PresentationItemHelperTest, GetQtRole)
+{
+  EXPECT_EQ(GetQtRole(Qt::DisplayRole), static_cast<role_t>(Qt::DisplayRole));
+  EXPECT_EQ(GetQtRole(Qt::EditRole), static_cast<role_t>(Qt::EditRole));
+  EXPECT_EQ(GetQtRole(Qt::CheckStateRole), static_cast<role_t>(Qt::CheckStateRole));
+
+  // usable in a constant expression
+  static_assert(GetQtRole(Qt::DisplayRole) == static_cast<role_t>(Qt::DisplayRole));
+}
+
 }  // namespace mvvm::test

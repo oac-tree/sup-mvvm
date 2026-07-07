@@ -53,12 +53,12 @@ QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
     return {};
   }
 
-  if (qt_role == Qt::DisplayRole)
+  if (qt_role == GetQtRole(Qt::DisplayRole))
   {
     return GetDisplayRole();
   }
 
-  if (qt_role == Qt::EditRole)
+  if (qt_role == GetQtRole(Qt::EditRole))
   {
     return GetQtVariant(GetItem()->Data(GetMainDataRole()));
   }
@@ -70,22 +70,22 @@ QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
     return it.value();
   }
 
-  if (qt_role == Qt::ForegroundRole)
+  if (qt_role == GetQtRole(Qt::ForegroundRole))
   {
     return utils::TextColorRole(*item);
   }
 
-  if (qt_role == Qt::ToolTipRole)
+  if (qt_role == GetQtRole(Qt::ToolTipRole))
   {
     return utils::ToolTipRole(*item);
   }
 
-  if (qt_role == Qt::CheckStateRole)
+  if (qt_role == GetQtRole(Qt::CheckStateRole))
   {
     return utils::CheckStateRole(*item);
   }
 
-  if (qt_role == Qt::DecorationRole)
+  if (qt_role == GetQtRole(Qt::DecorationRole))
   {
     return utils::DecorationRole(*item);
   }
@@ -101,12 +101,12 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 
   if (auto item = GetItem(); item)
   {
-    if (qt_role == Qt::EditRole)
+    if (qt_role == GetQtRole(Qt::EditRole))
     {
       return item->SetData(GetStdVariant(data), GetMainDataRole());
     }
 
-    if (qt_role == Qt::CheckStateRole)
+    if (qt_role == GetQtRole(Qt::CheckStateRole))
     {
       return item->SetData(data.toInt(), DataRole::kCheckState);
     }
@@ -131,8 +131,8 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 
 bool DefaultDataPresentationItem::IsPresentationOnlyRole(role_t qt_role) const
 {
-  return qt_role == Qt::BackgroundRole || qt_role == Qt::ForegroundRole
-         || qt_role == Qt::DecorationRole;
+  return qt_role == GetQtRole(Qt::BackgroundRole) || qt_role == GetQtRole(Qt::ForegroundRole)
+         || qt_role == GetQtRole(Qt::DecorationRole);
 }
 
 QVector<role_t> DefaultDataPresentationItem::GetQtRolesToEmit(role_t data_role) const

@@ -34,6 +34,21 @@ namespace mvvm
 class SessionItem;
 
 /**
+ * @brief Returns the numeric value of a Qt item-data role as role_t.
+ *
+ * Centralizes the explicit conversion required to compare Qt's unscoped
+ * Qt::ItemDataRole against our integer role_t (MISRA C++ 2023 Rule 10.2.3
+ * forbids implicit use of the numeric value of an unscoped enumeration).
+ *
+ * @param qt_role A Qt item-data role.
+ * @return Numeric value of the role as role_t.
+ */
+constexpr role_t GetQtRole(Qt::ItemDataRole qt_role)
+{
+  return static_cast<role_t>(qt_role);
+}
+
+/**
  * @brief Returns QString representing display role for given data role.
  *
  * This function is used when Qt asks the data for Qt::DisplayRole.

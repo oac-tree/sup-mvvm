@@ -20,6 +20,8 @@
 
 #include "boolean_data_presentation_item.h"
 
+#include "presentation_item_helper.h"
+
 #include <mvvm/model/session_item.h>
 
 namespace mvvm
@@ -35,7 +37,7 @@ QVector<role_t> BooleanDataPresentationItem::GetQtRolesToEmit(role_t data_role) 
 {
   if (data_role == DataRole::kData)
   {
-    return {Qt::DisplayRole, Qt::EditRole, Qt::CheckStateRole};
+    return {GetQtRole(Qt::DisplayRole), GetQtRole(Qt::EditRole), GetQtRole(Qt::CheckStateRole)};
   }
 
   return {};
@@ -62,12 +64,12 @@ QVariant BooleanDataPresentationItem::Data(role_t qt_role) const
     return {};
   }
 
-  if ((m_appearance_mode == AppearanceMode::kDefault) && (qt_role == Qt::DisplayRole))
+  if ((m_appearance_mode == AppearanceMode::kDefault) && (qt_role == GetQtRole(Qt::DisplayRole)))
   {
     return GetDisplayRole();
   }
 
-  if (qt_role == Qt::CheckStateRole)
+  if (qt_role == GetQtRole(Qt::CheckStateRole))
   {
     auto value = item->Data(DataRole::kData);
     if (GetTypeCode(value) == TypeCode::Bool)
@@ -85,7 +87,7 @@ bool BooleanDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 {
   if (auto item = GetItem(); item)
   {
-    if (qt_role == Qt::CheckStateRole)
+    if (qt_role == GetQtRole(Qt::CheckStateRole))
     {
       // check state is converted to main data role
       return item->SetData(data.toInt() == Qt::Checked, DataRole::kData);

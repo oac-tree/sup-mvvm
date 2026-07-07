@@ -23,6 +23,7 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/abstract_viewmodel_controller.h>
 #include <mvvm/providers/i_viewitem_data.h>
+#include <mvvm/providers/presentation_item_helper.h>
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewmodel_utils.h>
 
@@ -36,7 +37,7 @@ QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int rol
 {
   ValidateController();
 
-  if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+  if (orientation == Qt::Horizontal && role == GetQtRole(Qt::DisplayRole))
   {
     auto data = m_controller->GetHorizontalHeaderLabels();
     if (section >= 0 && section < data.size())

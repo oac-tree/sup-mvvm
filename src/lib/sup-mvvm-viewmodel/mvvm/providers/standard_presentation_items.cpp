@@ -20,6 +20,7 @@
 
 #include "standard_presentation_items.h"
 
+#include "presentation_item_helper.h"
 #include "viewmodel_utils.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
@@ -47,7 +48,7 @@ bool LabelPresentationItem::SetData(const QVariant& data, role_t qt_role)
 QVariant LabelPresentationItem::Data(role_t qt_role) const
 {
   // use item's display role
-  if (qt_role == Qt::DisplayRole)
+  if (qt_role == GetQtRole(Qt::DisplayRole))
   {
     return QString::fromStdString(m_label);
   }
@@ -57,12 +58,12 @@ QVariant LabelPresentationItem::Data(role_t qt_role) const
     return {};
   }
 
-  if (qt_role == Qt::ForegroundRole)
+  if (qt_role == GetQtRole(Qt::ForegroundRole))
   {
     return utils::TextColorRole(*GetItem());
   }
 
-  if (qt_role == Qt::ToolTipRole)
+  if (qt_role == GetQtRole(Qt::ToolTipRole))
   {
     return utils::ToolTipRole(*GetItem());
   }
@@ -112,7 +113,7 @@ QVariant FixedDataPresentationItem::Data(role_t qt_role) const
 {
   auto iter = m_data.find(qt_role);
 
-  if ((iter == m_data.end()) && (qt_role == Qt::ForegroundRole))
+  if ((iter == m_data.end()) && (qt_role == GetQtRole(Qt::ForegroundRole)))
   {
     // if there is no dedicated ForegroundRole, have to use this from parent class
     // this will allow to show text in gray, if SessionItem is disabled
