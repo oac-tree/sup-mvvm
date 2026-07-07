@@ -21,6 +21,7 @@
 #include "mvvm/views/property_grid_controller.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/editors/boolean_editor.h>
 #include <mvvm/editors/float_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
@@ -240,6 +241,50 @@ TEST_F(PropertyGridControllerTest, CreateGridForStandardModel)
 
   EXPECT_EQ(editor_grid.size(), 2);
   EXPECT_EQ(editor_grid.at(0).size(), 3);
+}
+
+TEST_F(PropertyGridControllerTest, CreateGridForViewModelWithIntProperty)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  auto& property = parent->AddProperty("value", mvvm::int32{42});
+
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(parent);
+
+  PropertyGridController controller(&view_model);
+  auto editor_grid = controller.CreateWidgetGrid();
+
+  ASSERT_EQ(editor_grid.size(), 1);
+  EXPECT_EQ(editor_grid.at(0).size(), 2);
+
+  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get()), nullptr);
+  EXPECT_NE(dynamic_cast<QSpinBox*>(editor_grid.at(0).at(1).get()), nullptr);
+}
+
+//! FIXME uncomment test after fixing COA-2184
+TEST_F(PropertyGridControllerTest, DISABLED_CreateGridForViewModelWithBooleanProperty)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  auto& property = parent->AddProperty("value", mvvm::boolean{true});
+
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(parent);
+
+  PropertyGridController controller(&view_model);
+  auto editor_grid = controller.CreateWidgetGrid();
+
+  ASSERT_EQ(editor_grid.size(), 1);
+  EXPECT_EQ(editor_grid.at(0).size(), 2);
+
+  qDebug() << editor_grid.at(0).at(1).get();
+  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get()), nullptr);
+
+  // test is faling here since ViewModelDelegate create's QExtendedLineEdit for invalid data role
+  // variant. This is because QModelIndex corresponding to this role doesn't have dataRole (only
+  // CHeckState role), and our VariantDependentEditorFactory can't create anything.
+  EXPECT_NE(dynamic_cast<BoolEditor*>(editor_grid.at(0).at(1).get()), nullptr);
 }
 
 //! Checking method CreateGrid. Use PropertyViewModel and single VectorItem in it.

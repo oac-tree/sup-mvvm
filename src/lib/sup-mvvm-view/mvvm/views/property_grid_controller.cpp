@@ -107,7 +107,8 @@ void PropertyGridController::ClearContent()
 
 bool PropertyGridController::IsLabel(const QModelIndex& index) const
 {
-  return !(m_view_model->flags(index) & Qt::ItemIsEditable);
+  auto flags = m_view_model->flags(index);
+  return !flags.testFlag(Qt::ItemIsEditable) && !flags.testFlag(Qt::ItemIsUserCheckable);
 }
 
 std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex& index)
