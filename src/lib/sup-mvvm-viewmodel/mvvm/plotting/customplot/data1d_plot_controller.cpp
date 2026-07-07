@@ -53,23 +53,22 @@ struct Data1DPlotController::Data1DPlotControllerImpl
     }
   }
 
-  void InitGraphFromItem(Data1DItem* item)
+  void InitGraphFromItem(const Data1DItem& item)
   {
-    assert(item);
     UpdateGraphPointsFromItem(item);
     UpdateErrorBarsFromItem(item);
   }
 
-  void UpdateGraphPointsFromItem(Data1DItem* item)
+  void UpdateGraphPointsFromItem(const Data1DItem& item)
   {
-    m_graph->setData(fromStdVector<double>(item->GetBinCenters()),
-                     fromStdVector<double>(item->GetValues()));
+    m_graph->setData(fromStdVector<double>(item.GetBinCenters()),
+                     fromStdVector<double>(item.GetValues()));
     GetCustomPlot()->replot();
   }
 
-  void UpdateErrorBarsFromItem(Data1DItem* item)
+  void UpdateErrorBarsFromItem(const Data1DItem& item)
   {
-    auto errors = item->GetErrors();
+    auto errors = item.GetErrors();
     if (errors.empty())
     {
       ResetErrorBars();
@@ -118,16 +117,16 @@ void Data1DPlotController::Subscribe()
     auto concrete_event = std::get<PropertyChangedEvent>(event);
     if (concrete_event.name == Data1DItem::kValues)
     {
-      p_impl->UpdateGraphPointsFromItem(GetItem());
+      p_impl->UpdateGraphPointsFromItem(GetItemRef());
     }
     if (concrete_event.name == Data1DItem::kErrors)
     {
-      p_impl->UpdateErrorBarsFromItem(GetItem());
+      p_impl->UpdateErrorBarsFromItem(GetItemRef());
     }
   };
   Listener()->Connect<PropertyChangedEvent>(on_property_change);
 
-  p_impl->InitGraphFromItem(GetItem());
+  p_impl->InitGraphFromItem(GetItemRef());
 }
 
 void Data1DPlotController::Unsubscribe()

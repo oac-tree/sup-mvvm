@@ -39,12 +39,12 @@ struct AxisTitleController::AxisTitleControllerImpl
     }
   }
 
-  void UpdateAxisFromItem(TextItem* item) const
+  void UpdateAxisFromItem(const TextItem& item) const
   {
     auto font = m_axis->labelFont();
-    font.setPointSize(item->GetPointSize());
-    font.setFamily(QString::fromStdString(item->GetFont()));
-    m_axis->setLabel(QString::fromStdString(item->GetText()));
+    font.setPointSize(item.GetPointSize());
+    font.setFamily(QString::fromStdString(item.GetFont()));
+    m_axis->setLabel(QString::fromStdString(item.GetText()));
     m_axis->setLabelFont(font);
 
     m_axis->parentPlot()->replot();
@@ -60,10 +60,10 @@ AxisTitleController::~AxisTitleController() = default;
 
 void AxisTitleController::Subscribe()
 {
-  auto on_property_change = [this](const auto&) { p_impl->UpdateAxisFromItem(GetItem()); };
+  auto on_property_change = [this](const auto&) { p_impl->UpdateAxisFromItem(GetItemRef()); };
   Listener()->Connect<PropertyChangedEvent>(on_property_change);
 
-  p_impl->UpdateAxisFromItem(GetItem());
+  p_impl->UpdateAxisFromItem(GetItemRef());
 }
 
 }  // namespace mvvm

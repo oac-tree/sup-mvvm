@@ -47,7 +47,7 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
   {
   }
 
-  GraphViewportItem* GetViewportItem() const { return m_self->GetItem(); }
+  GraphViewportItem& GetViewportItem() const { return m_self->GetItemRef(); }
 
   //! Setup controller components.
   void SetupComponents()
@@ -60,13 +60,13 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
 
   void CreateAxisControllers()
   {
-    auto viewport = GetViewportItem();
+    auto& viewport = GetViewportItem();
 
     m_xaxis_controller = std::make_unique<ViewportAxisPlotController>(m_custom_plot->xAxis);
-    m_xaxis_controller->SetItem(viewport->GetXAxis());
+    m_xaxis_controller->SetItem(viewport.GetXAxis());
 
     m_yaxis_controller = std::make_unique<ViewportAxisPlotController>(m_custom_plot->yAxis);
-    m_yaxis_controller->SetItem(viewport->GetYAxis());
+    m_yaxis_controller->SetItem(viewport.GetYAxis());
   }
 
   //! Run through all GraphItem's and create graph controllers for QCustomPlot.
@@ -74,14 +74,14 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
   void CreateGraphControllers()
   {
     m_graph_controllers.clear();
-    auto viewport = GetViewportItem();
-    for (auto graph_item : viewport->GetGraphItems())
+    auto& viewport = GetViewportItem();
+    for (auto graph_item : viewport.GetGraphItems())
     {
       auto controller = std::make_unique<GraphPlotController>(m_custom_plot);
       controller->SetItem(graph_item);
       m_graph_controllers.push_back(std::move(controller));
     }
-    viewport->SetViewportToContent();
+    viewport.SetViewportToContent();
   }
 
   //! Adds controller for item.

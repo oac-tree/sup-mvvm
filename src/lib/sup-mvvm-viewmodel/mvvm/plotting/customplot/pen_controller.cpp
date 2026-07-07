@@ -39,14 +39,14 @@ struct PenController::PenControllerImpl
     }
   }
 
-  void UpdateGraphFromItem(PenItem* item) const
+  void UpdateGraphFromItem(const PenItem& item) const
   {
-    const QColor color(QString::fromStdString(item->GetNamedColor()));
+    const QColor color(QString::fromStdString(item.GetNamedColor()));
 
     QPen pen;
     pen.setColor(color);
-    pen.setStyle(GetQtPenStyle(*item));
-    pen.setWidth(item->GetWidth());
+    pen.setStyle(GetQtPenStyle(item));
+    pen.setWidth(item.GetWidth());
     m_graph->setPen(pen);
 
     m_graph->parentPlot()->replot();
@@ -62,10 +62,10 @@ PenController::~PenController() = default;
 
 void PenController::Subscribe()
 {
-  auto on_property_change = [this](auto) { p_impl->UpdateGraphFromItem(GetItem()); };
+  auto on_property_change = [this](auto) { p_impl->UpdateGraphFromItem(GetItemRef()); };
   Listener()->Connect<PropertyChangedEvent>(on_property_change);
 
-  p_impl->UpdateGraphFromItem(GetItem());
+  p_impl->UpdateGraphFromItem(GetItemRef());
 }
 
 }  // namespace mvvm

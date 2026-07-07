@@ -72,18 +72,18 @@ struct GraphPlotController::GraphItemControllerImpl
     UpdateVisibility();
   }
 
-  GraphItem* GetGraphItem() const { return m_self->GetItem(); }
+  GraphItem& GetGraphItem() const { return m_self->GetItemRef(); }
 
-  void UpdateDataController() const { m_data_controller->SetItem(GetGraphItem()->GetDataItem()); }
+  void UpdateDataController() const { m_data_controller->SetItem(GetGraphItem().GetDataItem()); }
 
   //! Updates graph pen from GraphItem.
 
-  void UpdateGraphPen() const { m_pen_controller->SetItem(GetGraphItem()->GetPenItem()); }
+  void UpdateGraphPen() const { m_pen_controller->SetItem(GetGraphItem().GetPenItem()); }
 
   //! Update visible
   void UpdateVisibility()
   {
-    m_graph->setVisible(GetGraphItem()->Property<bool>(constants::kDisplayed));
+    m_graph->setVisible(GetGraphItem().Property<bool>(constants::kDisplayed));
     m_custom_plot->replot();
   }
 

@@ -56,12 +56,13 @@ void ChartPenController::OnPropertyChanged([[maybe_unused]] const PropertyChange
 
 void ChartPenController::UpdateLineSeriesFromItem()
 {
-  const QColor color(QString::fromStdString(GetItem()->GetNamedColor()));
+  auto& item = GetItemRef();
+  const QColor color(QString::fromStdString(item.GetNamedColor()));
 
   QPen pen;
   pen.setColor(color);
-  pen.setStyle(GetQtPenStyle(*GetItem()));
-  pen.setWidth(GetItemRef().GetWidth());
+  pen.setStyle(GetQtPenStyle(item));
+  pen.setWidth(item.GetWidth());
   m_qt_line_series->setPen(pen);
 }
 

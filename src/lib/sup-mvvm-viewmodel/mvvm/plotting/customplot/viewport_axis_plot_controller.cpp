@@ -63,8 +63,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
     auto on_axis_range = [this](const QCPRange& newRange)
     {
       m_block_update = true;
-      auto item = m_self->GetItem();
-      item->SetRange(newRange.lower, newRange.upper);
+      m_self->GetItemRef().SetRange(newRange.lower, newRange.upper);
       m_block_update = false;
     };
 
@@ -80,7 +79,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
   //! Sets axesRange from SessionItem.
   void SetAxisRangeFromItem() const
   {
-    auto [lower, upper] = m_self->GetItem()->GetRange();
+    auto [lower, upper] = m_self->GetItemRef().GetRange();
     m_axis->setRange(QCPRange(lower, upper));
   }
 
@@ -88,7 +87,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
 
   void SetAxisLogScaleFromItem()
   {
-    utils::SetLogarithmicScale(m_axis, m_self->GetItem()->IsInLog());
+    utils::SetLogarithmicScale(m_axis, m_self->GetItemRef().IsInLog());
   }
 
   //! Init axis from item and setup connections.
@@ -96,24 +95,24 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
   void InitAxis()
   {
     m_title_controller = std::make_unique<AxisTitleController>(m_axis);
-    auto text_item = m_self->GetItem()->GetTitleItem();
+    auto text_item = m_self->GetItemRef().GetTitleItem();
     m_title_controller->SetItem(text_item);
     SetAxisRangeFromItem();
     SetAxisLogScaleFromItem();
     SetConnected();
   }
 
-  void UpdateLowerRange(const ViewportAxisItem* item)
+  void UpdateLowerRange(const ViewportAxisItem& item)
   {
     SetDisconnected();
-    m_axis->setRangeLower(item->GetMin());
+    m_axis->setRangeLower(item.GetMin());
     SetConnected();
   }
 
-  void UpdateUpperRange(const ViewportAxisItem* item)
+  void UpdateUpperRange(const ViewportAxisItem& item)
   {
     SetDisconnected();
-    m_axis->setRangeUpper(item->GetMax());
+    m_axis->setRangeUpper(item.GetMax());
     SetConnected();
   }
 
@@ -138,12 +137,12 @@ void ViewportAxisPlotController::Subscribe()
 
     if (event.name == constants::kMin)
     {
-      p_impl->UpdateLowerRange(GetItem());
+      p_impl->UpdateLowerRange(GetItemRef());
     }
 
     if (event.name == constants::kMax)
     {
-      p_impl->UpdateUpperRange(GetItem());
+      p_impl->UpdateUpperRange(GetItemRef());
     }
 
     if (event.name == constants::kIsLog)

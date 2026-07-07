@@ -61,11 +61,8 @@ bool IsMacHost()
 
 bool IsHeadless()
 {
-  if (std::getenv(kQtPlatformEnvironmentVariable) != nullptr)
-  {
-    return std::string(std::getenv(kQtPlatformEnvironmentVariable)) == kOffscreenPluginName;
-  }
-  return false;
+  const char* platform = std::getenv(kQtPlatformEnvironmentVariable);
+  return (platform != nullptr) && (std::string(platform) == kOffscreenPluginName);
 }
 
 void SetHeadless(bool value)

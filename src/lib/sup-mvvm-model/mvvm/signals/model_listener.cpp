@@ -50,7 +50,12 @@ const ISessionModel* ModelListener::GetModel() const
 
 ModelEventHandler& ModelListener::GetEventHandler() &
 {
-  return *m_model->GetEventHandler();
+  auto* event_handler = m_model->GetEventHandler();
+  if (event_handler == nullptr)
+  {
+    throw NullArgumentException("Model lacks event handler");
+  }
+  return *event_handler;
 }
 
 Slot* ModelListener::GetSlot() const
