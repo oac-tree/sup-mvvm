@@ -36,6 +36,12 @@ class CompoundItem : public SessionItem
 public:
   explicit CompoundItem(const std::string& item_type = GetTypeName<CompoundItem>());
 
+  CompoundItem(const CompoundItem&) = delete;
+  CompoundItem(CompoundItem&&) = delete;
+  CompoundItem& operator=(const CompoundItem&) = delete;
+  CompoundItem& operator=(CompoundItem&&) = delete;
+  ~CompoundItem() override = default;
+
   std::unique_ptr<SessionItem> Clone() const override;
 
   /**

@@ -38,6 +38,12 @@ class AbstractPresentationItem : public IViewItemData
 {
 public:
   explicit AbstractPresentationItem(SessionItem* item);
+  ~AbstractPresentationItem() override = default;
+
+  AbstractPresentationItem(const AbstractPresentationItem&) = delete;
+  AbstractPresentationItem& operator=(const AbstractPresentationItem&) = delete;
+  AbstractPresentationItem(AbstractPresentationItem&&) noexcept = delete;
+  AbstractPresentationItem& operator=(AbstractPresentationItem&&) noexcept = delete;
 
   bool IsEnabled() const override;
 

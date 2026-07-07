@@ -44,6 +44,12 @@ class BasicAxisItem : public CompoundItem
 public:
   explicit BasicAxisItem(const std::string& model_type);
 
+  BasicAxisItem(const BasicAxisItem&) = delete;
+  BasicAxisItem(BasicAxisItem&&) = delete;
+  BasicAxisItem& operator=(const BasicAxisItem&) = delete;
+  BasicAxisItem& operator=(BasicAxisItem&&) = delete;
+  ~BasicAxisItem() override = default;
+
   double GetMin() const;
   void SetMin(double value);
 
@@ -95,6 +101,12 @@ class BinnedAxisItem : public BasicAxisItem
 {
 public:
   explicit BinnedAxisItem(const std::string& model_type);
+
+  BinnedAxisItem(const BinnedAxisItem&) = delete;
+  BinnedAxisItem(BinnedAxisItem&&) = delete;
+  BinnedAxisItem& operator=(const BinnedAxisItem&) = delete;
+  BinnedAxisItem& operator=(BinnedAxisItem&&) = delete;
+  ~BinnedAxisItem() override = default;
 
   virtual std::pair<double, double> GetRange() const = 0;
 

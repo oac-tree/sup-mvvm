@@ -35,6 +35,14 @@ namespace mvvm
 class AbstractRowStrategy : public IRowStrategy
 {
 public:
+  AbstractRowStrategy() = default;
+  ~AbstractRowStrategy() override = default;
+
+  AbstractRowStrategy(const AbstractRowStrategy&) = delete;
+  AbstractRowStrategy& operator=(const AbstractRowStrategy&) = delete;
+  AbstractRowStrategy(AbstractRowStrategy&&) noexcept = delete;
+  AbstractRowStrategy& operator=(AbstractRowStrategy&&) noexcept = delete;
+
   QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;

@@ -42,6 +42,12 @@ public:
 
   explicit ViewportItem(const std::string& item_type);
 
+  ViewportItem(const ViewportItem&) = delete;
+  ViewportItem(ViewportItem&&) = delete;
+  ViewportItem& operator=(const ViewportItem&) = delete;
+  ViewportItem& operator=(ViewportItem&&) = delete;
+  ~ViewportItem() override = default;
+
   /**
    * @brief Returns x-axis.
    */
