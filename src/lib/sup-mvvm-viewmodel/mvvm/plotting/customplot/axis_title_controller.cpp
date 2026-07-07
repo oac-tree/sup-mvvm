@@ -52,8 +52,7 @@ struct AxisTitleController::AxisTitleControllerImpl
 };
 
 AxisTitleController::AxisTitleController(QCPAxis* axis)
-    : p_impl(std::make_unique<AxisTitleControllerImpl>(axis))
-
+    : ItemController<TextItem>(), p_impl(std::make_unique<AxisTitleControllerImpl>(axis))
 {
 }
 

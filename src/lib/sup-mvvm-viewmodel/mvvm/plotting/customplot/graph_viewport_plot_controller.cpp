@@ -121,7 +121,8 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
 };
 
 GraphViewportPlotController::GraphViewportPlotController(QCustomPlot* custom_plot)
-    : p_impl(std::make_unique<GraphViewportPlotControllerImpl>(this, custom_plot))
+    : ItemController<GraphViewportItem>()
+    , p_impl(std::make_unique<GraphViewportPlotControllerImpl>(this, custom_plot))
 {
 }
 

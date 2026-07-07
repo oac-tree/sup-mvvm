@@ -121,8 +121,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
 };
 
 ViewportAxisPlotController::ViewportAxisPlotController(QCPAxis* axis)
-    : p_impl(std::make_unique<AxesPlotControllerImpl>(this, axis))
-
+    : ItemController<ViewportAxisItem>(), p_impl(std::make_unique<AxesPlotControllerImpl>(this, axis))
 {
 }
 

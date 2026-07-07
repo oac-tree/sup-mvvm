@@ -34,7 +34,7 @@ namespace mvvm
 
 XmlDocument::XmlDocument(const std::vector<ISessionModel*>& models,
                          const std::string& application_type)
-    : m_models(models), m_application_type(application_type)
+    : IModelDocument(), m_models(models), m_application_type(application_type)
 {
 }
 

@@ -111,7 +111,7 @@ struct GraphPlotController::GraphItemControllerImpl
 };
 
 GraphPlotController::GraphPlotController(QCustomPlot* custom_plot)
-    : p_impl(std::make_unique<GraphItemControllerImpl>(this, custom_plot))
+    : ItemController<GraphItem>(), p_impl(std::make_unique<GraphItemControllerImpl>(this, custom_plot))
 {
 }
 

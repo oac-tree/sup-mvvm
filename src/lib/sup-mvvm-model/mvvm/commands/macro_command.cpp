@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-MacroCommand::MacroCommand(const std::string& description)
+MacroCommand::MacroCommand(const std::string& description) : AbstractCommand()
 {
   SetDescription(description);
 }

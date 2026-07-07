@@ -37,7 +37,8 @@ namespace mvvm
 ViewModelController::ViewModelController(ViewModelBase* viewmodel,
                                          std::unique_ptr<IChildrenStrategy> children_strategy,
                                          std::unique_ptr<IRowStrategy> row_strategy)
-    : m_view_model(viewmodel)
+    : AbstractViewModelController()
+    , m_view_model(viewmodel)
     , m_children_strategy(std::move(children_strategy))
     , m_row_strategy(std::move(row_strategy))
 {

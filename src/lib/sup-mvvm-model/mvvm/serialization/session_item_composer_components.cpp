@@ -83,6 +83,7 @@ ItemComposerComponent::component_t ItemComposerComponent::TakeNextComponent()
 ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext& context,
                                                      const tree_data_t& tree_data,
                                                      SessionItem& item, SessionItem* parent)
+    : ItemComposerComponent()
 {
   if (!IsItemContainerConvertible(tree_data))
   {
@@ -116,6 +117,7 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext& 
 TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext& context,
                                                  const tree_data_t& tree_data, SessionItem& item,
                                                  SessionItem* parent)
+    : ItemComposerComponent()
 {
   if (!IsTaggedItemsConvertible(tree_data))
   {
@@ -138,6 +140,7 @@ TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext& cont
 SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext& context,
                                                  const tree_data_t& tree_data, SessionItem& item,
                                                  SessionItem* parent)
+    : ItemComposerComponent()
 {
   if (!IsSessionItemConvertible(tree_data))
   {

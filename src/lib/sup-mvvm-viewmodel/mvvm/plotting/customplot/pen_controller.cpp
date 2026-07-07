@@ -53,7 +53,8 @@ struct PenController::PenControllerImpl
   }
 };
 
-PenController::PenController(QCPGraph* graph) : p_impl(std::make_unique<PenControllerImpl>(graph))
+PenController::PenController(QCPGraph* graph)
+    : ItemController<PenItem>(), p_impl(std::make_unique<PenControllerImpl>(graph))
 {
 }
 

@@ -29,7 +29,8 @@ namespace mvvm
 {
 
 TreeDataItemBackupStrategy::TreeDataItemBackupStrategy(const IItemFactory* factory)
-    : m_converter(
+    : IItemBackupStrategy()
+    , m_converter(
           std::make_unique<mvvm::TreeDataItemConverter>(factory, mvvm::ConverterMode::kClone))
 {
 }

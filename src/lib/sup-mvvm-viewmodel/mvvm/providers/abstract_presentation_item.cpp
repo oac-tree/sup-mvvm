@@ -26,7 +26,10 @@
 namespace mvvm
 {
 
-AbstractPresentationItem::AbstractPresentationItem(SessionItem* item) : m_item(item) {}
+AbstractPresentationItem::AbstractPresentationItem(SessionItem* item)
+    : IViewItemData(), m_item(item)
+{
+}
 
 bool AbstractPresentationItem::IsEnabled() const
 {

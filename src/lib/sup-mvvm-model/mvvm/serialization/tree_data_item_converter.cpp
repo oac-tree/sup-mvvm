@@ -31,7 +31,10 @@ namespace mvvm
 
 TreeDataItemConverter::TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode,
                                              const item_filter_t& filter_func)
-    : m_factory(factory), m_converter_mode(mode), m_item_filter_func(filter_func)
+    : ITreeDataItemConverter()
+    , m_factory(factory)
+    , m_converter_mode(mode)
+    , m_item_filter_func(filter_func)
 {
 }
 

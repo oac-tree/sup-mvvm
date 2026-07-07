@@ -105,7 +105,7 @@ struct Data1DPlotController::Data1DPlotControllerImpl
 };
 
 Data1DPlotController::Data1DPlotController(QCPGraph* graph)
-    : p_impl(std::make_unique<Data1DPlotControllerImpl>(graph))
+    : ItemController<Data1DItem>(), p_impl(std::make_unique<Data1DPlotControllerImpl>(graph))
 {
 }
 
