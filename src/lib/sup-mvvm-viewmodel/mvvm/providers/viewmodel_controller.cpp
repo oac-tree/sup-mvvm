@@ -35,12 +35,26 @@ namespace mvvm
 {
 
 ViewModelController::ViewModelController(ViewModelBase* viewmodel,
-                                        std::unique_ptr<IChildrenStrategy> children_strategy,
-                                        std::unique_ptr<IRowStrategy> row_strategy)
+                                         std::unique_ptr<IChildrenStrategy> children_strategy,
+                                         std::unique_ptr<IRowStrategy> row_strategy)
     : m_view_model(viewmodel)
     , m_children_strategy(std::move(children_strategy))
     , m_row_strategy(std::move(row_strategy))
 {
+  if (m_view_model == nullptr)
+  {
+    throw RuntimeException("Error in ViewModewlController: viewmodel is absent");
+  }
+
+  if (!m_children_strategy)
+  {
+    throw RuntimeException("Error in ViewModewlController: children strategy is not defined");
+  }
+
+  if (!m_row_strategy)
+  {
+    throw RuntimeException("Error in ViewModewlController: row strategy is not defined");
+  }
 }
 
 ViewModelController::~ViewModelController() = default;
@@ -135,26 +149,8 @@ QStringList ViewModelController::GetHorizontalHeaderLabels() const
   return m_row_strategy->GetHorizontalHeaderLabels();
 }
 
-void ViewModelController::CheckInitialState() const
-{
-  if (m_view_model == nullptr)
-  {
-    throw RuntimeException("Error in ViewModewlController: viewmodel is absent");
-  }
-
-  if (!m_children_strategy)
-  {
-    throw RuntimeException("Error in ViewModewlController: children strategy is not defined");
-  }
-
-  if (!m_row_strategy)
-  {
-    throw RuntimeException("Error in ViewModewlController: row strategy is not defined");
-  }
-}
-
 std::size_t ViewModelController::GetInsertViewIndexOfChild(const SessionItem* parent,
-                                                          const SessionItem* child)
+                                                           const SessionItem* child)
 {
   // children that should get their views
   auto children = m_children_strategy->GetChildren(parent);
@@ -163,7 +159,7 @@ std::size_t ViewModelController::GetInsertViewIndexOfChild(const SessionItem* pa
 }
 
 std::vector<std::unique_ptr<ViewItem> > ViewModelController::CreateTreeOfRows(SessionItem& item,
-                                                                             bool is_root)
+                                                                              bool is_root)
 {
   // Every SessionItem will be represented by the vector of ViewItem's.  The first element of this
   // vector plays the role of parent view for SessionItem's children. So it might contain another
@@ -240,8 +236,6 @@ ViewModelController::item_view_map_t& ViewModelController::GetViewItemMap() &
 
 void ViewModelController::SetRootItemImpl(SessionItem* root_item)
 {
-  CheckInitialState();
-
   if (root_item != nullptr)
   {
     m_view_item_map.Clear();

@@ -79,13 +79,6 @@ public:
 
 protected:
   /**
-   * @brief Validates that the controller has been properly constructed.
-   *
-   * Throws if view model or one of the strategies is absent.
-   */
-  void CheckInitialState() const;
-
-  /**
    * @brief Returns an insert index for a view representing a child.
    *
    * Since number of views might not coincide with number of items (some items are marked) as

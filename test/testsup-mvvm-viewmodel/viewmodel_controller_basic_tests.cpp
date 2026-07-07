@@ -49,7 +49,6 @@ class TestViewModelController : public ViewModelController
 {
 public:
   // to take advantage of protected methods for testing purposes
-  using ViewModelController::CheckInitialState;
   using ViewModelController::CreateTreeOfRows;
   using ViewModelController::GetViewItemMap;
   using ViewModelController::ViewModelController;
@@ -86,19 +85,17 @@ public:
 TEST_F(ViewModelControllerBasicTest, InvalidController)
 {
   {
-    const TestViewModelController controller(nullptr, {}, {});
-    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
+    EXPECT_THROW(const TestViewModelController controller(nullptr, {}, {}), RuntimeException);
   }
 
   {
-    const TestViewModelController controller(&m_viewmodel, {}, {});
-    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
+    EXPECT_THROW(const TestViewModelController controller(&m_viewmodel, {}, {}), RuntimeException);
   }
 
   {
-    const TestViewModelController controller(&m_viewmodel, std::make_unique<AllChildrenStrategy>(),
-                                             {});
-    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
+    EXPECT_THROW(const TestViewModelController controller(
+                     &m_viewmodel, std::make_unique<AllChildrenStrategy>(), {}),
+                 RuntimeException);
   }
 }
 
