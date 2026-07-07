@@ -278,7 +278,6 @@ TEST_F(PropertyGridControllerTest, DISABLED_CreateGridForViewModelWithBooleanPro
   ASSERT_EQ(editor_grid.size(), 1);
   EXPECT_EQ(editor_grid.at(0).size(), 2);
 
-  qDebug() << editor_grid.at(0).at(1).get();
   EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get()), nullptr);
 
   // test is faling here since ViewModelDelegate create's QExtendedLineEdit for invalid data role
