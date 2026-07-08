@@ -49,9 +49,9 @@ public:
 protected:
   IItemBackupStrategy() = default;
   IItemBackupStrategy(IItemBackupStrategy const&) = default;
-  IItemBackupStrategy(IItemBackupStrategy&&) = default;
-  IItemBackupStrategy& operator=(IItemBackupStrategy const&) = default;
-  IItemBackupStrategy& operator=(IItemBackupStrategy&&) = default;
+  IItemBackupStrategy(IItemBackupStrategy&&) noexcept = default;
+  IItemBackupStrategy& operator=(IItemBackupStrategy const&) & = default;
+  IItemBackupStrategy& operator=(IItemBackupStrategy&&) & = default;
 };
 
 }  // namespace mvvm

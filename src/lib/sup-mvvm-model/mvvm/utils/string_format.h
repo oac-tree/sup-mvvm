@@ -47,8 +47,8 @@ public:
 
   StringFormat(const StringFormat& other) = delete;
   StringFormat& operator=(const StringFormat& other) = delete;
-  StringFormat(StringFormat&&) = default;
-  StringFormat& operator=(StringFormat&&) = default;
+  StringFormat(StringFormat&&) noexcept = default;
+  StringFormat& operator=(StringFormat&&) & = default;
 
   /**
    * @brief Replaces pattern in internal buffer.
