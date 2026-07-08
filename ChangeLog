@@ -1,5 +1,6 @@
 Changes for 2.3.0:
 
+- MISRA/Sonar quality round
 - Implement GroupItem
 - Get rid of copy c-tors for SessionItem and SessionModel
 - Refactor clone machinery for SessionItem and SessionModel
