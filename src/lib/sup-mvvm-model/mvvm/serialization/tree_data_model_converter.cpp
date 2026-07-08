@@ -53,7 +53,8 @@ std::unique_ptr<tree_data_t> TreeDataModelConverter::ToTreeData(const ISessionMo
 
   result->AddAttribute(constants::kTypeAttributeKey, model.GetType());
 
-  for (auto item : model.GetRootItem()->GetAllItems())
+  const auto all_items = model.GetRootItem()->GetAllItems();
+  for (auto item : all_items)
   {
     result->AddChild(*item_converter->ToTreeData(*item));
   }

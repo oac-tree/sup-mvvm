@@ -57,7 +57,8 @@ std::unique_ptr<T> MakeClone(const T& source)
                          source.GetTaggedItems()->Clone());
 
   // TaggedItems::Clone() does not repoint children to the new owner.
-  for (auto* child : result->GetAllItems())
+  const auto all_items = result->GetAllItems();
+  for (auto* child : all_items)
   {
     child->SetParent(result.get());
   }

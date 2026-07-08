@@ -84,7 +84,8 @@ void XmlDocument::Load(const std::string& file_name)
 
   const TreeDataModelConverter converter;
   std::size_t index{0};
-  for (const auto& child : document_tree->Children())
+  const auto& children = document_tree->Children();
+  for (const auto& child : children)
   {
     converter.PopulateSessionModel(child, *m_models.at(index++));
   }
