@@ -77,7 +77,7 @@ std::optional<event_variant_t> PrepareEvent(SessionItem* source, const event_var
   }
   else
   {
-    return GetEventSource(raw) == source ? std::optional<event_variant_t>{raw} : std::nullopt;
+    return (GetEventSource(raw) == source) ? std::optional<event_variant_t>{raw} : std::nullopt;
   }
 }
 

@@ -33,12 +33,12 @@ AbstractPresentationItem::AbstractPresentationItem(SessionItem* item)
 
 bool AbstractPresentationItem::IsEnabled() const
 {
-  return m_item == nullptr ? false : m_item->IsEnabled();
+  return (m_item == nullptr) ? false : m_item->IsEnabled();
 }
 
 bool AbstractPresentationItem::IsEditable() const
 {
-  return m_item == nullptr ? false : m_item->IsEditable();
+  return (m_item == nullptr) ? false : m_item->IsEditable();
 }
 
 bool AbstractPresentationItem::IsCheckable() const

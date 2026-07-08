@@ -120,7 +120,7 @@ private:
 template <typename T>
 const T* GroupItem::GetCurrentItem() const
 {
-  return GetCurrentIndex() < 0
+  return (GetCurrentIndex() < 0)
              ? nullptr
              : GetItem<T>(TagIndex(kGroupTag, static_cast<std::size_t>(GetCurrentIndex())));
 }

@@ -59,9 +59,9 @@ bool IsValidAttributes(const std::vector<std::string>& attributes,
 bool IsTagInfoConvertible(const tree_data_t& tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
-  return tree_data.GetNodeName() == constants::kTagInfoElementType
+  return (tree_data.GetNodeName() == constants::kTagInfoElementType)
          && IsValidAttributes(GetAttributeNames(tree_data), expected_names)
-         && tree_data.GetNumberOfChildren() == 0;
+         && (tree_data.GetNumberOfChildren() == 0);
 }
 
 TagInfo ToTagInfo(const tree_data_t& tree_data)

@@ -36,12 +36,13 @@ std::int32_t getBin(const QCPGraph* graph, double xpos)
 {
   const std::int32_t key_start = graph->findBegin(xpos);
   const std::int32_t key_end = graph->findBegin(xpos, false);  // false = do not expand range
-  if (key_end == key_start || key_end == graph->dataCount())
+  if ((key_end == key_start) || (key_end == graph->dataCount()))
   {
     return key_start;
   }
-  return (xpos - graph->dataSortKey(key_start)) <= (graph->dataSortKey(key_end) - xpos) ? key_start
-                                                                                        : key_end;
+  return ((xpos - graph->dataSortKey(key_start)) <= (graph->dataSortKey(key_end) - xpos))
+             ? key_start
+             : key_end;
 }
 
 }  // namespace

@@ -200,7 +200,7 @@ std::size_t CopyNumber(const SessionItem* item)
     }
   }
 
-  return count > 1 ? result : constants::kInvalidIndex;
+  return (count > 1) ? result : constants::kInvalidIndex;
 }
 
 SessionItem* ChildAt(const SessionItem* parent, std::size_t index)
@@ -211,7 +211,7 @@ SessionItem* ChildAt(const SessionItem* parent, std::size_t index)
   }
 
   auto container = parent->GetAllItems();
-  return index < container.size() ? container[index] : nullptr;
+  return (index < container.size()) ? container[index] : nullptr;
 }
 
 std::size_t IndexOfChild(const SessionItem* parent, const SessionItem* child)
@@ -388,7 +388,7 @@ bool MoveUp(const SessionItem &item)
 bool MoveDown(const SessionItem &item)
 {
   auto tag_index = item.GetTagIndex();
-  if (tag_index.GetIndex() == item.GetParent()->GetItemCount(tag_index.GetTag()) - 1)
+  if (tag_index.GetIndex() == (item.GetParent()->GetItemCount(tag_index.GetTag()) - 1))
   {
     return false;  // item already at the bottom
   }

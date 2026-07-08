@@ -87,8 +87,8 @@ bool IsSessionItemConvertible(const tree_data_t& tree_data)
 
 bool IsSessionItemDataConvertible(const tree_data_t& tree_data)
 {
-  return tree_data.GetNodeName() == constants::kItemDataElementType
-         && tree_data.GetNumberOfAttributes() == 0;
+  return (tree_data.GetNodeName() == constants::kItemDataElementType)
+         && (tree_data.GetNumberOfAttributes() == 0);
   // there is no sence to require empty content, it might still contains '\n' symbol,
   // depending on the way TreeData was constructed from XML content.
 }
@@ -98,8 +98,8 @@ bool IsDataRoleConvertible(const tree_data_t& tree_data)
   auto attribute_names = GetAttributeNames(tree_data);
   const bool correct_attributes = utils::Contains(attribute_names, constants::kRoleAttributeKey)
                                   && utils::Contains(attribute_names, constants::kTypeAttributeKey);
-  return tree_data.GetNodeName() == constants::kVariantElementType && correct_attributes
-         && tree_data.GetNumberOfChildren() == 0;
+  return (tree_data.GetNodeName() == constants::kVariantElementType) && correct_attributes
+         && (tree_data.GetNumberOfChildren() == 0);
 }
 
 }  // namespace mvvm

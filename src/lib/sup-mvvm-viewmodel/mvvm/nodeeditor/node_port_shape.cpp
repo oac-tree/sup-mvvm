@@ -109,7 +109,7 @@ QColor NodePortShape::GetPortColor() const
 
 QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-  if (change == ItemScenePositionHasChanged || change == ItemSceneHasChanged)
+  if ((change == ItemScenePositionHasChanged) || (change == ItemSceneHasChanged))
   {
     PropagateSceneCoordinatesToNodePort();
   }

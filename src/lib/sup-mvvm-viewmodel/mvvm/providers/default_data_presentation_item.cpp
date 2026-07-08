@@ -131,8 +131,8 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
 
 bool DefaultDataPresentationItem::IsPresentationOnlyRole(role_t qt_role) const
 {
-  return qt_role == GetQtRole(Qt::BackgroundRole) || qt_role == GetQtRole(Qt::ForegroundRole)
-         || qt_role == GetQtRole(Qt::DecorationRole);
+  return (qt_role == GetQtRole(Qt::BackgroundRole)) || (qt_role == GetQtRole(Qt::ForegroundRole))
+         || (qt_role == GetQtRole(Qt::DecorationRole));
 }
 
 QVector<role_t> DefaultDataPresentationItem::GetQtRolesToEmit(role_t data_role) const
