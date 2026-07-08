@@ -37,7 +37,7 @@ bool AreAlmostEqual(double lhs, double rhs, double tolerance)
 std::int32_t RandInt(std::int32_t low, std::int32_t high)
 {
   std::random_device rndm;
-  std::mt19937 gen(rndm());
+  std::mt19937 gen(static_cast<std::mt19937::result_type>(rndm()));
   std::uniform_int_distribution<std::int32_t> uniform_int(low, high);
   return uniform_int(gen);
 }
@@ -45,7 +45,7 @@ std::int32_t RandInt(std::int32_t low, std::int32_t high)
 double RandDouble(double low, double high)
 {
   std::random_device rndm;
-  std::mt19937 gen(rndm());
+  std::mt19937 gen(static_cast<std::mt19937::result_type>(rndm()));
   std::uniform_real_distribution<> uniform_real(low, high);
   return uniform_real(gen);
 }

@@ -56,8 +56,8 @@ struct MouseMoveReporter::MouseMoveReporterImpl
   {
     auto on_mouse_move = [this](QMouseEvent* event)
     {
-      const double x = pixelToXaxisCoord(event->pos().x());
-      const double y = pixelToYaxisCoord(event->pos().y());
+      const double x = pixelToXaxisCoord(static_cast<double>(event->pos().x()));
+      const double y = pixelToYaxisCoord(static_cast<double>(event->pos().y()));
       m_callback({x, y, axesRangeContains(x, y)});
     };
 
