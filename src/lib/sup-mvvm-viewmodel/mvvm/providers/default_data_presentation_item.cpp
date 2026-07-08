@@ -120,7 +120,7 @@ bool DefaultDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
       }
       else
       {
-        m_qt_data.remove(qt_role);
+        (void)m_qt_data.remove(qt_role);
       }
       return true;
     }

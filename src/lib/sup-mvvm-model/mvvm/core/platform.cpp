@@ -69,11 +69,11 @@ void SetHeadless(bool value)
 {
   if (value)
   {
-    setenv(kQtPlatformEnvironmentVariable, kOffscreenPluginName, 1);
+    (void)setenv(kQtPlatformEnvironmentVariable, kOffscreenPluginName, 1);
   }
   else
   {
-    unsetenv(kQtPlatformEnvironmentVariable);
+    (void)unsetenv(kQtPlatformEnvironmentVariable);
   }
 }
 

@@ -61,7 +61,7 @@ struct MouseMoveReporter::MouseMoveReporterImpl
       m_callback({x, y, axesRangeContains(x, y)});
     };
 
-    QObject::connect(m_custom_plot, &QCustomPlot::mouseMove, on_mouse_move);
+    (void)QObject::connect(m_custom_plot, &QCustomPlot::mouseMove, on_mouse_move);
   }
 
   double pixelToXaxisCoord(double pixel) const { return m_custom_plot->xAxis->pixelToCoord(pixel); }

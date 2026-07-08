@@ -129,7 +129,7 @@ bool LineSeriesItem::IsPointsVisible() const
 
 void LineSeriesItem::SetPointsVisible(bool value)
 {
-  SetProperty(kPointsVisible, value);
+  (void)SetProperty(kPointsVisible, value);
 }
 
 double LineSeriesItem::GetMarkerSize() const
@@ -139,7 +139,7 @@ double LineSeriesItem::GetMarkerSize() const
 
 void LineSeriesItem::SetMarkerSize(double value)
 {
-  SetProperty(kMarkerSize, value);
+  (void)SetProperty(kMarkerSize, value);
 }
 
 }  // namespace mvvm
