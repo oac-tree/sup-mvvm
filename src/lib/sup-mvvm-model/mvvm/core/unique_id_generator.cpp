@@ -44,10 +44,17 @@ struct GeneratorData
 namespace mvvm
 {
 
+namespace
+{
+// File-scope (not local) static storage duration to comply with MISRA C++ 2023 Rule 6.7.1. The
+// GeneratorData constructor is self-contained (seeds its own RNG), so it has no
+// static-initialisation-order dependency on other translation units.
+GeneratorData generator_data;
+}  // namespace
+
 std::string UniqueIdGenerator::Generate()
 {
-  static GeneratorData data;
-  return uuids::to_string((*data.gen)());
+  return uuids::to_string((*generator_data.gen)());
 }
 
 }  // namespace mvvm

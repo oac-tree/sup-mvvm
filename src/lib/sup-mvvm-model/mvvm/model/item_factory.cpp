@@ -55,6 +55,12 @@ void InitItemFactory(ItemFactory& factory)
   factory.RegisterItem<VectorItem>();
   factory.RegisterItem<ViewportAxisItem>();
 }
+
+// The global item factory has file-scope (not local) static storage duration to comply with MISRA
+// C++ 2023 Rule 6.7.1. Its constructor is self-contained (an empty catalogue), so it has no
+// static-initialisation-order dependency; the catalogue is populated lazily on first access.
+std::once_flag global_item_factory_initialized_flag;
+ItemFactory global_item_factory(std::make_unique<ItemCatalogue<SessionItem>>());
 }  // namespace
 
 ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue)
@@ -97,8 +103,6 @@ bool ItemFactory::IsRegistered(const std::string& type_name) const
 
 ItemFactory& GetGlobalItemFactory()
 {
-  static std::once_flag global_item_factory_initialized_flag;
-  static ItemFactory global_item_factory(std::make_unique<ItemCatalogue<SessionItem>>());
   std::call_once(global_item_factory_initialized_flag, InitItemFactory,
                  std::ref(global_item_factory));
   return global_item_factory;

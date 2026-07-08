@@ -125,7 +125,7 @@ bool PenItem::IsSelected() const
 
 void PenItem::SetSelected(bool is_selected)
 {
-  static ComboProperty combo = GetPenStyleCombo();
+  ComboProperty combo = GetPenStyleCombo();
   combo.SetCurrentIndex(is_selected ? kPenStyleIndexDashline : kPenStyleIndexSolid);
   (void)SetProperty(kStyle, combo);
 }

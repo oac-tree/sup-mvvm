@@ -28,9 +28,15 @@
 namespace mvvm
 {
 
+namespace
+{
+// File-scope (not local) static storage duration to comply with MISRA C++ 2023 Rule 6.7.1.
+// std::once_flag is constant-initialised, so there is no static-initialisation-order dependency.
+std::once_flag register_once_flag;
+}  // namespace
+
 void RegisterCustomMetaTypes()
 {
-  static std::once_flag register_once_flag;
   auto register_func = []()
   { (void)qRegisterMetaType<mvvm::ItemSelection>("mvvm::ItemSelection"); };
 
