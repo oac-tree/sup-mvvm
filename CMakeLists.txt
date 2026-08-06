@@ -30,7 +30,7 @@ option(SUP_MVVM_BUILD_EXAMPLES "Compile example projects" ON)
 option(SUP_MVVM_BUILD_QCUSTOMPLOT "Compile custom plot library" ON)
 option(COA_WEB_ASSEMBLY "Build package for WebAssembly" OFF)
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/module)
 include(configuration)
 
 add_subdirectory(src)
