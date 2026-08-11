@@ -45,6 +45,13 @@ class DefaultDataPresentationItem : public AbstractPresentationItem
 public:
   DefaultDataPresentationItem(SessionItem* item, role_t main_data_role);
 
+  ~DefaultDataPresentationItem() override = default;
+
+  DefaultDataPresentationItem(const DefaultDataPresentationItem&) = delete;
+  DefaultDataPresentationItem& operator=(const DefaultDataPresentationItem&) = delete;
+  DefaultDataPresentationItem(DefaultDataPresentationItem&&) noexcept = delete;
+  DefaultDataPresentationItem& operator=(DefaultDataPresentationItem&&) noexcept = delete;
+
   bool IsCheckable() const override;
 
   QVariant Data(role_t qt_role) const override;

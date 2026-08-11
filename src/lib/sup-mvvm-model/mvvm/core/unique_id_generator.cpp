@@ -32,7 +32,7 @@ struct GeneratorData
   std::unique_ptr<std::mt19937> generator;
   std::unique_ptr<uuids::uuid_random_generator> gen;
 
-  GeneratorData()
+  GeneratorData() noexcept
   {
     std::generate(std::begin(seed_data), std::end(seed_data), std::ref(rd));
     seq = std::make_unique<std::seed_seq>(std::begin(seed_data), std::end(seed_data));

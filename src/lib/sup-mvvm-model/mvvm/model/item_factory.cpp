@@ -63,7 +63,7 @@ std::once_flag global_item_factory_initialized_flag;
 ItemFactory global_item_factory(std::make_unique<ItemCatalogue<SessionItem>>());
 }  // namespace
 
-ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue)
+ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue) noexcept
     : m_catalogue(std::move(catalogue))
 {
 }

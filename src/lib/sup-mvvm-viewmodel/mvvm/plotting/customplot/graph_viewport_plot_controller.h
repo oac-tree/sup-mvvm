@@ -38,7 +38,7 @@ class GraphViewportItem;
 class GraphViewportPlotController : public ItemController<GraphViewportItem>
 {
 public:
-  explicit GraphViewportPlotController(QCustomPlot* plot);
+  explicit GraphViewportPlotController(QCustomPlot* custom_plot);
   ~GraphViewportPlotController() override;
 
   GraphViewportPlotController(const GraphViewportPlotController&) = delete;

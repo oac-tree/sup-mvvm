@@ -38,7 +38,7 @@ class ItemCatalogue;
 class ItemFactory : public IItemFactory
 {
 public:
-  explicit ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue);
+  explicit ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue) noexcept;
 
   ~ItemFactory() override;
 

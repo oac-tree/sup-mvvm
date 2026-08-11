@@ -64,7 +64,7 @@ std::string GetPathStem(const std::string& path)
 std::vector<std::string> FindFiles(const std::string& dirname, const std::string& ext)
 {
   std::vector<std::string> result;
-#if INCLUDE_STD_FILESYSTEM_EXPERIMENTAL == 0
+#if !defined(INCLUDE_STD_FILESYSTEM_EXPERIMENTAL) || INCLUDE_STD_FILESYSTEM_EXPERIMENTAL == 0
   for (const auto& entry : std::filesystem::directory_iterator(dirname))
   {
     const auto filenameStr = entry.path().filename().string();

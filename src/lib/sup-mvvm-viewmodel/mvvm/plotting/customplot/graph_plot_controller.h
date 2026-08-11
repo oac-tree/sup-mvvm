@@ -40,7 +40,7 @@ class GraphItem;
 class GraphPlotController : public ItemController<GraphItem>
 {
 public:
-  explicit GraphPlotController(QCustomPlot* plot);
+  explicit GraphPlotController(QCustomPlot* custom_plot);
   ~GraphPlotController() override;
 
   GraphPlotController(const GraphPlotController&) = delete;

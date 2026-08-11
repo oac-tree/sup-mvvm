@@ -108,20 +108,20 @@ std::unique_ptr<SessionItem> TakeItemImpl(SessionItem& item, const TagIndex& tag
   return taken;
 }
 
-void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
+namespace
 {
-  auto adapter = [&func](const SessionItem* current) { func(const_cast<SessionItem*>(current)); };
-  iterate(const_cast<const SessionItem*>(item), adapter);
-}
-
-void iterate(const SessionItem* item, const std::function<void(const SessionItem*)>& func)
+// Depth-first pre-order traversal shared by the const and non-const iterate() overloads.
+// GetAllItems() returns non-const child pointers regardless of constness, so the same body
+// serves both without removing any const qualification.
+template <typename ItemT>
+void IterateImpl(ItemT* item, const std::function<void(ItemT*)>& func)
 {
   if (item == nullptr)
   {
     return;
   }
 
-  std::stack<const SessionItem*> stack;
+  std::stack<ItemT*> stack;
   stack.push(item);
 
   while (!stack.empty())
@@ -138,6 +138,17 @@ void iterate(const SessionItem* item, const std::function<void(const SessionItem
       stack.push(*it);
     }
   }
+}
+}  // namespace
+
+void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
+{
+  IterateImpl(item, func);
+}
+
+void iterate(const SessionItem* item, const std::function<void(const SessionItem*)>& func)
+{
+  IterateImpl(item, func);
 }
 
 void iterate(std::nullptr_t, const std::function<void(const SessionItem*)>& func)

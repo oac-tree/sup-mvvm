@@ -48,7 +48,7 @@ public:
   /**
    * @brief Creates TreeData from SessionModel.
    */
-  virtual std::unique_ptr<tree_data_t> ToTreeData(const ISessionModel& item) const = 0;
+  virtual std::unique_ptr<tree_data_t> ToTreeData(const ISessionModel& model) const = 0;
 
   /**
    * @brief Populates empty SessionModel from TreeData.
