@@ -20,6 +20,9 @@
 
 #include "mvvm/widgets/widget_utils.h"
 
+#include <mvvm/core/platform.h>
+
+#include <QDir>
 #include <gtest/gtest.h>
 
 namespace mvvm::test
@@ -30,6 +33,56 @@ namespace mvvm::test
 class WidgetUtilsTest : public ::testing::Test
 {
 };
+
+TEST_F(WidgetUtilsTest, CollapseHomePath)
+{
+  using utils::CollapseHomePath;
+
+  if (IsWindowsHost())
+  {
+    GTEST_SKIP() << "Home path collapsing is a Unix-only feature";
+  }
+
+  const QString home_path = QDir::homePath();
+
+  EXPECT_EQ(CollapseHomePath(home_path), QString("~"));
+  EXPECT_EQ(CollapseHomePath(home_path + "/project"), QString("~/project"));
+
+  // paths outside of the home directory are left as they are
+  EXPECT_EQ(CollapseHomePath("/opt/codac"), QString("/opt/codac"));
+}
+
+TEST_F(WidgetUtilsTest, ExpandHomePath)
+{
+  using utils::ExpandHomePath;
+
+  if (IsWindowsHost())
+  {
+    GTEST_SKIP() << "Home path expansion is a Unix-only feature";
+  }
+
+  const QString home_path = QDir::homePath();
+
+  EXPECT_EQ(ExpandHomePath("~"), home_path);
+  EXPECT_EQ(ExpandHomePath("~/project"), home_path + "/project");
+
+  // paths without leading tilde are left as they are
+  EXPECT_EQ(ExpandHomePath(""), QString(""));
+  EXPECT_EQ(ExpandHomePath("/opt/codac"), QString("/opt/codac"));
+  EXPECT_EQ(ExpandHomePath("~other/project"), QString("~other/project"));
+  EXPECT_EQ(ExpandHomePath("/opt/~/codac"), QString("/opt/~/codac"));
+}
+
+TEST_F(WidgetUtilsTest, CollapseAndExpandHomePath)
+{
+  if (IsWindowsHost())
+  {
+    GTEST_SKIP() << "Home path collapsing is a Unix-only feature";
+  }
+
+  const QString path = QDir::homePath() + "/project/untitled.xml";
+  EXPECT_EQ(utils::ExpandHomePath(utils::CollapseHomePath(path)), path);
+}
 
 TEST_F(WidgetUtilsTest, ClickableText)
 {

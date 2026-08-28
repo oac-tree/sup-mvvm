@@ -127,7 +127,7 @@ void AddRecentProjectActions(QMenu* menu, IProjectManager& handler)
 
   for (const auto& path : recent_projects)
   {
-    auto trimmed_path = utils::WithTildeHomePath(QString::fromStdString(path));
+    auto trimmed_path = utils::CollapseHomePath(QString::fromStdString(path));
     auto action = menu->addAction(trimmed_path);
     action->setData(QVariant::fromValue(QString::fromStdString(path)));
     auto on_project_selected = [&handler, path]() { handler.OpenExistingProject(path); };

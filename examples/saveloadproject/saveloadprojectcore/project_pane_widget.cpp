@@ -50,7 +50,7 @@ void ProjectPaneWidget::SetProjectInfo(const QString& path, bool is_modified)
   m_active = true;
   m_project_path = path;
 
-  auto trimmed_project_path = mvvm::utils::WithTildeHomePath(path);
+  auto trimmed_project_path = mvvm::utils::CollapseHomePath(path);
   auto project_title = mvvm::utils::ProjectWindowTitle(path.toStdString(), is_modified);
 
   m_current_project_dir->setText(trimmed_project_path);

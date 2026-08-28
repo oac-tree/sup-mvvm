@@ -43,9 +43,20 @@ QColor RandomColor();
 std::string RandomNamedColor();
 
 /**
- * @brief Returns a string where Linux path to the file is striped using '~/'.
+ * @brief Returns a string where the leading Linux home path is replaced with '~'.
+ *
+ * Example: "/home/user/project" -> "~/project". The path is returned as it is on Windows, or when
+ * it doesn't belong to the home directory.
  */
-QString WithTildeHomePath(const QString& path);
+QString CollapseHomePath(const QString& path);
+
+/**
+ * @brief Returns a string where the leading '~' is replaced with the Linux home path.
+ *
+ * Example: "~/project" -> "/home/user/project". The path is returned as it is on Windows, or when
+ * it doesn't start with '~'.
+ */
+QString ExpandHomePath(const QString& path);
 
 /**
  * @brief Finds main window.

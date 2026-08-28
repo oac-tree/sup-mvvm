@@ -42,26 +42,48 @@ std::string RandomNamedColor()
   return RandomColor().name().toStdString();
 }
 
-QString WithTildeHomePath(const QString& path)
+QString CollapseHomePath(const QString& path)
 {
   if (IsWindowsHost())
   {
     return path;
   }
 
-  static const QString homePath = QDir::homePath();
+  static const QString home_path = QDir::homePath();
 
   const QFileInfo file_info(QDir::cleanPath(path));
   QString out_path = file_info.absoluteFilePath();
-  if (out_path.startsWith(homePath))
+  if (out_path.startsWith(home_path))
   {
-    out_path = QLatin1Char('~') + out_path.mid(homePath.size());
+    out_path = QLatin1Char('~') + out_path.mid(home_path.size());
   }
   else
   {
     out_path = path;
   }
   return out_path;
+}
+
+QString ExpandHomePath(const QString& path)
+{
+  if (IsWindowsHost())
+  {
+    return path;
+  }
+
+  static const QString home_path = QDir::homePath();
+
+  if (path == QLatin1String("~"))
+  {
+    return home_path;
+  }
+
+  if (path.startsWith(QLatin1String("~/")))
+  {
+    return home_path + path.mid(1);
+  }
+
+  return path;
 }
 
 QMainWindow* FindMainWindow()
