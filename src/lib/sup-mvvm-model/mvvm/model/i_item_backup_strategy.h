@@ -48,9 +48,9 @@ public:
 
 protected:
   IItemBackupStrategy() = default;
-  IItemBackupStrategy(IItemBackupStrategy const&) = default;
+  IItemBackupStrategy(const IItemBackupStrategy&) = default;
   IItemBackupStrategy(IItemBackupStrategy&&) noexcept = default;
-  IItemBackupStrategy& operator=(IItemBackupStrategy const&) & = default;
+  IItemBackupStrategy& operator=(const IItemBackupStrategy&) & = default;
   IItemBackupStrategy& operator=(IItemBackupStrategy&&) & = default;
 };
 
