@@ -50,7 +50,7 @@ class ProjectManagerFolderBasedProjectTest : public mvvm::test::FolderTest
 {
 public:
   ProjectManagerFolderBasedProjectTest()
-      : FolderTest("ProjectManagerFolderTest")
+      : FolderTest("ProjectManagerFolderTest"), m_test_dir(CreateEmptyDir(GetTestCaseName()))
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
   }
@@ -87,6 +87,9 @@ public:
                                             CreateUserContext(new_path, existing_path));
   }
 
+  //! Directory of this test case, which every file of it is written into.
+  std::string m_test_dir;
+
   std::unique_ptr<ApplicationModel> m_sample_model;
   test::MockUserInteractor m_mock_interactor;
   test::MockProjectContext m_mock_project_context;
@@ -107,29 +110,25 @@ TEST_F(ProjectManagerFolderBasedProjectTest, CreateNewStartingFromUntitledEmptyP
 {
   auto manager = CreateProjectManager({}, {});
 
-  const auto project_dir = CreateEmptyDir("Project_untitledEmptyNew");
-
   // because File/Folder based projects make clear() on project close
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
-  EXPECT_TRUE(manager->CreateNewProject(project_dir));
+  EXPECT_TRUE(manager->CreateNewProject(m_test_dir));
 
-  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), m_test_dir);
   EXPECT_FALSE(manager->GetProject()->IsModified());
 
   // project directory should contain a file with the model
-  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
+  auto model_filename = utils::Join(m_test_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
 //! Starting from new document (without project dir defined). Create new project in given directory.
 TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptyCreateNew)
 {
-  const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
-
-  auto manager = CreateProjectManager(project_dir);
+  auto manager = CreateProjectManager(m_test_dir);
   EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
@@ -141,10 +140,10 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptyCreateNew)
   EXPECT_TRUE(manager->CreateNewProject({}));
 
   // checking that current projectDir has pointing to the right place
-  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), m_test_dir);
 
   // project directory should contain a file with the model
-  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
+  auto model_filename = utils::Join(m_test_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
@@ -152,9 +151,7 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptyCreateNew)
 //! SaveAs.
 TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveCurrentProject)
 {
-  const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
-
-  auto manager = CreateProjectManager(project_dir);
+  auto manager = CreateProjectManager(m_test_dir);
   EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
@@ -164,19 +161,17 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveCurrentProject)
   EXPECT_TRUE(manager->SaveCurrentProject());
 
   // checking thaxt current projectDir has pointing to the right place
-  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), m_test_dir);
 
   // project directory should contain a file with the model
-  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
+  auto model_filename = utils::Join(m_test_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
 //! Starting from new document (without project dir defined). Save under given name.
 TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveAs)
 {
-  const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
-
-  auto manager = CreateProjectManager(project_dir);
+  auto manager = CreateProjectManager(m_test_dir);
   EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
@@ -186,10 +181,10 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveAs)
   EXPECT_TRUE(manager->SaveProjectAs({}));
 
   // checking that current projectDir has pointing to the right place
-  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), m_test_dir);
 
   // project directory should contain a file with the model
-  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
+  auto model_filename = utils::Join(m_test_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
@@ -280,10 +275,9 @@ TEST_F(ProjectManagerFolderBasedProjectTest, TitledUnmodifiedNew)
 {
   auto manager = CreateProjectManager({}, {});
 
-  const auto project_dir = CreateEmptyDir("Project_titledUnmodifiedNew");
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
-  EXPECT_TRUE(manager->SaveProjectAs(project_dir));
-  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
+  EXPECT_TRUE(manager->SaveProjectAs(m_test_dir));
+  EXPECT_EQ(manager->GetProject()->GetPath(), m_test_dir);
 
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
@@ -307,9 +301,8 @@ TEST_F(ProjectManagerFolderBasedProjectTest, TitledModifiedSave)
 
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
-  const auto project_dir = CreateEmptyDir("Project_titledModifiedSave");
-  EXPECT_TRUE(manager->SaveProjectAs(project_dir));
-  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
+  EXPECT_TRUE(manager->SaveProjectAs(m_test_dir));
+  EXPECT_EQ(manager->GetProject()->GetPath(), m_test_dir);
 
   // modifying the model
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);

@@ -59,7 +59,7 @@ TEST_F(FileUtilsTest, RemoveAll)
   utils::CreateDirectory(dirname);
 
   EXPECT_TRUE(utils::IsExists(dirname));
-  utils::RemoveAll((dirname));
+  utils::RemoveAll(dirname);
   EXPECT_FALSE(utils::IsExists(dirname));
 }
 

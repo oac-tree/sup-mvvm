@@ -37,7 +37,7 @@ namespace mvvm::test
 
 namespace
 {
-const std::string kSampleModelName = "samplemodel";
+constexpr auto kSampleModelName = "samplemodel";
 }  // namespace
 
 /**

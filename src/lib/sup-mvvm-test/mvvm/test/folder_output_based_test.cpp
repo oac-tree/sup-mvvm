@@ -65,4 +65,10 @@ std::string FolderOutputBasedTest::CreateEmptyDir(const std::string& subdir) con
   return path;
 }
 
+std::string FolderOutputBasedTest::GetTestCaseName()
+{
+  const auto* test_info = ::testing::UnitTest::GetInstance()->current_test_info();
+  return test_info == nullptr ? std::string() : std::string(test_info->name());
+}
+
 }  // namespace mvvm::test
