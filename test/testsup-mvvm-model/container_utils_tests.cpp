@@ -120,6 +120,31 @@ TEST_F(ContainerUtilsTests, StaticCastItems)
             std::vector<TestItem*>({&test_item_a1, &test_item_b1, &test_item_a2}));
 }
 
+TEST_F(ContainerUtilsTests, ConvertItems)
+{
+  TestItemA test_item_a1;
+  TestItemA test_item_a2;
+  TestItemB test_item_b1;
+
+  const std::vector<TestItem*> vec{&test_item_a1, &test_item_b1, &test_item_a2};
+
+  // adding constness
+  EXPECT_EQ(utils::ConvertItems<const TestItem>(vec),
+            std::vector<const TestItem*>({&test_item_a1, &test_item_b1, &test_item_a2}));
+
+  // upcast to a base class
+  const std::vector<TestItemA*> derived_vec{&test_item_a1, &test_item_a2};
+  EXPECT_EQ(utils::ConvertItems<TestItem>(derived_vec),
+            std::vector<TestItem*>({&test_item_a1, &test_item_a2}));
+
+  // upcast and adding constness at once
+  EXPECT_EQ(utils::ConvertItems<const TestItem>(derived_vec),
+            std::vector<const TestItem*>({&test_item_a1, &test_item_a2}));
+
+  // no element is filtered out
+  EXPECT_EQ(utils::ConvertItems<const TestItem>(vec).size(), vec.size());
+}
+
 TEST_F(ContainerUtilsTests, GetVectorOfPtrs)
 {
   auto [item1, item1_ptr] = mvvm::test::CreateUnique<TestItem>();

@@ -139,6 +139,23 @@ std::vector<T*> StaticCastItems(const C& container)
 }
 
 /**
+ * @brief Converts pointers in the container to the given type and returns the result to the user.
+ *
+ * Only implicit pointer conversions are allowed: an upcast to a base class, adding constness, or
+ * both at once. No RTTI is involved and no element can be lost. Use it instead of CastItems when
+ * the conversion is known at compile time.
+ */
+template <typename T, typename C>
+std::vector<T*> ConvertItems(const C& container)
+{
+  std::vector<T*> result;
+  result.reserve(container.size());
+  (void)std::transform(container.begin(), container.end(), std::back_inserter(result),
+                       [](auto* element) -> T* { return element; });
+  return result;
+}
+
+/**
  * @brief Returns vector of pointers from the vector containing unique pointers.
  */
 template <typename T>
