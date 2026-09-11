@@ -483,6 +483,36 @@ std::vector<T*> FindItemsUp(const std::vector<SessionItem*>& items, bool start_f
  */
 bool HasNotifications(const SessionItem* item);
 
+/**
+ * @brief Returns true when the given item tree contains more than max_item_count items of the
+ * given type.
+ *
+ * The given item itself is taken into account. Items which can't be cast to the given type are not
+ * counted.
+ *
+ * @tparam ItemT The concrete type of items to count.
+ * @param item The root of the tree to examine.
+ * @param max_item_count The maximum number of items allowed in the tree.
+ */
+template <typename ItemT = SessionItem>
+bool HasMoreItemsThan(const SessionItem& item, std::size_t max_item_count)
+{
+  std::size_t count{0};
+
+  auto on_item = [&count, max_item_count](const SessionItem* visited)
+  {
+    if (dynamic_cast<const ItemT*>(visited) != nullptr)
+    {
+      ++count;
+    }
+    return count <= max_item_count;  // count only until max_item_count is exceeded
+  };
+
+  iterate_if(&item, on_item);
+
+  return count > max_item_count;
+}
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_

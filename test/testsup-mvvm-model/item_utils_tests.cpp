@@ -950,4 +950,28 @@ TEST_F(ItemUtilsTests, HasNotifications)
   EXPECT_TRUE(utils::HasNotifications(application_model.GetRootItem()));
 }
 
+TEST_F(ItemUtilsTests, HasMoreItemsThan)
+{
+  using namespace mvvm::test::toyitems;
+
+  {  // single item without children
+    const SessionItem item;
+    EXPECT_FALSE(utils::HasMoreItemsThan(item, 1));
+    EXPECT_TRUE(utils::HasMoreItemsThan(item, 0));
+  }
+
+  MultiLayerItem multilayer;
+  multilayer.InsertItem<LayerItem>(TagIndex::Append());
+  multilayer.InsertItem<LayerItem>(TagIndex::Append());
+
+  // the multilayer itself, two layers, and two properties in every layer
+  EXPECT_FALSE(utils::HasMoreItemsThan(multilayer, 7));
+  EXPECT_TRUE(utils::HasMoreItemsThan(multilayer, 6));
+
+  {  // counting layers only
+    EXPECT_FALSE(utils::HasMoreItemsThan<LayerItem>(multilayer, 2));
+    EXPECT_TRUE(utils::HasMoreItemsThan<LayerItem>(multilayer, 1));
+  }
+}
+
 }  // namespace mvvm::test
