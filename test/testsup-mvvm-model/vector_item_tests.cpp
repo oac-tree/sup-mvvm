@@ -116,20 +116,20 @@ TEST_F(VectorItemTests, Clone)
     EXPECT_DOUBLE_EQ(vector_clone->Y(), 2.0);
     EXPECT_DOUBLE_EQ(vector_clone->Z(), 3.0);
 
-    auto cloned_x = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kX));
-    auto cloned_y = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kY));
-    auto cloned_z = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kZ));
+    auto cloned_x = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kX));
+    auto cloned_y = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kY));
+    auto cloned_z = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kZ));
     ASSERT_NE(cloned_x, nullptr);
     ASSERT_NE(cloned_y, nullptr);
     ASSERT_NE(cloned_z, nullptr);
 
-    EXPECT_NE(cloned_x, item.GetItem(VectorItem::kX));
-    EXPECT_NE(cloned_y, item.GetItem(VectorItem::kY));
-    EXPECT_NE(cloned_z, item.GetItem(VectorItem::kZ));
+    EXPECT_NE(cloned_x, item.FindItem(VectorItem::kX));
+    EXPECT_NE(cloned_y, item.FindItem(VectorItem::kY));
+    EXPECT_NE(cloned_z, item.FindItem(VectorItem::kZ));
 
-    EXPECT_NE(cloned_x->GetIdentifier(), item.GetItem(VectorItem::kX)->GetIdentifier());
-    EXPECT_NE(cloned_y->GetIdentifier(), item.GetItem(VectorItem::kY)->GetIdentifier());
-    EXPECT_NE(cloned_z->GetIdentifier(), item.GetItem(VectorItem::kZ)->GetIdentifier());
+    EXPECT_NE(cloned_x->GetIdentifier(), item.GetItem(VectorItem::kX).GetIdentifier());
+    EXPECT_NE(cloned_y->GetIdentifier(), item.GetItem(VectorItem::kY).GetIdentifier());
+    EXPECT_NE(cloned_z->GetIdentifier(), item.GetItem(VectorItem::kZ).GetIdentifier());
   }
 
   {  // clone
@@ -143,20 +143,20 @@ TEST_F(VectorItemTests, Clone)
     EXPECT_DOUBLE_EQ(vector_clone->Y(), 2.0);
     EXPECT_DOUBLE_EQ(vector_clone->Z(), 3.0);
 
-    auto x_clone = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kX));
-    auto y_clone = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kY));
-    auto z_clone = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kZ));
+    auto x_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kX));
+    auto y_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kY));
+    auto z_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kZ));
     ASSERT_NE(x_clone, nullptr);
     ASSERT_NE(y_clone, nullptr);
     ASSERT_NE(z_clone, nullptr);
 
-    EXPECT_NE(x_clone, item.GetItem(VectorItem::kX));
-    EXPECT_NE(y_clone, item.GetItem(VectorItem::kY));
-    EXPECT_NE(z_clone, item.GetItem(VectorItem::kZ));
+    EXPECT_NE(x_clone, item.FindItem(VectorItem::kX));
+    EXPECT_NE(y_clone, item.FindItem(VectorItem::kY));
+    EXPECT_NE(z_clone, item.FindItem(VectorItem::kZ));
 
-    EXPECT_EQ(x_clone->GetIdentifier(), item.GetItem(VectorItem::kX)->GetIdentifier());
-    EXPECT_EQ(y_clone->GetIdentifier(), item.GetItem(VectorItem::kY)->GetIdentifier());
-    EXPECT_EQ(z_clone->GetIdentifier(), item.GetItem(VectorItem::kZ)->GetIdentifier());
+    EXPECT_EQ(x_clone->GetIdentifier(), item.GetItem(VectorItem::kX).GetIdentifier());
+    EXPECT_EQ(y_clone->GetIdentifier(), item.GetItem(VectorItem::kY).GetIdentifier());
+    EXPECT_EQ(z_clone->GetIdentifier(), item.GetItem(VectorItem::kZ).GetIdentifier());
   }
 }
 
@@ -170,13 +170,13 @@ TEST_F(VectorItemTests, CloneWhenVectorIsPartOfModel)
     EXPECT_EQ(clone->GetModel(), nullptr);
     EXPECT_EQ(clone->GetParent(), nullptr);
 
-    EXPECT_EQ(clone->GetItem(VectorItem::kX)->GetModel(), nullptr);
-    EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetModel(), nullptr);
-    EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kX).GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kY).GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kZ).GetModel(), nullptr);
 
-    EXPECT_EQ(clone->GetItem(VectorItem::kX)->GetParent(), clone.get());
-    EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetParent(), clone.get());
-    EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kX).GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kY).GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kZ).GetParent(), clone.get());
   }
 
   {  // clone
@@ -184,13 +184,13 @@ TEST_F(VectorItemTests, CloneWhenVectorIsPartOfModel)
     EXPECT_EQ(clone->GetModel(), nullptr);
     EXPECT_EQ(clone->GetParent(), nullptr);
 
-    EXPECT_EQ(clone->GetItem(VectorItem::kX)->GetModel(), nullptr);
-    EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetModel(), nullptr);
-    EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kX).GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kY).GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kZ).GetModel(), nullptr);
 
-    EXPECT_EQ(clone->GetItem(VectorItem::kX)->GetParent(), clone.get());
-    EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetParent(), clone.get());
-    EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kX).GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kY).GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kZ).GetParent(), clone.get());
   }
 }
 

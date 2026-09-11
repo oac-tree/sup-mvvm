@@ -25,8 +25,10 @@
 
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/make_clone.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <algorithm>
+#include <utility>
 #include <vector>
 
 namespace mvvm
@@ -50,24 +52,34 @@ std::size_t GraphViewportItem::GetGraphCount() const
   return GetItemCount(std::string(constants::kChildrenTag));
 }
 
-std::vector<GraphItem*> GraphViewportItem::GetGraphItems() const
+std::vector<const GraphItem*> GraphViewportItem::GetGraphItems() const
 {
-  return GetItems<GraphItem>(constants::kChildrenTag);
+  return FindItems<GraphItem>(constants::kChildrenTag);
 }
 
-std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
+std::vector<GraphItem*> GraphViewportItem::GetGraphItems()
 {
-  std::vector<GraphItem*> all_items = GetItems<GraphItem>(constants::kChildrenTag);
-  std::vector<GraphItem*> visible_items;
+  return FindItems<GraphItem>(constants::kChildrenTag);
+}
+
+std::vector<const GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
+{
+  auto all_items = FindItems<GraphItem>(constants::kChildrenTag);
+  std::vector<const GraphItem*> visible_items;
   (void)std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
                      [](const GraphItem* graph_item)
                      { return graph_item->Property<bool>(constants::kDisplayed); });
   return visible_items;
 }
 
+std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems()
+{
+  return utils::RemoveConst(std::as_const(*this).GetVisibleGraphItems());
+}
+
 void GraphViewportItem::SetVisibleGraphItems(const std::vector<GraphItem*>& visible_graph_items)
 {
-  for (auto graph_item : GetItems<GraphItem>(constants::kChildrenTag))
+  for (auto graph_item : FindItems<GraphItem>(constants::kChildrenTag))
   {
     if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
         != visible_graph_items.end())
@@ -83,7 +95,7 @@ void GraphViewportItem::SetVisibleGraphItems(const std::vector<GraphItem*>& visi
 
 void GraphViewportItem::SetAllVisible()
 {
-  for (auto graph_item : GetItems<GraphItem>(constants::kChildrenTag))
+  for (auto graph_item : FindItems<GraphItem>(constants::kChildrenTag))
   {
     (void)graph_item->SetProperty(constants::kDisplayed, true);
   }

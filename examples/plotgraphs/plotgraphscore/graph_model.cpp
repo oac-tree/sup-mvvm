@@ -114,7 +114,7 @@ void GraphModel::RemoveGraph()
 
 void GraphModel::RandomizeGraphs()
 {
-  for (auto item : GetDataContainer()->GetItems<mvvm::Data1DItem>({}))
+  for (auto item : GetDataContainer()->FindItems<mvvm::Data1DItem>({}))
   {
     auto values = item->GetValues();
     std::transform(std::begin(values), std::end(values), std::begin(values),

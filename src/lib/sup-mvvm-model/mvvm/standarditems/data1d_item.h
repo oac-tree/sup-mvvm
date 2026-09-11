@@ -52,7 +52,12 @@ public:
   void SetErrors(const std::vector<double>& errors);
   std::vector<double> GetErrors() const;
 
-  BinnedAxisItem* GetAxis() const;
+  const BinnedAxisItem* GetAxis() const;
+
+  /**
+   * @brief Returns axis item (non-const version).
+   */
+  BinnedAxisItem* GetAxis();
 
   //! Inserts axis of given type.
   template <typename T, typename... Args>

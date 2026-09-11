@@ -124,7 +124,9 @@ public:
   MultiLayerItem();
   std::unique_ptr<SessionItem> Clone() const override;
 
-  std::vector<LayerItem*> GetLayers() const;
+  std::vector<const LayerItem*> GetLayers() const;
+
+  std::vector<LayerItem*> GetLayers();
 };
 
 /**

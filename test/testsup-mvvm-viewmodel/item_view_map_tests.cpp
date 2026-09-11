@@ -99,10 +99,10 @@ TEST_F(ItemViewMapTest, OnItemRemove)
   const TestView z_view;
 
   map.Insert(&vector, &vector_view);
-  map.Insert(vector.GetItem(VectorItem::kX), &x_view);
+  map.Insert(vector.FindItem(VectorItem::kX), &x_view);
   map.Insert(&item, &item_view);
-  map.Insert(vector.GetItem(VectorItem::kY), &y_view);
-  map.Insert(vector.GetItem(VectorItem::kZ), &z_view);
+  map.Insert(vector.FindItem(VectorItem::kY), &y_view);
+  map.Insert(vector.FindItem(VectorItem::kZ), &z_view);
 
   EXPECT_EQ(map.GetSize(), 5);
 

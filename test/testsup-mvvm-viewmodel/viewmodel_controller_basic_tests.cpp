@@ -153,7 +153,7 @@ TEST_F(ViewModelControllerBasicTest, CreateRowFromVectorItem)
   // x item
   auto x_item0 = view_item0->GetChild(0, 0);
   auto x_item1 = view_item0->GetChild(0, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kX)), x_item0);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.FindItem(VectorItem::kX)), x_item0);
   EXPECT_EQ(x_item0->GetParent(), view_item0);
   EXPECT_EQ(x_item1->GetParent(), view_item0);
   EXPECT_EQ(x_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
@@ -166,7 +166,7 @@ TEST_F(ViewModelControllerBasicTest, CreateRowFromVectorItem)
   // y item
   auto y_item0 = view_item0->GetChild(1, 0);
   auto y_item1 = view_item0->GetChild(1, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kY)), y_item0);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.FindItem(VectorItem::kY)), y_item0);
   EXPECT_EQ(y_item0->GetParent(), view_item0);
   EXPECT_EQ(y_item1->GetParent(), view_item0);
   EXPECT_EQ(y_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("Y"));
@@ -179,7 +179,7 @@ TEST_F(ViewModelControllerBasicTest, CreateRowFromVectorItem)
   // z item
   auto z_item0 = view_item0->GetChild(2, 0);
   auto z_item1 = view_item0->GetChild(2, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kZ)), z_item0);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.FindItem(VectorItem::kZ)), z_item0);
   EXPECT_EQ(z_item0->GetParent(), view_item0);
   EXPECT_EQ(z_item1->GetParent(), view_item0);
   EXPECT_EQ(z_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
@@ -202,7 +202,7 @@ TEST_F(ViewModelControllerBasicTest, CreateRowFromVectorItemWithHiddenCoordinate
   item.SetY(2.0);
   item.SetZ(3.0);
 
-  item.GetItem(VectorItem::kY)->SetVisible(false);
+  item.GetItem(VectorItem::kY).SetVisible(false);
 
   // parent item
   auto parent_row = controller->CreateTreeOfRows(item);
@@ -223,7 +223,7 @@ TEST_F(ViewModelControllerBasicTest, CreateRowFromVectorItemWithHiddenCoordinate
   // x item
   auto x_item0 = view_item0->GetChild(0, 0);
   auto x_item1 = view_item0->GetChild(0, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kX)), x_item0);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.FindItem(VectorItem::kX)), x_item0);
   EXPECT_EQ(x_item0->GetParent(), view_item0);
   EXPECT_EQ(x_item1->GetParent(), view_item0);
   EXPECT_EQ(x_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
@@ -236,7 +236,7 @@ TEST_F(ViewModelControllerBasicTest, CreateRowFromVectorItemWithHiddenCoordinate
   // z item
   auto z_item0 = view_item0->GetChild(1, 0);
   auto z_item1 = view_item0->GetChild(1, 1);
-  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kZ)), z_item0);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.FindItem(VectorItem::kZ)), z_item0);
   EXPECT_EQ(z_item0->GetParent(), view_item0);
   EXPECT_EQ(z_item1->GetParent(), view_item0);
   EXPECT_EQ(z_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));

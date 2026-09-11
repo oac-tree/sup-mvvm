@@ -44,7 +44,12 @@ public:
 
   void SetFromGraphItem(const GraphItem* graph_item);
 
-  Data1DItem* GetDataItem() const;
+  const Data1DItem* GetDataItem() const;
+
+  /**
+   * @brief Returns data item (non-const version).
+   */
+  Data1DItem* GetDataItem();
 
   std::vector<double> GetBinCenters() const;
 
@@ -55,7 +60,12 @@ public:
   std::string GetNamedColor() const;
   void SetNamedColor(const std::string& named_color);
 
-  PenItem* GetPenItem() const;
+  const PenItem* GetPenItem() const;
+
+  /**
+   * @brief Returns pen item (non-const version).
+   */
+  PenItem* GetPenItem();
 };
 
 template <>

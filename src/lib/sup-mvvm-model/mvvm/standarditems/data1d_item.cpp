@@ -61,7 +61,7 @@ std::unique_ptr<SessionItem> Data1DItem::Clone() const
 
 std::vector<double> Data1DItem::GetBinCenters() const
 {
-  auto axis = GetItem<BinnedAxisItem>(TagIndex(kAxis));
+  const auto* axis = FindItem<BinnedAxisItem>(TagIndex(kAxis));
   return (axis != nullptr) ? axis->GetBinCenters() : std::vector<double>{};
 }
 
@@ -104,9 +104,14 @@ std::vector<double> Data1DItem::GetErrors() const
   return Property<std::vector<double>>(kErrors);
 }
 
-BinnedAxisItem* Data1DItem::GetAxis() const
+const BinnedAxisItem* Data1DItem::GetAxis() const
 {
-  return GetItem<BinnedAxisItem>(kAxis);
+  return FindItem<BinnedAxisItem>(kAxis);
+}
+
+BinnedAxisItem* Data1DItem::GetAxis()
+{
+  return FindItem<BinnedAxisItem>(kAxis);
 }
 
 void Data1DItem::SetAxis(std::unique_ptr<BinnedAxisItem> axis)

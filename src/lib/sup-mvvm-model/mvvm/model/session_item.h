@@ -30,6 +30,9 @@
 
 #include <functional>
 #include <memory>
+#include <string_view>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 namespace mvvm
@@ -172,49 +175,130 @@ public:
   std::size_t GetTotalItemCount() const;
 
   /**
-   * @brief Returns vector of children formed from all children from all tags.
+   * @brief Returns vector of children formed from all children from all tags (const version).
    */
-  std::vector<SessionItem*> GetAllItems() const;
+  std::vector<const SessionItem*> GetAllItems() const;
+
+  /**
+   * @brief Returns vector of children formed from all children from all tags (non-const version).
+   */
+  std::vector<SessionItem*> GetAllItems();
 
   /**
    * @brief Returns number of items in given tag.
-   */
-  std::size_t GetItemCount(const std::string& tag) const;
-
-  /**
-   * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.
    *
-   * If the tag name is empty, the tag registered as default will be used. Will throw, when provided
-   * non-empty tag wasn't registered.
+   * Will throw, when provided non-empty tag wasn't registered. If the tag name is empty, the tag
+   * registered as default will be used.
    */
-  SessionItem* GetItem(const TagIndex& tag_index) const;
+  std::size_t GetItemCount(std::string_view tag) const;
 
   /**
-   * @brief Returns vector of items in the container with given tag name.
+   * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist (const
+   * version).
    *
-   * If the tag name is empty, container registered as default will be used.
+   * Never throws. Returns nullptr if the tag wasn't registered, or if no item exists at the given
+   * index. If the tag name is empty, the tag registered as default will be used.
    */
-  std::vector<SessionItem*> GetItems(const std::string_view& tag) const;
+  const SessionItem* FindItem(const TagIndex& tag_index) const;
 
   /**
-   * @brief Returns item under given tag and index casted to a specified type.
+   * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist (non-const
+   * version).
+   */
+  SessionItem* FindItem(const TagIndex& tag_index);
+
+  /**
+   * @brief Returns vector of items in the container with given tag name (const version).
    *
-   * Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
+   * Will throw, when provided non-empty tag wasn't registered. If the tag name is empty, container
+   * registered as default will be used.
    */
-  template <typename T = SessionItem>
-  T* GetItem(const TagIndex& tag_index) const;
-
-  template <typename T = SessionItem>
-  T* GetItem(const std::string_view& tag) const;
+  std::vector<const SessionItem*> GetItems(std::string_view tag) const;
 
   /**
-   * @brief Returns all items under given tag casted to specific type.
+   * @brief Returns vector of items in the container with given tag name (non-const version).
+   */
+  std::vector<SessionItem*> GetItems(std::string_view tag);
+
+  /**
+   * @brief Returns a reference to the item under given tag and index casted to a specified type
+   * (const version).
+   *
+   * Will throw, if the tag wasn't registered, if no item exists at the given index, or if the item
+   * can't be casted to the given type.
+   *
+   * @see FindItem for a non-throwing, nullable alternative.
+   */
+  template <typename ItemT = SessionItem>
+  const ItemT& GetItem(const TagIndex& tag_index) const;
+
+  /**
+   * @brief Returns a reference to the item under given tag and index casted to a specified type
+   * (non-const version).
+   */
+  template <typename ItemT = SessionItem>
+  ItemT& GetItem(const TagIndex& tag_index);
+
+  /**
+   * @brief Convenience overload addressing the first item in the given tag (const version).
+   */
+  template <typename ItemT = SessionItem>
+  const ItemT& GetItem(std::string_view tag) const;
+
+  /**
+   * @brief Convenience overload addressing the first item in the given tag (non-const version).
+   */
+  template <typename ItemT = SessionItem>
+  ItemT& GetItem(std::string_view tag);
+
+  /**
+   * @brief Returns item under given tag and index casted to a specified type, or nullptr (const
+   * version).
+   *
+   * Never throws. Returns nullptr if the tag wasn't registered, if no item exists at the given
+   * index, or if the item can't be casted to the given type.
+   */
+  template <typename ItemT = SessionItem>
+  const ItemT* FindItem(const TagIndex& tag_index) const;
+
+  /**
+   * @brief Returns item under given tag and index casted to a specified type, or nullptr
+   * (non-const version).
+   */
+  template <typename ItemT = SessionItem>
+  ItemT* FindItem(const TagIndex& tag_index);
+
+  /**
+   * @brief Convenience overload addressing the first item in the given tag (const version).
+   */
+  template <typename ItemT = SessionItem>
+  const ItemT* FindItem(std::string_view tag) const;
+
+  /**
+   * @brief Convenience overload addressing the first item in the given tag (non-const version).
+   */
+  template <typename ItemT = SessionItem>
+  ItemT* FindItem(std::string_view tag);
+
+  /**
+   * @brief Returns all items under given tag which can be casted to a specific type (const
+   * version).
+   *
+   * Never throws. Returns an empty vector if the tag wasn't registered. Items that can't be casted
+   * to the given type are filtered out.
    *
    * @param tag The name of container's tag name.
    * @return Vector of items.
    */
-  template <typename T = SessionItem>
-  std::vector<T*> GetItems(const std::string_view& tag) const;
+  template <typename ItemT = SessionItem>
+  std::vector<const ItemT*> FindItems(std::string_view tag) const;
+
+  /**
+   * @brief Returns all items under given tag which can be casted to a specific type (non-const
+   * version).
+   */
+  template <typename ItemT = SessionItem>
+  std::vector<ItemT*> FindItems(std::string_view tag);
 
   /**
    * @brief Returns pair of tag and index corresponding to given item.
@@ -411,6 +495,13 @@ protected:
   virtual void ActivateStrategies();
 
 private:
+  /**
+   * @brief Returns all items in the given tag, or an empty vector if the tag wasn't registered.
+   *
+   * Total (non-throwing) counterpart of GetItems, used to implement FindItems.
+   */
+  std::vector<const SessionItem*> FindItemsImpl(std::string_view tag) const;
+
   std::unique_ptr<SessionItemImpl> p_impl;
   data_strategy_t m_data_strategy;
 };
@@ -434,31 +525,77 @@ inline T SessionItem::Data(role_t role) const
   }
 }
 
-template <typename T>
-inline T* SessionItem::GetItem(const TagIndex& tag_index) const
+template <typename ItemT>
+inline const ItemT* SessionItem::FindItem(const TagIndex& tag_index) const
 {
-  if (auto item = GetItem(tag_index); item)
+  if constexpr (std::is_same_v<ItemT, SessionItem>)
   {
-    T* tag_item = dynamic_cast<T*>(item);
-    if (!tag_item)
-    {
-      throw RuntimeException("Error in SessionItem::GetItem(): can't cast an item to given type");
-    }
-    return tag_item;
+    return FindItem(tag_index);  // non-template primitive, no RTTI involved
   }
-  return nullptr;
+  else
+  {
+    return dynamic_cast<const ItemT*>(FindItem(tag_index));
+  }
 }
 
-template <typename T>
-inline T* SessionItem::GetItem(const std::string_view& tag) const
+template <typename ItemT>
+inline ItemT* SessionItem::FindItem(const TagIndex& tag_index)
 {
-  return GetItem<T>(TagIndex(tag));
+  return const_cast<ItemT*>(std::as_const(*this).FindItem<ItemT>(tag_index));
 }
 
-template <typename T>
-std::vector<T*> SessionItem::GetItems(const std::string_view& tag) const
+template <typename ItemT>
+inline const ItemT* SessionItem::FindItem(std::string_view tag) const
 {
-  return utils::CastItems<T>(GetItems(tag));
+  return FindItem<ItemT>(TagIndex(tag));
+}
+
+template <typename ItemT>
+inline ItemT* SessionItem::FindItem(std::string_view tag)
+{
+  return FindItem<ItemT>(TagIndex(tag));
+}
+
+template <typename ItemT>
+inline const ItemT& SessionItem::GetItem(const TagIndex& tag_index) const
+{
+  const auto* result = FindItem<ItemT>(tag_index);
+  if (result == nullptr)
+  {
+    throw RuntimeException("Error in SessionItem::GetItem(): no item of the requested type at tag '"
+                           + tag_index.GetTag() + "'");
+  }
+  return *result;
+}
+
+template <typename ItemT>
+inline ItemT& SessionItem::GetItem(const TagIndex& tag_index)
+{
+  return const_cast<ItemT&>(std::as_const(*this).GetItem<ItemT>(tag_index));
+}
+
+template <typename ItemT>
+inline const ItemT& SessionItem::GetItem(std::string_view tag) const
+{
+  return GetItem<ItemT>(TagIndex(tag));
+}
+
+template <typename ItemT>
+inline ItemT& SessionItem::GetItem(std::string_view tag)
+{
+  return GetItem<ItemT>(TagIndex(tag));
+}
+
+template <typename ItemT>
+inline std::vector<const ItemT*> SessionItem::FindItems(std::string_view tag) const
+{
+  return utils::CastItems<const ItemT>(FindItemsImpl(tag));
+}
+
+template <typename ItemT>
+inline std::vector<ItemT*> SessionItem::FindItems(std::string_view tag)
+{
+  return utils::RemoveConst(std::as_const(*this).FindItems<ItemT>(tag));
 }
 
 template <typename T>

@@ -194,7 +194,7 @@ std::uint32_t SampleModel::GetContainerCount() const
   return GetRootItem()->GetTotalItemCount();
 }
 
-mvvm::ContainerItem* SampleModel::GetContainer(std::uint32_t index) const
+mvvm::ContainerItem* SampleModel::GetContainer(std::uint32_t index)
 {
   auto containers = mvvm::utils::GetTopItems<mvvm::ContainerItem>(*this);
   if (index >= containers.size())

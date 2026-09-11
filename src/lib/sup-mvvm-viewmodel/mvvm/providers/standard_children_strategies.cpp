@@ -30,10 +30,14 @@
 namespace mvvm
 {
 
+// IChildrenStrategy::GetChildren() takes a const item but hands out mutable children (see
+// mvvm/providers/i_children_strategy.h). That contract is deliberately left as it is, so the
+// strategies below have to drop the constness the item accessors now correctly preserve.
+
 std::vector<SessionItem*> AllChildrenStrategy::GetChildren(const SessionItem* item) const
 {
   // we returns all children, even if some marked as invisible
-  return (item != nullptr) ? item->GetAllItems() : std::vector<SessionItem*>();
+  return (item != nullptr) ? utils::RemoveConst(item->GetAllItems()) : std::vector<SessionItem*>();
 }
 
 std::vector<SessionItem*> AllVisibleChildrenStrategy::GetChildren(const SessionItem* item) const
@@ -43,25 +47,26 @@ std::vector<SessionItem*> AllVisibleChildrenStrategy::GetChildren(const SessionI
     return {};
   }
 
-  std::vector<SessionItem*> result;
+  std::vector<const SessionItem*> result;
   auto children = item->GetAllItems();
   (void)std::copy_if(children.begin(), children.end(), std::back_inserter(result),
-                     [](auto item) { return item->IsVisible(); });
-  return result;
+                     [](const auto* item) { return item->IsVisible(); });
+  return utils::RemoveConst(result);
 }
 
 std::vector<SessionItem*> TopItemsStrategy::GetChildren(const SessionItem* item) const
 {
-  return (item != nullptr) ? utils::TopLevelItems(*item) : std::vector<SessionItem*>();
+  return (item != nullptr) ? utils::RemoveConst(utils::TopLevelItems(*item))
+                           : std::vector<SessionItem*>();
 }
 
 std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* item) const
 {
-  auto group = dynamic_cast<const GroupItem*>(item);
-  auto next_item = (group == nullptr) ? item : group->GetCurrentItem();
+  const auto* group = dynamic_cast<const GroupItem*>(item);
+  const auto* next_item = (group == nullptr) ? item : group->FindCurrentItem();
 
   return (next_item == nullptr) ? std::vector<SessionItem*>()
-                                : utils::SinglePropertyItems(*next_item);
+                                : utils::RemoveConst(utils::SinglePropertyItems(*next_item));
 }
 
 FixedItemTypeStrategy::FixedItemTypeStrategy(std::vector<std::string> item_types)
@@ -76,15 +81,15 @@ std::vector<SessionItem*> FixedItemTypeStrategy::GetChildren(const SessionItem* 
     return {};
   }
 
-  std::vector<SessionItem*> result;
-  for (auto child : item->GetAllItems())
+  std::vector<const SessionItem*> result;
+  for (const auto* child : item->GetAllItems())
   {
     if (utils::Contains(m_item_types, child->GetType()))
     {
       result.push_back(child);
     }
   }
-  return result;
+  return utils::RemoveConst(result);
 }
 
 }  // namespace mvvm

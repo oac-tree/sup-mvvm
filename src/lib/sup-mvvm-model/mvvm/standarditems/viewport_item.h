@@ -49,14 +49,24 @@ public:
   ~ViewportItem() override = default;
 
   /**
-   * @brief Returns x-axis.
+   * @brief Returns x-axis (const version).
    */
-  ViewportAxisItem* GetXAxis() const;
+  const ViewportAxisItem* GetXAxis() const;
 
   /**
-   * @brief Returns y-axis.
+   * @brief Returns x-axis (non-const version).
    */
-  ViewportAxisItem* GetYAxis() const;
+  ViewportAxisItem* GetXAxis();
+
+  /**
+   * @brief Returns y-axis (const version).
+   */
+  const ViewportAxisItem* GetYAxis() const;
+
+  /**
+   * @brief Returns y-axis (non-const version).
+   */
+  ViewportAxisItem* GetYAxis();
 
   /**
    * @brief Returns the area occupied by the data along the x-axis.
@@ -81,12 +91,12 @@ public:
   /**
    * @brief Sets viewport area.
    */
-  void SetViewportArea(const ViewportArea& area) const;
+  void SetViewportArea(const ViewportArea& area);
 
   /**
    * @brief Sets the range of x,y window to show all data.
    */
-  void SetViewportToContent() const;
+  void SetViewportToContent();
 
   /**
    * @brief Sets range of x,y window to show all data.
@@ -96,7 +106,7 @@ public:
    * setViewportToContent({0.0, 0.1, 0.0, 0.1}) // left, top, right, bottom
    * will set axes to show all graphs with 10% gap above and below graph's max and min.
    */
-  void SetViewportToContent(const ViewportMargins& margins) const;
+  void SetViewportToContent(const ViewportMargins& margins);
 
 protected:
   /**

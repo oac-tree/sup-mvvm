@@ -94,7 +94,7 @@ void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent& event
 
   if (IsInScope(parent))
   {
-    auto new_child = parent->GetItem<mvvm::SessionItem>(tag_index);
+    auto* new_child = &parent->GetItem(tag_index);
 
     if (IsChildNeedsView(*parent, *new_child))
     {
@@ -107,7 +107,7 @@ void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent& event
 void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent& event)
 {
   auto [parent, tag_index] = event;
-  auto item_to_remove = parent->GetItem(tag_index);
+  auto* item_to_remove = &parent->GetItem(tag_index);
 
   if (IsAboutToDestroyRootItem(item_to_remove))
   {

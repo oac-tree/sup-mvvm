@@ -85,7 +85,7 @@ public:
 
   std::uint32_t GetContainerCount() const;
 
-  mvvm::ContainerItem* GetContainer(std::uint32_t index) const;
+  mvvm::ContainerItem* GetContainer(std::uint32_t index);
 };
 
 }  // namespace celleditors

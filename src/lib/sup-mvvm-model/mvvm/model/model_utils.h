@@ -42,7 +42,16 @@ namespace mvvm::utils
  * The top item is an item that is a child of an invisible root item.
  */
 template <typename T = SessionItem>
-std::vector<T*> GetTopItems(const ISessionModel& model)
+std::vector<const T*> GetTopItems(const ISessionModel& model)
+{
+  return utils::CastItems<const T>(model.GetRootItem()->GetAllItems());
+}
+
+/**
+ * @brief Returns top items of the given type (non-const version).
+ */
+template <typename T = SessionItem>
+std::vector<T*> GetTopItems(ISessionModel& model)
 {
   return utils::CastItems<T>(model.GetRootItem()->GetAllItems());
 }
@@ -54,7 +63,17 @@ std::vector<T*> GetTopItems(const ISessionModel& model)
  * invisible root item.
  */
 template <typename T = SessionItem>
-T* GetTopItem(const ISessionModel& model)
+const T* GetTopItem(const ISessionModel& model)
+{
+  auto items = GetTopItems<T>(model);
+  return items.empty() ? nullptr : items.front();
+}
+
+/**
+ * @brief Returns top item of the given type (non-const version).
+ */
+template <typename T = SessionItem>
+T* GetTopItem(ISessionModel& model)
 {
   auto items = GetTopItems<T>(model);
   return items.empty() ? nullptr : items.front();
@@ -64,7 +83,28 @@ T* GetTopItem(const ISessionModel& model)
  * @brief Returns all items in a tree of given type.
  */
 template <typename T = SessionItem>
-std::vector<T*> FindItems(const ISessionModel& model)
+std::vector<const T*> FindItems(const ISessionModel& model)
+{
+  std::vector<const T*> result;
+
+  auto func = [&result](const SessionItem* item)
+  {
+    if (const auto* concrete = dynamic_cast<const T*>(item); concrete)
+    {
+      result.push_back(concrete);
+    }
+  };
+
+  iterate(model.GetRootItem(), func);
+
+  return result;
+}
+
+/**
+ * @brief Returns all items in a tree of given type (non-const version).
+ */
+template <typename T = SessionItem>
+std::vector<T*> FindItems(ISessionModel& model)
 {
   std::vector<T*> result;
 
@@ -87,9 +127,14 @@ std::vector<T*> FindItems(const ISessionModel& model)
 Path PathFromItem(const SessionItem* item);
 
 /**
- * @brief Returns item found in the model following given Path.
+ * @brief Returns item found in the model following given Path (const version).
  */
-SessionItem* ItemFromPath(const ISessionModel& model, const Path& path);
+const SessionItem* ItemFromPath(const ISessionModel& model, const Path& path);
+
+/**
+ * @brief Returns item found in the model following given Path (non-const version).
+ */
+SessionItem* ItemFromPath(ISessionModel& model, const Path& path);
 
 /**
  * @brief Copies a given item and inserts result into the model using provided parent and tag_index.

@@ -52,7 +52,7 @@ TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
   // setting up model and viewmodel
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
-  auto x_item = vector_item->GetItem(VectorItem::kX);
+  auto x_item = vector_item->FindItem(VectorItem::kX);
   AllItemsTreeView view(&model);
   view.SetItem(vector_item);
 
@@ -81,8 +81,8 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   // setting up model and viewmodel
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
-  auto x_item = vector_item->GetItem(VectorItem::kX);
-  auto y_item = vector_item->GetItem(VectorItem::kY);
+  auto x_item = vector_item->FindItem(VectorItem::kX);
+  auto y_item = vector_item->FindItem(VectorItem::kY);
   AllItemsTreeView view(&model);
   view.SetItem(vector_item);
 
@@ -113,7 +113,7 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
 
-  auto x_item = vector_item->GetItem(VectorItem::kX);
+  auto x_item = vector_item->FindItem(VectorItem::kX);
 
   AllItemsTreeView view(&model);
   view.SetItem(vector_item);

@@ -45,7 +45,9 @@ public:
 
   std::unique_ptr<SessionItem> Clone() const override;
 
-  std::vector<LineSeriesItem*> GetLineSeries() const;
+  std::vector<const LineSeriesItem*> GetLineSeries() const;
+
+  std::vector<LineSeriesItem*> GetLineSeries();
 
   std::size_t GetLineSeriesCount() const;
 

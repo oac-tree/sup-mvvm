@@ -141,7 +141,7 @@ TEST_F(GroupItemTests, EmptyGroupInitialState)
 {
   EmptyGroupItem item;
   EXPECT_EQ(item.GetCurrentIndex(), -1);
-  EXPECT_EQ(item.GetCurrentItem(), nullptr);
+  EXPECT_EQ(item.FindCurrentItem(), nullptr);
   EXPECT_EQ(item.GetCurrentType(), std::string());
   EXPECT_TRUE(item.HasData());
   EXPECT_EQ(item.GetTotalItemCount(), 0);
@@ -154,8 +154,8 @@ TEST_F(GroupItemTests, TestGroupItemInitialState)
   TestGroupItem item;
 
   EXPECT_EQ(item.GetCurrentIndex(), 0);
-  ASSERT_TRUE(item.GetCurrentItem() != nullptr);
-  EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem()->GetType());
+  ASSERT_TRUE(item.FindCurrentItem() != nullptr);
+  EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem().GetType());
   EXPECT_EQ(item.GetCurrentType(), GetTypeName<SphereItem>());
   ASSERT_EQ(item.GetTotalItemCount(), 2);
 
@@ -177,9 +177,9 @@ TEST_F(GroupItemTests, SetCurrentType)
   item.SetCurrentType(GetTypeName<CylinderItem>());
 
   EXPECT_EQ(item.GetCurrentIndex(), 1);
-  ASSERT_TRUE(item.GetCurrentItem() != nullptr);
-  EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem()->GetType());
-  EXPECT_EQ(item.GetCurrentItem()->GetType(), GetTypeName<CylinderItem>());
+  ASSERT_TRUE(item.FindCurrentItem() != nullptr);
+  EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem().GetType());
+  EXPECT_EQ(item.GetCurrentItem().GetType(), GetTypeName<CylinderItem>());
   EXPECT_EQ(item.GetTotalItemCount(), 2);
 
   // expected value in combo
@@ -195,7 +195,7 @@ TEST_F(GroupItemTests, SetCurrentType)
 TEST_F(GroupItemTests, CurrentItemNonConst)
 {
   TestGroupItem item;
-  auto* sphere = dynamic_cast<CompoundItem*>(item.GetCurrentItem());
+  auto* sphere = item.FindCurrentItem<CompoundItem>();
   ASSERT_TRUE(sphere != nullptr);
   EXPECT_TRUE(sphere->SetProperty("Radius", 42.0));
   EXPECT_EQ(sphere->Property<double>("Radius"), 42.0);
@@ -209,8 +209,8 @@ TEST_F(GroupItemTests, InModelContext)
   ASSERT_TRUE(item != nullptr);
 
   EXPECT_EQ(item->GetCurrentIndex(), 0);
-  ASSERT_TRUE(item->GetCurrentItem() != nullptr);
-  EXPECT_EQ(item->GetCurrentType(), item->GetCurrentItem()->GetType());
+  ASSERT_TRUE(item->FindCurrentItem() != nullptr);
+  EXPECT_EQ(item->GetCurrentType(), item->GetCurrentItem().GetType());
   ASSERT_EQ(item->GetTotalItemCount(), 2);
 
   // parent-child relationship
@@ -261,8 +261,8 @@ TEST_F(GroupItemTests, GroupItemWithPreselection)
 {
   const TestGroupItemWithPreselection item;
   EXPECT_EQ(item.GetCurrentIndex(), 1);
-  ASSERT_TRUE(item.GetCurrentItem() != nullptr);
-  EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem()->GetType());
+  ASSERT_TRUE(item.FindCurrentItem() != nullptr);
+  EXPECT_EQ(item.GetCurrentType(), item.GetCurrentItem().GetType());
   EXPECT_EQ(item.GetCurrentType(), GetTypeName<CylinderItem>());
 }
 
@@ -271,24 +271,27 @@ TEST_F(GroupItemTests, GetCurrentItemTemplated)
 {
   TestGroupItem item;  // SphereItem is current by default
 
-  // non-const version returns a castable, mutable pointer
-  auto* sphere = item.GetCurrentItem<SphereItem>();
-  ASSERT_TRUE(sphere != nullptr);
-  EXPECT_TRUE(sphere->SetProperty("Radius", 42.0));
-  EXPECT_EQ(sphere->Property<double>("Radius"), 42.0);
+  // non-const version returns a castable, mutable reference
+  auto& sphere = item.GetCurrentItem<SphereItem>();
+  EXPECT_TRUE(sphere.SetProperty("Radius", 42.0));
+  EXPECT_EQ(sphere.Property<double>("Radius"), 42.0);
 
-  // const version returns a const pointer
+  // const version returns a const reference
   const TestGroupItem& const_item = item;
-  const auto* const_sphere = const_item.GetCurrentItem<SphereItem>();
-  ASSERT_TRUE(const_sphere != nullptr);
-  EXPECT_EQ(const_sphere->Property<double>("Radius"), 42.0);
+  const auto& const_sphere = const_item.GetCurrentItem<SphereItem>();
+  EXPECT_EQ(const_sphere.Property<double>("Radius"), 42.0);
 
-  // wrong type throws
+  // strict accessor throws on the wrong type
   EXPECT_THROW((void)item.GetCurrentItem<CylinderItem>(), RuntimeException);
 
-  // empty group returns nullptr regardless of requested type
+  // the nullable accessor answers "is the current item a T?" instead of throwing
+  EXPECT_NE(item.FindCurrentItem<SphereItem>(), nullptr);
+  EXPECT_EQ(item.FindCurrentItem<CylinderItem>(), nullptr);
+
+  // empty group throws for the strict accessor and returns nullptr for the nullable one
   EmptyGroupItem empty;
-  EXPECT_EQ(empty.GetCurrentItem<SphereItem>(), nullptr);
+  EXPECT_THROW((void)empty.GetCurrentItem<SphereItem>(), RuntimeException);
+  EXPECT_EQ(empty.FindCurrentItem<SphereItem>(), nullptr);
 }
 
 //! Setting the current item by type and getting it back cast to that type.
@@ -296,19 +299,18 @@ TEST_F(GroupItemTests, SetCurrentTypeTemplated)
 {
   TestGroupItem item;  // SphereItem is current by default
 
-  auto* cylinder = item.SetCurrentType<CylinderItem>();
-  ASSERT_TRUE(cylinder != nullptr);
+  auto& cylinder = item.SetCurrentType<CylinderItem>();
   EXPECT_EQ(item.GetCurrentIndex(), 1);
   EXPECT_EQ(item.GetCurrentType(), GetTypeName<CylinderItem>());
-  EXPECT_EQ(cylinder, item.GetCurrentItem<CylinderItem>());
+  EXPECT_EQ(&cylinder, &item.GetCurrentItem<CylinderItem>());
 
-  // the returned pointer is usable as the concrete type
-  EXPECT_TRUE(cylinder->SetProperty("Height", 5.0));
-  EXPECT_EQ(cylinder->Property<double>("Height"), 5.0);
+  // the returned reference is usable as the concrete type
+  EXPECT_TRUE(cylinder.SetProperty("Height", 5.0));
+  EXPECT_EQ(cylinder.Property<double>("Height"), 5.0);
 
   // switching back
-  auto* sphere = item.SetCurrentType<SphereItem>();
-  ASSERT_TRUE(sphere != nullptr);
+  auto& sphere = item.SetCurrentType<SphereItem>();
+  EXPECT_EQ(&sphere, &item.GetCurrentItem<SphereItem>());
   EXPECT_EQ(item.GetCurrentIndex(), 0);
 }
 

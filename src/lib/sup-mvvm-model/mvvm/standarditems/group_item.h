@@ -25,6 +25,7 @@
 
 #include <cstdint>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace mvvm
@@ -49,21 +50,37 @@ public:
   std::int32_t GetCurrentIndex() const;
 
   /**
-   * @brief Returns currently selected item cast to the given type, or nullptr if the group is empty
-   * (const version).
+   * @brief Returns a reference to the currently selected item cast to the given type (const
+   * version).
    *
-   * Will throw, if the current item can't be cast to the requested type.
+   * Will throw, if the group is empty, or if the current item can't be cast to the requested type.
+   *
+   * @see FindCurrentItem for a non-throwing, nullable alternative.
    */
   template <typename T = SessionItem>
-  const T* GetCurrentItem() const;
+  const T& GetCurrentItem() const;
 
   /**
-   * @brief Returns currently selected item cast to the given type, or nullptr if the group is empty.
-   *
-   * Will throw, if the current item can't be cast to the requested type.
+   * @brief Returns a reference to the currently selected item cast to the given type (non-const
+   * version).
    */
   template <typename T = SessionItem>
-  T* GetCurrentItem();
+  T& GetCurrentItem();
+
+  /**
+   * @brief Returns currently selected item cast to the given type, or nullptr (const version).
+   *
+   * Never throws. Returns nullptr if the group is empty, or if the current item can't be cast to
+   * the requested type. Use it to check whether the current item is of a given type.
+   */
+  template <typename T = SessionItem>
+  const T* FindCurrentItem() const;
+
+  /**
+   * @brief Returns currently selected item cast to the given type, or nullptr (non-const version).
+   */
+  template <typename T = SessionItem>
+  T* FindCurrentItem();
 
   /**
    * @brief Returns the type of the currently selected item, or an empty string if the group is
@@ -87,7 +104,7 @@ public:
    * @return The now-current item cast to the given type.
    */
   template <typename T>
-  T* SetCurrentType();
+  T& SetCurrentType();
 
 protected:
   explicit GroupItem(const std::string& item_type);
@@ -118,21 +135,40 @@ private:
 };
 
 template <typename T>
-const T* GroupItem::GetCurrentItem() const
+const T* GroupItem::FindCurrentItem() const
 {
   return (GetCurrentIndex() < 0)
              ? nullptr
-             : GetItem<T>(TagIndex(kGroupTag, static_cast<std::size_t>(GetCurrentIndex())));
+             : FindItem<T>(TagIndex(kGroupTag, static_cast<std::size_t>(GetCurrentIndex())));
 }
 
 template <typename T>
-T* GroupItem::GetCurrentItem()
+T* GroupItem::FindCurrentItem()
 {
-  return const_cast<T*>(static_cast<const GroupItem*>(this)->GetCurrentItem<T>());
+  return const_cast<T*>(std::as_const(*this).FindCurrentItem<T>());
 }
 
 template <typename T>
-T* GroupItem::SetCurrentType()
+const T& GroupItem::GetCurrentItem() const
+{
+  const auto* result = FindCurrentItem<T>();
+  if (result == nullptr)
+  {
+    throw RuntimeException(
+        "Error in GroupItem::GetCurrentItem(): the group is empty, or the current item is not of "
+        "the requested type");
+  }
+  return *result;
+}
+
+template <typename T>
+T& GroupItem::GetCurrentItem()
+{
+  return const_cast<T&>(std::as_const(*this).GetCurrentItem<T>());
+}
+
+template <typename T>
+T& GroupItem::SetCurrentType()
 {
   SetCurrentType(mvvm::GetTypeName<T>());
   return GetCurrentItem<T>();

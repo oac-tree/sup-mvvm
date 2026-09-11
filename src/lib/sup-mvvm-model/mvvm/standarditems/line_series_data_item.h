@@ -95,12 +95,16 @@ public:
   /**
    * @brief Returns vector of points.
    */
-  std::vector<PointItem*> GetPoints() const;
+  std::vector<const PointItem*> GetPoints() const;
+
+  std::vector<PointItem*> GetPoints();
 
   /**
    * @brief Returns point at given index.
    */
-  PointItem* GetPoint(std::size_t index) const;
+  const PointItem* GetPoint(std::size_t index) const;
+
+  PointItem* GetPoint(std::size_t index);
 
 private:
   void ValidateIndex(std::size_t index) const;

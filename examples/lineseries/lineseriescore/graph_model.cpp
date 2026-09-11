@@ -103,7 +103,7 @@ void GraphModel::RemoveGraph()
 
 void GraphModel::RandomizeGraphs()
 {
-  for (auto item : GetDataContainer()->GetItems<mvvm::LineSeriesDataItem>({}))
+  for (auto item : GetDataContainer()->FindItems<mvvm::LineSeriesDataItem>({}))
   {
     auto waveform = item->GetWaveform();
     auto on_element = [](auto point)

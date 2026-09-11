@@ -49,7 +49,7 @@ std::unique_ptr<SessionItem> GraphItem::Clone() const
 
 void GraphItem::SetDataItem(const Data1DItem* data_item)
 {
-  GetItem<LinkedItem>(constants::kLink)->SetLink(data_item);
+  GetItem<LinkedItem>(constants::kLink).SetLink(data_item);
 }
 
 //! Update item from the content of given graph. Link to the data will be set
@@ -58,18 +58,23 @@ void GraphItem::SetDataItem(const Data1DItem* data_item)
 void GraphItem::SetFromGraphItem(const GraphItem* graph_item)
 {
   SetDataItem(graph_item->GetDataItem());
-  auto pen = GetItem<PenItem>(constants::kPen);
-  auto source_pen = graph_item->GetItem<PenItem>(constants::kPen);
-  pen->SetNamedColor(source_pen->GetNamedColor());
-  pen->SetWidth(source_pen->GetWidth());
-  pen->SetStyle(source_pen->GetStyle());
+  auto& pen = GetItem<PenItem>(constants::kPen);
+  const auto& source_pen = graph_item->GetItem<PenItem>(constants::kPen);
+  pen.SetNamedColor(source_pen.GetNamedColor());
+  pen.SetWidth(source_pen.GetWidth());
+  pen.SetStyle(source_pen.GetStyle());
 }
 
 //! Returns data item linked to the given GraphItem.
 
-Data1DItem* GraphItem::GetDataItem() const
+const Data1DItem* GraphItem::GetDataItem() const
 {
-  return GetItem<LinkedItem>(constants::kLink)->Get<Data1DItem>();
+  return GetItem<LinkedItem>(constants::kLink).Get<Data1DItem>();
+}
+
+Data1DItem* GraphItem::GetDataItem()
+{
+  return GetItem<LinkedItem>(constants::kLink).Get<Data1DItem>();
 }
 
 std::vector<double> GraphItem::GetBinCenters() const
@@ -102,9 +107,14 @@ void GraphItem::SetNamedColor(const std::string& named_color)
   GetPenItem()->SetNamedColor(named_color);
 }
 
-PenItem* GraphItem::GetPenItem() const
+const PenItem* GraphItem::GetPenItem() const
 {
-  return GetItem<PenItem>(constants::kPen);
+  return &GetItem<PenItem>(constants::kPen);
+}
+
+PenItem* GraphItem::GetPenItem()
+{
+  return &GetItem<PenItem>(constants::kPen);
 }
 
 }  // namespace mvvm

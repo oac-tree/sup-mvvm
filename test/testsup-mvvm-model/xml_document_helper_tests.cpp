@@ -81,8 +81,8 @@ TEST_F(XmlDocumentHelperTest, OneModel)
   auto& loaded_model = std::get<0>(result);
   EXPECT_NE(dynamic_cast<TestModelA*>(loaded_model.get()), nullptr);
 
-  ASSERT_NE(loaded_model->GetRootItem()->GetItem(TagIndex::First()), nullptr);
-  EXPECT_EQ(loaded_model->GetRootItem()->GetItem(TagIndex::First())->Data<int>(), 42);
+  ASSERT_NE(loaded_model->GetRootItem()->FindItem(TagIndex::First()), nullptr);
+  EXPECT_EQ(loaded_model->GetRootItem()->GetItem(TagIndex::First()).Data<int>(), 42);
 }
 
 TEST_F(XmlDocumentHelperTest, TwoModels)
@@ -110,11 +110,11 @@ TEST_F(XmlDocumentHelperTest, TwoModels)
   EXPECT_EQ(loaded_model0->GetType(), ModelTypeA);
   EXPECT_EQ(loaded_model1->GetType(), ModelTypeB);
 
-  ASSERT_NE(loaded_model0->GetRootItem()->GetItem(TagIndex::First()), nullptr);
-  EXPECT_EQ(loaded_model0->GetRootItem()->GetItem(TagIndex::First())->Data<int>(), 42);
+  ASSERT_NE(loaded_model0->GetRootItem()->FindItem(TagIndex::First()), nullptr);
+  EXPECT_EQ(loaded_model0->GetRootItem()->GetItem(TagIndex::First()).Data<int>(), 42);
 
-  ASSERT_NE(loaded_model1->GetRootItem()->GetItem(TagIndex::First()), nullptr);
-  EXPECT_EQ(loaded_model1->GetRootItem()->GetItem(TagIndex::First())->Data<int>(), 43);
+  ASSERT_NE(loaded_model1->GetRootItem()->FindItem(TagIndex::First()), nullptr);
+  EXPECT_EQ(loaded_model1->GetRootItem()->GetItem(TagIndex::First()).Data<int>(), 43);
 }
 
 }  // namespace mvvm::test

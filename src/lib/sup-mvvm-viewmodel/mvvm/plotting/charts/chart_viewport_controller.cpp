@@ -147,7 +147,7 @@ void ChartViewportController::SetupAxes()
 void ChartViewportController::OnItemInsertedEvent(const ItemInsertedEvent& event)
 {
   const auto [parent, tagindex] = event;
-  auto added_child = dynamic_cast<LineSeriesItem*>(parent->GetItem(tagindex));
+  auto* added_child = parent->FindItem<LineSeriesItem>(tagindex);
   auto qt_line_series = SetupChartForLineSeries(added_child);
 
   if ((GetXQtAxis() == nullptr) || (GetYQtAxis() == nullptr))
@@ -166,7 +166,7 @@ void ChartViewportController::OnItemInsertedEvent(const ItemInsertedEvent& event
 void ChartViewportController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event)
 {
   const auto [parent, tagindex] = event;
-  auto child_about_to_be_removed = dynamic_cast<LineSeriesItem*>(parent->GetItem(tagindex));
+  auto* child_about_to_be_removed = parent->FindItem<LineSeriesItem>(tagindex);
 
   // looking for controller serving item
   auto on_element = [&](const std::unique_ptr<LineSeriesController>& cntrl) -> bool

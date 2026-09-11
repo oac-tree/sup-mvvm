@@ -51,7 +51,12 @@ public:
   /**
    * @brief Returns all children in the container.
    */
-  std::vector<SessionItem*> GetChildren() const;
+  std::vector<const SessionItem*> GetChildren() const;
+
+  /**
+   * @brief Returns children of this container (non-const version).
+   */
+  std::vector<SessionItem*> GetChildren();
 
   /**
    * @brief Removes all children from the container.

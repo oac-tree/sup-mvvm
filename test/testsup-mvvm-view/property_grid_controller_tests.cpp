@@ -356,13 +356,13 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModelDisabled)
   EXPECT_TRUE(y_label->isEnabled());
   EXPECT_TRUE(editor_grid.at(1).at(1)->isEnabled());
 
-  parent->GetItem(VectorItem::kY)->SetEnabled(false);
+  parent->GetItem(VectorItem::kY).SetEnabled(false);
 
   ASSERT_NE(y_label, nullptr);
   EXPECT_FALSE(y_label->isEnabled());
   EXPECT_FALSE(editor_grid.at(1).at(1)->isEnabled());
   EXPECT_EQ(y_label->text(), QString("Y"));
-  EXPECT_EQ(parent->GetItem(VectorItem::kY)->GetDisplayName(), "Y");
+  EXPECT_EQ(parent->GetItem(VectorItem::kY).GetDisplayName(), "Y");
 }
 
 //! Checking method CreateGrid for VectorItem in PropertyViewModel. VectorItem is set after

@@ -117,7 +117,12 @@ std::string SessionModel::GetType() const
   return p_impl->m_model_type;
 }
 
-SessionItem* SessionModel::GetRootItem() const
+const SessionItem* SessionModel::GetRootItem() const
+{
+  return p_impl->m_root_item.get();
+}
+
+SessionItem* SessionModel::GetRootItem()
 {
   return p_impl->m_root_item.get();
 }

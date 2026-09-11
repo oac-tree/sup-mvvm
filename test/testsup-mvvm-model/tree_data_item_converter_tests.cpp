@@ -178,7 +178,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
-  auto reco_child = reco_parent->GetItem("defaultTag");
+  auto reco_child = reco_parent->FindItem("defaultTag");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
   EXPECT_EQ(reco_child->GetType(), GetTypeName<PropertyItem>());
@@ -228,7 +228,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
-  auto reco_child = reco_parent->GetItem("defaultTag");
+  auto reco_child = reco_parent->FindItem("defaultTag");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
   EXPECT_EQ(reco_child->GetType(), GetTypeName<PropertyItem>());
@@ -261,7 +261,7 @@ TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
-  auto reco_child = reco_parent->GetItem<VectorItem>("Position");
+  auto* reco_child = reco_parent->FindItem<VectorItem>("Position");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 3);
   EXPECT_EQ(reco_child->GetType(), GetTypeName<VectorItem>());
@@ -294,7 +294,7 @@ TEST_F(TreeDataItemConverterTest, CompoundItemFileAndBack)
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
-  auto reco_child = reco_parent->GetItem<VectorItem>("Position");
+  auto* reco_child = reco_parent->FindItem<VectorItem>("Position");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 3);
   EXPECT_EQ(reco_child->GetType(), GetTypeName<VectorItem>());
@@ -331,7 +331,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
-  auto reco_child = reco_parent->GetItem("defaultTag");
+  auto reco_child = reco_parent->FindItem("defaultTag");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
   EXPECT_EQ(reco_child->GetType(), GetTypeName<PropertyItem>());
@@ -371,7 +371,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopyWithFilter)
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
-  auto reco_child = reco_parent->GetItem("defaultTag");
+  auto reco_child = reco_parent->FindItem("defaultTag");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
   EXPECT_EQ(reco_child->GetType(), GetTypeName<PropertyItem>());

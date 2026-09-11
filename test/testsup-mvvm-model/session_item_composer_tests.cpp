@@ -80,7 +80,7 @@ TEST_F(SessionItemComposerTest, FromCompountItemWithProperty)
   {
     auto reco_item = CreateItem(*tree_data, ConverterMode::kClone);
     EXPECT_EQ(reco_item->GetIdentifier(), item.GetIdentifier());
-    auto reco_property = reco_item->GetItem("width");
+    auto reco_property = reco_item->FindItem("width");
     EXPECT_EQ(reco_property->GetIdentifier(), property.GetIdentifier());
     EXPECT_EQ(reco_property->Data<mvvm::int32>(), mvvm::int32{42});
 
@@ -90,7 +90,7 @@ TEST_F(SessionItemComposerTest, FromCompountItemWithProperty)
   {
     auto reco_item = CreateItem(*tree_data, ConverterMode::kCopy);
     EXPECT_NE(reco_item->GetIdentifier(), item.GetIdentifier());
-    auto reco_property = reco_item->GetItem("width");
+    auto reco_property = reco_item->FindItem("width");
     EXPECT_NE(reco_property->GetIdentifier(), property.GetIdentifier());
     EXPECT_EQ(reco_property->Data<mvvm::int32>(), mvvm::int32{42});
 

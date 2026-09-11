@@ -89,12 +89,17 @@ public:
   /**
    * @brief Sets the named color.
    */
-  void SetNamedColor(const std::string& named_color) const;
+  void SetNamedColor(const std::string& named_color);
 
   /**
    * @brief Returns underlying pen item.
    */
-  PenItem* GetPenItem() const;
+  const PenItem* GetPenItem() const;
+
+  /**
+   * @brief Returns pen item (non-const version).
+   */
+  PenItem* GetPenItem();
 
   /**
    * @brief Returns x-values.

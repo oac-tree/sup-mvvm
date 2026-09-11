@@ -60,12 +60,12 @@ std::unique_ptr<SessionItem> LineSeriesItem::Clone() const
 
 void LineSeriesItem::SetDataItem(const LineSeriesDataItem* item)
 {
-  GetItem<LinkedItem>(constants::kLink)->SetLink(item);
+  GetItem<LinkedItem>(constants::kLink).SetLink(item);
 }
 
 const LineSeriesDataItem* LineSeriesItem::GetDataItem() const
 {
-  return GetItem<LinkedItem>(constants::kLink)->Get<LineSeriesDataItem>();
+  return GetItem<LinkedItem>(constants::kLink).Get<LineSeriesDataItem>();
 }
 
 LineSeriesDataItem* LineSeriesItem::GetDataItem()
@@ -88,14 +88,19 @@ std::string LineSeriesItem::GetNamedColor() const
   return GetPenItem()->GetNamedColor();
 }
 
-void LineSeriesItem::SetNamedColor(const std::string& named_color) const
+void LineSeriesItem::SetNamedColor(const std::string& named_color)
 {
   GetPenItem()->SetNamedColor(named_color);
 }
 
-PenItem* LineSeriesItem::GetPenItem() const
+const PenItem* LineSeriesItem::GetPenItem() const
 {
-  return GetItem<PenItem>(constants::kPen);
+  return &GetItem<PenItem>(constants::kPen);
+}
+
+PenItem* LineSeriesItem::GetPenItem()
+{
+  return &GetItem<PenItem>(constants::kPen);
 }
 
 std::vector<double> LineSeriesItem::GetBinCenters() const

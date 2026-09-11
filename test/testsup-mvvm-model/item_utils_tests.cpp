@@ -366,14 +366,14 @@ TEST_F(ItemUtilsTests, IsItemAncestor)
   EXPECT_FALSE(utils::IsItemAncestor(model.GetRootItem(), vector_item));
   EXPECT_FALSE(utils::IsItemAncestor(vector_item, vector_item));
 
-  auto x_item = vector_item->GetItem(VectorItem::kX);
+  auto x_item = vector_item->FindItem(VectorItem::kX);
 
   EXPECT_TRUE(utils::IsItemAncestor(x_item, model.GetRootItem()));
   EXPECT_TRUE(utils::IsItemAncestor(x_item, vector_item));
   EXPECT_FALSE(utils::IsItemAncestor(model.GetRootItem(), x_item));
   EXPECT_FALSE(utils::IsItemAncestor(vector_item, x_item));
 
-  auto y_item = vector_item->GetItem(VectorItem::kY);
+  auto y_item = vector_item->FindItem(VectorItem::kY);
   EXPECT_FALSE(utils::IsItemAncestor(x_item, y_item));
 }
 
@@ -497,10 +497,10 @@ TEST_F(ItemUtilsTests, FindItemUp)
     VectorItem vector_item;
     SessionItem* item = &vector_item;
     EXPECT_EQ(utils::FindItemUp<VectorItem>(item), &vector_item);
-    EXPECT_EQ(utils::FindItemUp<VectorItem>(vector_item.GetItem(VectorItem::kX)), &vector_item);
+    EXPECT_EQ(utils::FindItemUp<VectorItem>(vector_item.FindItem(VectorItem::kX)), &vector_item);
 
     const ParticleItem particle;
-    auto x_item = particle.GetItem(ParticleItem::kPositionTag)->GetItem(VectorItem::kX);
+    const auto* x_item = particle.GetItem(ParticleItem::kPositionTag).FindItem(VectorItem::kX);
     EXPECT_EQ(utils::FindItemUp<ParticleItem>(x_item), &particle);
     EXPECT_EQ(utils::FindItemUp<LayerItem>(x_item), nullptr);
   }
@@ -590,7 +590,7 @@ TEST_F(ItemUtilsTests, CloneParentAndChild)
   EXPECT_EQ(parent_copy->GetIdentifier(), parent->GetIdentifier());  // same identifiers
 
   // checking child reconstruction
-  auto child_copy = parent_copy->GetItem("defaultTag");
+  auto child_copy = parent_copy->FindItem("defaultTag");
   EXPECT_EQ(child_copy->GetParent(), parent_copy.get());
   EXPECT_EQ(child_copy->GetTotalItemCount(), 0);
   EXPECT_EQ(child_copy->GetDisplayName(), "child_name");
@@ -639,7 +639,7 @@ TEST_F(ItemUtilsTests, CopyParentAndChild)
   EXPECT_NE(parent_copy->GetIdentifier(), parent->GetIdentifier());  // different identifiers
 
   // checking child reconstruction
-  auto child_copy = parent_copy->GetItem("defaultTag");
+  auto child_copy = parent_copy->FindItem("defaultTag");
   EXPECT_EQ(child_copy->GetParent(), parent_copy.get());
   EXPECT_EQ(child_copy->GetTotalItemCount(), 0);
   EXPECT_EQ(child_copy->GetDisplayName(), "child_name");
@@ -806,7 +806,7 @@ TEST_F(ItemUtilsTests, ReplaceItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), p_new_item), 0);
   EXPECT_EQ(parent->GetAllItems().at(0), p_new_item);
-  EXPECT_EQ(parent->GetItem({"", 0}), p_new_item);
+  EXPECT_EQ(parent->FindItem({"", 0}), p_new_item);
   EXPECT_EQ(replacee->GetParent(), parent.get());
 
   // extra test when item is a part of the model is in application_model_tests.cpp
@@ -836,7 +836,7 @@ TEST_F(ItemUtilsTests, ToStringAndBackNewID)
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
-  auto reco_child = reco_parent->GetItem("defaultTag");
+  auto reco_child = reco_parent->FindItem("defaultTag");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
   EXPECT_EQ(reco_child->GetType(), GetTypeName<PropertyItem>());
@@ -874,7 +874,7 @@ TEST_F(ItemUtilsTests, CopyToStringWithFilter)
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
-  auto reco_child = reco_parent->GetItem("defaultTag");
+  auto reco_child = reco_parent->FindItem("defaultTag");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
   EXPECT_EQ(reco_child->GetType(), GetTypeName<PropertyItem>());

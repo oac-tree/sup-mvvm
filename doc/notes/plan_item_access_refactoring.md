@@ -2,6 +2,18 @@
 
 > Working note / implementation plan. Commits are made by the repository owner — this document
 > only describes the intended change and its phases.
+>
+> **Status:** Phases 0-3 are implemented in sup-mvvm; the full suite passes (1370/1370).
+> Two deviations from the plan as written, both discovered while implementing:
+> 1. A **non-template `GetItem(const TagIndex&)` pair** had to be kept. Without it,
+>    `GetItem({"tag", 0})` is ambiguous, because a braced initializer matches both
+>    `TagIndex(string_view, size_t)` and `string_view(const char*, size_t)`; the old non-template
+>    overload used to break that tie.
+> 2. `FindItems<T>` needs a **total** (never-throwing) source of children, so `SessionItem` has a
+>    private `FindItemsImpl` built on `TaggedItems::FindContainer`, since `GetItems` throws on an
+>    unregistered tag.
+>
+> The downstream migration (sup-gui-core, sequencer-gui) has **not** been done.
 
 ## Context
 

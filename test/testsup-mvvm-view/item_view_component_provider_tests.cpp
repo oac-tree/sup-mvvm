@@ -359,7 +359,7 @@ TEST_F(ItemViewComponentProviderTest, SelectWholeRowAndCheckResultingSelection)
 
   auto vector_item = m_model.InsertItem<mvvm::VectorItem>();
 
-  auto x_item = vector_item->GetItem(mvvm::VectorItem::kX);
+  auto x_item = vector_item->FindItem(mvvm::VectorItem::kX);
 
   provider->SetItem(vector_item);
 

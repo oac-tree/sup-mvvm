@@ -64,9 +64,14 @@ public:
   virtual std::string GetType() const = 0;
 
   /**
-   * @brief Returns root item.
+   * @brief Returns root item (const version).
    */
-  virtual SessionItem* GetRootItem() const = 0;
+  virtual const SessionItem* GetRootItem() const = 0;
+
+  /**
+   * @brief Returns root item (non-const version).
+   */
+  virtual SessionItem* GetRootItem() = 0;
 
   /**
    * @brief Returns event handler.

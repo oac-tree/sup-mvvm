@@ -105,7 +105,7 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
 {
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
-  vector_item->GetItem(VectorItem::kY)->SetVisible(false);
+  vector_item->GetItem(VectorItem::kY).SetVisible(false);
 
   PropertyViewModel viewModel(&model);
 
@@ -121,11 +121,11 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
   auto x_index = viewModel.index(0, 0, vector_index);
   auto z_index = viewModel.index(1, 0, vector_index);
   EXPECT_EQ(viewModel.GetSessionItemFromIndex(vector_index), vector_item);
-  EXPECT_EQ(viewModel.GetSessionItemFromIndex(x_index), vector_item->GetItem(VectorItem::kX));
-  EXPECT_EQ(viewModel.GetSessionItemFromIndex(z_index), vector_item->GetItem(VectorItem::kZ));
+  EXPECT_EQ(viewModel.GetSessionItemFromIndex(x_index), vector_item->FindItem(VectorItem::kX));
+  EXPECT_EQ(viewModel.GetSessionItemFromIndex(z_index), vector_item->FindItem(VectorItem::kZ));
 
   // attempt to make P_Y visible again
-  vector_item->GetItem(VectorItem::kY)->SetVisible(true);
+  vector_item->GetItem(VectorItem::kY).SetVisible(true);
 
   // The current implementation is limited: PropertyViewModel doesn't listen for updates
   // in isVisible flag. If flag is changed after the model creation, item still be invisible.
@@ -134,8 +134,8 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
   x_index = viewModel.index(0, 0, vector_index);
   z_index = viewModel.index(1, 0, vector_index);
   EXPECT_EQ(viewModel.GetSessionItemFromIndex(vector_index), vector_item);
-  EXPECT_EQ(viewModel.GetSessionItemFromIndex(x_index), vector_item->GetItem(VectorItem::kX));
-  EXPECT_EQ(viewModel.GetSessionItemFromIndex(z_index), vector_item->GetItem(VectorItem::kZ));
+  EXPECT_EQ(viewModel.GetSessionItemFromIndex(x_index), vector_item->FindItem(VectorItem::kX));
+  EXPECT_EQ(viewModel.GetSessionItemFromIndex(z_index), vector_item->FindItem(VectorItem::kZ));
 }
 
 //! LayerItem in a MultiLayer.
@@ -297,8 +297,8 @@ TEST_F(PropertyViewModelTest, ShowVectorItemThenClearThenShowAnother)
   x_index_label = view_model.index(0, 0, vector_index);
   x_index_value = view_model.index(0, 1, vector_index);
   EXPECT_EQ(view_model.GetSessionItemFromIndex(vector_index), vector1);
-  EXPECT_EQ(view_model.GetSessionItemFromIndex(x_index_label), vector1->GetItem(VectorItem::kX));
-  EXPECT_EQ(view_model.GetSessionItemFromIndex(x_index_value), vector1->GetItem(VectorItem::kX));
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(x_index_label), vector1->FindItem(VectorItem::kX));
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(x_index_value), vector1->FindItem(VectorItem::kX));
 
   EXPECT_TRUE(view_model.setData(x_index_value, QVariant(43.3), Qt::EditRole));
   EXPECT_DOUBLE_EQ(vector1->X(), 43.3);

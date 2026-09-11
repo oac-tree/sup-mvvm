@@ -122,12 +122,17 @@ void iterate_if(const SessionItem* item, const std::function<bool(const SessionI
 std::size_t CopyNumber(const SessionItem* item);
 
 /**
- * @brief Returns child at given index of a parent.
+ * @brief Returns child at given index of a parent (const version).
  *
  * #details No tags are involved, index is considered as global index in the combined array of all
  * children.
  */
-SessionItem* ChildAt(const SessionItem* parent, std::size_t index);
+const SessionItem* ChildAt(const SessionItem* parent, std::size_t index);
+
+/**
+ * @brief Returns child at given index of a parent (non-const version).
+ */
+SessionItem* ChildAt(SessionItem* parent, std::size_t index);
 
 /**
  * @brief Returns index in children array corresponding to given child.
@@ -148,20 +153,30 @@ bool HasTag(const SessionItem& item, const std::string& tag_name);
 std::vector<std::string> RegisteredTags(const SessionItem& item);
 
 /**
- * @brief Returns vector of all visible children representing top level items.
+ * @brief Returns vector of all visible children representing top level items (const version).
  *
  * @details A top level item is any item not marked as a property item.
  */
-std::vector<SessionItem*> TopLevelItems(const SessionItem& item);
+std::vector<const SessionItem*> TopLevelItems(const SessionItem& item);
 
 /**
- * @brief Returns vector of all visible children representing property items.
+ * @brief Returns vector of all visible children representing top level items (non-const version).
+ */
+std::vector<SessionItem*> TopLevelItems(SessionItem& item);
+
+/**
+ * @brief Returns vector of all visible children representing property items (const version).
  *
  * @details A property item is an item created with AddProperty method, it can be a leave with a
  * scalar data, moer complex VectorItem, etc. The main thing is that it is parked with kProperty
  * appearance flag.
  */
-std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item);
+std::vector<const SessionItem*> SinglePropertyItems(const SessionItem& item);
+
+/**
+ * @brief Returns vector of all visible children representing property items (non-const version).
+ */
+std::vector<SessionItem*> SinglePropertyItems(SessionItem& item);
 
 /**
  * @brief Returns next sibling within the same tag.

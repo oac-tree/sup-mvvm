@@ -85,9 +85,9 @@ void VectorItem::SetXYZ(double x, double y, double z)
 
 void VectorItem::ActivateStrategies()
 {
-  GetItem(kX)->SetStrategy(this, &VectorItem::SetPropertyValue);
-  GetItem(kY)->SetStrategy(this, &VectorItem::SetPropertyValue);
-  GetItem(kZ)->SetStrategy(this, &VectorItem::SetPropertyValue);
+  GetItem(kX).SetStrategy(this, &VectorItem::SetPropertyValue);
+  GetItem(kY).SetStrategy(this, &VectorItem::SetPropertyValue);
+  GetItem(kZ).SetStrategy(this, &VectorItem::SetPropertyValue);
 }
 
 bool VectorItem::SetPropertyValue(SessionItem* property, const variant_t& variant, role_t role)

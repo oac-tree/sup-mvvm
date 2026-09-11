@@ -179,8 +179,11 @@ TEST_F(CompoundItemTests, ItemAccess)
 
   // inserting two children
   auto property = parent.InsertItem<PropertyItem>({tag, 0});
-  EXPECT_TRUE(parent.GetItem<PropertyItem>(tag) == property);
-  EXPECT_THROW(parent.GetItem<CompoundItem>(tag), RuntimeException);
+  EXPECT_TRUE(parent.FindItem<PropertyItem>(tag) == property);
+
+  // a type mismatch is nullptr for the nullable accessor and a throw for the strict one
+  EXPECT_EQ(parent.FindItem<CompoundItem>(tag), nullptr);
+  EXPECT_THROW((void)parent.GetItem<CompoundItem>(tag), RuntimeException);
 }
 
 TEST_F(CompoundItemTests, ItemVectorAccess)
@@ -195,10 +198,10 @@ TEST_F(CompoundItemTests, ItemVectorAccess)
   auto property1 = parent.InsertItem<PropertyItem>(TagIndex::Append(tag));
   auto property2 = parent.InsertItem<PropertyItem>(TagIndex::Append(tag));
 
-  auto items = parent.GetItems<PropertyItem>(tag);
+  auto items = parent.FindItems<PropertyItem>(tag);
   const std::vector<PropertyItem*> expected = {property1, property2};
   EXPECT_EQ(items, expected);
-  EXPECT_EQ(parent.GetItems<CompoundItem>(tag).size(), 0);
+  EXPECT_EQ(parent.FindItems<CompoundItem>(tag).size(), 0);
 }
 
 //! Tests automatic index addition to default display name.
@@ -264,8 +267,9 @@ TEST_F(CompoundItemTests, Clone)
   ASSERT_NE(compound_clone, nullptr);
   EXPECT_EQ(compound_clone->GetIdentifier(), item.GetIdentifier());
   EXPECT_EQ(compound_clone->Property<int>("thickness"), 42);
-  EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
-  EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetIdentifier(), property0.GetIdentifier());
+  EXPECT_EQ(compound_clone->GetItem(TagIndex("thickness", 0)).GetParent(), compound_clone);
+  EXPECT_EQ(compound_clone->GetItem(TagIndex("thickness", 0)).GetIdentifier(),
+            property0.GetIdentifier());
 }
 
 }  // namespace mvvm::test

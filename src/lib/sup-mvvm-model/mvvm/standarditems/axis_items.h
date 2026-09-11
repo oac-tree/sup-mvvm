@@ -73,7 +73,12 @@ public:
 
   std::unique_ptr<SessionItem> Clone() const override;
 
-  TextItem* GetTitleItem() const;
+  const TextItem* GetTitleItem() const;
+
+  /**
+   * @brief Returns item with axis title (non-const version).
+   */
+  TextItem* GetTitleItem();
 
   /**
    * @brief Returns pair of lower, upper axis range.

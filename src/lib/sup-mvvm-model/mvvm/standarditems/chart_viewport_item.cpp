@@ -63,9 +63,14 @@ std::unique_ptr<SessionItem> ChartViewportItem::Clone() const
   return MakeClone(*this);
 }
 
-std::vector<LineSeriesItem*> ChartViewportItem::GetLineSeries() const
+std::vector<const LineSeriesItem*> ChartViewportItem::GetLineSeries() const
 {
-  return GetItems<LineSeriesItem>(constants::kChildrenTag);
+  return FindItems<LineSeriesItem>(constants::kChildrenTag);
+}
+
+std::vector<LineSeriesItem*> ChartViewportItem::GetLineSeries()
+{
+  return FindItems<LineSeriesItem>(constants::kChildrenTag);
 }
 
 std::size_t ChartViewportItem::GetLineSeriesCount() const

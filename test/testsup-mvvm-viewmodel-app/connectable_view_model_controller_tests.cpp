@@ -32,6 +32,7 @@
 #include <mvvm/providers/standard_children_strategies.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>
@@ -64,7 +65,7 @@ public:
       return {};
     }
 
-    return utils::TopLevelItems(*item);
+    return utils::RemoveConst(utils::TopLevelItems(*item));
   }
 
   void SetCollapsed(bool value) { m_pretend_collapsed = value; }

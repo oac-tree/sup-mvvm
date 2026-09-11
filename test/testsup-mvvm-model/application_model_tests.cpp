@@ -203,7 +203,7 @@ TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndex)
 
   // inserting item
   auto item = m_model.InsertItem<PropertyItem>(parent, {"tag", 0});
-  EXPECT_EQ(item, parent->GetItem("tag"));
+  EXPECT_EQ(item, parent->FindItem("tag"));
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
@@ -229,7 +229,7 @@ TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndexViaGetModel)
 
   // inserting item (pretending that we do not have direct access to the model)
   auto item = parent->GetModel()->InsertItem<PropertyItem>(parent, {"tag", 0});
-  EXPECT_EQ(item, parent->GetItem("tag"));
+  EXPECT_EQ(item, parent->FindItem("tag"));
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
@@ -256,7 +256,7 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
 
   // inserting item
   auto item = m_model.InsertItem<PropertyItem>(parent);
-  EXPECT_EQ(item, parent->GetItem("tag"));
+  EXPECT_EQ(item, parent->FindItem("tag"));
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
@@ -320,7 +320,7 @@ TEST_F(ApplicationModelTest, InsertItemViaMove)
   auto to_insert_ptr = to_insert.get();
   auto item = m_model.InsertItem(std::move(to_insert), parent, {"tag", 0});
   EXPECT_EQ(item, to_insert_ptr);
-  EXPECT_EQ(item, parent->GetItem("tag"));
+  EXPECT_EQ(item, parent->FindItem("tag"));
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
@@ -432,7 +432,7 @@ TEST_F(ApplicationModelTest, ReplaceItemUsingHelperMethod)
   auto item = utils::ReplaceItem(std::move(new_child), parent, tag_index);
 
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
-  EXPECT_EQ(item, parent->GetItem("tag"));
+  EXPECT_EQ(item, parent->FindItem("tag"));
   EXPECT_EQ(item, new_child_ptr);
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)

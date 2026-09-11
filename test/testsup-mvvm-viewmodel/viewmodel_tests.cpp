@@ -88,7 +88,7 @@ TEST_F(ViewModelTest, GetSessionItem)
 
   EXPECT_EQ(view_model.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
   EXPECT_EQ(view_model.GetSessionItemFromIndex(view_model.index(0, 0, QModelIndex())),
-            m_model.GetRootItem()->GetItem({"", 0}));
+            m_model.GetRootItem()->FindItem({"", 0}));
 }
 
 TEST_F(ViewModelTest, GetViewItemFromIndex)
@@ -106,7 +106,7 @@ TEST_F(ViewModelTest, FindViews)
   EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()),
             std::vector<const ViewItem*>({view_model.rootItem()}));
 
-  EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()->GetItem({"", 0})),
+  EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()->FindItem({"", 0})),
             std::vector<const ViewItem*>(
                 {view_model.rootItem()->GetChild(0, 0), view_model.rootItem()->GetChild(0, 1)}));
 }
@@ -120,7 +120,7 @@ TEST_F(ViewModelTest, GetIndexOfSessionItem)
   const QModelIndex data_index = view_model.index(0, 1, QModelIndex());
 
   QModelIndexList expected{label_index, data_index};
-  EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()->GetItem({"", 0})), expected);
+  EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()->FindItem({"", 0})), expected);
 
   // FIXME Is this behavior correct? Might be having QModelIndex() in a list is more consistent.
   EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()), QModelIndexList());

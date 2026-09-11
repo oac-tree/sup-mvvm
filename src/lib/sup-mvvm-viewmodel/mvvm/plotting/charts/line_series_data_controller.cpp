@@ -199,8 +199,9 @@ std::unique_ptr<LineSeriesMouseListener> LineSeriesDataController::CreateMouseLi
     if (point_index >= 0)
     {
       // point pressed
-      auto point_item = m_data_item->GetPoint(static_cast<std::size_t>(point_index));
-      m_active_point = point_item;
+      // the controller observes a const data item, but dragging a point has to modify it
+      const auto* point_item = m_data_item->GetPoint(static_cast<std::size_t>(point_index));
+      m_active_point = const_cast<PointItem*>(point_item);
     }
     else
     {

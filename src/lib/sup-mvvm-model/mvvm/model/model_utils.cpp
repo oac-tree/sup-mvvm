@@ -27,6 +27,8 @@
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/i_session_model.h>
 
+#include <utility>
+
 namespace mvvm::utils
 {
 Path PathFromItem(const SessionItem* item)
@@ -47,9 +49,9 @@ Path PathFromItem(const SessionItem* item)
   return result;
 }
 
-SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
+const SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
 {
-  SessionItem* result(model.GetRootItem());
+  const SessionItem* result(model.GetRootItem());
   for (const auto& idx : path)
   {
     result = utils::ChildAt(result, idx);
@@ -59,6 +61,11 @@ SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
     }
   }
   return result;
+}
+
+SessionItem* ItemFromPath(ISessionModel& model, const Path& path)
+{
+  return const_cast<SessionItem*>(ItemFromPath(std::as_const(model), path));
 }
 
 SessionItem* CopyItem(const SessionItem* item, ISessionModel* model, SessionItem* parent,

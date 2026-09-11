@@ -211,7 +211,7 @@ TEST_F(ModelUtilsTests, CopyParentWithProperty)
 
   // copying whole parent to root
   auto copy = utils::CopyItem(parent0, &model, model.GetRootItem(), TagIndex::Append());
-  auto copy_child = copy->GetItem("defaultTag");
+  auto copy_child = copy->FindItem("defaultTag");
 
   ASSERT_TRUE(copy != nullptr);
   ASSERT_TRUE(copy_child != nullptr);

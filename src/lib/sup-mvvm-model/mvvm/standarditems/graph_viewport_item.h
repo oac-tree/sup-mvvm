@@ -41,9 +41,13 @@ public:
 
   std::size_t GetGraphCount() const;
 
-  std::vector<GraphItem*> GetGraphItems() const;
+  std::vector<const GraphItem*> GetGraphItems() const;
 
-  std::vector<GraphItem*> GetVisibleGraphItems() const;
+  std::vector<GraphItem*> GetGraphItems();
+
+  std::vector<const GraphItem*> GetVisibleGraphItems() const;
+
+  std::vector<GraphItem*> GetVisibleGraphItems();
 
   void SetVisibleGraphItems(const std::vector<GraphItem*>& visible_graph_items);
 

@@ -92,8 +92,8 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
 
   EXPECT_EQ(command.GetResult(), to_insert_ptr);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
-  EXPECT_EQ(parent->GetItem(expected_tag_index), to_insert_ptr);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
+  EXPECT_EQ(parent->FindItem(expected_tag_index), to_insert_ptr);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).Data<int>(), 42);
   EXPECT_EQ(command.GetResult()->GetParent(), parent);
   EXPECT_EQ(command.GetResult()->GetModel(), &m_model);
 
@@ -107,10 +107,10 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
   command.Execute();
   EXPECT_EQ(command.GetEventAfter(), expected_event2);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetIdentifier(), identifier);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetParent(), parent);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetModel(), &m_model);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).GetIdentifier(), identifier);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).GetParent(), parent);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).GetModel(), &m_model);
 }
 
 TEST_F(InsertItemCommandTests, InsertItemToParentInBetween)
@@ -146,10 +146,10 @@ TEST_F(InsertItemCommandTests, InsertItemToParentInBetween)
 
   EXPECT_EQ(command.GetResult(), to_insert_ptr);
   EXPECT_EQ(parent->GetTotalItemCount(), 3);
-  EXPECT_EQ(parent->GetItem(expected_tag_index), to_insert_ptr);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetParent(), parent);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetModel(), &model);
+  EXPECT_EQ(parent->FindItem(expected_tag_index), to_insert_ptr);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).GetParent(), parent);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).GetModel(), &model);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event3);
   command.Undo();
@@ -162,11 +162,11 @@ TEST_F(InsertItemCommandTests, InsertItemToParentInBetween)
   command.Execute();
   EXPECT_EQ(command.GetEventAfter(), expected_event2);
   EXPECT_EQ(parent->GetTotalItemCount(), 3);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetIdentifier(), identifier);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetParent(), parent);
-  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetModel(), &model);
-  EXPECT_EQ(model.FindItem(identifier), parent->GetItem(expected_tag_index));
+  EXPECT_EQ(parent->GetItem(expected_tag_index).GetIdentifier(), identifier);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).GetParent(), parent);
+  EXPECT_EQ(parent->GetItem(expected_tag_index).GetModel(), &model);
+  EXPECT_EQ(model.FindItem(identifier), parent->FindItem(expected_tag_index));
 }
 
 TEST_F(InsertItemCommandTests, AttemptToInsertSecondProperty)

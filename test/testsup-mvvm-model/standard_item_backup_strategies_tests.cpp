@@ -123,8 +123,8 @@ TEST_F(StandardItemBackupStrategiesTests, TreeDataItemBackupStrategyForCompoundI
 
   EXPECT_EQ(item.GetType(), restored->GetType());
   EXPECT_EQ(item.GetIdentifier(), restored->GetIdentifier());
-  EXPECT_EQ(restored->GetItem("thickness")->Data<double>(), property.Data<double>());
-  EXPECT_EQ(restored->GetItem("thickness")->GetIdentifier(), property.GetIdentifier());
+  EXPECT_EQ(restored->GetItem("thickness").Data<double>(), property.Data<double>());
+  EXPECT_EQ(restored->GetItem("thickness").GetIdentifier(), property.GetIdentifier());
 }
 
 TEST_F(StandardItemBackupStrategiesTests, ItemCloneBackupStrategyForCompoundItem)
@@ -139,8 +139,8 @@ TEST_F(StandardItemBackupStrategiesTests, ItemCloneBackupStrategyForCompoundItem
 
   EXPECT_EQ(item.GetType(), restored->GetType());
   EXPECT_EQ(item.GetIdentifier(), restored->GetIdentifier());
-  EXPECT_EQ(restored->GetItem("thickness")->Data<double>(), property.Data<double>());
-  EXPECT_EQ(restored->GetItem("thickness")->GetIdentifier(), property.GetIdentifier());
+  EXPECT_EQ(restored->GetItem("thickness").Data<double>(), property.Data<double>());
+  EXPECT_EQ(restored->GetItem("thickness").GetIdentifier(), property.GetIdentifier());
 }
 
 TEST_F(StandardItemBackupStrategiesTests, TreeDataItemBackupStrategyForCustomItem)
@@ -161,13 +161,13 @@ TEST_F(StandardItemBackupStrategiesTests, TreeDataItemBackupStrategyForCustomIte
   EXPECT_EQ(restored->GetIdentifier(), item.GetIdentifier());  // same identifiers
 
   // checking child reconstruction
-  auto restored_child = restored->GetItem("defaultTag");
+  auto restored_child = restored->FindItem("defaultTag");
   EXPECT_EQ(restored_child->GetParent(), restored.get());
   EXPECT_EQ(restored_child->GetTotalItemCount(), 0);
   EXPECT_EQ(restored_child->GetDisplayName(), "child_name");
   EXPECT_EQ(restored_child->GetTaggedItems()->GetDefaultTag(), "");
   EXPECT_EQ(restored_child->GetIdentifier(),
-            item.GetItem("defaultTag")->GetIdentifier());  // same identifiers
+            item.GetItem("defaultTag").GetIdentifier());  // same identifiers
 }
 
 TEST_F(StandardItemBackupStrategiesTests, ItemCloneStrategyForCustomItem)
@@ -188,13 +188,13 @@ TEST_F(StandardItemBackupStrategiesTests, ItemCloneStrategyForCustomItem)
   EXPECT_EQ(restored->GetIdentifier(), item.GetIdentifier());  // same identifiers
 
   // checking child reconstruction
-  auto restored_child = restored->GetItem("defaultTag");
+  auto restored_child = restored->FindItem("defaultTag");
   EXPECT_EQ(restored_child->GetParent(), restored.get());
   EXPECT_EQ(restored_child->GetTotalItemCount(), 0);
   EXPECT_EQ(restored_child->GetDisplayName(), "child_name");
   EXPECT_EQ(restored_child->GetTaggedItems()->GetDefaultTag(), "");
   EXPECT_EQ(restored_child->GetIdentifier(),
-            item.GetItem("defaultTag")->GetIdentifier());  // same identifiers
+            item.GetItem("defaultTag").GetIdentifier());  // same identifiers
 }
 
 }  // namespace mvvm::test

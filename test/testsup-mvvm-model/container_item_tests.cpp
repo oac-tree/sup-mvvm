@@ -79,14 +79,14 @@ TEST_F(ContainerItemTests, Clone)
   EXPECT_EQ(cloned_container->GetSize(), 2);
 
   // validating first element
-  auto property_clone = cloned_container->GetItem<PropertyItem>(TagIndex::Default(0));
+  auto* property_clone = &cloned_container->GetItem<PropertyItem>(TagIndex::Default(0));
   ASSERT_NE(property_clone, nullptr);
   EXPECT_EQ(property_clone->GetToolTip(), std::string("abc"));
   EXPECT_EQ(property_clone->Data<int>(), 42);
   EXPECT_EQ(property_clone->GetParent(), cloned_container);
 
   // validating vector
-  auto vector_clone = cloned_container->GetItem<VectorItem>(TagIndex::Default(1));
+  auto* vector_clone = &cloned_container->GetItem<VectorItem>(TagIndex::Default(1));
   ASSERT_NE(vector_clone, nullptr);
   EXPECT_EQ(vector_clone->GetIdentifier(), vector->GetIdentifier());
   EXPECT_EQ(vector_clone->GetParent(), cloned_container);
@@ -95,9 +95,9 @@ TEST_F(ContainerItemTests, Clone)
   EXPECT_DOUBLE_EQ(vector_clone->Z(), 3.0);
 
   // validating vector's children
-  auto x_clone = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kX));
-  auto y_clone = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kY));
-  auto z_clone = dynamic_cast<PropertyItem*>(vector_clone->GetItem(VectorItem::kZ));
+  auto x_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kX));
+  auto y_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kY));
+  auto z_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kZ));
   ASSERT_NE(x_clone, nullptr);
   ASSERT_NE(y_clone, nullptr);
   ASSERT_NE(z_clone, nullptr);

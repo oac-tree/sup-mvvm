@@ -154,13 +154,13 @@ TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemCustomLabels)
 
   // views should look at 3 property items
   auto view_x = items.at(0).get();
-  EXPECT_EQ(utils::GetItemFromView(view_x), item.GetItem(VectorItem::kX));
+  EXPECT_EQ(utils::GetItemFromView(view_x), item.FindItem(VectorItem::kX));
 
   auto view_y = items.at(1).get();
-  EXPECT_EQ(utils::GetItemFromView(view_y), item.GetItem(VectorItem::kY));
+  EXPECT_EQ(utils::GetItemFromView(view_y), item.FindItem(VectorItem::kY));
 
   auto view_z = items.at(2).get();
-  EXPECT_EQ(utils::GetItemFromView(view_z), item.GetItem(VectorItem::kZ));
+  EXPECT_EQ(utils::GetItemFromView(view_z), item.FindItem(VectorItem::kZ));
 }
 
 //! Checks row label construction for vector item.
@@ -231,17 +231,17 @@ TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemInModelContext)
 TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemWhenChildHidden)
 {
   VectorItem item;
-  item.GetItem(VectorItem::kY)->SetVisible(false);
+  item.GetItem(VectorItem::kY).SetVisible(false);
 
   PropertiesRowStrategy strategy({"a", "b", "c"});
   auto items = strategy.ConstructRow(&item);
 
   // views should look at 2 property items
   auto view_x = items.at(0).get();
-  EXPECT_EQ(utils::GetItemFromView(view_x), item.GetItem(VectorItem::kX));
+  EXPECT_EQ(utils::GetItemFromView(view_x), item.FindItem(VectorItem::kX));
 
   auto view_y = items.at(1).get();
-  EXPECT_EQ(utils::GetItemFromView(view_y), item.GetItem(VectorItem::kZ));
+  EXPECT_EQ(utils::GetItemFromView(view_y), item.FindItem(VectorItem::kZ));
 }
 
 }  // namespace mvvm::test

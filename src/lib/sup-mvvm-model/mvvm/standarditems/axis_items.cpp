@@ -76,9 +76,14 @@ std::unique_ptr<SessionItem> ViewportAxisItem::Clone() const
   return MakeClone(*this);
 }
 
-TextItem* ViewportAxisItem::GetTitleItem() const
+const TextItem* ViewportAxisItem::GetTitleItem() const
 {
-  return GetItem<TextItem>(constants::kTitle);
+  return &GetItem<TextItem>(constants::kTitle);
+}
+
+TextItem* ViewportAxisItem::GetTitleItem()
+{
+  return &GetItem<TextItem>(constants::kTitle);
 }
 
 std::pair<double, double> ViewportAxisItem::GetRange() const

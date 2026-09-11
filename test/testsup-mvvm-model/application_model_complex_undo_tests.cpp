@@ -87,7 +87,7 @@ TEST_F(ApplicationModelComplexUndoTests, InsertItemSetDataRemoveItem)
   EXPECT_EQ(commands->GetCommandCount(), 3);
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
-  EXPECT_EQ(m_model.GetRootItem()->GetItem(TagIndex())->Data(), variant_t(42));
+  EXPECT_EQ(m_model.GetRootItem()->GetItem(TagIndex()).Data(), variant_t(42));
 }
 
 //! Add GraphItem and Data1DItem, add data to graph, undo, then redo. GraphItem should be pointing
@@ -286,7 +286,7 @@ TEST_F(ApplicationModelComplexUndoTests, UndoSetVectorCoordinate)
   commands->Redo();
   commands->Redo();
 
-  auto restored_vector_item = m_model.GetRootItem()->GetItem<VectorItem>(TagIndex::Default(0));
+  auto* restored_vector_item = &m_model.GetRootItem()->GetItem<VectorItem>(TagIndex::Default(0));
 
   EXPECT_EQ(restored_vector_item->Data<std::string>(), std::string("(42, 0, 0)"));
   EXPECT_EQ(restored_vector_item->X(), 42.0);

@@ -30,14 +30,24 @@ namespace mvvm
 
 ViewportItem::ViewportItem(const std::string& item_type) : CompoundItem(item_type) {}
 
-ViewportAxisItem* ViewportItem::GetXAxis() const
+const ViewportAxisItem* ViewportItem::GetXAxis() const
 {
-  return GetItem<ViewportAxisItem>(kXaxis);
+  return &GetItem<ViewportAxisItem>(kXaxis);
 }
 
-ViewportAxisItem* ViewportItem::GetYAxis() const
+ViewportAxisItem* ViewportItem::GetXAxis()
 {
-  return GetItem<ViewportAxisItem>(kYaxis);
+  return &GetItem<ViewportAxisItem>(kXaxis);
+}
+
+const ViewportAxisItem* ViewportItem::GetYAxis() const
+{
+  return &GetItem<ViewportAxisItem>(kYaxis);
+}
+
+ViewportAxisItem* ViewportItem::GetYAxis()
+{
+  return &GetItem<ViewportAxisItem>(kYaxis);
 }
 
 std::pair<double, double> ViewportItem::GetDataXRange() const
@@ -67,7 +77,7 @@ ViewportArea ViewportItem::GetDataArea() const
   return {{xmin, xmax}, {ymin, ymax}};
 }
 
-void ViewportItem::SetViewportArea(const ViewportArea& area) const
+void ViewportItem::SetViewportArea(const ViewportArea& area)
 {
   utils::BeginMacro(*this, "SetViewportToContent");
   GetXAxis()->SetRange(area.xrange.lower, area.xrange.upper);
@@ -75,12 +85,12 @@ void ViewportItem::SetViewportArea(const ViewportArea& area) const
   utils::EndMacro(*this);
 }
 
-void ViewportItem::SetViewportToContent() const
+void ViewportItem::SetViewportToContent()
 {
   SetViewportToContent({0.0, 0.0, 0.0, 0.0});
 }
 
-void ViewportItem::SetViewportToContent(const ViewportMargins& margins) const
+void ViewportItem::SetViewportToContent(const ViewportMargins& margins)
 {
   SetViewportArea(ApplyRelativeMargins(GetDataArea(), margins));
 }

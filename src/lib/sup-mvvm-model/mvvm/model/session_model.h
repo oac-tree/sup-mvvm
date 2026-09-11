@@ -54,7 +54,9 @@ public:
 
   std::string GetType() const override;
 
-  SessionItem* GetRootItem() const override;
+  const SessionItem* GetRootItem() const override;
+
+  SessionItem* GetRootItem() override;
 
   ModelEventHandler* GetEventHandler() const override;
 

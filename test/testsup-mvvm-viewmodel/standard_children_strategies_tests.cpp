@@ -85,21 +85,21 @@ TEST_F(StandardChildrenStrategiesTest, AllVisibleChildrenStrategy)
   AllVisibleChildrenStrategy strategy;
 
   {  // VectorItem
-    const VectorItem item;
+    VectorItem item;
     EXPECT_EQ(strategy.GetChildren(&item).size(), 3);
 
-    item.GetItem(VectorItem::kY)->SetVisible(false);
+    item.GetItem(VectorItem::kY).SetVisible(false);
     EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
     EXPECT_EQ(
         strategy.GetChildren(&item),
-        std::vector<SessionItem*>({item.GetItem(VectorItem::kX), item.GetItem(VectorItem::kZ)}));
+        std::vector<SessionItem*>({item.FindItem(VectorItem::kX), item.FindItem(VectorItem::kZ)}));
   }
 
   {  // TestItem
-    const TestItem item;
+    TestItem item;
     EXPECT_EQ(strategy.GetChildren(&item).size(), 3);
 
-    item.GetItem("children")->SetVisible(false);
+    item.GetItem("children").SetVisible(false);
     EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
   }
 }
@@ -110,7 +110,7 @@ TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)
 {
   const AllChildrenStrategy strategy;
   VectorItem item;
-  item.GetItem(VectorItem::kX)->SetVisible(false);
+  item.GetItem(VectorItem::kX).SetVisible(false);
   EXPECT_EQ(strategy.GetChildren(&item).size(), 3);  // hidden items are still shown
 }
 
@@ -209,16 +209,16 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategyWhenHidden)
   const PropertyItemsStrategy strategy;
 
   {  // VectorItem
-    const VectorItem item;
-    item.GetItem(VectorItem::kY)->SetVisible(false);
+    VectorItem item;
+    item.GetItem(VectorItem::kY).SetVisible(false);
     EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
   }
 
   {  // GroupItem
     test::toyitems::ShapeGroupItem group_item;
     group_item.SetCurrentType(GetTypeName<test::toyitems::CylinderItem>());
-    auto radius_item =
-        group_item.GetCurrentItem()->GetItem(test::toyitems::CylinderItem::kRadiusTag);
+    auto* radius_item =
+        group_item.GetCurrentItem().FindItem(test::toyitems::CylinderItem::kRadiusTag);
     radius_item->SetVisible(false);
 
     auto properties = strategy.GetChildren(&group_item);
@@ -240,7 +240,7 @@ TEST_F(StandardChildrenStrategiesTest, FixedItemTypeStrategy)
   ASSERT_EQ(strategy.GetChildren(&particle_item).size(), 1);
   EXPECT_EQ(strategy.GetChildren(&particle_item),
             std::vector<SessionItem*>(
-                {particle_item.GetItem(test::toyitems::ParticleItem::kPositionTag)}));
+                {particle_item.FindItem(test::toyitems::ParticleItem::kPositionTag)}));
 }
 
 }  // namespace mvvm::test

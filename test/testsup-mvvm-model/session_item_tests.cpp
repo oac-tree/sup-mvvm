@@ -365,9 +365,9 @@ TEST_F(SessionItemTests, InsertItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 0);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), nullptr), constants::kInvalidIndex);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child.get()), constants::kInvalidIndex);
-  EXPECT_EQ(parent->GetItem({"", 0}), nullptr);
-  EXPECT_EQ(parent->GetItem(TagIndex::Append()), nullptr);
-  EXPECT_EQ(parent->GetItem({"", 10}), nullptr);
+  EXPECT_EQ(parent->FindItem({"", 0}), nullptr);
+  EXPECT_EQ(parent->FindItem(TagIndex::Append()), nullptr);
+  EXPECT_EQ(parent->FindItem({"", 10}), nullptr);
 
   // inserting child
   auto inserted = parent->InsertItem(std::move(child), {"", 0});
@@ -375,7 +375,7 @@ TEST_F(SessionItemTests, InsertItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
-  EXPECT_EQ(parent->GetItem({"", 0}), inserted);
+  EXPECT_EQ(parent->FindItem({"", 0}), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
 
   // attempt to insert non-initialised item
@@ -392,7 +392,7 @@ TEST_F(SessionItemTests, InsertItemTemplated)
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
-  EXPECT_EQ(parent->GetItem({"", 0}), inserted);
+  EXPECT_EQ(parent->FindItem({"", 0}), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
 
   // inserting property item
@@ -400,7 +400,7 @@ TEST_F(SessionItemTests, InsertItemTemplated)
   EXPECT_EQ(parent->GetTotalItemCount(), 2);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), property), 1);
   EXPECT_EQ(parent->GetAllItems()[1], property);
-  EXPECT_EQ(parent->GetItem({"", 1}), property);
+  EXPECT_EQ(parent->FindItem({"", 1}), property);
   EXPECT_EQ(property->GetParent(), parent.get());
 }
 
@@ -414,8 +414,8 @@ TEST_F(SessionItemTests, InsertChildren)
   auto child2 = parent->InsertItem(TagIndex::Append());
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child1), 0);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child2), 1);
-  EXPECT_EQ(parent->GetItem({"", 0}), child1);
-  EXPECT_EQ(parent->GetItem({"", 1}), child2);
+  EXPECT_EQ(parent->FindItem({"", 0}), child1);
+  EXPECT_EQ(parent->FindItem({"", 1}), child2);
   std::vector<SessionItem*> expected = {child1, child2};
   EXPECT_EQ(parent->GetAllItems(), expected);
 
@@ -426,10 +426,10 @@ TEST_F(SessionItemTests, InsertChildren)
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child1), 0);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child2), 2);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child3), 1);
-  EXPECT_EQ(parent->GetItem({"", 0}), child1);
-  EXPECT_EQ(parent->GetItem({"", 1}), child3);
-  EXPECT_EQ(parent->GetItem({"", 2}), child2);
-  EXPECT_EQ(parent->GetItem({"", 3}), nullptr);
+  EXPECT_EQ(parent->FindItem({"", 0}), child1);
+  EXPECT_EQ(parent->FindItem({"", 1}), child3);
+  EXPECT_EQ(parent->FindItem({"", 2}), child2);
+  EXPECT_EQ(parent->FindItem({"", 3}), nullptr);
 
   // inserting forth item using index equal to number of items
   auto child4 = parent->InsertItem({"", parent->GetTotalItemCount()});
@@ -470,7 +470,7 @@ TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
-  EXPECT_EQ(parent->GetItem({"", 0}), inserted);
+  EXPECT_EQ(parent->FindItem({"", 0}), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
   EXPECT_EQ(parent->GetParent(), nullptr);
 
@@ -522,10 +522,10 @@ TEST_F(SessionItemTests, InsertAndTakeItemsFromSingleTag)
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child2), 1);
 
   // testing single item access via tag interface
-  EXPECT_EQ(parent->GetItem(tag1), child1);
-  EXPECT_EQ(parent->GetItem({tag1, 0}), child1);
-  EXPECT_EQ(parent->GetItem({tag1, 1}), child2);
-  EXPECT_EQ(parent->GetItem({tag1, 2}), nullptr);  // wrong row
+  EXPECT_EQ(parent->FindItem(tag1), child1);
+  EXPECT_EQ(parent->FindItem({tag1, 0}), child1);
+  EXPECT_EQ(parent->FindItem({tag1, 1}), child2);
+  EXPECT_EQ(parent->FindItem({tag1, 2}), nullptr);  // wrong row
 
   // access to multiple items via tags interface
   EXPECT_EQ(parent->GetItems(tag1), expected);
@@ -567,13 +567,13 @@ TEST_F(SessionItemTests, InsertAndTakeItemsWhenTwoTags)
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child_t2_c), 4);
 
   // testing single item access via tag interface
-  EXPECT_EQ(parent->GetItem(tag1), child_t1_a);
-  EXPECT_EQ(parent->GetItem({tag1, 0}), child_t1_a);
-  EXPECT_EQ(parent->GetItem({tag1, 1}), child_t1_b);
-  EXPECT_EQ(parent->GetItem({tag2, 0}), child_t2_a);
-  EXPECT_EQ(parent->GetItem({tag2, 1}), child_t2_b);
-  EXPECT_EQ(parent->GetItem({tag2, 2}), child_t2_c);
-  EXPECT_EQ(parent->GetItem({tag2, 3}), nullptr);  // no items with such row
+  EXPECT_EQ(parent->FindItem(tag1), child_t1_a);
+  EXPECT_EQ(parent->FindItem({tag1, 0}), child_t1_a);
+  EXPECT_EQ(parent->FindItem({tag1, 1}), child_t1_b);
+  EXPECT_EQ(parent->FindItem({tag2, 0}), child_t2_a);
+  EXPECT_EQ(parent->FindItem({tag2, 1}), child_t2_b);
+  EXPECT_EQ(parent->FindItem({tag2, 2}), child_t2_c);
+  EXPECT_EQ(parent->FindItem({tag2, 3}), nullptr);  // no items with such row
 
   // access to multiple items via tags interface
   expected = {child_t1_a, child_t1_b};
@@ -928,12 +928,22 @@ TEST_F(SessionItemTests, CastedItemAccess)
   auto item1 = parent->InsertItem<ItemB>(TagIndex::Append());
   auto item2 = parent->InsertItem<ItemA>(TagIndex::Append());
 
-  EXPECT_EQ(parent->GetItem<ItemA>(tag), item0);
-  // current behavior of item<> method, consider to change
-  EXPECT_THROW(parent->GetItem<ItemB>(tag), RuntimeException);
+  // the nullable accessor reports a type mismatch as nullptr
+  EXPECT_EQ(parent->FindItem<ItemA>(tag), item0);
+  EXPECT_EQ(parent->FindItem<ItemB>(tag), nullptr);
 
-  EXPECT_EQ(parent->GetItems<ItemA>(tag), std::vector<ItemA*>({item0, item2}));
-  EXPECT_EQ(parent->GetItems<ItemB>(tag), std::vector<ItemB*>({item1}));
+  // the strict accessor throws on the very same mismatch
+  EXPECT_EQ(&parent->GetItem<ItemA>(tag), item0);
+  EXPECT_THROW((void)parent->GetItem<ItemB>(tag), RuntimeException);
+
+  // both accessors report a missing tag consistently
+  EXPECT_EQ(parent->FindItem<ItemA>("non-existing"), nullptr);
+  EXPECT_THROW((void)parent->GetItem<ItemA>("non-existing"), RuntimeException);
+
+  // the plural accessor filters out items of the wrong type
+  EXPECT_EQ(parent->FindItems<ItemA>(tag), std::vector<ItemA*>({item0, item2}));
+  EXPECT_EQ(parent->FindItems<ItemB>(tag), std::vector<ItemB*>({item1}));
+  EXPECT_TRUE(parent->FindItems<ItemA>("non-existing").empty());
 }
 
 TEST_F(SessionItemTests, Clone)
@@ -973,7 +983,7 @@ TEST_F(SessionItemTests, CloneParentAndChild)
     ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
     EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());
     EXPECT_EQ(parent_clone->GetModel(), nullptr);
-    auto child_clone = parent_clone->GetItem({tag, 0});
+    auto child_clone = parent_clone->FindItem({tag, 0});
     EXPECT_NE(child_clone->GetIdentifier(), child->GetIdentifier());
     EXPECT_EQ(child_clone->GetDisplayName(), child->GetDisplayName());
     EXPECT_EQ(child_clone->GetModel(), nullptr);
@@ -989,7 +999,7 @@ TEST_F(SessionItemTests, CloneParentAndChild)
     ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
     EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());
     EXPECT_EQ(parent_clone->GetModel(), nullptr);
-    auto child_clone = parent_clone->GetItem({tag, 0});
+    auto child_clone = parent_clone->FindItem({tag, 0});
     EXPECT_EQ(child_clone->GetIdentifier(), child->GetIdentifier());
     EXPECT_EQ(child_clone->GetDisplayName(), child->GetDisplayName());
     EXPECT_EQ(child_clone->GetModel(), nullptr);

@@ -553,7 +553,7 @@ TEST_F(SessionModelTest, InvalidMoveOfParentProperty)
 
   // items as before
   EXPECT_EQ(new_parent->GetTotalItemCount(), 0);
-  EXPECT_EQ(compound->GetItem("thickness"), &property);
+  EXPECT_EQ(compound->FindItem("thickness"), &property);
 }
 
 // ----------------------------------------------------------------------------

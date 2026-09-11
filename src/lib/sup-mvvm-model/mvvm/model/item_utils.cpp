@@ -40,6 +40,7 @@
 
 #include <sstream>
 #include <stack>
+#include <utility>
 
 namespace mvvm::utils
 {
@@ -110,9 +111,8 @@ std::unique_ptr<SessionItem> TakeItemImpl(SessionItem& item, const TagIndex& tag
 
 namespace
 {
-// Depth-first pre-order traversal shared by the const and non-const iterate() overloads.
-// GetAllItems() returns non-const child pointers regardless of constness, so the same body
-// serves both without removing any const qualification.
+// Depth-first pre-order traversal shared by the const and non-const iterate() overloads. The
+// constness of ItemT propagates through GetAllItems(), so the same body serves both.
 template <typename ItemT>
 void IterateImpl(ItemT* item, const std::function<void(ItemT*)>& func)
 {
@@ -214,7 +214,7 @@ std::size_t CopyNumber(const SessionItem* item)
   return (count > 1) ? result : constants::kInvalidIndex;
 }
 
-SessionItem* ChildAt(const SessionItem* parent, std::size_t index)
+const SessionItem* ChildAt(const SessionItem* parent, std::size_t index)
 {
   if (parent == nullptr)
   {
@@ -223,6 +223,11 @@ SessionItem* ChildAt(const SessionItem* parent, std::size_t index)
 
   auto container = parent->GetAllItems();
   return (index < container.size()) ? container[index] : nullptr;
+}
+
+SessionItem* ChildAt(SessionItem* parent, std::size_t index)
+{
+  return const_cast<SessionItem*>(ChildAt(static_cast<const SessionItem*>(parent), index));
 }
 
 std::size_t IndexOfChild(const SessionItem* parent, const SessionItem* child)
@@ -245,10 +250,10 @@ std::vector<std::string> RegisteredTags(const SessionItem& item)
   return result;
 }
 
-std::vector<SessionItem*> TopLevelItems(const SessionItem& item)
+std::vector<const SessionItem*> TopLevelItems(const SessionItem& item)
 {
-  std::vector<SessionItem*> result;
-  for (auto child : item.GetAllItems())
+  std::vector<const SessionItem*> result;
+  for (const auto* child : item.GetAllItems())
   {
     if (child->IsVisible() && !child->HasFlag(kProperty))
     {
@@ -258,10 +263,15 @@ std::vector<SessionItem*> TopLevelItems(const SessionItem& item)
   return result;
 }
 
-std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item)
+std::vector<SessionItem*> TopLevelItems(SessionItem& item)
 {
-  std::vector<SessionItem*> result;
-  for (auto child : item.GetAllItems())
+  return RemoveConst(TopLevelItems(std::as_const(item)));
+}
+
+std::vector<const SessionItem*> SinglePropertyItems(const SessionItem& item)
+{
+  std::vector<const SessionItem*> result;
+  for (const auto* child : item.GetAllItems())
   {
     if (child->IsVisible() && child->HasFlag(kProperty))
     {
@@ -271,6 +281,11 @@ std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item)
   return result;
 }
 
+std::vector<SessionItem*> SinglePropertyItems(SessionItem& item)
+{
+  return RemoveConst(SinglePropertyItems(std::as_const(item)));
+}
+
 const SessionItem *FindNextSibling(const SessionItem *item)
 {
   auto parent = (item != nullptr) ? item->GetParent() : nullptr;
@@ -278,7 +293,7 @@ const SessionItem *FindNextSibling(const SessionItem *item)
   {
     return nullptr;
   }
-  return parent->GetItem(item->GetTagIndex().Next());
+  return parent->FindItem(item->GetTagIndex().Next());
 }
 
 const SessionItem* FindPreviousSibling(const SessionItem* item)
@@ -288,7 +303,7 @@ const SessionItem* FindPreviousSibling(const SessionItem* item)
   {
     return nullptr;
   }
-  return parent->GetItem(item->GetTagIndex().Prev());
+  return parent->FindItem(item->GetTagIndex().Prev());
 }
 
 const SessionItem *FindNextItemToSelect(const SessionItem *item)

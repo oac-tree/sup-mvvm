@@ -142,7 +142,7 @@ TEST_F(PropertyViewModelControllerTests, GroupItemInitialState)
   using namespace mvvm::test::toyitems;
 
   auto particle = m_model.InsertItem<ParticleItem>();
-  auto group = particle->GetItem<ShapeGroupItem>(ParticleItem::kShapeTag);
+  auto* group = particle->FindItem<ShapeGroupItem>(ParticleItem::kShapeTag);
 
   PropertyViewModel view_model(&m_model);
   view_model.SetRootSessionItem(particle);
@@ -165,7 +165,7 @@ TEST_F(PropertyViewModelControllerTests, GroupItemBranchRebuiltOnSelectionChange
   using namespace mvvm::test::toyitems;
 
   auto particle = m_model.InsertItem<ParticleItem>();
-  auto group = particle->GetItem<ShapeGroupItem>(ParticleItem::kShapeTag);
+  auto* group = particle->FindItem<ShapeGroupItem>(ParticleItem::kShapeTag);
 
   PropertyViewModel view_model(&m_model);
   view_model.SetRootSessionItem(particle);
@@ -205,7 +205,7 @@ TEST_F(PropertyViewModelControllerTests, GroupItemBranchContent)
   using namespace mvvm::test::toyitems;
 
   auto particle = m_model.InsertItem<ParticleItem>();
-  auto group = particle->GetItem<ShapeGroupItem>(ParticleItem::kShapeTag);
+  auto* group = particle->FindItem<ShapeGroupItem>(ParticleItem::kShapeTag);
   group->SetCurrentType(GetTypeName<CylinderItem>());
 
   PropertyViewModel view_model(&m_model);
@@ -214,13 +214,13 @@ TEST_F(PropertyViewModelControllerTests, GroupItemBranchContent)
   const QModelIndex group_index = view_model.index(1, 0, QModelIndex());
   ASSERT_EQ(view_model.rowCount(group_index), 2);
 
-  auto cylinder = group->GetCurrentItem();
+  auto* cylinder = &group->GetCurrentItem();
   const QModelIndex radius_index = view_model.index(0, 0, group_index);
   const QModelIndex height_index = view_model.index(1, 0, group_index);
   EXPECT_EQ(view_model.GetSessionItemFromIndex(radius_index),
-            cylinder->GetItem(CylinderItem::kRadiusTag));
+            cylinder->FindItem(CylinderItem::kRadiusTag));
   EXPECT_EQ(view_model.GetSessionItemFromIndex(height_index),
-            cylinder->GetItem(CylinderItem::kHeightTag));
+            cylinder->FindItem(CylinderItem::kHeightTag));
 }
 
 //! The group's own row is kept in place across a selection change; only its children are rebuilt.
@@ -231,7 +231,7 @@ TEST_F(PropertyViewModelControllerTests, GroupItemRowIsPreserved)
   using namespace mvvm::test::toyitems;
 
   auto particle = m_model.InsertItem<ParticleItem>();
-  auto group = particle->GetItem<ShapeGroupItem>(ParticleItem::kShapeTag);
+  auto* group = particle->FindItem<ShapeGroupItem>(ParticleItem::kShapeTag);
 
   PropertyViewModel view_model(&m_model);
   view_model.SetRootSessionItem(particle);
@@ -257,7 +257,7 @@ TEST_F(PropertyViewModelControllerTests, GroupItemRowIsPreserved)
 TEST_F(PropertyViewModelControllerTests, GroupItemBranchRebuiltFromEmpty)
 {
   auto holder = m_model.InsertItem<HolderItem>();
-  auto group = holder->GetItem<TestGroupItem>("group");
+  auto* group = holder->FindItem<TestGroupItem>("group");
 
   // mirror PropertyTreeView: null model at construction, root set afterwards
   PropertyViewModel view_model(nullptr);

@@ -58,7 +58,7 @@ std::int32_t GroupItem::GetCurrentIndex() const
 
 std::string GroupItem::GetCurrentType() const
 {
-  const auto* current_item = GetCurrentItem();
+  const auto* current_item = FindCurrentItem();
   return (current_item == nullptr) ? std::string() : current_item->GetType();
 }
 

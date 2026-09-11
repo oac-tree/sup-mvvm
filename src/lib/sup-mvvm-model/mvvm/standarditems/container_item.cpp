@@ -47,7 +47,12 @@ std::size_t ContainerItem::GetSize() const
   return GetItemCount(std::string(constants::kChildrenTag));
 }
 
-std::vector<SessionItem*> ContainerItem::GetChildren() const
+std::vector<const SessionItem*> ContainerItem::GetChildren() const
+{
+  return GetAllItems();
+}
+
+std::vector<SessionItem*> ContainerItem::GetChildren()
 {
   return GetAllItems();
 }

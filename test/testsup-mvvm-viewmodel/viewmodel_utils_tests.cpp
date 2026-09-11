@@ -203,7 +203,7 @@ TEST_F(ViewModelUtilsTest, ItemFromIndex)
   auto parent_index = view_model.index(0, 0, QModelIndex());
   EXPECT_EQ(utils::ItemFromIndex(parent_index), parent);
   EXPECT_EQ(utils::ItemFromIndex(view_model.index(0, 0, parent_index)),
-            parent->GetItem(VectorItem::kX));
+            parent->FindItem(VectorItem::kX));
 }
 
 //! Check ItemsFromIndex in PropertyTableViewModel context. ViewItem with its three property x, y, z
@@ -229,9 +229,9 @@ TEST_F(ViewModelUtilsTest, ItemsFromIndex)
   index_list.push_back(viewModel.index(0, 1, QModelIndex()));
   index_list.push_back(viewModel.index(0, 2, QModelIndex()));
 
-  const std::vector<SessionItem*> expected = {parent->GetItem(VectorItem::kX),
-                                              parent->GetItem(VectorItem::kY),
-                                              parent->GetItem(VectorItem::kZ)};
+  const std::vector<SessionItem*> expected = {parent->FindItem(VectorItem::kX),
+                                              parent->FindItem(VectorItem::kY),
+                                              parent->FindItem(VectorItem::kZ)};
   EXPECT_EQ(utils::ItemsFromIndex(index_list), expected);
 }
 
@@ -298,7 +298,7 @@ TEST_F(ViewModelUtilsTest, ItemFromProxyIndexForModelWithoutProxy)
   auto parent_index = view_model.index(0, 0, QModelIndex());
   EXPECT_EQ(utils::ItemFromProxyIndex(parent_index), parent);
   EXPECT_EQ(utils::ItemFromProxyIndex(view_model.index(0, 0, parent_index)),
-            parent->GetItem(VectorItem::kX));
+            parent->FindItem(VectorItem::kX));
 }
 
 TEST_F(ViewModelUtilsTest, ItemFromProxyIndexForModelProxy)
@@ -316,7 +316,7 @@ TEST_F(ViewModelUtilsTest, ItemFromProxyIndexForModelProxy)
 
   EXPECT_EQ(utils::ItemFromProxyIndex(parent_index), parent);
   EXPECT_EQ(utils::ItemFromProxyIndex(filtered_model.index(0, 0, parent_index)),
-            parent->GetItem(VectorItem::kY));
+            parent->FindItem(VectorItem::kY));
 }
 
 }  // namespace mvvm::test

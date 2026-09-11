@@ -214,9 +214,9 @@ TEST_F(AppProjectTest, SaveAndLoad)
   // checking content of the model
   auto recreated_model = project->GetModel<TestModelB>(1U);
   ASSERT_NE(recreated_model, nullptr);
-  ASSERT_NE(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First()), nullptr);
+  ASSERT_NE(recreated_model->GetRootItem()->FindItem(mvvm::TagIndex::First()), nullptr);
   // expecting old value which we had at the moment of save
-  EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First())->Data<int>(), 42);
+  EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First()).Data<int>(), 42);
 
   // closing, and loading again
   EXPECT_TRUE(project->Close());
@@ -227,9 +227,9 @@ TEST_F(AppProjectTest, SaveAndLoad)
   EXPECT_TRUE(project->Load(expected_path));
   recreated_model = project->GetModel<TestModelB>(1U);
   ASSERT_NE(recreated_model, nullptr);
-  ASSERT_NE(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First()), nullptr);
+  ASSERT_NE(recreated_model->GetRootItem()->FindItem(mvvm::TagIndex::First()), nullptr);
   // expecting old value which we had at the moment of save
-  EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First())->Data<int>(), 42);
+  EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First()).Data<int>(), 42);
 }
 
 //! Loading the model from wong file.
@@ -287,7 +287,7 @@ TEST_F(AppProjectTest, LoadAndThenModify)
 
   // checking content of the model
   auto recreated_model = project->GetModel<TestModelA>(0U);
-  auto restored_item = recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First());
+  auto* restored_item = &recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First());
   EXPECT_EQ(restored_item->Data<int>(), 42);
 
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);

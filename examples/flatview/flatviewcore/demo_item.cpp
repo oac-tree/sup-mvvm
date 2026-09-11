@@ -66,7 +66,7 @@ bool DemoItem::OnSetAvailableFlag(SessionItem* property, const mvvm::variant_t& 
   const bool result = mvvm::utils::SetData(*property, variant, role);
 
   // marking property "Answer" disabled if "Available" flag is false
-  GetItem("Answer")->SetEnabled(Property<bool>("Available"));
+  GetItem("Answer").SetEnabled(Property<bool>("Available"));
 
   mvvm::utils::EndMacro(*this);
 

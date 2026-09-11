@@ -53,7 +53,7 @@ TEST_F(PropertyTreeViewTest, ChangeRootAndSetData)
   view.SetItem(vector_item1);
 
   ASSERT_NO_FATAL_FAILURE(
-      model.SetData(vector_item0->GetItem(VectorItem::kX), 42.0, DataRole::kData));
+      model.SetData(vector_item0->FindItem(VectorItem::kX), 42.0, DataRole::kData));
 }
 
 //! Assign property item, then assign nullptr and destroy the model.

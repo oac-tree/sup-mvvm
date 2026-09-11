@@ -23,6 +23,7 @@
 #include "item_utils.h"
 #include "make_clone.h"
 #include "process_command.h"
+#include "session_item_container.h"
 #include "session_item_data.h"
 #include "session_item_impl.h"
 #include "tagged_items.h"
@@ -176,30 +177,45 @@ std::size_t SessionItem::GetTotalItemCount() const
   return GetTaggedItems()->GetTotalItemCount();
 }
 
-std::vector<SessionItem*> SessionItem::GetAllItems() const
+std::vector<const SessionItem*> SessionItem::GetAllItems() const
 {
-  // TEMPORARY - removed together with the const-correct SessionItem accessors
-  return utils::RemoveConst(GetTaggedItems()->GetAllItems());
+  return GetTaggedItems()->GetAllItems();
 }
 
-std::size_t SessionItem::GetItemCount(const std::string& tag) const
+std::vector<SessionItem*> SessionItem::GetAllItems()
 {
-  return GetTaggedItems()->GetItemCount(tag);
+  return GetTaggedItems()->GetAllItems();
 }
 
-SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const
+std::size_t SessionItem::GetItemCount(std::string_view tag) const
 {
-  // TEMPORARY - removed together with the const-correct SessionItem accessors. Note that
-  // TaggedItems::FindItem is total, while the old TaggedItems::GetItem used to throw on an
-  // unregistered tag; that throw is preserved here until the public API is reworked.
-  (void)GetTaggedItems()->GetContainer(tag_index.GetTag());
-  return const_cast<SessionItem*>(GetTaggedItems()->FindItem(tag_index));
+  return GetTaggedItems()->GetItemCount(std::string(tag));
 }
 
-std::vector<SessionItem*> SessionItem::GetItems(const std::string_view& tag) const
+const SessionItem* SessionItem::FindItem(const TagIndex& tag_index) const
 {
-  // TEMPORARY - removed together with the const-correct SessionItem accessors
-  return utils::RemoveConst(GetTaggedItems()->GetItems(std::string(tag)));
+  return GetTaggedItems()->FindItem(tag_index);
+}
+
+SessionItem* SessionItem::FindItem(const TagIndex& tag_index)
+{
+  return GetTaggedItems()->FindItem(tag_index);
+}
+
+std::vector<const SessionItem*> SessionItem::GetItems(std::string_view tag) const
+{
+  return GetTaggedItems()->GetItems(std::string(tag));
+}
+
+std::vector<SessionItem*> SessionItem::GetItems(std::string_view tag)
+{
+  return GetTaggedItems()->GetItems(std::string(tag));
+}
+
+std::vector<const SessionItem*> SessionItem::FindItemsImpl(std::string_view tag) const
+{
+  const auto* container = GetTaggedItems()->FindContainer(std::string(tag));
+  return container != nullptr ? container->GetItems() : std::vector<const SessionItem*>{};
 }
 
 TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const

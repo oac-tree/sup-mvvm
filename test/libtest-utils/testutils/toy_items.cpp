@@ -132,9 +132,14 @@ std::unique_ptr<SessionItem> MultiLayerItem::Clone() const
   return MakeClone(*this);
 }
 
-std::vector<LayerItem*> MultiLayerItem::GetLayers() const
+std::vector<const LayerItem*> MultiLayerItem::GetLayers() const
 {
-  return GetItems<LayerItem>(kLayerTag);
+  return FindItems<LayerItem>(kLayerTag);
+}
+
+std::vector<LayerItem*> MultiLayerItem::GetLayers()
+{
+  return FindItems<LayerItem>(kLayerTag);
 }
 
 //! -----------------------------------------------------------------------------------------------

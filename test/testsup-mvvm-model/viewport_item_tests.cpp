@@ -47,7 +47,7 @@ class ViewportItemTests : public ::testing::Test
 
 TEST_F(ViewportItemTests, GetDataRange)
 {
-  const MockViewport mock_viewport;
+  MockViewport mock_viewport;
   const std::pair<double, double> expected_xrange{1.0, 2.0};
   const std::pair<double, double> expected_yrange{3.0, 4.0};
   EXPECT_CALL(mock_viewport, GetDataXRangeImpl()).WillOnce(::testing::Return(expected_xrange));
@@ -58,7 +58,7 @@ TEST_F(ViewportItemTests, GetDataRange)
 
 TEST_F(ViewportItemTests, GetViewportArea)
 {
-  const MockViewport mock_viewport;
+  MockViewport mock_viewport;
   const double expected_xmin{1.0};
   const double expected_xmax{2.0};
   const double expected_ymin{3.0};
@@ -78,7 +78,7 @@ TEST_F(ViewportItemTests, GetViewportArea)
 
 TEST_F(ViewportItemTests, SetViewportArea)
 {
-  const MockViewport mock_viewport;
+  MockViewport mock_viewport;
   const ViewportArea area{{1.0, 2.0}, {3.0, 4.0}};
   mock_viewport.SetViewportArea(area);
   EXPECT_DOUBLE_EQ(mock_viewport.GetXAxis()->GetMin(), area.xrange.lower);

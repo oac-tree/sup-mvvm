@@ -165,8 +165,8 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
   // checking that it is as it was right after the save
 
   // accessing reconstructed parent and child
-  auto reco_parent = model.GetRootItem()->GetItem(TagIndex::First());
-  auto reco_child = reco_parent->GetItem(TagIndex::First());
+  auto* reco_parent = &model.GetRootItem()->GetItem(TagIndex::First());
+  auto* reco_child = &reco_parent->GetItem(TagIndex::First());
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->GetModel(), &model);
@@ -216,8 +216,8 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   // checking that it is as it was right after the save
 
   // accessing reconstructed parent and child
-  auto reco_parent1 = model1.GetRootItem()->GetItem(TagIndex::First());
-  auto reco_parent2 = model2.GetRootItem()->GetItem(TagIndex::First());
+  auto* reco_parent1 = &model1.GetRootItem()->GetItem(TagIndex::First());
+  auto* reco_parent2 = &model2.GetRootItem()->GetItem(TagIndex::First());
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent1->GetModel(), &model1);

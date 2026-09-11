@@ -64,7 +64,7 @@ void ViewModelController::OnItemInsertedEvent(const ItemInsertedEvent& event)
 {
   auto [parent, tag_index] = event;
 
-  auto new_child = parent->GetItem(tag_index);
+  auto* new_child = &parent->GetItem(tag_index);
 
   const auto insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
   auto parent_view = const_cast<ViewItem*>(m_view_item_map.FindView(parent));
@@ -78,7 +78,7 @@ void ViewModelController::OnItemInsertedEvent(const ItemInsertedEvent& event)
 
 void ViewModelController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event)
 {
-  auto item_to_remove = event.item->GetItem(event.tag_index);
+  const auto* item_to_remove = &event.item->GetItem(event.tag_index);
 
   if ((item_to_remove == GetRootItem()) || utils::IsItemAncestor(GetRootItem(), item_to_remove))
   {

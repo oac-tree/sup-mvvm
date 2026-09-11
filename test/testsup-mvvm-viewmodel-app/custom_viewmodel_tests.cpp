@@ -65,9 +65,9 @@ private:
     if (auto vector = dynamic_cast<mvvm::VectorItem*>(item); vector)
     {
       result.emplace_back(mvvm::CreateDisplayNameViewItem(vector));
-      result.emplace_back(mvvm::CreateDataViewItem(vector->GetItem(mvvm::VectorItem::kX)));
-      result.emplace_back(mvvm::CreateDataViewItem(vector->GetItem(mvvm::VectorItem::kY)));
-      result.emplace_back(mvvm::CreateDataViewItem(vector->GetItem(mvvm::VectorItem::kZ)));
+      result.emplace_back(mvvm::CreateDataViewItem(vector->FindItem(mvvm::VectorItem::kX)));
+      result.emplace_back(mvvm::CreateDataViewItem(vector->FindItem(mvvm::VectorItem::kY)));
+      result.emplace_back(mvvm::CreateDataViewItem(vector->FindItem(mvvm::VectorItem::kZ)));
     }
 
     return result;

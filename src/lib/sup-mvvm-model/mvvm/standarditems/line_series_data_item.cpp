@@ -47,7 +47,7 @@ std::size_t LineSeriesDataItem::GetPointCount() const
 std::vector<std::pair<double, double> > LineSeriesDataItem::GetWaveform() const
 {
   std::vector<std::pair<double, double> > result;
-  for (const auto* point : GetItems<PointItem>(constants::kChildrenTag))
+  for (const auto* point : FindItems<PointItem>(constants::kChildrenTag))
   {
     (void)result.emplace_back(point->GetX(), point->GetY());
   }
@@ -112,12 +112,23 @@ void LineSeriesDataItem::ValidateIndex(std::size_t index) const
   }
 }
 
-std::vector<PointItem*> LineSeriesDataItem::GetPoints() const
+std::vector<const PointItem*> LineSeriesDataItem::GetPoints() const
 {
-  return GetItems<PointItem>(constants::kChildrenTag);
+  return FindItems<PointItem>(constants::kChildrenTag);
 }
 
-PointItem* LineSeriesDataItem::GetPoint(std::size_t index) const
+std::vector<PointItem*> LineSeriesDataItem::GetPoints()
+{
+  return FindItems<PointItem>(constants::kChildrenTag);
+}
+
+const PointItem* LineSeriesDataItem::GetPoint(std::size_t index) const
+{
+  ValidateIndex(index);
+  return GetPoints().at(index);
+}
+
+PointItem* LineSeriesDataItem::GetPoint(std::size_t index)
 {
   ValidateIndex(index);
   return GetPoints().at(index);
