@@ -165,27 +165,27 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
   // checking that it is as it was right after the save
 
   // accessing reconstructed parent and child
-  auto* reco_parent = &model.GetRootItem()->GetItem(TagIndex::First());
-  auto* reco_child = &reco_parent->GetItem(TagIndex::First());
+  auto& reco_parent = model.GetRootItem()->GetItem(TagIndex::First());
+  auto& reco_child = reco_parent.GetItem(TagIndex::First());
 
   // checking parent reconstruction
-  EXPECT_EQ(reco_parent->GetModel(), &model);
-  EXPECT_EQ(reco_parent->GetType(), GetTypeName<SessionItem>());
-  EXPECT_EQ(reco_parent->GetParent(), model.GetRootItem());
-  EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
-  EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
-  EXPECT_EQ(reco_parent->GetIdentifier(), parent_identifier);
-  EXPECT_EQ(reco_parent->GetTaggedItems()->GetDefaultTag(), "defaultTag");
-  EXPECT_EQ(reco_parent->Data<int>(), 42);
+  EXPECT_EQ(reco_parent.GetModel(), &model);
+  EXPECT_EQ(reco_parent.GetType(), GetTypeName<SessionItem>());
+  EXPECT_EQ(reco_parent.GetParent(), model.GetRootItem());
+  EXPECT_EQ(reco_parent.GetDisplayName(), "parent_name");
+  EXPECT_EQ(reco_parent.GetTotalItemCount(), 1);
+  EXPECT_EQ(reco_parent.GetIdentifier(), parent_identifier);
+  EXPECT_EQ(reco_parent.GetTaggedItems()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(reco_parent.Data<int>(), 42);
 
   // checking child reconstruction
-  EXPECT_EQ(reco_child->GetModel(), &model);
-  EXPECT_EQ(reco_child->GetType(), GetTypeName<PropertyItem>());
-  EXPECT_EQ(reco_child->GetParent(), reco_parent);
-  EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
-  EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
-  EXPECT_EQ(reco_child->GetIdentifier(), child_identifier);
-  EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
+  EXPECT_EQ(reco_child.GetModel(), &model);
+  EXPECT_EQ(reco_child.GetType(), GetTypeName<PropertyItem>());
+  EXPECT_EQ(reco_child.GetParent(), &reco_parent);
+  EXPECT_EQ(reco_child.GetDisplayName(), "child_name");
+  EXPECT_EQ(reco_child.GetTotalItemCount(), 0);
+  EXPECT_EQ(reco_child.GetIdentifier(), child_identifier);
+  EXPECT_EQ(reco_child.GetTaggedItems()->GetDefaultTag(), "");
 }
 
 TEST_F(XmlDocumentTest, SaveLoadTwoModels)
@@ -216,17 +216,17 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   // checking that it is as it was right after the save
 
   // accessing reconstructed parent and child
-  auto* reco_parent1 = &model1.GetRootItem()->GetItem(TagIndex::First());
-  auto* reco_parent2 = &model2.GetRootItem()->GetItem(TagIndex::First());
+  auto& reco_parent1 = model1.GetRootItem()->GetItem(TagIndex::First());
+  auto& reco_parent2 = model2.GetRootItem()->GetItem(TagIndex::First());
 
   // checking parent reconstruction
-  EXPECT_EQ(reco_parent1->GetModel(), &model1);
-  EXPECT_EQ(reco_parent1->GetParent(), model1.GetRootItem());
-  EXPECT_EQ(reco_parent1->GetIdentifier(), parent_identifier1);
+  EXPECT_EQ(reco_parent1.GetModel(), &model1);
+  EXPECT_EQ(reco_parent1.GetParent(), model1.GetRootItem());
+  EXPECT_EQ(reco_parent1.GetIdentifier(), parent_identifier1);
 
-  EXPECT_EQ(reco_parent2->GetModel(), &model2);
-  EXPECT_EQ(reco_parent2->GetParent(), model2.GetRootItem());
-  EXPECT_EQ(reco_parent2->GetIdentifier(), parent_identifier2);
+  EXPECT_EQ(reco_parent2.GetModel(), &model2);
+  EXPECT_EQ(reco_parent2.GetParent(), model2.GetRootItem());
+  EXPECT_EQ(reco_parent2.GetIdentifier(), parent_identifier2);
 }
 
 TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)

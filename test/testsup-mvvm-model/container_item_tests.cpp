@@ -79,31 +79,29 @@ TEST_F(ContainerItemTests, Clone)
   EXPECT_EQ(cloned_container->GetSize(), 2);
 
   // validating first element
-  auto* property_clone = &cloned_container->GetItem<PropertyItem>(TagIndex::Default(0));
-  ASSERT_NE(property_clone, nullptr);
-  EXPECT_EQ(property_clone->GetToolTip(), std::string("abc"));
-  EXPECT_EQ(property_clone->Data<int>(), 42);
-  EXPECT_EQ(property_clone->GetParent(), cloned_container);
+  auto& property_clone = cloned_container->GetItem<PropertyItem>(TagIndex::Default(0));
+  EXPECT_EQ(property_clone.GetToolTip(), std::string("abc"));
+  EXPECT_EQ(property_clone.Data<int>(), 42);
+  EXPECT_EQ(property_clone.GetParent(), cloned_container);
 
   // validating vector
-  auto* vector_clone = &cloned_container->GetItem<VectorItem>(TagIndex::Default(1));
-  ASSERT_NE(vector_clone, nullptr);
-  EXPECT_EQ(vector_clone->GetIdentifier(), vector->GetIdentifier());
-  EXPECT_EQ(vector_clone->GetParent(), cloned_container);
-  EXPECT_DOUBLE_EQ(vector_clone->X(), 1.0);
-  EXPECT_DOUBLE_EQ(vector_clone->Y(), 2.0);
-  EXPECT_DOUBLE_EQ(vector_clone->Z(), 3.0);
+  auto& vector_clone = cloned_container->GetItem<VectorItem>(TagIndex::Default(1));
+  EXPECT_EQ(vector_clone.GetIdentifier(), vector->GetIdentifier());
+  EXPECT_EQ(vector_clone.GetParent(), cloned_container);
+  EXPECT_DOUBLE_EQ(vector_clone.X(), 1.0);
+  EXPECT_DOUBLE_EQ(vector_clone.Y(), 2.0);
+  EXPECT_DOUBLE_EQ(vector_clone.Z(), 3.0);
 
   // validating vector's children
-  auto x_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kX));
-  auto y_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kY));
-  auto z_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kZ));
+  auto x_clone = dynamic_cast<PropertyItem*>(vector_clone.FindItem(VectorItem::kX));
+  auto y_clone = dynamic_cast<PropertyItem*>(vector_clone.FindItem(VectorItem::kY));
+  auto z_clone = dynamic_cast<PropertyItem*>(vector_clone.FindItem(VectorItem::kZ));
   ASSERT_NE(x_clone, nullptr);
   ASSERT_NE(y_clone, nullptr);
   ASSERT_NE(z_clone, nullptr);
-  EXPECT_EQ(x_clone->GetParent(), vector_clone);
-  EXPECT_EQ(y_clone->GetParent(), vector_clone);
-  EXPECT_EQ(z_clone->GetParent(), vector_clone);
+  EXPECT_EQ(x_clone->GetParent(), &vector_clone);
+  EXPECT_EQ(y_clone->GetParent(), &vector_clone);
+  EXPECT_EQ(z_clone->GetParent(), &vector_clone);
 }
 
 TEST_F(ContainerItemTests, GetChildren)

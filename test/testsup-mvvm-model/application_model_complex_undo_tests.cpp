@@ -286,10 +286,10 @@ TEST_F(ApplicationModelComplexUndoTests, UndoSetVectorCoordinate)
   commands->Redo();
   commands->Redo();
 
-  auto* restored_vector_item = &m_model.GetRootItem()->GetItem<VectorItem>(TagIndex::Default(0));
+  auto& restored_vector_item = m_model.GetRootItem()->GetItem<VectorItem>(TagIndex::Default(0));
 
-  EXPECT_EQ(restored_vector_item->Data<std::string>(), std::string("(42, 0, 0)"));
-  EXPECT_EQ(restored_vector_item->X(), 42.0);
+  EXPECT_EQ(restored_vector_item.Data<std::string>(), std::string("(42, 0, 0)"));
+  EXPECT_EQ(restored_vector_item.X(), 42.0);
 }
 
 }  // namespace mvvm::test

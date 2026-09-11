@@ -287,11 +287,11 @@ TEST_F(AppProjectTest, LoadAndThenModify)
 
   // checking content of the model
   auto recreated_model = project->GetModel<TestModelA>(0U);
-  auto* restored_item = &recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First());
-  EXPECT_EQ(restored_item->Data<int>(), 42);
+  auto& restored_item = recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First());
+  EXPECT_EQ(restored_item.Data<int>(), 42);
 
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
-  restored_item->SetData(43);
+  restored_item.SetData(43);
 }
 
 }  // namespace mvvm::test
