@@ -513,6 +513,33 @@ bool HasMoreItemsThan(const SessionItem& item, std::size_t max_item_count)
   return count > max_item_count;
 }
 
+/**
+ * @brief Returns the number of items of the given type in the given item tree.
+ *
+ * The given item itself is taken into account. Items which can't be cast to the given type are not
+ * counted.
+ *
+ * @tparam ItemT The concrete type of items to count.
+ * @param item The root of the tree to examine.
+ */
+template <typename ItemT = SessionItem>
+std::size_t GetItemCount(const SessionItem& item)
+{
+  std::size_t result{0};
+
+  auto on_item = [&result](const SessionItem* visited)
+  {
+    if (dynamic_cast<const ItemT*>(visited) != nullptr)
+    {
+      ++result;
+    }
+  };
+
+  iterate(&item, on_item);
+
+  return result;
+}
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_

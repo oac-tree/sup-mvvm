@@ -974,4 +974,24 @@ TEST_F(ItemUtilsTests, HasMoreItemsThan)
   }
 }
 
+TEST_F(ItemUtilsTests, GetItemCount)
+{
+  using namespace mvvm::test::toyitems;
+
+  {  // single item without children
+    const SessionItem item;
+    EXPECT_EQ(utils::GetItemCount(item), 1);
+  }
+
+  MultiLayerItem multilayer;
+  multilayer.InsertItem<LayerItem>(TagIndex::Append());
+  multilayer.InsertItem<LayerItem>(TagIndex::Append());
+
+  // the multilayer itself, two layers, and two properties in every layer
+  EXPECT_EQ(utils::GetItemCount(multilayer), 7);
+
+  EXPECT_EQ(utils::GetItemCount<LayerItem>(multilayer), 2);
+  EXPECT_EQ(utils::GetItemCount<ParticleItem>(multilayer), 0);
+}
+
 }  // namespace mvvm::test
