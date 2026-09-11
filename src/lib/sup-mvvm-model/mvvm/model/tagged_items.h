@@ -116,7 +116,7 @@ public:
    *
    * @return Convenience pointer to just inserted item.
    */
-  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index) const;
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
 
   /**
    * @brief Checks if item can be removed from given place.
@@ -126,28 +126,52 @@ public:
   /**
    * @brief Removes an item from the given tag_index, returns it to the caller.
    */
-  std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index) const;
+  std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index);
 
   /**
-   * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.
+   * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist (const
+   * version).
    *
-   * If the tag name is empty, the tag registered as default will be used. Will throw, when
-   * provided non-empty tag wasn't registered. The tag index shouldn't exceed the number of items in
-   * the corresponding container.
+   * Never throws. Returns nullptr if the tag is not registered, or if the index exceeds the number
+   * of items in the corresponding container. If the tag name is empty, the tag registered as
+   * default will be used.
    */
-  SessionItem* GetItem(const TagIndex& tag_index) const;
+  const SessionItem* FindItem(const TagIndex& tag_index) const;
 
   /**
-   * @brief Returns all items from the container with the given name.
+   * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist (non-const
+   * version).
+   */
+  SessionItem* FindItem(const TagIndex& tag_index);
+
+  /**
+   * @brief Returns all items from the container with the given name (const version).
    *
-   * If tag name is empty, default tag will be used.
+   * Will throw, when provided non-empty tag wasn't registered. If tag name is empty, default tag
+   * will be used.
    */
-  std::vector<SessionItem*> GetItems(const std::string& tag = {}) const;
+  std::vector<const SessionItem*> GetItems(const std::string& tag = {}) const;
 
   /**
-   * @brief Returns vector of items formed from all children of all named container.
+   * @brief Returns all items from the container with the given name (non-const version).
    */
-  std::vector<SessionItem*> GetAllItems() const;
+  std::vector<SessionItem*> GetItems(const std::string& tag = {});
+
+  /**
+   * @brief Returns vector of items formed from all children of all named container (const version).
+   */
+  std::vector<const SessionItem*> GetAllItems() const;
+
+  /**
+   * @brief Returns vector of items formed from all children of all named container (non-const
+   * version).
+   */
+  std::vector<SessionItem*> GetAllItems();
+
+  /**
+   * @brief Returns total number of children in all tags.
+   */
+  std::size_t GetTotalItemCount() const;
 
   /**
    * @brief Returns a pair of tag and index corresponding to a given item.
@@ -175,7 +199,12 @@ public:
   std::size_t GetTagCount() const;
 
   /**
-   * @brief Index operator to access containers.
+   * @brief Index operator to access containers (const version).
+   */
+  const SessionItemContainer& ContainerAt(std::size_t index) const;
+
+  /**
+   * @brief Index operator to access containers (non-const version).
    */
   SessionItemContainer& ContainerAt(std::size_t index);
 
@@ -194,7 +223,13 @@ public:
    *
    * If the provided tag name is empty, will try to find a container registered by default.
    */
-  SessionItemContainer* GetContainer(const std::string& tag) const;
+  const SessionItemContainer* GetContainer(const std::string& tag) const;
+
+  /**
+   * @brief Returns container corresponding to the given name, or throw if container doesn't exist
+   * (non-const version).
+   */
+  SessionItemContainer* GetContainer(const std::string& tag);
 
   /**
    * @brief Returns container corresponding to the given tag name, or nullptr if container doesn't
@@ -202,7 +237,13 @@ public:
    *
    * If the provided tag name is empty, will try to find a container registered by default.
    */
-  SessionItemContainer* FindContainer(const std::string& tag) const;
+  const SessionItemContainer* FindContainer(const std::string& tag) const;
+
+  /**
+   * @brief Returns container corresponding to the given tag name, or nullptr if container doesn't
+   * exist (non-const version).
+   */
+  SessionItemContainer* FindContainer(const std::string& tag);
 
 private:
   container_t m_containers;

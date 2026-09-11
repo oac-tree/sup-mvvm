@@ -22,8 +22,11 @@
 
 #include "session_item.h"
 
+#include <mvvm/utils/container_utils.h>
+
 #include <algorithm>
 #include <sstream>
+#include <utility>
 
 namespace mvvm
 {
@@ -44,12 +47,17 @@ std::size_t SessionItemContainer::GetItemCount() const
   return m_items.size();
 }
 
-std::vector<SessionItem*> SessionItemContainer::GetItems() const
+std::vector<const SessionItem*> SessionItemContainer::GetItems() const
 {
-  std::vector<SessionItem*> result;
+  std::vector<const SessionItem*> result;
   (void)std::transform(m_items.begin(), m_items.end(), std::back_inserter(result),
                        [](const auto& item) { return item.get(); });
   return result;
+}
+
+std::vector<SessionItem*> SessionItemContainer::GetItems()
+{
+  return utils::RemoveConst(std::as_const(*this).GetItems());
 }
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, std::size_t index) const
@@ -117,9 +125,14 @@ std::optional<std::size_t> SessionItemContainer::IndexOfItem(const SessionItem* 
   return pos == m_items.end() ? std::optional<std::size_t>() : std::distance(m_items.begin(), pos);
 }
 
-SessionItem* SessionItemContainer::ItemAt(std::size_t index) const
+const SessionItem* SessionItemContainer::ItemAt(std::size_t index) const
 {
   return (index < GetItemCount()) ? m_items[index].get() : nullptr;
+}
+
+SessionItem* SessionItemContainer::ItemAt(std::size_t index)
+{
+  return const_cast<SessionItem*>(std::as_const(*this).ItemAt(index));
 }
 
 std::string SessionItemContainer::GetName() const

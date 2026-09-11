@@ -24,6 +24,9 @@
 #include "session_item_container.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/utils/container_utils.h>
+
+#include <utility>
 
 namespace mvvm
 {
@@ -91,8 +94,7 @@ bool TaggedItems::CanInsertType(const std::string& item_type, const TagIndex& ta
   return false;
 }
 
-SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item,
-                                     const TagIndex& tag_index) const
+SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   return GetContainer(tag_index.GetTag())->InsertItem(std::move(item), tag_index.GetIndex());
 }
@@ -106,30 +108,58 @@ bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const
   return false;
 }
 
-std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index) const
+std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index)
 {
   return GetContainer(tag_index.GetTag())->TakeItem(tag_index.GetIndex());
 }
 
-SessionItem* TaggedItems::GetItem(const TagIndex& tag_index) const
+const SessionItem* TaggedItems::FindItem(const TagIndex& tag_index) const
 {
-  return GetContainer(tag_index.GetTag())->ItemAt(tag_index.GetIndex());
+  // deliberately built on FindContainer (nullable) rather than GetContainer (throwing) to make
+  // this method total
+  const auto* container = FindContainer(tag_index.GetTag());
+  return container != nullptr ? container->ItemAt(tag_index.GetIndex()) : nullptr;
 }
 
-std::vector<SessionItem*> TaggedItems::GetItems(const std::string& tag) const
+SessionItem* TaggedItems::FindItem(const TagIndex& tag_index)
+{
+  return const_cast<SessionItem*>(std::as_const(*this).FindItem(tag_index));
+}
+
+std::vector<const SessionItem*> TaggedItems::GetItems(const std::string& tag) const
 {
   return GetContainer(tag)->GetItems();
 }
 
-std::vector<SessionItem*> TaggedItems::GetAllItems() const
+std::vector<SessionItem*> TaggedItems::GetItems(const std::string& tag)
 {
-  std::vector<SessionItem*> result;
-  for (auto& container : m_containers)
+  return utils::RemoveConst(std::as_const(*this).GetItems(tag));
+}
+
+std::vector<const SessionItem*> TaggedItems::GetAllItems() const
+{
+  std::vector<const SessionItem*> result;
+  for (const auto& container : m_containers)
   {
-    auto container_items = container->GetItems();
+    auto container_items = std::as_const(*container).GetItems();
     (void)result.insert(result.end(), container_items.begin(), container_items.end());
   }
 
+  return result;
+}
+
+std::vector<SessionItem*> TaggedItems::GetAllItems()
+{
+  return utils::RemoveConst(std::as_const(*this).GetAllItems());
+}
+
+std::size_t TaggedItems::GetTotalItemCount() const
+{
+  std::size_t result{0};
+  for (const auto& container : m_containers)
+  {
+    result += container->GetItemCount();
+  }
   return result;
 }
 
@@ -161,13 +191,18 @@ std::size_t TaggedItems::GetTagCount() const
   return m_containers.size();
 }
 
-SessionItemContainer& TaggedItems::ContainerAt(std::size_t index)
+const SessionItemContainer& TaggedItems::ContainerAt(std::size_t index) const
 {
   if (index >= GetTagCount())
   {
     throw RuntimeException("Error it SessionItemTags: wrong container index");
   }
   return *m_containers.at(index);
+}
+
+SessionItemContainer& TaggedItems::ContainerAt(std::size_t index)
+{
+  return const_cast<SessionItemContainer&>(std::as_const(*this).ContainerAt(index));
 }
 
 void TaggedItems::AppendContainer(std::unique_ptr<SessionItemContainer> container)
@@ -186,9 +221,9 @@ std::unique_ptr<TaggedItems> TaggedItems::Clone() const
   return result;
 }
 
-SessionItemContainer* TaggedItems::GetContainer(const std::string& tag) const
+const SessionItemContainer* TaggedItems::GetContainer(const std::string& tag) const
 {
-  if (auto container = FindContainer(tag); container)
+  if (const auto* container = FindContainer(tag); container)
   {
     return container;
   }
@@ -196,7 +231,17 @@ SessionItemContainer* TaggedItems::GetContainer(const std::string& tag) const
   throw RuntimeException("Error in SessionItemTags: No such container [" + tag + "]");
 }
 
-SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
+SessionItemContainer* TaggedItems::GetContainer(const std::string& tag)
+{
+  return const_cast<SessionItemContainer*>(std::as_const(*this).GetContainer(tag));
+}
+
+SessionItemContainer* TaggedItems::FindContainer(const std::string& tag)
+{
+  return const_cast<SessionItemContainer*>(std::as_const(*this).FindContainer(tag));
+}
+
+const SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
 {
   const std::string tag_name_to_use = tag.empty() ? GetDefaultTag() : tag;
   for (const auto& container : m_containers)

@@ -61,9 +61,14 @@ public:
   std::size_t GetItemCount() const;
 
   /**
-   * @brief Returns all items in this container.
+   * @brief Returns all items in this container (const version).
    */
-  std::vector<SessionItem*> GetItems() const;
+  std::vector<const SessionItem*> GetItems() const;
+
+  /**
+   * @brief Returns all items in this container (non-const version).
+   */
+  std::vector<SessionItem*> GetItems();
 
   /**
    * @brief Checks if the item can be inserted into the given index.
@@ -109,9 +114,14 @@ public:
   std::optional<std::size_t> IndexOfItem(const SessionItem* item) const;
 
   /**
-   * @brief Returns item at given index, or nullptr of index is invalid.
+   * @brief Returns item at given index, or nullptr if index is invalid (const version).
    */
-  SessionItem* ItemAt(std::size_t index) const;
+  const SessionItem* ItemAt(std::size_t index) const;
+
+  /**
+   * @brief Returns item at given index, or nullptr if index is invalid (non-const version).
+   */
+  SessionItem* ItemAt(std::size_t index);
 
   /**
    * @brief Returns the name of the container.
@@ -125,11 +135,17 @@ public:
 
   /**
    * @brief The begin of the vector with items.
+   *
+   * @note For internal use. The iterator refers to unique_ptr's, so the items behind them can be
+   * modified even when iterating over a const container. Use GetItems() to get properly
+   * const-qualified children.
    */
   const_iterator begin() const;
 
   /**
    * @brief The end of the vector with items.
+   *
+   * @note For internal use. @see begin().
    */
   const_iterator end() const;
 

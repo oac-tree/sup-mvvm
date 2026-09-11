@@ -55,7 +55,7 @@ TEST_F(SessionItemContainerTest, InitialState)
   EXPECT_EQ(tag.GetItemCount(), 0);
   EXPECT_TRUE(tag.IsEmpty());
   EXPECT_EQ(tag.GetName(), name);
-  EXPECT_EQ(tag.GetItems(), std::vector<SessionItem*>());
+  EXPECT_EQ(tag.GetItems(), std::vector<const SessionItem*>());
 }
 
 TEST_F(SessionItemContainerTest, InsertItem)

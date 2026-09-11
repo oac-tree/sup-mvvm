@@ -173,12 +173,13 @@ bool SessionItem::SetDataInternal(const variant_t& value, role_t role)
 
 std::size_t SessionItem::GetTotalItemCount() const
 {
-  return GetAllItems().size();
+  return GetTaggedItems()->GetTotalItemCount();
 }
 
 std::vector<SessionItem*> SessionItem::GetAllItems() const
 {
-  return GetTaggedItems()->GetAllItems();
+  // TEMPORARY - removed together with the const-correct SessionItem accessors
+  return utils::RemoveConst(GetTaggedItems()->GetAllItems());
 }
 
 std::size_t SessionItem::GetItemCount(const std::string& tag) const
@@ -188,12 +189,17 @@ std::size_t SessionItem::GetItemCount(const std::string& tag) const
 
 SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const
 {
-  return GetTaggedItems()->GetItem(tag_index);
+  // TEMPORARY - removed together with the const-correct SessionItem accessors. Note that
+  // TaggedItems::FindItem is total, while the old TaggedItems::GetItem used to throw on an
+  // unregistered tag; that throw is preserved here until the public API is reworked.
+  (void)GetTaggedItems()->GetContainer(tag_index.GetTag());
+  return const_cast<SessionItem*>(GetTaggedItems()->FindItem(tag_index));
 }
 
 std::vector<SessionItem*> SessionItem::GetItems(const std::string_view& tag) const
 {
-  return GetTaggedItems()->GetItems(std::string(tag));
+  // TEMPORARY - removed together with the const-correct SessionItem accessors
+  return utils::RemoveConst(GetTaggedItems()->GetItems(std::string(tag)));
 }
 
 TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const

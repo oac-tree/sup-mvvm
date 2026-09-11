@@ -209,10 +209,10 @@ TEST_F(TaggedItemsTests, GetItem)
   items.InsertItem(std::move(child_t1_b), TagIndex::Default(1));
   items.InsertItem(std::move(child_t2_a), {tag2, 0});
 
-  EXPECT_EQ(items.GetItem({tag1, 0}), child_t1_a_ptr);
-  EXPECT_EQ(items.GetItem({tag1, 1}), child_t1_b_ptr);
-  EXPECT_EQ(items.GetItem({tag2, 0}), child_t2_a_ptr);
-  EXPECT_EQ(items.GetItem({tag2, 2}), nullptr);
+  EXPECT_EQ(items.FindItem({tag1, 0}), child_t1_a_ptr);
+  EXPECT_EQ(items.FindItem({tag1, 1}), child_t1_b_ptr);
+  EXPECT_EQ(items.FindItem({tag2, 0}), child_t2_a_ptr);
+  EXPECT_EQ(items.FindItem({tag2, 2}), nullptr);
 }
 
 TEST_F(TaggedItemsTests, TakeItem)
@@ -272,10 +272,10 @@ TEST_F(TaggedItemsTests, Clone)
     EXPECT_EQ(clone->GetDefaultTag(), tag1);
     ASSERT_EQ(clone->GetTagCount(), 2);
     EXPECT_NE(&clone->ContainerAt(0), &items.ContainerAt(0));
-    EXPECT_EQ(clone->GetItem({tag1, 0})->GetIdentifier(), child_t1_ptr->GetIdentifier());
-    EXPECT_EQ(clone->GetItem({tag2, 0})->GetIdentifier(), child_t2_ptr->GetIdentifier());
-    EXPECT_EQ(clone->GetItem({tag1, 0})->GetDisplayName(), std::string("abc"));
-    EXPECT_EQ(clone->GetItem({tag2, 0})->GetDisplayName(), std::string("def"));
+    EXPECT_EQ(clone->FindItem({tag1, 0})->GetIdentifier(), child_t1_ptr->GetIdentifier());
+    EXPECT_EQ(clone->FindItem({tag2, 0})->GetIdentifier(), child_t2_ptr->GetIdentifier());
+    EXPECT_EQ(clone->FindItem({tag1, 0})->GetDisplayName(), std::string("abc"));
+    EXPECT_EQ(clone->FindItem({tag2, 0})->GetDisplayName(), std::string("def"));
   }
 }
 
