@@ -365,9 +365,9 @@ TEST_F(SessionItemTests, InsertItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 0);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), nullptr), constants::kInvalidIndex);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child.get()), constants::kInvalidIndex);
-  EXPECT_EQ(parent->FindItem({"", 0}), nullptr);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 0)), nullptr);
   EXPECT_EQ(parent->FindItem(TagIndex::Append()), nullptr);
-  EXPECT_EQ(parent->FindItem({"", 10}), nullptr);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 10)), nullptr);
 
   // inserting child
   auto inserted = parent->InsertItem(std::move(child), {"", 0});
@@ -375,7 +375,7 @@ TEST_F(SessionItemTests, InsertItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
-  EXPECT_EQ(parent->FindItem({"", 0}), inserted);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 0)), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
 
   // attempt to insert non-initialised item
@@ -388,19 +388,19 @@ TEST_F(SessionItemTests, InsertItemTemplated)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // inserting child
-  auto inserted = parent->InsertItem({"", 0});
+  auto inserted = parent->InsertItem(TagIndex("", 0));
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
-  EXPECT_EQ(parent->FindItem({"", 0}), inserted);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 0)), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
 
   // inserting property item
-  auto property = parent->InsertItem<PropertyItem>({"", 1});
+  auto property = parent->InsertItem<PropertyItem>(TagIndex("", 1));
   EXPECT_EQ(parent->GetTotalItemCount(), 2);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), property), 1);
   EXPECT_EQ(parent->GetAllItems()[1], property);
-  EXPECT_EQ(parent->FindItem({"", 1}), property);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 1)), property);
   EXPECT_EQ(property->GetParent(), parent.get());
 }
 
@@ -414,25 +414,25 @@ TEST_F(SessionItemTests, InsertChildren)
   auto child2 = parent->InsertItem(TagIndex::Append());
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child1), 0);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child2), 1);
-  EXPECT_EQ(parent->FindItem({"", 0}), child1);
-  EXPECT_EQ(parent->FindItem({"", 1}), child2);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 0)), child1);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 1)), child2);
   std::vector<SessionItem*> expected = {child1, child2};
   EXPECT_EQ(parent->GetAllItems(), expected);
 
   // inserting third item between two others
-  auto child3 = parent->InsertItem({"", 1});
+  auto child3 = parent->InsertItem(TagIndex("", 1));
   expected = {child1, child3, child2};
   EXPECT_EQ(parent->GetAllItems(), expected);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child1), 0);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child2), 2);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child3), 1);
-  EXPECT_EQ(parent->FindItem({"", 0}), child1);
-  EXPECT_EQ(parent->FindItem({"", 1}), child3);
-  EXPECT_EQ(parent->FindItem({"", 2}), child2);
-  EXPECT_EQ(parent->FindItem({"", 3}), nullptr);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 0)), child1);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 1)), child3);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 2)), child2);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 3)), nullptr);
 
   // inserting forth item using index equal to number of items
-  auto child4 = parent->InsertItem({"", parent->GetTotalItemCount()});
+  auto child4 = parent->InsertItem(TagIndex("", parent->GetTotalItemCount()));
 
   // checking parents
   EXPECT_EQ(child1->GetParent(), parent.get());
@@ -470,7 +470,7 @@ TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
-  EXPECT_EQ(parent->FindItem({"", 0}), inserted);
+  EXPECT_EQ(parent->FindItem(TagIndex("", 0)), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
   EXPECT_EQ(parent->GetParent(), nullptr);
 
@@ -494,10 +494,11 @@ TEST_F(SessionItemTests, TakeItem)
 
   // taking non-existing rows
   EXPECT_THROW(parent->TakeItem(TagIndex::Append()), InvalidOperationException);
-  EXPECT_THROW(parent->TakeItem({"", parent->GetTotalItemCount()}), InvalidOperationException);
+  EXPECT_THROW(parent->TakeItem(TagIndex("", parent->GetTotalItemCount())),
+               InvalidOperationException);
 
   // taking first row
-  EXPECT_NO_THROW(parent->TakeItem({"", 0}));
+  EXPECT_NO_THROW(parent->TakeItem(TagIndex("", 0)));
   const std::vector<SessionItem*> expected = {child2, child3};
   EXPECT_EQ(parent->GetAllItems(), expected);
 }
@@ -523,22 +524,22 @@ TEST_F(SessionItemTests, InsertAndTakeItemsFromSingleTag)
 
   // testing single item access via tag interface
   EXPECT_EQ(parent->FindItem(tag1), child1);
-  EXPECT_EQ(parent->FindItem({tag1, 0}), child1);
-  EXPECT_EQ(parent->FindItem({tag1, 1}), child2);
-  EXPECT_EQ(parent->FindItem({tag1, 2}), nullptr);  // wrong row
+  EXPECT_EQ(parent->FindItem(TagIndex(tag1, 0)), child1);
+  EXPECT_EQ(parent->FindItem(TagIndex(tag1, 1)), child2);
+  EXPECT_EQ(parent->FindItem(TagIndex(tag1, 2)), nullptr);  // wrong row
 
   // access to multiple items via tags interface
   EXPECT_EQ(parent->GetItems(tag1), expected);
 
   // removing first item
-  parent->TakeItem({tag1, 0});
+  parent->TakeItem(TagIndex(tag1, 0));
   EXPECT_EQ(parent->GetItems(tag1), std::vector<SessionItem*>() = {child2});
   // removing second item
-  parent->TakeItem({tag1, 0});
+  parent->TakeItem(TagIndex(tag1, 0));
   EXPECT_EQ(parent->GetItems(tag1), std::vector<SessionItem*>() = {});
 
   // removing from already empty container
-  EXPECT_THROW(parent->TakeItem({tag1, 0}), InvalidOperationException);
+  EXPECT_THROW(parent->TakeItem(TagIndex(tag1, 0)), InvalidOperationException);
 }
 
 TEST_F(SessionItemTests, InsertAndTakeItemsWhenTwoTags)
@@ -558,7 +559,7 @@ TEST_F(SessionItemTests, InsertAndTakeItemsWhenTwoTags)
   auto child_t2_c = parent->InsertItem(TagIndex::Append(tag2));
   auto child_t1_a = parent->InsertItem(TagIndex::Append(tag1));
   auto child_t1_b = parent->InsertItem(TagIndex::Append(tag1));
-  auto child_t2_b = parent->InsertItem({tag2, 1});  // between child_t2_a and child_t2_c
+  auto child_t2_b = parent->InsertItem(TagIndex(tag2, 1));  // between child_t2_a and child_t2_c
 
   // testing item access via non-tag interface
   std::vector<SessionItem*> expected = {child_t1_a, child_t1_b, child_t2_a, child_t2_b, child_t2_c};
@@ -568,12 +569,12 @@ TEST_F(SessionItemTests, InsertAndTakeItemsWhenTwoTags)
 
   // testing single item access via tag interface
   EXPECT_EQ(parent->FindItem(tag1), child_t1_a);
-  EXPECT_EQ(parent->FindItem({tag1, 0}), child_t1_a);
-  EXPECT_EQ(parent->FindItem({tag1, 1}), child_t1_b);
-  EXPECT_EQ(parent->FindItem({tag2, 0}), child_t2_a);
-  EXPECT_EQ(parent->FindItem({tag2, 1}), child_t2_b);
-  EXPECT_EQ(parent->FindItem({tag2, 2}), child_t2_c);
-  EXPECT_EQ(parent->FindItem({tag2, 3}), nullptr);  // no items with such row
+  EXPECT_EQ(parent->FindItem(TagIndex(tag1, 0)), child_t1_a);
+  EXPECT_EQ(parent->FindItem(TagIndex(tag1, 1)), child_t1_b);
+  EXPECT_EQ(parent->FindItem(TagIndex(tag2, 0)), child_t2_a);
+  EXPECT_EQ(parent->FindItem(TagIndex(tag2, 1)), child_t2_b);
+  EXPECT_EQ(parent->FindItem(TagIndex(tag2, 2)), child_t2_c);
+  EXPECT_EQ(parent->FindItem(TagIndex(tag2, 3)), nullptr);  // no items with such row
 
   // access to multiple items via tags interface
   expected = {child_t1_a, child_t1_b};
@@ -582,7 +583,7 @@ TEST_F(SessionItemTests, InsertAndTakeItemsWhenTwoTags)
   EXPECT_EQ(parent->GetItems(tag2), expected);
 
   // removing item from the middle of tag2
-  parent->TakeItem({tag2, 1});
+  parent->TakeItem(TagIndex(tag2, 1));
   expected = {child_t1_a, child_t1_b};
   EXPECT_EQ(parent->GetItems(tag1), expected);
   expected = {child_t2_a, child_t2_c};
@@ -611,7 +612,7 @@ TEST_F(SessionItemTests, InsertAndTakeWhenTagHasLimits)
                InvalidOperationException);
 
   // removing first element
-  parent->TakeItem({tag1, 0});
+  parent->TakeItem(TagIndex(tag1, 0));
   expected.erase(expected.begin());
   EXPECT_EQ(parent->GetItems(tag1), expected);
 
@@ -637,7 +638,7 @@ TEST_F(SessionItemTests, GetTagIndex)
   auto child_t2_c = parent->InsertItem(TagIndex::Append(tag2));  // 2
   auto child_t1_a = parent->InsertItem(TagIndex::Append(tag1));  // 0
   auto child_t1_b = parent->InsertItem(TagIndex::Append(tag1));  // 1
-  auto child_t2_b = parent->InsertItem({tag2, 1});  // 1 between child_t2_a and child_t2_c
+  auto child_t2_b = parent->InsertItem(TagIndex(tag2, 1));  // 1 between child_t2_a and child_t2_c
 
   EXPECT_EQ(child_t1_a->GetTagIndex().GetIndex(), 0);
   EXPECT_EQ(child_t1_b->GetTagIndex().GetIndex(), 1);
@@ -667,7 +668,7 @@ TEST_F(SessionItemTests, TagIndexOfItem)
   auto child_t2_c = parent->InsertItem(TagIndex::Append(tag2));  // 2
   auto child_t1_a = parent->InsertItem(TagIndex::Append(tag1));  // 0
   auto child_t1_b = parent->InsertItem(TagIndex::Append(tag1));  // 1
-  auto child_t2_b = parent->InsertItem({tag2, 1});  // 1 between child_t2_a and child_t2_c
+  auto child_t2_b = parent->InsertItem(TagIndex(tag2, 1));  // 1 between child_t2_a and child_t2_c
 
   EXPECT_EQ(parent->TagIndexOfItem(child_t1_a).GetIndex(), 0);
   EXPECT_EQ(parent->TagIndexOfItem(child_t1_b).GetIndex(), 1);
@@ -983,7 +984,7 @@ TEST_F(SessionItemTests, CloneParentAndChild)
     ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
     EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());
     EXPECT_EQ(parent_clone->GetModel(), nullptr);
-    auto child_clone = parent_clone->FindItem({tag, 0});
+    auto child_clone = parent_clone->FindItem(TagIndex(tag, 0));
     EXPECT_NE(child_clone->GetIdentifier(), child->GetIdentifier());
     EXPECT_EQ(child_clone->GetDisplayName(), child->GetDisplayName());
     EXPECT_EQ(child_clone->GetModel(), nullptr);
@@ -999,7 +1000,7 @@ TEST_F(SessionItemTests, CloneParentAndChild)
     ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
     EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());
     EXPECT_EQ(parent_clone->GetModel(), nullptr);
-    auto child_clone = parent_clone->FindItem({tag, 0});
+    auto child_clone = parent_clone->FindItem(TagIndex(tag, 0));
     EXPECT_EQ(child_clone->GetIdentifier(), child->GetIdentifier());
     EXPECT_EQ(child_clone->GetDisplayName(), child->GetDisplayName());
     EXPECT_EQ(child_clone->GetModel(), nullptr);
