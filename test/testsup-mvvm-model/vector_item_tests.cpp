@@ -116,9 +116,9 @@ TEST_F(VectorItemTests, Clone)
     EXPECT_DOUBLE_EQ(vector_clone->Y(), 2.0);
     EXPECT_DOUBLE_EQ(vector_clone->Z(), 3.0);
 
-    auto cloned_x = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kX));
-    auto cloned_y = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kY));
-    auto cloned_z = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kZ));
+    auto cloned_x = vector_clone->FindItem<PropertyItem>(VectorItem::kX);
+    auto cloned_y = vector_clone->FindItem<PropertyItem>(VectorItem::kY);
+    auto cloned_z = vector_clone->FindItem<PropertyItem>(VectorItem::kZ);
     ASSERT_NE(cloned_x, nullptr);
     ASSERT_NE(cloned_y, nullptr);
     ASSERT_NE(cloned_z, nullptr);
@@ -143,9 +143,9 @@ TEST_F(VectorItemTests, Clone)
     EXPECT_DOUBLE_EQ(vector_clone->Y(), 2.0);
     EXPECT_DOUBLE_EQ(vector_clone->Z(), 3.0);
 
-    auto x_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kX));
-    auto y_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kY));
-    auto z_clone = dynamic_cast<PropertyItem*>(vector_clone->FindItem(VectorItem::kZ));
+    auto x_clone = vector_clone->FindItem<PropertyItem>(VectorItem::kX);
+    auto y_clone = vector_clone->FindItem<PropertyItem>(VectorItem::kY);
+    auto z_clone = vector_clone->FindItem<PropertyItem>(VectorItem::kZ);
     ASSERT_NE(x_clone, nullptr);
     ASSERT_NE(y_clone, nullptr);
     ASSERT_NE(z_clone, nullptr);

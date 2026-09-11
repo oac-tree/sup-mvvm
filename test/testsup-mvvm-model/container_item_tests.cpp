@@ -93,9 +93,9 @@ TEST_F(ContainerItemTests, Clone)
   EXPECT_DOUBLE_EQ(vector_clone.Z(), 3.0);
 
   // validating vector's children
-  auto x_clone = dynamic_cast<PropertyItem*>(vector_clone.FindItem(VectorItem::kX));
-  auto y_clone = dynamic_cast<PropertyItem*>(vector_clone.FindItem(VectorItem::kY));
-  auto z_clone = dynamic_cast<PropertyItem*>(vector_clone.FindItem(VectorItem::kZ));
+  auto x_clone = vector_clone.FindItem<PropertyItem>(VectorItem::kX);
+  auto y_clone = vector_clone.FindItem<PropertyItem>(VectorItem::kY);
+  auto z_clone = vector_clone.FindItem<PropertyItem>(VectorItem::kZ);
   ASSERT_NE(x_clone, nullptr);
   ASSERT_NE(y_clone, nullptr);
   ASSERT_NE(z_clone, nullptr);
