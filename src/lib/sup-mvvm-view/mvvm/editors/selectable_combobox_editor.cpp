@@ -58,7 +58,7 @@ public:
   void paint(QPainter* painter, const QStyleOptionViewItem& option,
              const QModelIndex& index) const override
   {
-    auto styleOption = const_cast<QStyleOptionViewItem&>(option);
+    QStyleOptionViewItem styleOption = option;
     styleOption.showDecorationSelected = false;
     QStyledItemDelegate::paint(painter, styleOption, index);
   }

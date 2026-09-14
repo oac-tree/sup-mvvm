@@ -65,7 +65,7 @@ ItemViewComponentProvider* AbstractItemView::GetComponentProvider()
 
 const SessionItem *AbstractItemView::GetSelectedItem() const
 {
-  return const_cast<mvvm::SessionItem*>(m_provider->GetSelection().GetItem());
+  return m_provider->GetSelection().GetItem();
 }
 
 std::vector<const SessionItem*> AbstractItemView::GetSelectedItems() const

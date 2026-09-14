@@ -67,7 +67,7 @@ void ViewModelController::OnItemInsertedEvent(const ItemInsertedEvent& event)
   auto* new_child = &parent->GetItem(tag_index);
 
   const auto insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
-  auto parent_view = const_cast<ViewItem*>(m_view_item_map.FindView(parent));
+  auto parent_view = m_view_item_map.FindView(parent);
 
   if ((insert_view_index != constants::kInvalidIndex) && (parent_view != nullptr))
   {

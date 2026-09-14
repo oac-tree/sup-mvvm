@@ -170,14 +170,14 @@ QList<QModelIndex> ItemViewComponentProvider::GetViewIndexes(const SessionItem* 
 
 ItemSelection ItemViewComponentProvider::GetSelection() const
 {
-  std::vector<mvvm::SessionItem*> result;
+  std::vector<const mvvm::SessionItem*> result;
 
   for (auto index : GetSelectionModel()->selectedIndexes())
   {
     // skipping nullptr
-    if (auto item = GetItemFromViewIndex(index); item)
+    if (const auto* item = GetItemFromViewIndex(index); item != nullptr)
     {
-      result.push_back(const_cast<SessionItem*>(item));
+      result.push_back(item);
     }
   }
 
