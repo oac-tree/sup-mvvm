@@ -1,8 +1,9 @@
 # SessionItem item-access API refactoring
 
-> Working note. **Status: the API change is DONE and committed in all three packages.**
-> sup-mvvm 1370/1370, sup-gui-core 447/447, sequencer-gui 890/890 tests pass.
-> Remaining work is the follow-up const-correctness rounds at the end of this document.
+> Working note. **Status: the API change and const-correctness Rounds A and B are DONE and
+> committed in all three packages.** sup-mvvm 1369/1369, sup-gui-core 447/447,
+> sequencer-gui 890/890 tests pass. Remaining work is Round C at the end of this document,
+> starting with the `ItemSelection` boundary (#13), whose design is settled there.
 
 ## Why this was done
 
@@ -166,95 +167,204 @@ sites rather than a clean `find_package` message.
 
 ---
 
-# Next rounds: const-correctness backlog
 
-Survey taken after the API change landed. Goal of these rounds: **reduce `const_cast` /
-`std::as_const` / `RemoveConst` / `MakeConst` / `StaticCastItems`, and replace `dynamic_cast`
-with `GetItem<T>` / `FindItem<T>` where the operand is an item accessor result.**
+# Const-correctness backlog
 
-Current totals (`src/` + `test/`):
+Goal of these rounds: **reduce `const_cast` / `std::as_const` / `RemoveConst` / `MakeConst` /
+`StaticCastItems`, and replace `dynamic_cast` with `GetItem<T>` / `FindItem<T>` where the operand
+is an item accessor result.**
 
-| package | `const_cast` | `RemoveConst` | `MakeConst` | `CastItems` misuse |
-|---|---|---|---|---|
-| sup-mvvm | 33 | 14 | 0 | 0 |
-| sup-gui-core | 10 | 3 | 0 | 6 |
-| sequencer-gui | 24 | 8 | 2 (legit) | 6 |
+Totals (`src/` + `test/`), start of Round A → now:
 
-`StaticCastItems`: **0 production users anywhere** — dead API.
-`ConvertItems`: **0 production users anywhere** — added but never adopted; the 12 `CastItems`
-misuses below are exactly the gap it was created to fill.
+| package | `const_cast` | `RemoveConst` | `MakeConst` | `CastItems` misuse | `StaticCastItems` |
+|---|---|---|---|---|---|
+| sup-mvvm | 33 → **18** | 18 → **9** | 0 | 0 | 3 → **0** |
+| sup-gui-core | 10 → **7** | 3 → **2** | 0 | 6 → **0** | 0 |
+| sequencer-gui | 24 → **18** | 9 | 2 (legit) | 6 → **0** | 0 |
 
-## Round A — free (zero caller churn). Removes ~35 hacks.
+Tests green throughout: sup-mvvm 1369/1369, sup-gui-core 447/447, sequencer-gui 890/890.
+(sup-mvvm lost one test with the `StaticCastItems` deletion.)
 
-1. **sup-mvvm: write the 10 owner-side non-const accessors directly.** `session_item.cpp:341,356`;
-   `session_item_container.cpp:135`; `tagged_items.cpp:126,205,236,241`; `viewmodel_base.cpp:123,128`;
-   `viewitem.cpp:216`. These classes own their storage through `unique_ptr`/`p_impl`, so the
-   non-const overload can return it directly instead of `const_cast`-ing the const overload's
-   result. **−10 `const_cast`.** (Introduced by this refactor — worth undoing now.)
-2. **sup-mvvm: same for the 7 owner-side `RemoveConst`s.** `session_item_container.cpp:60`
-   (→ `GetVectorOfPtrs(m_items)`), `tagged_items.cpp:136,153`, `session_item.h:598` (add a
-   non-const private `FindItemsImpl`), `item_utils.cpp:268,286`, `graph_viewport_item.cpp:77`.
-   **−7 `RemoveConst`.**
-3. **Delete the dead casts.** sup-mvvm `abstract_item_view.cpp:68`, `viewmodel_controller.cpp:70`;
-   sup-gui-core `waveform_editor_widget.cpp:146`, `domain_anyvalue_builder.cpp:185` (a no-op
-   `const_cast<const AnyValueItem*>` left over from the `GetChildren` change);
-   sup-gui-core `dto_waveform_action_handler_tests.cpp:144,186` (redundant `dynamic_cast`).
-   **−4 `const_cast`, −2 `dynamic_cast`.**
-4. **Adopt `ConvertItems` at the 12 `CastItems` upcast/add-const sites.** sup-gui-core:
-   `anyvalue_item_copy_helper.cpp:51` (**and delete its stale FIXME** — the `MakeConst` half is
-   already gone and no downcast is ever needed there), `anyvalue_editor_action_handler.cpp:140`,
-   `configuration_splittable_widget.cpp:113`, 3 test copies. sequencer-gui:
-   `copy_and_paste_helper.cpp:56,77`, `workspace_editor_action_handler.cpp:201`,
-   `instruction_editor_action_handler.cpp:181`, `procedure_splittable_editor_widget.cpp:257`,
-   `operation_splittable_widget.cpp:206`. Buys back the `reserve`+`transform` fast path and the
-   "no element silently dropped" guarantee. **−12 RTTI abuses.**
-5. **Small local fixes.** sup-mvvm `item_view_component_provider.cpp:180` (make the local
-   `vector<const SessionItem*>`), `selectable_combobox_editor.cpp:61` (copy the Qt option instead
-   of casting); sup-gui-core `custom_row_waveform_strategies.cpp:41,77` (the `const` in the
-   `dynamic_cast` is gratuitous, then stripped again). **−3 `const_cast`, −1 `RemoveConst`.**
-6. **Delete `StaticCastItems`** from `container_utils.h` — zero production users; it exists only
-   to be unit-tested.
+## Round A — DONE
 
-## Round B — cheap, small blast radius
+sup-mvvm `0e7cbf29`, `a395e40e`; sup-gui-core `cfc97df2`, `6cabe57d`; sequencer-gui `ef709aeb`,
+`db326962`.
 
-7. **sup-mvvm `AbstractItemView::GetSelected<T>()`** (`abstract_item_view.h:75-78`) is **ill-formed
-   if ever instantiated** — it `dynamic_cast<T*>`s a `const SessionItem*`. Compiles today only
-   because nothing instantiates it. Make it `const T* GetSelected() const` forwarding to
-   `ItemSelection::GetItem<T>()`.
-8. **sequencer-gui, 4 local pairs.** `FlatListViewModel`/`FavoriteInstructionsViewModel::GetDropTarget`
-   → return non-const (both private, 4 call sites in the same 2 files); `SequencerSettingsModel::Get<T>()`
-   → const/non-const pair; `InstructionTaskMonitor::GetTaskWidgetBuilder()` → pair;
-   `test::FindInstructions` → non-const overload. **−5 `const_cast`.**
-9. **sequencer-gui `ProcedureItemJobInfoBuilder`** — `InstructionTree::indexes` and
-   `PopulateWorkspaceItem` return `const` vectors of items *the functions themselves just created*.
-   Drop the `const`. **−2 `const_cast`.**
-10. **sup-gui-core, 5 selection sites** (`settings_editor.cpp:67`, `dto_compare_view.cpp:118`,
-    `dto_composer_view.cpp:56`, `anyvalue_editor_widget.cpp:180`,
-    `anyvalue_editor_action_handler.cpp:394`) can each be laundered legally through the owned
-    non-const model: `model->FindItem(selection->GetIdentifier())`. **−5 `const_cast`** without
-    touching any signature.
-11. **sup-mvvm `NodePort::m_connections`** → non-const, `GetConnections() const` returns const via
-    `ConvertItems`. **−2 `RemoveConst`, −1 `const_cast`.**
-12. **Test sweep: `dynamic_cast` → `GetItem<T>`/`FindItem<T>`**, ~15 sites in sequencer-gui tests
-    plus a few in sup-gui-core. Also deletes the now-redundant `ASSERT_NE(…, nullptr)` lines and
-    makes `standard_variable_items_tests` order-independent.
+1. **10 owner-side non-const accessors written directly.** Six were true one-liners
+   (`SessionItemImpl` already exposes non-const accessors, so `SessionItem::GetItemData()` is just
+   `p_impl->GetItemData()`). The four in `tagged_items.cpp` would have duplicated an 11-line search
+   loop and two throw-message literals, so they share file-local helpers instead
+   (`FindContainerByName<ContainerT>`, `ThrowNoSuchContainer`, `ThrowWrongContainerIndex`).
+   Knock-on: `TaggedItems::GetItems(tag)` collapsed to `GetContainer(tag)->GetItems()`.
+2. **7 owner-side `RemoveConst`** removed. `SessionItemContainer::GetItems()` became
+   `GetVectorOfPtrs(m_items)`; `item_utils`, `graph_viewport_item` and `TaggedItems::GetAllItems`
+   collapsed onto shared template helpers (see "The shared-implementation pattern" below).
+3. **Dead casts deleted** — all four were genuinely no-ops, plus two redundant `dynamic_cast` in
+   tests.
+4. **`ConvertItems` adopted at the 12 `CastItems` upcast sites.**
+   **Finding worth remembering:** `CastItems` silently drops `nullptr`
+   (`dynamic_cast<T*>(nullptr)` fails its `if (casted)` check); `ConvertItems` preserves it by
+   design. This made `AnyValueEditorActionHandlerTest.RemoveItemWhenNothingIsSelected` segfault.
+   The cause was the **test**, which fabricated `{nullptr}` as "nothing is selected" — an input the
+   production wiring cannot produce, since `ItemViewComponentProvider::GetSelection()` skips
+   nullptr and `ItemSelection::GetItems<T>()` filters again. Fixed the test (`{}`, as
+   `InitialState` already spelled it), not production. Expect the same when migrating any
+   remaining `CastItems`: it surfaces tests that fabricate impossible inputs, not real bugs.
+5. **Small local fixes.** `selectable_combobox_editor.cpp:61` was a real (if mild) bug: it
+   `const_cast`-ed the caller's `const QStyleOptionViewItem&` and wrote into it from inside a
+   `paint()` override. Now copies.
+6. **`StaticCastItems` deleted** from `container_utils.h` together with its only test.
 
-## Round C — the three root causes (do last, in this order)
+## Round B — DONE
 
-13. **`ItemSelection` / `ItemViewComponentProvider` are const-only** while every downstream
-    `Set…`/context callback takes non-const. This single boundary drives **12 `const_cast` in
-    sequencer-gui and 5 in sup-gui-core**. Fix upstream first (non-const `GetSelection()` /
-    `GetItemFromViewIndex()` overloads on the provider, non-const accessors on `ItemSelection`),
-    then flip sequencer-gui's 4 context structs. Doing the downstream half alone only *migrates*
-    the casts into the 6 providers.
-14. **`IChildrenStrategy::GetChildren(const SessionItem*) const → vector<SessionItem*>`** — the
-    last bucket-C cluster inside our own code: **5 `RemoveConst` in sup-mvvm, 7 in sequencer-gui,
-    1 in sup-gui-core**. Splitting it into const/non-const would clear all 13.
-15. **`SessionItem::GetParent() const` and `GetModel() const` return mutable** (44 and 49 src call
-    sites). This is the root enabler: much "can't fix locally" debt — including the command
-    classes' `FindItem/FindParent() const` accessors and parts of #14 — becomes fixable once a
-    const item yields a const parent. Largest single change; sequence it last.
+sup-mvvm `c1adabf3`; sequencer-gui `db326962`, `e3881fcb`, `97e573f2`; sup-gui-core `6cabe57d`.
 
-Also worth doing at some point: **`ISessionModel::FindItem<T>(const std::string& id)`**. It is the
-one lookup with no typed form, so `dynamic_cast<T*>(model->FindItem(id))` remains the idiom at
-~4 sites (including `LinkedItem::Get<T>()`).
+7. **`AbstractItemView::GetSelected<T>()`** was indeed ill-formed if instantiated, and has zero
+   users in any of the three packages. Now `const T*`, forwarding to `GetSelectedItem()` — no new
+   includes needed. (Revisit when #13 lands: it can return `T*` then.)
+9. **`ProcedureItemJobInfoBuilder`** — `InstructionTree::indexes` and both `PopulateWorkspaceItem`
+   overloads create the items they return, so the `const` was gratuitous. Dropped.
+11. **`NodePort`** now stores `vector<INodeConnection*>`. A port mutates its connections
+    (`ForgetPort`, `UpdateConnectionShape`), so storing them const and laundering was the dishonest
+    part. `AppendConnection`/`RemoveConnection` take non-const; `GetConnections() const` narrows via
+    `ConvertItems`; a non-const overload lets `ConnectableShape` drop its cast.
+
+### Round B deviations — read before re-planning
+
+8. **Three of four local pairs done.** `SequencerSettingsModel::Get<T>()` was **not** done: it is
+   built on `mvvm::utils::FindItemDown`, which is const-only, as is the `iterate_if` traversal
+   beneath it. `FindItemDown` has **exactly one production user across all three packages** — this
+   call site. Adding a parallel non-const traversal to sup-mvvm to retire one `const_cast` is
+   disproportionate; fold it into #15.
+10. **Deferred wholesale to #13.** Only `anyvalue_editor_widget.cpp:180` was fixed, and it turned
+    out to be a dead cast — `mvvm::utils::RemoveItem` already takes `const SessionItem&`. The
+    "launder through the owned model" idea (`model->FindItem(item->GetIdentifier())`) was
+    implemented and then **reverted by decision**: looking an item up by its own identifier to
+    obtain a non-const pointer to that same item is indirection that hides the real boundary and
+    costs a lookup, and for `dto_compare_view`/`dto_composer_view` it additionally needs
+    `dynamic_cast<ConfigurationItem*>` on the result — trading a `const_cast` for RTTI, which does
+    not serve this round's goal. All five sites are the same boundary; they are #13's job.
+12. **Mostly already done, and partly not desirable.** The clean
+    `dynamic_cast<T*>(x->FindItem(tag))` → `x->FindItem<T>(tag)` drop-ins were retired by the
+    original API migration — **zero remain**. What is left in the test trees is: Qt widget/model
+    casts (`QLabel*`, `QTransposeProxyModel*`), casts on `unique_ptr::get()` results from clone and
+    mime reconstruction (not item accessors at all), and the `standard_variable_items_tests`
+    cases — which are named `...PropertyAppearance` and deliberately assert both the set **and the
+    order** of registered properties. Making those "order-independent" would weaken real coverage;
+    left alone deliberately. Seven positional downcasts in `workspace_editor_action_handler_tests`
+    and `procedure_list_action_handler_tests` were converted to
+    `GetItem<T>(mvvm::TagIndex::Default(n))`, which also deleted seven `ASSERT_NE(..., nullptr)`
+    lines.
+
+## The shared-implementation pattern (reusable for #14 and #15)
+
+Five places now share one body between a const and a non-const overload with **no cast**, using a
+file-local template in an anonymous namespace where the type parameter carries the constness:
+`CollectVisibleChildren` (item_utils), `CollectVisibleGraphItems` (graph_viewport_item),
+`CollectAllItems` (tagged_items), `GetDropTargetImpl` (two sequencer-gui view models),
+`FindInstructionsImpl` (sequencer-gui test utils).
+
+Rule of thumb:
+
+- Constness reaching you through a **reference or value** (`SessionItem&`, `ISessionModel&`,
+  `*this`) — plain template deduction plus `decltype` is enough:
+  `template <typename SelfT> auto Impl(SelfT& self)`.
+- Constness reaching you through a **`unique_ptr`** — deduction silently gives you the non-const
+  overload, because `unique_ptr` does not propagate const. Select explicitly with
+  `std::conditional_t`, as `CollectAllItems` does, or the const path will quietly call non-const
+  code.
+
+Prefer this over both `const_cast` and copy-pasted bodies. Prefer a plain duplicated 2-line body
+over machinery when the body is trivial.
+
+---
+
+# Round C — the three root causes (do in this order)
+
+## 13. `ItemSelection` / `ItemViewComponentProvider` const boundary
+
+This single boundary drives **~16 `const_cast` in sequencer-gui and ~6 in sup-gui-core** (the
+earlier estimate of 12 + 5 was an undercount).
+
+### Diagnosis
+
+`ItemSelection` is used in **two opposite directions with one type**:
+
+- **Inbound** (`SetSelection`, 12 construction sites): selecting an item only *reads* it. This is
+  backed by ~14 `SetSelected...(const T*)` entry points across the three packages
+  (`AbstractItemView::SetSelectedItem`, `SetSelectedJob`, `SetSelectedInstructions`,
+  `SetSelectedPoint`, ...) and by `notify_request`-style callbacks that carry
+  `const SessionItem*`. That const is deliberate and correct.
+- **Outbound** (`GetSelection()`, the `SelectionChanged(const ItemSelection&)` signal): consumers
+  *edit* what the user picked. Every one of the ~22 casts lives here.
+
+Supporting fact: nothing in the chain owns the items. `ItemSelection` owns nothing;
+`ItemViewComponentProvider` holds `std::unique_ptr<ViewModel>`; `ViewModel` is a proxy owning no
+data; the model owns the items. Since neither `unique_ptr` nor raw pointers propagate const, the
+whole chain can already reach mutable items with no cast — the declared types simply over-promise.
+
+### Decision
+
+**Concentrate the cast inside `ItemSelection`, which is the class invented to absorb exactly this.**
+
+- `ItemSelection` keeps its storage and constructors **unchanged**
+  (`std::vector<const SessionItem*>`, accepting const items), so all 12 construction sites and all
+  ~14 `SetSelected...(const T*)` signatures keep compiling untouched.
+- Only the four accessors change, each with one documented `const_cast`:
+  `SessionItem* GetItem() const`, `std::vector<SessionItem*> GetItems() const`,
+  `template <typename T> T* GetItem() const`,
+  `template <typename T> std::vector<T*> GetItems() const`.
+- `ItemViewComponentProvider` and the `SelectionChanged` signal are **unchanged**.
+- Then delete the ~22 downstream casts and flip sequencer-gui's 4 context structs.
+
+Rationale: a view is a read-only observer of items a model owns, while the consumer of a selection
+acts on them. One class reconciles the two. Precedent already in the codebase:
+`ISessionModel::FindItem(const std::string&) const` returns `SessionItem*` for the same reason.
+
+Accepted cost: this is laundering and it does not compose — anyone holding a genuinely const item
+and wrapping it in an `ItemSelection` can get mutable access back. In practice items live in
+non-const models. Weighed against 22 casts scattered over call sites, one cast behind a named
+abstraction is the better trade.
+
+### Rejected alternative (prototyped, then reverted — do not retry)
+
+Making `ItemSelection` store `std::vector<SessionItem*>` and adding
+`SetSelection(const SessionItem*)` / `SetSelection(const std::vector<const SessionItem*>&)`
+overloads to the provider. It works and removes every cast, but it gives the provider a **parallel
+API operating on raw `SessionItem` pointers alongside `ItemSelection`**, which defeats the two
+reasons `ItemSelection` exists: one uniform type for the const/non-const question, and one Qt
+metatype so that no `Q_DECLARE_METATYPE` is needed per item type. Measured downstream cost of that
+variant was 3 break sites in sup-gui-core and 8 in sequencer-gui. The prototype is preserved in
+`git stash` on branch COA-2302 if it is ever wanted for reference.
+
+### Not folded in
+
+`viewmodel_utils.cpp:162,186` keep their casts: `QModelIndex::model()` returns
+`const QAbstractItemModel*` by Qt's design, so `dynamic_cast<const ViewModel*>` yields a const
+viewmodel. They would only vanish by collapsing `ViewModel`'s item accessors to single const
+methods returning mutable pointers — the same non-ownership argument one level further out, and a
+separate API decision. Same for `IViewModelController::GetRootItem()`, which is const-only while
+`ConnectableViewModelController::GetRootItem() const` already returns non-const.
+
+## 14. `IChildrenStrategy::GetChildren(const SessionItem*) const → vector<SessionItem*>`
+
+Still the last bucket-C cluster inside our own code: **5 `RemoveConst` in sup-mvvm, 7 in
+sequencer-gui, 1 in sup-gui-core**. Splitting it into const/non-const would clear all 13; the
+shared-implementation pattern above is the tool for it.
+
+## 15. `SessionItem::GetParent() const` and `GetModel() const` return mutable
+
+44 and 49 src call sites. The root enabler: much "can't fix locally" debt becomes fixable once a
+const item yields a const parent — including the command classes' `FindItem/FindParent() const`
+accessors, parts of #14, and `SequencerSettingsModel::Get<T>()` from #8 (which needs a non-const
+`FindItemDown`, and under it a non-const `iterate_if`). Largest single change; sequence it last.
+
+Note the distinction this round settled: **ownership decides whether const should propagate.**
+`SessionItem` owns its children through `unique_ptr`, so const propagation is meaningful there -
+that is why #15 is a real fix. `ItemSelection`, the providers and the view models own nothing, so
+const propagation through them was never protecting anything — that is why #13 is a relabelling
+rather than a weakening.
+
+Also still worth doing: **`ISessionModel::FindItem<T>(const std::string& id)`**. It is the one
+lookup with no typed form, so `dynamic_cast<T*>(model->FindItem(id))` remains the idiom at ~4 sites
+(including `LinkedItem::Get<T>()`).
