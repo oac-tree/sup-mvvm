@@ -84,11 +84,11 @@ TEST_F(NodePortTest, AppendThreeConnections)
   node_port.AppendConnection(&connection2);
   node_port.AppendConnection(&connection3);
 
-  const std::vector<const INodeConnection*> expected{&connection1, &connection2, &connection3};
+  const std::vector<INodeConnection*> expected{&connection1, &connection2, &connection3};
   EXPECT_EQ(node_port.GetConnections(), expected);
 
   node_port.RemoveConnection(&connection2);
-  const std::vector<const INodeConnection*> expected_after_removal{&connection1, &connection3};
+  const std::vector<INodeConnection*> expected_after_removal{&connection1, &connection3};
   EXPECT_EQ(node_port.GetConnections(), expected_after_removal);
 }
 

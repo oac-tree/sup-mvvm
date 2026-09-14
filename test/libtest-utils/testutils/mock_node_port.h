@@ -37,8 +37,9 @@ public:
   MOCK_METHOD(PortDirection, GetPortDirection, (), (const, override));
   MOCK_METHOD(std::string, GetPortType, (), (const, override));
   MOCK_METHOD(std::vector<const INodeConnection*>, GetConnections, (), (const, override));
-  MOCK_METHOD(void, AppendConnection, (const INodeConnection*), (override));
-  MOCK_METHOD(void, RemoveConnection, (const INodeConnection*), (override));
+  MOCK_METHOD(std::vector<INodeConnection*>, GetConnections, (), (override));
+  MOCK_METHOD(void, AppendConnection, (INodeConnection*), (override));
+  MOCK_METHOD(void, RemoveConnection, (INodeConnection*), (override));
   MOCK_METHOD(bool, IsConnected, (const INodePort*), (const, override));
   MOCK_METHOD(bool, IsConnectable, (const INodePort*), (const, override));
   MOCK_METHOD((std::pair<double, double>), GetScenePosition, (), (const, override));
@@ -61,8 +62,9 @@ public:
   PortDirection GetPortDirection() const override;
   std::string GetPortType() const override;
   std::vector<const INodeConnection*> GetConnections() const override;
-  void AppendConnection(const INodeConnection* connection) override;
-  void RemoveConnection(const INodeConnection* connection) override;
+  std::vector<INodeConnection*> GetConnections() override;
+  void AppendConnection(INodeConnection* connection) override;
+  void RemoveConnection(INodeConnection* connection) override;
   bool IsConnected(const INodePort* port) const override;
   bool IsConnectable(const INodePort* port) const override;
   std::pair<double, double> GetScenePosition() const override;

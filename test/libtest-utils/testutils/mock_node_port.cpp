@@ -37,15 +37,20 @@ std::string NodePortDecorator::GetPortType() const
 
 std::vector<const INodeConnection*> NodePortDecorator::GetConnections() const
 {
+  return std::as_const(*m_decoratee).GetConnections();
+}
+
+std::vector<INodeConnection*> NodePortDecorator::GetConnections()
+{
   return m_decoratee->GetConnections();
 }
 
-void NodePortDecorator::AppendConnection(const INodeConnection* connection)
+void NodePortDecorator::AppendConnection(INodeConnection* connection)
 {
   m_decoratee->AppendConnection(connection);
 }
 
-void NodePortDecorator::RemoveConnection(const INodeConnection* connection)
+void NodePortDecorator::RemoveConnection(INodeConnection* connection)
 {
   m_decoratee->RemoveConnection(connection);
 }

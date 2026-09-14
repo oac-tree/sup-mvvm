@@ -124,9 +124,9 @@ void ConnectableShape::UpdateViewFromItem()
 
   if (auto output_port = GetOutputPort(*this); output_port)
   {
-    for (auto connection : output_port->GetConnections())
+    for (auto* connection : output_port->GetConnections())
     {
-      const_cast<INodeConnection*>(connection)->UpdateConnectionShape(operation_states);
+      connection->UpdateConnectionShape(operation_states);
     }
   }
 

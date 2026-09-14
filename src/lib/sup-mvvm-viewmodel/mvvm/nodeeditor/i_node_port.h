@@ -71,14 +71,19 @@ public:
   virtual std::vector<const INodeConnection*> GetConnections() const = 0;
 
   /**
+   * @brief Returns connections attached to this port.
+   */
+  virtual std::vector<INodeConnection*> GetConnections() = 0;
+
+  /**
    * @brief Appends a connection to this port.
    */
-  virtual void AppendConnection(const INodeConnection* connection) = 0;
+  virtual void AppendConnection(INodeConnection* connection) = 0;
 
   /**
    * @brief Removes a connection from this port.
    */
-  virtual void RemoveConnection(const INodeConnection* connection) = 0;
+  virtual void RemoveConnection(INodeConnection* connection) = 0;
 
   /**
    * @brief Checks if this port is connected to the specified other port.

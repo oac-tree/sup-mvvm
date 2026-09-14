@@ -33,7 +33,7 @@ NodePort::NodePort(PortInfo port_info) : m_port_info(std::move(port_info)) {}
 
 NodePort::~NodePort()
 {
-  for (auto connection : utils::RemoveConst(m_connections))
+  for (auto* connection : m_connections)
   {
     connection->ForgetPort(this);
   }
@@ -51,10 +51,15 @@ std::string NodePort::GetPortType() const
 
 std::vector<const INodeConnection*> NodePort::GetConnections() const
 {
+  return utils::ConvertItems<const INodeConnection>(m_connections);
+}
+
+std::vector<INodeConnection*> NodePort::GetConnections()
+{
   return m_connections;
 }
 
-void NodePort::AppendConnection(const INodeConnection* connection)
+void NodePort::AppendConnection(INodeConnection* connection)
 {
   auto iter = std::find(m_connections.begin(), m_connections.end(), connection);
   if (iter != m_connections.end())
@@ -64,7 +69,7 @@ void NodePort::AppendConnection(const INodeConnection* connection)
   m_connections.push_back(connection);
 }
 
-void NodePort::RemoveConnection(const INodeConnection* connection)
+void NodePort::RemoveConnection(INodeConnection* connection)
 {
   auto iter = std::find(m_connections.begin(), m_connections.end(), connection);
   if (iter == m_connections.end())
@@ -137,7 +142,7 @@ void NodePort::SetNotifyShapeCallback(
 
 void NodePort::UpdateConnectionsScenePosition()
 {
-  for (auto connection : utils::RemoveConst(m_connections))
+  for (auto* connection : m_connections)
   {
     connection->UpdateConnectionShape({});
   }

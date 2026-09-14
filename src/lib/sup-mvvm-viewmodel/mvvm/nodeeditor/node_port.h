@@ -45,10 +45,11 @@ public:
   std::string GetPortType() const override;
 
   std::vector<const INodeConnection*> GetConnections() const override;
+  std::vector<INodeConnection*> GetConnections() override;
 
-  void AppendConnection(const INodeConnection* connection) override;
+  void AppendConnection(INodeConnection* connection) override;
 
-  void RemoveConnection(const INodeConnection* connection) override;
+  void RemoveConnection(INodeConnection* connection) override;
 
   bool IsConnected(const INodePort* other) const override;
 
@@ -69,7 +70,7 @@ private:
   void UpdateConnectionsScenePosition();
 
   PortInfo m_port_info;
-  std::vector<const INodeConnection*> m_connections;
+  std::vector<INodeConnection*> m_connections;
   std::pair<double, double> m_scene_pos;
   std::function<void(const NodeOperationStates& operation_states)> m_notify_shape_callback;
 };
