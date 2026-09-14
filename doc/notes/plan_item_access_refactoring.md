@@ -177,9 +177,17 @@ Totals (`src/` + `test/`), start of Round A → now:
 
 | package | `const_cast` | `RemoveConst` | `MakeConst` | `CastItems` misuse | `StaticCastItems` |
 |---|---|---|---|---|---|
-| sup-mvvm | 33 → **19** | 18 → **9** | 0 | 0 | 3 → **0** |
-| sup-gui-core | 10 → **0** | 3 → **2** | 0 | 6 → **0** | 0 |
-| sequencer-gui | 24 → **4** | 9 | 2 (legit) | 6 → **0** | 0 |
+| sup-mvvm | 33 → **19** | 18 → **4** | 0 | 0 | 3 → **0** |
+| sup-gui-core | 10 → **0** | 3 → **1** | 0 | 6 → **0** | 0 |
+| sequencer-gui | 24 → **4** | 9 → **2** | 2 (legit) | 6 → **0** | 0 |
+
+sup-mvvm's `const_cast` count barely moved, but its composition changed completely — see
+"What remains" at the end. sup-gui-core is at **zero**.
+
+`RemoveConst` is now down to its legitimate uses: the one inside `ItemSelection` (#13), the
+definition in `container_utils.h` plus its unit test, and the two in sequencer-gui's
+`universal_instruction_item` / `universal_variable_item` — the documented attribute-system boundary
+that waits on its own refactor.
 
 sup-mvvm gains one on purpose: the single conversion now concentrated inside `ItemSelection`
 (#13), which bought back 18 downstream.
@@ -283,8 +291,7 @@ over machinery when the body is trivial.
 
 # Round C — the three root causes (do in this order)
 
-#13 is done. #14 and #15 remain, in that order; #15 is the largest and unblocks the leftovers
-noted in #8 and #14.
+#13 and #14 are done. #15 remains: the largest, and it unblocks the leftover noted in #8.
 ## 13. `ItemSelection` const boundary — DONE
 
 Implemented as decided below. Result: **one** `const_cast` added inside `ItemSelection`,
@@ -403,18 +410,81 @@ No metatype work was needed. The `Q_DECLARE_METATYPE(const InstructionItem*)` in
 registration of a non-const form was required. Worth re-checking that if one of these connections
 ever becomes queued.
 
-## 14. `IChildrenStrategy::GetChildren(const SessionItem*) const → vector<SessionItem*>`
+## 14. `IChildrenStrategy::GetChildren` — DONE
 
-Still the last bucket-C cluster inside our own code: **5 `RemoveConst` in sup-mvvm, 7 in
-sequencer-gui, 1 in sup-gui-core**. Splitting it into const/non-const would clear all 13; the
-shared-implementation pattern above is the tool for it.
+All **13** strategy `RemoveConst` cleared (5 sup-mvvm, 7 sequencer-gui, 1 sup-gui-core).
 
-## 15. `SessionItem::GetParent() const` and `GetModel() const` return mutable
+**The fix was not the one this plan assumed.** No const/non-const split, no shared-implementation
+helper. The contract was never "const item in, mutable children out" by necessity — it was simply
+over-promising on the *input*. Mutable children cannot honestly be derived from a const parent, so
+the parameter was made to match the return type:
 
-44 and 49 src call sites. The root enabler: much "can't fix locally" debt becomes fixable once a
-const item yields a const parent — including the command classes' `FindItem/FindParent() const`
-accessors, parts of #14, and `SequencerSettingsModel::Get<T>()` from #8 (which needs a non-const
-`FindItemDown`, and under it a non-const `iterate_if`). Largest single change; sequence it last.
+```cpp
+virtual std::vector<SessionItem*> GetChildren(SessionItem* item) const = 0;
+```
+
+Every implementation then just calls `item->GetAllItems()` / `TopLevelItems` /
+`SinglePropertyItems` and the casts evaporate. All 10 implementations got *simpler*, rather than
+doubling into overload pairs.
+
+The feasibility question was the whole job, and it came out clean: every caller that needs mutable
+children already holds a non-const item — `ItemInsertedEvent::item` is `SessionItem*`,
+`CreateTreeOfRows(SessionItem&)`, `RebuildGroupBranch(SessionItem&)`,
+`ConnectableViewModelController::m_root_item`. Only two read-only lookup helpers took const parents
+(`ViewModelController::GetInsertViewIndexOfChild`,
+`ConnectableViewModelController::IsChildNeedsView`), and both are called with non-const items
+anyway, so de-consting their parameters cost nothing.
+
+Five `const SessionItem item;` test locals had to be de-consted — the same signal seen throughout
+these rounds: fixtures declaring const and then handing the object to something that legitimately
+needs mutability.
+
+**Generalisable lesson for #15:** before building machinery to preserve a const parameter, check
+whether the parameter should have been const at all. An accessor that must return mutable state is
+often telling you its input was mistyped, not that it needs an overload pair.
+
+## 15. `SessionItem::GetParent()` / `GetModel()` — DONE
+
+Both are now const/non-const pairs. The reasoning that settled #13 the *other* way applies here:
+`ItemSelection` and the providers own nothing, so their constness is not the items'. A
+`SessionItem` **owns its children**, and these two were the escape hatches — from a
+`const SessionItem&` you could reach the parent and from there the entire mutable tree. Const has
+to propagate through them or it means nothing anywhere.
+
+**The blast radius was far smaller than the 221 call sites suggested: 6 sites in sup-mvvm, 4 in
+sup-gui-core, 4 in sequencer-gui.** Nearly every caller already held a non-const item, because the
+earlier rounds had done that work — #13 made selections yield mutable items, #14 made the children
+strategies take them. Sequencing this last was right, but for the opposite reason to the one
+assumed: not because it is the largest change, but because the earlier rounds shrank it.
+
+### Latent bugs it exposed — the point of the item
+
+- **`utils::RemoveItem(const SessionItem&)`** took a const item and then did
+  `item.GetParent()->TakeItem(...)` — it *destroys* the item. **`MoveUp`** and **`MoveDown`**
+  likewise moved items through a const reference. All three de-consted; `MoveTo`'s `const_cast` and
+  its FIXME went with them.
+- Note for the record: earlier in these rounds a cast in `anyvalue_editor_widget.cpp` was removed
+  on the grounds that "`RemoveItem` already takes `const&`". That was true, but the const was
+  itself the bug — the cast was redundant only because the function was lying about what it does.
+
+### Judgment call worth keeping
+
+`ISessionModel::RemoveItem(const SessionItem*)` **keeps** its const-taking signature, with one
+documented conversion inside `SessionModel::RemoveItem`. Asking the owner to remove something
+should not require write access to it — that is `erase(const_iterator)`. De-consting the virtual
+would have pushed casts back out to ~15 call sites, which is exactly the pattern these rounds
+exist to remove. Same principle as #13: concentrate the conversion at the owning boundary.
+
+Two smaller shifts fell out: `sup::gui::FilterOutChildren` now preserves mutability (both callers
+filter items they are about to delete, so it removed a conversion rather than adding one), and
+`ItemViewComponentProvider::GetItemFromViewIndex` returns non-const — #13's non-owning-proxy
+argument applied to the one accessor left alone at the time to keep that diff minimal.
+
+### Correction to this plan's earlier claim
+
+#15 does **not** unblock `SequencerSettingsModel::Get<T>()` from #8. That site is blocked on
+`mvvm::utils::FindItemDown` being const-only (and `iterate_if` under it), which is unrelated to
+`GetParent`/`GetModel`. See the remaining-work section below.
 
 Note the distinction this round settled: **ownership decides whether const should propagate.**
 `SessionItem` owns its children through `unique_ptr`, so const propagation is meaningful there -
@@ -425,3 +495,70 @@ rather than a weakening.
 Also still worth doing: **`ISessionModel::FindItem<T>(const std::string& id)`**. It is the one
 lookup with no typed form, so `dynamic_cast<T*>(model->FindItem(id))` remains the idiom at ~4 sites
 (including `LinkedItem::Get<T>()`).
+
+---
+
+# What remains
+
+All of #13, #14 and #15 are done. 23 `const_cast` are left across the three packages (sup-gui-core
+is at zero). Classified, because the composition matters more than the count:
+
+## Actionable — one coherent cluster left
+
+**The const-overload forwarding idiom: 11 sites in sup-mvvm.** Every one is a non-const overload
+delegating to its const twin via `const_cast<T*>(std::as_const(*this).F())`:
+
+- `viewmodel.cpp:105,122,132` — `GetRootSessionItem`, `GetSessionItemFromIndex`,
+  `GetViewItemFromIndex`
+- `session_item.h:550,580` — `FindItem<ItemT>`, `GetItem<ItemT>`
+- `group_item.h:148,167` — `FindCurrentItem<T>`, `GetCurrentItem<T>`
+- `item_utils.cpp:249` (`ChildAt`), `item_utils.h:313` (`FindItemUp<T>`),
+  `model_utils.cpp:68` (`ItemFromPath`), `line_series_item.cpp:73` (`GetDataItem`)
+
+This is the same shape Round A items 1-2 cleared for the owner-side accessors, and the tools are
+already proven: write the non-const body directly where the const version does no real work, and
+use the shared-implementation template where it does (see "The shared-implementation pattern").
+Note `FindItemUp<T>` and the `session_item.h` / `group_item.h` ones are templates, so the
+self-deducing `template <typename SelfT>` form applies directly.
+
+**Non-const `FindItemDown` / `iterate_if` in sup-mvvm.** The one remaining blocker for
+`SequencerSettingsModel::Get<T>()` (`sequencer_settings_model.h:78`, the leftover from #8).
+`FindItemDown` has exactly one production user across all three packages, so this is only worth
+doing as part of the cluster above, not on its own.
+
+**`LineSeriesDataController::m_active_point`** (`line_series_data_controller.cpp:204`). The
+controller observes a **const** data item but stores a mutable `PointItem*` because dragging has to
+modify it. A genuine narrow-then-widen: either the controller should observe a mutable data item,
+or dragging should go through the model. Small, self-contained, and the only remaining cast in
+sup-mvvm that is neither idiom nor boundary.
+
+**Two postponed signals in sequencer-gui** (`operation_monitor_view.cpp:268,314`) — the second hop
+of the `JobSelected` chain (`ItemSelection` applies, as done for the first hop), and
+`SubmitProcedureRequest`, which is a command carrying a subject and should get a non-const
+parameter rather than `ItemSelection`. See the #13 signal section.
+
+## Accepted boundaries — not defects
+
+- **Deliberate and documented (2):** `item_selection.cpp:47` (#13) and `session_model.cpp:171`
+  (#15). Each is one conversion concentrated at an owning boundary, bought against ~20 scattered
+  casts. Do not "clean these up".
+- **Qt boundaries (3):** `viewmodel_base.cpp:139` (`createIndex` takes `void*`),
+  `viewmodel_utils.cpp:162,186` (`QModelIndex::model()` returns const by Qt's design). Only
+  removable by collapsing `ViewModel`'s item accessors to const-methods-returning-mutable, which is
+  a separate API decision.
+- **The `RemoveConst` definition itself** (`container_utils.h:175`).
+- **External domain API (1):** `domain_procedure_builder.cpp:142` — `procedure->GetWorkspace()`
+  belongs to oac-tree, not to us.
+- **One test helper:** `test_viewmodel_helper.cpp:33`.
+
+## Other counters
+
+- `RemoveConst`: 4 / 1 / 2. Only legitimate uses left — the definition plus its test, the one
+  inside `ItemSelection`, and the two in sequencer-gui's `universal_instruction_item` /
+  `universal_variable_item`, which wait on the attribute-system refactor (their FIXME still
+  stands).
+- `MakeConst`: definition and test only in sup-mvvm; the 2 in sequencer-gui are legitimate.
+- `StaticCastItems`: gone everywhere.
+- `std::as_const`: 10 / 3 / 0 — most of the sup-mvvm ones are inside the 11 forwarding sites above
+  and will go with them.
+

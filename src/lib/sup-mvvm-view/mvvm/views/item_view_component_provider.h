@@ -147,7 +147,7 @@ public:
    * is obtained by applying QAbstractItemProxyModel::mapToSource to given index, and then getting
    * item out of it.
    */
-  const mvvm::SessionItem* GetItemFromViewIndex(const QModelIndex& index) const;
+  mvvm::SessionItem* GetItemFromViewIndex(const QModelIndex& index) const;
 
   /**
    * @brief Returns view indices for given item.

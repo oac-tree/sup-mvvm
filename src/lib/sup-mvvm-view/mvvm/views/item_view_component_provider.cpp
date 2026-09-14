@@ -133,7 +133,7 @@ ViewModel* ItemViewComponentProvider::GetViewModel() const
   return m_view_model.get();
 }
 
-const SessionItem* ItemViewComponentProvider::GetItemFromViewIndex(const QModelIndex& index) const
+SessionItem* ItemViewComponentProvider::GetItemFromViewIndex(const QModelIndex& index) const
 {
   auto source_index = index;
   auto proxies = GetProxyModelChain();

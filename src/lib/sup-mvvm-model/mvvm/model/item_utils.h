@@ -409,19 +409,19 @@ std::unique_ptr<T> CopyItem(const T& item)
  *
  * Works on children belonging to the same tag.
  */
-bool MoveUp(const SessionItem& item);
+bool MoveUp(SessionItem& item);
 
 /**
  * @brief Moves item down (increments row of the item), returns true in the case of success.
  *
  * Works on children belonging to the same tag.
  */
-bool MoveDown(const SessionItem& item);
+bool MoveDown(SessionItem& item);
 
 /**
  * @brief Removes item from its parent and destroys it.
  */
-void RemoveItem(const SessionItem& item);
+void RemoveItem(SessionItem& item);
 
 /**
  * @brief Removes an existing item at given 'tag_index' and insert a new one in its place.

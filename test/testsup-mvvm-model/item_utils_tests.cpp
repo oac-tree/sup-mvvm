@@ -768,7 +768,7 @@ TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
 TEST_F(ItemUtilsTests, RemoveItem)
 {
   {  // item doesn't belong to a parent
-    const SessionItem item;
+    SessionItem item;
     EXPECT_THROW(utils::RemoveItem(item), LogicErrorException);
   }
 

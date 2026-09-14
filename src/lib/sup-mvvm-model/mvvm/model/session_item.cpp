@@ -127,12 +127,22 @@ SessionItem& SessionItem::SetDisplayName(const std::string& name) &
   return *this;
 }
 
-ISessionModel* SessionItem::GetModel() const
+const ISessionModel* SessionItem::GetModel() const
 {
   return p_impl->GetModel();
 }
 
-SessionItem* SessionItem::GetParent() const
+ISessionModel* SessionItem::GetModel()
+{
+  return p_impl->GetModel();
+}
+
+const SessionItem* SessionItem::GetParent() const
+{
+  return p_impl->GetParent();
+}
+
+SessionItem* SessionItem::GetParent()
 {
   return p_impl->GetParent();
 }

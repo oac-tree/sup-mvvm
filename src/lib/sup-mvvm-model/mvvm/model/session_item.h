@@ -98,12 +98,14 @@ public:
    * @brief Returns the model to which given item belongs to, or nullptr if item doesn't belong to a
    * model.
    */
-  ISessionModel* GetModel() const;
+  const ISessionModel* GetModel() const;
+  ISessionModel* GetModel();
 
   /**
    * @brief Returns item parent.
    */
-  SessionItem* GetParent() const;
+  const SessionItem* GetParent() const;
+  SessionItem* GetParent();
 
   /**
    * @brief  Returns TagIndex of this item under which it is accessible through its parent.

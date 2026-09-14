@@ -71,12 +71,11 @@ std::vector<ItemT*> CollectVisibleChildren(ItemT& item, bool with_property_flag)
  * @brief Move item to a new index within the same parent. No check is performed for index
  * validity.
  */
-void MoveTo(const SessionItem& item, const TagIndex& tag_index)
+void MoveTo(SessionItem& item, const TagIndex& tag_index)
 {
-  if (auto model = item.GetModel(); model)
+  if (auto* model = item.GetModel(); model != nullptr)
   {
-    // FIXME: modify MoveItem API so it accepts const item to move
-    model->MoveItem(const_cast<SessionItem*>(&item), item.GetParent(), tag_index);
+    model->MoveItem(&item, item.GetParent(), tag_index);
   }
   else
   {
@@ -403,7 +402,7 @@ bool ReplaceData(SessionItem& item, const variant_t& value, role_t role)
   return item.SetData(value, role);  // will succeed
 }
 
-bool MoveUp(const SessionItem &item)
+bool MoveUp(SessionItem& item)
 {
   auto tag_index = item.GetTagIndex();
   if (tag_index.GetIndex() == 0)
@@ -415,7 +414,7 @@ bool MoveUp(const SessionItem &item)
   return true;
 }
 
-bool MoveDown(const SessionItem &item)
+bool MoveDown(SessionItem& item)
 {
   auto tag_index = item.GetTagIndex();
   if (tag_index.GetIndex() == (item.GetParent()->GetItemCount(tag_index.GetTag()) - 1))
@@ -430,7 +429,7 @@ bool MoveDown(const SessionItem &item)
   return true;
 }
 
-void RemoveItem(const SessionItem &item)
+void RemoveItem(SessionItem& item)
 {
   if (item.GetParent() == nullptr)
   {

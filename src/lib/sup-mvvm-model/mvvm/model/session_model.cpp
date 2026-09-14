@@ -166,7 +166,8 @@ void SessionModel::RemoveItem(const SessionItem* item)
     throw InvalidOperationException("Item is not initialised");
   }
 
-  (void)TakeItem(item->GetParent(), item->GetTagIndex());
+  // We allow const_cast here to recover mutable access to item's parent.
+  (void)TakeItem(const_cast<SessionItem*>(item->GetParent()), item->GetTagIndex());
 }
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
