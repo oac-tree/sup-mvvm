@@ -34,6 +34,12 @@ class SessionItem;
  * @brief The ItemSelection class stores information about currently selected items.
  *
  * Used to notify widgets in the context of ItemViewComponentProvider.
+ *
+ * A selection refers to items owned by a model, it owns nothing itself. This is the one place
+ * where the two ends of a selection meet: a view is a read-only observer and reports const items,
+ * while the consumer of a selection acts on what the user picked. Constructors therefore accept
+ * const items, and the getters hand out mutable ones. Concentrating that single conversion here is
+ * deliberate, it is what keeps it out of every consumer.
  */
 class ItemSelection
 {
@@ -74,24 +80,24 @@ public:
    *
    * If more than one item is selected, will return first one.
    */
-  const SessionItem* GetItem() const;
+  SessionItem* GetItem() const;
 
   /**
    * @brief Returns vector of currently selected items.
    */
-  std::vector<const SessionItem*> GetItems() const;
+  std::vector<SessionItem*> GetItems() const;
 
   /**
    * @brief Returns an item currently selected in a view and casted to specified type.
    */
   template <typename T = SessionItem>
-  const T* GetItem() const;
+  T* GetItem() const;
 
   /**
    * @brief Returns items currently selected in a view and casted to specified type.
    */
   template <typename T = SessionItem>
-  std::vector<const T*> GetItems() const;
+  std::vector<T*> GetItems() const;
 
   /**
    * @brief Checks if this selection is the same as another selection.
@@ -120,15 +126,15 @@ inline ItemSelection::ItemSelection(const std::vector<ElementT>& selected_items)
 }
 
 template <typename T>
-const T* ItemSelection::GetItem() const
+T* ItemSelection::GetItem() const
 {
-  return dynamic_cast<const T*>(GetItem());
+  return dynamic_cast<T*>(GetItem());
 }
 
 template <typename T>
-std::vector<const T*> ItemSelection::GetItems() const
+std::vector<T*> ItemSelection::GetItems() const
 {
-  return utils::CastItems<const T>(GetItems());
+  return utils::CastItems<T>(GetItems());
 }
 
 bool operator==(const ItemSelection& lhs, const ItemSelection& rhs);

@@ -41,14 +41,15 @@ ItemSelection::ItemSelection(const std::vector<const SessionItem*>& selected_ite
 {
 }
 
-const SessionItem* ItemSelection::GetItem() const
+SessionItem* ItemSelection::GetItem() const
 {
-  return m_items.empty() ? nullptr : m_items.front();
+  // see the class description: a selection reports mutable items, it refers to them without owning
+  return m_items.empty() ? nullptr : const_cast<SessionItem*>(m_items.front());
 }
 
-std::vector<const SessionItem*> ItemSelection::GetItems() const
+std::vector<SessionItem*> ItemSelection::GetItems() const
 {
-  return m_items;
+  return utils::RemoveConst(m_items);
 }
 
 bool ItemSelection::IsSameSelection(const ItemSelection& other) const

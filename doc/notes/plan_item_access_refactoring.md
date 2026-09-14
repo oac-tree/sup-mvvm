@@ -1,9 +1,8 @@
 # SessionItem item-access API refactoring
 
-> Working note. **Status: the API change and const-correctness Rounds A and B are DONE and
-> committed in all three packages.** sup-mvvm 1369/1369, sup-gui-core 447/447,
-> sequencer-gui 890/890 tests pass. Remaining work is Round C at the end of this document,
-> starting with the `ItemSelection` boundary (#13), whose design is settled there.
+> Working note. **Status: the API change, const-correctness Rounds A and B, and Round C #13 are
+> DONE.** sup-mvvm 1369/1369, sup-gui-core 447/447, sequencer-gui 890/890 tests pass.
+> Remaining: #14, #15, and the selection signals postponed at the end of #13.
 
 ## Why this was done
 
@@ -178,9 +177,12 @@ Totals (`src/` + `test/`), start of Round A → now:
 
 | package | `const_cast` | `RemoveConst` | `MakeConst` | `CastItems` misuse | `StaticCastItems` |
 |---|---|---|---|---|---|
-| sup-mvvm | 33 → **18** | 18 → **9** | 0 | 0 | 3 → **0** |
-| sup-gui-core | 10 → **7** | 3 → **2** | 0 | 6 → **0** | 0 |
-| sequencer-gui | 24 → **18** | 9 | 2 (legit) | 6 → **0** | 0 |
+| sup-mvvm | 33 → **19** | 18 → **9** | 0 | 0 | 3 → **0** |
+| sup-gui-core | 10 → **0** | 3 → **2** | 0 | 6 → **0** | 0 |
+| sequencer-gui | 24 → **7** | 9 | 2 (legit) | 6 → **0** | 0 |
+
+sup-mvvm gains one on purpose: the single conversion now concentrated inside `ItemSelection`
+(#13), which bought back 18 downstream.
 
 Tests green throughout: sup-mvvm 1369/1369, sup-gui-core 447/447, sequencer-gui 890/890.
 (sup-mvvm lost one test with the `StaticCastItems` deletion.)
@@ -281,70 +283,89 @@ over machinery when the body is trivial.
 
 # Round C — the three root causes (do in this order)
 
-## 13. `ItemSelection` / `ItemViewComponentProvider` const boundary
+#13 is done. #14 and #15 remain, in that order; #15 is the largest and unblocks the leftovers
+noted in #8 and #14.
+## 13. `ItemSelection` const boundary — DONE
 
-This single boundary drives **~16 `const_cast` in sequencer-gui and ~6 in sup-gui-core** (the
-earlier estimate of 12 + 5 was an undercount).
+Implemented as decided below. Result: **one** `const_cast` added inside `ItemSelection`,
+**18 removed** downstream (sup-gui-core 7 → 0, sequencer-gui 18 → 7). `ItemSelection`'s storage,
+constructors, `ItemViewComponentProvider` and the `SelectionChanged` signature are untouched, so
+the single Qt metatype is unchanged and every `SetSelected...(const T*)` signature kept its const.
 
 ### Diagnosis
 
-`ItemSelection` is used in **two opposite directions with one type**:
+`ItemSelection` was used in **two opposite directions with one type**:
 
-- **Inbound** (`SetSelection`, 12 construction sites): selecting an item only *reads* it. This is
-  backed by ~14 `SetSelected...(const T*)` entry points across the three packages
-  (`AbstractItemView::SetSelectedItem`, `SetSelectedJob`, `SetSelectedInstructions`,
-  `SetSelectedPoint`, ...) and by `notify_request`-style callbacks that carry
+- **Inbound** (`SetSelection`, 12 construction sites): selecting an item only *reads* it. Backed by
+  ~14 `SetSelected...(const T*)` entry points and by `notify_request`-style callbacks carrying
   `const SessionItem*`. That const is deliberate and correct.
 - **Outbound** (`GetSelection()`, the `SelectionChanged(const ItemSelection&)` signal): consumers
-  *edit* what the user picked. Every one of the ~22 casts lives here.
+  *edit* what the user picked. Every one of the ~22 casts lived here.
 
-Supporting fact: nothing in the chain owns the items. `ItemSelection` owns nothing;
-`ItemViewComponentProvider` holds `std::unique_ptr<ViewModel>`; `ViewModel` is a proxy owning no
-data; the model owns the items. Since neither `unique_ptr` nor raw pointers propagate const, the
-whole chain can already reach mutable items with no cast — the declared types simply over-promise.
+Nothing in the chain owns the items: `ItemSelection` owns nothing, `ItemViewComponentProvider`
+holds `std::unique_ptr<ViewModel>`, `ViewModel` is a proxy owning no data, the model owns the
+items. Neither `unique_ptr` nor raw pointers propagate const, so the declared types were simply
+over-promising.
 
-### Decision
+### What was done
 
-**Concentrate the cast inside `ItemSelection`, which is the class invented to absorb exactly this.**
+The cast is concentrated inside `ItemSelection`, the class invented to absorb exactly this:
 
-- `ItemSelection` keeps its storage and constructors **unchanged**
-  (`std::vector<const SessionItem*>`, accepting const items), so all 12 construction sites and all
-  ~14 `SetSelected...(const T*)` signatures keep compiling untouched.
-- Only the four accessors change, each with one documented `const_cast`:
-  `SessionItem* GetItem() const`, `std::vector<SessionItem*> GetItems() const`,
-  `template <typename T> T* GetItem() const`,
-  `template <typename T> std::vector<T*> GetItems() const`.
-- `ItemViewComponentProvider` and the `SelectionChanged` signal are **unchanged**.
-- Then delete the ~22 downstream casts and flip sequencer-gui's 4 context structs.
+- storage and constructors **unchanged** (`std::vector<const SessionItem*>`, accepting const items);
+- the four accessors now return mutable items — `SessionItem* GetItem() const`,
+  `std::vector<SessionItem*> GetItems() const`, and the two templated forms — carrying one
+  documented conversion (`const_cast` in `GetItem`, `utils::RemoveConst` in `GetItems`);
+- `AbstractItemView::GetSelectedItem`/`GetSelectedItems`/`GetSelected<T>` widened, since they only
+  forward;
+- downstream: selection-reporting accessors and the 4 context structs widened
+  (`selected_items_callback`, `selected_instructions`, `selected_job`), and the casts deleted.
+  Read-only consumers that legitimately want const (`CreateInstructionTreeCopyMimeData`,
+  `GetBottomLevelSelection`, ...) take `utils::ConvertItems<const T>(...)` at the call site.
 
-Rationale: a view is a read-only observer of items a model owns, while the consumer of a selection
-acts on them. One class reconciles the two. Precedent already in the codebase:
-`ISessionModel::FindItem(const std::string&) const` returns `SessionItem*` for the same reason.
-
-Accepted cost: this is laundering and it does not compose — anyone holding a genuinely const item
-and wrapping it in an `ItemSelection` can get mutable access back. In practice items live in
-non-const models. Weighed against 22 casts scattered over call sites, one cast behind a named
-abstraction is the better trade.
+Accepted cost: this is laundering and it does not compose — wrapping a genuinely const item in an
+`ItemSelection` gets mutable access back. In practice items live in non-const models; the same
+reasoning already backs `ISessionModel::FindItem(const std::string&) const`.
 
 ### Rejected alternative (prototyped, then reverted — do not retry)
 
 Making `ItemSelection` store `std::vector<SessionItem*>` and adding
 `SetSelection(const SessionItem*)` / `SetSelection(const std::vector<const SessionItem*>&)`
-overloads to the provider. It works and removes every cast, but it gives the provider a **parallel
-API operating on raw `SessionItem` pointers alongside `ItemSelection`**, which defeats the two
-reasons `ItemSelection` exists: one uniform type for the const/non-const question, and one Qt
-metatype so that no `Q_DECLARE_METATYPE` is needed per item type. Measured downstream cost of that
-variant was 3 break sites in sup-gui-core and 8 in sequencer-gui. The prototype is preserved in
-`git stash` on branch COA-2302 if it is ever wanted for reference.
+overloads to the provider. It removes every cast, but gives the provider a **parallel API on raw
+`SessionItem` pointers alongside `ItemSelection`**, defeating the two reasons the class exists: one
+uniform type for the const/non-const question, and one Qt metatype so no `Q_DECLARE_METATYPE` is
+needed per item type. Measured cost of that variant was 3 break sites in sup-gui-core and 8 in
+sequencer-gui, against 1 and 3 for the design that shipped.
 
-### Not folded in
+### The metatype finding — the strongest argument for ItemSelection-as-currency
 
-`viewmodel_utils.cpp:162,186` keep their casts: `QModelIndex::model()` returns
-`const QAbstractItemModel*` by Qt's design, so `dynamic_cast<const ViewModel*>` yields a const
-viewmodel. They would only vanish by collapsing `ViewModel`'s item accessors to single const
-methods returning mutable pointers — the same non-ownership argument one level further out, and a
-separate API decision. Same for `IViewModelController::GetRootItem()`, which is const-only while
-`ConnectableViewModelController::GetRootItem() const` already returns non-const.
+Widening the remaining bare-pointer signals (`JobSelected(const JobItem*)` and friends) to
+`JobItem*` **fails to build**: `redefinition of QMetaTypeId<oac_tree_gui::JobItem*>`, plus
+"specialization after instantiation". Metatypes are registered per *type and per constness*, and
+sequencer-gui has three separate ones in three headers —
+`Q_DECLARE_METATYPE(const InstructionItem*)` in `abstract_job_handler.h`,
+`Q_DECLARE_METATYPE(const ProcedureItem*)` in two view .cpp files, and
+`Q_DECLARE_METATYPE(JobItem*)` in `operation_splittable_widget.h`. Changing a signal's pointer
+constness therefore needs a new registration and runs into include-order collisions.
+
+Carrying `ItemSelection` instead costs **one** metatype regardless of item type or constness. This
+is concrete evidence for the design, and the reason the attempt above was reverted rather than the
+metatype declarations restructured.
+
+### Postponed: selection signals still carrying bare item pointers
+
+5 casts remain in sequencer-gui behind Qt signals. They split by what the signal *means*:
+
+- **Genuine selection notifications — switch to `ItemSelection`** (3 casts):
+  `InstructionEditorWidget::InstructionSelected(const InstructionItem*)`
+  (`instruction_editor_widget.cpp:241`), `JobListWidget::JobSelected(const JobItem*)`
+  (`operation_job_panel.cpp:113`), `OperationJobPanel::JobSelected`
+  (`operation_monitor_view.cpp:314`). These say "the user picked something", which is what
+  `ItemSelection` is for, and one already-registered metatype replaces three per-type ones.
+- **Commands carrying a subject — leave them** (2 casts): `SubmitProcedureRequest(const
+  ProcedureItem*)` is "submit *this* one", not a selection; `ToggleBreakpointRequest(JobItem* job,
+  const InstructionItem* instruction)` carries two arguments in *different roles*, which a flat
+  selection cannot express. Give these non-const parameters if the casts are worth removing, but
+  do not force `ItemSelection` onto them.
 
 ## 14. `IChildrenStrategy::GetChildren(const SessionItem*) const → vector<SessionItem*>`
 

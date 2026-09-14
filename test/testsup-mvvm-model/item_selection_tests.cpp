@@ -53,29 +53,28 @@ TEST_F(ItemSelectionTest, SelectionFromNullptr)
 
 TEST_F(ItemSelectionTest, SelectionFromSinglePointer)
 {
-  { // const pointer
+  {  // const pointer: selecting an item only reads it, so const items are accepted
     const SessionItem item;
     const ItemSelection selection(&item);
     EXPECT_EQ(selection.GetItem(), &item);
-    const std::vector<const SessionItem*> expected{&item};
-    EXPECT_EQ(selection.GetItems(), expected);
+    EXPECT_EQ(selection.GetItems().size(), 1);
     EXPECT_FALSE(selection.IsEmpty());
   }
 
-  { // non-const pointer
-    SessionItem item; // non-const
+  {  // a const selection still reports mutable items, it refers to them rather than owning them
+    SessionItem item;
     const ItemSelection selection(&item);
     EXPECT_EQ(selection.GetItem(), &item);
-    const std::vector<const SessionItem*> expected{&item};
+    const std::vector<SessionItem*> expected{&item};
     EXPECT_EQ(selection.GetItems(), expected);
   }
 
-  { // pointer to derived class
+  {  // pointer to derived class
     // to validate that our templated constructor does not cause any issues
-    const VectorItem vector_item;
+    VectorItem vector_item;
     const ItemSelection selection(&vector_item);
     EXPECT_EQ(selection.GetItem(), &vector_item);
-    const std::vector<const SessionItem*> expected{&vector_item};
+    const std::vector<SessionItem*> expected{&vector_item};
     EXPECT_EQ(selection.GetItems(), expected);
   }
 }
@@ -90,28 +89,28 @@ TEST_F(ItemSelectionTest, SelectionFromSinglePointerWhichIsNullptr)
 
 TEST_F(ItemSelectionTest, TwoItemsInSelection)
 {
-  const SessionItem item1;
-  const SessionItem item2;
+  SessionItem item1;
+  SessionItem item2;
 
   const ItemSelection selection({&item1, &item2});
 
   EXPECT_EQ(selection.GetItem(), &item1);
-  const std::vector<const SessionItem*> expected{&item1, &item2};
+  const std::vector<SessionItem*> expected{&item1, &item2};
   EXPECT_EQ(selection.GetItems(), expected);
 }
 
 TEST_F(ItemSelectionTest, CastedGetters)
 {
-  const VectorItem item1;
-  const VectorItem item2;
+  VectorItem item1;
+  VectorItem item2;
 
   const ItemSelection selection({&item1, &item2});
 
-  const std::vector<const SessionItem*> expected1{&item1, &item2};
+  const std::vector<SessionItem*> expected1{&item1, &item2};
   EXPECT_EQ(selection.GetItems(), expected1);
 
   // casting to type
-  const std::vector<const VectorItem*> expected2{&item1, &item2};
+  const std::vector<VectorItem*> expected2{&item1, &item2};
   EXPECT_EQ(selection.GetItems<VectorItem>(), expected2);
 
   EXPECT_EQ(selection.GetItem<VectorItem>(), &item1);
@@ -119,23 +118,28 @@ TEST_F(ItemSelectionTest, CastedGetters)
 
 TEST_F(ItemSelectionTest, TemplatedConstructionFromVector)
 {
-  const VectorItem item1;
-  const VectorItem item2;
+  VectorItem item1;
+  VectorItem item2;
 
-  const std::vector<const VectorItem*> vector_items{&item1, &item2};
+  // the template constructor accepts const items too, selecting them only reads them
+  const std::vector<const VectorItem*> const_vector_items{&item1, &item2};
+  const ItemSelection const_selection(const_vector_items);
+  EXPECT_EQ(const_selection.GetItems().size(), 2);
+
+  const std::vector<VectorItem*> vector_items{&item1, &item2};
 
   // this invokes template constructor, which should properly cast items to SessionItem pointers
   const ItemSelection selection(vector_items);
 
-  const std::vector<const SessionItem*> expected1{&item1, &item2};
+  const std::vector<SessionItem*> expected1{&item1, &item2};
   EXPECT_EQ(selection.GetItems(), expected1);
   EXPECT_EQ(selection.GetItems<VectorItem>(), vector_items);
 }
 
 TEST_F(ItemSelectionTest, IsSameSelection)
 {
-  const SessionItem item1;
-  const SessionItem item2;
+  SessionItem item1;
+  SessionItem item2;
 
   const ItemSelection selection1({&item1, &item2});
   const ItemSelection selection2({&item2, &item1});

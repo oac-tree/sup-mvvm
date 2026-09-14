@@ -91,16 +91,16 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   EXPECT_TRUE(provider->GetSelection().IsEmpty());
 
   view.SetSelectedItem(x_item);
-  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<const SessionItem*>({x_item}));
+  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<SessionItem*>({x_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 
   view.SetSelectedItem(y_item);
-  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<const SessionItem*>({y_item}));
+  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<SessionItem*>({y_item}));
   EXPECT_EQ(view.GetSelectedItem(), y_item);
 
   provider->SetSelection(ItemSelection({x_item, y_item}));
   EXPECT_EQ(provider->GetSelection().GetItems(),
-            std::vector<const SessionItem*>({x_item, y_item}));
+            std::vector<SessionItem*>({x_item, y_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 }
 
@@ -129,7 +129,7 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
   view.GetTreeView()->selectionModel()->select(
       x_item_index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({x_item}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
@@ -177,7 +177,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   auto provider = view.GetComponentProvider();
 
   // checking selections
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({property0}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({property0}));
 
   // checking signaling
   ItemSelection expected_selection(property0);

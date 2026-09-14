@@ -54,13 +54,13 @@ public:
 
   ItemViewComponentProvider* GetComponentProvider();
 
-  const SessionItem* GetSelectedItem() const;
+  SessionItem* GetSelectedItem() const;
   void SetSelectedItem(const SessionItem *item);
 
   template <typename T>
-  const T* GetSelected() const;
+  T* GetSelected() const;
 
-  std::vector<const SessionItem *> GetSelectedItems() const;
+  std::vector<SessionItem*> GetSelectedItems() const;
   void SetSelectedItems(const std::vector<SessionItem*>& items);
 
 signals:
@@ -72,9 +72,9 @@ private:
 };
 
 template <typename T>
-const T* AbstractItemView::GetSelected() const
+T* AbstractItemView::GetSelected() const
 {
-  return dynamic_cast<const T*>(GetSelectedItem());
+  return dynamic_cast<T*>(GetSelectedItem());
 }
 
 }  // namespace mvvm

@@ -63,12 +63,12 @@ ItemViewComponentProvider* AbstractItemView::GetComponentProvider()
   return m_provider.get();
 }
 
-const SessionItem *AbstractItemView::GetSelectedItem() const
+SessionItem* AbstractItemView::GetSelectedItem() const
 {
   return m_provider->GetSelection().GetItem();
 }
 
-std::vector<const SessionItem*> AbstractItemView::GetSelectedItems() const
+std::vector<SessionItem*> AbstractItemView::GetSelectedItems() const
 {
   return m_provider->GetSelection().GetItems();
 }

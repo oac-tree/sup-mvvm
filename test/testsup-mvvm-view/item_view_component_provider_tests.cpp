@@ -371,7 +371,7 @@ TEST_F(ItemViewComponentProviderTest, SelectWholeRowAndCheckResultingSelection)
   view.selectionModel()->select(x_item_index,
                                 QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<const mvvm::SessionItem*>({x_item}));
+  EXPECT_EQ(provider->GetSelection().GetItems(), std::vector<mvvm::SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
@@ -416,7 +416,7 @@ TEST_F(ItemViewComponentProviderTest, CheckSelectionChangeAfterItemRemoval)
 
   // checking selections
   EXPECT_EQ(provider->GetSelection().GetItems(),
-            std::vector<const mvvm::SessionItem*>({property0}));
+            std::vector<mvvm::SessionItem*>({property0}));
 
   // checking signaling
   EXPECT_EQ(mvvm::test::TakeValue<ItemSelection>(spy_selected), ItemSelection(property0));
