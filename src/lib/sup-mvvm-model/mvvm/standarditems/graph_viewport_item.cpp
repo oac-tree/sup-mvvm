@@ -25,14 +25,33 @@
 
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/make_clone.h>
-#include <mvvm/utils/container_utils.h>
 
 #include <algorithm>
-#include <utility>
 #include <vector>
 
 namespace mvvm
 {
+
+namespace
+{
+
+/**
+ * @brief Collects graph items marked as displayed.
+ *
+ * SelfT deduces the constness of the viewport.
+ */
+template <typename SelfT>
+auto CollectVisibleGraphItems(SelfT& viewport)
+{
+  auto all_items = viewport.template FindItems<GraphItem>(constants::kChildrenTag);
+  decltype(all_items) visible_items;
+  (void)std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
+                     [](const GraphItem* graph_item)
+                     { return graph_item->Property<bool>(constants::kDisplayed); });
+  return visible_items;
+}
+
+}  // namespace
 
 GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportItem(model_type)
 {
@@ -64,17 +83,12 @@ std::vector<GraphItem*> GraphViewportItem::GetGraphItems()
 
 std::vector<const GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 {
-  auto all_items = FindItems<GraphItem>(constants::kChildrenTag);
-  std::vector<const GraphItem*> visible_items;
-  (void)std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
-                     [](const GraphItem* graph_item)
-                     { return graph_item->Property<bool>(constants::kDisplayed); });
-  return visible_items;
+  return CollectVisibleGraphItems(*this);
 }
 
 std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems()
 {
-  return utils::RemoveConst(std::as_const(*this).GetVisibleGraphItems());
+  return CollectVisibleGraphItems(*this);
 }
 
 void GraphViewportItem::SetVisibleGraphItems(const std::vector<GraphItem*>& visible_graph_items)

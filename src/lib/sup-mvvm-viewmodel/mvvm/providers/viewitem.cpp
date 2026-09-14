@@ -213,7 +213,7 @@ ViewItem* ViewItem::GetChild(std::int32_t row, std::int32_t column) const
 
 IViewItemData* ViewItem::GetItemData()
 {
-  return const_cast<IViewItemData*>(std::as_const(*this).GetItemData());
+  return p_impl->m_view_item_data.get();
 }
 
 const IViewItemData* ViewItem::GetItemData() const

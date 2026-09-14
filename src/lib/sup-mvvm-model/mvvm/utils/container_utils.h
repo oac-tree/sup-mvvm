@@ -128,8 +128,7 @@ std::vector<T*> CastItems(const C& container)
  * @brief Converts pointers in the container to the given type and returns the result to the user.
  *
  * Only implicit pointer conversions are allowed: an upcast to a base class, adding constness, or
- * both at once. No RTTI is involved and no element can be lost. Use it instead of CastItems when
- * the conversion is known at compile time.
+ * both at once. Use it instead of CastItems when the conversion is known at compile time.
  */
 template <typename T, typename C>
 std::vector<T*> ConvertItems(const C& container)

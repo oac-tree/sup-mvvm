@@ -218,6 +218,12 @@ std::vector<const SessionItem*> SessionItem::FindItemsImpl(std::string_view tag)
   return container != nullptr ? container->GetItems() : std::vector<const SessionItem*>{};
 }
 
+std::vector<SessionItem*> SessionItem::FindItemsImpl(std::string_view tag)
+{
+  auto* container = GetTaggedItems()->FindContainer(std::string(tag));
+  return container != nullptr ? container->GetItems() : std::vector<SessionItem*>{};
+}
+
 TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const
 {
   return GetTaggedItems()->TagIndexOfItem(item);
@@ -338,7 +344,7 @@ void SessionItem::SetParent(SessionItem* parent)
 
 SessionItemData* SessionItem::GetItemData()
 {
-  return const_cast<SessionItemData*>(std::as_const(*this).GetItemData());
+  return p_impl->GetItemData();
 }
 
 const SessionItemData* SessionItem::GetItemData() const
@@ -353,7 +359,7 @@ const TaggedItems* SessionItem::GetTaggedItems() const
 
 TaggedItems* SessionItem::GetTaggedItems()
 {
-  return const_cast<TaggedItems*>(std::as_const(*this).GetTaggedItems());
+  return p_impl->GetTaggedItems();
 }
 
 void SessionItem::SetStrategy(const data_strategy_t& data_strategy)

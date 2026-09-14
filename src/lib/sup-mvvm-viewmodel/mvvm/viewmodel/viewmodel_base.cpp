@@ -120,12 +120,12 @@ const ViewItem* ViewModelBase::rootItem() const
 
 ViewItem* ViewModelBase::rootItem()
 {
-  return const_cast<ViewItem*>(std::as_const(*this).rootItem());
+  return p_impl->root.get();
 }
 
 ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index)
 {
-  return const_cast<ViewItem*>(std::as_const(*this).itemFromIndex(index));
+  return index.isValid() ? static_cast<ViewItem*>(index.internalPointer()) : nullptr;
 }
 
 const ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const

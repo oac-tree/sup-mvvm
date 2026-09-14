@@ -501,6 +501,7 @@ private:
    * Total (non-throwing) counterpart of GetItems, used to implement FindItems.
    */
   std::vector<const SessionItem*> FindItemsImpl(std::string_view tag) const;
+  std::vector<SessionItem*> FindItemsImpl(std::string_view tag);
 
   std::unique_ptr<SessionItemImpl> p_impl;
   data_strategy_t m_data_strategy;
@@ -595,7 +596,7 @@ inline std::vector<const ItemT*> SessionItem::FindItems(std::string_view tag) co
 template <typename ItemT>
 inline std::vector<ItemT*> SessionItem::FindItems(std::string_view tag)
 {
-  return utils::RemoveConst(std::as_const(*this).FindItems<ItemT>(tag));
+  return utils::CastItems<ItemT>(FindItemsImpl(tag));
 }
 
 template <typename T>

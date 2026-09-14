@@ -57,7 +57,7 @@ std::vector<const SessionItem*> SessionItemContainer::GetItems() const
 
 std::vector<SessionItem*> SessionItemContainer::GetItems()
 {
-  return utils::RemoveConst(std::as_const(*this).GetItems());
+  return utils::GetVectorOfPtrs(m_items);
 }
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, std::size_t index) const
@@ -132,7 +132,7 @@ const SessionItem* SessionItemContainer::ItemAt(std::size_t index) const
 
 SessionItem* SessionItemContainer::ItemAt(std::size_t index)
 {
-  return const_cast<SessionItem*>(std::as_const(*this).ItemAt(index));
+  return (index < GetItemCount()) ? m_items[index].get() : nullptr;
 }
 
 std::string SessionItemContainer::GetName() const

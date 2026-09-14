@@ -47,6 +47,26 @@ namespace mvvm::utils
 
 namespace
 {
+
+/**
+ * @brief Collects visible children of the given item that carry (or not) the property flag.
+ *
+ * ItemT deduces the constness of the item.
+ */
+template <typename ItemT>
+std::vector<ItemT*> CollectVisibleChildren(ItemT& item, bool with_property_flag)
+{
+  std::vector<ItemT*> result;
+  for (auto* child : item.GetAllItems())
+  {
+    if (child->IsVisible() && (child->HasFlag(kProperty) == with_property_flag))
+    {
+      result.push_back(child);
+    }
+  }
+  return result;
+}
+
 /**
  * @brief Move item to a new index within the same parent. No check is performed for index
  * validity.
@@ -252,38 +272,22 @@ std::vector<std::string> RegisteredTags(const SessionItem& item)
 
 std::vector<const SessionItem*> TopLevelItems(const SessionItem& item)
 {
-  std::vector<const SessionItem*> result;
-  for (const auto* child : item.GetAllItems())
-  {
-    if (child->IsVisible() && !child->HasFlag(kProperty))
-    {
-      result.push_back(child);
-    }
-  }
-  return result;
+  return CollectVisibleChildren(item, false);
 }
 
 std::vector<SessionItem*> TopLevelItems(SessionItem& item)
 {
-  return RemoveConst(TopLevelItems(std::as_const(item)));
+  return CollectVisibleChildren(item, false);
 }
 
 std::vector<const SessionItem*> SinglePropertyItems(const SessionItem& item)
 {
-  std::vector<const SessionItem*> result;
-  for (const auto* child : item.GetAllItems())
-  {
-    if (child->IsVisible() && child->HasFlag(kProperty))
-    {
-      result.push_back(child);
-    }
-  }
-  return result;
+  return CollectVisibleChildren(item, true);
 }
 
 std::vector<SessionItem*> SinglePropertyItems(SessionItem& item)
 {
-  return RemoveConst(SinglePropertyItems(std::as_const(item)));
+  return CollectVisibleChildren(item, true);
 }
 
 const SessionItem *FindNextSibling(const SessionItem *item)
