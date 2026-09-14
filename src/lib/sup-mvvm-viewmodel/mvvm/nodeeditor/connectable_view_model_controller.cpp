@@ -261,7 +261,7 @@ bool ConnectableViewModelController::IsAboutToDestroyRootItem(
   return (item_to_remove == GetRootItem()) || utils::IsItemAncestor(GetRootItem(), item_to_remove);
 }
 
-bool ConnectableViewModelController::IsChildNeedsView(const SessionItem& parent,
+bool ConnectableViewModelController::IsChildNeedsView(SessionItem& parent,
                                                       const SessionItem& child)
 {
   // We check that a child is among children reported by the strategy. If it is not the case, the

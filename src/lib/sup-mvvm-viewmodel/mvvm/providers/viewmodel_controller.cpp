@@ -150,7 +150,7 @@ QStringList ViewModelController::GetHorizontalHeaderLabels() const
   return m_row_strategy->GetHorizontalHeaderLabels();
 }
 
-std::size_t ViewModelController::GetInsertViewIndexOfChild(const SessionItem* parent,
+std::size_t ViewModelController::GetInsertViewIndexOfChild(SessionItem* parent,
                                                            const SessionItem* child)
 {
   // children that should get their views

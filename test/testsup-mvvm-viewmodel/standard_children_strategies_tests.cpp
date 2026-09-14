@@ -58,7 +58,7 @@ TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategy)
   }
 
   {  // empty item
-    const SessionItem item;
+    SessionItem item;
     EXPECT_EQ(strategy.GetChildren(&item).size(), 0);
   }
 
@@ -124,7 +124,7 @@ TEST_F(StandardChildrenStrategiesTest, TopItemsStrategy)
   }
 
   {  // empty item
-    const SessionItem item;
+    SessionItem item;
     EXPECT_EQ(strategy.GetChildren(&item).size(), 0);
   }
 
@@ -171,12 +171,12 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
   }
 
   {  // empty item
-    const SessionItem item;
+    SessionItem item;
     EXPECT_EQ(strategy.GetChildren(&item).size(), 0);
   }
 
   {  // VectorItem
-    const VectorItem item;
+    VectorItem item;
     EXPECT_EQ(strategy.GetChildren(&item).size(), 3);
   }
 
@@ -187,7 +187,7 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
   }
 
   {  // TestItem
-    const TestItem item;
+    TestItem item;
     EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
   }
 

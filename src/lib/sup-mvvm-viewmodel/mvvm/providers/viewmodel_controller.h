@@ -84,7 +84,7 @@ protected:
    * Since number of views might not coincide with number of items (some items are marked) as
    * hidden, we have to recalculate a view index.
    */
-  std::size_t GetInsertViewIndexOfChild(const SessionItem* parent, const SessionItem* child);
+  std::size_t GetInsertViewIndexOfChild(SessionItem* parent, const SessionItem* child);
 
   /**
    * @brief Creates tree of rows with ViewItems representing given SessionItem and all its children.

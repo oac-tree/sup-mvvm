@@ -40,7 +40,7 @@ namespace mvvm
 class AllChildrenStrategy : public IChildrenStrategy
 {
 public:
-  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
+  std::vector<SessionItem*> GetChildren(SessionItem* item) const override;
 };
 
 /**
@@ -49,7 +49,7 @@ public:
 class AllVisibleChildrenStrategy : public IChildrenStrategy
 {
 public:
-  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
+  std::vector<SessionItem*> GetChildren(SessionItem* item) const override;
 };
 
 /**
@@ -61,7 +61,7 @@ public:
 class TopItemsStrategy : public IChildrenStrategy
 {
 public:
-  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
+  std::vector<SessionItem*> GetChildren(SessionItem* item) const override;
 };
 
 /**
@@ -72,7 +72,7 @@ public:
 class PropertyItemsStrategy : public IChildrenStrategy
 {
 public:
-  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
+  std::vector<SessionItem*> GetChildren(SessionItem* item) const override;
 };
 
 /**
@@ -83,7 +83,7 @@ class FixedItemTypeStrategy : public IChildrenStrategy
 public:
   explicit FixedItemTypeStrategy(std::vector<std::string> item_types);
 
-  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
+  std::vector<SessionItem*> GetChildren(SessionItem* item) const override;
 
 private:
   std::vector<std::string> m_item_types;

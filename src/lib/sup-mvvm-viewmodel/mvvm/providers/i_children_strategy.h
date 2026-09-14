@@ -50,8 +50,11 @@ public:
    *
    * The strategy is used in the context of AbstractViewModel while exposing SessionModel to Qt.
    * Thanks to this strategy ViewModel decides which items to visit.
+   *
+   * The item is non-const because the reported children are the items the view models build
+   * editable views for; mutable children cannot honestly be derived from a const parent.
    */
-  virtual std::vector<SessionItem*> GetChildren(const SessionItem* item) const = 0;
+  virtual std::vector<SessionItem*> GetChildren(SessionItem* item) const = 0;
 };
 
 }  // namespace mvvm

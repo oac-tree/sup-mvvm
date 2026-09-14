@@ -102,7 +102,7 @@ private:
   /**
    * @brief Checks if given children needs a view.
    */
-  bool IsChildNeedsView(const mvvm::SessionItem& parent, const mvvm::SessionItem& child);
+  bool IsChildNeedsView(mvvm::SessionItem& parent, const mvvm::SessionItem& child);
 
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
   std::unique_ptr<IChildrenStrategy> m_children_strategy;

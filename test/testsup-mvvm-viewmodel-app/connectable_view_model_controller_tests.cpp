@@ -53,7 +53,7 @@ namespace
 class TestStrategy : public IChildrenStrategy
 {
 public:
-  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override
+  std::vector<SessionItem*> GetChildren(SessionItem* item) const override
   {
     if (!item)
     {
@@ -65,7 +65,7 @@ public:
       return {};
     }
 
-    return utils::RemoveConst(utils::TopLevelItems(*item));
+    return utils::TopLevelItems(*item);
   }
 
   void SetCollapsed(bool value) { m_pretend_collapsed = value; }

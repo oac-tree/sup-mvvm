@@ -179,7 +179,7 @@ Totals (`src/` + `test/`), start of Round A → now:
 |---|---|---|---|---|---|
 | sup-mvvm | 33 → **19** | 18 → **9** | 0 | 0 | 3 → **0** |
 | sup-gui-core | 10 → **0** | 3 → **2** | 0 | 6 → **0** | 0 |
-| sequencer-gui | 24 → **7** | 9 | 2 (legit) | 6 → **0** | 0 |
+| sequencer-gui | 24 → **4** | 9 | 2 (legit) | 6 → **0** | 0 |
 
 sup-mvvm gains one on purpose: the single conversion now concentrated inside `ItemSelection`
 (#13), which bought back 18 downstream.
@@ -351,21 +351,57 @@ Carrying `ItemSelection` instead costs **one** metatype regardless of item type 
 is concrete evidence for the design, and the reason the attempt above was reverted rather than the
 metatype declarations restructured.
 
-### Postponed: selection signals still carrying bare item pointers
+### Selection signals carrying bare item pointers
 
-5 casts remain in sequencer-gui behind Qt signals. They split by what the signal *means*:
+Signals that report a selection should carry `ItemSelection`: one already-registered metatype
+replaces a per-type, per-constness one, and consumers get mutable items without a cast.
 
-- **Genuine selection notifications — switch to `ItemSelection`** (3 casts):
-  `InstructionEditorWidget::InstructionSelected(const InstructionItem*)`
-  (`instruction_editor_widget.cpp:241`), `JobListWidget::JobSelected(const JobItem*)`
-  (`operation_job_panel.cpp:113`), `OperationJobPanel::JobSelected`
-  (`operation_monitor_view.cpp:314`). These say "the user picked something", which is what
-  `ItemSelection` is for, and one already-registered metatype replaces three per-type ones.
-- **Commands carrying a subject — leave them** (2 casts): `SubmitProcedureRequest(const
-  ProcedureItem*)` is "submit *this* one", not a selection; `ToggleBreakpointRequest(JobItem* job,
-  const InstructionItem* instruction)` carries two arguments in *different roles*, which a flat
-  selection cannot express. Give these non-const parameters if the casts are worth removing, but
-  do not force `ItemSelection` onto them.
+This is not a new convention: four signals already carried `ItemSelection` before this work —
+`procedureSelectionChanged` (in two widgets), `focusWidgetProcedureSelectionChanged` and
+`focusWidgetJobSelectionChanged`.
+
+**Done:**
+
+- `InstructionEditorWidget::InstructionSelected` now carries `const mvvm::ItemSelection&`, and
+  `GetSelectedInstruction()` widened to `InstructionItem*` with it, so the cast at the
+  `SetInstruction` call is gone. The signal had no connected consumers, which made it a safe first
+  example of the pattern.
+- `JobListWidget::JobSelected` likewise, together with the slot it feeds,
+  `OperationJobPanel::OnJobSelectedIntern`, which now takes the job out of the selection. That
+  retired the cast at `operation_job_panel.cpp:113`. `JobListWidget::GetSelectedJob()` is exactly
+  `GetSelection().GetItem<JobItem>()`, so forwarding the selection preserved semantics precisely.
+  `OperationJobPanel::JobSelected` still emits `const JobItem*` and was left alone.
+
+**Postponed:** `OperationJobPanel::JobSelected` -> `OperationMonitorView::OnJobSelected`
+(`operation_monitor_view.cpp:314`), the second hop of the same chain.
+
+**Leave as they are — commands carrying a subject:** `SubmitProcedureRequest(const ProcedureItem*)`
+is "submit *this* one", not a selection. Do not force `ItemSelection` onto these.
+
+### The `ToggleBreakpointRequest` inconsistency — DONE, and a simpler fix than `ItemSelection`
+
+`ToggleBreakpointRequest` is declared four times along one relay chain:
+`realtime_instruction_tree_widget.h:73` -> `operation_realtime_widget.h:67` ->
+`operation_tab_widget.h:95` -> `operation_splittable_widget.h:128`, gaining the job as it relays
+upward. The last two are declared
+`ToggleBreakpointRequest(JobItem* job, const InstructionItem* instruction)` — **mutable job, const
+instruction, in the same signal**. Every sibling signal in those same headers (`RunRequest`,
+`PauseRequest`, `StepRequest`, `StopRequest`, `ResetRequest`, `ChangeDelayRequest`) takes a plain
+`JobItem*`, and the terminal consumer,
+`AbstractJobHandler::OnToggleBreakpointRequest(InstructionItem*)`, takes a **non-const**
+instruction. So the instruction is const only in transit, and the cast at
+`operation_monitor_view.cpp:293` exists purely to undo it.
+
+The stray `const` was dropped across all four declarations, which made the signal match its own
+neighbours and retired the cast at `operation_monitor_view.cpp:293` — no `ItemSelection` involved,
+which is right: `ToggleBreakpointRequest` is a command with two arguments in different roles, and a
+flat selection cannot express that.
+
+No metatype work was needed. The `Q_DECLARE_METATYPE(const InstructionItem*)` in
+`abstract_job_handler.h` belongs to the job system, not to this chain; nothing spies on
+`ToggleBreakpointRequest` with `QSignalSpy` and every connection in the relay is direct, so no
+registration of a non-const form was required. Worth re-checking that if one of these connections
+ever becomes queued.
 
 ## 14. `IChildrenStrategy::GetChildren(const SessionItem*) const → vector<SessionItem*>`
 
