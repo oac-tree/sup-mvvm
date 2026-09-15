@@ -140,6 +140,14 @@ private:
    * @brief Validates that controller was set, throws if it wasn't the case.
    */
   void ValidateController() const;
+
+  /**
+   * @brief Shared implementation of the const and non-const GetSessionItemFromIndex.
+   *
+   * SelfT deduces the constness of the view model; the members it calls preserve it.
+   */
+  template <typename SelfT>
+  static auto* GetSessionItemFromIndexImpl(SelfT& self, const QModelIndex& index);
   std::unique_ptr<AbstractViewModelController> m_controller;
 };
 

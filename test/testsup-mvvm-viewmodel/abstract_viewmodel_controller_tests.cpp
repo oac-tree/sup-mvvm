@@ -52,7 +52,7 @@ public:
   class TestController : public AbstractViewModelController
   {
   public:
-    const SessionItem* GetRootItem() const override { return nullptr; }
+    SessionItem* GetRootItem() const override { return nullptr; }
 
   private:
     void SetRootItemImpl(SessionItem* root_item) override { (void)root_item; }
@@ -82,7 +82,7 @@ public:
     MOCK_METHOD(void, OnModelAboutToBeDestroyedEvent, (const ModelAboutToBeDestroyedEvent& event),
                 (override));
 
-    const SessionItem* GetRootItem() const override { return m_root_item; };
+    SessionItem* GetRootItem() const override { return m_root_item; };
     void SetRootItemImpl(SessionItem* root_item) override
     {
       m_root_item = root_item;

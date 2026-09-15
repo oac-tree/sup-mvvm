@@ -90,7 +90,7 @@ public:
   /**
    * @brief Returns current root item.
    */
-  virtual const SessionItem* GetRootItem() const = 0;
+  virtual SessionItem* GetRootItem() const = 0;
 
   /**
    * @brief Sets an item as a new root item.

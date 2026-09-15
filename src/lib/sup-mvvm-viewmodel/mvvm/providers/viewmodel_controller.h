@@ -71,7 +71,7 @@ public:
 
   void OnModelAboutToBeDestroyedEvent(const ModelAboutToBeDestroyedEvent& event) override;
 
-  const SessionItem* GetRootItem() const override;
+  SessionItem* GetRootItem() const override;
 
   std::size_t GetColumnCount() const override;
 

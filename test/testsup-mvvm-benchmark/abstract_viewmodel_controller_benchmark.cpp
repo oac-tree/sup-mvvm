@@ -39,7 +39,7 @@ public:
   class TestController : public AbstractViewModelController
   {
   public:
-    const SessionItem* GetRootItem() const override { return nullptr; }
+    SessionItem* GetRootItem() const override { return nullptr; }
     void SetRootItemImpl(SessionItem* root_item) override { (void)root_item; };
   };
 };

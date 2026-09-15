@@ -135,7 +135,7 @@ void ViewModelController::OnModelAboutToBeDestroyedEvent(
   m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
-const SessionItem* ViewModelController::GetRootItem() const
+SessionItem* ViewModelController::GetRootItem() const
 {
   return utils::GetItemFromView<SessionItem>(m_view_model->rootItem());
 }

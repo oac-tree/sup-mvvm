@@ -102,7 +102,7 @@ const SessionItem* ViewModel::GetRootSessionItem() const
 
 SessionItem* ViewModel::GetRootSessionItem()
 {
-  return const_cast<SessionItem*>(std::as_const(*this).GetRootSessionItem());
+  return m_controller ? m_controller->GetRootItem() : nullptr;
 }
 
 void ViewModel::SetRootSessionItem(SessionItem* item)
@@ -110,16 +110,22 @@ void ViewModel::SetRootSessionItem(SessionItem* item)
   m_controller->SetRootItem(item);
 }
 
+template <typename SelfT>
+auto* ViewModel::GetSessionItemFromIndexImpl(SelfT& self, const QModelIndex& index)
+{
+  self.ValidateController();
+  return index.isValid() ? utils::GetItemFromView<SessionItem>(self.itemFromIndex(index))
+                         : self.GetRootSessionItem();
+}
+
 const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) const
 {
-  ValidateController();
-  return index.isValid() ? utils::GetItemFromView<SessionItem>(itemFromIndex(index))
-                         : GetRootSessionItem();
+  return GetSessionItemFromIndexImpl(*this, index);
 }
 
 SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index)
 {
-  return const_cast<SessionItem*>(std::as_const(*this).GetSessionItemFromIndex(index));
+  return GetSessionItemFromIndexImpl(*this, index);
 }
 
 const ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const
@@ -129,7 +135,7 @@ const ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const
 
 ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index)
 {
-  return const_cast<ViewItem*>(std::as_const(*this).GetViewItemFromIndex(index));
+  return itemFromIndex(index);
 }
 
 std::vector<const ViewItem*> ViewModel::FindViews(const SessionItem* item) const
