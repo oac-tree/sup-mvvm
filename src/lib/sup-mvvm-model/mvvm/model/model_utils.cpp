@@ -27,10 +27,34 @@
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/i_session_model.h>
 
-#include <utility>
-
 namespace mvvm::utils
 {
+
+namespace
+{
+
+/**
+ * @brief Walks the given path down from the model's root item.
+ *
+ * ModelT deduces the constness of the model.
+ */
+template <typename ModelT>
+auto* ItemFromPathImpl(ModelT& model, const Path& path)
+{
+  auto* result = model.GetRootItem();
+  for (const auto& idx : path)
+  {
+    result = utils::ChildAt(result, idx);
+    if (result == nullptr)
+    {
+      break;
+    }
+  }
+  return result;
+}
+
+}  // namespace
+
 Path PathFromItem(const SessionItem* item)
 {
   if ((item == nullptr) || (item->GetModel() == nullptr))
@@ -51,21 +75,12 @@ Path PathFromItem(const SessionItem* item)
 
 const SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
 {
-  const SessionItem* result(model.GetRootItem());
-  for (const auto& idx : path)
-  {
-    result = utils::ChildAt(result, idx);
-    if (result == nullptr)
-    {
-      break;
-    }
-  }
-  return result;
+  return ItemFromPathImpl(model, path);
 }
 
 SessionItem* ItemFromPath(ISessionModel& model, const Path& path)
 {
-  return const_cast<SessionItem*>(ItemFromPath(std::as_const(model), path));
+  return ItemFromPathImpl(model, path);
 }
 
 SessionItem* CopyItem(const SessionItem* item, ISessionModel* model, SessionItem* parent,
