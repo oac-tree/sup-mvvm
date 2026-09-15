@@ -23,6 +23,7 @@
 #include "presentation_item_helper.h"
 
 #include <mvvm/model/session_item.h>
+#include <mvvm/providers/custom_variants.h>
 
 namespace mvvm
 {
@@ -69,15 +70,20 @@ QVariant BooleanDataPresentationItem::Data(role_t qt_role) const
     return GetDisplayRole();
   }
 
-  if (qt_role == GetQtRole(Qt::CheckStateRole))
+  const bool is_edit_role = (qt_role == GetQtRole(Qt::EditRole));
+  const bool is_check_state_role = (qt_role == GetQtRole(Qt::CheckStateRole));
+
+  if (is_edit_role || is_check_state_role)
   {
     auto value = item->Data(DataRole::kData);
-    if (GetTypeCode(value) == TypeCode::Bool)
+    if (GetTypeCode(value) != TypeCode::Bool)
     {
-      // Qt check state role is converted from main data role
-      return std::get<bool>(value) ? Qt::Checked : Qt::Unchecked;
+      return {};
     }
-    return {};
+
+    const bool is_checked = std::get<bool>(value);
+    // Qt check state role is converted from main data role
+    return is_edit_role ? QVariant(is_checked) : QVariant(is_checked ? Qt::Checked : Qt::Unchecked);
   }
 
   return {};
@@ -91,6 +97,11 @@ bool BooleanDataPresentationItem::SetData(const QVariant& data, role_t qt_role)
     {
       // check state is converted to main data role
       return item->SetData(data.toInt() == Qt::Checked, DataRole::kData);
+    }
+
+    if ((qt_role == GetQtRole(Qt::EditRole)) && utils::IsBoolVariant(data))
+    {
+      return item->SetData(data.toBool(), DataRole::kData);
     }
   }
 

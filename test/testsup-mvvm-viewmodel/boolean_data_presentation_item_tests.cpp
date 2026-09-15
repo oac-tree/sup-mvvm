@@ -46,8 +46,8 @@ TEST_F(BooleanDataPresentationItemTest, BooleanData)
     EXPECT_FALSE(presentation.IsEditable());  // no editing on double click
     EXPECT_TRUE(presentation.IsCheckable());
 
-    // it doesn't have normal data role since everything is changed via check state role
-    EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+    // main data role is available via edit role, even if the cell is not editable
+    EXPECT_EQ(presentation.Data(Qt::EditRole), QVariant(true));
 
     EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("True"));
     EXPECT_TRUE(presentation.Data(Qt::CheckStateRole).isValid());
@@ -69,9 +69,16 @@ TEST_F(BooleanDataPresentationItemTest, BooleanData)
     EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
     EXPECT_EQ(item.Data<bool>(), true);
 
-    // attempt to act through edit role
+    // acting through edit role
+    EXPECT_TRUE(presentation.SetData(false, Qt::EditRole));
+    EXPECT_EQ(item.Data<bool>(), false);
+    EXPECT_EQ(presentation.Data(Qt::CheckStateRole).toInt(), Qt::Unchecked);
+    // same data again
     EXPECT_FALSE(presentation.SetData(false, Qt::EditRole));
-    EXPECT_EQ(item.Data<bool>(), true); // still old value
+
+    // variant of the wrong type is rejected
+    EXPECT_FALSE(presentation.SetData(QString("abc"), Qt::EditRole));
+    EXPECT_EQ(item.Data<bool>(), false);
   }
 
   {  // false value as main data role
@@ -84,8 +91,8 @@ TEST_F(BooleanDataPresentationItemTest, BooleanData)
     EXPECT_FALSE(presentation.IsEditable());  // no editing on double click
     EXPECT_TRUE(presentation.IsCheckable());
 
-    // it doesn't have normal data role since everything is changed via check state role
-    EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+    // main data role is available via edit role, even if the cell is not editable
+    EXPECT_EQ(presentation.Data(Qt::EditRole), QVariant(false));
 
     EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("False"));
     EXPECT_TRUE(presentation.Data(Qt::CheckStateRole).isValid());
@@ -136,6 +143,7 @@ TEST_F(BooleanDataPresentationItemTest, BooleanDataForItemContainingInt)
   EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("42"));
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
 }
 
 }  // namespace mvvm::test

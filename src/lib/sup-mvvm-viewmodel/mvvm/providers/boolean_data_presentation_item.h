@@ -34,6 +34,10 @@ class SessionItem;
  *
  * ViewItem will be equipped with check box, the modification of main data role will be performed
  * via checkbox.
+ *
+ * The cell is not editable, so Qt trees and tables do not create cell editors for it. The main data
+ * role is still readable and writable via Qt::EditRole. This is used by the views which build
+ * permanent editors outside of the cell (see PropertyFlatView).
  */
 class BooleanDataPresentationItem : public DefaultDataPresentationItem
 {
