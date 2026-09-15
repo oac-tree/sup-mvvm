@@ -25,7 +25,6 @@
 
 #include <cstdint>
 #include <string>
-#include <utility>
 #include <vector>
 
 namespace mvvm
@@ -130,28 +129,34 @@ protected:
   void UpdateCombo();
 
 private:
+  /**
+   * @brief Shared implementations of the const and non-const current-item accessors.
+   *
+   * SelfT deduces the constness of the group, and the members they call preserve it, so one body
+   * serves both overloads.
+   */
+  template <typename T, typename SelfT>
+  static auto* FindCurrentItemImpl(SelfT& self);
+  template <typename T, typename SelfT>
+  static auto& GetCurrentItemImpl(SelfT& self);
+
   std::int32_t m_index_to_select{0};
   std::vector<std::string> m_item_text;
 };
 
-template <typename T>
-const T* GroupItem::FindCurrentItem() const
+template <typename T, typename SelfT>
+auto* GroupItem::FindCurrentItemImpl(SelfT& self)
 {
-  return (GetCurrentIndex() < 0)
+  return (self.GetCurrentIndex() < 0)
              ? nullptr
-             : FindItem<T>(TagIndex(kGroupTag, static_cast<std::size_t>(GetCurrentIndex())));
+             : self.template FindItem<T>(
+                   TagIndex(kGroupTag, static_cast<std::size_t>(self.GetCurrentIndex())));
 }
 
-template <typename T>
-T* GroupItem::FindCurrentItem()
+template <typename T, typename SelfT>
+auto& GroupItem::GetCurrentItemImpl(SelfT& self)
 {
-  return const_cast<T*>(std::as_const(*this).FindCurrentItem<T>());
-}
-
-template <typename T>
-const T& GroupItem::GetCurrentItem() const
-{
-  const auto* result = FindCurrentItem<T>();
+  auto* result = FindCurrentItemImpl<T>(self);
   if (result == nullptr)
   {
     throw RuntimeException(
@@ -162,9 +167,27 @@ const T& GroupItem::GetCurrentItem() const
 }
 
 template <typename T>
+const T* GroupItem::FindCurrentItem() const
+{
+  return FindCurrentItemImpl<T>(*this);
+}
+
+template <typename T>
+T* GroupItem::FindCurrentItem()
+{
+  return FindCurrentItemImpl<T>(*this);
+}
+
+template <typename T>
+const T& GroupItem::GetCurrentItem() const
+{
+  return GetCurrentItemImpl<T>(*this);
+}
+
+template <typename T>
 T& GroupItem::GetCurrentItem()
 {
-  return const_cast<T&>(std::as_const(*this).GetCurrentItem<T>());
+  return GetCurrentItemImpl<T>(*this);
 }
 
 template <typename T>

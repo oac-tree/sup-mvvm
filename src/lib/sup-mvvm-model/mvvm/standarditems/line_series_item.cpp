@@ -70,7 +70,7 @@ const LineSeriesDataItem* LineSeriesItem::GetDataItem() const
 
 LineSeriesDataItem* LineSeriesItem::GetDataItem()
 {
-  return const_cast<LineSeriesDataItem*>(std::as_const(*this).GetDataItem());
+  return GetItem<LinkedItem>(constants::kLink).Get<LineSeriesDataItem>();
 }
 
 double LineSeriesItem::GetXOffset() const
