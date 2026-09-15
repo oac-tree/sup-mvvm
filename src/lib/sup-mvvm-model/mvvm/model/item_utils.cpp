@@ -68,6 +68,23 @@ std::vector<ItemT*> CollectVisibleChildren(ItemT& item, bool with_property_flag)
 }
 
 /**
+ * @brief Returns child at the given index of the given parent.
+ *
+ * ItemT deduces the constness of the parent.
+ */
+template <typename ItemT>
+ItemT* ChildAtImpl(ItemT* parent, std::size_t index)
+{
+  if (parent == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto container = parent->GetAllItems();
+  return (index < container.size()) ? container[index] : nullptr;
+}
+
+/**
  * @brief Move item to a new index within the same parent. No check is performed for index
  * validity.
  */
@@ -235,18 +252,12 @@ std::size_t CopyNumber(const SessionItem* item)
 
 const SessionItem* ChildAt(const SessionItem* parent, std::size_t index)
 {
-  if (parent == nullptr)
-  {
-    return nullptr;
-  }
-
-  auto container = parent->GetAllItems();
-  return (index < container.size()) ? container[index] : nullptr;
+  return ChildAtImpl(parent, index);
 }
 
 SessionItem* ChildAt(SessionItem* parent, std::size_t index)
 {
-  return const_cast<SessionItem*>(ChildAt(static_cast<const SessionItem*>(parent), index));
+  return ChildAtImpl(parent, index);
 }
 
 std::size_t IndexOfChild(const SessionItem* parent, const SessionItem* child)

@@ -27,6 +27,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <type_traits>
 #include <memory>
 #include <string>
 #include <vector>
@@ -276,25 +277,43 @@ bool ReplaceData(SessionItem& item, const variant_t& value, role_t role);
  *
  * @return First found item casted to necessary type.
  */
-template <typename T>
-const T* FindItemUp(const SessionItem* item, bool start_from_self = true)
+namespace detail
 {
-  if (!item)
+
+/**
+ * @brief Walks up the parent chain looking for an item castable to the given type.
+ *
+ * ItemT deduces the constness of the item.
+ */
+template <typename T, typename ItemT>
+auto* FindItemUpImpl(ItemT* item, bool start_from_self)
+{
+  using ResultT = std::conditional_t<std::is_const_v<ItemT>, const T, T>;
+
+  if (item == nullptr)
   {
-    return nullptr;
+    return static_cast<ResultT*>(nullptr);
   }
 
-  const SessionItem* current = start_from_self ? item : item->GetParent();
+  ItemT* current = start_from_self ? item : item->GetParent();
 
-  while (current)
+  while (current != nullptr)
   {
-    if (const T* result = dynamic_cast<const T*>(current); result)
+    if (auto* result = dynamic_cast<ResultT*>(current); result != nullptr)
     {
       return result;
     }
     current = current->GetParent();
   }
-  return nullptr;
+  return static_cast<ResultT*>(nullptr);
+}
+
+}  // namespace detail
+
+template <typename T>
+const T* FindItemUp(const SessionItem* item, bool start_from_self = true)
+{
+  return detail::FindItemUpImpl<T>(item, start_from_self);
 }
 
 /**
@@ -310,7 +329,7 @@ const T* FindItemUp(const SessionItem* item, bool start_from_self = true)
 template <typename T>
 T* FindItemUp(SessionItem* item, bool start_from_self = true)
 {
-  return const_cast<T*>(FindItemUp<T>(const_cast<const SessionItem*>(item), start_from_self));
+  return detail::FindItemUpImpl<T>(item, start_from_self);
 }
 
 /**
