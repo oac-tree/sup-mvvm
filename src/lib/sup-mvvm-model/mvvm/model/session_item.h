@@ -502,6 +502,17 @@ private:
    *
    * Total (non-throwing) counterpart of GetItems, used to implement FindItems.
    */
+  /**
+   * @brief Shared implementations of the const and non-const typed item accessors.
+   *
+   * SelfT deduces the constness of the item, and the non-template FindItem it calls preserves it,
+   * so one body serves both overloads of each accessor.
+   */
+  template <typename ItemT, typename SelfT>
+  static auto* FindItemImpl(SelfT& self, const TagIndex& tag_index);
+  template <typename ItemT, typename SelfT>
+  static auto& GetItemImpl(SelfT& self, const TagIndex& tag_index);
+
   std::vector<const SessionItem*> FindItemsImpl(std::string_view tag) const;
   std::vector<SessionItem*> FindItemsImpl(std::string_view tag);
 
@@ -528,23 +539,44 @@ inline T SessionItem::Data(role_t role) const
   }
 }
 
-template <typename ItemT>
-inline const ItemT* SessionItem::FindItem(const TagIndex& tag_index) const
+template <typename ItemT, typename SelfT>
+inline auto* SessionItem::FindItemImpl(SelfT& self, const TagIndex& tag_index)
 {
+  auto* found = self.FindItem(tag_index);  // non-template primitive, preserves constness
   if constexpr (std::is_same_v<ItemT, SessionItem>)
   {
-    return FindItem(tag_index);  // non-template primitive, no RTTI involved
+    return found;  // no RTTI involved
   }
   else
   {
-    return dynamic_cast<const ItemT*>(FindItem(tag_index));
+    using ResultT = std::conditional_t<std::is_const_v<std::remove_pointer_t<decltype(found)>>,
+                                       const ItemT, ItemT>;
+    return dynamic_cast<ResultT*>(found);
   }
+}
+
+template <typename ItemT, typename SelfT>
+inline auto& SessionItem::GetItemImpl(SelfT& self, const TagIndex& tag_index)
+{
+  auto* result = FindItemImpl<ItemT>(self, tag_index);
+  if (result == nullptr)
+  {
+    throw RuntimeException("Error in SessionItem::GetItem(): no item of the requested type at tag '"
+                           + tag_index.GetTag() + "'");
+  }
+  return *result;
+}
+
+template <typename ItemT>
+inline const ItemT* SessionItem::FindItem(const TagIndex& tag_index) const
+{
+  return FindItemImpl<ItemT>(*this, tag_index);
 }
 
 template <typename ItemT>
 inline ItemT* SessionItem::FindItem(const TagIndex& tag_index)
 {
-  return const_cast<ItemT*>(std::as_const(*this).FindItem<ItemT>(tag_index));
+  return FindItemImpl<ItemT>(*this, tag_index);
 }
 
 template <typename ItemT>
@@ -562,19 +594,13 @@ inline ItemT* SessionItem::FindItem(std::string_view tag)
 template <typename ItemT>
 inline const ItemT& SessionItem::GetItem(const TagIndex& tag_index) const
 {
-  const auto* result = FindItem<ItemT>(tag_index);
-  if (result == nullptr)
-  {
-    throw RuntimeException("Error in SessionItem::GetItem(): no item of the requested type at tag '"
-                           + tag_index.GetTag() + "'");
-  }
-  return *result;
+  return GetItemImpl<ItemT>(*this, tag_index);
 }
 
 template <typename ItemT>
 inline ItemT& SessionItem::GetItem(const TagIndex& tag_index)
 {
-  return const_cast<ItemT&>(std::as_const(*this).GetItem<ItemT>(tag_index));
+  return GetItemImpl<ItemT>(*this, tag_index);
 }
 
 template <typename ItemT>
