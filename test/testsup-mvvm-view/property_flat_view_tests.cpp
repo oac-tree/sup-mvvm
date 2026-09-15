@@ -20,9 +20,12 @@
 
 #include "mvvm/views/property_flat_view.h"
 
+#include <mvvm/editors/boolean_editor.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/compound_item.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
+#include <mvvm/viewmodel/property_viewmodel.h>
 
 #include <gtest/gtest.h>
 
@@ -125,6 +128,31 @@ TEST_F(PropertyFlatViewTest, GridLayoutUpdate)
 
   EXPECT_TRUE(dynamic_cast<QLabel*>(layout_widgets[1][0]));
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(layout_widgets[1][1]));
+}
+
+//! PropertyFlatView with a boolean property. Real-life bug: a check box was missing in the grid.
+
+TEST_F(PropertyFlatViewTest, CreateGridForBooleanProperty)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  (void)parent->AddProperty("value", mvvm::boolean{true});
+
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(parent);
+
+  PropertyFlatView flat_view;
+  flat_view.SetViewModel(&view_model);
+
+  auto layout = flat_view.findChild<QGridLayout*>();
+  ASSERT_TRUE(layout);
+
+  auto layout_widgets = GetLayoutWidgets(layout);
+  ASSERT_EQ(layout_widgets.size(), 1);
+  ASSERT_EQ(layout_widgets[0].size(), 2);
+
+  EXPECT_TRUE(dynamic_cast<QLabel*>(layout_widgets[0][0]));
+  EXPECT_TRUE(dynamic_cast<BoolEditor*>(layout_widgets[0][1]));
 }
 
 TEST_F(PropertyFlatViewTest, CreateGridForPropertyTableViewModel)

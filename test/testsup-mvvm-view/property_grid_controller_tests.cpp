@@ -33,6 +33,7 @@
 
 #include <gtest/gtest.h>
 
+#include <QCheckBox>
 #include <QDataWidgetMapper>
 #include <QDoubleSpinBox>
 #include <QLabel>
@@ -262,8 +263,29 @@ TEST_F(PropertyGridControllerTest, CreateGridForViewModelWithIntProperty)
   EXPECT_NE(dynamic_cast<QSpinBox*>(editor_grid.at(0).at(1).get()), nullptr);
 }
 
-//! FIXME uncomment test after fixing COA-2184
-TEST_F(PropertyGridControllerTest, DISABLED_CreateGridForViewModelWithBooleanProperty)
+//! Checking that boolean property is represented by a check box in a grid.
+TEST_F(PropertyGridControllerTest, CreateGridForViewModelWithBooleanProperty)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  (void)parent->AddProperty("value", mvvm::boolean{true});
+
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(parent);
+
+  PropertyGridController controller(&view_model);
+  auto editor_grid = controller.CreateWidgetGrid();
+
+  ASSERT_EQ(editor_grid.size(), 1);
+  EXPECT_EQ(editor_grid.at(0).size(), 2);
+
+  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get()), nullptr);
+  EXPECT_NE(dynamic_cast<BoolEditor*>(editor_grid.at(0).at(1).get()), nullptr);
+}
+
+//! Checking that boolean property is propagated in both directions between the model and the
+//! check box in a grid.
+TEST_F(PropertyGridControllerTest, SetBooleanDataThroughGrid)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
@@ -276,14 +298,21 @@ TEST_F(PropertyGridControllerTest, DISABLED_CreateGridForViewModelWithBooleanPro
   auto editor_grid = controller.CreateWidgetGrid();
 
   ASSERT_EQ(editor_grid.size(), 1);
-  EXPECT_EQ(editor_grid.at(0).size(), 2);
+  auto editor = dynamic_cast<BoolEditor*>(editor_grid.at(0).at(1).get());
+  ASSERT_NE(editor, nullptr);
 
-  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get()), nullptr);
+  // editor is populated from the model
+  EXPECT_EQ(editor->GetData().toBool(), true);
 
-  // test is faling here since ViewModelDelegate create's QExtendedLineEdit for invalid data role
-  // variant. This is because QModelIndex corresponding to this role doesn't have dataRole (only
-  // CHeckState role), and our VariantDependentEditorFactory can't create anything.
-  EXPECT_NE(dynamic_cast<BoolEditor*>(editor_grid.at(0).at(1).get()), nullptr);
+  // change of the model updates the editor
+  property.SetData(false);
+  EXPECT_EQ(editor->GetData().toBool(), false);
+
+  // change in the editor updates the model
+  auto check_box = editor->findChild<QCheckBox*>();
+  ASSERT_NE(check_box, nullptr);
+  check_box->setChecked(true);
+  EXPECT_EQ(property.Data<bool>(), true);
 }
 
 //! Checking method CreateGrid. Use PropertyViewModel and single VectorItem in it.
