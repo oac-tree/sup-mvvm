@@ -84,7 +84,7 @@ const MvvmErrorConditionCategory& model_condition_category()
 
 std::error_condition make_error_condition(MvvmErrorCondition condition)
 {
-  return {static_cast<int>(condition), model_condition_category()};
+  return {static_cast<std::int32_t>(condition), model_condition_category()};
 }
 
 // namespace

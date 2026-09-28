@@ -23,11 +23,12 @@
 #include "uuid.h"
 
 #include <memory>
+#include <cstdint>
 
 struct GeneratorData
 {
   std::random_device rd;
-  std::array<int, std::mt19937::state_size> seed_data{};
+  std::array<std::int32_t, std::mt19937::state_size> seed_data{};
   std::unique_ptr<std::seed_seq> seq;
   std::unique_ptr<std::mt19937> generator;
   std::unique_ptr<uuids::uuid_random_generator> gen;
