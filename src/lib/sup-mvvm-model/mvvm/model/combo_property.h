@@ -141,8 +141,25 @@ public:
    */
   std::string GetLabel() const;
 
-  ComboProperty& operator<<(const std::string& str);
-  ComboProperty& operator<<(const std::vector<std::string>& str);
+  /**
+   * @brief Appends a value.
+   */
+  ComboProperty& operator<<(const std::string& str) &;
+
+  /**
+   * @brief Appends a value to a temporary and returns it by value.
+   */
+  ComboProperty operator<<(const std::string& str) &&;
+
+  /**
+   * @brief Appends a list of values.
+   */
+  ComboProperty& operator<<(const std::vector<std::string>& str) &;
+
+  /**
+   * @brief Appends a list of values to a temporary and returns it by value.
+   */
+  ComboProperty operator<<(const std::vector<std::string>& str) &&;
 
   /**
    * @brief Return a string representing this ComboProperty.

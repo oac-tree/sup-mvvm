@@ -28,6 +28,7 @@
 
 #include <cstdint>
 #include <sstream>
+#include <utility>
 
 namespace
 {
@@ -195,7 +196,7 @@ std::string ComboProperty::GetLabel() const
   return std::string(kNoneSelectionLabel);
 }
 
-ComboProperty& ComboProperty::operator<<(const std::string& str)
+ComboProperty& ComboProperty::operator<<(const std::string& str) &
 {
   m_values.push_back(str);
   if (GetCurrentIndex() == -1)
@@ -205,7 +206,13 @@ ComboProperty& ComboProperty::operator<<(const std::string& str)
   return *this;
 }
 
-ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str)
+ComboProperty ComboProperty::operator<<(const std::string& str) &&
+{
+  (void)(*this << str);
+  return std::move(*this);
+}
+
+ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str) &
 {
   (void)m_values.insert(m_values.end(), str.begin(), str.end());
   if (GetCurrentIndex() == -1)
@@ -213,6 +220,12 @@ ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str)
     SetCurrentIndex(0);
   }
   return *this;
+}
+
+ComboProperty ComboProperty::operator<<(const std::vector<std::string>& str) &&
+{
+  (void)(*this << str);
+  return std::move(*this);
 }
 
 bool operator==(const ComboProperty& lhs, const ComboProperty& rhs)
