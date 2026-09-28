@@ -72,22 +72,22 @@ public:
   /**
    * @brief Set bits to true or given value.
    */
-  Flags& Set(EnumT flag, bool value = true);
+  Flags& Set(EnumT flag, bool value = true) &;
 
   /**
    * @brief Toggle bits.
    */
-  Flags& Toggle(EnumT flag);
+  Flags& Toggle(EnumT flag) &;
 
   /**
    * @brief Set bits to false.
    */
-  Flags& Reset(EnumT flag);
+  Flags& Reset(EnumT flag) &;
 
   /**
    * @brief Set all bits to false.
    */
-  Flags& Reset() noexcept;
+  Flags& Reset() & noexcept;
 
   /**
    * @brief Checks if All of the bits are set to true.
@@ -138,7 +138,7 @@ private:
 };
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value)
+inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value) &
 {
   const auto index = static_cast<std::size_t>(underlying(flag));
 
@@ -152,7 +152,7 @@ inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value)
 }
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::Toggle(EnumT flag)
+inline Flags<EnumT>& Flags<EnumT>::Toggle(EnumT flag) &
 {
   const auto index = static_cast<std::size_t>(underlying(flag));
 
@@ -166,14 +166,14 @@ inline Flags<EnumT>& Flags<EnumT>::Toggle(EnumT flag)
 }
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::Reset(EnumT flag)
+inline Flags<EnumT>& Flags<EnumT>::Reset(EnumT flag) &
 {
   (void)Set(flag, false);
   return *this;
 }
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::Reset() noexcept
+inline Flags<EnumT>& Flags<EnumT>::Reset() & noexcept
 {
   (void)m_bits.reset();
   return *this;

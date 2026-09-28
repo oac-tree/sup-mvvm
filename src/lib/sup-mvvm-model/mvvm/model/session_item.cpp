@@ -333,7 +333,9 @@ bool SessionItem::HasFlag(Appearance flag) const
 
 SessionItem& SessionItem::SetFlag(Appearance flag, bool value) &
 {
-  SetFlags(GetFlags(*this).Set(flag, value), *this);
+  auto flags = GetFlags(*this);
+  (void)flags.Set(flag, value);
+  SetFlags(flags, *this);
   return *this;
 }
 
