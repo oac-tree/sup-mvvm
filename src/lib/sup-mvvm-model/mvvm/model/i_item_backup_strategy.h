@@ -50,8 +50,8 @@ protected:
   IItemBackupStrategy() = default;
   IItemBackupStrategy(const IItemBackupStrategy&) = default;
   IItemBackupStrategy(IItemBackupStrategy&&) noexcept = default;
-  IItemBackupStrategy& operator=(const IItemBackupStrategy&) & = default;
-  IItemBackupStrategy& operator=(IItemBackupStrategy&&) & = default;
+  IItemBackupStrategy& operator=(const IItemBackupStrategy&) & noexcept = default;
+  IItemBackupStrategy& operator=(IItemBackupStrategy&&) & noexcept = default;
 };
 
 }  // namespace mvvm

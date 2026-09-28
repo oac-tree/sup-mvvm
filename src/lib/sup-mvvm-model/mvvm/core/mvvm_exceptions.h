@@ -46,7 +46,7 @@ protected:
   MessageException(const MessageException& other) = default;
   MessageException& operator=(const MessageException& other) & = default;
   MessageException(MessageException&&) noexcept = default;
-  MessageException& operator=(MessageException&&) & = default;
+  MessageException& operator=(MessageException&&) & noexcept = default;
 
 private:
   std::string m_message;
@@ -63,7 +63,7 @@ public:
   RuntimeException(const RuntimeException& other) = default;
   RuntimeException& operator=(const RuntimeException& other) & = default;
   RuntimeException(RuntimeException&&) noexcept = default;
-  RuntimeException& operator=(RuntimeException&&) & = default;
+  RuntimeException& operator=(RuntimeException&&) & noexcept = default;
 };
 
 /**
@@ -77,7 +77,7 @@ public:
   NullArgumentException(const NullArgumentException& other) = default;
   NullArgumentException& operator=(const NullArgumentException& other) & = default;
   NullArgumentException(NullArgumentException&&) noexcept = default;
-  NullArgumentException& operator=(NullArgumentException&&) & = default;
+  NullArgumentException& operator=(NullArgumentException&&) & noexcept = default;
 };
 
 /**
@@ -91,7 +91,7 @@ public:
   NotImplementedException(const NotImplementedException& other) = default;
   NotImplementedException& operator=(const NotImplementedException& other) & = default;
   NotImplementedException(NotImplementedException&&) noexcept = default;
-  NotImplementedException& operator=(NotImplementedException&&) & = default;
+  NotImplementedException& operator=(NotImplementedException&&) & noexcept = default;
 };
 
 /**
@@ -105,7 +105,7 @@ public:
   InvalidOperationException(const InvalidOperationException& other) = default;
   InvalidOperationException& operator=(const InvalidOperationException& other) & = default;
   InvalidOperationException(InvalidOperationException&&) noexcept = default;
-  InvalidOperationException& operator=(InvalidOperationException&&) & = default;
+  InvalidOperationException& operator=(InvalidOperationException&&) & noexcept = default;
 };
 
 /**
@@ -119,7 +119,7 @@ public:
   LogicErrorException(const LogicErrorException& other) = default;
   LogicErrorException& operator=(const LogicErrorException& other) & = default;
   LogicErrorException(LogicErrorException&&) noexcept = default;
-  LogicErrorException& operator=(LogicErrorException&&) & = default;
+  LogicErrorException& operator=(LogicErrorException&&) & noexcept = default;
 };
 
 /**
@@ -135,7 +135,7 @@ public:
   SystemException(const SystemException& other) = default;
   SystemException& operator=(const SystemException& other) & = default;
   SystemException(SystemException&&) noexcept = default;
-  SystemException& operator=(SystemException&&) & = default;
+  SystemException& operator=(SystemException&&) & noexcept = default;
 };
 
 }  // namespace mvvm
