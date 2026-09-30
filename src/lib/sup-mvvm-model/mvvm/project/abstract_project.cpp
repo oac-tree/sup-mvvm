@@ -86,6 +86,11 @@ bool AbstractProject::Close()
 
 bool AbstractProject::Save(const std::string& path)
 {
+  if (m_project_context.about_to_save_callback)
+  {
+    m_project_context.about_to_save_callback();
+  }
+
   auto result = SaveImpl(path);
   if (result)
   {

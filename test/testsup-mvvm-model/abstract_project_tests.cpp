@@ -120,6 +120,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
 
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   // performing save and triggering expectations
@@ -127,6 +128,50 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
 
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetPath(), expected_path);
+}
+
+//! Testing the order of notifications during save.
+TEST_F(AbstractProjectTest, AboutToSaveBeforeSave)
+{
+  const std::string expected_path("path");
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
+
+  ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
+    EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+    EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
+  }
+
+  EXPECT_TRUE(project.Save(expected_path));
+}
+
+//! Model modified in about_to_save_callback. The project is unmodified after save.
+TEST_F(AbstractProjectTest, ModelModifiedInAboutToSave)
+{
+  const std::string expected_path("path");
+
+  auto context = CreateContext();
+  context.about_to_save_callback = [this]() { m_model.InsertItem<PropertyItem>(); };
+  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, context);
+
+  ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
+  ON_CALL(project, CreateEmptyProjectImpl()).WillByDefault(::testing::Return(true));
+
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_CALL(project, CreateEmptyProjectImpl()).Times(1);
+  EXPECT_TRUE(project.CreateEmpty());
+
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
+
+  EXPECT_TRUE(project.Save(expected_path));
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_FALSE(project.IsModified());
 }
 
 //! Testing CreateEmpty() method. The project should loose its path.
@@ -142,6 +187,7 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   // setting up expectations
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
   EXPECT_CALL(project, CreateEmptyProjectImpl()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   // setting expectations
@@ -170,6 +216,7 @@ TEST_F(AbstractProjectTest, CloseProject)
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
   EXPECT_CALL(project, CloseProjectImpl()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   // performing save and triggering expectations
@@ -194,6 +241,7 @@ TEST_F(AbstractProjectTest, FailedSave)
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(false));
 
   // setting expectations
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
 
   // performing save and triggering expectations

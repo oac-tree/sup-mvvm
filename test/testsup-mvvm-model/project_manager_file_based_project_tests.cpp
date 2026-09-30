@@ -97,6 +97,7 @@ TEST_F(ProjectManagerFileBasedProjectTest, UntitledModifiedSaveAs)
 
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(0);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
@@ -141,6 +142,7 @@ TEST_F(ProjectManagerFileBasedProjectTest, UntitledEmptySaveAsCancel)
   EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(0);
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
@@ -170,6 +172,7 @@ TEST_F(ProjectManagerFileBasedProjectTest, UntitledModifiedDiscardAndCreateNew)
   EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
 
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->CreateNewProject({}));
 

@@ -4,6 +4,7 @@ Changes for 2.4.0:
 - Revise and decrease const_cast/RemoveConst usage through the whole code base
 - Introduce new SessionItem API for FindItem and GetItem
 - Build coverage with -O0 by selecting Debug over RelWithDebInfo
+- Add about_to_save_callback to ProjectContext
 
 Changes for 2.3.0:
 

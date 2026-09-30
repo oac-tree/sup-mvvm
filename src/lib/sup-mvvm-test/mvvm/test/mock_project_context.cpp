@@ -28,6 +28,7 @@ ProjectContext MockProjectContext::CreateContext(const std::string& application_
   ProjectContext result;
   result.modified_callback = [this]() { OnModified(); };
   result.loaded_callback = [this]() { OnLoaded(); };
+  result.about_to_save_callback = [this]() { OnAboutToSave(); };
   result.saved_callback = [this]() { OnSaved(); };
   result.application_type = application_type;
   return result;

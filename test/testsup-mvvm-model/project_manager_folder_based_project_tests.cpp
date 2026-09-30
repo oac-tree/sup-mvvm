@@ -114,6 +114,8 @@ TEST_F(ProjectManagerFolderBasedProjectTest, CreateNewStartingFromUntitledEmptyP
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
+
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->CreateNewProject(m_test_dir));
 
@@ -134,6 +136,7 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptyCreateNew)
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   // saving new project to 'project_dir' directory.
@@ -157,6 +160,7 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveCurrentProject)
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to 'project_dir' directory.
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->SaveCurrentProject());
 
@@ -177,6 +181,7 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveAs)
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to "project_dir" directory.
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->SaveProjectAs({}));
 
@@ -209,6 +214,7 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveAsWrongDir)
   auto manager = CreateProjectManager("non-existing", {});
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
@@ -228,6 +234,7 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledModifiedOpenExisting)
     EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
     auto manager = CreateProjectManager(existing_project_dir, {});
+    EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
     EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
     manager->SaveProjectAs({});
   }
@@ -257,6 +264,7 @@ TEST_F(ProjectManagerFolderBasedProjectTest, UntitledModifiedOpenExisting)
 
   // attempt to open existing project
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   manager->OpenExistingProject({});
 
@@ -275,12 +283,15 @@ TEST_F(ProjectManagerFolderBasedProjectTest, TitledUnmodifiedNew)
 {
   auto manager = CreateProjectManager({}, {});
 
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
+
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->SaveProjectAs(m_test_dir));
   EXPECT_EQ(manager->GetProject()->GetPath(), m_test_dir);
 
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   const auto project_dir2 = CreateEmptyDir("Project_titledUnmodifiedNew2");
@@ -299,6 +310,8 @@ TEST_F(ProjectManagerFolderBasedProjectTest, TitledModifiedSave)
 {
   auto manager = CreateProjectManager({}, {});
 
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
+
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   EXPECT_TRUE(manager->SaveProjectAs(m_test_dir));
@@ -306,6 +319,7 @@ TEST_F(ProjectManagerFolderBasedProjectTest, TitledModifiedSave)
 
   // modifying the model
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();
 

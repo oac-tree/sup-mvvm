@@ -158,6 +158,7 @@ TEST_F(AppProjectTest, SaveAndClose)
 
   // setting up expectation before project modification
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   project->GetModel<TestModelB>(1U)->InsertItem<mvvm::SessionItem>();
@@ -196,6 +197,8 @@ TEST_F(AppProjectTest, SaveAndLoad)
   item->SetData(42);
   EXPECT_TRUE(project->IsModified());
 
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
+
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(project->Save(expected_path));
 
@@ -232,6 +235,38 @@ TEST_F(AppProjectTest, SaveAndLoad)
   EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First()).Data<int>(), 42);
 }
 
+//! Model modified in about_to_save_callback. The modification is saved.
+TEST_F(AppProjectTest, SaveChangesMadeInAboutToSave)
+{
+  const auto expected_path = GetFilePath("untitled3.xml");
+
+  auto context = m_mock_project_context.CreateContext(kApplicationType);
+  AppProject* project_ptr{nullptr};
+  context.about_to_save_callback = [&project_ptr]()
+  { project_ptr->GetModel<TestModelA>(0U)->GetRootItem()->GetItem(TagIndex::First()).SetData(43); };
+  auto project = std::make_unique<AppProject>(context);
+  project_ptr = project.get();
+  project->RegisterModel<TestModelA>();
+
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_TRUE(project->CreateEmpty());
+
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  auto item = project->GetModel<TestModelA>(0U)->InsertItem<mvvm::SessionItem>();
+  item->SetData(42);
+
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
+  EXPECT_TRUE(project->Save(expected_path));
+  EXPECT_FALSE(project->IsModified());
+
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_TRUE(project->Load(expected_path));
+
+  auto recreated_model = project->GetModel<TestModelA>(0U);
+  ASSERT_NE(recreated_model, nullptr);
+  EXPECT_EQ(recreated_model->GetRootItem()->GetItem(TagIndex::First()).Data<int>(), 43);
+}
+
 //! Loading the model from wong file.
 TEST_F(AppProjectTest, LoadFromWrongFile)
 {
@@ -241,11 +276,14 @@ TEST_F(AppProjectTest, LoadFromWrongFile)
   project->RegisterModel<TestModelA>();
 
   // attempt to save without project creation
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
   EXPECT_THROW(project->Save(expected_path), RuntimeException);
 
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
+
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
 
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(project->Save(expected_path));
@@ -275,6 +313,8 @@ TEST_F(AppProjectTest, LoadAndThenModify)
   auto item = project->GetModel<TestModelA>(0U)->InsertItem<mvvm::SessionItem>();
   item->SetData(42);
   EXPECT_TRUE(project->IsModified());
+
+  EXPECT_CALL(m_mock_project_context, OnAboutToSave()).Times(1);
 
   EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(project->Save(expected_path));
