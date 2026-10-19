@@ -22,6 +22,7 @@
 
 #include <mvvm/providers/variant_converter.h>
 #include <mvvm/utils/limited_integer.h>
+#include <mvvm/utils/limited_integer_helper.h>
 
 #include <QLineEdit>
 
@@ -49,11 +50,23 @@ void AllIntSpinBox::SetLimitedInteger(std::unique_ptr<ILimitedInteger> value)
 
 AllIntSpinBox::~AllIntSpinBox() = default;
 
+void AllIntSpinBox::SetRange(const variant_t& lower_limit, const variant_t& upper_limit)
+{
+  m_lower_limit = lower_limit;
+  m_upper_limit = upper_limit;
+}
+
 QVariant AllIntSpinBox::value() const
 {
   if (!m_value)
   {
     return {};
+  }
+
+  // typed text not yet processed on editingFinished takes precedence
+  if (auto text_value = GetTextValue(); utils::IsValid(text_value))
+  {
+    return GetQtVariant(text_value);
   }
 
   return GetQtVariant(m_value->GetValueAsVariant());
@@ -149,6 +162,7 @@ void AllIntSpinBox::setValue(const QVariant& value)
 {
   if (!m_value)
   {
+    SetLimitedInteger(CreateLimitedInteger(GetStdVariant(value), m_lower_limit, m_upper_limit));
     return;
   }
 
@@ -174,6 +188,22 @@ void AllIntSpinBox::OnEditingFinished()
   }
 
   CheckNotify();
+}
+
+variant_t AllIntSpinBox::GetTextValue() const
+{
+  auto text_value = text();
+  int pos = 0;  // unused
+  if (validate(text_value, pos) != QValidator::Acceptable)
+  {
+    return {};
+  }
+
+  auto parsed =
+      CreateLimitedInteger(m_value->GetValueAsVariant(), m_value->GetLowerBoundAsVariant(),
+                           m_value->GetUpperBoundAsVariant());
+  return parsed->SetValueFromText(text_value.toStdString()) ? parsed->GetValueAsVariant()
+                                                            : variant_t{};
 }
 
 void AllIntSpinBox::UpdateTextField()

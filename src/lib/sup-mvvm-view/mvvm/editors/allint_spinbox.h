@@ -21,6 +21,8 @@
 #ifndef MVVM_EDITORS_ALLINT_SPINBOX_H_
 #define MVVM_EDITORS_ALLINT_SPINBOX_H_
 
+#include <mvvm/core/variant.h>
+
 #include <QAbstractSpinBox>
 
 namespace mvvm
@@ -36,9 +38,8 @@ class ILimitedInteger;
  * and pushes enter, the value is returning to initial value. Desired behavior: the value should be
  * set to allowed maximum. Requires fix in LimitedInteger::SetValueFromText.
  *
- * @details Current behavior: when user changes the value in the text editor and then switches to
- * another window (focus out event), no signals are emitted, and the value returns to initial value.
- * QSpinBox behaves itself differently and set last entered value.
+ * @details The value property reports the typed text before editingFinished. The cell delegate
+ * reads it on focus-out before the spin box processes the event.
  *
  * @details Current behavior: when the user increases or decreases the value with spin up/down
  * buttons, no signals are emitted until he presses the enter button. That's Ok since QSpinBox
@@ -61,6 +62,13 @@ public:
   AllIntSpinBox& operator=(AllIntSpinBox&&) noexcept = delete;
 
   void SetLimitedInteger(std::unique_ptr<ILimitedInteger> value);
+
+  /**
+   * @brief Sets limits for the limited integer created by the first setValue call.
+   *
+   * @details Default-constructed limits mean the limits of the integer type.
+   */
+  void SetRange(const variant_t& lower_limit, const variant_t& upper_limit);
 
   QVariant value() const;
 
@@ -92,9 +100,15 @@ signals:
 
 private:
   void OnEditingFinished();
+
+  //! Returns the value parsed from the text, or an invalid variant if the text has no new valid
+  //! value.
+  variant_t GetTextValue() const;
   void UpdateTextField();
 
   std::unique_ptr<ILimitedInteger> m_value;
+  variant_t m_lower_limit;
+  variant_t m_upper_limit;
   //!< flag to prevent notifications in the course of value change, but before "editingFinished"
   //!< event
   bool m_cached_value_was_changed{false};

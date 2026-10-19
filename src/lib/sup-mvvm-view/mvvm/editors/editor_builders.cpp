@@ -109,7 +109,7 @@ editorbuilder_t AllIntSpinBoxEditorBuilder()
 {
   auto builder = [](const SessionItem* item) -> editor_t
   {
-    auto editor = std::make_unique<AllIntSpinBoxEditor>();
+    auto editor = std::make_unique<AllIntSpinBox>();
     if (item)
     {
       editor->SetRange(GetLowerLimit(*item), GetUpperLimit(*item));

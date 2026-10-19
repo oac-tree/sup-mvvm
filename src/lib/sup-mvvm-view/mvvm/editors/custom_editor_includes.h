@@ -24,7 +24,7 @@
 //! @file
 //! Collection of all includes with custom editors for Qt delegates.
 
-#include <mvvm/editors/allint_spinbox_editor.h>
+#include <mvvm/editors/allint_spinbox.h>
 #include <mvvm/editors/boolean_editor.h>
 #include <mvvm/editors/color_editor.h>
 #include <mvvm/editors/combo_property_editor.h>

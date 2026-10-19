@@ -22,11 +22,13 @@
 #include "mvvm/providers/variant_converter.h"
 
 #include <mvvm/test/test_helper.h>
+#include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/utils/limited_integer_helper.h>
 
 #include <gtest/gtest.h>
 
 #include <QSignalSpy>
+#include <QTest>
 
 namespace mvvm::test
 {
@@ -115,6 +117,46 @@ TEST_F(AllIntSpinBoxTest, SetValue)
   // after notification shouldn't be more signals than before
   editor.CheckNotify();
   EXPECT_EQ(spy_value_changed.count(), 0);
+}
+
+TEST_F(AllIntSpinBoxTest, SetValueWithoutLimitedInteger)
+{
+  AllIntSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
+
+  editor.SetRange(variant_t{int8{10}}, variant_t{int8{30}});
+  editor.setValue(GetQtVariant(variant_t{int8{20}}));
+
+  // first value creates limited integer without signals
+  EXPECT_EQ(spy_value_changed.count(), 0);
+  EXPECT_EQ(editor.text(), QString("20"));
+
+  ASSERT_NE(editor.GetLimitedInteger(), nullptr);
+  EXPECT_EQ(editor.GetLimitedInteger()->GetLowerBoundAsVariant(), variant_t{int8{10}});
+  EXPECT_EQ(editor.GetLimitedInteger()->GetUpperBoundAsVariant(), variant_t{int8{30}});
+  EXPECT_EQ(GetStdVariant(editor.value()), variant_t{int8{20}});
+}
+
+TEST_F(AllIntSpinBoxTest, ValueReportsTypedText)
+{
+  AllIntSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
+
+  editor.SetLimitedInteger(CreateLimitedInteger(variant_t{42}, variant_t{0}, variant_t{100}));
+
+  // the whole text is selected, typing replaces it
+  QTest::keyClicks(&editor, "25");
+  EXPECT_EQ(editor.text(), QString("25"));
+
+  // typed value is reported before editing finished
+  EXPECT_EQ(GetStdVariant(editor.value()), variant_t{25});
+  EXPECT_EQ(editor.GetLimitedInteger()->GetValueAsVariant(), variant_t{42});
+  EXPECT_EQ(spy_value_changed.count(), 0);
+
+  // out of range text reports the last value
+  QTest::keyClicks(&editor, "0");
+  EXPECT_EQ(editor.text(), QString("250"));
+  EXPECT_EQ(GetStdVariant(editor.value()), variant_t{42});
 }
 
 }  // namespace mvvm::test

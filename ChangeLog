@@ -5,6 +5,7 @@ Changes for 2.4.0:
 - Introduce new SessionItem API for FindItem and GetItem
 - Build coverage with -O0 by selecting Debug over RelWithDebInfo
 - Add about_to_save_callback to ProjectContext
+- Remove AllIntSpinBoxEditor, use AllIntSpinBox as cell editor directly
 
 Changes for 2.3.0:
 

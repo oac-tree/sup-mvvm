@@ -82,7 +82,7 @@ TEST_F(RoleDependentEditorFactoryTest, RoleDependentEditorFactory)
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 
   index = AddDataToModel(variant_t(42), constants::kAllIntSpinBoxEditorType);
-  EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(index).get()));
 }
 
 }  // namespace mvvm::test

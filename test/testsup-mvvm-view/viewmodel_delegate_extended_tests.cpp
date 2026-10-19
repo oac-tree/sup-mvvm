@@ -20,18 +20,23 @@
 
 #include "mvvm/views/viewmodel_delegate.h"
 
-#include <mvvm/editors/allint_spinbox_editor.h>
+#include <mvvm/editors/allint_spinbox.h>
 #include <mvvm/editors/float_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
 
 #include <gtest/gtest.h>
 
+#include <QApplication>
+#include <QFocusEvent>
 #include <QSpinBox>
+#include <QTest>
+#include <QTreeView>
 
 namespace mvvm::test
 {
@@ -92,14 +97,16 @@ TEST_F(ViewModelDelegateExtendedTest, ViewModelWithoutFiltering)
     EXPECT_EQ(int_editor->maximum(), 50);
   }
 
-  {  // prop1 with AllIntSpinBoxEditor as an editor
+  {  // prop1 with AllIntSpinBox as an editor
     auto editor = CreateEditor(prop1_index);
-    auto int_editor = dynamic_cast<AllIntSpinBoxEditor*>(editor.get());
+    auto int_editor = dynamic_cast<AllIntSpinBox*>(editor.get());
     ASSERT_NE(int_editor, nullptr);
     const auto expected_min = std::numeric_limits<mvvm::int8>::lowest();
     const auto expected_max = std::numeric_limits<mvvm::int8>::max();
-    EXPECT_EQ(int_editor->GetLowerLimit(), mvvm::variant_t(expected_min));
-    EXPECT_EQ(int_editor->GetUpperLimit(), mvvm::variant_t(expected_max));
+    EXPECT_EQ(int_editor->GetLimitedInteger()->GetLowerBoundAsVariant(),
+              mvvm::variant_t(expected_min));
+    EXPECT_EQ(int_editor->GetLimitedInteger()->GetUpperBoundAsVariant(),
+              mvvm::variant_t(expected_max));
   }
 
   {  // prop1 with FloatSpinBox as an editor
@@ -132,6 +139,32 @@ TEST_F(ViewModelDelegateExtendedTest, ViewModelWithFiltering)
     EXPECT_EQ(float_editor->minimum(), 40.0);
     EXPECT_EQ(float_editor->maximum(), 50.0);
   }
+}
+
+TEST_F(ViewModelDelegateExtendedTest, AllIntSpinBoxCommitOnFocusOut)
+{
+  AllItemsViewModel view_model(&m_model);
+  QTreeView view;
+  view.setModel(&view_model);
+  view.setItemDelegate(&m_delegate);
+  view.expandAll();
+
+  auto parent0_index = view_model.index(0, 0, QModelIndex());
+  auto prop1_index = view_model.index(1, 1, parent0_index);  // index of int8
+
+  view.edit(prop1_index);
+  auto editor = dynamic_cast<AllIntSpinBox*>(view.indexWidget(prop1_index));
+  ASSERT_NE(editor, nullptr);
+
+  // the whole text is selected, typing replaces it
+  QTest::keyClicks(editor, "25");
+  EXPECT_EQ(editor->text(), QString("25"));
+
+  // focus-out without Enter commits typed value
+  QFocusEvent focus_out(QEvent::FocusOut);
+  QApplication::sendEvent(editor, &focus_out);
+
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(prop1_index)->Data(), variant_t(mvvm::int8{25}));
 }
 
 }  // namespace mvvm::test

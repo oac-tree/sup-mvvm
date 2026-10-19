@@ -81,7 +81,7 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 
 AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 {
-  // Here we want to compare visual appearance of QSpinBox editor and AllIntSpinBoxEditor.
+  // Here we want to compare visual appearance of QSpinBox editor and AllIntSpinBox.
   // QSpinBox is the default for int32, AllIntSpinBox is the default for the rest.
 
   // QSpinBox editor for int32
@@ -91,21 +91,21 @@ AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
   auto& integer_2_prop = AddProperty("integer_2", 42).SetDisplayName("int32 QSpinBox lim");
   mvvm::SetLimited(30, 40, integer_2_prop);
 
-  // AllIntSpinBoxEditor for int32 should be set manually
+  // AllIntSpinBox for int32 should be set manually
   AddProperty("integer_3", 42)
       .SetDisplayName("int32 AllIntEditor")
       .SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
 
-  // AllIntSpinBoxEditor with limits, for int32 should be set manually
+  // AllIntSpinBox with limits, for int32 should be set manually
   auto& integer_4_prop = AddProperty("integer_4", 42)
                              .SetDisplayName("int32 AllIntEditor lim")
                              .SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
   mvvm::SetLimited(30, 40, integer_4_prop);
 
-  // AllIntSpinBoxEditor for int8
+  // AllIntSpinBox for int8
   AddProperty("integer_5", static_cast<mvvm::int8>(0)).SetDisplayName("int8 AllIntEditor");
 
-  // AllIntSpinBoxEditor for int64
+  // AllIntSpinBox for int64
   AddProperty("integer_6", static_cast<mvvm::int64>(0)).SetDisplayName("int64 AllIntEditor");
 }
 

@@ -44,7 +44,7 @@ public:
 /**
  * @brief The AllIntPropertyItem is used to create demo items containing various integer properties.
  *
- * We investigate the behavior of the original QSpinBox vs our AllIntSpinBoxEditor.
+ * We investigate the behavior of the original QSpinBox vs our AllIntSpinBox.
  */
 class AllIntPropertyItem : public mvvm::CompoundItem
 {

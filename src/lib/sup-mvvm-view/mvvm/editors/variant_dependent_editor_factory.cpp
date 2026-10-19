@@ -57,7 +57,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   // we keep editing int32 numbers with QSpinBox to be able to compare the appearance with the rest
   RegisterBuilder(constants::kInt32QtTypeName, IntegerEditorBuilder());
 
-  // new AllIntSpinBoxEditor for all other integer-like types
+  // new AllIntSpinBox for all other integer-like types
   RegisterBuilder(constants::kChar8QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kInt8QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt8QtTypeName, AllIntSpinBoxEditorBuilder());

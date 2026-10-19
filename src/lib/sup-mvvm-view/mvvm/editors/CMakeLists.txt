@@ -1,8 +1,6 @@
 target_sources(${library_name} PRIVATE
   allint_spinbox.cpp
   allint_spinbox.h
-  allint_spinbox_editor.cpp
-  allint_spinbox_editor.h
   boolean_editor.cpp
   boolean_editor.h
   color_editor.cpp
