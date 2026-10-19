@@ -197,6 +197,82 @@ TEST_F(ApplicationModelSimpleUndoTests, SetDataSeveralTimes)
   EXPECT_EQ(commands->GetIndex(), 2);
 }
 
+TEST_F(ApplicationModelSimpleUndoTests, RemoveData)
+{
+  const role_t role = DataRole::kData;
+
+  auto item = m_model.InsertItem<SessionItem>();
+  item->SetData(42);
+
+  m_model.SetUndoEnabled(true, 100);
+  auto commands = m_model.GetCommandStack();
+  mock_listener_t listener(&m_model);
+
+  const DataChangedEvent data_changed_event{item, role};
+  EXPECT_CALL(listener, OnDataChanged(data_changed_event)).Times(1);
+
+  // invalid variant removes the data
+  EXPECT_TRUE(m_model.SetData(item, variant_t{}, role));
+
+  EXPECT_FALSE(item->HasData(role));
+  EXPECT_EQ(commands->GetIndex(), 1);
+  EXPECT_EQ(commands->GetCommandCount(), 1);
+
+  // undoing the command restores the data
+  EXPECT_CALL(listener, OnDataChanged(data_changed_event)).Times(1);
+  commands->Undo();
+
+  EXPECT_EQ(item->Data(), variant_t(42));
+  EXPECT_EQ(commands->GetIndex(), 0);
+
+  // redoing the command removes the data again
+  EXPECT_CALL(listener, OnDataChanged(data_changed_event)).Times(1);
+  commands->Redo();
+
+  EXPECT_FALSE(item->HasData(role));
+  EXPECT_EQ(commands->GetIndex(), 1);
+  EXPECT_EQ(commands->GetCommandCount(), 1);
+}
+
+TEST_F(ApplicationModelSimpleUndoTests, RemoveDataWhenNoData)
+{
+  auto item = m_model.InsertItem<SessionItem>();
+
+  m_model.SetUndoEnabled(true, 100);
+  auto commands = m_model.GetCommandStack();
+  mock_listener_t listener(&m_model);
+
+  // removing absent data does nothing
+  EXPECT_FALSE(m_model.SetData(item, variant_t{}, DataRole::kData));
+
+  EXPECT_FALSE(item->HasData(DataRole::kData));
+  EXPECT_FALSE(commands->CanUndo());
+  EXPECT_EQ(commands->GetCommandCount(), 0);
+}
+
+TEST_F(ApplicationModelSimpleUndoTests, RemoveDataThenSetAnotherType)
+{
+  const role_t role = DataRole::kData;
+
+  auto item = m_model.InsertItem<SessionItem>();
+  item->SetData(42);
+
+  m_model.SetUndoEnabled(true, 100);
+  auto commands = m_model.GetCommandStack();
+
+  // after removal the data can change its type
+  EXPECT_TRUE(m_model.SetData(item, variant_t{}, role));
+  EXPECT_TRUE(m_model.SetData(item, std::string("abc"), role));
+  EXPECT_EQ(item->Data(), variant_t(std::string("abc")));
+  EXPECT_EQ(commands->GetCommandCount(), 2);
+
+  commands->Undo();
+  EXPECT_FALSE(item->HasData(role));
+
+  commands->Undo();
+  EXPECT_EQ(item->Data(), variant_t(42));
+}
+
 TEST_F(ApplicationModelSimpleUndoTests, SetDataThenRemove)
 {
   auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());

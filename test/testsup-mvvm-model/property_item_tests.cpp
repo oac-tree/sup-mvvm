@@ -75,4 +75,26 @@ TEST_F(PropertyItemTests, Clone)
   }
 }
 
+TEST_F(PropertyItemTests, NullableClone)
+{
+  PropertyItem item;
+  item.SetFlag(Appearance::kNullable, true);
+  item.SetData(uint32{42}, DataRole::kDefaultValue);
+  EXPECT_FALSE(item.HasData(DataRole::kData));
+
+  {  // deep copy
+    auto clone = utils::CopyItem(item);
+    EXPECT_FALSE(clone->HasData(DataRole::kData));
+    EXPECT_TRUE(clone->HasFlag(Appearance::kNullable));
+    EXPECT_EQ(clone->Data(DataRole::kDefaultValue), variant_t(uint32{42}));
+  }
+
+  {  // clone
+    auto clone = item.Clone();
+    EXPECT_FALSE(clone->HasData(DataRole::kData));
+    EXPECT_TRUE(clone->HasFlag(Appearance::kNullable));
+    EXPECT_EQ(clone->Data(DataRole::kDefaultValue), variant_t(uint32{42}));
+  }
+}
+
 }  // namespace mvvm::test

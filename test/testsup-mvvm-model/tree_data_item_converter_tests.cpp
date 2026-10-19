@@ -152,6 +152,27 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
   EXPECT_EQ(reco->Data(DataRole::kUpperLimit), variant_t(12));
 }
 
+TEST_F(TreeDataItemConverterTest, NullablePropertyItemToFileAndBack)
+{
+  PropertyItem item;
+  item.SetFlag(Appearance::kNullable, true);
+  item.SetData(uint32{42}, DataRole::kDefaultValue);
+  SetLimited(uint32{10}, uint32{50}, item);
+  EXPECT_FALSE(item.HasData(DataRole::kData));
+
+  const auto file_path = GetFilePath("NullablePropertyItemToFileAndBack.xml");
+  WriteToXMLFile(file_path, item);
+
+  // reconstructiong back
+  auto reco = ReadFromXMLFile<PropertyItem>(file_path);
+  EXPECT_EQ(reco->GetItemData()->GetRoles(), item.GetItemData()->GetRoles());
+  EXPECT_FALSE(reco->HasData(DataRole::kData));
+  EXPECT_TRUE(reco->HasFlag(Appearance::kNullable));
+  EXPECT_EQ(reco->Data(DataRole::kDefaultValue), variant_t(uint32{42}));
+  EXPECT_EQ(reco->Data(DataRole::kLowerLimit), variant_t(uint32{10}));
+  EXPECT_EQ(reco->Data(DataRole::kUpperLimit), variant_t(uint32{50}));
+}
+
 TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
 {
   SessionItem parent;
