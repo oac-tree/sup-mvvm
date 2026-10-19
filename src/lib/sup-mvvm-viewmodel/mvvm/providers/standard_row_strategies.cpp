@@ -87,7 +87,7 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRowImpl(S
   {
     if (child->HasData() || child->HasFlag(Appearance::kNullable))
     {
-      // Item with data set, or items which allowed to have no data
+      // Items with data, or items allowed to have none
       (void)result.emplace_back(mvvm::CreateDataViewItem(child));
     }
     else
