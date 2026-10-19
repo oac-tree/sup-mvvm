@@ -100,10 +100,6 @@ signals:
 
 private:
   void OnEditingFinished();
-
-  //! Returns the value parsed from the text, or an invalid variant if the text has no new valid
-  //! value.
-  variant_t GetTextValue() const;
   void UpdateTextField();
 
   std::unique_ptr<ILimitedInteger> m_value;

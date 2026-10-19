@@ -135,6 +135,8 @@ public:
 
   bool SetValueFromText(const std::string& text) override;
 
+  std::optional<variant_t> ParseText(const std::string& text) const override;
+
   bool Increment() override;
 
   bool Decrement() override;
@@ -153,6 +155,11 @@ private:
    * @brief Returns the text representation of the given value.
    */
   static std::string ToText(T value);
+
+  /**
+   * @brief Returns true if the given value is within bounds.
+   */
+  bool IsInBounds(T value) const;
 
   /**
    * @brief Returns the value in a numeric domain suitable for comparison and printing.
@@ -253,8 +260,7 @@ inline T LimitedInteger<T>::GetUpperBound() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValue(const T& value)
 {
-  if ((AsNumber(value) < AsNumber(m_lower_bound)) || (AsNumber(value) > AsNumber(m_upper_bound))
-      || (m_value.has_value() && (AsNumber(value) == AsNumber(m_value.value()))))
+  if (!IsInBounds(value) || (m_value.has_value() && (AsNumber(value) == AsNumber(m_value.value()))))
   {
     return false;
   }
@@ -349,9 +355,16 @@ inline std::string LimitedInteger<std::uint16_t>::ToText(std::uint16_t value)
 template <typename T>
 inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 {
+  const auto parsed_value = ParseText(text);
+  return parsed_value.has_value() && SetValueFromVariant(parsed_value.value());
+}
+
+template <typename T>
+inline std::optional<variant_t> LimitedInteger<T>::ParseText(const std::string& text) const
+{
   if (text.empty())
   {
-    return ResetValue();
+    return m_is_nullable ? std::optional<variant_t>{variant_t{}} : std::nullopt;
   }
 
   T parsed_value{};
@@ -360,13 +373,21 @@ inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 
   if ((result.ec == std::errc::invalid_argument) || (result.ec == std::errc::result_out_of_range))
   {
-    return false;
+    return std::nullopt;
   }
 
   // FIXME Another behavior is necessary. If text value is outside of allowed range, it should be
   // forced to one of the bounds.
 
-  return SetValue(parsed_value);
+  return IsInBounds(parsed_value) ? std::optional<variant_t>{variant_t{parsed_value}}
+                                  : std::nullopt;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::IsInBounds(T value) const
+{
+  return (AsNumber(value) >= AsNumber(m_lower_bound))
+         && (AsNumber(value) <= AsNumber(m_upper_bound));
 }
 
 template <typename T>

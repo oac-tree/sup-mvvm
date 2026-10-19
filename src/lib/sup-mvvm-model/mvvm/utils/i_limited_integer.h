@@ -23,6 +23,7 @@
 
 #include <mvvm/core/variant.h>
 
+#include <optional>
 #include <string>
 
 namespace mvvm
@@ -93,6 +94,14 @@ public:
    * @details Empty text removes the value of a nullable integer.
    */
   virtual bool SetValueFromText(const std::string& text) = 0;
+
+  /**
+   * @brief Returns the value parsed from text, empty if the text is not a valid value.
+   *
+   * @details Empty text gives an invalid variant for a nullable integer. The value of the integer
+   * is not changed.
+   */
+  virtual std::optional<variant_t> ParseText(const std::string& text) const = 0;
 
   /**
    * @brief Performs number of steps.

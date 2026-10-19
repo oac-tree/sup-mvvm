@@ -226,6 +226,30 @@ TEST_F(LimitedIntegerTests, SetValueFromText)
   EXPECT_FALSE(num.SetValueFromText("aaaa"));
 }
 
+TEST_F(LimitedIntegerTests, ParseText)
+{
+  {  // non-nullable integer
+    const LimitedInteger<int> num(42, 40, 50);
+
+    EXPECT_EQ(num.ParseText("45"), std::optional<variant_t>{variant_t{45}});
+    EXPECT_EQ(num.ParseText("42"), std::optional<variant_t>{variant_t{42}});  // same value
+    EXPECT_EQ(num.GetValue(), 42);
+
+    EXPECT_FALSE(num.ParseText("51").has_value());  // outside of bounds
+    EXPECT_FALSE(num.ParseText("aaaa").has_value());
+    EXPECT_FALSE(num.ParseText("").has_value());
+  }
+
+  {  // nullable integer
+    const LimitedInteger<int> num(42, 0, {}, {});
+
+    EXPECT_EQ(num.ParseText(""), std::optional<variant_t>{variant_t{}});
+    EXPECT_EQ(num.ParseText("43"), std::optional<variant_t>{variant_t{43}});
+    EXPECT_FALSE(num.ParseText("aaaa").has_value());
+    EXPECT_EQ(num.GetValue(), 42);
+  }
+}
+
 TEST_F(LimitedIntegerTests, StepBy)
 {
   {  // positive ulimited integer

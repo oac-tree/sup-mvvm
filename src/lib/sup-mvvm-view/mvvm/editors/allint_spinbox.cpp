@@ -64,9 +64,14 @@ QVariant AllIntSpinBox::value() const
   }
 
   // typed text not yet processed on editingFinished takes precedence
-  if (auto text_value = GetTextValue(); utils::IsValid(text_value))
+  auto text_value = text();
+  int pos = 0;  // unused
+  if (validate(text_value, pos) == QValidator::Acceptable)
   {
-    return GetQtVariant(text_value);
+    if (auto parsed_value = m_value->ParseText(text_value.toStdString()); parsed_value.has_value())
+    {
+      return GetQtVariant(parsed_value.value());
+    }
   }
 
   return GetQtVariant(m_value->GetValueAsVariant());
@@ -188,22 +193,6 @@ void AllIntSpinBox::OnEditingFinished()
   }
 
   CheckNotify();
-}
-
-variant_t AllIntSpinBox::GetTextValue() const
-{
-  auto text_value = text();
-  int pos = 0;  // unused
-  if (validate(text_value, pos) != QValidator::Acceptable)
-  {
-    return {};
-  }
-
-  auto parsed =
-      CreateLimitedInteger(m_value->GetValueAsVariant(), m_value->GetLowerBoundAsVariant(),
-                           m_value->GetUpperBoundAsVariant());
-  return parsed->SetValueFromText(text_value.toStdString()) ? parsed->GetValueAsVariant()
-                                                            : variant_t{};
 }
 
 void AllIntSpinBox::UpdateTextField()
