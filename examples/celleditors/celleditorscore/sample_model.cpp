@@ -22,6 +22,7 @@
 
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 
@@ -110,6 +111,34 @@ AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 }
 
 // ------------------------------------------------------------------------------------------------
+// OptionalIntPropertyItem
+// ------------------------------------------------------------------------------------------------
+
+OptionalIntPropertyItem::OptionalIntPropertyItem() : mvvm::CompoundItem("OptionalInt")
+{
+  // int8 without value
+  auto& int8_prop = AddProperty<mvvm::PropertyItem>("optional_1");
+  int8_prop.SetDisplayName("int8 no value").SetFlag(mvvm::Appearance::kNullable, true);
+  int8_prop.SetData(mvvm::int8{0}, mvvm::DataRole::kDefaultValue);
+
+  // int32 with value, AllIntSpinBox instead of QSpinBox
+  auto& int32_prop = AddProperty("optional_2", 42);
+  int32_prop.SetDisplayName("int32 value").SetFlag(mvvm::Appearance::kNullable, true);
+  int32_prop.SetData(0, mvvm::DataRole::kDefaultValue);
+
+  // uint32 without value, with limits
+  auto& uint32_prop = AddProperty<mvvm::PropertyItem>("optional_3");
+  uint32_prop.SetDisplayName("uint32 no value lim").SetFlag(mvvm::Appearance::kNullable, true);
+  uint32_prop.SetData(mvvm::uint32{15}, mvvm::DataRole::kDefaultValue);
+  mvvm::SetLimited(mvvm::uint32{10}, mvvm::uint32{20}, uint32_prop);
+
+  // int64 without value
+  auto& int64_prop = AddProperty<mvvm::PropertyItem>("optional_4");
+  int64_prop.SetDisplayName("int64 no value").SetFlag(mvvm::Appearance::kNullable, true);
+  int64_prop.SetData(mvvm::int64{0}, mvvm::DataRole::kDefaultValue);
+}
+
+// ------------------------------------------------------------------------------------------------
 // FloatPropertyItem
 // ------------------------------------------------------------------------------------------------
 
@@ -175,6 +204,12 @@ void SampleModel::PopulateModel()
   InsertItem<AllIntPropertyItem>(container1);
   InsertItem<AllIntPropertyItem>(container1);
   InsertItem<AllIntPropertyItem>(container1);
+
+  auto container_optional = InsertItem<mvvm::ContainerItem>();
+  container_optional->SetDisplayName("Optional integers");
+  InsertItem<OptionalIntPropertyItem>(container_optional);
+  InsertItem<OptionalIntPropertyItem>(container_optional);
+  InsertItem<OptionalIntPropertyItem>(container_optional);
 
   auto container2 = InsertItem<mvvm::ContainerItem>();
   container2->SetDisplayName("Floats");
