@@ -37,6 +37,8 @@ namespace mvvm
  * @param upper_bound Upper boud.
  *
  * @return Unique ptr with limited integer.
+ *
+ * @details Throws if the value is not an integer, or if bounds are of another type.
  */
 std::unique_ptr<ILimitedInteger> CreateLimitedInteger(const variant_t& value,
                                                       const variant_t& lower_bound,
@@ -51,6 +53,9 @@ std::unique_ptr<ILimitedInteger> CreateLimitedInteger(const variant_t& value,
  * @param upper_bound Upper bound.
  *
  * @return Unique ptr with limited integer.
+ *
+ * @details Throws if the default value is not an integer, or if the value or bounds are of another
+ * type.
  */
 std::unique_ptr<ILimitedInteger> CreateNullableLimitedInteger(const variant_t& value,
                                                               const variant_t& default_value,

@@ -26,6 +26,8 @@
 
 #include <functional>
 #include <map>
+#include <optional>
+#include <string>
 
 namespace mvvm
 {
@@ -34,19 +36,49 @@ namespace
 {
 
 /**
+ * @brief Returns the integer stored in the variant, empty if the variant is invalid.
+ *
+ * @details Throws if the variant holds another type.
+ */
+template <typename IntegerT>
+std::optional<IntegerT> GetOptionalInteger(const variant_t& variant, const std::string& name)
+{
+  if (!utils::IsValid(variant))
+  {
+    return std::nullopt;
+  }
+
+  if (!std::holds_alternative<IntegerT>(variant))
+  {
+    throw RuntimeException("The " + name + " type=[" + utils::TypeName(variant)
+                           + "] doesn't coincide with integer type=["
+                           + utils::TypeName(variant_t{IntegerT{}}) + "]");
+  }
+
+  return std::get<IntegerT>(variant);
+}
+
+/**
  * @brief Creates specialised limited integer, for given input value and bounds.
+ *
+ * @details The default_value of a nullable integer, or the value of a non-nullable one, holds
+ * IntegerT.
  */
 template <typename IntegerT>
 std::unique_ptr<ILimitedInteger> FactoryFunc(const variant_t& value, const variant_t& default_value,
                                              const variant_t& lower_bound,
                                              const variant_t& upper_bound, bool is_nullable)
 {
+  const auto lower = GetOptionalInteger<IntegerT>(lower_bound, "lower bound");
+  const auto upper = GetOptionalInteger<IntegerT>(upper_bound, "upper bound");
+
   if (is_nullable)
   {
-    return std::make_unique<LimitedInteger<IntegerT>>(value, default_value, lower_bound,
-                                                      upper_bound);
+    return std::make_unique<LimitedInteger<IntegerT>>(GetOptionalInteger<IntegerT>(value, "value"),
+                                                      std::get<IntegerT>(default_value), lower,
+                                                      upper);
   }
-  return std::make_unique<LimitedInteger<IntegerT>>(value, lower_bound, upper_bound);
+  return std::make_unique<LimitedInteger<IntegerT>>(std::get<IntegerT>(value), lower, upper);
 }
 
 using factory_funct_t = std::function<std::unique_ptr<ILimitedInteger>(

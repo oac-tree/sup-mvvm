@@ -50,12 +50,6 @@ TEST_F(LimitedIntegerTests, Constructor)
     EXPECT_EQ(num.GetUpperBound(), 45);
   }
 
-  {  // attempt to mix types
-    EXPECT_THROW(LimitedInteger<int>(42.1, {}, {}), RuntimeException);
-    EXPECT_THROW(LimitedInteger<int>(42, 42.1, {}), RuntimeException);
-    EXPECT_THROW(LimitedInteger<int>(42, 10, 64U), RuntimeException);
-  }
-
   {  // attempt to ser upper limit smaller than lower limit
     EXPECT_THROW(LimitedInteger<int>(42, 10, 5), RuntimeException);
   }
@@ -378,10 +372,8 @@ TEST_F(LimitedIntegerTests, NullableConstructor)
     EXPECT_EQ(num.GetDefaultValue(), 20);
   }
 
-  {  // attempt to mix types, or to define no default value
-    EXPECT_THROW(LimitedInteger<int>(42U, 42, {}, {}), RuntimeException);
-    EXPECT_THROW(LimitedInteger<int>({}, 42, 10U, {}), RuntimeException);
-    EXPECT_THROW(LimitedInteger<int>({}, {}, {}, {}), RuntimeException);
+  {  // attempt to set upper limit smaller than lower limit
+    EXPECT_THROW(LimitedInteger<int>({}, 42, 10, 5), RuntimeException);
   }
 }
 

@@ -34,17 +34,6 @@ namespace mvvm
 {
 
 /**
- * @brief Checks if given variant is supported.
- */
-bool IsSupportedVariant(const variant_t& variant);
-
-/**
- * @brief Checks if bounds are correct, throws otherwise.
- */
-void ValidateBounds(const variant_t& value, const variant_t& lower_bound,
-                    const variant_t& upper_bound);
-
-/**
  * @brief The LimitedInteger class represents an integer number with limits.
  *
  * @details It can be one of (char8, int8, uin8, int16, uin16, int32, uint32, int64, uin64), as
@@ -59,34 +48,30 @@ class LimitedInteger : public ILimitedInteger
 {
 public:
   /**
-   * @brief Main constructor.
+   * @brief Constructor of a non-nullable integer.
    *
    * @param value The value.
-   * @param lower_bound Lower bound.
-   * @param upper_bound Upper bound.
+   * @param lower_bound Lower bound, the minimum of the type if absent.
+   * @param upper_bound Upper bound, the maximum of the type if absent.
    *
-   * @details The type of all 3 variants should be the same (except the case with bounds are absent)
-   * and represent one of int8, uin8, int16, uin16, int32, uint32, int64, uint64.
-   *
-   * @details Lower_bound and upper_bound can be default-constructed. In this case all
-   * limits will be deduced from std::numeric_limits.
+   * @details The value is forced into bounds. Throws if the upper bound is smaller than the lower
+   * bound.
    */
-  LimitedInteger(const variant_t& value, const variant_t& lower_bound,
-                 const variant_t& upper_bound);
+  LimitedInteger(T value, std::optional<T> lower_bound, std::optional<T> upper_bound);
 
   /**
    * @brief Constructor of a nullable integer.
    *
-   * @param value The value, can be default-constructed.
+   * @param value The value, can be absent.
    * @param default_value The value set by the first step from no value.
-   * @param lower_bound Lower bound.
-   * @param upper_bound Upper bound.
+   * @param lower_bound Lower bound, the minimum of the type if absent.
+   * @param upper_bound Upper bound, the maximum of the type if absent.
    *
-   * @details The type is defined by default_value. The value, if present, and bounds, if present,
-   * should be of the same type.
+   * @details The value and the default value are forced into bounds. Throws if the upper bound is
+   * smaller than the lower bound.
    */
-  LimitedInteger(const variant_t& value, const variant_t& default_value,
-                 const variant_t& lower_bound, const variant_t& upper_bound);
+  LimitedInteger(std::optional<T> value, T default_value, std::optional<T> lower_bound,
+                 std::optional<T> upper_bound);
 
   /**
    * @brief Returns current value, empty if there is no value.
@@ -148,8 +133,8 @@ public:
   bool IsAtMaximum() const override;
 
 private:
-  LimitedInteger(const variant_t& value, const variant_t& default_value,
-                 const variant_t& lower_bound, const variant_t& upper_bound, bool is_nullable);
+  LimitedInteger(std::optional<T> value, T default_value, std::optional<T> lower_bound,
+                 std::optional<T> upper_bound, bool is_nullable);
 
   /**
    * @brief Returns the text representation of the given value.
@@ -187,49 +172,37 @@ private:
 };
 
 template <typename T>
-inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t& lower_bound,
-                                         const variant_t& upper_bound)
+inline LimitedInteger<T>::LimitedInteger(T value, std::optional<T> lower_bound,
+                                         std::optional<T> upper_bound)
     : LimitedInteger(value, value, lower_bound, upper_bound, false)
 {
 }
 
 template <typename T>
-inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t& default_value,
-                                         const variant_t& lower_bound, const variant_t& upper_bound)
+inline LimitedInteger<T>::LimitedInteger(std::optional<T> value, T default_value,
+                                         std::optional<T> lower_bound, std::optional<T> upper_bound)
     : LimitedInteger(value, default_value, lower_bound, upper_bound, true)
 {
 }
 
 template <typename T>
-inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t& default_value,
-                                         const variant_t& lower_bound, const variant_t& upper_bound,
+inline LimitedInteger<T>::LimitedInteger(std::optional<T> value, T default_value,
+                                         std::optional<T> lower_bound, std::optional<T> upper_bound,
                                          bool is_nullable)
-    : m_is_nullable(is_nullable)
+    : m_lower_bound(lower_bound.value_or(std::numeric_limits<T>::min()))
+    , m_upper_bound(upper_bound.value_or(std::numeric_limits<T>::max()))
+    , m_is_nullable(is_nullable)
 {
-  ValidateBounds(default_value, lower_bound, upper_bound);
-
-  if (utils::IsValid(value) && (value.index() != default_value.index()))
-  {
-    throw RuntimeException("The value type=[" + utils::TypeName(value)
-                           + "] doesn't coincide with default value type=["
-                           + utils::TypeName(default_value) + "]");
-  }
-
-  m_lower_bound =
-      utils::IsValid(lower_bound) ? std::get<T>(lower_bound) : std::numeric_limits<T>::min();
-  m_upper_bound =
-      utils::IsValid(upper_bound) ? std::get<T>(upper_bound) : std::numeric_limits<T>::max();
-
   if (AsNumber(m_upper_bound) < AsNumber(m_lower_bound))
   {
     throw RuntimeException("Upper bound is smaller than lower bound");
   }
 
-  m_default_value = std::clamp(std::get<T>(default_value), m_lower_bound, m_upper_bound);
+  m_default_value = std::clamp(default_value, m_lower_bound, m_upper_bound);
 
-  if (utils::IsValid(value))
+  if (value.has_value())
   {
-    m_value = std::clamp(std::get<T>(value), m_lower_bound, m_upper_bound);
+    m_value = std::clamp(value.value(), m_lower_bound, m_upper_bound);
   }
 }
 

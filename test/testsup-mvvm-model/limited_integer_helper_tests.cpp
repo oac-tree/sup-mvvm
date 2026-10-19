@@ -69,6 +69,21 @@ TEST_F(LimitedIntegerHelperTests, CreateLimitedInteger)
   EXPECT_FALSE(CreateLimitedInteger(variant_t{42}, {}, {})->IsNullable());
 }
 
+TEST_F(LimitedIntegerHelperTests, CreateLimitedIntegerWithBounds)
+{
+  auto num = CreateLimitedInteger(variant_t{42}, variant_t{10}, variant_t{50});
+  EXPECT_EQ(num->GetLowerBoundAsVariant(), variant_t{10});
+  EXPECT_EQ(num->GetUpperBoundAsVariant(), variant_t{50});
+
+  // bounds of another type
+  EXPECT_THROW(CreateLimitedInteger(variant_t{42}, variant_t{42.1}, {}), RuntimeException);
+  EXPECT_THROW(CreateLimitedInteger(variant_t{42}, variant_t{10}, variant_t{64U}),
+               RuntimeException);
+
+  // upper bound smaller than lower bound
+  EXPECT_THROW(CreateLimitedInteger(variant_t{42}, variant_t{10}, variant_t{5}), RuntimeException);
+}
+
 TEST_F(LimitedIntegerHelperTests, CreateNullableLimitedInteger)
 {
   {  // without value
@@ -89,6 +104,8 @@ TEST_F(LimitedIntegerHelperTests, CreateNullableLimitedInteger)
     EXPECT_THROW(CreateNullableLimitedInteger({}, {}, {}, {}), RuntimeException);
     EXPECT_THROW(CreateNullableLimitedInteger({}, variant_t{42.0}, {}, {}), RuntimeException);
     EXPECT_THROW(CreateNullableLimitedInteger(variant_t{int32{1}}, variant_t{uint32{42}}, {}, {}),
+                 RuntimeException);
+    EXPECT_THROW(CreateNullableLimitedInteger({}, variant_t{uint32{42}}, variant_t{10}, {}),
                  RuntimeException);
   }
 }
