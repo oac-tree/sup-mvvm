@@ -85,7 +85,8 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRowImpl(S
   m_current_column_labels.clear();
   for (auto child : utils::SinglePropertyItems(*item))
   {
-    if (child->HasData())
+    // a property without data shows its display name, unless it is nullable
+    if (child->HasData() || child->HasFlag(Appearance::kNullable))
     {
       (void)result.emplace_back(mvvm::CreateDataViewItem(child));
     }

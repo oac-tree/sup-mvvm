@@ -49,6 +49,9 @@ private:
 /**
  * @brief The PropertiesRowStrategy class constructs the row with columns representing all
  * properties of the given SessionItem.
+ *
+ * @details A property without data, e.g. a CompoundItem, is shown with its display name. A nullable
+ * property without data is shown as an empty data cell.
  */
 class PropertiesRowStrategy : public AbstractRowStrategy
 {

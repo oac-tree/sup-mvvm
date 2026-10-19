@@ -21,6 +21,8 @@
 #include "mvvm/providers/standard_row_strategies.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/compound_item.h>
+#include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/providers/viewmodel_utils.h>
@@ -211,6 +213,27 @@ TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyItemTree)
   // parent has one registered property.
   items = strategy.ConstructRow(parent);
   EXPECT_EQ(items.size(), 1);
+}
+
+//! Nullable property without data gets an empty data cell, other properties without data get
+//! their display name.
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyWithoutData)
+{
+  CompoundItem item;
+  auto& nullable = item.AddProperty<PropertyItem>("nullable");
+  nullable.SetFlag(Appearance::kNullable, true);
+  nullable.SetData(uint32{42}, DataRole::kDefaultValue);
+  item.AddProperty<CompoundItem>("compound");
+
+  PropertiesRowStrategy strategy;
+  auto items = strategy.ConstructRow(&item);
+  ASSERT_EQ(items.size(), 2);
+
+  EXPECT_EQ(utils::GetItemFromView(items.at(0).get()), &nullable);
+  EXPECT_FALSE(items.at(0)->Data(Qt::DisplayRole).isValid());
+  EXPECT_FALSE(items.at(0)->Data(Qt::EditRole).isValid());
+
+  EXPECT_EQ(items.at(1)->Data(Qt::DisplayRole).toString(), QString("compound"));
 }
 
 //! Row construction for rootItem when vectorItem is present. Shouldn't generate any row.
