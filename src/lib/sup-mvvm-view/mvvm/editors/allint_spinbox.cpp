@@ -50,6 +50,16 @@ void AllIntSpinBox::SetLimitedInteger(std::unique_ptr<ILimitedInteger> value)
 
 AllIntSpinBox::~AllIntSpinBox() = default;
 
+void AllIntSpinBox::SetPlaceholderText(const QString& text)
+{
+  lineEdit()->setPlaceholderText(text);
+}
+
+QString AllIntSpinBox::GetPlaceholderText() const
+{
+  return lineEdit()->placeholderText();
+}
+
 void AllIntSpinBox::SetRange(const variant_t& lower_limit, const variant_t& upper_limit)
 {
   m_lower_limit = lower_limit;
@@ -83,8 +93,8 @@ QValidator::State AllIntSpinBox::validate(QString& input, int& pos) const
 
   if (input.isEmpty())
   {
-    // An empty field is a valid intermediate state
-    return QValidator::Intermediate;
+    // An empty field means no value for a nullable integer, otherwise it is an intermediate state
+    return (m_value && m_value->IsNullable()) ? QValidator::Acceptable : QValidator::Intermediate;
   }
 
   if (input.length() == 1 && (input[0] == '+' || input[0] == '-'))

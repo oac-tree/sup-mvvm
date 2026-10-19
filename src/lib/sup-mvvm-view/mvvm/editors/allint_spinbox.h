@@ -41,6 +41,9 @@ class ILimitedInteger;
  * @details The value property reports the typed text before editingFinished. The cell delegate
  * reads it on focus-out before the spin box processes the event.
  *
+ * @details With a nullable limited integer, empty text means no value. The value property is then
+ * an invalid QVariant. The first step from no value sets the default value.
+ *
  * @details Current behavior: when the user increases or decreases the value with spin up/down
  * buttons, no signals are emitted until he presses the enter button. That's Ok since QSpinBox
  * behaves itself by default the same.
@@ -62,6 +65,16 @@ public:
   AllIntSpinBox& operator=(AllIntSpinBox&&) noexcept = delete;
 
   void SetLimitedInteger(std::unique_ptr<ILimitedInteger> value);
+
+  /**
+   * @brief Sets the text shown when the field is empty.
+   */
+  void SetPlaceholderText(const QString& text);
+
+  /**
+   * @brief Returns the text shown when the field is empty.
+   */
+  QString GetPlaceholderText() const;
 
   /**
    * @brief Sets limits for the limited integer created by the first setValue call.

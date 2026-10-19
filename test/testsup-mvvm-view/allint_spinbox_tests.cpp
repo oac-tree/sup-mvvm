@@ -27,6 +27,8 @@
 
 #include <gtest/gtest.h>
 
+#include <QApplication>
+#include <QFocusEvent>
 #include <QSignalSpy>
 #include <QTest>
 
@@ -157,6 +159,114 @@ TEST_F(AllIntSpinBoxTest, ValueReportsTypedText)
   QTest::keyClicks(&editor, "0");
   EXPECT_EQ(editor.text(), QString("250"));
   EXPECT_EQ(GetStdVariant(editor.value()), variant_t{42});
+}
+
+TEST_F(AllIntSpinBoxTest, NullableWithoutValue)
+{
+  AllIntSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
+
+  editor.SetPlaceholderText("default");
+  editor.SetLimitedInteger(CreateNullableLimitedInteger({}, variant_t{42}, {}, {}));
+
+  EXPECT_EQ(spy_value_changed.count(), 0);
+  EXPECT_EQ(editor.text(), QString());
+  EXPECT_EQ(editor.GetPlaceholderText(), QString("default"));
+  EXPECT_FALSE(editor.value().isValid());
+}
+
+TEST_F(AllIntSpinBoxTest, NullableSetValue)
+{
+  AllIntSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
+
+  editor.SetLimitedInteger(CreateNullableLimitedInteger(variant_t{42}, variant_t{0}, {}, {}));
+  EXPECT_EQ(editor.text(), QString("42"));
+
+  // invalid variant removes the value
+  editor.setValue(QVariant());
+  EXPECT_EQ(editor.text(), QString());
+  EXPECT_FALSE(editor.value().isValid());
+  EXPECT_FALSE(mvvm::test::TakeValue<QVariant>(spy_value_changed).isValid());
+
+  // the value is back
+  editor.setValue(QVariant(43));
+  EXPECT_EQ(editor.text(), QString("43"));
+  EXPECT_EQ(GetStdVariant(mvvm::test::TakeValue<QVariant>(spy_value_changed)), variant_t{43});
+}
+
+TEST_F(AllIntSpinBoxTest, NullableStepFromNoValue)
+{
+  AllIntSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
+
+  editor.SetLimitedInteger(CreateNullableLimitedInteger({}, variant_t{42}, {}, {}));
+
+  // the first step sets the default value
+  editor.stepBy(1);
+  EXPECT_EQ(editor.text(), QString("42"));
+  EXPECT_EQ(spy_value_changed.count(), 0);
+
+  // in editor this method is called on editing finished event
+  editor.CheckNotify();
+  EXPECT_EQ(GetStdVariant(mvvm::test::TakeValue<QVariant>(spy_value_changed)), variant_t{42});
+}
+
+TEST_F(AllIntSpinBoxTest, NullableClearOnEnter)
+{
+  AllIntSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
+
+  editor.SetLimitedInteger(CreateNullableLimitedInteger(variant_t{42}, variant_t{0}, {}, {}));
+
+  // the whole text is selected, delete clears it
+  QTest::keyClick(&editor, Qt::Key_Delete);
+  EXPECT_EQ(editor.text(), QString());
+
+  // typed empty text is reported as no value before editing finished
+  EXPECT_FALSE(editor.value().isValid());
+  EXPECT_TRUE(editor.GetLimitedInteger()->HasValue());
+  EXPECT_EQ(spy_value_changed.count(), 0);
+
+  QTest::keyClick(&editor, Qt::Key_Return);
+  EXPECT_FALSE(editor.GetLimitedInteger()->HasValue());
+  EXPECT_FALSE(mvvm::test::TakeValue<QVariant>(spy_value_changed).isValid());
+}
+
+TEST_F(AllIntSpinBoxTest, NullableClearOnFocusOut)
+{
+  AllIntSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
+
+  editor.SetLimitedInteger(CreateNullableLimitedInteger(variant_t{42}, variant_t{0}, {}, {}));
+
+  QTest::keyClick(&editor, Qt::Key_Delete);
+
+  QFocusEvent focus_out(QEvent::FocusOut);
+  QApplication::sendEvent(&editor, &focus_out);
+
+  // empty text is not reverted
+  EXPECT_EQ(editor.text(), QString());
+  EXPECT_FALSE(editor.GetLimitedInteger()->HasValue());
+  EXPECT_FALSE(mvvm::test::TakeValue<QVariant>(spy_value_changed).isValid());
+}
+
+TEST_F(AllIntSpinBoxTest, NonNullableEmptyText)
+{
+  AllIntSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
+
+  editor.SetLimitedInteger(CreateLimitedInteger(variant_t{42}, {}, {}));
+
+  QTest::keyClick(&editor, Qt::Key_Delete);
+  EXPECT_EQ(editor.text(), QString());
+
+  // empty text is not a value, the last value is reported
+  EXPECT_EQ(GetStdVariant(editor.value()), variant_t{42});
+
+  QTest::keyClick(&editor, Qt::Key_Return);
+  EXPECT_TRUE(editor.GetLimitedInteger()->HasValue());
+  EXPECT_EQ(spy_value_changed.count(), 0);
 }
 
 }  // namespace mvvm::test

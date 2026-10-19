@@ -7,6 +7,7 @@ Changes for 2.4.0:
 - Add about_to_save_callback to ProjectContext
 - Remove AllIntSpinBoxEditor, use AllIntSpinBox as cell editor directly
 - Add nullable LimitedInteger
+- Support no value in AllIntSpinBox for nullable limited integer
 
 Changes for 2.3.0:
 
