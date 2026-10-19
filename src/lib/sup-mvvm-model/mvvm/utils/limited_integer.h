@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <charconv>
 #include <limits>
+#include <optional>
 #include <type_traits>
 
 namespace mvvm
@@ -49,6 +50,9 @@ void ValidateBounds(const variant_t& value, const variant_t& lower_bound,
  * @details It can be one of (char8, int8, uin8, int16, uin16, int32, uint32, int64, uin64), as
  * supported by our mvvm::variant_t type. The class provides aditional machinery for safe increment
  * and decrement. It is used in the context of spin box editors.
+ *
+ * @details A nullable integer can have no value. The first step from no value sets the default
+ * value.
  */
 template <typename T>
 class LimitedInteger : public ILimitedInteger
@@ -71,9 +75,28 @@ public:
                  const variant_t& upper_bound);
 
   /**
-   * @brief Returns current value.
+   * @brief Constructor of a nullable integer.
+   *
+   * @param value The value, can be default-constructed.
+   * @param default_value The value set by the first step from no value.
+   * @param lower_bound Lower bound.
+   * @param upper_bound Upper bound.
+   *
+   * @details The type is defined by default_value. The value, if present, and bounds, if present,
+   * should be of the same type.
    */
-  T GetValue() const;
+  LimitedInteger(const variant_t& value, const variant_t& default_value,
+                 const variant_t& lower_bound, const variant_t& upper_bound);
+
+  /**
+   * @brief Returns current value, empty if there is no value.
+   */
+  std::optional<T> GetValue() const;
+
+  /**
+   * @brief Returns the default value.
+   */
+  T GetDefaultValue() const;
 
   /**
    * @brief Returns lower bound.
@@ -93,6 +116,12 @@ public:
    * located outside of bounds. In this case will return false.
    */
   bool SetValue(const T& value);
+
+  bool IsNullable() const override;
+
+  bool HasValue() const override;
+
+  bool ResetValue() override;
 
   variant_t GetValueAsVariant() const override;
 
@@ -117,6 +146,14 @@ public:
   bool IsAtMaximum() const override;
 
 private:
+  LimitedInteger(const variant_t& value, const variant_t& default_value,
+                 const variant_t& lower_bound, const variant_t& upper_bound, bool is_nullable);
+
+  /**
+   * @brief Returns the text representation of the given value.
+   */
+  static std::string ToText(T value);
+
   /**
    * @brief Returns the value in a numeric domain suitable for comparison and printing.
    *
@@ -135,18 +172,42 @@ private:
     }
   }
 
-  T m_value{};
+  std::optional<T> m_value;
+  T m_default_value{};
   T m_lower_bound{};
   T m_upper_bound{};
+  bool m_is_nullable{false};
 };
 
 template <typename T>
 inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t& lower_bound,
                                          const variant_t& upper_bound)
+    : LimitedInteger(value, value, lower_bound, upper_bound, false)
 {
-  ValidateBounds(value, lower_bound, upper_bound);
+}
 
-  m_value = std::get<T>(value);
+template <typename T>
+inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t& default_value,
+                                         const variant_t& lower_bound, const variant_t& upper_bound)
+    : LimitedInteger(value, default_value, lower_bound, upper_bound, true)
+{
+}
+
+template <typename T>
+inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t& default_value,
+                                         const variant_t& lower_bound, const variant_t& upper_bound,
+                                         bool is_nullable)
+    : m_is_nullable(is_nullable)
+{
+  ValidateBounds(default_value, lower_bound, upper_bound);
+
+  if (utils::IsValid(value) && (value.index() != default_value.index()))
+  {
+    throw RuntimeException("The value type=[" + utils::TypeName(value)
+                           + "] doesn't coincide with default value type=["
+                           + utils::TypeName(default_value) + "]");
+  }
+
   m_lower_bound =
       utils::IsValid(lower_bound) ? std::get<T>(lower_bound) : std::numeric_limits<T>::min();
   m_upper_bound =
@@ -157,13 +218,24 @@ inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t
     throw RuntimeException("Upper bound is smaller than lower bound");
   }
 
-  m_value = std::clamp(m_value, m_lower_bound, m_upper_bound);
+  m_default_value = std::clamp(std::get<T>(default_value), m_lower_bound, m_upper_bound);
+
+  if (utils::IsValid(value))
+  {
+    m_value = std::clamp(std::get<T>(value), m_lower_bound, m_upper_bound);
+  }
 }
 
 template <typename T>
-inline T LimitedInteger<T>::GetValue() const
+inline std::optional<T> LimitedInteger<T>::GetValue() const
 {
   return m_value;
+}
+
+template <typename T>
+inline T LimitedInteger<T>::GetDefaultValue() const
+{
+  return m_default_value;
 }
 
 template <typename T>
@@ -182,7 +254,7 @@ template <typename T>
 inline bool LimitedInteger<T>::SetValue(const T& value)
 {
   if ((AsNumber(value) < AsNumber(m_lower_bound)) || (AsNumber(value) > AsNumber(m_upper_bound))
-      || (AsNumber(value) == AsNumber(m_value)))
+      || (m_value.has_value() && (AsNumber(value) == AsNumber(m_value.value()))))
   {
     return false;
   }
@@ -192,9 +264,33 @@ inline bool LimitedInteger<T>::SetValue(const T& value)
 }
 
 template <typename T>
+inline bool LimitedInteger<T>::IsNullable() const
+{
+  return m_is_nullable;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::HasValue() const
+{
+  return m_value.has_value();
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::ResetValue()
+{
+  if (!m_is_nullable || !m_value.has_value())
+  {
+    return false;
+  }
+
+  m_value.reset();
+  return true;
+}
+
+template <typename T>
 inline variant_t LimitedInteger<T>::GetValueAsVariant() const
 {
-  return variant_t{m_value};
+  return m_value.has_value() ? variant_t{m_value.value()} : variant_t{};
 }
 
 template <typename T>
@@ -212,36 +308,52 @@ inline variant_t LimitedInteger<T>::GetUpperBoundAsVariant() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValueFromVariant(const variant_t& value)
 {
+  if (!utils::IsValid(value))
+  {
+    return ResetValue();
+  }
+
   return SetValue(std::get<T>(value));
 }
 
 template <typename T>
 inline std::string LimitedInteger<T>::GetValueAsText() const
 {
-  return std::to_string(m_value);
+  return m_value.has_value() ? ToText(m_value.value()) : std::string();
+}
+
+template <typename T>
+inline std::string LimitedInteger<T>::ToText(T value)
+{
+  return std::to_string(value);
 }
 
 template <>
-inline std::string LimitedInteger<char8>::GetValueAsText() const
+inline std::string LimitedInteger<char8>::ToText(char8 value)
 {
-  return std::to_string(GetCharNumericValue(m_value));
+  return std::to_string(GetCharNumericValue(value));
 }
 
 template <>
-inline std::string LimitedInteger<std::uint8_t>::GetValueAsText() const
+inline std::string LimitedInteger<std::uint8_t>::ToText(std::uint8_t value)
 {
-  return std::to_string(static_cast<std::uint32_t>(m_value));
+  return std::to_string(static_cast<std::uint32_t>(value));
 }
 
 template <>
-inline std::string LimitedInteger<std::uint16_t>::GetValueAsText() const
+inline std::string LimitedInteger<std::uint16_t>::ToText(std::uint16_t value)
 {
-  return std::to_string(static_cast<std::uint32_t>(m_value));
+  return std::to_string(static_cast<std::uint32_t>(value));
 }
 
 template <typename T>
 inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 {
+  if (text.empty())
+  {
+    return ResetValue();
+  }
+
   T parsed_value{};
   std::from_chars_result result =
       std::from_chars(text.data(), text.data() + text.size(), parsed_value);
@@ -260,24 +372,36 @@ inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 template <typename T>
 inline bool LimitedInteger<T>::Increment()
 {
-  if (AsNumber(m_value) >= AsNumber(m_upper_bound))
+  if (!m_value.has_value())
+  {
+    m_value = m_default_value;
+    return true;
+  }
+
+  if (AsNumber(m_value.value()) >= AsNumber(m_upper_bound))
   {
     return false;
   }
 
-  m_value++;
+  ++m_value.value();
   return true;
 }
 
 template <typename T>
 inline bool LimitedInteger<T>::Decrement()
 {
-  if (AsNumber(m_value) <= AsNumber(m_lower_bound))
+  if (!m_value.has_value())
+  {
+    m_value = m_default_value;
+    return true;
+  }
+
+  if (AsNumber(m_value.value()) <= AsNumber(m_lower_bound))
   {
     return false;
   }
 
-  m_value--;
+  --m_value.value();
   return true;
 }
 

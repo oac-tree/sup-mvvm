@@ -42,6 +42,21 @@ std::unique_ptr<ILimitedInteger> CreateLimitedInteger(const variant_t& value,
                                                       const variant_t& lower_bound,
                                                       const variant_t& upper_bound);
 
+/**
+ * @brief Creates nullable limited integer.
+ *
+ * @param value The value of an integer, can be default-constructed.
+ * @param default_value The value set by the first step from no value. Defines the type.
+ * @param lower_bound Lower bound.
+ * @param upper_bound Upper bound.
+ *
+ * @return Unique ptr with limited integer.
+ */
+std::unique_ptr<ILimitedInteger> CreateNullableLimitedInteger(const variant_t& value,
+                                                              const variant_t& default_value,
+                                                              const variant_t& lower_bound,
+                                                              const variant_t& upper_bound);
+
 }  // namespace mvvm
 
 #endif  // MVVM_UTILS_LIMITED_INTEGER_HELPER_H_

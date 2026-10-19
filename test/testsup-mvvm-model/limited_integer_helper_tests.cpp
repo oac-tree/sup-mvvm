@@ -65,6 +65,32 @@ TEST_F(LimitedIntegerHelperTests, CreateLimitedInteger)
   EXPECT_TRUE(CanCreateLimitedInteger<uint64>());
 
   EXPECT_THROW(CanCreateLimitedInteger<float64>(), RuntimeException);
+
+  EXPECT_FALSE(CreateLimitedInteger(variant_t{42}, {}, {})->IsNullable());
+}
+
+TEST_F(LimitedIntegerHelperTests, CreateNullableLimitedInteger)
+{
+  {  // without value
+    auto num = CreateNullableLimitedInteger({}, variant_t{uint32{42}}, {}, {});
+    EXPECT_NE(dynamic_cast<LimitedInteger<uint32>*>(num.get()), nullptr);
+    EXPECT_TRUE(num->IsNullable());
+    EXPECT_FALSE(num->HasValue());
+  }
+
+  {  // with value
+    auto num = CreateNullableLimitedInteger(variant_t{uint32{1}}, variant_t{uint32{42}}, {}, {});
+    EXPECT_EQ(num->GetValueAsVariant(), variant_t{uint32{1}});
+    EXPECT_TRUE(num->IsNullable());
+    EXPECT_TRUE(num->HasValue());
+  }
+
+  {  // type is defined by default value
+    EXPECT_THROW(CreateNullableLimitedInteger({}, {}, {}, {}), RuntimeException);
+    EXPECT_THROW(CreateNullableLimitedInteger({}, variant_t{42.0}, {}, {}), RuntimeException);
+    EXPECT_THROW(CreateNullableLimitedInteger(variant_t{int32{1}}, variant_t{uint32{42}}, {}, {}),
+                 RuntimeException);
+  }
 }
 
 }  // namespace mvvm::test

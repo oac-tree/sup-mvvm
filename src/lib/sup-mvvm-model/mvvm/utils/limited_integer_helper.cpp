@@ -37,14 +37,21 @@ namespace
  * @brief Creates specialised limited integer, for given input value and bounds.
  */
 template <typename IntegerT>
-std::unique_ptr<ILimitedInteger> FactoryFunc(const variant_t& value, const variant_t& lower_bound,
-                                             const variant_t& upper_bound)
+std::unique_ptr<ILimitedInteger> FactoryFunc(const variant_t& value, const variant_t& default_value,
+                                             const variant_t& lower_bound,
+                                             const variant_t& upper_bound, bool is_nullable)
 {
+  if (is_nullable)
+  {
+    return std::make_unique<LimitedInteger<IntegerT>>(value, default_value, lower_bound,
+                                                      upper_bound);
+  }
   return std::make_unique<LimitedInteger<IntegerT>>(value, lower_bound, upper_bound);
 }
 
 using factory_funct_t = std::function<std::unique_ptr<ILimitedInteger>(
-    const variant_t& value, const variant_t& lower_bound, const variant_t& upper_bound)>;
+    const variant_t& value, const variant_t& default_value, const variant_t& lower_bound,
+    const variant_t& upper_bound, bool is_nullable)>;
 
 std::map<TypeCode, factory_funct_t> CreateFactoryMap()
 {
@@ -57,21 +64,41 @@ std::map<TypeCode, factory_funct_t> CreateFactoryMap()
   return result;
 }
 
+/**
+ * @brief Creates limited integer of the type of default_value.
+ */
+std::unique_ptr<ILimitedInteger> CreateLimitedIntegerImpl(const variant_t& value,
+                                                          const variant_t& default_value,
+                                                          const variant_t& lower_bound,
+                                                          const variant_t& upper_bound,
+                                                          bool is_nullable)
+{
+  static const auto kFactoryMap = CreateFactoryMap();
+
+  const auto iter = kFactoryMap.find(GetTypeCode(default_value));
+  if (iter == kFactoryMap.end())
+  {
+    throw RuntimeException("Can't create limited integer for type=["
+                           + utils::TypeName(default_value) + "]");
+  }
+  return iter->second(value, default_value, lower_bound, upper_bound, is_nullable);
+}
+
 }  // namespace
 
 std::unique_ptr<ILimitedInteger> CreateLimitedInteger(const variant_t& value,
                                                       const variant_t& lower_bound,
                                                       const variant_t& upper_bound)
 {
-  static const auto kFactoryMap = CreateFactoryMap();
+  return CreateLimitedIntegerImpl(value, value, lower_bound, upper_bound, false);
+}
 
-  auto iter = kFactoryMap.find(GetTypeCode(value));
-  if (iter == kFactoryMap.end())
-  {
-    throw RuntimeException("Can't create limited integer for type=[" + utils::TypeName(value)
-                           + "]");
-  }
-  return iter->second(value, lower_bound, upper_bound);
+std::unique_ptr<ILimitedInteger> CreateNullableLimitedInteger(const variant_t& value,
+                                                              const variant_t& default_value,
+                                                              const variant_t& lower_bound,
+                                                              const variant_t& upper_bound)
+{
+  return CreateLimitedIntegerImpl(value, default_value, lower_bound, upper_bound, true);
 }
 
 }  // namespace mvvm

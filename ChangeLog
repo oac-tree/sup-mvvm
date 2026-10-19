@@ -6,6 +6,7 @@ Changes for 2.4.0:
 - Build coverage with -O0 by selecting Debug over RelWithDebInfo
 - Add about_to_save_callback to ProjectContext
 - Remove AllIntSpinBoxEditor, use AllIntSpinBox as cell editor directly
+- Add nullable LimitedInteger
 
 Changes for 2.3.0:
 

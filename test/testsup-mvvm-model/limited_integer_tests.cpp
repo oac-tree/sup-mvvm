@@ -314,4 +314,138 @@ TEST_F(LimitedIntegerTests, StepBy)
   }
 }
 
+TEST_F(LimitedIntegerTests, NonNullable)
+{
+  LimitedInteger<int> num(42, {}, {});
+  EXPECT_FALSE(num.IsNullable());
+  EXPECT_TRUE(num.HasValue());
+
+  // value can't be removed
+  EXPECT_FALSE(num.ResetValue());
+  EXPECT_FALSE(num.SetValueFromText(""));
+  EXPECT_FALSE(num.SetValueFromVariant(variant_t{}));
+  EXPECT_EQ(num.GetValue(), 42);
+}
+
+TEST_F(LimitedIntegerTests, NullableConstructor)
+{
+  {  // without value
+    const LimitedInteger<int> num({}, 42, {}, {});
+    EXPECT_TRUE(num.IsNullable());
+    EXPECT_FALSE(num.HasValue());
+    EXPECT_FALSE(num.GetValue().has_value());
+    EXPECT_EQ(num.GetDefaultValue(), 42);
+    EXPECT_EQ(num.GetValueAsVariant(), variant_t{});
+    EXPECT_EQ(num.GetValueAsText(), std::string());
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
+  }
+
+  {  // with value
+    const LimitedInteger<int> num(10, 42, {}, {});
+    EXPECT_TRUE(num.HasValue());
+    EXPECT_EQ(num.GetValue(), 10);
+    EXPECT_EQ(num.GetDefaultValue(), 42);
+  }
+
+  {  // value and default value forced into bounds
+    const LimitedInteger<int> num(1, 42, 10, 20);
+    EXPECT_EQ(num.GetValue(), 10);
+    EXPECT_EQ(num.GetDefaultValue(), 20);
+  }
+
+  {  // attempt to mix types, or to define no default value
+    EXPECT_THROW(LimitedInteger<int>(42U, 42, {}, {}), RuntimeException);
+    EXPECT_THROW(LimitedInteger<int>({}, 42, 10U, {}), RuntimeException);
+    EXPECT_THROW(LimitedInteger<int>({}, {}, {}, {}), RuntimeException);
+  }
+}
+
+TEST_F(LimitedIntegerTests, NullableResetValue)
+{
+  LimitedInteger<int> num(42, 0, {}, {});
+
+  EXPECT_TRUE(num.ResetValue());
+  EXPECT_FALSE(num.HasValue());
+  EXPECT_FALSE(num.ResetValue());  // no value already
+  EXPECT_EQ(num.GetValueAsText(), std::string());
+
+  EXPECT_TRUE(num.SetValue(42));
+  EXPECT_EQ(num.GetValue(), 42);
+  EXPECT_EQ(num.GetValueAsText(), std::string("42"));
+}
+
+TEST_F(LimitedIntegerTests, NullableSetValueFromVariant)
+{
+  LimitedInteger<int> num(42, 0, {}, {});
+
+  EXPECT_TRUE(num.SetValueFromVariant(variant_t{}));
+  EXPECT_FALSE(num.HasValue());
+  EXPECT_FALSE(num.SetValueFromVariant(variant_t{}));  // no value already
+
+  EXPECT_TRUE(num.SetValueFromVariant(variant_t{43}));
+  EXPECT_EQ(num.GetValueAsVariant(), variant_t{43});
+}
+
+TEST_F(LimitedIntegerTests, NullableSetValueFromText)
+{
+  LimitedInteger<int> num(42, 0, {}, {});
+
+  EXPECT_TRUE(num.SetValueFromText(""));
+  EXPECT_FALSE(num.HasValue());
+  EXPECT_EQ(num.GetValueAsText(), std::string());
+  EXPECT_FALSE(num.SetValueFromText(""));  // no value already
+
+  EXPECT_FALSE(num.SetValueFromText("aaaa"));
+  EXPECT_FALSE(num.HasValue());
+
+  EXPECT_TRUE(num.SetValueFromText("43"));
+  EXPECT_EQ(num.GetValueAsText(), std::string("43"));
+}
+
+TEST_F(LimitedIntegerTests, NullableStepBy)
+{
+  {  // zero steps keep no value
+    LimitedInteger<int> num({}, 42, {}, {});
+    EXPECT_FALSE(num.StepBy(0));
+    EXPECT_FALSE(num.HasValue());
+  }
+
+  {  // first step up sets default value
+    LimitedInteger<int> num({}, 42, {}, {});
+    EXPECT_TRUE(num.StepBy(1));
+    EXPECT_EQ(num.GetValue(), 42);
+  }
+
+  {  // first step down sets default value
+    LimitedInteger<int> num({}, 42, {}, {});
+    EXPECT_TRUE(num.StepBy(-1));
+    EXPECT_EQ(num.GetValue(), 42);
+  }
+
+  {  // several steps
+    LimitedInteger<int> num({}, 42, {}, {});
+    EXPECT_TRUE(num.StepBy(3));
+    EXPECT_EQ(num.GetValue(), 44);
+
+    EXPECT_TRUE(num.ResetValue());
+    EXPECT_TRUE(num.StepBy(-3));
+    EXPECT_EQ(num.GetValue(), 40);
+  }
+
+  {  // default value at upper bound
+    LimitedInteger<int> num({}, 50, 40, 50);
+    EXPECT_TRUE(num.Increment());
+    EXPECT_EQ(num.GetValue(), 50);
+    EXPECT_TRUE(num.IsAtMaximum());
+    EXPECT_FALSE(num.Increment());
+  }
+
+  {  // uint8 text after the first step
+    LimitedInteger<uint8> num({}, uint8{200}, {}, {});
+    EXPECT_TRUE(num.Decrement());
+    EXPECT_EQ(num.GetValueAsText(), std::string("200"));
+  }
+}
+
 }  // namespace mvvm::test
