@@ -24,6 +24,7 @@
 
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/providers/viewmodel_utils.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/limited_integer_helper.h>
 
@@ -121,6 +122,7 @@ editorbuilder_t AllIntSpinBoxEditorBuilder()
       // the value is set later by the delegate, the type comes from the default value
       editor->SetLimitedInteger(CreateNullableLimitedInteger(
           {}, item->Data(DataRole::kDefaultValue), GetLowerLimit(*item), GetUpperLimit(*item)));
+      editor->SetPlaceholderText(utils::GetPlaceholderText(*item));
     }
     else
     {

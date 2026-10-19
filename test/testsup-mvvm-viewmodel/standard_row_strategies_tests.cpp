@@ -215,8 +215,8 @@ TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyItemTree)
   EXPECT_EQ(items.size(), 1);
 }
 
-//! Nullable property without data gets an empty data cell, other properties without data get
-//! their display name.
+//! Nullable property without data gets a data cell with placeholder, other properties without data
+//! get their display name.
 TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyWithoutData)
 {
   CompoundItem item;
@@ -230,7 +230,7 @@ TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyWithoutData)
   ASSERT_EQ(items.size(), 2);
 
   EXPECT_EQ(utils::GetItemFromView(items.at(0).get()), &nullable);
-  EXPECT_FALSE(items.at(0)->Data(Qt::DisplayRole).isValid());
+  EXPECT_EQ(items.at(0)->Data(Qt::DisplayRole).toString(), QString("default"));
   EXPECT_FALSE(items.at(0)->Data(Qt::EditRole).isValid());
 
   EXPECT_EQ(items.at(1)->Data(Qt::DisplayRole).toString(), QString("compound"));

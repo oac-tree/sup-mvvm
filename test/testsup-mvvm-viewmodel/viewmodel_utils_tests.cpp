@@ -191,6 +191,16 @@ TEST_F(ViewModelUtilsTest, ItemToolTipRole)
   EXPECT_EQ(utils::ToolTipRole(item).toString(), QString("abc"));
 }
 
+//! Placeholder text for nullable items.
+TEST_F(ViewModelUtilsTest, GetPlaceholderText)
+{
+  SessionItem item;
+  EXPECT_EQ(utils::GetPlaceholderText(item), QString("default"));
+
+  item.SetData(std::string("required"), DataRole::kPlaceholder);
+  EXPECT_EQ(utils::GetPlaceholderText(item), QString("required"));
+}
+
 TEST_F(ViewModelUtilsTest, ItemFromIndex)
 {
   ApplicationModel model;

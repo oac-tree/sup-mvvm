@@ -249,6 +249,59 @@ TEST_F(DefaultDataPresentationItemTest, ItemWithoutDataAndSetData)
 // Mixture of old use cases
 // ------------------------------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------------------------------
+// Nullable item
+// ------------------------------------------------------------------------------------------------
+
+TEST_F(DefaultDataPresentationItemTest, NullableItemWithoutData)
+{
+  SessionItem item;
+  item.SetFlag(Appearance::kNullable, true);
+  item.SetData(uint32{42}, DataRole::kDefaultValue);
+
+  const DefaultDataPresentationItem presentation(&item, DataRole::kData);
+
+  // placeholder text in gray, no data to edit
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("default"));
+  EXPECT_EQ(presentation.Data(Qt::ForegroundRole).value<QColor>(), QColor(Qt::gray));
+  EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+
+  // own placeholder text
+  item.SetData(std::string("required"), DataRole::kPlaceholder);
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("required"));
+}
+
+TEST_F(DefaultDataPresentationItemTest, NullableItemWithData)
+{
+  SessionItem item;
+  item.SetFlag(Appearance::kNullable, true);
+  item.SetData(uint32{42}, DataRole::kDefaultValue);
+  item.SetData(uint32{10});
+
+  DefaultDataPresentationItem presentation(&item, DataRole::kData);
+
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("10"));
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+
+  // invalid variant removes the data, placeholder is shown
+  EXPECT_TRUE(presentation.SetData(QVariant(), Qt::EditRole));
+  EXPECT_FALSE(item.HasData(DataRole::kData));
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("default"));
+  EXPECT_EQ(presentation.Data(Qt::ForegroundRole).value<QColor>(), QColor(Qt::gray));
+}
+
+TEST_F(DefaultDataPresentationItemTest, NotNullableItemWithoutData)
+{
+  SessionItem item;
+  item.SetData(std::string("required"), DataRole::kPlaceholder);
+
+  const DefaultDataPresentationItem presentation(&item, DataRole::kData);
+
+  // no placeholder without nullable flag
+  EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+}
+
 TEST_F(DefaultDataPresentationItemTest, DataPresentationItemDataForDouble)
 {
   const auto main_data_role = DataRole::kData;

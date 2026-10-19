@@ -138,6 +138,13 @@ QVariant DecorationRole(const SessionItem& item);
 QVariant ToolTipRole(const SessionItem& item);
 
 /**
+ * @brief Returns the text shown for a nullable item without data.
+ *
+ * @details Takes DataRole::kPlaceholder, "default" if absent.
+ */
+QString GetPlaceholderText(const SessionItem& item);
+
+/**
  * @brief Returns underlying SessionItem's for given index.
  *
  * The method doesn't work if index belongs to a proxy model.

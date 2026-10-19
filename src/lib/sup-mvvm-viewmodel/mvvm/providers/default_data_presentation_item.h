@@ -68,11 +68,16 @@ public:
    * @brief Returns variant to represent Qt::DisplayRole of underlying main data role.
    *
    * The returned QVariant will contain QString. We perform our own conversion to QString to provide
-   * specific formatting for some types.
+   * specific formatting for some types. A nullable item without data shows placeholder text.
    */
   QVariant GetDisplayRole() const;
 
 private:
+  /**
+   * @brief Returns true if the item is nullable and has no main data.
+   */
+  bool IsPlaceholderShown() const;
+
   role_t m_main_data_role{0};
 
   //!< presentation-only Qt roles, not propagated to the underlying SessionItem

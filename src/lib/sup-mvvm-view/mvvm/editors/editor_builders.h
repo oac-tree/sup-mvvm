@@ -94,7 +94,8 @@ editorbuilder_t IntegerEditorBuilder();
  * char8, int8, uint8, int16, uin16, int32, uin32, int64, uin64.
  *
  * @details An item with Appearance::kNullable gets an editor accepting empty input. The type and
- * the start value come from DataRole::kDefaultValue.
+ * the start value come from DataRole::kDefaultValue, the placeholder text from
+ * DataRole::kPlaceholder.
  *
  * @details This builder will eventually replace IntegerEditorBuilder.
  */

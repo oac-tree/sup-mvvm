@@ -125,6 +125,7 @@ TEST_F(VariantDependentEditorFactoryTest, NullableInteger)
     ASSERT_NE(int_editor, nullptr);
     EXPECT_TRUE(int_editor->GetLimitedInteger()->IsNullable());
     EXPECT_EQ(int_editor->GetLimitedInteger()->GetValueAsVariant(), variant_t{});
+    EXPECT_EQ(int_editor->GetPlaceholderText(), QString("default"));
 
     EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(item).get()));
   }

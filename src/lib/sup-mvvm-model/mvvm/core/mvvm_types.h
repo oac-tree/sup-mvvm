@@ -44,6 +44,7 @@ const role_t kTextColor = 9;      //!< text color role
 const role_t kSelected = 10;      //!< selected role
 const role_t kCheckState = 11;    //!< check state role
 const role_t kDefaultValue = 12;  //!< value used when main data role is absent
+const role_t kPlaceholder = 13;   //!< text shown when main data role is absent
 const role_t kUser = 100;         //!< user role
 }  // namespace DataRole
 

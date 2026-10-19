@@ -126,10 +126,11 @@ OptionalIntPropertyItem::OptionalIntPropertyItem() : mvvm::CompoundItem("Optiona
   int32_prop.SetDisplayName("int32 value").SetFlag(mvvm::Appearance::kNullable, true);
   int32_prop.SetData(0, mvvm::DataRole::kDefaultValue);
 
-  // uint32 without value, with limits
+  // uint32 without value, with limits and own placeholder text
   auto& uint32_prop = AddProperty<mvvm::PropertyItem>("optional_3");
   uint32_prop.SetDisplayName("uint32 no value lim").SetFlag(mvvm::Appearance::kNullable, true);
   uint32_prop.SetData(mvvm::uint32{15}, mvvm::DataRole::kDefaultValue);
+  uint32_prop.SetData(std::string("auto"), mvvm::DataRole::kPlaceholder);
   mvvm::SetLimited(mvvm::uint32{10}, mvvm::uint32{20}, uint32_prop);
 
   // int64 without value

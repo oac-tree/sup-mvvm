@@ -24,6 +24,10 @@
 #include "variant_converter.h"
 #include "viewmodel_utils.h"
 
+#include <mvvm/model/session_item.h>
+
+#include <QColor>
+
 namespace mvvm
 {
 
@@ -72,7 +76,7 @@ QVariant DefaultDataPresentationItem::Data(role_t qt_role) const
 
   if (qt_role == GetQtRole(Qt::ForegroundRole))
   {
-    return utils::TextColorRole(*item);
+    return IsPlaceholderShown() ? QVariant(QColor(Qt::gray)) : utils::TextColorRole(*item);
   }
 
   if (qt_role == GetQtRole(Qt::ToolTipRole))
@@ -155,8 +159,20 @@ QVariant DefaultDataPresentationItem::GetDisplayRole() const
     return {};
   }
 
+  if (IsPlaceholderShown())
+  {
+    return utils::GetPlaceholderText(*item);
+  }
+
   // our own conversion to QString
   return GetItemDataDisplayRole(*item, m_main_data_role);
+}
+
+bool DefaultDataPresentationItem::IsPlaceholderShown() const
+{
+  auto item = GetItem();
+  return (item != nullptr) && item->HasFlag(Appearance::kNullable)
+         && !item->HasData(m_main_data_role);
 }
 
 }  // namespace mvvm

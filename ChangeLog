@@ -11,6 +11,7 @@ Changes for 2.4.0:
 - Add DataRole::kDefaultValue and Appearance::kNullable for integer properties without value
 - Show nullable properties without value as empty cells in PropertyTableViewModel
 - Fix CommandStack staying blocked after a command throws
+- Add DataRole::kPlaceholder, nullable items without value show gray placeholder text
 
 Changes for 2.3.0:
 

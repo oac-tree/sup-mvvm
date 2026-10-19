@@ -114,6 +114,14 @@ QVariant TextColorRole(const SessionItem& item)
   return {};
 }
 
+QString GetPlaceholderText(const SessionItem& item)
+{
+  static const std::string kDefaultPlaceholder = "default";
+  return QString::fromStdString(item.HasData(DataRole::kPlaceholder)
+                                    ? item.Data<std::string>(DataRole::kPlaceholder)
+                                    : kDefaultPlaceholder);
+}
+
 QVariant CheckStateRole(const SessionItem& item)
 {
   // item has check state role explicitly defined
