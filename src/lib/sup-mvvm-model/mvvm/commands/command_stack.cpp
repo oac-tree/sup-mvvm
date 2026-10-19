@@ -26,6 +26,8 @@
 #include <mvvm/core/mvvm_exceptions.h>
 
 #include <algorithm>
+#include <functional>
+#include <iterator>
 #include <list>
 #include <stack>
 
@@ -70,6 +72,26 @@ struct CommandStack::CommandStackImpl
    * another macro. This means vicious model/view callback circle somewhere.
    */
   bool IsOperationInProgress() const { return m_operation_is_in_progress; }
+
+  /**
+   * @brief Runs the operation with the operation in progress flag set.
+   *
+   * The flag is reset if the operation throws.
+   */
+  void RunInProgress(const std::function<void()>& operation)
+  {
+    SetInProgress(true);
+    try
+    {
+      operation();
+    }
+    catch (...)
+    {
+      m_operation_is_in_progress = false;
+      throw;
+    }
+    SetInProgress(false);
+  }
 
   /**
    * @brief Saves a command in the command stack.
@@ -153,9 +175,7 @@ ICommand* CommandStack::Execute(std::unique_ptr<ICommand> command)
     throw RuntimeException("Attempt to insert obsolete command");
   }
 
-  p_impl->SetInProgress(true);
-  command->Execute();
-  p_impl->SetInProgress(false);
+  p_impl->RunInProgress([&command] { command->Execute(); });
 
   if (command->IsObsolete())
   {
@@ -194,10 +214,9 @@ void CommandStack::Undo()
 {
   if (CanUndo())
   {
-    p_impl->m_pos--;
-    p_impl->SetInProgress(true);
-    (*p_impl->m_pos)->Undo();
-    p_impl->SetInProgress(false);
+    auto pos = std::prev(p_impl->m_pos);
+    p_impl->RunInProgress([&pos] { (*pos)->Undo(); });
+    p_impl->m_pos = pos;
     p_impl->AssureCommandLimit();
   }
 }
@@ -206,9 +225,7 @@ void CommandStack::Redo()
 {
   if (CanRedo())
   {
-    p_impl->SetInProgress(true);
-    (*p_impl->m_pos)->Execute();
-    p_impl->SetInProgress(false);
+    p_impl->RunInProgress([this] { (*p_impl->m_pos)->Execute(); });
     p_impl->m_pos++;
     p_impl->AssureCommandLimit();
   }

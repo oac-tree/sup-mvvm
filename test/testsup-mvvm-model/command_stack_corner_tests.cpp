@@ -103,4 +103,56 @@ TEST_F(CommandStackCornerTest, AttemptToBeginMacroBeforeFinishing)
   }
 }
 
+//! The stack keeps working after a command throws.
+TEST_F(CommandStackCornerTest, CommandThrows)
+{
+  {  // execute throws
+    CommandStack stack;
+    test::TestCommandContext context;
+    context.execute_impl = [](auto) { throw RuntimeException("execute failed"); };
+    EXPECT_THROW(stack.Execute(std::make_unique<test::TestCommand>(context)), RuntimeException);
+    EXPECT_EQ(stack.GetCommandCount(), 0);
+
+    // next command is accepted
+    stack.Execute(std::make_unique<test::TestCommand>());
+    EXPECT_EQ(stack.GetCommandCount(), 1);
+    stack.Undo();
+    EXPECT_EQ(stack.GetIndex(), 0);
+  }
+
+  {  // undo throws
+    CommandStack stack;
+    test::TestCommandContext context;
+    context.undo_impl = [](auto) { throw RuntimeException("undo failed"); };
+    stack.Execute(std::make_unique<test::TestCommand>(context));
+    EXPECT_THROW(stack.Undo(), RuntimeException);
+    EXPECT_EQ(stack.GetIndex(), 1);
+
+    // next command is accepted
+    stack.Execute(std::make_unique<test::TestCommand>());
+    EXPECT_EQ(stack.GetCommandCount(), 2);
+  }
+
+  {  // redo throws
+    CommandStack stack;
+    int execute_count{0};
+    test::TestCommandContext context;
+    context.execute_impl = [&execute_count](auto)
+    {
+      if (++execute_count > 1)
+      {
+        throw RuntimeException("redo failed");
+      }
+    };
+    stack.Execute(std::make_unique<test::TestCommand>(context));
+    stack.Undo();
+    EXPECT_THROW(stack.Redo(), RuntimeException);
+    EXPECT_EQ(stack.GetIndex(), 0);
+
+    // next command is accepted
+    stack.Execute(std::make_unique<test::TestCommand>());
+    EXPECT_EQ(stack.GetCommandCount(), 1);
+  }
+}
+
 }  // namespace mvvm::test

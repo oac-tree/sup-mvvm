@@ -21,6 +21,7 @@
 #include "mvvm/model/application_model.h"
 
 #include <mvvm/commands/i_command_stack.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/test/mock_model_listener.h>
@@ -269,6 +270,26 @@ TEST_F(ApplicationModelSimpleUndoTests, RemoveDataThenSetAnotherType)
   commands->Undo();
   EXPECT_FALSE(item->HasData(role));
 
+  commands->Undo();
+  EXPECT_EQ(item->Data(), variant_t(42));
+}
+
+TEST_F(ApplicationModelSimpleUndoTests, SetDataOfAnotherType)
+{
+  auto item = m_model.InsertItem<SessionItem>();
+  item->SetData(42);
+
+  m_model.SetUndoEnabled(true, 100);
+  auto commands = m_model.GetCommandStack();
+
+  // data of another type is refused while the data is present
+  EXPECT_THROW(m_model.SetData(item, std::string("abc"), DataRole::kData),
+               InvalidOperationException);
+  EXPECT_EQ(item->Data(), variant_t(42));
+  EXPECT_EQ(commands->GetCommandCount(), 0);
+
+  // the model keeps working
+  EXPECT_TRUE(m_model.SetData(item, 43, DataRole::kData));
   commands->Undo();
   EXPECT_EQ(item->Data(), variant_t(42));
 }

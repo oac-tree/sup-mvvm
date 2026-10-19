@@ -10,6 +10,7 @@ Changes for 2.4.0:
 - Support no value in AllIntSpinBox for nullable limited integer
 - Add DataRole::kDefaultValue and Appearance::kNullable for integer properties without value
 - Show nullable properties without value as empty cells in PropertyTableViewModel
+- Fix CommandStack staying blocked after a command throws
 
 Changes for 2.3.0:
 
