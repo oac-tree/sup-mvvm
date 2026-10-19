@@ -22,6 +22,8 @@
 
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/session_item.h>
+#include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <gtest/gtest.h>
@@ -99,6 +101,42 @@ TEST_F(VariantDependentEditorFactoryTest, VariantDependentEditorFactory)
     const float64 num(42.1);
     index = AddDataToModel(variant_t(num));
     EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+  }
+}
+
+TEST_F(VariantDependentEditorFactoryTest, NullableInteger)
+{
+  const VariantDependentEditorFactory factory;
+
+  {  // item without data and without nullable flag has no editor
+    auto index = AddDataToModel(variant_t{});
+    m_view_model.GetSessionItemFromIndex(index)->SetData(uint32{42}, DataRole::kDefaultValue);
+    EXPECT_FALSE(factory.CreateEditor(index));
+  }
+
+  {  // nullable item without data gets the type of the default value
+    auto index = AddDataToModel(variant_t{});
+    auto item = m_view_model.GetSessionItemFromIndex(index);
+    item->SetFlag(Appearance::kNullable, true);
+    item->SetData(uint32{42}, DataRole::kDefaultValue);
+
+    auto editor = factory.CreateEditor(index);
+    auto int_editor = dynamic_cast<AllIntSpinBox*>(editor.get());
+    ASSERT_NE(int_editor, nullptr);
+    EXPECT_TRUE(int_editor->GetLimitedInteger()->IsNullable());
+    EXPECT_EQ(int_editor->GetLimitedInteger()->GetValueAsVariant(), variant_t{});
+
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(item).get()));
+  }
+
+  {  // nullable int32 gets AllIntSpinBox instead of QSpinBox
+    auto index = AddDataToModel(variant_t{42});
+    auto item = m_view_model.GetSessionItemFromIndex(index);
+    item->SetFlag(Appearance::kNullable, true);
+    item->SetData(int32{0}, DataRole::kDefaultValue);
+
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(index).get()));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(item).get()));
   }
 }
 

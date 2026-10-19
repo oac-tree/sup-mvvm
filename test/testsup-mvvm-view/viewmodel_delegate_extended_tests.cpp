@@ -60,6 +60,10 @@ public:
 
     auto& prop2 = parent0->AddProperty("ABC", mvvm::float32{42.0});
     mvvm::SetLimited(mvvm::float32{40}, mvvm::float32{50}, prop2);
+
+    auto& prop3 = parent0->AddProperty("N", mvvm::uint32{10});
+    prop3.SetFlag(Appearance::kNullable, true);
+    prop3.SetData(mvvm::uint32{42}, DataRole::kDefaultValue);
   }
 
   /**
@@ -165,6 +169,105 @@ TEST_F(ViewModelDelegateExtendedTest, AllIntSpinBoxCommitOnFocusOut)
   QApplication::sendEvent(editor, &focus_out);
 
   EXPECT_EQ(view_model.GetSessionItemFromIndex(prop1_index)->Data(), variant_t(mvvm::int8{25}));
+}
+
+TEST_F(ViewModelDelegateExtendedTest, NullableAllIntSpinBox)
+{
+  AllItemsViewModel view_model(&m_model);
+
+  auto parent0_index = view_model.index(0, 0, QModelIndex());
+  auto prop3_index = view_model.index(3, 1, parent0_index);  // index of nullable uint32
+
+  {  // editor with value
+    auto editor = CreateEditor(prop3_index);
+    auto int_editor = dynamic_cast<AllIntSpinBox*>(editor.get());
+    ASSERT_NE(int_editor, nullptr);
+    EXPECT_TRUE(int_editor->GetLimitedInteger()->IsNullable());
+    EXPECT_EQ(int_editor->text(), QString("10"));
+  }
+
+  view_model.GetSessionItemFromIndex(prop3_index)->SetData(variant_t{});
+
+  {  // editor without value
+    auto editor = CreateEditor(prop3_index);
+    auto int_editor = dynamic_cast<AllIntSpinBox*>(editor.get());
+    ASSERT_NE(int_editor, nullptr);
+    EXPECT_EQ(int_editor->text(), QString());
+    EXPECT_FALSE(int_editor->value().isValid());
+    EXPECT_EQ(int_editor->GetLimitedInteger()->GetValueAsVariant(), variant_t{});
+  }
+}
+
+TEST_F(ViewModelDelegateExtendedTest, SetEditorDataWithoutData)
+{
+  AllItemsViewModel view_model(&m_model);
+
+  auto parent0_index = view_model.index(0, 0, QModelIndex());
+  auto prop3_index = view_model.index(3, 1, parent0_index);  // index of nullable uint32
+
+  auto editor = CreateEditor(prop3_index);
+  auto int_editor = dynamic_cast<AllIntSpinBox*>(editor.get());
+  ASSERT_NE(int_editor, nullptr);
+  EXPECT_EQ(int_editor->text(), QString("10"));
+
+  // data removed while the editor is open
+  view_model.GetSessionItemFromIndex(prop3_index)->SetData(variant_t{});
+  m_delegate.setEditorData(editor.get(), prop3_index);
+
+  EXPECT_EQ(int_editor->text(), QString());
+  EXPECT_FALSE(int_editor->value().isValid());
+}
+
+TEST_F(ViewModelDelegateExtendedTest, NullableClearOnFocusOut)
+{
+  AllItemsViewModel view_model(&m_model);
+  QTreeView view;
+  view.setModel(&view_model);
+  view.setItemDelegate(&m_delegate);
+  view.expandAll();
+
+  auto parent0_index = view_model.index(0, 0, QModelIndex());
+  auto prop3_index = view_model.index(3, 1, parent0_index);  // index of nullable uint32
+
+  view.edit(prop3_index);
+  auto editor = dynamic_cast<AllIntSpinBox*>(view.indexWidget(prop3_index));
+  ASSERT_NE(editor, nullptr);
+
+  // the whole text is selected, delete clears it
+  QTest::keyClick(editor, Qt::Key_Delete);
+  EXPECT_EQ(editor->text(), QString());
+
+  QFocusEvent focus_out(QEvent::FocusOut);
+  QApplication::sendEvent(editor, &focus_out);
+
+  EXPECT_FALSE(view_model.GetSessionItemFromIndex(prop3_index)->HasData(DataRole::kData));
+}
+
+TEST_F(ViewModelDelegateExtendedTest, NullableStepFromNoValue)
+{
+  AllItemsViewModel view_model(&m_model);
+  QTreeView view;
+  view.setModel(&view_model);
+  view.setItemDelegate(&m_delegate);
+  view.expandAll();
+
+  auto parent0_index = view_model.index(0, 0, QModelIndex());
+  auto prop3_index = view_model.index(3, 1, parent0_index);  // index of nullable uint32
+  view_model.GetSessionItemFromIndex(prop3_index)->SetData(variant_t{});
+
+  view.edit(prop3_index);
+  auto editor = dynamic_cast<AllIntSpinBox*>(view.indexWidget(prop3_index));
+  ASSERT_NE(editor, nullptr);
+  EXPECT_EQ(editor->text(), QString());
+
+  // the first step sets the default value
+  QTest::keyClick(editor, Qt::Key_Up);
+  EXPECT_EQ(editor->text(), QString("42"));
+
+  QFocusEvent focus_out(QEvent::FocusOut);
+  QApplication::sendEvent(editor, &focus_out);
+
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(prop3_index)->Data(), variant_t{uint32{42}});
 }
 
 }  // namespace mvvm::test

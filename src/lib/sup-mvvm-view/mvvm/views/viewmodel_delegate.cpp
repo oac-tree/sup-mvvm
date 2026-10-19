@@ -26,6 +26,8 @@
 #include <mvvm/viewmodel/custom_editor.h>
 #include <mvvm/views/default_cell_decorator.h>
 
+#include <QMetaProperty>
+
 namespace
 {
 constexpr double scale_default_height_factor{1.2};
@@ -100,6 +102,11 @@ void ViewModelDelegate::setEditorData(QWidget* editor, const QModelIndex& index)
   if (auto custom_editor = dynamic_cast<CustomEditor*>(editor); custom_editor)
   {
     custom_editor->SetData(index.data(Qt::EditRole));
+  }
+  else if (auto data = index.data(Qt::EditRole); !data.isValid())
+  {
+    // QStyledItemDelegate would replace no data with a default value of the editor's current type
+    editor->metaObject()->userProperty().write(editor, data);
   }
   else
   {

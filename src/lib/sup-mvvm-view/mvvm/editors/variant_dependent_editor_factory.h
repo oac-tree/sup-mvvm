@@ -31,6 +31,8 @@ namespace mvvm
  *
  * The type of the editor will be deduced from the type of the variant stored for DataRole::kData
  * role on board of SessionItem.
+ *
+ * A nullable item without data uses the type of DataRole::kDefaultValue.
  */
 class VariantDependentEditorFactory : public AbstractEditorFactory
 {

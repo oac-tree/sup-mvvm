@@ -25,6 +25,7 @@
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/utils/limited_integer_helper.h>
 
 #include <QDoubleSpinBox>
 
@@ -110,7 +111,18 @@ editorbuilder_t AllIntSpinBoxEditorBuilder()
   auto builder = [](const SessionItem* item) -> editor_t
   {
     auto editor = std::make_unique<AllIntSpinBox>();
-    if (item)
+    if (item == nullptr)
+    {
+      return editor;
+    }
+
+    if (item->HasFlag(Appearance::kNullable))
+    {
+      // the value is set later by the delegate, the type comes from the default value
+      editor->SetLimitedInteger(CreateNullableLimitedInteger(
+          {}, item->Data(DataRole::kDefaultValue), GetLowerLimit(*item), GetUpperLimit(*item)));
+    }
+    else
     {
       editor->SetRange(GetLowerLimit(*item), GetUpperLimit(*item));
     }

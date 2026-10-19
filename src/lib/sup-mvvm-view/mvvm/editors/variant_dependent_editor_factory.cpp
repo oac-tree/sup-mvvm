@@ -22,9 +22,11 @@
 
 #include "editor_builders.h"
 
+#include <mvvm/model/session_item.h>
 #include <mvvm/providers/custom_variants.h>
 #include <mvvm/providers/variant_converter.h>
 #include <mvvm/providers/viewmodel_utils.h>
+#include <mvvm/standarditems/editor_constants.h>
 
 #include <QWidget>
 
@@ -48,6 +50,27 @@ std::string GetQtVariantName(const SessionItem* item, role_t role = DataRole::kD
   return utils::GetQtVariantName(qt_variant);
 }
 
+/**
+ * @brief Returns the name of the builder for the item with the given Qt variant name of its data.
+ *
+ * @details A nullable item without data uses the type of its default value. A nullable int32 uses
+ * AllIntSpinBox, since QSpinBox can't be empty.
+ */
+std::string GetBuilderName(const std::string& qt_variant_name, const SessionItem* item)
+{
+  if ((item == nullptr) || !item->HasFlag(Appearance::kNullable))
+  {
+    return qt_variant_name;
+  }
+
+  const auto result = (qt_variant_name == constants::kEmptyQtTypeName)
+                          ? GetQtVariantName(item, DataRole::kDefaultValue)
+                          : qt_variant_name;
+
+  return (result == constants::kInt32QtTypeName) ? std::string(constants::kAllIntSpinBoxEditorType)
+                                                 : result;
+}
+
 }  // namespace
 
 VariantDependentEditorFactory::VariantDependentEditorFactory()
@@ -67,6 +90,9 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   RegisterBuilder(constants::kInt64QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt64QtTypeName, AllIntSpinBoxEditorBuilder());
 
+  // nullable int32
+  RegisterBuilder(constants::kAllIntSpinBoxEditorType, AllIntSpinBoxEditorBuilder());
+
   // new FloatSpinBox editor for float32 and float64
   RegisterBuilder(constants::kFloat32QtTypeName, FloatEditorBuilder());
   RegisterBuilder(constants::kFloat64QtTypeName, FloatEditorBuilder());
@@ -79,13 +105,15 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 
 editor_t VariantDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
-  auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
-  return builder ? builder(utils::ItemFromProxyIndex(index)) : editor_t{};
+  auto item = utils::ItemFromProxyIndex(index);
+  auto builder =
+      FindBuilder(GetBuilderName(utils::GetQtVariantName(index.data(Qt::EditRole)), item));
+  return builder ? builder(item) : editor_t{};
 }
 
 editor_t VariantDependentEditorFactory::CreateEditor(const SessionItem* item) const
 {
-  auto builder = FindBuilder(GetQtVariantName(item));
+  auto builder = FindBuilder(GetBuilderName(GetQtVariantName(item), item));
   return builder ? builder(item) : editor_t{};
 }
 

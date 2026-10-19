@@ -93,6 +93,9 @@ editorbuilder_t IntegerEditorBuilder();
  * @details It relies on AllIntSpinBox which knows how to work with all integer-like types:
  * char8, int8, uint8, int16, uin16, int32, uin32, int64, uin64.
  *
+ * @details An item with Appearance::kNullable gets an editor accepting empty input. The type and
+ * the start value come from DataRole::kDefaultValue.
+ *
  * @details This builder will eventually replace IntegerEditorBuilder.
  */
 editorbuilder_t AllIntSpinBoxEditorBuilder();

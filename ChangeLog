@@ -8,6 +8,7 @@ Changes for 2.4.0:
 - Remove AllIntSpinBoxEditor, use AllIntSpinBox as cell editor directly
 - Add nullable LimitedInteger
 - Support no value in AllIntSpinBox for nullable limited integer
+- Add DataRole::kDefaultValue and Appearance::kNullable for integer properties without value
 
 Changes for 2.3.0:
 
