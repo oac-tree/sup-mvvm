@@ -63,9 +63,11 @@ std::optional<FloatT> GetOptionalFloat(const variant_t& variant, const std::stri
  * FloatT.
  */
 template <typename FloatT>
-std::unique_ptr<ILimitedFloat> FactoryFunc(const variant_t& value, const variant_t& default_value,
-                                           const variant_t& lower_bound,
-                                           const variant_t& upper_bound, bool is_nullable)
+std::unique_ptr<ILimitedFloat> CreateTypedLimitedFloat(const variant_t& value,
+                                                       const variant_t& default_value,
+                                                       const variant_t& lower_bound,
+                                                       const variant_t& upper_bound,
+                                                       bool is_nullable)
 {
   const auto lower = GetOptionalFloat<FloatT>(lower_bound, "lower bound");
   const auto upper = GetOptionalFloat<FloatT>(upper_bound, "upper bound");
@@ -89,12 +91,14 @@ std::unique_ptr<ILimitedFloat> CreateLimitedFloatImpl(const variant_t& value,
 {
   if (std::holds_alternative<float32>(default_value))
   {
-    return FactoryFunc<float32>(value, default_value, lower_bound, upper_bound, is_nullable);
+    return CreateTypedLimitedFloat<float32>(value, default_value, lower_bound, upper_bound,
+                                            is_nullable);
   }
 
   if (std::holds_alternative<float64>(default_value))
   {
-    return FactoryFunc<float64>(value, default_value, lower_bound, upper_bound, is_nullable);
+    return CreateTypedLimitedFloat<float64>(value, default_value, lower_bound, upper_bound,
+                                            is_nullable);
   }
 
   throw RuntimeException("Can't create limited float for type=[" + utils::TypeName(default_value)
