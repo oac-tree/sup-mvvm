@@ -22,7 +22,7 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/editors/boolean_editor.h>
-#include <mvvm/editors/float_spinbox.h>
+#include <mvvm/editors/scientific_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/vector_item.h>
@@ -467,7 +467,7 @@ TEST_F(PropertyGridControllerTest, SetDataThroughObtainedEditor)
 
   auto x_label = dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get());
   EXPECT_NE(x_label, nullptr);
-  auto x_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid.at(0).at(1).get());
+  auto x_double_spin_box = dynamic_cast<ScientificSpinBox*>(editor_grid.at(0).at(1).get());
   EXPECT_NE(x_double_spin_box, nullptr);
 
   // setting the data
@@ -504,7 +504,7 @@ TEST_F(PropertyGridControllerTest, SetDataThroughModel)
   // First row is editable property
   // The first column is a label, the second is an editor
   EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get()), nullptr);
-  auto editable_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid.at(0).at(1).get());
+  auto editable_double_spin_box = dynamic_cast<ScientificSpinBox*>(editor_grid.at(0).at(1).get());
   EXPECT_NE(editable_double_spin_box, nullptr);
 
   // First row is non-editable property
@@ -556,7 +556,7 @@ TEST_F(PropertyGridControllerTest, ClearModel)
 
   auto x_label = dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get());
   EXPECT_NE(x_label, nullptr);
-  auto x_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid.at(0).at(1).get());
+  auto x_double_spin_box = dynamic_cast<ScientificSpinBox*>(editor_grid.at(0).at(1).get());
   EXPECT_NE(x_double_spin_box, nullptr);
 
   // setting the data

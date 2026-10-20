@@ -73,10 +73,6 @@ TEST_F(RoleDependentEditorFactoryTest, RoleDependentEditorFactory)
   index = AddDataToModel(variant_t("red"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
 
-  // double
-  index = AddDataToModel(variant_t(42.2), constants::kScientificSpinboxEditorType);
-  EXPECT_TRUE(dynamic_cast<ScientificSpinBox*>(factory.CreateEditor(index).get()));
-
   // for int we use adapted QSpinBox with limits set
   index = AddDataToModel(variant_t(42), constants::kIntegerEditorType);
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));

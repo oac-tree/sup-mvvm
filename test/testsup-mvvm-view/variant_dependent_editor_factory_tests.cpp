@@ -94,13 +94,13 @@ TEST_F(VariantDependentEditorFactoryTest, VariantDependentEditorFactory)
   {  // float32
     const float32 num(42.1);
     index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+    EXPECT_TRUE(dynamic_cast<ScientificSpinBox*>(factory.CreateEditor(index).get()));
   }
 
   {  // float64
     const float64 num(42.1);
     index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+    EXPECT_TRUE(dynamic_cast<ScientificSpinBox*>(factory.CreateEditor(index).get()));
   }
 }
 

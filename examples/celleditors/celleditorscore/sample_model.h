@@ -68,7 +68,7 @@ public:
 /**
  * @brief The FloatPropertyItem is used to create demo items containing various float properties.
  *
- * We investigate the behavior of the original QDoubleSpinBox vs our FloatSpinBoxEditor.
+ * We investigate the behavior of the original QDoubleSpinBox vs our ScientificSpinBox.
  */
 class FloatPropertyItem : public mvvm::CompoundItem
 {

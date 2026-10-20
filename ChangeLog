@@ -15,6 +15,7 @@ Changes for 2.4.0:
 - Add DataRole::kPrecision and Appearance::kScientific, float cells in fixed notation by default
 - Add LimitedFloat for float32 and float64 with limits, nullable, text conversion and steps
 - ScientificSpinBox edits float32 and float64 through LimitedFloat, ScientificSpinBoxEditor removed
+- ScientificSpinBox is the default editor for float32 and float64, FloatSpinBox removed
 
 Changes for 2.3.0:
 

@@ -35,11 +35,9 @@ constexpr std::string_view kComboPropertyEditorType = "ComboPropertyEditor";
 constexpr std::string_view kSelectableComboPropertyEditorType = "SelectableComboPropertyEditor";
 constexpr std::string_view kColorEditorType = "ColorEditor";
 constexpr std::string_view kExternalPropertyEditorType = "ExternalPropertyEditor";
-constexpr std::string_view kScientificSpinboxEditorType = "ScientificSpinboxEditor";
 constexpr std::string_view kIntegerEditorType = "IntegerEditor";
 constexpr std::string_view kDoubleEditorType = "DoubleEditor";
 constexpr std::string_view kAllIntSpinBoxEditorType = "AllIntSpinBoxEditor";
-constexpr std::string_view kFloatSpinBoxEditorType = "kFloatSpinBoxEditorType";
 constexpr std::string_view kStringCompleterEditorType = "kStringCompleterEditorType";
 constexpr std::string_view kComboCompleterEditorType = "kComboCompleterEditorType";
 

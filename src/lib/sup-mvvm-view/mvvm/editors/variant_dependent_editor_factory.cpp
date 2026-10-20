@@ -93,7 +93,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   // nullable int32
   RegisterBuilder(constants::kAllIntSpinBoxEditorType, AllIntSpinBoxEditorBuilder());
 
-  // new FloatSpinBox editor for float32 and float64
+  // ScientificSpinBox for float32 and float64
   RegisterBuilder(constants::kFloat32QtTypeName, FloatEditorBuilder());
   RegisterBuilder(constants::kFloat64QtTypeName, FloatEditorBuilder());
 

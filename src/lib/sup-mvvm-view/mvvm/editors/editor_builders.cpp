@@ -87,7 +87,7 @@ editorbuilder_t ExternalPropertyEditorBuilder()
   return builder;
 }
 
-editorbuilder_t ScientificSpinBoxEditorBuilder()
+editorbuilder_t FloatEditorBuilder()
 {
   auto builder = [](const SessionItem* item) -> editor_t
   {
@@ -157,22 +157,6 @@ editorbuilder_t DoubleEditorBuilder()
     {
       auto limits = GetFloat64Limits(*item);
       editor->setRange(limits.first, limits.second);
-    }
-    return editor;
-  };
-  return builder;
-}
-
-editorbuilder_t FloatEditorBuilder()
-{
-  auto builder = [](const SessionItem* item) -> editor_t
-  {
-    auto editor = std::make_unique<FloatSpinBox>();
-    editor->setDecimals(constants::kDefaultDoubleDecimals);
-    if (item)
-    {
-      auto limits = GetFloat64Limits(*item);
-      editor->SetRange(limits.first, limits.second);
     }
     return editor;
   };

@@ -29,7 +29,6 @@
 #include <mvvm/editors/color_editor.h>
 #include <mvvm/editors/combo_property_editor.h>
 #include <mvvm/editors/external_property_editor.h>
-#include <mvvm/editors/float_spinbox.h>
 #include <mvvm/editors/scientific_spinbox.h>
 #include <mvvm/editors/selectable_combobox_editor.h>
 

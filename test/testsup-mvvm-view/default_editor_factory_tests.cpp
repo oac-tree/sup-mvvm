@@ -25,6 +25,7 @@
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/utils/i_limited_float.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <gtest/gtest.h>
@@ -144,13 +145,13 @@ TEST_F(DefaultEditorFactoryTest, DefaultEditorFactory)
   {  // float32
     const float32 num(42.1);
     index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+    EXPECT_TRUE(dynamic_cast<ScientificSpinBox*>(factory.CreateEditor(index).get()));
   }
 
   {  // float64
     const float64 num(42.1);
     index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+    EXPECT_TRUE(dynamic_cast<ScientificSpinBox*>(factory.CreateEditor(index).get()));
   }
 }
 
@@ -202,12 +203,15 @@ TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryDoubleEditor)
   auto index = AddDataToModel(variant_t(42.1));
   auto editor = factory.CreateEditor(index);
 
-  auto spin_box = dynamic_cast<FloatSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<ScientificSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
+  spin_box->setValue(index.data(Qt::EditRole));
 
-  // checking default limits (defined in editor_builders.cpp)
-  EXPECT_DOUBLE_EQ(spin_box->minimum(), std::numeric_limits<double>::lowest());
-  EXPECT_DOUBLE_EQ(spin_box->maximum(), std::numeric_limits<double>::max());
+  // limits of the type
+  EXPECT_EQ(spin_box->GetLimitedFloat()->GetLowerBoundAsVariant(),
+            variant_t(std::numeric_limits<double>::lowest()));
+  EXPECT_EQ(spin_box->GetLimitedFloat()->GetUpperBoundAsVariant(),
+            variant_t(std::numeric_limits<double>::max()));
 }
 
 //! Checking double editor construction when limits are set.
@@ -223,13 +227,13 @@ TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryRealEditorForLimits)
 
   auto editor = factory.CreateEditor(index);
 
-  // accessing underlying QSpinBox
-  auto spin_box = dynamic_cast<FloatSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<ScientificSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
+  spin_box->setValue(index.data(Qt::EditRole));
 
   // check if limits have been propagated
-  EXPECT_DOUBLE_EQ(spin_box->minimum(), 0);
-  EXPECT_DOUBLE_EQ(spin_box->maximum(), 55.1);
+  EXPECT_EQ(spin_box->GetLimitedFloat()->GetLowerBoundAsVariant(), variant_t(0.0));
+  EXPECT_EQ(spin_box->GetLimitedFloat()->GetUpperBoundAsVariant(), variant_t(55.1));
 }
 
 //! Checking double editor construction when lower limit is set.
@@ -245,13 +249,14 @@ TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryRealEditorForLowerLimited)
 
   auto editor = factory.CreateEditor(index);
 
-  // accessing underlying QSpinBox
-  auto spin_box = dynamic_cast<FloatSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<ScientificSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
+  spin_box->setValue(index.data(Qt::EditRole));
 
   // check if limits have been propagated
-  EXPECT_DOUBLE_EQ(spin_box->minimum(), 42.0);
-  EXPECT_DOUBLE_EQ(spin_box->maximum(), std::numeric_limits<double>::max());
+  EXPECT_EQ(spin_box->GetLimitedFloat()->GetLowerBoundAsVariant(), variant_t(42.0));
+  EXPECT_EQ(spin_box->GetLimitedFloat()->GetUpperBoundAsVariant(),
+            variant_t(std::numeric_limits<double>::max()));
 }
 
 }  // namespace mvvm::test

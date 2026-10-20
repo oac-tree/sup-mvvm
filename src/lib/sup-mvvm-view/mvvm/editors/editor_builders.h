@@ -67,7 +67,7 @@ editorbuilder_t ExternalPropertyEditorBuilder();
  * DataRole::kPrecision, notation from Appearance::kScientific.
  */
 
-editorbuilder_t ScientificSpinBoxEditorBuilder();
+editorbuilder_t FloatEditorBuilder();
 
 /**
  * @brief Returns builder function to create editors for int64 based variants.
@@ -107,16 +107,6 @@ editorbuilder_t AllIntSpinBoxEditorBuilder();
  * @details About to become obsolete in the favor of FloatEditorBuilder()
  */
 editorbuilder_t DoubleEditorBuilder();
-
-/**
- * @brief Returns builder function to create editors for float32 and float64 based variants.
- *
- * @details It relies on FloatSpinBox which knows how to work with both QVariant(float32) and
- * QVariant(float64).
- *
- * @details This builder will eventually replace DoubleEditorBuilder.
- */
-editorbuilder_t FloatEditorBuilder();
 
 }  // namespace mvvm
 

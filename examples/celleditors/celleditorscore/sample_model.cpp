@@ -60,8 +60,7 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
   AddProperty(kDouble, 42.1234).SetDisplayName("Double");
   AddProperty(kScientificDouble, 42.12e-09)
       .SetDisplayName("Scientific")
-      .SetFlag(mvvm::Appearance::kScientific, true)
-      .SetEditorType(mvvm::constants::kScientificSpinboxEditorType);
+      .SetFlag(mvvm::Appearance::kScientific, true);
 
   AddProperty(kColor, "green")
       .SetDisplayName("Color")
@@ -146,8 +145,9 @@ OptionalIntPropertyItem::OptionalIntPropertyItem() : mvvm::CompoundItem("Optiona
 
 FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 {
-  // Here we want to compare visual appearance of QDoubleSpinBox and FloatSpinBox.
-  // FloatSpinBox is the default for float32 and float64, QDoubleSpinBox should be set manually.
+  // Here we want to compare visual appearance of QDoubleSpinBox and ScientificSpinBox.
+  // ScientificSpinBox is the default for float32 and float64, QDoubleSpinBox should be set
+  // manually.
 
   AddProperty("double_1", 42.1)
       .SetEditorType(mvvm::constants::kDoubleEditorType)
@@ -155,22 +155,26 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
   AddProperty("double_2", 42.2)
       .SetEditorType(mvvm::constants::kDoubleEditorType)
       .SetDisplayName("double QDoubleSpinBox");
-  auto& double_3_prop = AddProperty("double_3", 42.3).SetDisplayName("double lim QDoubleSpinBox");
+  auto& double_3_prop = AddProperty("double_3", 42.3)
+                            .SetEditorType(mvvm::constants::kDoubleEditorType)
+                            .SetDisplayName("double lim QDoubleSpinBox");
   mvvm::SetLimited(30.0, 40.0, double_3_prop);
 
-  // FloatSpinBox for float64
-  AddProperty("double_4", static_cast<mvvm::float64>(42.1)).SetDisplayName("float64 FloatSpinBox");
+  // ScientificSpinBox for float64
+  AddProperty("double_4", static_cast<mvvm::float64>(42.1)).SetDisplayName("float64");
 
-  // FloatSpinBox with limits, for float64
-  AddProperty("double_5", static_cast<mvvm::float64>(42.2)).SetDisplayName("float64 FloatSpinBox");
+  // ScientificSpinBox in exponential notation, for float64
+  AddProperty("double_5", static_cast<mvvm::float64>(42.2))
+      .SetDisplayName("float64 scientific")
+      .SetFlag(mvvm::Appearance::kScientific, true);
 
-  auto& double_6_prop = AddProperty("double_6", static_cast<mvvm::float64>(42.3))
-                            .SetDisplayName("float64 lim FloatSpinBox");
+  // ScientificSpinBox with limits, for float64
+  auto& double_6_prop =
+      AddProperty("double_6", static_cast<mvvm::float64>(42.3)).SetDisplayName("float64 lim");
   mvvm::SetLimited(30.0, 40.0, double_6_prop);
 
-  // FloatSpinBox for float32
-  AddProperty("double_7", static_cast<mvvm::float32>(42.3))
-      .SetDisplayName("float32 lim FloatSpinBox");
+  // ScientificSpinBox for float32
+  AddProperty("double_7", static_cast<mvvm::float32>(42.3)).SetDisplayName("float32");
 }
 
 // ------------------------------------------------------------------------------------------------

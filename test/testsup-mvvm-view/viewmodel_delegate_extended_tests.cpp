@@ -21,13 +21,12 @@
 #include "mvvm/views/viewmodel_delegate.h"
 
 #include <mvvm/editors/allint_spinbox.h>
-#include <mvvm/editors/float_spinbox.h>
 #include <mvvm/editors/scientific_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/utils/i_limited_float.h>
 #include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
@@ -115,12 +114,14 @@ TEST_F(ViewModelDelegateExtendedTest, ViewModelWithoutFiltering)
               mvvm::variant_t(expected_max));
   }
 
-  {  // prop1 with FloatSpinBox as an editor
+  {  // prop2 with ScientificSpinBox as an editor
     auto editor = CreateEditor(prop2_index);
-    auto float_editor = dynamic_cast<FloatSpinBox*>(editor.get());
+    auto float_editor = dynamic_cast<ScientificSpinBox*>(editor.get());
     ASSERT_NE(float_editor, nullptr);
-    EXPECT_EQ(float_editor->minimum(), 40.0);
-    EXPECT_EQ(float_editor->maximum(), 50.0);
+    EXPECT_EQ(float_editor->GetLimitedFloat()->GetLowerBoundAsVariant(),
+              variant_t(mvvm::float32{40.0}));
+    EXPECT_EQ(float_editor->GetLimitedFloat()->GetUpperBoundAsVariant(),
+              variant_t(mvvm::float32{50.0}));
   }
 }
 
@@ -138,12 +139,14 @@ TEST_F(ViewModelDelegateExtendedTest, ViewModelWithFiltering)
   ASSERT_EQ(filtered_model.rowCount(parent0_index), 1);
   auto prop2_index = filtered_model.index(0, 1, parent0_index);  // index of float32
 
-  {  // prop1 with FloatSpinBox as an editor
+  {  // prop2 with ScientificSpinBox as an editor
     auto editor = CreateEditor(prop2_index);
-    auto float_editor = dynamic_cast<FloatSpinBox*>(editor.get());
+    auto float_editor = dynamic_cast<ScientificSpinBox*>(editor.get());
     ASSERT_NE(float_editor, nullptr);
-    EXPECT_EQ(float_editor->minimum(), 40.0);
-    EXPECT_EQ(float_editor->maximum(), 50.0);
+    EXPECT_EQ(float_editor->GetLimitedFloat()->GetLowerBoundAsVariant(),
+              variant_t(mvvm::float32{40.0}));
+    EXPECT_EQ(float_editor->GetLimitedFloat()->GetUpperBoundAsVariant(),
+              variant_t(mvvm::float32{50.0}));
   }
 }
 
@@ -178,7 +181,6 @@ TEST_F(ViewModelDelegateExtendedTest, ScientificSpinBoxCommitOnFocusOut)
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
   auto& property = parent->AddProperty("A", 42.0);
-  property.SetEditorType(constants::kScientificSpinboxEditorType);
   property.SetFlag(Appearance::kScientific, true);
 
   AllItemsViewModel view_model(&model);
