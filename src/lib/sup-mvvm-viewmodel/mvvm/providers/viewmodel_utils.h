@@ -145,6 +145,13 @@ QVariant ToolTipRole(const SessionItem& item);
 QString GetPlaceholderText(const SessionItem& item);
 
 /**
+ * @brief Returns the number of digits after decimal point in the text of float data.
+ *
+ * @details Takes DataRole::kPrecision, constants::kDefaultDoubleDecimals if absent.
+ */
+std::int32_t GetPrecision(const SessionItem& item);
+
+/**
  * @brief Returns underlying SessionItem's for given index.
  *
  * The method doesn't work if index belongs to a proxy model.

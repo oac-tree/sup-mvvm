@@ -201,6 +201,16 @@ TEST_F(ViewModelUtilsTest, GetPlaceholderText)
   EXPECT_EQ(utils::GetPlaceholderText(item), QString("required"));
 }
 
+//! Precision of float data.
+TEST_F(ViewModelUtilsTest, GetPrecision)
+{
+  SessionItem item;
+  EXPECT_EQ(utils::GetPrecision(item), 4);
+
+  item.SetData(std::int32_t{6}, DataRole::kPrecision);
+  EXPECT_EQ(utils::GetPrecision(item), 6);
+}
+
 TEST_F(ViewModelUtilsTest, ItemFromIndex)
 {
   ApplicationModel model;

@@ -92,9 +92,9 @@ TEST_F(DefaultCellDecoratorTest, DoubleDecorations)
 {
   const TestDecorator decorator;
 
+  // double text comes from the display role of the viewmodel
   auto index = AddDataToModel(42.1234321);
-  EXPECT_TRUE(decorator.HasCustomDecoration(index));
-  EXPECT_EQ(decorator.GetText(index), std::string("42.1234"));
+  EXPECT_FALSE(decorator.HasCustomDecoration(index));
 }
 
 TEST_F(DefaultCellDecoratorTest, Int8Decoration)

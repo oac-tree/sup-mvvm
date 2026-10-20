@@ -317,7 +317,7 @@ TEST_F(DefaultDataPresentationItemTest, DataPresentationItemDataForDouble)
   EXPECT_TRUE(presentation.IsEditable());
 
   EXPECT_EQ(presentation.Data(Qt::EditRole), expected);
-  EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("42.0"));
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("42.0000"));
 }
 
 TEST_F(DefaultDataPresentationItemTest, DataPresentationItemSetDataForDouble)
@@ -334,7 +334,7 @@ TEST_F(DefaultDataPresentationItemTest, DataPresentationItemSetDataForDouble)
   EXPECT_FALSE(presentation.SetData(QVariant::fromValue(new_data), Qt::DisplayRole));
 
   EXPECT_TRUE(presentation.SetData(QVariant::fromValue(new_data), Qt::EditRole));
-  EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("43.0"));             // new data
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole), QString("43.0000"));          // new data
   EXPECT_EQ(presentation.Data(Qt::EditRole), QVariant::fromValue(new_data));  // new data
 
   // SessionItem itself should have new data

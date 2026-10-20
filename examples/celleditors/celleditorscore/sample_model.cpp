@@ -60,6 +60,7 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
   AddProperty(kDouble, 42.1234).SetDisplayName("Double");
   AddProperty(kScientificDouble, 42.12e-09)
       .SetDisplayName("Scientific")
+      .SetFlag(mvvm::Appearance::kScientific, true)
       .SetEditorType(mvvm::constants::kScientificSpinboxEditorType);
 
   AddProperty(kColor, "green")

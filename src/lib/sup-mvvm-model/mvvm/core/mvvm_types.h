@@ -45,6 +45,7 @@ const role_t kSelected = 10;      //!< selected role
 const role_t kCheckState = 11;    //!< check state role
 const role_t kDefaultValue = 12;  //!< value used when main data role is absent
 const role_t kPlaceholder = 13;   //!< text shown when main data role is absent
+const role_t kPrecision = 14;     //!< digits after decimal point in the text of float data
 const role_t kUser = 100;         //!< user role
 }  // namespace DataRole
 
@@ -67,7 +68,8 @@ enum Appearance : std::uint8_t
   kProperty,     //! item appears in property editors; doesn't appear as top-level item
   kEditableDisplayName,  //! display name of the item can be edited
   kNullable,  //! main data role can be absent; requires DataRole::kDefaultValue to define the type
-  size        //! obligatory name
+  kScientific,  //! float data is shown in exponential notation, fixed notation otherwise
+  size          //! obligatory name
 };
 
 }  // namespace mvvm

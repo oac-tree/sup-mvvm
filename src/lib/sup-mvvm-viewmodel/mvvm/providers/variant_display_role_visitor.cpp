@@ -21,11 +21,24 @@
 #include "variant_display_role_visitor.h"
 
 #include <mvvm/model/session_item.h>
-#include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/providers/viewmodel_utils.h>
 #include <mvvm/utils/string_utils.h>
 
 namespace mvvm
 {
+
+namespace
+{
+
+//! Returns the text of float data with the precision and the notation of the item.
+std::string FloatToString(double value, const SessionItem& item)
+{
+  const auto precision = utils::GetPrecision(item);
+  return item.HasFlag(Appearance::kScientific) ? utils::ScientificDoubleToString(value, precision)
+                                               : utils::FixedDoubleToString(value, precision);
+}
+
+}  // namespace
 
 VariantDisplayRoleVisitor::VariantDisplayRoleVisitor(const SessionItem& item, role_t main_data_role)
     : m_item(item), m_main_data_role(main_data_role)
@@ -96,14 +109,12 @@ std::optional<std::string> VariantDisplayRoleVisitor::operator()(uint64 value) c
 
 std::optional<std::string> VariantDisplayRoleVisitor::operator()(float32 value) const
 {
-  const std::int32_t precision = constants::kDefaultDoubleDecimals;
-  return utils::DoubleToString(value, precision);
+  return FloatToString(value, m_item);
 }
 
 std::optional<std::string> VariantDisplayRoleVisitor::operator()(float64 value) const
 {
-  const std::int32_t precision = constants::kDefaultDoubleDecimals;
-  return utils::DoubleToString(value, precision);
+  return FloatToString(value, m_item);
 }
 
 std::optional<std::string> VariantDisplayRoleVisitor::operator()(std::string value) const

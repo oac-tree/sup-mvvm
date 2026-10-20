@@ -122,6 +122,12 @@ QString GetPlaceholderText(const SessionItem& item)
                                     : kDefaultPlaceholder);
 }
 
+std::int32_t GetPrecision(const SessionItem& item)
+{
+  return item.HasData(DataRole::kPrecision) ? item.Data<std::int32_t>(DataRole::kPrecision)
+                                            : constants::kDefaultDoubleDecimals;
+}
+
 QVariant CheckStateRole(const SessionItem& item)
 {
   // item has check state role explicitly defined

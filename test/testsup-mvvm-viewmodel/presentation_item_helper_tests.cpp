@@ -54,7 +54,7 @@ TEST_F(PresentationItemHelperTest, GetItemDataDisplayRole)
   {  // float64
     SessionItem item;
     item.SetData(mvvm::float64{42.123456789}, main_data_role);
-    EXPECT_EQ(GetItemDataDisplayRole(item, main_data_role), "42.12");
+    EXPECT_EQ(GetItemDataDisplayRole(item, main_data_role), "42.1235");
   }
 
   {  // string

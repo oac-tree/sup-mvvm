@@ -127,22 +127,22 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
     SessionItem item;
     item.SetData(static_cast<mvvm::float32>(48.0), main_data_role);
     const VariantDisplayRoleVisitor visitor(item, main_data_role);
-    EXPECT_EQ(visitor.ToString(), std::string("48.0"));
+    EXPECT_EQ(visitor.ToString(), std::string("48.0000"));
   }
 
-  {  // float32 with 5 digits
+  {  // float32 with 5 digits after decimal point
     SessionItem item;
     item.SetData(static_cast<mvvm::float32>(48.12345), main_data_role);
     const VariantDisplayRoleVisitor visitor(item, main_data_role);
-    // expecting 4 digits in total (current behavior of DoubleToString)
-    EXPECT_EQ(visitor.ToString(), std::string("48.12"));
+    // 4 digits after decimal point by default
+    EXPECT_EQ(visitor.ToString(), std::string("48.1235"));
   }
 
   {  // float64
     SessionItem item;
     item.SetData(static_cast<mvvm::float64>(48.0), main_data_role);
     const VariantDisplayRoleVisitor visitor(item, main_data_role);
-    EXPECT_EQ(visitor.ToString(), std::string("48.0"));
+    EXPECT_EQ(visitor.ToString(), std::string("48.0000"));
   }
 
   {  // string
@@ -174,6 +174,32 @@ TEST_F(VariantDisplayRoleVisitorTest, Visit)
     const VariantDisplayRoleVisitor visitor(item, main_data_role);
     EXPECT_EQ(visitor.ToString(), std::string("text"));
   }
+}
+
+//! Float data with precision and notation of the item.
+TEST_F(VariantDisplayRoleVisitorTest, FloatPrecisionAndNotation)
+{
+  const role_t main_data_role = DataRole::kData;
+
+  SessionItem item;
+  item.SetData(4.4647e-34, main_data_role);
+  EXPECT_EQ(VariantDisplayRoleVisitor(item, main_data_role).ToString(), std::string("0.0000"));
+
+  item.SetFlag(Appearance::kScientific, true);
+  EXPECT_EQ(VariantDisplayRoleVisitor(item, main_data_role).ToString(), std::string("4.4647e-34"));
+
+  item.SetData(std::int32_t{2}, DataRole::kPrecision);
+  EXPECT_EQ(VariantDisplayRoleVisitor(item, main_data_role).ToString(), std::string("4.46e-34"));
+
+  item.SetFlag(Appearance::kScientific, false);
+  item.SetData(1.5, main_data_role);
+  EXPECT_EQ(VariantDisplayRoleVisitor(item, main_data_role).ToString(), std::string("1.50"));
+
+  SessionItem float32_item;
+  float32_item.SetData(static_cast<mvvm::float32>(1.5), main_data_role);
+  float32_item.SetData(std::int32_t{2}, DataRole::kPrecision);
+  EXPECT_EQ(VariantDisplayRoleVisitor(float32_item, main_data_role).ToString(),
+            std::string("1.50"));
 }
 
 }  // namespace mvvm::test
