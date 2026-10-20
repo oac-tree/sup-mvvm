@@ -204,6 +204,29 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 }
 
 // ------------------------------------------------------------------------------------------------
+// OptionalBoolPropertyItem
+// ------------------------------------------------------------------------------------------------
+
+OptionalBoolPropertyItem::OptionalBoolPropertyItem() : mvvm::CompoundItem("OptionalBool")
+{
+  // bool without value
+  auto& bool_1_prop = AddProperty<mvvm::PropertyItem>("optional_1");
+  bool_1_prop.SetDisplayName("bool no value").SetFlag(mvvm::Appearance::kNullable, true);
+  bool_1_prop.SetData(false, mvvm::DataRole::kDefaultValue);
+
+  // bool with value
+  auto& bool_2_prop = AddProperty("optional_2", true);
+  bool_2_prop.SetDisplayName("bool value").SetFlag(mvvm::Appearance::kNullable, true);
+  bool_2_prop.SetData(false, mvvm::DataRole::kDefaultValue);
+
+  // bool without value, with own placeholder text
+  auto& bool_3_prop = AddProperty<mvvm::PropertyItem>("optional_3");
+  bool_3_prop.SetDisplayName("bool no value auto").SetFlag(mvvm::Appearance::kNullable, true);
+  bool_3_prop.SetData(false, mvvm::DataRole::kDefaultValue);
+  bool_3_prop.SetData(std::string("auto"), mvvm::DataRole::kPlaceholder);
+}
+
+// ------------------------------------------------------------------------------------------------
 // CheckboxItem
 // ------------------------------------------------------------------------------------------------
 
@@ -254,6 +277,12 @@ void SampleModel::PopulateModel()
   InsertItem<OptionalFloatPropertyItem>(container_optional_float);
   InsertItem<OptionalFloatPropertyItem>(container_optional_float);
   InsertItem<OptionalFloatPropertyItem>(container_optional_float);
+
+  auto container_optional_bool = InsertItem<mvvm::ContainerItem>();
+  container_optional_bool->SetDisplayName("Optional booleans");
+  InsertItem<OptionalBoolPropertyItem>(container_optional_bool);
+  InsertItem<OptionalBoolPropertyItem>(container_optional_bool);
+  InsertItem<OptionalBoolPropertyItem>(container_optional_bool);
 
   auto container3 = InsertItem<mvvm::ContainerItem>();
   container3->SetDisplayName("Checkboxes");

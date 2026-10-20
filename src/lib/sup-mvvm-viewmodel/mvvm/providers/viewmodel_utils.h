@@ -122,8 +122,9 @@ QVariant TextColorRole(const SessionItem& item);
 
 /**
  * @brief Returns check state role of given item.
- * @param item
- * @return
+ *
+ * @details Takes DataRole::kCheckState. Otherwise, bool data of a non-nullable item gives the check
+ * state.
  */
 QVariant CheckStateRole(const SessionItem& item);
 

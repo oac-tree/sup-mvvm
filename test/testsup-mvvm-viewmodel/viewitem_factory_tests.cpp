@@ -247,6 +247,29 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemForBoolean)
   EXPECT_EQ(item.Data<bool>(DataRole::kData), false);
 }
 
+TEST_F(ViewItemFactoryTest, CreateDataViewItemForNullableBoolean)
+{
+  SessionItem item;
+  item.SetFlag(Appearance::kNullable, true);
+  item.SetData(false, DataRole::kDefaultValue);
+  item.SetData(true, DataRole::kData);
+
+  auto viewitem = CreateDataViewItem(&item);
+
+  // no checkbox, the data is edited in a cell editor
+  EXPECT_FALSE(viewitem->Data(Qt::CheckStateRole).isValid());
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), QString("True"));
+  EXPECT_EQ(viewitem->Data(Qt::EditRole), QVariant(true));
+
+  // no data shows the placeholder
+  EXPECT_TRUE(viewitem->SetData(QVariant(), Qt::EditRole));
+  EXPECT_FALSE(item.HasData(DataRole::kData));
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), QString("default"));
+
+  EXPECT_TRUE(viewitem->SetData(QVariant(false), Qt::EditRole));
+  EXPECT_EQ(item.Data<bool>(DataRole::kData), false);
+}
+
 TEST_F(ViewItemFactoryTest, CreateFixedDataViewItem)
 {
   SessionItem item;

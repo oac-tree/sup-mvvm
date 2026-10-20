@@ -58,6 +58,8 @@ std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
 
 /**
  * @brief Creates ViewItem for SessionItem's data.
+ *
+ * @details Bool data gets a checkbox, unless the item has Appearance::kNullable.
  */
 std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role = DataRole::kData);
 

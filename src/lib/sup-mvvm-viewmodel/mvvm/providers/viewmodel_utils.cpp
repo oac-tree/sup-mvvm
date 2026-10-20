@@ -138,8 +138,10 @@ QVariant CheckStateRole(const SessionItem& item)
     return item.Data<int>(DataRole::kCheckState);
   }
 
-  // item data role carries a boolean value, which can be represented as check state role
-  if (TypeName(item.Data()) == constants::kBooleanTypeName)
+  // item data role carries a boolean value, which can be represented as check state role, unless
+  // the item is nullable
+  if ((TypeName(item.Data()) == constants::kBooleanTypeName)
+      && !item.HasFlag(Appearance::kNullable))
   {
     return item.Data<bool>() ? Qt::Checked : Qt::Unchecked;
   }

@@ -31,6 +31,9 @@ namespace mvvm
 
 /**
  * @brief Returns builder function to create editors for bool based variants.
+ *
+ * @details An item with Appearance::kNullable gets NullableBoolEditor, a combo with the
+ * placeholder text from DataRole::kPlaceholder, "True" and "False".
  */
 editorbuilder_t BoolEditorBuilder();
 

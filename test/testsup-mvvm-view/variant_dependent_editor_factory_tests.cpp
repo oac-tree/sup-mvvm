@@ -177,4 +177,31 @@ TEST_F(VariantDependentEditorFactoryTest, NullableFloat)
   }
 }
 
+TEST_F(VariantDependentEditorFactoryTest, NullableBool)
+{
+  const VariantDependentEditorFactory factory;
+
+  {  // nullable item without data
+    auto index = AddDataToModel(variant_t{});
+    auto item = m_view_model.GetSessionItemFromIndex(index);
+    item->SetFlag(Appearance::kNullable, true);
+    item->SetData(false, DataRole::kDefaultValue);
+    item->SetData(std::string("auto"), DataRole::kPlaceholder);
+
+    auto editor = factory.CreateEditor(index);
+    auto bool_editor = dynamic_cast<NullableBoolEditor*>(editor.get());
+    ASSERT_NE(bool_editor, nullptr);
+    EXPECT_EQ(bool_editor->GetPlaceholderText(), QString("auto"));
+  }
+
+  {  // nullable item with data
+    auto index = AddDataToModel(variant_t{true});
+    auto item = m_view_model.GetSessionItemFromIndex(index);
+    item->SetFlag(Appearance::kNullable, true);
+    item->SetData(false, DataRole::kDefaultValue);
+
+    EXPECT_TRUE(dynamic_cast<NullableBoolEditor*>(factory.CreateEditor(index).get()));
+  }
+}
+
 }  // namespace mvvm::test

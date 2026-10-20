@@ -59,7 +59,8 @@ std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role)
   auto value = item->Data(role);
   std::unique_ptr<AbstractPresentationItem> presentation;
 
-  if (GetTypeCode(value) == TypeCode::Bool)
+  // a nullable bool is edited with a combo, not with a checkbox
+  if ((GetTypeCode(value) == TypeCode::Bool) && !item->HasFlag(Appearance::kNullable))
   {
     presentation = std::make_unique<BooleanDataPresentationItem>(item);
   }

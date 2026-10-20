@@ -21,6 +21,7 @@
 #include "mvvm/views/viewmodel_delegate.h"
 
 #include <mvvm/editors/allint_spinbox.h>
+#include <mvvm/editors/nullable_bool_editor.h>
 #include <mvvm/editors/scientific_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
@@ -34,6 +35,7 @@
 #include <gtest/gtest.h>
 
 #include <QApplication>
+#include <QComboBox>
 #include <QFocusEvent>
 #include <QTest>
 #include <QTreeView>
@@ -348,6 +350,44 @@ TEST_F(ViewModelDelegateExtendedTest, NullableScientificSpinBox)
 
     QApplication::sendEvent(editor, &focus_out);
     EXPECT_EQ(property.Data(), variant_t{42.0});
+  }
+}
+
+TEST_F(ViewModelDelegateExtendedTest, NullableBoolEditor)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  auto& property = parent->AddProperty("A", true);
+  property.SetFlag(Appearance::kNullable, true);
+  property.SetData(false, DataRole::kDefaultValue);
+
+  AllItemsViewModel view_model(&model);
+  QTreeView view;
+  view.setModel(&view_model);
+  view.setItemDelegate(&m_delegate);
+  view.expandAll();
+
+  auto parent_index = view_model.index(0, 0, QModelIndex());
+  auto property_index = view_model.index(0, 1, parent_index);
+
+  {  // choosing "False" writes false to the model, without focus-out or Enter
+    view.edit(property_index);
+    auto editor = dynamic_cast<NullableBoolEditor*>(view.indexWidget(property_index));
+    ASSERT_NE(editor, nullptr);
+    EXPECT_EQ(editor->GetComboBox()->currentIndex(), 1);
+
+    editor->GetComboBox()->setCurrentIndex(2);
+    EXPECT_EQ(property.Data(), variant_t{false});
+  }
+
+  {  // choosing the placeholder entry removes the data
+    view.edit(property_index);
+    auto editor = dynamic_cast<NullableBoolEditor*>(view.indexWidget(property_index));
+    ASSERT_NE(editor, nullptr);
+    EXPECT_EQ(editor->GetComboBox()->currentIndex(), 2);
+
+    editor->GetComboBox()->setCurrentIndex(0);
+    EXPECT_FALSE(property.HasData(DataRole::kData));
   }
 }
 

@@ -134,6 +134,13 @@ TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
     EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Unchecked);
   }
 
+  {  // nullable item carrying a boolean has no check state
+    SessionItem item;
+    item.SetFlag(Appearance::kNullable, true);
+    item.SetData(true);
+    EXPECT_FALSE(utils::CheckStateRole(item).isValid());
+  }
+
   // explicitely defined check state role
   {
     SessionItem item;

@@ -90,6 +90,19 @@ public:
 };
 
 /**
+ * @brief The OptionalBoolPropertyItem is used to create demo items containing bool properties
+ * which can have no value.
+ *
+ * Such properties have no checkbox. The cell editor is a combo with the placeholder text, "True"
+ * and "False".
+ */
+class OptionalBoolPropertyItem : public mvvm::CompoundItem
+{
+public:
+  OptionalBoolPropertyItem();
+};
+
+/**
  * @brief The CheckboxItem is used to create demo items with boolean properties to investigate the
  * behavior of the CheckBox editor.
  */
