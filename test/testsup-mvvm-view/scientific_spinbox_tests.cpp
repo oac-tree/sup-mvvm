@@ -22,115 +22,144 @@
 
 #include <gtest/gtest.h>
 
-#include <limits>
+#include <QSignalSpy>
+#include <QTest>
 
 namespace mvvm::test
 {
 
+//! Tests for ScientificSpinBox class.
+
 class ScientificSpinBoxTest : public ::testing::Test
 {
+public:
+  //! Replaces the text of the editor with the given text, as if typed by the user.
+  static void TypeText(ScientificSpinBox& editor, const QString& text)
+  {
+    editor.selectAll();
+    QTest::keyClick(&editor, Qt::Key_Delete);
+    QTest::keyClicks(&editor, text);
+  }
 };
 
-TEST_F(ScientificSpinBoxTest, testValueFromText)
+TEST_F(ScientificSpinBoxTest, InitialState)
 {
-  QLocale locale(QLocale::C);
-  locale.setNumberOptions(QLocale::RejectGroupSeparator);
+  const ScientificSpinBox editor;
+  EXPECT_EQ(editor.value(), 0.0);
+  EXPECT_TRUE(editor.text().isEmpty());
+  EXPECT_EQ(editor.decimals(), 4);
+}
 
-  QDoubleValidator validator;
-  validator.setLocale(locale);
-  validator.setNotation(QDoubleValidator::ScientificNotation);
+TEST_F(ScientificSpinBoxTest, SetValue)
+{
+  ScientificSpinBox editor;
+  QSignalSpy spy_value_changed(&editor, &ScientificSpinBox::valueChanged);
 
-  auto to_value = [&validator](QString text)
+  editor.setValue(42.123456);
+  EXPECT_EQ(editor.text(), QString("4.2123e+01"));
+  EXPECT_EQ(editor.value(), 42.123456);
+  EXPECT_EQ(spy_value_changed.count(), 1);
+
+  // decimals change the text, not the value
+  editor.setDecimals(2);
+  EXPECT_EQ(editor.text(), QString("4.21e+01"));
+  EXPECT_EQ(editor.value(), 42.123456);
+  EXPECT_EQ(spy_value_changed.count(), 1);
+
+  editor.setValue(1.5);
+  EXPECT_EQ(editor.text(), QString("1.5e+00"));
+  EXPECT_EQ(spy_value_changed.count(), 2);
+
+  editor.setValue(1e-12);
+  EXPECT_EQ(editor.text(), QString("1.0e-12"));
+}
+
+TEST_F(ScientificSpinBoxTest, ValueFromTypedText)
+{
+  ScientificSpinBox editor;
+  editor.setMinimum(-0.1);
+  editor.setMaximum(1e+7);
+  editor.setValue(0.1);
+
+  auto to_value = [&editor](const QString& text)
   {
-    return ScientificSpinBox::toDouble(text, validator, std::numeric_limits<double>::lowest(),
-                                       std::numeric_limits<double>::max(), 0.1);
+    TypeText(editor, text);
+    return editor.value();
   };
 
   // translation fails
-  EXPECT_EQ(0.1, to_value(QString("abcd")));
-  EXPECT_EQ(0.1, to_value(QString("1,2")));
-  EXPECT_EQ(0.1, to_value(QString("100,000,000.2")));
-  EXPECT_EQ(0.1, to_value(QString("100.000.000.2")));
-  EXPECT_EQ(0.1, to_value(QString("1e+2345")));
-  EXPECT_EQ(0.1, to_value(QString("-1e+2345")));
-  EXPECT_EQ(0.1, to_value(QString("1e-2345")));
-  EXPECT_EQ(0.1, to_value(QString("-1e-2345")));
-  EXPECT_EQ(0.1, to_value(QString("--0.1")));
-  EXPECT_EQ(0.1, to_value(QString("-.e-12")));
-  EXPECT_EQ(0.1, to_value(QString()));
-
-  auto to_value_2 = [&validator](QString text)
-  { return ScientificSpinBox::toDouble(text, validator, -0.1, 1e+7, 0.1); };
+  EXPECT_EQ(to_value("abcd"), 0.1);
+  EXPECT_EQ(to_value("1,2"), 0.1);
+  EXPECT_EQ(to_value("100,000,000.2"), 0.1);
+  EXPECT_EQ(to_value("100.000.000.2"), 0.1);
+  EXPECT_EQ(to_value("1e+2345"), 0.1);
+  EXPECT_EQ(to_value("-1e+2345"), 0.1);
+  EXPECT_EQ(to_value("--0.1"), 0.1);
+  EXPECT_EQ(to_value("-.e-12"), 0.1);
+  EXPECT_EQ(to_value(""), 0.1);
 
   // translation fails due to out-of-bounds condition
-  EXPECT_EQ(0.1, to_value_2(QString("-0.2")));
-  EXPECT_EQ(0.1, to_value_2(QString("-0.1e+1")));
-  EXPECT_EQ(0.1, to_value_2(QString("1e+8")));
+  EXPECT_EQ(to_value("-0.2"), 0.1);
+  EXPECT_EQ(to_value("-0.1e+1"), 0.1);
+  EXPECT_EQ(to_value("1e+8"), 0.1);
 
   // legitimate values
-  EXPECT_EQ(-0.0999, to_value_2(QString("-0.0999")));
-  EXPECT_EQ(-1e-13, to_value_2(QString("-.1e-12")));
-  EXPECT_EQ(0.0, to_value_2(QString("0")));
-  EXPECT_EQ(0.123, to_value_2(QString("0.123")));
-  EXPECT_EQ(1e+6, to_value_2(QString("1e+6")));
-  EXPECT_EQ(1.1e+6, to_value_2(QString("1.1e+6")));
-  EXPECT_EQ(0.012, to_value_2(QString("0.012")));
+  EXPECT_EQ(to_value("-0.0999"), -0.0999);
+  EXPECT_EQ(to_value("-.1e-12"), -1e-13);
+  EXPECT_EQ(to_value("0"), 0.0);
+  EXPECT_EQ(to_value("0.123"), 0.123);
+  EXPECT_EQ(to_value("1e+6"), 1e+6);
+  EXPECT_EQ(to_value("1.1e+6"), 1.1e+6);
+  EXPECT_EQ(to_value("0.012"), 0.012);
+  EXPECT_EQ(to_value("0.123456789"), 0.123456789);
+
+  // typed text is not applied before editing finished
+  EXPECT_EQ(editor.text(), QString("0.123456789"));
+  editor.setValue(0.1);
+  EXPECT_EQ(editor.value(), 0.1);
 }
 
-TEST_F(ScientificSpinBoxTest, toString)
+TEST_F(ScientificSpinBoxTest, EditingFinished)
 {
-  int decimals = 3;
-  auto to_string = [&decimals](double val) { return ScientificSpinBox::toString(val, decimals); };
+  ScientificSpinBox editor;
+  editor.setValue(1.0);
+  QSignalSpy spy_value_changed(&editor, &ScientificSpinBox::valueChanged);
 
-  EXPECT_EQ(std::string("-123.45"), to_string(-123.45).toStdString());
-  EXPECT_EQ(std::string("-100"), to_string(-99.9999).toStdString());
-  EXPECT_EQ(std::string("-99.999"), to_string(-99.9994).toStdString());
-  EXPECT_EQ(std::string("-10.123"), to_string(-10.12345).toStdString());
-  EXPECT_EQ(std::string("-1"), to_string(-1.).toStdString());
-  EXPECT_EQ(std::string("-0.1"), to_string(-0.1).toStdString());
-  EXPECT_EQ(std::string("-0.1"), to_string(-0.1).toStdString());
-  EXPECT_EQ(std::string("-9.99e-2"), to_string(-9.99e-2).toStdString());
-  EXPECT_EQ(std::string("-1.266e-12"), to_string(-1.26555e-12).toStdString());
-  EXPECT_EQ(std::string("0"), to_string(-0.0).toStdString());
-  EXPECT_EQ(std::string("0"), to_string(0.0).toStdString());
-  EXPECT_EQ(std::string("1e-12"), to_string(1.e-12).toStdString());
-  EXPECT_EQ(std::string("1.23e-12"), to_string(1.23e-12).toStdString());
-  EXPECT_EQ(std::string("1e-2"), to_string(1.e-2).toStdString());
-  EXPECT_EQ(std::string("1.5e-2"), to_string(1.5e-2).toStdString());
-  EXPECT_EQ(std::string("1.523e-2"), to_string(1.5234e-2).toStdString());
-  EXPECT_EQ(std::string("9.99e-2"), to_string(9.99e-2).toStdString());
-  EXPECT_EQ(std::string("1e-1"), to_string(9.9999e-2).toStdString());
-  EXPECT_EQ(std::string("0.1"), to_string(0.1).toStdString());
-  EXPECT_EQ(std::string("1"), to_string(1.).toStdString());
-  EXPECT_EQ(std::string("1.1"), to_string(1.1).toStdString());
-  EXPECT_EQ(std::string("1.123"), to_string(1.12345).toStdString());
-  EXPECT_EQ(std::string("10.123"), to_string(10.12345).toStdString());
-  EXPECT_EQ(std::string("99.9"), to_string(99.9).toStdString());
-  EXPECT_EQ(std::string("99.999"), to_string(99.9994).toStdString());
-  EXPECT_EQ(std::string("100"), to_string(99.9999).toStdString());
-  EXPECT_EQ(std::string("123.45"), to_string(123.45).toStdString());
-  EXPECT_EQ(std::string("1e+4"), to_string(1.e+4).toStdString());
-  EXPECT_EQ(std::string("1.265e+12"), to_string(1.265e+12).toStdString());
-  EXPECT_EQ(std::string("1.266e+12"), to_string(1.26555e+12).toStdString());
+  TypeText(editor, "2.123456789");
+  QTest::keyClick(&editor, Qt::Key_Return);
+  EXPECT_EQ(editor.value(), 2.123456789);
+  EXPECT_EQ(editor.text(), QString("2.1235e+00"));
+  EXPECT_EQ(spy_value_changed.count(), 1);
 
-  decimals = 5;
-  EXPECT_EQ(std::string("1.23e-12"), to_string(1.23e-12).toStdString());
-  EXPECT_EQ(std::string("1.52346e-2"), to_string(1.523456e-2).toStdString());
-  EXPECT_EQ(std::string("1e-1"), to_string(9.999999e-2).toStdString());
-  EXPECT_EQ(std::string("1.12346"), to_string(1.123455).toStdString());
-  EXPECT_EQ(std::string("10.12346"), to_string(10.123456).toStdString());
-  EXPECT_EQ(std::string("99.9"), to_string(99.9).toStdString());
-  EXPECT_EQ(std::string("100"), to_string(99.999999).toStdString());
-  EXPECT_EQ(std::string("123.45"), to_string(123.45).toStdString());
-  EXPECT_EQ(std::string("1.26556e+12"), to_string(1.265556e+12).toStdString());
+  // unchanged text keeps the exact value
+  QTest::keyClick(&editor, Qt::Key_Return);
+  EXPECT_EQ(editor.value(), 2.123456789);
+  EXPECT_EQ(spy_value_changed.count(), 1);
+
+  // invalid text restores the text of the value
+  TypeText(editor, "abc");
+  QTest::keyClick(&editor, Qt::Key_Return);
+  EXPECT_EQ(editor.value(), 2.123456789);
+  EXPECT_EQ(editor.text(), QString("2.1235e+00"));
+  EXPECT_EQ(spy_value_changed.count(), 1);
 }
 
-TEST_F(ScientificSpinBoxTest, round)
+TEST_F(ScientificSpinBoxTest, StepBy)
 {
-  auto round_3 = [](double val) { return ScientificSpinBox::round(val, 3); };
-  EXPECT_DOUBLE_EQ(1.232e-12, round_3(1.2323e-12));
-  EXPECT_DOUBLE_EQ(0.123, round_3(0.1232));
-  EXPECT_DOUBLE_EQ(1.002e+2, round_3(100.2));
+  ScientificSpinBox editor;
+  editor.setMaximum(2.0);
+  editor.setValue(1.0);
+  editor.setSingleStep(0.5);
+
+  editor.stepBy(1);
+  EXPECT_EQ(editor.value(), 1.5);
+
+  editor.stepBy(-2);
+  EXPECT_EQ(editor.value(), 0.5);
+
+  // step outside of the range is ignored
+  editor.stepBy(4);
+  EXPECT_EQ(editor.value(), 0.5);
 }
 
 }  // namespace mvvm::test

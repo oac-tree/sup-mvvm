@@ -49,6 +49,18 @@ constexpr std::string_view kDefaultSeparator = ",";
 std::string DoubleToString(double input, std::int32_t precision = 12);
 
 /**
+ * @brief Returns string representation of double in fixed notation.
+ *
+ * Trailing zeros are kept, so "double x{1.5}" with precision 4 becomes "1.5000". A value rounded
+ * to zero has no minus sign.
+ *
+ * @param input The value to convert to a string.
+ * @param precision Number of digits after decimal sign.
+ * @return Resulting string.
+ */
+std::string FixedDoubleToString(double input, std::int32_t precision);
+
+/**
  * @brief Returns string representation of scientific double.
  *
  * Provides additional formatting on top of iomanip, so "double x{1}" becomes "1.0e+00".

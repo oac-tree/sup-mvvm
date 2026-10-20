@@ -20,9 +20,9 @@
 
 #include "default_cell_decorator.h"
 
-#include <mvvm/editors/scientific_spinbox.h>
 #include <mvvm/providers/custom_variants.h>
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/utils/string_utils.h>
 
 #include <QModelIndex>
 #include <QStyleOptionViewItem>
@@ -82,14 +82,7 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
 
   if (utils::IsDoubleVariant(variant))
   {
-    return ScientificSpinBox::toString(variant.value<double>(), constants::kDefaultDoubleDecimals)
-        .toStdString();
-  }
-
-  if (utils::IsDoubleVariant(variant))
-  {
-    return ScientificSpinBox::toString(variant.value<double>(), constants::kDefaultDoubleDecimals)
-        .toStdString();
+    return utils::FixedDoubleToString(variant.value<double>(), constants::kDefaultDoubleDecimals);
   }
 
   if (IsInt8Special(variant))

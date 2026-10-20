@@ -48,6 +48,21 @@ std::string DoubleToString(double input, std::int32_t precision)
   return inter.str();
 }
 
+std::string FixedDoubleToString(double input, std::int32_t precision)
+{
+  std::ostringstream inter;
+  (void)inter.imbue(std::locale::classic());
+  inter << std::fixed << std::setprecision(precision) << input;
+
+  std::string result = inter.str();
+  if ((result.front() == '-') && (result.find_first_not_of("0.", 1) == std::string::npos))
+  {
+    // negative value rounded to zero
+    (void)result.erase(0, 1);
+  }
+  return result;
+}
+
 std::string ScientificDoubleToString(double input, std::int32_t precision)
 {
   std::ostringstream inter;

@@ -69,6 +69,33 @@ TEST_F(StringUtilsTests, DoubleToString)
   }
 }
 
+TEST_F(StringUtilsTests, FixedDoubleToString)
+{
+  using utils::FixedDoubleToString;
+
+  {
+    const int precision = 4;  // number of digits after decimal point
+    EXPECT_EQ(FixedDoubleToString(0.0, precision), "0.0000");
+    EXPECT_EQ(FixedDoubleToString(-0.0, precision), "0.0000");
+    EXPECT_EQ(FixedDoubleToString(-1e-12, precision), "0.0000");
+    EXPECT_EQ(FixedDoubleToString(1e-12, precision), "0.0000");
+    EXPECT_EQ(FixedDoubleToString(1.0, precision), "1.0000");
+    EXPECT_EQ(FixedDoubleToString(1.5, precision), "1.5000");
+    EXPECT_EQ(FixedDoubleToString(-1.5, precision), "-1.5000");
+    EXPECT_EQ(FixedDoubleToString(0.001, precision), "0.0010");
+    EXPECT_EQ(FixedDoubleToString(-0.00005, precision), "-0.0001");
+    EXPECT_EQ(FixedDoubleToString(42.1234321, precision), "42.1234");
+    EXPECT_EQ(FixedDoubleToString(99.99999, precision), "100.0000");
+    EXPECT_EQ(FixedDoubleToString(1e+4, precision), "10000.0000");
+  }
+
+  {
+    const int precision = 0;
+    EXPECT_EQ(FixedDoubleToString(1.5, precision), "2");
+    EXPECT_EQ(FixedDoubleToString(-0.4, precision), "0");
+  }
+}
+
 TEST_F(StringUtilsTests, ScientificDoubleToString)
 {
   using utils::ScientificDoubleToString;

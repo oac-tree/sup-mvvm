@@ -59,11 +59,6 @@ public:
   QValidator::State validate(QString&, int&) const override { return QValidator::Acceptable; }
   void fixup(QString&) const override {}
 
-  static QString toString(double val, int decimal_points);
-  static double toDouble(QString text, const QDoubleValidator& validator, double min, double max,
-                         double default_value);
-  static double round(double val, int decimals);
-
 signals:
   void valueChanged(double value);
 
@@ -75,12 +70,14 @@ private:
   void updateText();
   bool inRange(double val) const;
 
+  //! Returns the value of the text, the current value if the text is not a valid value in range.
+  double valueFromText(const QString& text) const;
+
   double m_value;
   double m_min;
   double m_max;
   double m_step;
   int m_decimals;
-  QDoubleValidator m_validator;
 };
 
 }  // namespace mvvm
