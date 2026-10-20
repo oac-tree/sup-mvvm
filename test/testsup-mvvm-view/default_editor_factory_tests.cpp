@@ -26,6 +26,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/i_limited_float.h>
+#include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <gtest/gtest.h>
@@ -89,8 +90,13 @@ TEST_F(DefaultEditorFactoryTest, DefaultEditorFactory)
   index = AddDataToModel(std::string("abc"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
 
-  {  // int32 is handled for the moment by original QSpinBox editor
+  {  // int32
     index = AddDataToModel(variant_t(42));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // int32 with QSpinBox set explicitly
+    index = AddDataToModel(variant_t(42), constants::kIntegerEditorType);
     EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
   }
 
@@ -163,13 +169,15 @@ TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryIntEditor)
   auto index = AddDataToModel(variant_t(42));
   auto editor = factory.CreateEditor(index);
 
-  // accessing underlying QSpinBox
-  auto spin_box = dynamic_cast<QSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<AllIntSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
+  spin_box->setValue(index.data(Qt::EditRole));
 
-  // checking default limits (defined in editor_builders.cpp)
-  EXPECT_EQ(spin_box->minimum(), std::numeric_limits<int32>::min());
-  EXPECT_EQ(spin_box->maximum(), std::numeric_limits<int32>::max());
+  // limits of the type
+  EXPECT_EQ(spin_box->GetLimitedInteger()->GetLowerBoundAsVariant(),
+            variant_t(std::numeric_limits<int32>::min()));
+  EXPECT_EQ(spin_box->GetLimitedInteger()->GetUpperBoundAsVariant(),
+            variant_t(std::numeric_limits<int32>::max()));
 }
 
 //! Checking integer editor construction when limits are set.
@@ -186,13 +194,13 @@ TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryIntEditorForLimits)
 
   auto editor = factory.CreateEditor(index);
 
-  // accessing underlying QSpinBox
-  auto spin_box = dynamic_cast<QSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<AllIntSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
+  spin_box->setValue(index.data(Qt::EditRole));
 
   // check if limits have been propagated
-  EXPECT_EQ(spin_box->minimum(), 0);
-  EXPECT_EQ(spin_box->maximum(), 10);
+  EXPECT_EQ(spin_box->GetLimitedInteger()->GetLowerBoundAsVariant(), variant_t(0));
+  EXPECT_EQ(spin_box->GetLimitedInteger()->GetUpperBoundAsVariant(), variant_t(10));
 }
 
 //! Checking double editor construction when limits are not set.

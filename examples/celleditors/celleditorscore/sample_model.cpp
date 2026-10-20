@@ -83,24 +83,24 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 {
   // Here we want to compare visual appearance of QSpinBox editor and AllIntSpinBox.
-  // QSpinBox is the default for int32, AllIntSpinBox is the default for the rest.
+  // AllIntSpinBox is the default for all integers, QSpinBox should be set manually.
 
   // QSpinBox editor for int32
-  AddProperty("integer_1", 42).SetDisplayName("int32 QSpinBox");
+  AddProperty("integer_1", 42)
+      .SetDisplayName("int32 QSpinBox")
+      .SetEditorType(mvvm::constants::kIntegerEditorType);
 
   // QSpinBox editor for int32 with limits set
-  auto& integer_2_prop = AddProperty("integer_2", 42).SetDisplayName("int32 QSpinBox lim");
+  auto& integer_2_prop = AddProperty("integer_2", 42)
+                             .SetDisplayName("int32 QSpinBox lim")
+                             .SetEditorType(mvvm::constants::kIntegerEditorType);
   mvvm::SetLimited(30, 40, integer_2_prop);
 
-  // AllIntSpinBox for int32 should be set manually
-  AddProperty("integer_3", 42)
-      .SetDisplayName("int32 AllIntEditor")
-      .SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
+  // AllIntSpinBox for int32
+  AddProperty("integer_3", 42).SetDisplayName("int32 AllIntEditor");
 
-  // AllIntSpinBox with limits, for int32 should be set manually
-  auto& integer_4_prop = AddProperty("integer_4", 42)
-                             .SetDisplayName("int32 AllIntEditor lim")
-                             .SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
+  // AllIntSpinBox with limits, for int32
+  auto& integer_4_prop = AddProperty("integer_4", 42).SetDisplayName("int32 AllIntEditor lim");
   mvvm::SetLimited(30, 40, integer_4_prop);
 
   // AllIntSpinBox for int8
@@ -121,7 +121,7 @@ OptionalIntPropertyItem::OptionalIntPropertyItem() : mvvm::CompoundItem("Optiona
   int8_prop.SetDisplayName("int8 no value").SetFlag(mvvm::Appearance::kNullable, true);
   int8_prop.SetData(mvvm::int8{0}, mvvm::DataRole::kDefaultValue);
 
-  // int32 with value, AllIntSpinBox instead of QSpinBox
+  // int32 with value
   auto& int32_prop = AddProperty("optional_2", 42);
   int32_prop.SetDisplayName("int32 value").SetFlag(mvvm::Appearance::kNullable, true);
   int32_prop.SetData(0, mvvm::DataRole::kDefaultValue);

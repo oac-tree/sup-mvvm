@@ -35,7 +35,6 @@
 
 #include <QApplication>
 #include <QFocusEvent>
-#include <QSpinBox>
 #include <QTest>
 #include <QTreeView>
 
@@ -94,12 +93,12 @@ TEST_F(ViewModelDelegateExtendedTest, ViewModelWithoutFiltering)
   auto prop1_index = view_model.index(1, 1, parent0_index);  // index of int8
   auto prop2_index = view_model.index(2, 1, parent0_index);  // index of float32
 
-  {  // prop0 with QSpinBox as an editor
+  {  // prop0 with AllIntSpinBox as an editor
     auto editor = CreateEditor(prop0_index);
-    auto int_editor = dynamic_cast<QSpinBox*>(editor.get());
+    auto int_editor = dynamic_cast<AllIntSpinBox*>(editor.get());
     ASSERT_NE(int_editor, nullptr);
-    EXPECT_EQ(int_editor->minimum(), 30);
-    EXPECT_EQ(int_editor->maximum(), 50);
+    EXPECT_EQ(int_editor->GetLimitedInteger()->GetLowerBoundAsVariant(), variant_t(30));
+    EXPECT_EQ(int_editor->GetLimitedInteger()->GetUpperBoundAsVariant(), variant_t(50));
   }
 
   {  // prop1 with AllIntSpinBox as an editor

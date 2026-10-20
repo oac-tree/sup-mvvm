@@ -30,7 +30,6 @@
 #include <gtest/gtest.h>
 #include <testutils/test_viewmodel_helper.h>
 
-#include <QSpinBox>
 
 namespace mvvm::test
 {
@@ -72,7 +71,7 @@ TEST_F(VariantDependentEditorFactoryTest, VariantDependentEditorFactory)
   EXPECT_FALSE(factory.CreateEditor(index));
 
   index = AddDataToModel(variant_t(42));
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
+  EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(index).get()));
 
   {  // uint32
     const uint32 num(42);
@@ -131,7 +130,7 @@ TEST_F(VariantDependentEditorFactoryTest, NullableInteger)
     EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(item).get()));
   }
 
-  {  // nullable int32 gets AllIntSpinBox instead of QSpinBox
+  {  // nullable int32 with data
     auto index = AddDataToModel(variant_t{42});
     auto item = m_view_model.GetSessionItemFromIndex(index);
     item->SetFlag(Appearance::kNullable, true);

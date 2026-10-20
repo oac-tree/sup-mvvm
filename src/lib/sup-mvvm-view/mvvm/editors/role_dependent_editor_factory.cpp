@@ -42,7 +42,6 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
   RegisterBuilder(constants::kExternalPropertyEditorType, ExternalPropertyEditorBuilder());
   RegisterBuilder(constants::kIntegerEditorType, IntegerEditorBuilder());
   RegisterBuilder(constants::kDoubleEditorType, DoubleEditorBuilder());
-  RegisterBuilder(constants::kAllIntSpinBoxEditorType, AllIntSpinBoxEditorBuilder());
 }
 
 editor_t RoleDependentEditorFactory::CreateEditor(const QModelIndex& index) const

@@ -21,6 +21,7 @@
 #include "mvvm/views/property_grid_controller.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/editors/allint_spinbox.h>
 #include <mvvm/editors/boolean_editor.h>
 #include <mvvm/editors/scientific_spinbox.h>
 #include <mvvm/model/application_model.h>
@@ -214,13 +215,13 @@ TEST_F(PropertyGridControllerTest, CreateWidget)
 
   // checking that controller can create proper editors for columns
   auto label_widget = dynamic_cast<QLabel*>(widgets.at(0).at(0).get());
-  auto spinbox_widget = dynamic_cast<QSpinBox*>(widgets.at(0).at(1).get());
+  auto spinbox_widget = dynamic_cast<AllIntSpinBox*>(widgets.at(0).at(1).get());
   EXPECT_TRUE(label_widget);
-  EXPECT_TRUE(spinbox_widget);
+  ASSERT_TRUE(spinbox_widget);
 
   // checking that widgets get initial values correctly
   EXPECT_EQ(label_widget->text(), QString("abc"));
-  EXPECT_EQ(spinbox_widget->value(), 42);
+  EXPECT_EQ(spinbox_widget->value().toInt(), 42);
 }
 
 //! Checking method CreateGrid. Use QStandardItemModel with two rows and three columns.
@@ -260,7 +261,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForViewModelWithIntProperty)
   EXPECT_EQ(editor_grid.at(0).size(), 2);
 
   EXPECT_NE(dynamic_cast<QLabel*>(editor_grid.at(0).at(0).get()), nullptr);
-  EXPECT_NE(dynamic_cast<QSpinBox*>(editor_grid.at(0).at(1).get()), nullptr);
+  EXPECT_NE(dynamic_cast<AllIntSpinBox*>(editor_grid.at(0).at(1).get()), nullptr);
 }
 
 //! Checking that boolean property is represented by a check box in a grid.

@@ -17,6 +17,7 @@ Changes for 2.4.0:
 - ScientificSpinBox edits float32 and float64 through LimitedFloat, ScientificSpinBoxEditor removed
 - ScientificSpinBox is the default editor for float32 and float64, FloatSpinBox removed
 - Support no value in ScientificSpinBox for nullable float properties
+- AllIntSpinBox is the default editor for int32, QSpinBox only with kIntegerEditorType
 
 Changes for 2.3.0:
 

@@ -53,22 +53,15 @@ std::string GetQtVariantName(const SessionItem* item, role_t role = DataRole::kD
 /**
  * @brief Returns the name of the builder for the item with the given Qt variant name of its data.
  *
- * @details A nullable item without data uses the type of its default value. A nullable int32 uses
- * AllIntSpinBox, since QSpinBox can't be empty.
+ * @details A nullable item without data uses the type of its default value.
  */
 std::string GetBuilderName(const std::string& qt_variant_name, const SessionItem* item)
 {
-  if ((item == nullptr) || !item->HasFlag(Appearance::kNullable))
-  {
-    return qt_variant_name;
-  }
-
-  const auto result = (qt_variant_name == constants::kEmptyQtTypeName)
-                          ? GetQtVariantName(item, DataRole::kDefaultValue)
-                          : qt_variant_name;
-
-  return (result == constants::kInt32QtTypeName) ? std::string(constants::kAllIntSpinBoxEditorType)
-                                                 : result;
+  const bool is_nullable_without_data = (qt_variant_name == constants::kEmptyQtTypeName)
+                                        && (item != nullptr)
+                                        && item->HasFlag(Appearance::kNullable);
+  return is_nullable_without_data ? GetQtVariantName(item, DataRole::kDefaultValue)
+                                  : qt_variant_name;
 }
 
 }  // namespace
@@ -77,21 +70,16 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 {
   // registering default builders for given variant names
 
-  // we keep editing int32 numbers with QSpinBox to be able to compare the appearance with the rest
-  RegisterBuilder(constants::kInt32QtTypeName, IntegerEditorBuilder());
-
-  // new AllIntSpinBox for all other integer-like types
+  // AllIntSpinBox for all integer-like types
   RegisterBuilder(constants::kChar8QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kInt8QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt8QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kInt16QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt16QtTypeName, AllIntSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kInt32QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt32QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kInt64QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt64QtTypeName, AllIntSpinBoxEditorBuilder());
-
-  // nullable int32
-  RegisterBuilder(constants::kAllIntSpinBoxEditorType, AllIntSpinBoxEditorBuilder());
 
   // ScientificSpinBox for float32 and float64
   RegisterBuilder(constants::kFloat32QtTypeName, FloatEditorBuilder());

@@ -83,9 +83,8 @@ editorbuilder_t LongIntSpinBoxEditorBuilder();
 /**
  * @brief Returns builder function to create editors for integer based variants.
  *
- * @details It relies on QSpinBox with additional option to set limits from SessionItem.
- *
- * @details About to become obsolete in the favor of AllIntSpinBoxEditorBuilder()
+ * @details It relies on QSpinBox with additional option to set limits from SessionItem. Used only
+ * for constants::kIntegerEditorType, to compare with AllIntSpinBox.
  */
 editorbuilder_t IntegerEditorBuilder();
 
@@ -99,7 +98,6 @@ editorbuilder_t IntegerEditorBuilder();
  * the start value come from DataRole::kDefaultValue, the placeholder text from
  * DataRole::kPlaceholder.
  *
- * @details This builder will eventually replace IntegerEditorBuilder.
  */
 editorbuilder_t AllIntSpinBoxEditorBuilder();
 

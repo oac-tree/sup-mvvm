@@ -20,6 +20,7 @@
 
 #include "mvvm/views/property_flat_view.h"
 
+#include <mvvm/editors/allint_spinbox.h>
 #include <mvvm/editors/boolean_editor.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
@@ -31,7 +32,6 @@
 
 #include <QGridLayout>
 #include <QLabel>
-#include <QSpinBox>
 #include <QStandardItemModel>
 
 namespace mvvm::test
@@ -93,7 +93,7 @@ TEST_F(PropertyFlatViewTest, SetViewModel)
   ASSERT_EQ(layout_widgets[0].size(), 2);
 
   EXPECT_TRUE(dynamic_cast<QLabel*>(layout_widgets[0][0]));
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(layout_widgets[0][1]));
+  EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(layout_widgets[0][1]));
 }
 
 //! Model with two items is assigned to PropertyFlatView.
@@ -127,7 +127,7 @@ TEST_F(PropertyFlatViewTest, GridLayoutUpdate)
   ASSERT_EQ(layout_widgets[0].size(), 2);
 
   EXPECT_TRUE(dynamic_cast<QLabel*>(layout_widgets[1][0]));
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(layout_widgets[1][1]));
+  EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(layout_widgets[1][1]));
 }
 
 //! PropertyFlatView with a boolean property. Real-life bug: a check box was missing in the grid.
