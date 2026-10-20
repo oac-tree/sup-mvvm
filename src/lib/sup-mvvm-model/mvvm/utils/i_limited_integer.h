@@ -96,10 +96,12 @@ public:
   virtual bool SetValueFromText(const std::string& text) = 0;
 
   /**
-   * @brief Returns the value parsed from text, empty if the text is not a valid value.
+   * @brief Returns the value parsed from text.
    *
-   * @details Empty text gives an invalid variant for a nullable integer. The value of the integer
-   * is not changed.
+   * @details std::nullopt means the text is not a valid input, so the caller keeps the current
+   * value. An empty variant_t{} is a special case that appears for nullable numbers when empty text
+   * is given. It denotes that the value was cleared and an editor should display it as reset to
+   * default.
    */
   virtual std::optional<variant_t> ParseText(const std::string& text) const = 0;
 

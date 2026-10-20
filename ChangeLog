@@ -13,6 +13,7 @@ Changes for 2.4.0:
 - Fix CommandStack staying blocked after a command throws
 - Add DataRole::kPlaceholder, nullable items without value show gray placeholder text
 - Add DataRole::kPrecision and Appearance::kScientific, float cells in fixed notation by default
+- Add LimitedFloat for float32 and float64 with limits, nullable, text conversion and steps
 
 Changes for 2.3.0:
 

@@ -49,6 +49,8 @@ target_sources(${test} PRIVATE
   item_pool_tests.cpp
   item_selection_tests.cpp
   item_utils_tests.cpp
+  limited_float_helper_tests.cpp
+  limited_float_tests.cpp
   limited_integer_helper_tests.cpp
   limited_integer_tests.cpp
   line_series_data_item_tests.cpp

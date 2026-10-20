@@ -4,7 +4,11 @@ target_sources(${library_name} PRIVATE
   container_utils.h
   file_utils.cpp
   file_utils.h
+  i_limited_float.h
   i_limited_integer.h
+  limited_float.h
+  limited_float_helper.cpp
+  limited_float_helper.h
   limited_integer.h
   limited_integer_helper.cpp
   limited_integer_helper.h
