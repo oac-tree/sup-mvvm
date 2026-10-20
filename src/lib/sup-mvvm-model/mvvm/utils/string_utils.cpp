@@ -24,7 +24,6 @@
 #include <iomanip>
 #include <iostream>
 #include <iterator>
-#include <limits>
 #include <regex>
 #include <sstream>
 
@@ -35,11 +34,6 @@ std::string DoubleToString(double input, std::int32_t precision)
 {
   std::ostringstream inter;
   inter << std::setprecision(precision);
-  if (std::abs(input) < std::numeric_limits<double>::epsilon())
-  {
-    inter << "0.0";
-    return inter.str();
-  }
   inter << input;
   if ((inter.str().find('e') == std::string::npos) && (inter.str().find('.') == std::string::npos))
   {

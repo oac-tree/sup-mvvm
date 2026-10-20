@@ -320,6 +320,19 @@ TEST_F(VariantTests, TypeCodeFromString)
     EXPECT_THROW(ValueFromString(TypeCode::Float64, std::string("a48.0")), RuntimeException);
   }
 
+  {  // values smaller than epsilon
+    const mvvm::float64 value{4.4647e-34};
+    EXPECT_EQ(ValueToString(variant_t(value)), std::string("4.4647e-34"));
+    EXPECT_EQ(ValueFromString(TypeCode::Float64, ValueToString(variant_t(value))),
+              variant_t(value));
+  }
+
+  {
+    const mvvm::float32 value{4.4647e-34F};
+    EXPECT_EQ(ValueFromString(TypeCode::Float32, ValueToString(variant_t(value))),
+              variant_t(value));
+  }
+
   {
     const std::string value{"abc"};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::String);

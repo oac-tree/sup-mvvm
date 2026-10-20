@@ -61,6 +61,10 @@ TEST_F(StringUtilsTests, DoubleToString)
     EXPECT_EQ(DoubleToString(48.123456, precision), "48.12");
     EXPECT_EQ(DoubleToString(48.1234321, precision), "48.12");
     EXPECT_EQ(DoubleToString(48.1234321, precision), "48.12");
+    EXPECT_EQ(DoubleToString(-0.0, precision), "-0.0");
+    EXPECT_EQ(DoubleToString(1e-15, precision), "1e-15");
+    EXPECT_EQ(DoubleToString(-1e-17, precision), "-1e-17");
+    EXPECT_EQ(DoubleToString(4.4647e-34, precision), "4.465e-34");
   }
 
   {
