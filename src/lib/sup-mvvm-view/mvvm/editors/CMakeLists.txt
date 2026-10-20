@@ -18,6 +18,8 @@ target_sources(${library_name} PRIVATE
   editor_helper.h
   external_property_editor.cpp
   external_property_editor.h
+  nullable_bool_editor.cpp
+  nullable_bool_editor.h
   role_dependent_editor_factory.cpp
   role_dependent_editor_factory.h
   scientific_spinbox.cpp

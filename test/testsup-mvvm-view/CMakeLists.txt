@@ -14,6 +14,7 @@ target_sources(${test} PRIVATE
   default_cell_decorator_tests.cpp
   default_editor_factory_tests.cpp
   item_view_component_provider_tests.cpp
+  nullable_bool_editor_tests.cpp
   main.cpp
   property_flat_view_tests.cpp
   property_grid_controller_tests.cpp

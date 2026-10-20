@@ -60,7 +60,16 @@ namespace mvvm
 
 editorbuilder_t BoolEditorBuilder()
 {
-  auto builder = [](const SessionItem*) -> editor_t { return std::make_unique<BoolEditor>(); };
+  auto builder = [](const SessionItem* item) -> editor_t
+  {
+    if ((item != nullptr) && item->HasFlag(Appearance::kNullable))
+    {
+      auto editor = std::make_unique<NullableBoolEditor>();
+      editor->SetPlaceholderText(utils::GetPlaceholderText(*item));
+      return editor;
+    }
+    return std::make_unique<BoolEditor>();
+  };
   return builder;
 }
 editorbuilder_t ComboPropertyEditorBuilder()
