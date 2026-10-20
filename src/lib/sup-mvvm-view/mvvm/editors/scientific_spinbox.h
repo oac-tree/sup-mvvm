@@ -77,6 +77,16 @@ public:
   ILimitedFloat* GetLimitedFloat();
 
   /**
+   * @brief Sets the text shown when the field is empty.
+   */
+  void SetPlaceholderText(const QString& text);
+
+  /**
+   * @brief Returns the text shown when the field is empty.
+   */
+  QString GetPlaceholderText() const;
+
+  /**
    * @brief Sets limits for the limited float created by the first setValue call.
    *
    * @details Default-constructed limits mean the limits of the float type.

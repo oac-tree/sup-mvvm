@@ -23,6 +23,7 @@
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/utils/i_limited_float.h>
 #include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
@@ -138,6 +139,42 @@ TEST_F(VariantDependentEditorFactoryTest, NullableInteger)
 
     EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(index).get()));
     EXPECT_TRUE(dynamic_cast<AllIntSpinBox*>(factory.CreateEditor(item).get()));
+  }
+}
+
+TEST_F(VariantDependentEditorFactoryTest, NullableFloat)
+{
+  const VariantDependentEditorFactory factory;
+
+  {  // nullable item without data gets the type of the default value
+    auto index = AddDataToModel(variant_t{});
+    auto item = m_view_model.GetSessionItemFromIndex(index);
+    item->SetFlag(Appearance::kNullable, true);
+    item->SetData(float32{42.0}, DataRole::kDefaultValue);
+
+    auto editor = factory.CreateEditor(index);
+    auto float_editor = dynamic_cast<ScientificSpinBox*>(editor.get());
+    ASSERT_NE(float_editor, nullptr);
+    EXPECT_TRUE(float_editor->GetLimitedFloat()->IsNullable());
+    EXPECT_EQ(float_editor->GetLimitedFloat()->GetValueAsVariant(), variant_t{});
+    EXPECT_EQ(float_editor->GetPlaceholderText(), QString("default"));
+
+    // the step comes from the default value
+    EXPECT_DOUBLE_EQ(float_editor->GetSingleStep(), 0.42);
+
+    EXPECT_TRUE(dynamic_cast<ScientificSpinBox*>(factory.CreateEditor(item).get()));
+  }
+
+  {  // nullable item with data
+    auto index = AddDataToModel(variant_t{4.2});
+    auto item = m_view_model.GetSessionItemFromIndex(index);
+    item->SetFlag(Appearance::kNullable, true);
+    item->SetData(0.0, DataRole::kDefaultValue);
+
+    auto editor = factory.CreateEditor(index);
+    auto float_editor = dynamic_cast<ScientificSpinBox*>(editor.get());
+    ASSERT_NE(float_editor, nullptr);
+    EXPECT_TRUE(float_editor->GetLimitedFloat()->IsNullable());
   }
 }
 

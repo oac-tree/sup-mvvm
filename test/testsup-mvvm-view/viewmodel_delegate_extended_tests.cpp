@@ -306,4 +306,50 @@ TEST_F(ViewModelDelegateExtendedTest, NullableStepFromNoValue)
   EXPECT_EQ(view_model.GetSessionItemFromIndex(prop3_index)->Data(), variant_t{uint32{42}});
 }
 
+TEST_F(ViewModelDelegateExtendedTest, NullableScientificSpinBox)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  auto& property = parent->AddProperty("A", 1.5);
+  property.SetFlag(Appearance::kNullable, true);
+  property.SetData(42.0, DataRole::kDefaultValue);
+
+  AllItemsViewModel view_model(&model);
+  QTreeView view;
+  view.setModel(&view_model);
+  view.setItemDelegate(&m_delegate);
+  view.expandAll();
+
+  auto parent_index = view_model.index(0, 0, QModelIndex());
+  auto property_index = view_model.index(0, 1, parent_index);
+
+  QFocusEvent focus_out(QEvent::FocusOut);
+
+  {  // focus-out commits and closes the editor
+    view.edit(property_index);
+    auto editor = dynamic_cast<ScientificSpinBox*>(view.indexWidget(property_index));
+    ASSERT_NE(editor, nullptr);
+    EXPECT_EQ(editor->text(), QString("1.5000"));
+
+    // the whole text is selected, delete clears it
+    QTest::keyClick(editor, Qt::Key_Delete);
+    QApplication::sendEvent(editor, &focus_out);
+    EXPECT_FALSE(property.HasData(DataRole::kData));
+  }
+
+  {  // the first step from no value sets the default value
+    view.edit(property_index);
+    auto editor = dynamic_cast<ScientificSpinBox*>(view.indexWidget(property_index));
+    ASSERT_NE(editor, nullptr);
+    EXPECT_EQ(editor->text(), QString());
+    EXPECT_EQ(editor->GetPlaceholderText(), QString("default"));
+
+    QTest::keyClick(editor, Qt::Key_Up);
+    EXPECT_EQ(editor->text(), QString("42.0000"));
+
+    QApplication::sendEvent(editor, &focus_out);
+    EXPECT_EQ(property.Data(), variant_t{42.0});
+  }
+}
+
 }  // namespace mvvm::test

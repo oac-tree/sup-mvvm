@@ -65,6 +65,10 @@ editorbuilder_t ExternalPropertyEditorBuilder();
  *
  * @details It relies on ScientificSpinBox. Limits come from the item, precision from
  * DataRole::kPrecision, notation from Appearance::kScientific.
+ *
+ * @details An item with Appearance::kNullable gets an editor accepting empty input. The type and
+ * the start value come from DataRole::kDefaultValue, the placeholder text from
+ * DataRole::kPlaceholder.
  */
 
 editorbuilder_t FloatEditorBuilder();

@@ -140,6 +140,32 @@ OptionalIntPropertyItem::OptionalIntPropertyItem() : mvvm::CompoundItem("Optiona
 }
 
 // ------------------------------------------------------------------------------------------------
+// OptionalFloatPropertyItem
+// ------------------------------------------------------------------------------------------------
+
+OptionalFloatPropertyItem::OptionalFloatPropertyItem() : mvvm::CompoundItem("OptionalFloat")
+{
+  // float64 without value
+  auto& float64_prop = AddProperty<mvvm::PropertyItem>("optional_1");
+  float64_prop.SetDisplayName("float64 no value").SetFlag(mvvm::Appearance::kNullable, true);
+  float64_prop.SetData(mvvm::float64{0.0}, mvvm::DataRole::kDefaultValue);
+
+  // float64 with value, in exponential notation
+  auto& scientific_prop = AddProperty("optional_2", mvvm::float64{4.4647e-34});
+  scientific_prop.SetDisplayName("float64 scientific")
+      .SetFlag(mvvm::Appearance::kNullable, true)
+      .SetFlag(mvvm::Appearance::kScientific, true);
+  scientific_prop.SetData(mvvm::float64{0.0}, mvvm::DataRole::kDefaultValue);
+
+  // float32 without value, with limits and own placeholder text
+  auto& float32_prop = AddProperty<mvvm::PropertyItem>("optional_3");
+  float32_prop.SetDisplayName("float32 no value lim").SetFlag(mvvm::Appearance::kNullable, true);
+  float32_prop.SetData(mvvm::float32{1.5}, mvvm::DataRole::kDefaultValue);
+  float32_prop.SetData(std::string("auto"), mvvm::DataRole::kPlaceholder);
+  mvvm::SetLimited(mvvm::float32{1.0}, mvvm::float32{2.0}, float32_prop);
+}
+
+// ------------------------------------------------------------------------------------------------
 // FloatPropertyItem
 // ------------------------------------------------------------------------------------------------
 
@@ -222,6 +248,12 @@ void SampleModel::PopulateModel()
   InsertItem<FloatPropertyItem>(container2);
   InsertItem<FloatPropertyItem>(container2);
   InsertItem<FloatPropertyItem>(container2);
+
+  auto container_optional_float = InsertItem<mvvm::ContainerItem>();
+  container_optional_float->SetDisplayName("Optional floats");
+  InsertItem<OptionalFloatPropertyItem>(container_optional_float);
+  InsertItem<OptionalFloatPropertyItem>(container_optional_float);
+  InsertItem<OptionalFloatPropertyItem>(container_optional_float);
 
   auto container3 = InsertItem<mvvm::ContainerItem>();
   container3->SetDisplayName("Checkboxes");

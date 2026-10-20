@@ -26,6 +26,7 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/viewmodel_utils.h>
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/utils/limited_float_helper.h>
 #include <mvvm/utils/limited_integer_helper.h>
 
 #include <QDoubleSpinBox>
@@ -34,10 +35,12 @@
 namespace
 {
 
-//! Returns 1% of the float data of the item as a step, 1.0 for zero or other data.
+//! Returns 1% of the float data of the item as a step, 1.0 for zero or other data. An item without
+//! data uses its default value.
 double GetFloatStep(const mvvm::SessionItem& item)
 {
-  const auto data = item.Data();
+  const auto data =
+      item.HasData(mvvm::DataRole::kData) ? item.Data() : item.Data(mvvm::DataRole::kDefaultValue);
   double value{0.0};
   if (std::holds_alternative<mvvm::float32>(data))
   {
@@ -97,10 +100,21 @@ editorbuilder_t FloatEditorBuilder()
       return editor;
     }
 
-    editor->SetRange(GetLowerLimit(*item), GetUpperLimit(*item));
     editor->SetPrecision(utils::GetPrecision(*item));
     editor->SetScientific(item->HasFlag(Appearance::kScientific));
     editor->SetSingleStep(GetFloatStep(*item));
+
+    if (item->HasFlag(Appearance::kNullable))
+    {
+      // the value is set later by the delegate, the type comes from the default value
+      editor->SetLimitedFloat(CreateNullableLimitedFloat(
+          {}, item->Data(DataRole::kDefaultValue), GetLowerLimit(*item), GetUpperLimit(*item)));
+      editor->SetPlaceholderText(utils::GetPlaceholderText(*item));
+    }
+    else
+    {
+      editor->SetRange(GetLowerLimit(*item), GetUpperLimit(*item));
+    }
     return editor;
   };
   return builder;

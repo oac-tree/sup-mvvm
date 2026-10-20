@@ -66,6 +66,19 @@ public:
 };
 
 /**
+ * @brief The OptionalFloatPropertyItem is used to create demo items containing float properties
+ * which can have no value.
+ *
+ * No value is an empty cell. The first step in the editor sets the default value. Clearing the
+ * text removes the value.
+ */
+class OptionalFloatPropertyItem : public mvvm::CompoundItem
+{
+public:
+  OptionalFloatPropertyItem();
+};
+
+/**
  * @brief The FloatPropertyItem is used to create demo items containing various float properties.
  *
  * We investigate the behavior of the original QDoubleSpinBox vs our ScientificSpinBox.

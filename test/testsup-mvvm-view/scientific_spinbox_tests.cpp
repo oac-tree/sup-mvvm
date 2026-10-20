@@ -243,10 +243,12 @@ TEST_F(ScientificSpinBoxTest, NullableWithoutValue)
   ScientificSpinBox editor;
   QSignalSpy spy_value_changed(&editor, &ScientificSpinBox::valueChanged);
 
+  editor.SetPlaceholderText("default");
   editor.SetLimitedFloat(CreateNullableLimitedFloat({}, variant_t{42.0}, {}, {}));
 
   EXPECT_EQ(spy_value_changed.count(), 0);
   EXPECT_EQ(editor.text(), QString());
+  EXPECT_EQ(editor.GetPlaceholderText(), QString("default"));
   EXPECT_FALSE(editor.value().isValid());
 }
 

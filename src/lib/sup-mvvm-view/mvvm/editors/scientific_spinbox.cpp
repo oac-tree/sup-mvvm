@@ -58,6 +58,16 @@ ILimitedFloat* ScientificSpinBox::GetLimitedFloat()
   return m_value.get();
 }
 
+void ScientificSpinBox::SetPlaceholderText(const QString& text)
+{
+  lineEdit()->setPlaceholderText(text);
+}
+
+QString ScientificSpinBox::GetPlaceholderText() const
+{
+  return lineEdit()->placeholderText();
+}
+
 void ScientificSpinBox::SetRange(const variant_t& lower_limit, const variant_t& upper_limit)
 {
   m_lower_limit = lower_limit;

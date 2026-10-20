@@ -16,6 +16,7 @@ Changes for 2.4.0:
 - Add LimitedFloat for float32 and float64 with limits, nullable, text conversion and steps
 - ScientificSpinBox edits float32 and float64 through LimitedFloat, ScientificSpinBoxEditor removed
 - ScientificSpinBox is the default editor for float32 and float64, FloatSpinBox removed
+- Support no value in ScientificSpinBox for nullable float properties
 
 Changes for 2.3.0:
 
