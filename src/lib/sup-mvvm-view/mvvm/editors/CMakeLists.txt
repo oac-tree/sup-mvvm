@@ -24,8 +24,6 @@ target_sources(${library_name} PRIVATE
   role_dependent_editor_factory.h
   scientific_spinbox.cpp
   scientific_spinbox.h
-  scientific_spinbox_editor.cpp
-  scientific_spinbox_editor.h
   selectable_combobox_editor.cpp
   selectable_combobox_editor.h
   string_completer_combo_editor.cpp

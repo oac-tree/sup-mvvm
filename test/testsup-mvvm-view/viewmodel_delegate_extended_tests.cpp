@@ -22,10 +22,12 @@
 
 #include <mvvm/editors/allint_spinbox.h>
 #include <mvvm/editors/float_spinbox.h>
+#include <mvvm/editors/scientific_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
@@ -169,6 +171,38 @@ TEST_F(ViewModelDelegateExtendedTest, AllIntSpinBoxCommitOnFocusOut)
   QApplication::sendEvent(editor, &focus_out);
 
   EXPECT_EQ(view_model.GetSessionItemFromIndex(prop1_index)->Data(), variant_t(mvvm::int8{25}));
+}
+
+TEST_F(ViewModelDelegateExtendedTest, ScientificSpinBoxCommitOnFocusOut)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  auto& property = parent->AddProperty("A", 42.0);
+  property.SetEditorType(constants::kScientificSpinboxEditorType);
+  property.SetFlag(Appearance::kScientific, true);
+
+  AllItemsViewModel view_model(&model);
+  QTreeView view;
+  view.setModel(&view_model);
+  view.setItemDelegate(&m_delegate);
+  view.expandAll();
+
+  auto parent_index = view_model.index(0, 0, QModelIndex());
+  auto property_index = view_model.index(0, 1, parent_index);
+
+  view.edit(property_index);
+  auto editor = dynamic_cast<ScientificSpinBox*>(view.indexWidget(property_index));
+  ASSERT_NE(editor, nullptr);
+  EXPECT_EQ(editor->text(), QString("4.2e+01"));
+
+  // the whole text is selected, typing replaces it
+  QTest::keyClicks(editor, "4.4647e-34");
+
+  // focus-out without Enter commits typed value
+  QFocusEvent focus_out(QEvent::FocusOut);
+  QApplication::sendEvent(editor, &focus_out);
+
+  EXPECT_EQ(property.Data(), variant_t(4.4647e-34));
 }
 
 TEST_F(ViewModelDelegateExtendedTest, NullableAllIntSpinBox)

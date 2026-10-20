@@ -61,12 +61,10 @@ editorbuilder_t ExternalPropertyEditorBuilder();
  */
 
 /**
- * @brief Returns builder function to create editors for double based variants.
+ * @brief Returns builder function to create editors for float32 and float64 based variants.
  *
- * @details It relies on ScientificSpinBox with additional option to edit text with scientific
- * notations 10e-12.
- *
- * @details About to be integrated to FloatEditorBuilder().
+ * @details It relies on ScientificSpinBox. Limits come from the item, precision from
+ * DataRole::kPrecision, notation from Appearance::kScientific.
  */
 
 editorbuilder_t ScientificSpinBoxEditorBuilder();

@@ -20,151 +20,237 @@
 
 #include "scientific_spinbox.h"
 
+#include <mvvm/providers/variant_converter.h>
 #include <mvvm/standarditems/editor_constants.h>
-#include <mvvm/utils/string_utils.h>
+#include <mvvm/utils/i_limited_float.h>
+#include <mvvm/utils/limited_float_helper.h>
 
 #include <QLineEdit>
-#include <cmath>
-#include <limits>
 
 namespace
 {
-constexpr double min_val = std::numeric_limits<double>::min();
-constexpr double max_val = std::numeric_limits<double>::max();
+bool HasFloatCharactersOnly(const std::string& str)
+{
+  return str.find_first_not_of("0123456789+-.eE") == std::string::npos;
+}
 }  // namespace
 
 namespace mvvm
 {
 
 ScientificSpinBox::ScientificSpinBox(QWidget* parent_widget)
-    : QAbstractSpinBox(parent_widget)
-    , m_value(0.0)
-    , m_min(-max_val)
-    , m_max(max_val)
-    , m_step(1.0)
-    , m_decimals(constants::kDefaultDoubleDecimals)
+    : QAbstractSpinBox(parent_widget), m_precision(constants::kDefaultDoubleDecimals)
 {
-  connect(this, &QAbstractSpinBox::editingFinished, this, &ScientificSpinBox::updateValue);
+  connect(this, &QAbstractSpinBox::editingFinished, this, &ScientificSpinBox::OnEditingFinished);
 }
 
 ScientificSpinBox::~ScientificSpinBox() = default;
 
-double ScientificSpinBox::value() const
+void ScientificSpinBox::SetLimitedFloat(std::unique_ptr<ILimitedFloat> value)
 {
-  // return last acceptable input (required for the proper focus-out behaviour)
-  return valueFromText(text());
+  m_value = std::move(value);
+  m_value->SetSingleStep(m_single_step);
+  UpdateTextField();
 }
 
-void ScientificSpinBox::setValue(double val)
+ILimitedFloat* ScientificSpinBox::GetLimitedFloat()
 {
-  const double old_val = m_value;
-  m_value = val;
-  updateText();
-  if (std::abs(old_val - m_value) > min_val)
+  return m_value.get();
+}
+
+void ScientificSpinBox::SetRange(const variant_t& lower_limit, const variant_t& upper_limit)
+{
+  m_lower_limit = lower_limit;
+  m_upper_limit = upper_limit;
+}
+
+void ScientificSpinBox::SetPrecision(std::int32_t precision)
+{
+  m_precision = precision;
+  if (m_value)
   {
-    emit valueChanged(m_value);
+    UpdateTextField();
   }
 }
 
-void ScientificSpinBox::updateValue()
+std::int32_t ScientificSpinBox::GetPrecision() const
 {
-  setValue(valueFromText(text()));
+  return m_precision;
 }
 
-double ScientificSpinBox::singleStep() const
+void ScientificSpinBox::SetScientific(bool value)
 {
-  return m_step;
-}
-
-void ScientificSpinBox::setSingleStep(double step)
-{
-  m_step = step;
-}
-
-double ScientificSpinBox::minimum() const
-{
-  return m_min;
-}
-
-void ScientificSpinBox::setMinimum(double min)
-{
-  m_min = min;
-  if (m_value < m_min)
+  m_scientific = value;
+  if (m_value)
   {
-    setValue(m_min);
+    UpdateTextField();
   }
 }
 
-double ScientificSpinBox::maximum() const
+bool ScientificSpinBox::IsScientific() const
 {
-  return m_max;
+  return m_scientific;
 }
 
-void ScientificSpinBox::setMaximum(double max)
+void ScientificSpinBox::SetSingleStep(double step)
 {
-  m_max = max;
-  if (m_value > m_max)
+  m_single_step = step;
+  if (m_value)
   {
-    setValue(m_max);
+    m_value->SetSingleStep(step);
   }
 }
 
-void ScientificSpinBox::setDecimals(int val)
+double ScientificSpinBox::GetSingleStep() const
 {
-  if (val <= 0)
-  {
-    return;
-  }
-  m_decimals = val;
-  updateText();
+  return m_single_step;
 }
 
-int ScientificSpinBox::decimals() const
+QVariant ScientificSpinBox::value() const
 {
-  return m_decimals;
+  if (!m_value)
+  {
+    return {};
+  }
+
+  // typed text not yet processed on editingFinished takes precedence
+  if (const auto text_value = text().toStdString(); text_value != GetValueText())
+  {
+    if (auto parsed_value = m_value->ParseText(text_value); parsed_value.has_value())
+    {
+      return GetQtVariant(parsed_value.value());
+    }
+  }
+
+  return GetQtVariant(m_value->GetValueAsVariant());
+}
+
+QValidator::State ScientificSpinBox::validate(QString& input, int& pos) const
+{
+  (void)pos;
+
+  if (input.isEmpty())
+  {
+    // An empty field means no value for a nullable float, otherwise it is an intermediate state
+    return (m_value && m_value->IsNullable()) ? QValidator::Acceptable : QValidator::Intermediate;
+  }
+
+  if (!HasFloatCharactersOnly(input.toStdString()))
+  {
+    return QValidator::Invalid;
+  }
+
+  // We are performing final conversion check on board of ILimitedFloat::SetValueFromText.
+  // Intermediate input like "1e" is accepted here.
+
+  return QValidator::Acceptable;
+}
+
+void ScientificSpinBox::fixup(QString& input) const
+{
+  (void)input;
 }
 
 void ScientificSpinBox::stepBy(int steps)
 {
-  const double new_val = m_value + (m_step * steps);
-  if (inRange(new_val))
+  if (!m_value)
   {
-    setValue(new_val);
+    return;
+  }
+
+  if (m_value->StepBy(steps))
+  {
+    UpdateTextField();
+    m_cached_value_was_changed = true;
+  }
+}
+
+void ScientificSpinBox::CheckNotify()
+{
+  if (!m_value)
+  {
+    return;
+  }
+
+  if (m_cached_value_was_changed)
+  {
+    m_cached_value_was_changed = false;
+    emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
   }
 }
 
 QAbstractSpinBox::StepEnabled ScientificSpinBox::stepEnabled() const
 {
-  return isReadOnly() ? StepNone : StepUpEnabled | StepDownEnabled;
+  if (isReadOnly() || !m_value)
+  {
+    return StepNone;
+  }
+
+  QAbstractSpinBox::StepEnabled step_enabled{StepNone};
+
+  if (!m_value->IsAtMaximum())
+  {
+    step_enabled |= StepUpEnabled;
+  }
+
+  if (!m_value->IsAtMinimum())
+  {
+    step_enabled |= StepDownEnabled;
+  }
+  return step_enabled;
 }
 
-void ScientificSpinBox::updateText()
+void ScientificSpinBox::setValue(const QVariant& value)
 {
-  const QString new_text =
-      QString::fromStdString(utils::ScientificDoubleToString(m_value, m_decimals));
-  if (new_text != text())
+  if (!m_value)
   {
-    lineEdit()->setText(new_text);
+    SetLimitedFloat(CreateLimitedFloat(GetStdVariant(value), m_lower_limit, m_upper_limit));
+    return;
+  }
+
+  if (m_value->SetValueFromVariant(GetStdVariant(value)))
+  {
+    m_cached_value_was_changed = true;
+    UpdateTextField();
+  }
+
+  CheckNotify();
+}
+
+void ScientificSpinBox::OnEditingFinished()
+{
+  if (!m_value)
+  {
+    return;
+  }
+
+  // the text of the current value keeps the exact value
+  if (const auto text_value = text().toStdString(); text_value != GetValueText())
+  {
+    if (m_value->SetValueFromText(text_value))
+    {
+      m_cached_value_was_changed = true;
+    }
+  }
+
+  // invalid text is replaced with the text of the value
+  UpdateTextField();
+  CheckNotify();
+}
+
+void ScientificSpinBox::UpdateTextField()
+{
+  const auto value_text = QString::fromStdString(GetValueText());
+  if (value_text != text())
+  {
+    lineEdit()->setText(value_text);
+    lineEdit()->selectAll();
   }
 }
 
-bool ScientificSpinBox::inRange(double val) const
+std::string ScientificSpinBox::GetValueText() const
 {
-  return val >= m_min && val <= m_max;
-}
-
-double ScientificSpinBox::valueFromText(const QString& text) const
-{
-  const auto str = text.toStdString();
-  if (str == utils::ScientificDoubleToString(m_value, m_decimals))
-  {
-    // unchanged text keeps the exact value
-    return m_value;
-  }
-
-  const auto parsed_value = utils::StringToDouble(str);
-  return (parsed_value.has_value() && inRange(parsed_value.value())) ? parsed_value.value()
-                                                                     : m_value;
+  return m_value->GetValueAsText(m_precision, m_scientific);
 }
 
 }  // namespace mvvm

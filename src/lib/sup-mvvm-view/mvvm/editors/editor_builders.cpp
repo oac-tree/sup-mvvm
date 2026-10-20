@@ -29,13 +29,25 @@
 #include <mvvm/utils/limited_integer_helper.h>
 
 #include <QDoubleSpinBox>
+#include <cmath>
 
 namespace
 {
 
-double getStep(double val)
+//! Returns 1% of the float data of the item as a step, 1.0 for zero or other data.
+double GetFloatStep(const mvvm::SessionItem& item)
 {
-  return val == 0.0 ? 1.0 : val / 100.;
+  const auto data = item.Data();
+  double value{0.0};
+  if (std::holds_alternative<mvvm::float32>(data))
+  {
+    value = std::get<mvvm::float32>(data);
+  }
+  else if (std::holds_alternative<mvvm::float64>(data))
+  {
+    value = std::get<mvvm::float64>(data);
+  }
+  return (value == 0.0) ? 1.0 : std::abs(value) / 100.0;
 }
 
 }  // namespace
@@ -79,14 +91,16 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
 {
   auto builder = [](const SessionItem* item) -> editor_t
   {
-    auto editor = std::make_unique<ScientificSpinBoxEditor>();
-    if (item)
+    auto editor = std::make_unique<ScientificSpinBox>();
+    if (item == nullptr)
     {
-      auto limits = GetFloat64Limits(*item);
-      editor->SetRange(limits.first, limits.second);
-      editor->SetSingleStep(getStep(item->Data<double>()));
+      return editor;
     }
-    editor->SetDecimals(constants::kDefaultDoubleDecimals);
+
+    editor->SetRange(GetLowerLimit(*item), GetUpperLimit(*item));
+    editor->SetPrecision(utils::GetPrecision(*item));
+    editor->SetScientific(item->HasFlag(Appearance::kScientific));
+    editor->SetSingleStep(GetFloatStep(*item));
     return editor;
   };
   return builder;
