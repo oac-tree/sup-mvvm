@@ -67,10 +67,15 @@ void ViewModelController::OnItemInsertedEvent(const ItemInsertedEvent& event)
 
   auto* new_child = &parent->GetItem(tag_index);
 
-  const auto insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
-  auto parent_view = m_view_item_map.FindView(parent);
+  auto* view_parent = m_children_strategy->GetViewParent(new_child);
+  auto parent_view = m_view_item_map.FindView(view_parent);
+  if (parent_view == nullptr)
+  {
+    return;
+  }
 
-  if ((insert_view_index != constants::kInvalidIndex) && (parent_view != nullptr))
+  const auto insert_view_index = GetInsertViewIndexOfChild(view_parent, new_child);
+  if (insert_view_index != constants::kInvalidIndex)
   {
     m_view_model->insertRow(parent_view, static_cast<std::int32_t>(insert_view_index),
                             CreateTreeOfRows(*new_child));

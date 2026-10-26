@@ -22,6 +22,7 @@ target_sources(${library_name} PRIVATE
   default_display_name_presentation_item.h
   editor_types_fwd.h
   i_cell_decorator.h
+  i_children_strategy.cpp
   i_children_strategy.h
   i_editor_factory.h
   i_row_strategy.h

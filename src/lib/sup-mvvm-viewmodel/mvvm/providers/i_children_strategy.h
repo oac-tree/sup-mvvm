@@ -55,6 +55,16 @@ public:
    * editable views for; mutable children cannot honestly be derived from a const parent.
    */
   virtual std::vector<SessionItem*> GetChildren(SessionItem* item) const = 0;
+
+  /**
+   * @brief Returns the item whose view holds the view of the given item.
+   *
+   * Should be overridden together with GetChildren, when it reports children of other items.
+   *
+   * Used to show children under parents they do not belong. The default implementation returns the
+   * parent of the item.
+   */
+  virtual SessionItem* GetViewParent(SessionItem* item) const;
 };
 
 }  // namespace mvvm

@@ -25,6 +25,7 @@
 //! Collection of test strategies for testing purpose.
 
 #include <mvvm/providers/abstract_row_strategy.h>
+#include <mvvm/providers/i_children_strategy.h>
 
 namespace mvvm::test
 {
@@ -42,6 +43,18 @@ public:
 
 private:
   std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem*) override;
+};
+
+/**
+ * @brief The FlatContainerTestStrategy class reports children of ContainerItem in place of the
+ * container.
+ */
+class FlatContainerTestStrategy : public mvvm::IChildrenStrategy
+{
+public:
+  std::vector<mvvm::SessionItem*> GetChildren(mvvm::SessionItem* item) const override;
+
+  mvvm::SessionItem* GetViewParent(mvvm::SessionItem* item) const override;
 };
 
 }  // namespace mvvm::test

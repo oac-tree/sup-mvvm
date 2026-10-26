@@ -355,6 +355,32 @@ TEST_F(ViewModelControllerViewmodelTest, InsertTemBetweenTwoItems)
   EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0, QModelIndex())), item1);
 }
 
+//! Strategy shows children of the container in place of the container. Items inserted into the
+//! container get their rows beneath the parent of the container.
+
+TEST_F(ViewModelControllerViewmodelTest, InsertIntoFlatContainer)
+{
+  auto container = m_model.InsertItem<ContainerItem>();
+
+  auto controller =
+      CreateController<test::FlatContainerTestStrategy, LabelDataRowStrategy>(m_model, m_viewmodel);
+  (void)controller;
+  EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
+
+  auto item0 = m_model.InsertItem<PropertyItem>(container);
+  ASSERT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0, QModelIndex())), item0);
+
+  auto item1 = m_model.InsertItem<PropertyItem>(container, TagIndex::First());
+  ASSERT_EQ(m_viewmodel.rowCount(QModelIndex()), 2);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0, QModelIndex())), item1);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0, QModelIndex())), item0);
+
+  m_model.RemoveItem(item1);
+  ASSERT_EQ(m_viewmodel.rowCount(QModelIndex()), 1);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0, QModelIndex())), item0);
+}
+
 TEST_F(ViewModelControllerViewmodelTest, InsertParentAndThenChildIntoEmptyModel)
 {
   auto controller = CreateController(m_model, m_viewmodel);
