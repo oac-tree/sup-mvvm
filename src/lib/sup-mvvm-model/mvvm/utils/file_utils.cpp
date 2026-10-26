@@ -67,7 +67,6 @@ std::vector<std::string> FindFiles(const std::string& dirname, const std::string
 #if !defined(INCLUDE_STD_FILESYSTEM_EXPERIMENTAL) || INCLUDE_STD_FILESYSTEM_EXPERIMENTAL == 0
   for (const auto& entry : std::filesystem::directory_iterator(dirname))
   {
-    const auto filenameStr = entry.path().filename().string();
     if (entry.is_regular_file() && entry.path().extension() == ext)
     {
       result.push_back(entry.path().string());

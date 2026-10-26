@@ -98,7 +98,7 @@ std::vector<const ViewItem*> FindViewsForItem(const ViewModelBase* view_model, c
     result.push_back(view_model->rootItem());
   }
 
-  auto on_index = [&](const QModelIndex& index)
+  auto on_index = [view_model, item, &result](const QModelIndex& index)
   {
     auto view_item = view_model->itemFromIndex(index);
     if (GetItemFromView<T>(view_item) == item)

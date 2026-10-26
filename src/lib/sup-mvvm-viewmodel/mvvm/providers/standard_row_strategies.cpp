@@ -59,7 +59,7 @@ std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRowImpl(Se
 // ----------------------------------------------------------------------------
 
 PropertiesRowStrategy::PropertiesRowStrategy(std::vector<std::string> labels)
-    : m_user_defined_column_labels(std::move(labels))
+    : AbstractRowStrategy(), m_user_defined_column_labels(std::move(labels))
 {
 }
 

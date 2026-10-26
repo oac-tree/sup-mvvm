@@ -225,13 +225,13 @@ std::vector<SessionItem*> SessionItem::GetItems(std::string_view tag)
 std::vector<const SessionItem*> SessionItem::FindItemsImpl(std::string_view tag) const
 {
   const auto* container = GetTaggedItems()->FindContainer(std::string(tag));
-  return container != nullptr ? container->GetItems() : std::vector<const SessionItem*>{};
+  return (container != nullptr) ? container->GetItems() : std::vector<const SessionItem*>{};
 }
 
 std::vector<SessionItem*> SessionItem::FindItemsImpl(std::string_view tag)
 {
   auto* container = GetTaggedItems()->FindContainer(std::string(tag));
-  return container != nullptr ? container->GetItems() : std::vector<SessionItem*>{};
+  return (container != nullptr) ? container->GetItems() : std::vector<SessionItem*>{};
 }
 
 TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const

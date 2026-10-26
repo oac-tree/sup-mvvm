@@ -39,6 +39,7 @@ ViewModelController::ViewModelController(ViewModelBase* viewmodel,
                                          std::unique_ptr<IRowStrategy> row_strategy)
     : AbstractViewModelController()
     , m_view_model(viewmodel)
+    , m_view_item_map()
     , m_children_strategy(std::move(children_strategy))
     , m_row_strategy(std::move(row_strategy))
 {

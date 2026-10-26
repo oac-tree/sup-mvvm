@@ -22,8 +22,14 @@
 
 #include "uuid.h"
 
-#include <memory>
 #include <cstdint>
+#include <memory>
+
+namespace mvvm
+{
+
+namespace
+{
 
 struct GeneratorData
 {
@@ -42,11 +48,6 @@ struct GeneratorData
   }
 };
 
-namespace mvvm
-{
-
-namespace
-{
 // File-scope (not local) static storage duration to comply with MISRA C++ 2023 Rule 6.7.1. The
 // GeneratorData constructor is self-contained (seeds its own RNG), so it has no
 // static-initialisation-order dependency on other translation units.

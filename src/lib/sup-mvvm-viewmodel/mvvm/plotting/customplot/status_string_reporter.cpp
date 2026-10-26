@@ -39,7 +39,11 @@ struct StatusStringReporter::StatusStringReporterImpl
 
   StatusStringReporterImpl(QCustomPlot* custom_plot, callback_t callback,
                            std::unique_ptr<StatusStringFormatterInterface> formatter)
-      : custom_plot(custom_plot), callback(std::move(callback)), fmt(std::move(formatter))
+      : custom_plot(custom_plot)
+      , callback(std::move(callback))
+      , fmt(std::move(formatter))
+      , mouse_reporter()
+      , prevPos()
   {
     if (custom_plot == nullptr)
     {

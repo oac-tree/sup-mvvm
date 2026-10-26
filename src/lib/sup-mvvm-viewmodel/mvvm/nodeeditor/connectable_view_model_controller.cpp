@@ -67,6 +67,7 @@ ConnectableViewModelController::ConnectableViewModelController(
     : m_shape_factory(std::move(factory))
     , m_children_strategy(std::move(children_strategy))
     , m_graphics_scene(graphics_scene)
+    , m_item_view_map()
 {
   if (m_graphics_scene == nullptr)
   {

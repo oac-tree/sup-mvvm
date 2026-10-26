@@ -86,7 +86,7 @@ void ChartAxisPlotController::SetAxisRangeFromItem()
 
 void ChartAxisPlotController::OnPropertyChangedEvent(const PropertyChangedEvent& event)
 {
-  auto [item, name] = event;
+  const auto& name = event.name;
 
   if (name == constants::kMin || name == constants::kMax)
   {

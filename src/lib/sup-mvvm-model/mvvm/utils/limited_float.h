@@ -167,7 +167,8 @@ template <typename T>
 inline LimitedFloat<T>::LimitedFloat(std::optional<T> value, T default_value,
                                      std::optional<T> lower_bound, std::optional<T> upper_bound,
                                      bool is_nullable)
-    : m_lower_bound(lower_bound.value_or(std::numeric_limits<T>::lowest()))
+    : ILimitedFloat()
+    , m_lower_bound(lower_bound.value_or(std::numeric_limits<T>::lowest()))
     , m_upper_bound(upper_bound.value_or(std::numeric_limits<T>::max()))
     , m_is_nullable(is_nullable)
 {
@@ -338,7 +339,8 @@ inline bool LimitedFloat<T>::StepBy(std::int32_t steps)
   }
 
   // computed in double, the clamp handles an overflow to infinity
-  const double new_value = static_cast<double>(m_value.value()) + (m_step * steps);
+  const double new_value =
+      static_cast<double>(m_value.value()) + (m_step * static_cast<double>(steps));
   const auto result = static_cast<T>(std::clamp(new_value, static_cast<double>(m_lower_bound),
                                                 static_cast<double>(m_upper_bound)));
   return SetValue(result);

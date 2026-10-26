@@ -175,13 +175,13 @@ const SessionItem* TaggedItems::FindItem(const TagIndex& tag_index) const
   // deliberately built on FindContainer (nullable) rather than GetContainer (throwing) to make
   // this method total
   const auto* container = FindContainer(tag_index.GetTag());
-  return container != nullptr ? container->ItemAt(tag_index.GetIndex()) : nullptr;
+  return (container != nullptr) ? container->ItemAt(tag_index.GetIndex()) : nullptr;
 }
 
 SessionItem* TaggedItems::FindItem(const TagIndex& tag_index)
 {
   auto* container = FindContainer(tag_index.GetTag());
-  return container != nullptr ? container->ItemAt(tag_index.GetIndex()) : nullptr;
+  return (container != nullptr) ? container->ItemAt(tag_index.GetIndex()) : nullptr;
 }
 
 std::vector<const SessionItem*> TaggedItems::GetItems(const std::string& tag) const

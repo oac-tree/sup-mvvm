@@ -169,7 +169,8 @@ void ChartViewportController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEv
   auto* child_about_to_be_removed = parent->FindItem<LineSeriesItem>(tagindex);
 
   // looking for controller serving item
-  auto on_element = [&](const std::unique_ptr<LineSeriesController>& cntrl) -> bool
+  auto on_element =
+      [child_about_to_be_removed](const std::unique_ptr<LineSeriesController>& cntrl) -> bool
   { return cntrl->GetItem() == child_about_to_be_removed; };
   auto iter = std::find_if(m_line_controllers.begin(), m_line_controllers.end(), on_element);
 

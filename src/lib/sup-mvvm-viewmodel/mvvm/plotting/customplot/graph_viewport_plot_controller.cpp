@@ -113,7 +113,8 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
     const auto [parent, tagindex] = event;
 
     const auto* child_about_to_be_removed = parent->FindItem(tagindex);
-    auto if_func = [&](const std::unique_ptr<GraphPlotController>& cntrl) -> bool
+    auto if_func =
+        [child_about_to_be_removed](const std::unique_ptr<GraphPlotController>& cntrl) -> bool
     { return cntrl->GetItem() == child_about_to_be_removed; };
     m_graph_controllers.remove_if(if_func);
     m_custom_plot->replot();
