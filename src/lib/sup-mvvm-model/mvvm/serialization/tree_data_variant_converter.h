@@ -25,14 +25,17 @@
 //! Declares utility functions to convert between TreeData and role_data_t objects.
 
 //! These are auxiliary functions to provide parsing of xml elements
-//! - <Variant role = "0" type = "undefined"></Variant>
-//! - <Variant role = "0" type = "bool">true</Variant>
-//! - <Variant role = "0" type = "int">42</Variant>
-//! - <Variant role = "0" type = "string">James</Variant>
-//! - <Variant role = "0" type = "double">42.3</Variant>
-//! - <Variant role = "0" type = "vector_double">1.0, 2.0</Variant>
-//! - <Variant role = "0" type = "ComboProperty" selections="1,2">a1;a2</Variant>
-//! - <Variant role = "0" type = "ExternalProperty">text;color;identifier</Variant>
+//!
+//! @code{xml}
+//! <Variant role = "0" type = "undefined"></Variant>
+//! <Variant role = "0" type = "bool">true</Variant>
+//! <Variant role = "0" type = "int">42</Variant>
+//! <Variant role = "0" type = "string">James</Variant>
+//! <Variant role = "0" type = "double">42.3</Variant>
+//! <Variant role = "0" type = "vector_double">1.0, 2.0</Variant>
+//! <Variant role = "0" type = "ComboProperty" selections="1,2">a1;a2</Variant>
+//! <Variant role = "0" type = "ExternalProperty">text;color;identifier</Variant>
+//! @endcode
 
 #include <mvvm/core/variant.h>
 #include <mvvm/serialization/tree_data_fwd.h>

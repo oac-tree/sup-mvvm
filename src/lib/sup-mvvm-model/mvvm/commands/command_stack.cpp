@@ -50,7 +50,7 @@ struct CommandStack::CommandStackImpl
   /**
    * @brief Sets operation in progress flag to a given value.
    *
-   * Will throw on attempt to set the same flag as before. See @IsOperationInProgress() for more
+   * Will throw on attempt to set the same flag as before. @see IsOperationInProgress() for more
    * explanations.
    */
   void SetInProgress(bool value)

@@ -25,7 +25,7 @@ integer number `42` in the context of some view. Then, it will carry:
   and similar).
 
 The data of ``SessionItem``
--------------------------
+---------------------------
 
 The data carried by ``SessionItem`` is always associated with the role - a unique
 integer number defining the context in which the data has to be used. They both
@@ -61,7 +61,7 @@ display role holding a label and the data role, holding the value.::
   auto label = item.Data<std::string>(kDisplay);
 
 Inheriting from ``SessionItem``
------------------------------
+-------------------------------
 
 The ``SessionItem`` class type name is stored in a string variable and can be
 accessed via the `GetType()` method::

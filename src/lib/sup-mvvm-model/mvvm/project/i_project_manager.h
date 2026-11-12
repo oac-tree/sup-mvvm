@@ -90,7 +90,7 @@ public:
   /**
    * @brief Opens existing project.
    *
-   * @param dirname The full path to the project.
+   * @param path The full path to the project.
    * @return Returns true in the case of success.
    */
   virtual bool OpenExistingProject(const std::string& path) = 0;

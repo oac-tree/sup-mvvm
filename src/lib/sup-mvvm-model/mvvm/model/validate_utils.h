@@ -63,7 +63,7 @@ TagIndex GetVerifiedTagIndex(const SessionItem& parent, const TagIndex& tag_inde
  * insert tag depending on the original position of the item and the position where it is moved to.
  *
  * @param item An item to move.
- * @param new_parent A new parent for the item.
+ * @param parent A new parent for the item.
  * @param tag_index A tag index for the move operation.
  * @return
  */
@@ -101,9 +101,9 @@ void ValidateItemTypeInsert(const std::string& item_type, const SessionItem& par
 /**
  * @brief Returns MoveInfo for potential move operation.
  *
- * @item An item to move.
- * @new_parent A new parent for the item.
- * @tag_index A tag index for the move operation.
+ * @param item An item to move.
+ * @param new_parent A new parent for the item.
+ * @param tag_index A tag index for the move operation.
  *
  * @see SessionModel::MoveItem
  */

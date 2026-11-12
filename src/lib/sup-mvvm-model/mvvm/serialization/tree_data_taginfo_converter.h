@@ -25,7 +25,9 @@
 //! Declares utility functions to convert between TreeData and TagInfo objects.
 
 //! These are auxiliary functions to provide parsing of xml elements
-//! - <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
+//! @code{xml}
+//! <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
+//! @endcode
 
 #include <mvvm/serialization/tree_data_fwd.h>
 

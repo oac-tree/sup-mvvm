@@ -69,7 +69,7 @@ public:
    * property editors. Once inserted, it can't be removed.
    *
    * @param name The name of the tag.
-   * @param item_types The list of allowed item types.
+   * @param item_type The list of allowed item types.
    * @return Constructed tag.
    */
   static TagInfo CreatePropertyTag(std::string name, std::string item_type);

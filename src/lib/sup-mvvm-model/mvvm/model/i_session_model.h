@@ -87,7 +87,7 @@ public:
   /**
    * @brief Inserts an item into the given parent and takes ownership of it.
    *
-   * @param An item to insert.
+   * @param item An item to insert.
    * @param parent The parent where to insert.
    * @param tag_index A tag_index pointing to the inserted place.
    * @return The pointer to the inserted item.

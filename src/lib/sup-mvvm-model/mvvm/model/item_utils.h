@@ -125,7 +125,7 @@ std::size_t CopyNumber(const SessionItem* item);
 /**
  * @brief Returns child at given index of a parent (const version).
  *
- * #details No tags are involved, index is considered as global index in the combined array of all
+ * @details No tags are involved, index is considered as global index in the combined array of all
  * children.
  */
 const SessionItem* ChildAt(const SessionItem* parent, std::size_t index);
@@ -492,7 +492,7 @@ std::string ItemToDebugString(const SessionItem* item);
  * parents of certain type. The resulting list will be filtered for duplicates, the order of parents
  * in the list will be preserved.
  *
- * @param item The items to investigate.
+ * @param items The items to investigate.
  * @param start_from_self Will start from items itself, if true, otherwise will start from its
  * parent.
  *
