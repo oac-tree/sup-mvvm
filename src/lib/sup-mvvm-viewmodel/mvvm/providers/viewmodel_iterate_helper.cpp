@@ -32,9 +32,11 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
     return;
   }
 
-  for (std::int32_t row = 0; row < model->rowCount(parent); ++row)
+  const std::int32_t row_count = model->rowCount(parent);
+  const std::int32_t column_count = model->columnCount(parent);
+  for (std::int32_t row = 0; row < row_count; ++row)
   {
-    for (std::int32_t col = 0; col < model->columnCount(parent); ++col)
+    for (std::int32_t col = 0; col < column_count; ++col)
     {
       auto index = model->index(row, col, parent);
       if (index.isValid())
@@ -42,7 +44,7 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
         fun(index);
       }
     }
-    for (std::int32_t col = 0; col < model->columnCount(parent); ++col)
+    for (std::int32_t col = 0; col < column_count; ++col)
     {
       auto index = model->index(row, col, parent);
       iterate_model(model, index, fun);

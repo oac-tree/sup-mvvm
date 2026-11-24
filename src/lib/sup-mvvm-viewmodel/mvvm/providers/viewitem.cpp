@@ -137,7 +137,8 @@ struct ViewItem::ViewItemImpl
       return;
     }
 
-    for (size_t index = 0; index < m_children.size(); ++index)
+    const std::size_t children_count = m_children.size();
+    for (std::size_t index = 0; index < children_count; ++index)
     {
       const std::size_t row = index / static_cast<std::size_t>(m_columns);
       const std::size_t col = index % static_cast<std::size_t>(m_columns);

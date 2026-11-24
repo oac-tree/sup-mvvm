@@ -40,8 +40,8 @@ class ViewItem;
  *
  * It listens to the SessionModel and updates the ViewModel accordingly, using pluggable
  * children/row strategies to build the tree of views. To customize the behavior, derive from this
- * class and override the relevant OnXxxEvent handlers; protected helpers and members give access to
- * the underlying machinery (view item map, strategies, view model).
+ * class and override the relevant OnXxxEvent handlers; protected helpers give access to the
+ * underlying machinery (view item map, children strategy, view model).
  */
 class ViewModelController : public AbstractViewModelController
 {
@@ -100,13 +100,23 @@ protected:
 
   item_view_map_t& GetViewItemMap() &;
 
+  /**
+   * @brief Returns the view model.
+   */
+  ViewModelBase* GetViewModel() const;
+
+  /**
+   * @brief Returns the children strategy.
+   */
+  const IChildrenStrategy* GetChildrenStrategy() const;
+
+private:
+  void SetRootItemImpl(SessionItem* root_item) override;
+
   ViewModelBase* m_view_model{nullptr};
   item_view_map_t m_view_item_map;
   std::unique_ptr<IChildrenStrategy> m_children_strategy;
   std::unique_ptr<IRowStrategy> m_row_strategy;
-
-private:
-  void SetRootItemImpl(SessionItem* root_item) override;
 };
 
 }  // namespace mvvm

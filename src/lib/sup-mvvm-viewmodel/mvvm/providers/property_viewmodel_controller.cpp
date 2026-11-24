@@ -74,11 +74,11 @@ void PropertyViewModelController::RebuildGroupBranch(SessionItem& group)
 
   // Remove the child rows of the group's view (with notifications), then recreate them. The
   // children strategy now reports the property items of the newly selected item.
-  m_view_model->clearRows(group_view);
-  const auto children = m_children_strategy->GetChildren(&group);
+  GetViewModel()->clearRows(group_view);
+  const auto children = GetChildrenStrategy()->GetChildren(&group);
   for (auto* child : children)
   {
-    m_view_model->appendRow(group_view, CreateTreeOfRows(*child));
+    GetViewModel()->appendRow(group_view, CreateTreeOfRows(*child));
   }
 }
 

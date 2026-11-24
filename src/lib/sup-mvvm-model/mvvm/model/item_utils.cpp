@@ -38,6 +38,7 @@
 #include <sup/xml/tree_data_parser.h>
 #include <sup/xml/tree_data_serialize.h>
 
+#include <algorithm>
 #include <sstream>
 #include <stack>
 #include <utility>
@@ -169,10 +170,7 @@ void IterateImpl(ItemT* item, const std::function<void(ItemT*)>& func)
 
     auto children = top_item->GetAllItems();
     // push in reverse order to provide correct child order processing
-    for (auto it = children.rbegin(); it != children.rend(); ++it)
-    {
-      stack.push(*it);
-    }
+    std::for_each(children.rbegin(), children.rend(), [&stack](auto child) { stack.push(child); });
   }
 }
 }  // namespace
@@ -214,10 +212,7 @@ void iterate_if(const SessionItem* item, const std::function<bool(const SessionI
 
     auto children = top_item->GetAllItems();
     // push in reverse order to provide correct child order processing
-    for (auto it = children.rbegin(); it != children.rend(); ++it)
-    {
-      stack.push(*it);
-    }
+    std::for_each(children.rbegin(), children.rend(), [&stack](auto child) { stack.push(child); });
   }
 }
 

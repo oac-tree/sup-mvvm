@@ -167,7 +167,8 @@ std::string VectorToString(const std::vector<ElementT>& vec,
   }
 
   std::ostringstream oss;
-  for (size_t i = 0; i < vec.size(); ++i)
+  const std::size_t vec_size = vec.size();
+  for (std::size_t i = 0; i < vec_size; ++i)
   {
     if constexpr (std::is_same_v<ElementT, double>)
     {
@@ -178,7 +179,7 @@ std::string VectorToString(const std::vector<ElementT>& vec,
       oss << vec[i];
     }
 
-    if (i != (vec.size() - 1))
+    if (i != (vec_size - 1))
     {
       oss << delimiter;
     }

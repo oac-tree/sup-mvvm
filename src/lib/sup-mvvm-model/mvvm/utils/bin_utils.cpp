@@ -94,7 +94,8 @@ bool ContainsConsequitiveNull(const std::vector<std::uint8_t>& buffer)
 {
   constexpr std::uint8_t kNullChar = 0x00;
 
-  for (std::size_t i = 1; i < buffer.size(); ++i)
+  const std::size_t buffer_size = buffer.size();
+  for (std::size_t i = 1; i < buffer_size; ++i)
   {
     if ((buffer[i] == kNullChar) && (buffer[i - 1] == kNullChar))
     {

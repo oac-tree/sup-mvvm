@@ -156,12 +156,13 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
 
   std::vector<std::string> result;
   std::string_view view(str);
-  size_t pos{0};
+  auto pos = view.find(delimiter);
 
-  while ((pos = view.find(delimiter)) != std::string::npos)
+  while (pos != std::string_view::npos)
   {
     (void)result.emplace_back(view.substr(0, pos));
     view.remove_prefix(pos + delimiter.length());
+    pos = view.find(delimiter);
   }
   (void)result.emplace_back(view);
   return result;

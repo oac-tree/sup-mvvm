@@ -408,7 +408,8 @@ inline bool LimitedInteger<T>::StepBy(std::int32_t steps)
   // INT_MIN...lower_bound....0...value...upper_bound...INT_MAX.
 
   bool value_was_changed{false};
-  for (std::size_t step = 0; step < static_cast<std::size_t>(std::abs(steps)); ++step)
+  const auto step_count = static_cast<std::size_t>(std::abs(steps));
+  for (std::size_t step = 0; step < step_count; ++step)
   {
     bool value_changed = (steps > 0) ? Increment() : Decrement();
     if (!value_changed)

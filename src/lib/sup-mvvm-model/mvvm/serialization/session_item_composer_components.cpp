@@ -98,15 +98,18 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext& 
   tagged_items->AppendContainer(std::move(container));
 
   // first child in TreeData corresponds to TagInfo which has been already processed
-  for (auto it = std::next(tree_data.Children().begin()); it != tree_data.Children().end(); ++it)
+  const auto& children = tree_data.Children();
+  for (std::size_t index = 1; index < children.size(); ++index)
   {
-    auto model_type = (*it).GetAttribute(constants::kTypeAttributeKey);
+    const auto& child_data = children[index];
+    auto model_type = child_data.GetAttribute(constants::kTypeAttributeKey);
 
     auto child = context.factory->CreateItem(model_type);
     auto child_ptr = child.get();
     (void)container_ptr->InsertItem(std::move(child), container_ptr->GetItemCount());
 
-    AddNextComponent(std::make_unique<SessionItemFromTreeData>(context, (*it), *child_ptr, parent));
+    AddNextComponent(
+        std::make_unique<SessionItemFromTreeData>(context, child_data, *child_ptr, parent));
   }
 }
 

@@ -20,7 +20,6 @@
 
 #include "set_value_command.h"
 
-#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 
@@ -33,11 +32,6 @@ SetValueCommand::SetValueCommand(SessionItem* item, const variant_t& value, role
     , m_value(value)
     , m_role(role)
 {
-  if (m_cached_item == nullptr)
-  {
-    throw RuntimeException("Uninitialized item");
-  }
-
   m_item_identifier = m_cached_item->GetIdentifier();
 }
 

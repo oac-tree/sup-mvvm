@@ -32,9 +32,9 @@ namespace mvvm
 std::vector<std::string> GetAttributeNames(const tree_data_t& tree_data)
 {
   std::vector<std::string> result;
-  for (const auto& [name, _] : tree_data.Attributes())
+  for (const auto& attribute : tree_data.Attributes())
   {
-    result.push_back(name);
+    result.push_back(attribute.first);
   }
   return result;
 }

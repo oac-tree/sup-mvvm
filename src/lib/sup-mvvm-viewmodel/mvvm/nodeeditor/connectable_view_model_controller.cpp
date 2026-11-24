@@ -30,6 +30,7 @@
 #include <mvvm/utils/container_utils.h>
 
 #include <QGraphicsScene>
+#include <algorithm>
 #include <stack>
 
 namespace mvvm
@@ -233,10 +234,8 @@ void ConnectableViewModelController::PopulateScene(SessionItem* top_level_node_i
 
     auto child_items = m_children_strategy->GetChildren(current_item);
     // visited in reverse order to populate the stack properly
-    for (auto it = child_items.rbegin(); it != child_items.rend(); ++it)
-    {
-      stack.push({*it, new_shape_ptr});
-    }
+    std::for_each(child_items.rbegin(), child_items.rend(),
+                  [&stack, new_shape_ptr](auto child) { stack.push({child, new_shape_ptr}); });
   }
 }
 
