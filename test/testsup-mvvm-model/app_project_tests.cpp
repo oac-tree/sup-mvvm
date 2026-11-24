@@ -297,7 +297,7 @@ TEST_F(AppProjectTest, LoadFromWrongFile)
 //! Validating that after project load its "modify: notification is still working.
 TEST_F(AppProjectTest, LoadAndThenModify)
 {
-  const auto expected_path = GetFilePath("untitled3.xml");
+  const auto expected_path = GetFilePath("untitled4.xml");
 
   auto project = CreateProject();
   project->RegisterModel<TestModelA>();
