@@ -211,22 +211,22 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelController::CreateTreeOfRows(Se
     auto children = m_children_strategy->GetChildren(current_parent);
 
     // visited in reverse order to populate the stack properly
-    std::for_each(children.rbegin(), children.rend(),
-                  [this, &stack, current_parent_view](auto child)
-                  {
-                    auto row = m_row_strategy->ConstructRow(child);
+    (void)std::for_each(children.rbegin(), children.rend(),
+                        [this, &stack, current_parent_view](auto child)
+                        {
+                          auto row = m_row_strategy->ConstructRow(child);
 
-                    if (!row.empty())
-                    {
-                      auto* next_parent_view = row.at(0).get();
+                          if (!row.empty())
+                          {
+                            auto* next_parent_view = row.at(0).get();
 
-                      // Inserting row of views into their parent. We always insert at index 0 to
-                      // compensate reverse order.
-                      current_parent_view->InsertRow(0, std::move(row));
+                            // Inserting row of views into their parent. We always insert at index 0
+                            // to compensate reverse order.
+                            current_parent_view->InsertRow(0, std::move(row));
 
-                      stack.push({child, next_parent_view});
-                    }
-                  });
+                            stack.push({child, next_parent_view});
+                          }
+                        });
   }
 
   // Do not allow to generate empty rows.

@@ -170,7 +170,8 @@ void IterateImpl(ItemT* item, const std::function<void(ItemT*)>& func)
 
     auto children = top_item->GetAllItems();
     // push in reverse order to provide correct child order processing
-    std::for_each(children.rbegin(), children.rend(), [&stack](auto child) { stack.push(child); });
+    (void)std::for_each(children.rbegin(), children.rend(),
+                        [&stack](auto child) { stack.push(child); });
   }
 }
 }  // namespace
@@ -212,7 +213,8 @@ void iterate_if(const SessionItem* item, const std::function<bool(const SessionI
 
     auto children = top_item->GetAllItems();
     // push in reverse order to provide correct child order processing
-    std::for_each(children.rbegin(), children.rend(), [&stack](auto child) { stack.push(child); });
+    (void)std::for_each(children.rbegin(), children.rend(),
+                        [&stack](auto child) { stack.push(child); });
   }
 }
 

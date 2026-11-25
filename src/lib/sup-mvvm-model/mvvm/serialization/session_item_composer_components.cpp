@@ -99,7 +99,8 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext& 
 
   // first child in TreeData corresponds to TagInfo which has been already processed
   const auto& children = tree_data.Children();
-  for (std::size_t index = 1; index < children.size(); ++index)
+  const std::size_t children_count = children.size();
+  for (std::size_t index = 1; index < children_count; ++index)
   {
     const auto& child_data = children[index];
     auto model_type = child_data.GetAttribute(constants::kTypeAttributeKey);

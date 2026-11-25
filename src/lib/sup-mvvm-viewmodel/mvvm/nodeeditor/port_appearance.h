@@ -71,6 +71,7 @@ public:
    * @brief Returns port style.
    */
   const NodePortStyle& GetPortStyle() const&;
+  const NodePortStyle& GetPortStyle() const&& = delete;
 
 private:
   PortLocation m_port_location;

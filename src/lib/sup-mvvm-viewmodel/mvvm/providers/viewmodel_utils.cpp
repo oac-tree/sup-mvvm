@@ -135,7 +135,7 @@ QVariant CheckStateRole(const SessionItem& item)
   {
     // Item can carry any integer, Qt will understand only 0,1,2 for unchecked, partially checked,
     // and checked states. It is up to the item creator to set proper values.
-    return item.Data<int>(DataRole::kCheckState);
+    return item.Data<std::int32_t>(DataRole::kCheckState);
   }
 
   // item data role carries a boolean value, which can be represented as check state role, unless

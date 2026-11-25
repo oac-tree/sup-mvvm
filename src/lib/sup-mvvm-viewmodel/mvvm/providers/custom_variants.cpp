@@ -30,7 +30,7 @@ std::string GetQtVariantName(const QVariant& variant)
 std::int32_t GetQtVariantType(const QVariant& variant)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-  auto result = static_cast<int>(variant.type());
+  auto result = static_cast<std::int32_t>(variant.type());
   if (static_cast<uint32_t>(result) == QVariant::UserType)
   {
     result = variant.userType();

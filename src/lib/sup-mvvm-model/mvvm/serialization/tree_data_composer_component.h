@@ -62,6 +62,7 @@ public:
    * @brief Returns copy of underlying tree data.
    */
   const tree_data_t& GetTreeData() const&;
+  const tree_data_t& GetTreeData() const&& = delete;
 
   /**
    * @brief Adds child to underlying TreeData.

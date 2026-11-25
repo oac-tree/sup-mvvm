@@ -34,7 +34,6 @@
 #include <QtCharts/QLegend>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QValueAxis>
-using namespace QtCharts;
 #else
 #include <QAbstractAxis>
 #include <QChart>
@@ -42,6 +41,10 @@ using namespace QtCharts;
 #include <QLegend>
 #include <QLineSeries>
 #include <QValueAxis>
+#endif  // QT_VERSION
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+using namespace QtCharts;
 #endif  // QT_VERSION
 
 #endif  // MVVM_PLOTTING_CHARTS_QT_CHARTS_H_
