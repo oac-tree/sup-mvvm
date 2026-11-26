@@ -68,7 +68,6 @@ private:
 
   PortAppearance m_port_appearance;
   std::unique_ptr<INodePort> m_node_port;
-  QGraphicsTextItem* m_label{nullptr};
   QRectF m_bounding_rect;
   NodeOperationStates m_operation_states;
   std::unique_ptr<NodePortShapePainter> m_painter;
