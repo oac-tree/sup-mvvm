@@ -172,12 +172,14 @@ inline Flags<EnumT>& Flags<EnumT>::Reset(EnumT flag) &
   return *this;
 }
 
+/// @cond
 template <typename EnumT>
 inline Flags<EnumT>& Flags<EnumT>::Reset() & noexcept
 {
   (void)m_bits.reset();
   return *this;
 }
+/// @endcond
 
 template <typename EnumT>
 inline Flags<EnumT>::Flags(std::uint32_t value) : m_bits(value)
