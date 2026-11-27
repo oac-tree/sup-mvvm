@@ -36,7 +36,9 @@ class ItemPool;
 class SessionModel : public ISessionModel
 {
 public:
+  /// @cond
   using ISessionModel::InsertItem;
+  /// @endcond
 
   explicit SessionModel(std::string model_type = {});
 

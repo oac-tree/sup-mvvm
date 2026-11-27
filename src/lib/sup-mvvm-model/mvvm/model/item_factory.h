@@ -47,8 +47,10 @@ public:
   ItemFactory(ItemFactory&&) noexcept = delete;
   ItemFactory& operator=(ItemFactory&&) noexcept = delete;
 
+  /// @cond
   using IItemFactory::IsRegistered;
   using IItemFactory::RegisterItem;
+  /// @endcond
 
   void RegisterItem(const std::string& type_name, item_factory_func_t func,
                     const std::string& label) override;
