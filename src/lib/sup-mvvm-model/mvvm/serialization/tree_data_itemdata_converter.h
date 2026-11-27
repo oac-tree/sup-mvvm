@@ -25,10 +25,13 @@
 //! Helper functions to convert SessionItemData to/from TreeData.
 
 //! Plays supporting role in converting XML elements
+//!
+//! @verbatim
 //! <ItemData>
 //!   <Variant role="0" type="int">42</Variant>
 //!   <Variant role="1" type="vector_double">42.1, 42.2, 42.3</Variant>
 //! </ItemData>
+//! @endverbatim
 
 #include <mvvm/serialization/tree_data_fwd.h>
 

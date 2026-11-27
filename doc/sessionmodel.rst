@@ -83,8 +83,3 @@ different models::
   auto found_item = model.FindItem(identifier);
   assert(item == found_item);
 
-SessionModel API
-----------------
-
-.. doxygenclass:: mvvm::SessionModel
-  :members:

@@ -51,7 +51,8 @@ struct MoveInfo
  * validation if index is valid and tag name exists. Will return a TagIndex in invalid state if it
  * is not the case.
  *
- * @param index A tag index for item insert.
+ * @param parent A parent where we want to insert some item.
+ * @param tag_index A tag index for item insert.
  * @return A verified index.
  */
 TagIndex GetVerifiedTagIndex(const SessionItem& parent, const TagIndex& tag_index);

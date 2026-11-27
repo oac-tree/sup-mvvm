@@ -99,13 +99,13 @@ public:
    * @brief Creates and inserts an item of a given type into the given parent and takes ownership of
    * it.
    *
-   * @tparam Type of item to create.
+   * @tparam ItemT Type of the item to create.
    * @param parent The parent where to insert.
-   * @param tag_index A tag_index pointing to the place to insert.
+   * @param tag_index A TagIndex pointing to the place to insert.
    * @return The pointer to the inserted item.
    */
-  template <typename T>
-  T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = TagIndex::Append());
+  template <typename ItemT>
+  ItemT* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = TagIndex::Append());
 
   /**
    * @brief Takes a child from a parent and returns it to the caller.
@@ -233,10 +233,10 @@ public:
   virtual ICommand* ExecuteCommand(std::unique_ptr<ICommand> command) = 0;
 };
 
-template <typename T>
-T* ISessionModel::InsertItem(SessionItem* parent, const TagIndex& tag_index)
+template <typename ItemT>
+ItemT *ISessionModel::InsertItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, tag_index));
+  return static_cast<ItemT*>(InsertItem(std::make_unique<ItemT>(), parent, tag_index));
 }
 
 }  // namespace mvvm

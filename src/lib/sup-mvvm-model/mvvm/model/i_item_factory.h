@@ -55,10 +55,11 @@ public:
   /**
    * @brief Registers a type.
    *
-   * @param label Optional label  which should be used in widgets instead of SessionItem::Type.
+   * @tparam ItemT Item type.
+   * @param item_label Optional label which should be used in widgets instead of SessionItem::Type.
    */
-  template <typename T>
-  void RegisterItem(const std::string& label = {});
+  template <typename ItemT>
+  void RegisterItem(const std::string& item_label = std::string());
 
   /**
    * @brief Creates item of given type.
@@ -77,21 +78,23 @@ public:
 
   /**
    * @brief Returns true if given type was registered.
+   *
+   * @tparam ItemT Item type.
    */
-  template <typename T>
+  template <typename ItemT>
   bool IsRegistered() const;
 };
 
-template <typename T>
-void IItemFactory::RegisterItem(const std::string& label)
+template <typename ItemT>
+void IItemFactory::RegisterItem(const std::string& item_label)
 {
-  RegisterItem(std::string(item_traits<T>::type_name()), ItemFactoryFunction<T>, label);
+  RegisterItem(std::string(item_traits<ItemT>::type_name()), ItemFactoryFunction<ItemT>, item_label);
 }
 
-template <typename T>
+template <typename ItemT>
 bool IItemFactory::IsRegistered() const
 {
-  return IsRegistered(std::string(item_traits<T>::type_name()));
+  return IsRegistered(std::string(item_traits<ItemT>::type_name()));
 }
 
 }  // namespace mvvm
