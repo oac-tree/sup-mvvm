@@ -26,7 +26,7 @@
 
 //! These are auxiliary functions to provide parsing of xml elements
 //! @verbatim
-//! <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
+//! <TagInfo min="0" max="1" name="TagName">SegmentItem</TagInfo>
 //! @endverbatim
 
 #include <mvvm/serialization/tree_data_fwd.h>
